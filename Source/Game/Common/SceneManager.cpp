@@ -149,7 +149,6 @@ void SceneManager::RequestSceneChange(const std::string& requestSceneName)
 		return;
 	}
 
-
 	m_pRequestedScene = m_scenes[requestSceneName].get();
 }
 

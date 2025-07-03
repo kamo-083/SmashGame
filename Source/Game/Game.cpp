@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Scenes/TestScene.h"
+#include "Source/Game/Scenes/TitleScene.h"
 
 extern void ExitGame() noexcept;
 
@@ -48,9 +49,10 @@ void Game::Initialize(HWND window, int width, int height)
     
     // 各シーンの作成
     m_sceneManager->Register("TestScene", std::make_unique<TestScene>(m_sceneManager.get(), m_sceneManager->GetResourceManager()));
+    m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_sceneManager->GetResourceManager()));
 
     // 開始シーンの設定
-    m_sceneManager->SetStartScene("TestScene");
+    m_sceneManager->SetStartScene("TitleScene");
 }
 
 #pragma region Frame Update

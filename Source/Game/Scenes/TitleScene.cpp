@@ -1,5 +1,5 @@
 /**
- * @file   TestScene.cpp
+ * @file   TitleScene.cpp
  *
  * @brief  ＸＸＸＸシーンに関するソースファイル
  *
@@ -8,9 +8,9 @@
  * @date   日付
  */
 
-// ヘッダファイルの読み込み ===================================================
+ // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
-#include "TestScene.h"
+#include "TitleScene.h"
 #include "Source/Game/Common/ResourceManager.h"
 
 using namespace DirectX;
@@ -23,7 +23,7 @@ using namespace DirectX;
  * @param[in] sceneManager    シーンを管理しているマネージャ
  * @param[in] resourceManager リソースを管理しているマネージャ
  */
-TestScene::TestScene(SceneManager* pSceneManager, ResourceManager* pResourceManager)
+TitleScene::TitleScene(SceneManager* pSceneManager, ResourceManager* pResourceManager)
 	: Scene{ pSceneManager,pResourceManager }
 {
 
@@ -34,7 +34,7 @@ TestScene::TestScene(SceneManager* pSceneManager, ResourceManager* pResourceMana
 /**
  * @brief デストラクタ
  */
-TestScene::~TestScene()
+TitleScene::~TitleScene()
 {
 
 }
@@ -48,7 +48,7 @@ TestScene::~TestScene()
  *
  * @return なし
  */
-void TestScene::Initialize()
+void TitleScene::Initialize()
 {
 
 }
@@ -62,16 +62,16 @@ void TestScene::Initialize()
  *
  * @return なし
  */
-void TestScene::Update(float elapsedTime)
+void TitleScene::Update(float elapsedTime)
 {
 	// キーボードの更新
-	auto kb = Keyboard::Get().GetState();	//Mainでキーボード作る
+	auto kb = Keyboard::Get().GetState();
 	m_kbTracker.Update(kb);
 
 	// シーンの切り替え
 	if (m_kbTracker.pressed.Tab)
 	{
-		ChangeScene("TitleScene");
+		ChangeScene("TestScene");
 	}
 }
 
@@ -84,9 +84,9 @@ void TestScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
+void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
-	debugFont->AddString(0, 30, Colors::White, L"TestScene");
+	debugFont->AddString(0, 30, Colors::White, L"TitleScene");
 }
 
 
@@ -98,7 +98,7 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  *
  * @return なし
  */
-void TestScene::Finalize()
+void TitleScene::Finalize()
 {
 	
 }

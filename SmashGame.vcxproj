@@ -198,6 +198,7 @@
     <ClInclude Include="Source\Game\GameObjects\Enemy.h" />
     <ClInclude Include="Source\Game\GameObjects\Ground.h" />
     <ClInclude Include="Source\Game\GameObjects\Player.h" />
+    <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\TestScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +222,7 @@
     <ClCompile Include="Source\Game\GameObjects\Enemy.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Ground.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Player.cpp" />
+    <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TestScene.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>

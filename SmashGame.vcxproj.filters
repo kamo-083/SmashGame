@@ -83,6 +83,9 @@
     <ClInclude Include="Source\Game\Scenes\TestScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\TitleScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -127,6 +130,9 @@
       <Filter>ImaseLib</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Scenes\TestScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\TitleScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
   </ItemGroup>
