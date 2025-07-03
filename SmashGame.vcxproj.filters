@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>9aba0248-a8d2-4191-b28c-d425618af6a6</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>a6d39b32-6481-427c-8339-5ab4d4dd3abd</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{fbe5c1a0-c8b8-4e89-a526-95b1ce4e3b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene">
+      <UniqueIdentifier>{e56f5bfb-cc3c-4d5f-9aa6-0b3cce46d840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObjects">
+      <UniqueIdentifier>{f79badea-3aec-445c-91cb-4fd3d21f0715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Physics">
+      <UniqueIdentifier>{488ad2c3-4759-4b53-83d0-e5a5474459c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImaseLib">
+      <UniqueIdentifier>{7bb54706-1730-4196-b130-e11437d29adb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Game\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Camera.h">
+      <Filter>Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy.h">
+      <Filter>Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Ground.h">
+      <Filter>Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player.h">
+      <Filter>Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h">
+      <Filter>Common\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\PhysicsEngine\Fliction.h">
+      <Filter>Common\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\PhysicsEngine\Gravity.h">
+      <Filter>Common\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\PhysicsEngine\PhysicsObject.h">
+      <Filter>Common\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\RenderContext.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\ResourceManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\Scene.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\SceneManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\StepTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\AudioManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\Collision.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\DeviceResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ImaseLib\DebugFont.h">
+      <Filter>ImaseLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\TestScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Camera.cpp">
+      <Filter>Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy.cpp">
+      <Filter>Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Ground.cpp">
+      <Filter>Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player.cpp">
+      <Filter>Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Source\Game\Common\PhysicsEngine\PhysicsObject.cpp">
+      <Filter>Common\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\ResourceManager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\Scene.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\SceneManager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\AudioManager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\Collision.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\DeviceResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ImaseLib\DebugFont.cpp">
+      <Filter>ImaseLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\TestScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Source\directx.ico">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Source\settings.manifest">
+      <Filter>Assets</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Source\resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
