@@ -23,7 +23,6 @@ public:
 	//‘¬“x‚ÌZo
 	void CalculateVelocity(DirectX::SimpleMath::Vector3& velocity,
 						   float mass,
-						   bool onGround,
 						   float elapsedTime);
 
 	//’µ‚Ë•Ô‚è
@@ -39,7 +38,7 @@ public:
 				  float elapsedTime);
 
 	//–€C‚ğ‰Á‚¦‚é
-	void AddFliction(DirectX::SimpleMath::Vector3& velocity, float min = 0.1f);
+	void AddFliction(DirectX::SimpleMath::Vector3& velocity, bool onGround);
 
 	//æ“¾
 	ExternalForce& GetExternalForce() { return m_externalForce; }

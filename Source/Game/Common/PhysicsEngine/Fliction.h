@@ -46,8 +46,8 @@ public:
 	//–€ŽC—Í‚Ì‰ÁŽZ
 	void Calculate(DirectX::SimpleMath::Vector3& force, float N)
 	{
-		m_staticFrictionForce = GLOBAL_STATIC_FLICTION * N;
-		if (m_staticFrictionForce < force.Length())
+		float staticF = m_staticFrictionForce * N;
+		if (staticF < force.Length())
 		{
 			// “®–€ŽC—Í
 			DirectX::SimpleMath::Vector3 v = -force;
@@ -63,9 +63,14 @@ public:
 		}
 	}
 
-	void Set(float force)
+	void SetDynamicForce(float dynamicF)
 	{
-		m_dynamicFlictionForce = force;
+		m_dynamicFlictionForce = dynamicF;
+	}
+
+	void SetStaticForce(float staticF)
+	{
+		m_staticFrictionForce = staticF;
 	}
 
 	void Reset()

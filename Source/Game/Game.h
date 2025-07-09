@@ -66,6 +66,9 @@ private:
     //共通ステートへのポインタ
     std::unique_ptr<DirectX::CommonStates> m_states;
 
+    // 射影行列
+    DirectX::SimpleMath::Matrix m_proj;
+
     // シーンマネージャ
     std::unique_ptr<SceneManager> m_sceneManager;
 

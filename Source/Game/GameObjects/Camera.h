@@ -74,6 +74,9 @@ public:
 	// •`‰æˆ—
 	void Draw(Imase::DebugFont* debugFont);
 
+	// ‰ñ“]‘€ì
+	void Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard);
+
 // æ“¾/İ’è
 public:
 	// ƒrƒ…[s—ñ‚ğæ“¾

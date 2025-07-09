@@ -54,13 +54,15 @@ private:
 
 	std::unique_ptr<ResourceManager> m_resourceManager;
 
+	DX::DeviceResources* m_pDeviceResources;
+
 	Imase::DebugFont m_debugFont;
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	SceneManager(ID3D11Device* device, ID3D11DeviceContext* context);
+	SceneManager(DX::DeviceResources* pDR);
 
 	// デストラクタ
 	~SceneManager();
@@ -87,7 +89,7 @@ public:
 // 取得/設定
 public:
 	ResourceManager* GetResourceManager() { return m_resourceManager.get(); }
-
+	DX::DeviceResources* GetDeviceResources() { return m_pDeviceResources; }
 
 // 内部実装
 private:

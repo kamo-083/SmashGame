@@ -1,0 +1,153 @@
+/**
+ * @file   Player.h
+ *
+ * @brief  Playerに関するヘッダファイル
+ *
+ * @author 制作者名
+ *
+ * @date   日付
+ */
+
+ // 多重インクルードの防止 =====================================================
+#pragma once
+
+
+
+
+// ヘッダファイルの読み込み ===================================================
+#include"Source/Game/Interface/IState.h"
+#include"Source/Game/Common/ResourceManager.h"
+#include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/Common/Collision.h"
+#include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
+#include"Source/Game/Data/WeaponData.h"
+#include"Source/Game/Scenes/TestScene.h"
+#include"ImaseLib/DebugFont.h"
+#include"Source/Game/GameObjects/Camera.h"
+#include"Source/Game/GameObjects/Player/Player_Idle.h"
+#include"Source/Game/GameObjects/Player/Player_Walk.h"
+#include"Source/Game/GameObjects/Player/Player_AttackBasic.h"
+
+
+// クラスの宣言 ===============================================================
+class Player_Idle;
+class Player_Walk;
+
+
+// クラスの定義 ===============================================================
+/**
+ * @brief Player
+ */
+class Player
+{
+	// クラス定数の宣言 -------------------------------------------------
+private:
+	static constexpr float RADIUS = 0.5f;				//半径の大きさ
+	static constexpr float MAX_SPEED = 5.0f;			//最高速度
+	static constexpr float MASS = 1.0f;					//質量
+
+
+	// データメンバの宣言 -----------------------------------------------
+private:
+	// 座標
+	DirectX::SimpleMath::Vector3 m_position;
+
+	// 速度
+	DirectX::SimpleMath::Vector3 m_velocity;
+
+	// 向き
+	float m_rotY;
+
+	// 地面との接触
+	bool m_onGround;
+
+	// モデル
+	DirectX::Model* m_model;
+
+	// リソースマネージャ
+	ResourceManager* m_pResourceManager;
+
+	// コライダー
+	SphereCollider m_collider;
+
+	// 物理
+	PhysicsObject m_physics;
+
+	// 攻撃
+	float m_attackForce;
+	bool m_isAttack;
+	SphereCollider m_attackCollider;
+	WeaponType m_weaponType;
+
+	// 現在の状態
+	IState* m_currentState;
+
+	// 待機状態
+	std::unique_ptr<Player_Idle> m_idlingState;
+
+	// 歩き状態
+	std::unique_ptr<Player_Walk> m_walkingState;
+
+	// 攻撃状態(通常)
+	std::unique_ptr<Player_AttackBasic> m_basicAttackingState;
+
+
+	// メンバ関数の宣言 -------------------------------------------------
+	// コンストラクタ/デストラクタ
+public:
+	// コンストラクタ
+	Player();
+
+	// デストラクタ
+	~Player();
+
+
+	// 操作
+public:
+	// 初期化処理
+	void Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::KeyboardStateTracker* pKbTracker, Camera* pCamera);
+
+	// 更新処理
+	void Update(const float& elapsedTime);
+
+	// 描画処理
+	void Draw(RenderContext& context, Imase::DebugFont* debugFont);
+
+	// 終了処理
+	void Finalize();
+
+	// 状態遷移
+	void ChangeState(IState* newState);
+
+	// 当たり判定
+	bool DetectCollisionToBox(OBBCollider collider);
+	bool DetectCollisionToSphere(SphereCollider collider);
+
+	// 取得/設定
+public:
+	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }
+	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }
+	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }
+	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }
+	float GetRadius() { return RADIUS; }
+	float GetMass() { return MASS; }
+	float GetRotY() { return m_rotY; }
+	void SetRotY(float rotY) { m_rotY = rotY; }
+	bool GetOnGround() { return m_onGround; }
+	void SetOnGround(bool onGround) { m_onGround = onGround; }
+	PhysicsObject* GetPhysics() { return &m_physics; }
+	SphereCollider* GetCollider() { return &m_collider; };
+	SphereCollider* GetAttackCollider() { return &m_attackCollider; }
+	float GetAttackForce() { return m_attackForce; }
+	void SetAttackForce(float attackForce) { m_attackForce = attackForce; }
+	bool GetIsAttack() { return m_isAttack; }
+	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
+
+	Player_Idle* GetState_Idle() { return m_idlingState.get(); }
+	Player_Walk* GetState_Walk() { return m_walkingState.get(); }
+	Player_AttackBasic* GetState_AttackBasic() { return m_basicAttackingState.get(); }
+
+	// 内部実装
+private:
+
+};

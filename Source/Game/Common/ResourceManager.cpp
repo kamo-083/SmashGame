@@ -26,8 +26,6 @@
  */
 ResourceManager::ResourceManager(ID3D11Device* pDevice)
 	:m_pDevice{ pDevice }
-	,m_textures{}
-	,m_models{}
 {
 
 }
@@ -40,8 +38,8 @@ ResourceManager::ResourceManager(ID3D11Device* pDevice)
 ResourceManager::~ResourceManager()
 {
 	//îOÇÃÇΩÇﬂèâä˙âª
-	if(!m_textures.empty())	m_textures.clear();
-	if(!m_models.empty())	m_models.clear();
+	m_textures.clear();
+	m_models.clear();
 }
 
 bool ResourceManager::LoadPNG(const std::string& key, const wchar_t* filename)

@@ -1,0 +1,77 @@
+/**
+ * @file   GroundEnemy_Walk.h
+ *
+ * @brief  GroundEnemy_Walkに関するヘッダファイル
+ *
+ * @author 制作者名
+ *
+ * @date   日付
+ */
+
+ // 多重インクルードの防止 =====================================================
+#pragma once
+
+
+
+
+// ヘッダファイルの読み込み ===================================================
+#include"Source/Game/Interface/IState.h"
+#include"Source/Game/Common/ResourceManager.h"
+#include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
+
+
+// クラスの宣言 ===============================================================
+class GroundEnemy;
+
+
+// クラスの定義 ===============================================================
+/**
+ * @brief GroundEnemy_Walk
+ */
+class GroundEnemy_Walk :public IState
+{
+	// クラス定数の宣言 -------------------------------------------------
+private:
+	static constexpr float MOVE_SPEED = 50.0f;	// 移動速度
+
+
+	// データメンバの宣言 -----------------------------------------------
+private:
+	GroundEnemy* m_pGroundEnemy;
+
+	// モデル
+	DirectX::Model* m_model;
+
+
+	// メンバ関数の宣言 -------------------------------------------------
+	// コンストラクタ/デストラクタ
+public:
+	// コンストラクタ
+	GroundEnemy_Walk(GroundEnemy* groundEnemy);
+
+	// デストラクタ
+	~GroundEnemy_Walk();
+
+
+// 操作
+public:
+	// 初期化処理
+	void Initialize(ResourceManager* pResourceManager) override;
+
+	// 更新処理
+	void Update(const float& elapsedTime) override;
+
+	// 描画処理
+	void Render(RenderContext& context) override;
+
+	// 終了処理
+	void Finalize() override;
+
+// 取得/設定
+public:
+
+// 内部実装
+private:
+
+};

@@ -23,14 +23,15 @@ using namespace DirectX;
  *
  * @param ‚È‚µ
  */
-SceneManager::SceneManager(ID3D11Device* device, ID3D11DeviceContext* context)
+SceneManager::SceneManager(DX::DeviceResources* pDR)
 	: m_scenes{}
 	, m_pCurrentScene{ nullptr }
 	, m_pRequestedScene{ nullptr }
 	, m_sharedData{}
-	, m_debugFont{ device, context, L"Resources/Font/SegoeUI_18.spritefont" }
+	, m_pDeviceResources{ pDR }
+	, m_debugFont{ m_pDeviceResources->GetD3DDevice(), m_pDeviceResources->GetD3DDeviceContext(), L"Resources/Font/SegoeUI_18.spritefont" }
 {
-	m_resourceManager = std::make_unique<ResourceManager>(device);
+	m_resourceManager = std::make_unique<ResourceManager>(m_pDeviceResources->GetD3DDevice());
 }
 
 

@@ -16,7 +16,6 @@ PhysicsObject::~PhysicsObject()
 
 void PhysicsObject::CalculateVelocity(DirectX::SimpleMath::Vector3& velocity, 
 									  float mass,
-									  bool onGround, 
 									  float elapsedTime)
 {
 	SimpleMath::Vector3 force = SimpleMath::Vector3::Zero;
@@ -26,12 +25,6 @@ void PhysicsObject::CalculateVelocity(DirectX::SimpleMath::Vector3& velocity,
 
 	//èdóÕ
 	m_gravity.Calculate(force, mass);
-
-	if (onGround)
-	{
-		//ñÄéCóÕ
-		m_fliction.Calculate(force, mass * m_gravity.Get());
-	}
 
 	//â¡ë¨ìxÇÃåvéZ
 	SimpleMath::Vector3 acceleration = force / mass;
@@ -66,16 +59,11 @@ void PhysicsObject::RollDown(DirectX::SimpleMath::Vector3& velocity,
 	velocity += acceleration * elapsedTime;
 }
 
-void PhysicsObject::AddFliction(DirectX::SimpleMath::Vector3& velocity, float min)
+void PhysicsObject::AddFliction(DirectX::SimpleMath::Vector3& velocity, bool onGround)
 {
-	velocity.x *= m_fliction.Get();
-	velocity.z *= m_fliction.Get();
+	if (!onGround) return;
 
-	if (velocity.Length() < min)
-	{
-		velocity.x = 0.0f;
-		velocity.z = 0.0f;
-	}
+	m_fliction.Calculate(velocity, m_gravity.Get());
 }
 
 void PhysicsObject::DrawDebugFont(Imase::DebugFont* debugFont, float y)

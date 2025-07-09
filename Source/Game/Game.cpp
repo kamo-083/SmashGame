@@ -45,14 +45,14 @@ void Game::Initialize(HWND window, int width, int height)
     auto context = m_deviceResources->GetD3DDeviceContext();
 
     // シーンマネージャの作成
-    m_sceneManager = std::make_unique<SceneManager>(device, context);
+    m_sceneManager = std::make_unique<SceneManager>(m_deviceResources.get());
     
     // 各シーンの作成
     m_sceneManager->Register("TestScene", std::make_unique<TestScene>(m_sceneManager.get(), m_sceneManager->GetResourceManager()));
     m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_sceneManager->GetResourceManager()));
 
     // 開始シーンの設定
-    m_sceneManager->SetStartScene("TitleScene");
+    m_sceneManager->SetStartScene("TestScene");
 }
 
 #pragma region Frame Update
@@ -102,7 +102,7 @@ void Game::Render()
     RenderContext renderContext
     {
         SimpleMath::Matrix::Identity,
-        SimpleMath::Matrix::Identity,
+        m_proj,
         m_deviceResources->GetD3DDeviceContext(),
         m_states.get()
     };
@@ -187,8 +187,8 @@ void Game::OnWindowSizeChanged(int width, int height)
 void Game::GetDefaultSize(int& width, int& height) const noexcept
 {
     // TODO: Change to desired default window size (note minimum size is 320x200).
-    width = 800;
-    height = 600;
+    width = 1280;
+    height =720;
 }
 #pragma endregion
 
@@ -209,6 +209,14 @@ void Game::CreateDeviceDependentResources()
 void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
+    // 画面サイズの取得
+    RECT rect = m_deviceResources->GetOutputSize();
+
+    // 射影行列の作成
+    m_proj = SimpleMath::Matrix::CreatePerspectiveFieldOfView(
+        XMConvertToRadians(45.0f)
+        , static_cast<float>(rect.right) / static_cast<float>(rect.bottom)
+        , 0.1f, 100.0f);
 }
 
 void Game::OnDeviceLost()

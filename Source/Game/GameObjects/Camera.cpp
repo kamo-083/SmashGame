@@ -78,33 +78,11 @@ void Camera::Update(Keyboard::KeyboardStateTracker* keyboard, float elapsedTime)
 	// カメラ位置の更新
 	m_eye = m_followTargetPos + CAMERA_DEFAULT_EYE;
 
-	// 指定した場所を中心に回転
-	// X方向
-	if (keyboard->pressed.D)			m_angle.x += CAMERA_ROTATE_ANGLE;
-	else if (keyboard->pressed.A)		m_angle.x -= CAMERA_ROTATE_ANGLE;
-	// Y方向	一定の範囲で往復してるような動きになっている
-	if (keyboard->pressed.W)			m_angle.y += CAMERA_ROTATE_ANGLE;
-	else if (keyboard->pressed.S)		m_angle.y -= CAMERA_ROTATE_ANGLE;
-	// Z方向
-	if (keyboard->pressed.Q)			m_angle.z += CAMERA_ROTATE_ANGLE;
-	else if (keyboard->pressed.E)		m_angle.z -= CAMERA_ROTATE_ANGLE;
-
-	// 角度の調整
-	m_angle.x = NormalizeAngle(m_angle.x);
-
-	// 回転の反映
-	m_eye = RotateEyeAroundPoint(m_angle, m_followTargetPos);
-
 	// 対象に追従して動く
 	m_target = m_followTargetPos + CAMERA_DEFAULT_TARGET;
 
-	// リセット
-	if (keyboard->pressed.Space)
-	{
-		m_eye = CAMERA_DEFAULT_EYE;
-		m_target = CAMERA_DEFAULT_TARGET;
-		m_angle = SimpleMath::Vector3::Zero;
-	}
+	// 回転の反映
+	m_eye = RotateEyeAroundPoint(m_angle, m_followTargetPos);
 
 	m_view = SimpleMath::Matrix::CreateLookAt(m_eye, m_target, CAMERA_DEFAULT_UP);
 }
@@ -116,6 +94,17 @@ void Camera::Draw(Imase::DebugFont* debugFont)
 	debugFont->AddString(0, 50, Colors::White, L"angle = %f,%f,%f", m_angle.x, m_angle.y, m_angle.z);
 
 	debugFont->AddString(0, 75, Colors::White, L"forward = %f,%f,%f", m_forward.x, m_forward.y, m_forward.z);
+}
+
+void Camera::Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard)
+{
+	// 指定した場所を中心に回転
+	// X方向
+	if (keyboard->pressed.L)			m_angle.x += CAMERA_ROTATE_ANGLE;
+	else if (keyboard->pressed.J)		m_angle.x -= CAMERA_ROTATE_ANGLE;
+
+	// 角度の調整
+	m_angle.x = NormalizeAngle(m_angle.x);
 }
 
 SimpleMath::Matrix Camera::GetView()

@@ -69,7 +69,7 @@ void TitleScene::Update(float elapsedTime)
 	m_kbTracker.Update(kb);
 
 	// ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
-	if (m_kbTracker.pressed.Tab)
+	if (m_kbTracker.pressed.P)
 	{
 		ChangeScene("TestScene");
 	}

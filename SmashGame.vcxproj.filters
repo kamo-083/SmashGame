@@ -23,22 +23,28 @@
     <Filter Include="ImaseLib">
       <UniqueIdentifier>{7bb54706-1730-4196-b130-e11437d29adb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameObjects\Enemy">
+      <UniqueIdentifier>{461bd76b-e444-443e-b78b-23fd3e00a09f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObjects\Enemy\GroundEnemy">
+      <UniqueIdentifier>{272306ed-147d-44b6-83c2-79b97422059f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObjects\Player">
+      <UniqueIdentifier>{523b238a-4d67-4fc2-b989-e4b7557bbde8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObjects\Stage">
+      <UniqueIdentifier>{b5694175-ce38-4375-a57b-86887b4590b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{fd47568a-c5cc-46d2-bce7-e1dd1e16c966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{b2af3d0f-a445-4c7f-803a-95ed27ee7bc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
       <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Camera.h">
-      <Filter>Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Enemy.h">
-      <Filter>Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Ground.h">
-      <Filter>Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Player.h">
-      <Filter>Game\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h">
@@ -86,23 +92,50 @@
     <ClInclude Include="Source\Game\Scenes\TitleScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\Enemy.h">
+      <Filter>Game\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.h">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.h">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.h">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.h">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Data\WeaponData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Interface\IState.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_Idle.h">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player.h">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Ground.h">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Camera.h">
+      <Filter>Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_Walk.h">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackBasic.h">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Game\Game.cpp">
       <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Camera.cpp">
-      <Filter>Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Enemy.cpp">
-      <Filter>Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Ground.cpp">
-      <Filter>Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Player.cpp">
-      <Filter>Game\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Source\Game\Common\PhysicsEngine\PhysicsObject.cpp">
@@ -134,6 +167,39 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\Enemy.cpp">
+      <Filter>Game\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.cpp">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.cpp">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.cpp">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.cpp">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player.cpp">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_Idle.cpp">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Ground.cpp">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Camera.cpp">
+      <Filter>Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_Walk.cpp">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackBasic.cpp">
+      <Filter>Game\GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -193,11 +193,20 @@
     <ClInclude Include="Source\Game\Common\Scene.h" />
     <ClInclude Include="Source\Game\Common\SceneManager.h" />
     <ClInclude Include="Source\Game\Common\StepTimer.h" />
+    <ClInclude Include="Source\Game\Data\WeaponData.h" />
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\GameObjects\Camera.h" />
-    <ClInclude Include="Source\Game\GameObjects\Enemy.h" />
-    <ClInclude Include="Source\Game\GameObjects\Ground.h" />
-    <ClInclude Include="Source\Game\GameObjects\Player.h" />
+    <ClInclude Include="Source\Game\GameObjects\Enemy\Enemy.h" />
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.h" />
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.h" />
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.h" />
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.h" />
+    <ClInclude Include="Source\Game\GameObjects\Player\Player.h" />
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackBasic.h" />
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_Idle.h" />
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_Walk.h" />
+    <ClInclude Include="Source\Game\GameObjects\Stage\Ground.h" />
+    <ClInclude Include="Source\Game\Interface\IState.h" />
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\TestScene.h" />
   </ItemGroup>
@@ -219,9 +228,16 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Camera.cpp" />
-    <ClCompile Include="Source\Game\GameObjects\Enemy.cpp" />
-    <ClCompile Include="Source\Game\GameObjects\Ground.cpp" />
-    <ClCompile Include="Source\Game\GameObjects\Player.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Enemy\Enemy.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Player\Player.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackBasic.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_Idle.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_Walk.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Stage\Ground.cpp" />
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TestScene.cpp" />
     <ClCompile Include="Source\Main.cpp" />

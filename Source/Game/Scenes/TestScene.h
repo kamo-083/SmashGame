@@ -16,11 +16,18 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-
+#include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/GameObjects/Camera.h"
+#include "Source/Game/GameObjects/Player/Player.h"
+#include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
+#include "Source/Game/GameObjects/Stage/Ground.h"
 
 
 // クラスの宣言 ===============================================================
-
+class Camera;
+class Player;
+class GroundEnemy;
+class Ground;
 
 
 // クラスの定義 ===============================================================
@@ -37,11 +44,22 @@ public:
 // データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
-
+	// 切り替え操作のモード true:武器 false:カメラ
+	bool m_keyMode;
 
 
 	// オブジェクト関連
+	//カメラ
+	std::unique_ptr<Camera> m_camera;
 
+	//プレイヤー
+	std::unique_ptr<Player> m_player;
+
+	//敵
+	std::unique_ptr<GroundEnemy> m_enemy;
+
+	//地面
+	std::unique_ptr<Ground> m_ground;
 
 
 // メンバ関数の宣言 -------------------------------------------------
