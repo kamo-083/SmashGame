@@ -209,6 +209,7 @@
     <ClInclude Include="Source\Game\Interface\IState.h" />
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\TestScene.h" />
+    <ClInclude Include="Source\Game\UI\WeaponUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImaseLib\DebugFont.cpp" />
@@ -240,6 +241,7 @@
     <ClCompile Include="Source\Game\GameObjects\Stage\Ground.cpp" />
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TestScene.cpp" />
+    <ClCompile Include="Source\Game\UI\WeaponUI.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>

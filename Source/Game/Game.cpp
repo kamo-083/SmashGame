@@ -44,6 +44,9 @@ void Game::Initialize(HWND window, int width, int height)
     auto device = m_deviceResources->GetD3DDevice();
     auto context = m_deviceResources->GetD3DDeviceContext();
 
+    // スプライトバッチの作成
+    m_spriteBatch = std::make_unique<SpriteBatch>(context);
+
     // シーンマネージャの作成
     m_sceneManager = std::make_unique<SceneManager>(m_deviceResources.get());
     
@@ -104,7 +107,8 @@ void Game::Render()
         SimpleMath::Matrix::Identity,
         m_proj,
         m_deviceResources->GetD3DDeviceContext(),
-        m_states.get()
+        m_states.get(),
+        m_spriteBatch.get()
     };
 
     // シーンマネージャの描画

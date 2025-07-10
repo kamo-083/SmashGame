@@ -22,7 +22,7 @@ using namespace DirectX;
  */
 Player_Idle::Player_Idle(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ Player }
-	, m_pKbTracker{kbTracker}
+	, m_pKbTracker{ kbTracker }
 {
 
 }
@@ -55,6 +55,9 @@ void Player_Idle::Update(const float& elapsedTime)
 
 	m_pPlayer->SetOnGround(false);
 
+	// •Ší‚ÌØ‚è‘Ö‚¦
+	m_pPlayer->ChangeWeapon(m_pKbTracker);
+
 	// •à‚«ó‘Ô‚ÉØ‚è‘Ö‚¦
 	if (m_pKbTracker->GetLastState().W || m_pKbTracker->GetLastState().S || m_pKbTracker->GetLastState().A || m_pKbTracker->GetLastState().D)
 	{
@@ -62,7 +65,22 @@ void Player_Idle::Update(const float& elapsedTime)
 	}
 
 	// UŒ‚ó‘Ô‚ÉØ‚è‘Ö‚¦
-
+	if (m_pKbTracker->pressed.Space)
+	{
+		m_pPlayer->SetIsAttack(true);
+		switch (m_pPlayer->GetWeaponType())
+		{
+		case WeaponType::BASIC:
+			m_pPlayer->ChangeState(m_pPlayer->GetState_AttackBasic());
+			break;
+		case WeaponType::ROLLING:
+			break;
+		case WeaponType::HEAVY:
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 

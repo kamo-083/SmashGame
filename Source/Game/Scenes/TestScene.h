@@ -21,6 +21,7 @@
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 #include "Source/Game/GameObjects/Stage/Ground.h"
+#include "Source/Game/UI/WeaponUI.h"
 
 
 // クラスの宣言 ===============================================================
@@ -28,6 +29,7 @@ class Camera;
 class Player;
 class GroundEnemy;
 class Ground;
+class WeaponUI;
 
 
 // クラスの定義 ===============================================================
@@ -60,6 +62,9 @@ private:
 
 	//地面
 	std::unique_ptr<Ground> m_ground;
+
+	//武器UI
+	std::unique_ptr<WeaponUI> m_weaponUI;
 
 
 // メンバ関数の宣言 -------------------------------------------------

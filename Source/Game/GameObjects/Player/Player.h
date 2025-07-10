@@ -24,6 +24,7 @@
 #include"Source/Game/Scenes/TestScene.h"
 #include"ImaseLib/DebugFont.h"
 #include"Source/Game/GameObjects/Camera.h"
+#include"Source/Game/UI/WeaponUI.h"
 #include"Source/Game/GameObjects/Player/Player_Idle.h"
 #include"Source/Game/GameObjects/Player/Player_Walk.h"
 #include"Source/Game/GameObjects/Player/Player_AttackBasic.h"
@@ -32,6 +33,8 @@
 // クラスの宣言 ===============================================================
 class Player_Idle;
 class Player_Walk;
+class Player_AttackBasic;
+class WeaponUI;
 
 
 // クラスの定義 ===============================================================
@@ -79,6 +82,9 @@ private:
 	SphereCollider m_attackCollider;
 	WeaponType m_weaponType;
 
+	// 武器UIのポインタ
+	WeaponUI* m_pWeaponUI;
+
 	// 現在の状態
 	IState* m_currentState;
 
@@ -91,12 +97,16 @@ private:
 	// 攻撃状態(通常)
 	std::unique_ptr<Player_AttackBasic> m_basicAttackingState;
 
+	//判定表示用の球
+	std::unique_ptr<DirectX::GeometricPrimitive> m_sphere;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Player();
+	Player(ID3D11DeviceContext* context);
 
 	// デストラクタ
 	~Player();
@@ -105,7 +115,7 @@ public:
 	// 操作
 public:
 	// 初期化処理
-	void Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::KeyboardStateTracker* pKbTracker, Camera* pCamera);
+	void Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::KeyboardStateTracker* pKbTracker, Camera* pCamera, WeaponUI* weaponUI);
 
 	// 更新処理
 	void Update(const float& elapsedTime);
@@ -118,6 +128,9 @@ public:
 
 	// 状態遷移
 	void ChangeState(IState* newState);
+
+	// 武器変更
+	void ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker);
 
 	// 当たり判定
 	bool DetectCollisionToBox(OBBCollider collider);
@@ -142,6 +155,8 @@ public:
 	void SetAttackForce(float attackForce) { m_attackForce = attackForce; }
 	bool GetIsAttack() { return m_isAttack; }
 	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
+	WeaponType GetWeaponType() { return m_weaponType; }
+	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
 
 	Player_Idle* GetState_Idle() { return m_idlingState.get(); }
 	Player_Walk* GetState_Walk() { return m_walkingState.get(); }

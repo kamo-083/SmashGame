@@ -66,6 +66,9 @@ private:
     //共通ステートへのポインタ
     std::unique_ptr<DirectX::CommonStates> m_states;
 
+    //スプライトバッチ
+    std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
+
     // 射影行列
     DirectX::SimpleMath::Matrix m_proj;
 

@@ -41,6 +41,9 @@
     <Filter Include="Data">
       <UniqueIdentifier>{b2af3d0f-a445-4c7f-803a-95ed27ee7bc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{c0a1a879-101d-41d7-8f04-9c36ee28c9be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -131,6 +134,9 @@
     <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackBasic.h">
       <Filter>Game\GameObjects\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\WeaponUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -200,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackBasic.cpp">
       <Filter>Game\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\WeaponUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

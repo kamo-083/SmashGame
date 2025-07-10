@@ -53,18 +53,23 @@ TestScene::~TestScene()
  */
 void TestScene::Initialize()
 {
-	//カメラの作成
+	// カメラの作成
 	m_camera = std::make_unique<Camera>();
 
-	//プレイヤーの作成
-	m_player = std::make_unique<Player>();
-	m_player->Initialize(m_resourceManager, &m_kbTracker, m_camera.get());
+	// 武器UIの作成
+	m_weaponUI = std::make_unique<WeaponUI>(m_sceneManager->GetDeviceResources()->GetOutputSize().right,
+		m_sceneManager->GetDeviceResources()->GetOutputSize().bottom);
+	m_weaponUI->Initialize(m_resourceManager);
+
+	// プレイヤーの作成
+	m_player = std::make_unique<Player>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_player->Initialize(m_resourceManager, &m_kbTracker, m_camera.get(), m_weaponUI.get());
 
 	// 敵の作成
 	m_enemy = std::make_unique<GroundEnemy>();
 	m_enemy->Initialize(m_resourceManager);
 
-	//地面の作成
+	// 地面の作成
 	m_ground = std::make_unique<Ground>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
 	m_ground->Initialize();
 
@@ -138,6 +143,9 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	// 地面の描画
 	m_ground->Draw(context);
+
+	// 武器UIの描画
+	m_weaponUI->Draw(context.spriteBatch);
 }
 
 

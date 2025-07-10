@@ -25,6 +25,11 @@ Player::Player()
 
 }
 
+Player::Player(ID3D11DeviceContext* context)
+{
+	m_sphere = DirectX::GeometricPrimitive::CreateSphere(context);
+}
+
 
 /**
  * @brief デストラクタ
@@ -35,7 +40,8 @@ Player::~Player()
 }
 
 
-void Player::Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::KeyboardStateTracker* pKbTracker, Camera* pCamera)
+void Player::Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
+						Camera* pCamera, WeaponUI* weaponUI)
 {
 	// 座標の初期化
 	m_position = SimpleMath::Vector3::Zero;
@@ -49,6 +55,12 @@ void Player::Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::Ke
 
 	// 着地
 	m_onGround = false;
+
+	// 武器の設定
+	m_weaponType = WeaponType::BASIC;
+
+	// 武器UIの設定
+	m_pWeaponUI = weaponUI;
 
 	// リソースマネージャの設定
 	m_pResourceManager = pResourceManager;
@@ -95,6 +107,7 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	m_currentState->Render(context);
 
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
+	debugFont->AddString(0, 90, DirectX::Colors::Cyan, L"pos = %d", static_cast<int>(m_weaponType));
 }
 
 
@@ -113,6 +126,22 @@ void Player::ChangeState(IState* newState)
 	// 状態を初期化
 	m_currentState->Initialize(m_pResourceManager);
 }
+
+
+void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
+{
+	if (pKbTracker->pressed.J)
+	{
+		++m_weaponType;
+	}
+	else if (pKbTracker->pressed.L)
+	{
+		--m_weaponType;
+	}
+
+	m_pWeaponUI->ChangeWeapon(m_weaponType);
+}
+
 
 bool Player::DetectCollisionToBox(OBBCollider collider)
 {
