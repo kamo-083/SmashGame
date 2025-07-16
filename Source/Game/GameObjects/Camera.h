@@ -32,6 +32,7 @@ private:
 	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_UP     = { 0.0f,1.0f,0.0f };
 	static constexpr float CAMERA_MOVE_SPEED = 5.0f;
 	static constexpr float CAMERA_ROTATE_ANGLE = 45.0f;
+	static constexpr float CAMERA_ROTATE_SPEED = 0.025f;
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -50,8 +51,15 @@ private:
 	DirectX::SimpleMath::Vector3 m_forward;
 
 	// 追従対象の座標
-	DirectX::SimpleMath::Vector3 m_followTargetPos;
+	DirectX::SimpleMath::Vector3* m_followTargetPos;
 
+	// 回転中
+	bool m_isRotation;
+
+	// 補間関連
+	float m_lerpAngle;
+	DirectX::SimpleMath::Vector3 m_startAngle;
+	DirectX::SimpleMath::Vector3 m_endAngle;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -66,7 +74,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize();
+	void Initialize(DirectX::SimpleMath::Vector3* followTargetPos);
 
 	// 更新処理
 	void Update(DirectX::Keyboard::KeyboardStateTracker* keyboard, float elapsedTime);
@@ -76,6 +84,9 @@ public:
 
 	// 回転操作
 	void Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard);
+
+	// 回転の補間
+	void SmoothCameraRotation(float elapsedTime);
 
 // 取得/設定
 public:
@@ -95,7 +106,7 @@ public:
 	DirectX::SimpleMath::Vector3 GetForward();
 
 	// 追従対象の座標を設定
-	void SetFollowTargetPos(DirectX::SimpleMath::Vector3 pos);
+	void SetFollowTargetPos(DirectX::SimpleMath::Vector3* pos);
 
 // 内部実装
 private:

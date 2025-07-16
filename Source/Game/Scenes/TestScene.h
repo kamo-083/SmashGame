@@ -21,6 +21,8 @@
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 #include "Source/Game/GameObjects/Stage/Ground.h"
+#include "Source/Game/GameObjects/Stage/BounceBox.h"
+#include "Source/Game/GameObjects/Stage/Goal.h"
 #include "Source/Game/UI/WeaponUI.h"
 
 
@@ -38,12 +40,12 @@ class WeaponUI;
  */
 class TestScene : public Scene
 {
-// クラス定数の宣言 -------------------------------------------------
+	// クラス定数の宣言 -------------------------------------------------
 public:
 
 
 
-// データメンバの宣言 -----------------------------------------------
+	// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
 	// 切り替え操作のモード true:武器 false:カメラ
@@ -62,6 +64,12 @@ private:
 
 	//地面
 	std::unique_ptr<Ground> m_ground;
+
+	//的
+	std::unique_ptr<BounceBox> m_bounceBox;
+	
+	//ゴール
+	std::unique_ptr<Goal> m_goal;
 
 	//武器UI
 	std::unique_ptr<WeaponUI> m_weaponUI;

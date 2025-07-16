@@ -137,6 +137,18 @@
     <ClInclude Include="Source\Game\UI\WeaponUI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackRolling.h">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackHeavy.h">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\BounceBox.h">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Goal.h">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -209,6 +221,18 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\WeaponUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackRolling.cpp">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackHeavy.cpp">
+      <Filter>Game\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\BounceBox.cpp">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Goal.cpp">
+      <Filter>Game\GameObjects\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

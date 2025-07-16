@@ -136,24 +136,6 @@ SimpleMath::Vector3 OBBCollider::GetCenter() const
 }
 
 /**
- * @brief 直方体の中心座標の取得
- *
- * @param[in] 取得したい軸の番号 (x=0, y=1, z=2)
- *
- * @return 中心座標
- */
-float OBBCollider::GetCenter(int n) const
-{
-	switch (n)
-	{
-	case 0:	 return m_obb.center.x;
-	case 1:	 return m_obb.center.y;
-	case 2:  return m_obb.center.z;
-	}
-	return 0.0f;
-}
-
-/**
  * @brief 直方体の方向ベクトルの取得
  *
  * @param[in] なし

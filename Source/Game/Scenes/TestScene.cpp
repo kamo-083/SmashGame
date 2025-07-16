@@ -63,7 +63,7 @@ void TestScene::Initialize()
 
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
-	m_player->Initialize(m_resourceManager, &m_kbTracker, m_camera.get(), m_weaponUI.get());
+	m_player->Initialize(m_resourceManager, &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// 敵の作成
 	m_enemy = std::make_unique<GroundEnemy>();
@@ -72,9 +72,20 @@ void TestScene::Initialize()
 	// 地面の作成
 	m_ground = std::make_unique<Ground>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
 	m_ground->Initialize();
+	
+	// 的の作成
+	m_bounceBox = std::make_unique<BounceBox>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_bounceBox->Initialize(SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
+
+	// ゴールの作成
+	m_goal = std::make_unique<Goal>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_goal-> Initialize(SimpleMath::Vector3(-2.0f, 1.0f, 2.0f));
+
+	// カメラの初期化
+	m_camera->Initialize(&m_player->GetPosition());
 
 	// キー操作のモードの初期化
-	m_keyMode = false;
+	m_keyMode = true;
 }
 
 
@@ -102,16 +113,27 @@ void TestScene::Update(float elapsedTime)
 	m_enemy->CalculatePlayerRelationData(m_player->GetPosition(), m_player->GetRadius());
 	m_enemy->Update(elapsedTime);
 
+	// 的の更新
+	m_bounceBox->Update(elapsedTime);
+
 	// カメラの更新
-	if(m_keyMode) m_camera->Rotation(&m_kbTracker);
+	if(!m_keyMode) m_camera->Rotation(&m_kbTracker);
 	m_camera->Update(&m_kbTracker, elapsedTime);
 
 	// 当たり判定の処理
 	// プレイヤー
 	m_player->DetectCollisionToBox(m_ground->GetCollider());
+	m_player->DetectCollisionToBox(m_bounceBox->GetCollider());
 	m_player->DetectCollisionToSphere(*m_enemy->GetCollider());
 	// 敵
 	m_enemy->DetectCollisionToBox(m_ground->GetCollider());
+	// 箱
+	if (m_player->GetIsAttack())
+	{
+		m_bounceBox->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
+	}
+	// ゴール
+	m_goal->DetectCollisionToPlayer(*m_player->GetCollider());
 
 	// シーンの切り替え
 	if (m_kbTracker.pressed.P)
@@ -143,6 +165,15 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	// 地面の描画
 	m_ground->Draw(context);
+
+	// 的の描画
+	m_bounceBox->Draw(context);
+
+	// ゴールの描画
+	m_goal->Draw(context,debugFont);
+
+	// カメラの描画(デバッグフォント)
+	m_camera->Draw(debugFont);
 
 	// 武器UIの描画
 	m_weaponUI->Draw(context.spriteBatch);

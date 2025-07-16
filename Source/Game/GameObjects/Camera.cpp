@@ -26,7 +26,7 @@ Camera::Camera()
 	:m_eye{ CAMERA_DEFAULT_EYE }
 	,m_target{ CAMERA_DEFAULT_TARGET }
 	,m_angle{ SimpleMath::Vector3::Zero }
-	,m_followTargetPos{ SimpleMath::Vector3::Zero }
+	,m_followTargetPos{ nullptr }
 {
 
 }
@@ -50,18 +50,22 @@ Camera::~Camera()
  *
  * @return Ç»Çµ
  */
-void Camera::Initialize()
+void Camera::Initialize(DirectX::SimpleMath::Vector3* followTargetPos)
 {
 	m_eye = CAMERA_DEFAULT_EYE;
 	m_target = CAMERA_DEFAULT_TARGET;
 	m_view = SimpleMath::Matrix::CreateLookAt(m_eye, m_target, CAMERA_DEFAULT_UP);
 
 	m_angle = SimpleMath::Vector3::Zero;
-	m_followTargetPos = SimpleMath::Vector3::Zero;
+	m_followTargetPos = followTargetPos;
 
 	m_forward = m_target - m_eye;
-	m_forward.y = m_followTargetPos.y;
+	m_forward.y = (*m_followTargetPos).y;
 	m_forward.Normalize();
+
+	m_isRotation = false;
+	m_lerpAngle = 0.0f;
+	m_startAngle = m_endAngle = SimpleMath::Vector3::Zero;
 }
 
 
@@ -75,36 +79,57 @@ void Camera::Initialize()
  */
 void Camera::Update(Keyboard::KeyboardStateTracker* keyboard, float elapsedTime)
 {
+	// âÒì]ÇÃï‚ä‘
+	if (m_isRotation) SmoothCameraRotation(elapsedTime);
+
 	// ÉJÉÅÉâà íuÇÃçXêV
-	m_eye = m_followTargetPos + CAMERA_DEFAULT_EYE;
+	m_eye = *m_followTargetPos + CAMERA_DEFAULT_EYE;
 
 	// ëŒè€Ç…í«è]ÇµÇƒìÆÇ≠
-	m_target = m_followTargetPos + CAMERA_DEFAULT_TARGET;
+	m_target = *m_followTargetPos + CAMERA_DEFAULT_TARGET;
 
 	// âÒì]ÇÃîΩâf
-	m_eye = RotateEyeAroundPoint(m_angle, m_followTargetPos);
+	m_eye = RotateEyeAroundPoint(m_angle, *m_followTargetPos);
 
 	m_view = SimpleMath::Matrix::CreateLookAt(m_eye, m_target, CAMERA_DEFAULT_UP);
 }
 
 void Camera::Draw(Imase::DebugFont* debugFont)
 {
-	debugFont->AddString(0, 0, Colors::White, L"eye = %f,%f,%f", m_eye.x, m_eye.y, m_eye.z);
-	debugFont->AddString(0, 25, Colors::White, L"target = %f,%f,%f", m_target.x, m_target.y, m_target.z);
-	debugFont->AddString(0, 50, Colors::White, L"angle = %f,%f,%f", m_angle.x, m_angle.y, m_angle.z);
-
-	debugFont->AddString(0, 75, Colors::White, L"forward = %f,%f,%f", m_forward.x, m_forward.y, m_forward.z);
+	debugFont->AddString(820, 0, Colors::White, L"eye = %f,%f,%f", m_eye.x, m_eye.y, m_eye.z);
+	debugFont->AddString(820, 25, Colors::White, L"target = %f,%f,%f", m_target.x, m_target.y, m_target.z);
+	debugFont->AddString(820, 50, Colors::White, L"angle = %f,%f,%f", m_angle.x, m_angle.y, m_angle.z);
+	debugFont->AddString(820, 75, Colors::White, L"forward = %f,%f,%f", m_forward.x, m_forward.y, m_forward.z);
 }
 
 void Camera::Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard)
 {
 	// éwíËÇµÇΩèÍèäÇíÜêSÇ…âÒì]
 	// Xï˚å¸
-	if (keyboard->pressed.L)			m_angle.x += CAMERA_ROTATE_ANGLE;
-	else if (keyboard->pressed.J)		m_angle.x -= CAMERA_ROTATE_ANGLE;
+	if (keyboard->pressed.L)		m_endAngle.x += CAMERA_ROTATE_ANGLE;
+	else if (keyboard->pressed.J)	m_endAngle.x -= CAMERA_ROTATE_ANGLE;
 
-	// äpìxÇÃí≤êÆ
-	m_angle.x = NormalizeAngle(m_angle.x);
+	m_startAngle = m_angle;
+
+	// âÒì]íÜÇ…ê›íË
+	m_isRotation = true;
+}
+
+void Camera::SmoothCameraRotation(float elapsedTime)
+{
+	// ÉJÉÅÉâÇÃâÒì](ê¸å`ï‚ä‘)
+	m_angle = SimpleMath::Vector3::Lerp(m_startAngle, m_endAngle, m_lerpAngle);
+
+	// ï‚ä‘åWêîÇÃåvéZ
+	m_lerpAngle += CAMERA_ROTATE_SPEED * elapsedTime;
+	if (m_lerpAngle > 1.0f)
+	{
+		m_lerpAngle = 0.0f;
+		m_isRotation = false;
+
+		// äpìxÇÃí≤êÆ
+		//m_angle.x = NormalizeAngle(m_angle.x);
+	}
 }
 
 SimpleMath::Matrix Camera::GetView()
@@ -136,7 +161,7 @@ SimpleMath::Vector3 Camera::GetForward()
 	return m_forward;
 }
 
-void Camera::SetFollowTargetPos(SimpleMath::Vector3 pos)
+void Camera::SetFollowTargetPos(SimpleMath::Vector3* pos)
 {
 	m_followTargetPos = pos;
 }
@@ -165,5 +190,5 @@ SimpleMath::Vector3 Camera::RotateEyeAroundPoint(SimpleMath::Vector3 angle, Simp
 
 float Camera::NormalizeAngle(float angle)
 {
-	return fmod(angle + 360.0f, 360.0f);
+	return std::min(std::max(angle, 0.0f), 360.0f);
 }

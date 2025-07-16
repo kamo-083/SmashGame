@@ -46,35 +46,16 @@ void Player_Walk::Initialize(ResourceManager* pResourceManager)
 
 void Player_Walk::Update(const float& elapsedTime)
 {
-	DirectX::SimpleMath::Vector3 forward = m_pCamera->GetForward();
-	DirectX::SimpleMath::Vector3 right = forward.Cross(m_pCamera->GetUp());
 	DirectX::SimpleMath::Vector3 force = DirectX::SimpleMath::Vector3::Zero;
 
 	//ˆÚ“®
-	float speed = 0.0f;
-	if (m_pPlayer->GetOnGround()) speed = GROUND_SPEED;
-	else						  speed = AIR_SPEED;
-	if (m_pKbTracker->GetLastState().S)
+	if (m_pPlayer->GetOnGround())
 	{
-		force += speed * -forward;
+		force = m_pPlayer->Move(elapsedTime, GROUND_SPEED, m_pKbTracker, m_pCamera);
 	}
-	else if (m_pKbTracker->GetLastState().W)
+	else
 	{
-		force -= speed * -forward;
-	}
-	if (m_pKbTracker->GetLastState().D)
-	{
-		force += speed * right;
-	}
-	else if (m_pKbTracker->GetLastState().A)
-	{
-		force -= speed * right;
-	}
-
-	//‰ñ“]
-	if (force.x != 0.0f || force.z != 0.0f)
-	{
-		m_pPlayer->SetRotY(std::atan2f(-force.x, -force.z));
+		force = m_pPlayer->Move(elapsedTime, AIR_SPEED, m_pKbTracker, m_pCamera);
 	}
 
 	// À•W‚ÌXV
@@ -88,10 +69,19 @@ void Player_Walk::Update(const float& elapsedTime)
 
 	m_pPlayer->SetOnGround(false);
 
+	// •Ší‚ÌØ‚è‘Ö‚¦
+	m_pPlayer->ChangeWeapon(m_pKbTracker);
+
 	// ‘Ò‹@ó‘Ô‚ÉØ‚è‘Ö‚¦
 	if (!m_pKbTracker->GetLastState().W && !m_pKbTracker->GetLastState().S && !m_pKbTracker->GetLastState().A && !m_pKbTracker->GetLastState().D)
 	{
 		m_pPlayer->ChangeState(m_pPlayer->GetState_Idle());
+	}
+
+	// UŒ‚ó‘Ô‚ÉØ‚è‘Ö‚¦
+	if (m_pKbTracker->pressed.Space)
+	{
+		m_pPlayer->Attack();
 	}
 }
 

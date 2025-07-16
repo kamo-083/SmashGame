@@ -28,12 +28,16 @@
 #include"Source/Game/GameObjects/Player/Player_Idle.h"
 #include"Source/Game/GameObjects/Player/Player_Walk.h"
 #include"Source/Game/GameObjects/Player/Player_AttackBasic.h"
+#include"Source/Game/GameObjects/Player/Player_AttackRolling.h"
+#include"Source/Game/GameObjects/Player/Player_AttackHeavy.h"
 
 
 // クラスの宣言 ===============================================================
 class Player_Idle;
 class Player_Walk;
 class Player_AttackBasic;
+class Player_AttackRolling;
+class Player_AttackHeavy;
 class WeaponUI;
 
 
@@ -97,8 +101,17 @@ private:
 	// 攻撃状態(通常)
 	std::unique_ptr<Player_AttackBasic> m_basicAttackingState;
 
+	// 攻撃状態(転がり)
+	std::unique_ptr<Player_AttackRolling> m_rollingAttackingState;
+
+	// 攻撃状態(重量)
+	std::unique_ptr<Player_AttackHeavy> m_heavyAttackingState;
+
 	//判定表示用の球
 	std::unique_ptr<DirectX::GeometricPrimitive> m_sphere;
+
+	// キー操作のモードのポインタ
+	bool* m_pKeyMode;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -115,7 +128,11 @@ public:
 	// 操作
 public:
 	// 初期化処理
-	void Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::KeyboardStateTracker* pKbTracker, Camera* pCamera, WeaponUI* weaponUI);
+	void Initialize(ResourceManager* pResourceManager,
+					DirectX::Keyboard::KeyboardStateTracker* pKbTracker, 
+					Camera* pCamera, 
+					WeaponUI* weaponUI,
+					bool* keyMode);
 
 	// 更新処理
 	void Update(const float& elapsedTime);
@@ -131,6 +148,20 @@ public:
 
 	// 武器変更
 	void ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker);
+
+	// 攻撃
+	void Attack();
+
+	// 移動
+	DirectX::SimpleMath::Vector3 Move(float elapsedTime,
+									  float speed,
+									  DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+									  Camera* camera);
+	DirectX::SimpleMath::Vector3 Move(float elapsedTime,
+									  float speed,
+									  DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+									  Camera* camera,
+									  DirectX::SimpleMath::Vector3 force);
 
 	// 当たり判定
 	bool DetectCollisionToBox(OBBCollider collider);
@@ -161,6 +192,8 @@ public:
 	Player_Idle* GetState_Idle() { return m_idlingState.get(); }
 	Player_Walk* GetState_Walk() { return m_walkingState.get(); }
 	Player_AttackBasic* GetState_AttackBasic() { return m_basicAttackingState.get(); }
+	Player_AttackRolling* GetState_AttackRolling() { return m_rollingAttackingState.get(); }
+	Player_AttackHeavy* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }
 
 	// 内部実装
 private:

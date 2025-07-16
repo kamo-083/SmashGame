@@ -40,8 +40,11 @@ Player::~Player()
 }
 
 
-void Player::Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
-						Camera* pCamera, WeaponUI* weaponUI)
+void Player::Initialize(ResourceManager* pResourceManager, 
+						DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
+						Camera* pCamera, 
+						WeaponUI* weaponUI,
+						bool* keyMode)
 {
 	// À•W‚Ì‰Šú‰»
 	m_position = SimpleMath::Vector3::Zero;
@@ -75,6 +78,9 @@ void Player::Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::Ke
 	DirectX::SimpleMath::Vector3 pos = { m_position.x, m_position.y - RADIUS * 2.0f, m_position.z - RADIUS };
 	m_attackCollider.SetRadius(RADIUS * 2.0f);
 
+	// ƒL[‘€ì‚Ìƒ‚[ƒh‚Ìƒ|ƒCƒ“ƒ^‚Ìİ’è
+	m_pKeyMode = keyMode;
+
 	// ‘Ò‹@ó‘Ô‚ğ¶¬
 	m_idlingState = std::make_unique<Player_Idle>(this, pKbTracker);
 	// ‘Ò‹@ó‘Ô‚ğ‰Šú‰»
@@ -88,6 +94,14 @@ void Player::Initialize(ResourceManager* pResourceManager, DirectX::Keyboard::Ke
 	// ’ÊíUŒ‚ó‘Ô‚ğ¶¬
 	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, pKbTracker);
 	m_basicAttackingState->Initialize(pResourceManager);
+
+	// “]‚ª‚èUŒ‚ó‘Ô‚ğ¶¬
+	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(this, pCamera, pKbTracker);
+	m_rollingAttackingState->Initialize(pResourceManager);
+	
+	// “]‚ª‚èUŒ‚ó‘Ô‚ğ¶¬
+	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, pKbTracker);
+	m_heavyAttackingState->Initialize(pResourceManager);
 
 	// ‰Šúó‘Ô‚ğİ’è‚·‚é
 	m_currentState = m_idlingState.get();
@@ -130,6 +144,8 @@ void Player::ChangeState(IState* newState)
 
 void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
+	if (!(*m_pKeyMode)) return;
+
 	if (pKbTracker->pressed.J)
 	{
 		++m_weaponType;
@@ -140,6 +156,78 @@ void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 	}
 
 	m_pWeaponUI->ChangeWeapon(m_weaponType);
+}
+
+void Player::Attack()
+{
+	m_isAttack = true;
+	switch (m_weaponType)
+	{
+	case WeaponType::BASIC:
+		ChangeState(m_basicAttackingState.get());
+		break;
+	case WeaponType::ROLLING:
+		ChangeState(m_rollingAttackingState.get());
+		break;
+	case WeaponType::HEAVY:
+		ChangeState(m_heavyAttackingState.get());
+		break;
+	default:
+		break;
+	}
+}
+
+DirectX::SimpleMath::Vector3 Player::Move(float elapsedTime, 
+										  float speed,
+										  DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+										  Camera* camera)
+{
+	DirectX::SimpleMath::Vector3 forward = camera->GetForward();
+	DirectX::SimpleMath::Vector3 right = forward.Cross(camera->GetUp());
+	DirectX::SimpleMath::Vector3 force = DirectX::SimpleMath::Vector3::Zero;
+
+	//ˆÚ“®
+	if (kbTracker->GetLastState().S)
+	{
+		force += speed * -forward;
+	}
+	else if (kbTracker->GetLastState().W)
+	{
+		force -= speed * -forward;
+	}
+	if (kbTracker->GetLastState().D)
+	{
+		force += speed * right;
+	}
+	else if (kbTracker->GetLastState().A)
+	{
+		force -= speed * right;
+	}
+
+	//‰ñ“]
+	if (force.x != 0.0f || force.z != 0.0f)
+	{
+		SetRotY(std::atan2f(-force.x, -force.z));
+	}
+
+	return force;
+}
+
+DirectX::SimpleMath::Vector3 Player::Move(float elapsedTime, 
+										  float speed, 
+										  DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+										  Camera* camera,
+										  DirectX::SimpleMath::Vector3 force)
+{
+	// Šµ«‚Â‚¯‚½‚¢
+
+	//‰ñ“]
+	if (force.x != 0.0f || force.z != 0.0f)
+	{
+		SetRotY(std::atan2f(-force.x, -force.z));
+	}
+
+	return force;
 }
 
 

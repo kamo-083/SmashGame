@@ -67,19 +67,7 @@ void Player_Idle::Update(const float& elapsedTime)
 	// UŒ‚ó‘Ô‚ÉØ‚è‘Ö‚¦
 	if (m_pKbTracker->pressed.Space)
 	{
-		m_pPlayer->SetIsAttack(true);
-		switch (m_pPlayer->GetWeaponType())
-		{
-		case WeaponType::BASIC:
-			m_pPlayer->ChangeState(m_pPlayer->GetState_AttackBasic());
-			break;
-		case WeaponType::ROLLING:
-			break;
-		case WeaponType::HEAVY:
-			break;
-		default:
-			break;
-		}
+		m_pPlayer->Attack();
 	}
 }
 

@@ -60,7 +60,6 @@ public:
 
 	//取得
 	DirectX::SimpleMath::Vector3 GetCenter() const;		//中心座標の取得
-	float GetCenter(int n) const;
 	DirectX::SimpleMath::Vector3 GetAxes(int n) const;	//方向ベクトルの取得
 	DirectX::SimpleMath::Vector3 GetHalfLength() const;	//中心座標から面までの長さの取得
 	float GetHalfLength(int n) const;
