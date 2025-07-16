@@ -25,6 +25,7 @@ Goal::Goal(ID3D11DeviceContext* context)
 	:m_position{ SimpleMath::Vector3::Zero }
 	, m_collider{}
 	,m_isGoal{false}
+	,m_canGoal{false}
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -56,6 +57,7 @@ void Goal::Initialize(DirectX::SimpleMath::Vector3 position)
 	m_collider.SetAxes(SimpleMath::Vector3::Zero);
 	m_collider.SetHalfLength(SimpleMath::Vector3(HALF_LENGTH, HALF_LENGTH, HALF_LENGTH));
 
+	m_canGoal = false;
 	m_isGoal = false;
 }
 
@@ -91,7 +93,8 @@ void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 
 	m_geometricPrimitive->Draw(world, context.view, context.projection, DirectX::Colors::Aqua, nullptr, true);
 
-	debugFont->AddString(0, 120, Colors::Yellow, L"goal = %d", m_isGoal);
+	debugFont->AddString(0, 115, Colors::Yellow, L" can = %d", m_canGoal);
+	debugFont->AddString(0, 145, Colors::Yellow, L"goal = %d", m_isGoal);
 }
 
 
@@ -108,10 +111,12 @@ void Goal::Finalize()
 
 }
 
+
 bool Goal::DetectCollisionToPlayer(SphereCollider player)
 {
-	bool hit = IsHit(m_collider, player);
+	if (!m_canGoal) return false;
 
+	bool hit = IsHit(m_collider, player);
 	if (hit)
 	{
 		// ƒS[ƒ‹‚Ì”»’èˆ—

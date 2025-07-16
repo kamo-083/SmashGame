@@ -40,6 +40,7 @@ private:
 
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
+	bool m_canGoal;
 	bool m_isGoal;
 
 	// ƒƒ“ƒoŠÖ”‚ÌéŒ¾ -------------------------------------------------
@@ -73,6 +74,8 @@ public:
 public:
 	OBBCollider GetCollider();
 	bool IsGoal() { return m_isGoal; }
+	void CanGoal(bool canGoal = true) { m_canGoal = canGoal; }
+
 
 // “à•”À‘•
 private:

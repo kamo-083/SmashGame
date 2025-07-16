@@ -22,6 +22,7 @@
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 #include "Source/Game/GameObjects/Stage/Ground.h"
 #include "Source/Game/GameObjects/Stage/BounceBox.h"
+#include "Source/Game/GameObjects/Stage/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Goal.h"
 #include "Source/Game/UI/WeaponUI.h"
 
@@ -65,8 +66,11 @@ private:
 	//地面
 	std::unique_ptr<Ground> m_ground;
 
-	//的
+	//箱
 	std::unique_ptr<BounceBox> m_bounceBox;
+
+	//的
+	std::unique_ptr<TargetBox> m_targetBox;
 	
 	//ゴール
 	std::unique_ptr<Goal> m_goal;

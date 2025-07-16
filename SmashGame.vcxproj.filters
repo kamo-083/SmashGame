@@ -149,6 +149,9 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\Goal.h">
       <Filter>Game\GameObjects\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\TargetBox.h">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -232,6 +235,9 @@
       <Filter>Game\GameObjects\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\Goal.cpp">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\TargetBox.cpp">
       <Filter>Game\GameObjects\Stage</Filter>
     </ClCompile>
   </ItemGroup>

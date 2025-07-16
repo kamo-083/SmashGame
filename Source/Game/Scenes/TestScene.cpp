@@ -72,14 +72,18 @@ void TestScene::Initialize()
 	// 地面の作成
 	m_ground = std::make_unique<Ground>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
 	m_ground->Initialize();
-	
-	// 的の作成
-	m_bounceBox = std::make_unique<BounceBox>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
-	m_bounceBox->Initialize(SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
 
 	// ゴールの作成
 	m_goal = std::make_unique<Goal>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
-	m_goal-> Initialize(SimpleMath::Vector3(-2.0f, 1.0f, 2.0f));
+	m_goal->Initialize(SimpleMath::Vector3(-2.0f, 1.0f, 2.0f));
+
+	// 箱の作成
+	m_bounceBox = std::make_unique<BounceBox>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_bounceBox->Initialize(SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
+	
+	// 的の作成
+	m_targetBox = std::make_unique<TargetBox>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_targetBox->Initialize(m_goal.get(), SimpleMath::Vector3(-2.0f, 0.5f, -2.0f));
 
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());
@@ -113,7 +117,7 @@ void TestScene::Update(float elapsedTime)
 	m_enemy->CalculatePlayerRelationData(m_player->GetPosition(), m_player->GetRadius());
 	m_enemy->Update(elapsedTime);
 
-	// 的の更新
+	// 箱の更新
 	m_bounceBox->Update(elapsedTime);
 
 	// カメラの更新
@@ -127,11 +131,14 @@ void TestScene::Update(float elapsedTime)
 	m_player->DetectCollisionToSphere(*m_enemy->GetCollider());
 	// 敵
 	m_enemy->DetectCollisionToBox(m_ground->GetCollider());
+	m_enemy->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
 	// 箱
 	if (m_player->GetIsAttack())
 	{
 		m_bounceBox->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
 	}
+	// 的
+	m_targetBox->DetectCollisionToEnemy(*m_enemy->GetCollider(), 1.0f);
 	// ゴール
 	m_goal->DetectCollisionToPlayer(*m_player->GetCollider());
 
@@ -166,8 +173,11 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	// 地面の描画
 	m_ground->Draw(context);
 
-	// 的の描画
+	// 箱の描画
 	m_bounceBox->Draw(context);
+
+	// 的の描画
+	m_targetBox->Draw(context);
 
 	// ゴールの描画
 	m_goal->Draw(context,debugFont);
