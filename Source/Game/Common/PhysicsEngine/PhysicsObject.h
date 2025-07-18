@@ -2,7 +2,7 @@
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/PhysicsEngine/Gravity.h"
 #include"Source/Game/Common/PhysicsEngine/ExternalForce.h"
-#include"Source/Game/Common/PhysicsEngine/Fliction.h"
+#include"Source/Game/Common/PhysicsEngine/Friction.h"
 
 #include"ImaseLib/DebugFont.h"
 
@@ -13,7 +13,7 @@ private:
 
 	Gravity m_gravity;
 	ExternalForce m_externalForce;
-	Fliction m_fliction;
+	Friction m_friction;
 
 public:
 	//コンストラクタ・デストラクタ
@@ -21,9 +21,10 @@ public:
 	~PhysicsObject();
 
 	//速度の算出
-	void CalculateVelocity(DirectX::SimpleMath::Vector3& velocity,
-						   float mass,
-						   float elapsedTime);
+	void CalculateForce(DirectX::SimpleMath::Vector3& velocity,
+						float mass,
+						float elapsedTime,
+						bool onGround);
 
 	//跳ね返り
 	void Reflection(DirectX::SimpleMath::Vector3& velocity,
@@ -38,12 +39,12 @@ public:
 				  float elapsedTime);
 
 	//摩擦を加える
-	void AddFliction(DirectX::SimpleMath::Vector3& velocity, bool onGround);
+	void AddFriction(DirectX::SimpleMath::Vector3& velocity, float mass, bool onGround, float elapsedTime);
 
 	//取得
 	ExternalForce& GetExternalForce() { return m_externalForce; }
 	Gravity& GetGravity() { return m_gravity; }
-	Fliction& GetFliction() { return m_fliction; }
+	Friction& GetFriction() { return m_friction; }
 
 	//デバッグフォントの描画
 	void DrawDebugFont(Imase::DebugFont* debugFont, float y);

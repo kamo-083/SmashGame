@@ -66,8 +66,8 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager)
 	m_collider.SetRadius(RADIUS);
 
 	// •¨—‰‰Z‚Ìİ’è
-	m_physics.GetFliction().SetStaticForce(0.5f);
-	m_physics.GetFliction().SetDynamicForce(0.5f);
+	m_physics.GetFriction().SetStaticFriction(0.5f);
+	m_physics.GetFriction().SetDynamicFriction(0.5f);
 
 	// ó‘Ô‚Ìì¬
 	// ‘Ò‹@ó‘Ô

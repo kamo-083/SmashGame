@@ -34,8 +34,8 @@ class Player_Walk :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float GROUND_SPEED = 50.0f;		//移動速度(地面)
-	static constexpr float AIR_SPEED = 1.0f;			//移動速度(空中)
+	static constexpr float GROUND_SPEED = 5.0f;		//移動速度(地面)
+	static constexpr float AIR_SPEED = 0.5f;		//移動速度(空中)
 
 
 	// データメンバの宣言 -----------------------------------------------

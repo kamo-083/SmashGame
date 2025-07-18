@@ -47,9 +47,8 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 	SimpleMath::Vector3 force = m_pGroundEnemy->GetPlayerRelativeData().direction * MOVE_SPEED;
 
 	// 座標の更新
-	m_pGroundEnemy->GetPhysics()->CalculateVelocity(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime);
-	m_pGroundEnemy->GetPhysics()->AddFliction(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetOnGround());
 	m_pGroundEnemy->SetVelocity(m_pGroundEnemy->GetVelocity() + force * elapsedTime);
+	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime, m_pGroundEnemy->GetOnGround());
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新

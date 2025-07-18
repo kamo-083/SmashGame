@@ -185,7 +185,7 @@
     <ClInclude Include="Source\Game\Common\Collision.h" />
     <ClInclude Include="Source\Game\Common\DeviceResources.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h" />
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\Fliction.h" />
+    <ClInclude Include="Source\Game\Common\PhysicsEngine\Friction.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\Gravity.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\PhysicsObject.h" />
     <ClInclude Include="Source\Game\Common\RenderContext.h" />

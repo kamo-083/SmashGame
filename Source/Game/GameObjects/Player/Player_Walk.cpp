@@ -46,22 +46,17 @@ void Player_Walk::Initialize(ResourceManager* pResourceManager)
 
 void Player_Walk::Update(const float& elapsedTime)
 {
-	DirectX::SimpleMath::Vector3 force = DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 inputVelocity = DirectX::SimpleMath::Vector3::Zero;
 
-	//移動
-	if (m_pPlayer->GetOnGround())
-	{
-		force = m_pPlayer->Move(elapsedTime, GROUND_SPEED, m_pKbTracker, m_pCamera);
-	}
-	else
-	{
-		force = m_pPlayer->Move(elapsedTime, AIR_SPEED, m_pKbTracker, m_pCamera);
-	}
+	//入力による移動速度
+	inputVelocity = m_pPlayer->MoveDirection(elapsedTime, m_pKbTracker, m_pCamera);
+	if (m_pPlayer->GetOnGround())	inputVelocity *= GROUND_SPEED;
+	else							inputVelocity *= AIR_SPEED;
 
 	// 座標の更新
-	m_pPlayer->GetPhysics()->CalculateVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
-	m_pPlayer->GetPhysics()->AddFliction(m_pPlayer->GetVelocity(), m_pPlayer->GetOnGround());
-	m_pPlayer->SetVelocity(m_pPlayer->GetVelocity() + force * elapsedTime);
+	m_pPlayer->SetVelocity(m_pPlayer->GetVelocity() + inputVelocity);
+	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
+	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新

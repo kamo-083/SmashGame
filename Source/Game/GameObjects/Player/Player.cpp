@@ -121,7 +121,9 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	m_currentState->Render(context);
 
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
-	debugFont->AddString(0, 90, DirectX::Colors::Cyan, L"pos = %d", static_cast<int>(m_weaponType));
+	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
+	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"weapon = %d", static_cast<int>(m_weaponType));
+	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"onGround = %d", static_cast<int>(m_onGround));
 }
 
 
@@ -177,59 +179,53 @@ void Player::Attack()
 	}
 }
 
-DirectX::SimpleMath::Vector3 Player::Move(float elapsedTime, 
-										  float speed,
-										  DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-										  Camera* camera)
+DirectX::SimpleMath::Vector3 Player::MoveDirection(float elapsedTime, 
+												   DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+												   Camera* camera)
 {
 	DirectX::SimpleMath::Vector3 forward = camera->GetForward();
 	DirectX::SimpleMath::Vector3 right = forward.Cross(camera->GetUp());
-	DirectX::SimpleMath::Vector3 force = DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 direction = DirectX::SimpleMath::Vector3::Zero;
 
 	//à⁄ìÆ
 	if (kbTracker->GetLastState().S)
 	{
-		force += speed * -forward;
+		direction += -forward;
 	}
 	else if (kbTracker->GetLastState().W)
 	{
-		force -= speed * -forward;
+		direction -= -forward;
 	}
 	if (kbTracker->GetLastState().D)
 	{
-		force += speed * right;
+		direction += right;
 	}
 	else if (kbTracker->GetLastState().A)
 	{
-		force -= speed * right;
+		direction -= right;
+	}
+
+	if (direction.Length() > 0.0f)
+	{
+		direction.x /= direction.Length();
+		direction.z /= direction.Length();
 	}
 
 	//âÒì]
-	if (force.x != 0.0f || force.z != 0.0f)
+	if (direction.x != 0.0f || direction.z != 0.0f)
 	{
-		SetRotY(std::atan2f(-force.x, -force.z));
+		m_rotY = std::atan2f(-direction.x, -direction.z);
 	}
 
-	return force;
+	return direction;
 }
 
-DirectX::SimpleMath::Vector3 Player::Move(float elapsedTime, 
-										  float speed, 
-										  DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-										  Camera* camera,
-										  DirectX::SimpleMath::Vector3 force)
+void Player::LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max)
 {
-	// äµê´Ç¬ÇØÇΩÇ¢
-
-	//âÒì]
-	if (force.x != 0.0f || force.z != 0.0f)
-	{
-		SetRotY(std::atan2f(-force.x, -force.z));
-	}
-
-	return force;
+	velocity.x = std::min(std::max(velocity.x, -max), max);
+	velocity.y = std::min(std::max(velocity.y, -MAX_SPEED), MAX_SPEED);
+	velocity.z = std::min(std::max(velocity.z, -max), max);
 }
-
 
 bool Player::DetectCollisionToBox(OBBCollider collider)
 {

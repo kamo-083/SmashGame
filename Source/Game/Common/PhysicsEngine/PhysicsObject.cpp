@@ -6,7 +6,7 @@ using namespace DirectX;
 PhysicsObject::PhysicsObject()
 	: m_gravity{}
 	, m_externalForce{}
-	, m_fliction{}
+	, m_friction{}
 {
 }
 
@@ -14,20 +14,28 @@ PhysicsObject::~PhysicsObject()
 {
 }
 
-void PhysicsObject::CalculateVelocity(DirectX::SimpleMath::Vector3& velocity, 
-									  float mass,
-									  float elapsedTime)
+void PhysicsObject::CalculateForce(DirectX::SimpleMath::Vector3& velocity, 
+								   float mass,
+								   float elapsedTime,
+								   bool onGround)
 {
-	SimpleMath::Vector3 force = SimpleMath::Vector3::Zero;
+	SimpleMath::Vector3 totalForce = SimpleMath::Vector3::Zero;
 
 	//外力
-	m_externalForce.Calculate(force);
+	m_externalForce.Calculate(totalForce);
+
+	//摩擦力(接地時)
+	if (onGround)
+	{
+		m_friction.ApplyToForce(totalForce, mass * m_gravity.Get());
+		m_friction.ApplyToVelocity(velocity, mass * m_gravity.Get(), elapsedTime);
+	}
 
 	//重力
-	m_gravity.Calculate(force, mass);
+	m_gravity.Calculate(totalForce, mass);
 
 	//加速度の計算
-	SimpleMath::Vector3 acceleration = force / mass;
+	SimpleMath::Vector3 acceleration = totalForce / mass;
 
 	//加速度の反映
 	velocity += acceleration * elapsedTime;
@@ -35,6 +43,7 @@ void PhysicsObject::CalculateVelocity(DirectX::SimpleMath::Vector3& velocity,
 	//力のリセット
 	m_externalForce.Reset();
 }
+
 
 void PhysicsObject::Reflection(DirectX::SimpleMath::Vector3& velocity,
 							   DirectX::SimpleMath::Vector3& normal, 
@@ -59,19 +68,12 @@ void PhysicsObject::RollDown(DirectX::SimpleMath::Vector3& velocity,
 	velocity += acceleration * elapsedTime;
 }
 
-void PhysicsObject::AddFliction(DirectX::SimpleMath::Vector3& velocity, bool onGround)
-{
-	if (!onGround) return;
-
-	m_fliction.Calculate(velocity, m_gravity.Get());
-}
-
 void PhysicsObject::DrawDebugFont(Imase::DebugFont* debugFont, float y)
 {
 	y += 25;
 	debugFont->AddString(0, y, DirectX::Colors::White, L"gravity = %f", m_gravity.Get());
 	y += 25;
-	debugFont->AddString(0, y, DirectX::Colors::White, L"fliction = %f", m_fliction.Get());
+	debugFont->AddString(0, y, DirectX::Colors::White, L"friction = %f", m_friction.Get());
 	y += 25;
 	debugFont->AddString(0, y, DirectX::Colors::White, L"externalForce = %f,%f,%f", m_externalForce.Get().x, m_externalForce.Get().y, m_externalForce.Get().z);
 }

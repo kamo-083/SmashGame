@@ -33,7 +33,7 @@ class GroundEnemy_Walk :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float MOVE_SPEED = 50.0f;	// 移動速度
+	static constexpr float MOVE_SPEED = 5.0f;	// 移動速度
 
 
 	// データメンバの宣言 -----------------------------------------------

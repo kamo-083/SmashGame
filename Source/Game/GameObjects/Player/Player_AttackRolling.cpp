@@ -63,20 +63,18 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 {
 	m_attackTime -= elapsedTime;
 
-	// 移動
-	if (m_pPlayer->GetOnGround())
-	{
-		m_force = m_pPlayer->Move(elapsedTime, MOVE_GROUND_SPEED, m_pKbTracker, m_pCamera);
-	}
-	else
-	{
-		m_force = m_pPlayer->Move(elapsedTime, MOVE_AIR_SPEED, m_pKbTracker, m_pCamera);
-	}
+	DirectX::SimpleMath::Vector3 inputVelocity = DirectX::SimpleMath::Vector3::Zero;
+
+	//入力による移動速度
+	inputVelocity = m_pPlayer->MoveDirection(elapsedTime, m_pKbTracker, m_pCamera);
+	if (m_pPlayer->GetOnGround())	inputVelocity *= GROUND_SPEED;
+	else							inputVelocity *= AIR_SPEED;
+	m_pPlayer->LimitVelocity(inputVelocity);
 
 	// 座標の更新
-	m_pPlayer->GetPhysics()->CalculateVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
-	m_pPlayer->GetPhysics()->AddFliction(m_pPlayer->GetVelocity(), m_pPlayer->GetOnGround());
-	m_pPlayer->SetVelocity(m_pPlayer->GetVelocity() + m_force * elapsedTime);
+	m_pPlayer->SetVelocity(inputVelocity);
+	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
+	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), MAX_SPEED);
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新

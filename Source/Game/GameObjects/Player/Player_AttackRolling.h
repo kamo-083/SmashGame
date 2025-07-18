@@ -37,9 +37,10 @@ private:
 	static constexpr float ATTACK_FORCE = 1000.0f;
 	static constexpr float ATTACK_TIME = 5.0f;
 	static constexpr float ATTACK_SIZE = 2.0f;
-	static constexpr float MOVE_GROUND_SPEED = 75.0f;
-	static constexpr float MOVE_AIR_SPEED = 1.5f;
-
+	static constexpr float GROUND_SPEED = 7.0f;
+	static constexpr float AIR_SPEED = 0.75f;
+	static constexpr float MAX_SPEED = 10.0f;
+	
 	// データメンバの宣言 -----------------------------------------------
 private:
 	Player* m_pPlayer;

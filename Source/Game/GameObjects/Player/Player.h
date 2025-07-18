@@ -50,8 +50,8 @@ class Player
 	// クラス定数の宣言 -------------------------------------------------
 private:
 	static constexpr float RADIUS = 0.5f;				//半径の大きさ
-	static constexpr float MAX_SPEED = 5.0f;			//最高速度
-	static constexpr float MASS = 1.0f;					//質量
+	static constexpr float MAX_SPEED = 7.0f;			//最高速度
+	static constexpr float MASS = 10.0f;					//質量
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -152,16 +152,13 @@ public:
 	// 攻撃
 	void Attack();
 
-	// 移動
-	DirectX::SimpleMath::Vector3 Move(float elapsedTime,
-									  float speed,
-									  DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-									  Camera* camera);
-	DirectX::SimpleMath::Vector3 Move(float elapsedTime,
-									  float speed,
-									  DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-									  Camera* camera,
-									  DirectX::SimpleMath::Vector3 force);
+	// 移動の方向と回転
+	DirectX::SimpleMath::Vector3 MoveDirection(float elapsedTime,
+											   DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+											   Camera* camera);
+
+	// 移動速度の制限
+	void LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max = MAX_SPEED);
 
 	// 当たり判定
 	bool DetectCollisionToBox(OBBCollider collider);

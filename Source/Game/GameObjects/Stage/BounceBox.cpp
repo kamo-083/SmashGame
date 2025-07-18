@@ -72,8 +72,7 @@ void BounceBox::Initialize(DirectX::SimpleMath::Vector3 position,
 void BounceBox::Update(float elapsedTime)
 {
 	// ç¿ïWÇÃçXêV
-	m_physics.CalculateVelocity(m_velocity, MASS, elapsedTime);
-	m_physics.AddFliction(m_velocity, m_onGround);
+	m_physics.CalculateForce(m_velocity, MASS, elapsedTime, m_onGround);
 	m_position += m_velocity * elapsedTime;
 
 	m_collider.SetCenter(m_position);

@@ -32,9 +32,6 @@
     <Filter Include="Game\GameObjects\Player">
       <UniqueIdentifier>{523b238a-4d67-4fc2-b989-e4b7557bbde8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameObjects\Stage">
-      <UniqueIdentifier>{b5694175-ce38-4375-a57b-86887b4590b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Interface">
       <UniqueIdentifier>{fd47568a-c5cc-46d2-bce7-e1dd1e16c966}</UniqueIdentifier>
     </Filter>
@@ -43,6 +40,9 @@
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{c0a1a879-101d-41d7-8f04-9c36ee28c9be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObjects\Stage">
+      <UniqueIdentifier>{b5694175-ce38-4375-a57b-86887b4590b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h">
       <Filter>Common\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\Fliction.h">
+    <ClInclude Include="Source\Game\Common\PhysicsEngine\Friction.h">
       <Filter>Common\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Common\PhysicsEngine\Gravity.h">
