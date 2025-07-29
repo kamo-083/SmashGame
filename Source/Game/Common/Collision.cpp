@@ -200,53 +200,41 @@ bool IsHit(const SphereCollider& sphereA, const SphereCollider& sphereB)
 bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB)
 {
 	//OBBの軸とサイズを取得 (方向ベクトルは正規化されていること)
-	SimpleMath::Vector3 axisA[3];
+	SimpleMath::Vector3 axisA[3], axisB[3];
 	for (int i = 0; i < 3; i++)
 	{
 		axisA[i] = obbA.GetAxis(i);
+		axisB[i] = obbB.GetAxis(i);
 	}
+
 	SimpleMath::Vector3 extentA[3] =
 	{
 		axisA[0] * obbA.GetHalfLength().x,
 		axisA[1] * obbA.GetHalfLength().y,
 		axisA[2] * obbA.GetHalfLength().z
 	};
-	
-	SimpleMath::Vector3 axisB[3];
-	for (int i = 0; i < 3; i++)
-	{
-		axisB[i] = obbB.GetAxis(i);
-	}
+
 	SimpleMath::Vector3 extentB[3] =
 	{
-		axisB[0]* obbB.GetHalfLength().x,
-		axisB[1]* obbB.GetHalfLength().y,
-		axisB[2]* obbB.GetHalfLength().z
+		axisB[0] * obbB.GetHalfLength().x,
+		axisB[1] * obbB.GetHalfLength().y,
+		axisB[2] * obbB.GetHalfLength().z
 	};
 
 	//中心座標の距離
-	SimpleMath::Vector3 centerInterval =
-	{
-		obbA.GetCenter().x - obbB.GetCenter().x,
-		obbA.GetCenter().y - obbB.GetCenter().y,
-		obbA.GetCenter().z - obbB.GetCenter().z
-	};
+	SimpleMath::Vector3 centerInterval = obbB.GetCenter() - obbA.GetCenter();
 
-	//15本の分離軸をチェック
-	//分離軸：Aのローカル軸
+	// 関数に渡す用のダミー
+	float dummyOverlap = FLT_MAX;
+	SimpleMath::Vector3 dummyAxis;
+
 	for (int i = 0; i < 3; i++)
 	{
-		float r = CalculateProjectionRadius(axisA[i], extentA[i], extentB);
-		float L = fabs(centerInterval.Dot(axisA[i]));
-		if (L > r) return false;	//衝突していない
-	}
+		//分離軸：Aのローカル軸
+		if (!TryAxis(axisA[i], centerInterval, extentA, extentB, false, dummyOverlap, dummyAxis))return false;
 
-	//分離軸：Bのローカル軸
-	for (int i = 0; i < 3; i++)
-	{
-		float r = CalculateProjectionRadius(axisB[i], extentB[i], extentA);
-		float L = fabs(centerInterval.Dot(axisB[i]));
-		if (L > r) return false;	//衝突していない
+		//分離軸：Bのローカル軸
+		if (!TryAxis(axisB[i], centerInterval, extentA, extentB, false, dummyOverlap, dummyAxis))return false;
 	}
 
 	//分離軸：ローカル軸同士のクロス積で得られる軸
@@ -255,26 +243,12 @@ bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB)
 		for (int j = 0; j < 3; j++)
 		{
 			SimpleMath::Vector3 cross = axisA[i].Cross(axisB[j]);
-
-			float rA, rB, L;
-			
-			if (i == 0)		 rA = LenSegOnSeparateAxis(&cross, &extentA[1], &extentA[2]);
-			else if (i == 1) rA = LenSegOnSeparateAxis(&cross, &extentA[0], &extentA[2]);
-			else			 rA = LenSegOnSeparateAxis(&cross, &extentA[0], &extentA[1]);
-
-			if (j == 0)		 rB = LenSegOnSeparateAxis(&cross, &extentB[1], &extentB[2]);
-			else if (j == 1) rB = LenSegOnSeparateAxis(&cross, &extentB[0], &extentB[2]);
-			else			 rB = LenSegOnSeparateAxis(&cross, &extentB[0], &extentB[1]);
-
-			L = fabs(centerInterval.Dot(cross));
-			
-			if (L > rA + rB) return false;//衝突していない
+			if (!TryAxis(cross, centerInterval, extentA, extentB, false, dummyOverlap, dummyAxis))return false;
 		}
 	}
 
-	return true;		//衝突している (分離平面が存在しない)
+	return true;		//衝突している (分離平面が存在しない)}
 }
-
 
 /**
  * @brief OBBと球の当たり判定
@@ -363,6 +337,51 @@ MTV CalculateMTV(const SphereCollider& sphereA, const SphereCollider& sphereB)
 MTV CalculateMTV(const OBBCollider& obbA, const OBBCollider& obbB)
 {
 	MTV mtv;
+	mtv.distance = FLT_MAX;
+
+	//OBBの軸とサイズを取得 (方向ベクトルは正規化されていること)
+	SimpleMath::Vector3 axisA[3], axisB[3];
+	for (int i = 0; i < 3; i++)
+	{
+		axisA[i] = obbA.GetAxis(i);
+		axisB[i] = obbB.GetAxis(i);
+	}
+
+	SimpleMath::Vector3 extentA[3] =
+	{
+		axisA[0] * obbA.GetHalfLength().x,
+		axisA[1] * obbA.GetHalfLength().y,
+		axisA[2] * obbA.GetHalfLength().z
+	};
+
+	SimpleMath::Vector3 extentB[3] =
+	{
+		axisB[0] * obbB.GetHalfLength().x,
+		axisB[1] * obbB.GetHalfLength().y,
+		axisB[2] * obbB.GetHalfLength().z
+	};
+
+	//中心座標の距離
+	SimpleMath::Vector3 centerInterval = obbB.GetCenter() - obbA.GetCenter();
+
+	for (int i = 0; i < 3; i++)
+	{
+		//分離軸：Aのローカル軸
+		TryAxis(axisA[i], centerInterval, extentA, extentB, true, mtv.distance, mtv.direction);
+
+		//分離軸：Bのローカル軸
+		TryAxis(axisB[i], centerInterval, extentA, extentB, true, mtv.distance, mtv.direction);
+	}
+
+	//分離軸：ローカル軸同士のクロス積で得られる軸
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			SimpleMath::Vector3 cross = axisA[i].Cross(axisB[j]);
+			TryAxis(cross, centerInterval, extentA, extentB, true, mtv.distance, mtv.direction);
+		}
+	}
 
 	return mtv;
 }
@@ -436,6 +455,38 @@ float Distance(const DirectX::SimpleMath::Plane& plane,
 
 	return numerator / denominator;
 }
+
+
+bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
+			 const DirectX::SimpleMath::Vector3& centerInterval,
+			 const DirectX::SimpleMath::Vector3 extentA[3],
+			 const DirectX::SimpleMath::Vector3 extentB[3],
+			 bool useMTV,
+			 float& minOverlap,
+			 DirectX::SimpleMath::Vector3& bestAxis)
+{
+	// 無効な値はスキップ
+	if (axisRaw.LengthSquared() < 0.00001)	return true;
+
+	SimpleMath::Vector3 axis = axisRaw;
+	axis.Normalize();
+
+	float rA = fabs(axis.Dot(extentA[0])) + fabs(axis.Dot(extentA[1])) + fabs(axis.Dot(extentA[2]));
+	float rB = fabs(axis.Dot(extentB[0])) + fabs(axis.Dot(extentB[1])) + fabs(axis.Dot(extentB[2]));
+	float distance = fabs(centerInterval.Dot(axis));
+	float overlap = rA + rB - distance;
+
+	if (overlap < 0.0f) return false;
+
+	if (useMTV && overlap < minOverlap)
+	{
+		minOverlap = overlap;
+		bestAxis = (centerInterval.Dot(axis) < 0.0f) ? -axis : axis;
+	}
+
+	return true;
+}
+
 
 float CalculateProjectionRadius(DirectX::SimpleMath::Vector3 axisA, 
 								DirectX::SimpleMath::Vector3 extentA, 

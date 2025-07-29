@@ -137,6 +137,7 @@ void TestScene::Update(float elapsedTime)
 	{
 		m_bounceBox->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
 	}
+	m_bounceBox->DetectCollisionToBox(m_ground->GetCollider());
 	// “I
 	m_targetBox->DetectCollisionToEnemy(*m_enemy->GetCollider(), 1.0f);
 	// ƒS[ƒ‹

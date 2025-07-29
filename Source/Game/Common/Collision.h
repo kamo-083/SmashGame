@@ -99,6 +99,15 @@ MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere);
 float Distance(const DirectX::SimpleMath::Plane& plane,
 			   const DirectX::SimpleMath::Vector3& center);
 
+// 分離軸のチェック
+bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
+			 const DirectX::SimpleMath::Vector3& centerInterval,
+			 const DirectX::SimpleMath::Vector3 extentA[3],
+			 const DirectX::SimpleMath::Vector3 extentB[3],
+			 bool useMTV,
+			 float& minOverlap,
+			 DirectX::SimpleMath::Vector3& bestAxis);
+
 //分離軸の計算
 float CalculateProjectionRadius(DirectX::SimpleMath::Vector3 axisA,
 								DirectX::SimpleMath::Vector3 extentA,

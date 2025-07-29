@@ -84,7 +84,10 @@ public:
 	// I—¹ˆ—
 	void Finalize();
 
-	// ‹…‚Æ‚Ì“–‚½‚è”»’è
+	// •ÇE°‚Æ‚Ì“–‚½‚è”»’è
+	bool DetectCollisionToBox(OBBCollider obb);
+
+	// UŒ‚‚Æ‚Ì“–‚½‚è”»’è
 	bool DetectCollisionToAttack(SphereCollider sphere, float power);
 
 // æ“¾/İ’è

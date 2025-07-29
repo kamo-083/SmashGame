@@ -117,6 +117,21 @@ void BounceBox::Finalize()
 
 }
 
+bool BounceBox::DetectCollisionToBox(OBBCollider obb)
+{
+	bool hit = IsHit(m_collider, obb);
+
+	if (hit)
+	{
+		MTV mtv = CalculateMTV(m_collider, obb);
+
+		m_position -= mtv.direction * mtv.distance;
+		m_collider.SetCenter(m_position);
+	}
+
+	return hit;
+}
+
 bool BounceBox::DetectCollisionToAttack(SphereCollider sphere, float power)
 {
 	bool hit = IsHit(m_collider, sphere);
