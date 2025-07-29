@@ -36,6 +36,7 @@ public:
 		DirectX::SimpleMath::Vector3 center;		//中心座標
 		DirectX::SimpleMath::Vector3 axis[3];		//方向ベクトル
 		DirectX::SimpleMath::Vector3 halfLength;	//中心座標から面までの長さ
+		DirectX::SimpleMath::Quaternion rotation;	//回転
 	};
 
 	enum class CollisionType
@@ -53,22 +54,24 @@ private:
 public:
 	//コンストラクタ・デストラクタ
 	OBBCollider();
-	OBBCollider(DirectX::SimpleMath::Vector3 center, 
-				DirectX::SimpleMath::Vector3 axis[3],
+	OBBCollider(DirectX::SimpleMath::Vector3 center,
+				DirectX::SimpleMath::Quaternion rotation,
 				DirectX::SimpleMath::Vector3 halfLength);
 	~OBBCollider();
 
 	//取得
-	DirectX::SimpleMath::Vector3 GetCenter() const;		//中心座標の取得
-	DirectX::SimpleMath::Vector3 GetAxes(int n) const;	//方向ベクトルの取得
-	DirectX::SimpleMath::Vector3 GetHalfLength() const;	//中心座標から面までの長さの取得
+	DirectX::SimpleMath::Vector3 GetCenter() const { return m_obb.center; }			//中心座標の取得
+	float GetCenter(int n) const;
+	DirectX::SimpleMath::Vector3 GetHalfLength() const { return m_obb.halfLength; }	//中心座標から面までの長さの取得
 	float GetHalfLength(int n) const;
+	DirectX::SimpleMath::Vector3* GetAxis() { return m_obb.axis; }					//方向ベクトルの取得
+	DirectX::SimpleMath::Vector3 GetAxis(int n) const { return m_obb.axis[n]; }
+	DirectX::SimpleMath::Quaternion GetRotation() const { return m_obb.rotation; }	//回転の取得
 
 	//設定
-	void SetCenter(DirectX::SimpleMath::Vector3 center);		 //中心座標の設定
-	void SetAxes(DirectX::SimpleMath::Vector3 axis[3]);			 //方向ベクトルの設定
-	void SetAxes(DirectX::SimpleMath::Vector3 axis);			 //方向ベクトルの設定
-	void SetHalfLength(DirectX::SimpleMath::Vector3 halfLength); //中心座標から面までの長さの設定
+	void SetCenter(DirectX::SimpleMath::Vector3 center) { m_obb.center = center; }					//中心座標の設定
+	void SetHalfLength(DirectX::SimpleMath::Vector3 halfLength) { m_obb.halfLength = halfLength; }  //中心座標から面までの長さの設定
+	void SetRotation(DirectX::SimpleMath::Quaternion rotation);										//回転の設定
 };
 
 //球と球の衝突判定
@@ -111,6 +114,10 @@ float LenSegOnSeparateAxis(DirectX::SimpleMath::Vector3* sep,
 DirectX::SimpleMath::Plane CalculatePlane(const DirectX::SimpleMath::Vector3& p1,
 										  const DirectX::SimpleMath::Vector3& p2,
 										  const DirectX::SimpleMath::Vector3& p3);
+
+//方向ベクトルの算出
+void AxisFromQuaternion(const DirectX::SimpleMath::Quaternion& rotation,
+					    DirectX::SimpleMath::Vector3* axis);
 
 //衝突したオブジェクトが地面か壁かの判定
 OBBCollider::CollisionType DetermineCollisionType(const DirectX::SimpleMath::Vector3& normal);

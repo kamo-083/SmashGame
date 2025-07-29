@@ -87,13 +87,11 @@ void SphereCollider::SetRadius(float radius)
  */
 OBBCollider::OBBCollider()
 {
-	m_obb.center = { 0.0f, 0.0f, 0.0f };
-	m_obb.axis[0] = { 0.0f, 0.0f, 0.0f };
-	m_obb.axis[1] = { 0.0f, 0.0f, 0.0f };
-	m_obb.axis[2] = { 0.0f, 0.0f, 0.0f };
-	m_obb.halfLength = { 0.0f, 0.0f, 0.0f };
+	m_obb.center = SimpleMath::Vector3::Zero;
+	m_obb.rotation = SimpleMath::Quaternion::Identity;
+	m_obb.halfLength = SimpleMath::Vector3::Zero;
 
-	m_mtv.direction = { 0.0f, 0.0f, 0.0f };
+	m_mtv.direction = SimpleMath::Vector3::Zero;
 	m_mtv.distance = 0.0f;
 }
 
@@ -104,15 +102,14 @@ OBBCollider::OBBCollider()
  * @param[in] direction	 直方体の方向ベクトル
  * @param[in] halfLength 直方体の中心座標から面までの長さ
  */
-OBBCollider::OBBCollider(SimpleMath::Vector3 center, SimpleMath::Vector3 axis[3], SimpleMath::Vector3 halfLength)
+OBBCollider::OBBCollider(SimpleMath::Vector3 center, DirectX::SimpleMath::Quaternion rotation, SimpleMath::Vector3 halfLength)
 {
 	m_obb.center = center;
-	m_obb.axis[0] = axis[0];
-	m_obb.axis[1] = axis[1];
-	m_obb.axis[2] = axis[2];
 	m_obb.halfLength = halfLength;
+	m_obb.rotation = rotation;
+	AxisFromQuaternion(m_obb.rotation, m_obb.axis);
 
-	m_mtv.direction = { 0.0f, 0.0f, 0.0f };
+	m_mtv.direction = SimpleMath::Vector3::Zero;
 	m_mtv.distance = 0.0f;
 }
 
@@ -126,37 +123,19 @@ OBBCollider::~OBBCollider()
 /**
  * @brief 直方体の中心座標の取得
  *
- * @param[in] なし
+ * @param[in] 取得したい軸の番号 (x=0, y=1, z=2)
  *
  * @return 中心座標
  */
-SimpleMath::Vector3 OBBCollider::GetCenter() const
+float OBBCollider::GetCenter(int n) const
 {
-	return m_obb.center;
-}
-
-/**
- * @brief 直方体の方向ベクトルの取得
- *
- * @param[in] なし
- *
- * @return 方向ベクトル
- */
-SimpleMath::Vector3 OBBCollider::GetAxes(int n) const
-{
-	return m_obb.axis[n];
-}
-
-/**
- * @brief 直方体の中心座標から面までの長さの取得
- *
- * @param[in] なし
- *
- * @return 中心座標から面までの長さ
- */
-SimpleMath::Vector3 OBBCollider::GetHalfLength() const
-{
-	return m_obb.halfLength;
+	switch (n)
+	{
+	case 0:	 return m_obb.center.x;
+	case 1:	 return m_obb.center.y;
+	case 2:  return m_obb.center.z;
+	}
+	return 0.0f;
 }
 
 /**
@@ -173,60 +152,15 @@ float OBBCollider::GetHalfLength(int n) const
 	case 0:	 return m_obb.halfLength.x;
 	case 1:	 return m_obb.halfLength.y;
 	case 2:   return m_obb.halfLength.z;
-	default: return 0.0f;
 	}
 }
 
-/**
- * @brief 直方体の中心座標の設定
- *
- * @param[in] center 中心座標
- *
- * @return なし
- */
-void OBBCollider::SetCenter(SimpleMath::Vector3 center)
+void OBBCollider::SetRotation(DirectX::SimpleMath::Quaternion rotation)
 {
-	m_obb.center = center;
+	m_obb.rotation = rotation;
+	AxisFromQuaternion(m_obb.rotation, m_obb.axis);
 }
 
-/**
- * @brief 直方体の方向ベクトルの設定
- *
- * @param[in] axis 方向ベクトル
- *
- * @return なし
- */
-void OBBCollider::SetAxes(SimpleMath::Vector3 axis[3])
-{
-	m_obb.axis[0] = axis[0];
-	m_obb.axis[1] = axis[1];
-	m_obb.axis[2] = axis[2];
-}
-
-void OBBCollider::SetAxes(SimpleMath::Vector3 axis)
-{
-	float yaw = XMConvertToRadians(axis.y);
-	float pitch = XMConvertToRadians(axis.x);
-	float roll = XMConvertToRadians(axis.z);
-	//回転行列を作成
-	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateFromYawPitchRoll(yaw, pitch, roll);
-	//回転後の軸ベクトルを代入
-	m_obb.axis[0] = rot.Right();    // X軸
-	m_obb.axis[1] = rot.Up();       // Y軸
-	m_obb.axis[2] = rot.Forward();  // Z軸
-}
-
-/**
- * @brief 直方体の中心座標から面までの長さの設定
- *
- * @param[in] center 中心座標から面までの長さ
- *
- * @return なし
- */
-void OBBCollider::SetHalfLength(SimpleMath::Vector3 halfLength)
-{
-	m_obb.halfLength = halfLength;
-}
 
 
 ////当たり判定の処理 /////////////////////////////////////////
@@ -266,24 +200,23 @@ bool IsHit(const SphereCollider& sphereA, const SphereCollider& sphereB)
 bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB)
 {
 	//OBBの軸とサイズを取得 (方向ベクトルは正規化されていること)
-	SimpleMath::Vector3 axisA[3] =
+	SimpleMath::Vector3 axisA[3];
+	for (int i = 0; i < 3; i++)
 	{
-		obbA.GetAxes(0),
-		obbA.GetAxes(1),
-		obbA.GetAxes(2)
-	};
+		axisA[i] = obbA.GetAxis(i);
+	}
 	SimpleMath::Vector3 extentA[3] =
 	{
 		axisA[0] * obbA.GetHalfLength().x,
 		axisA[1] * obbA.GetHalfLength().y,
 		axisA[2] * obbA.GetHalfLength().z
 	};
-	SimpleMath::Vector3 axisB[3] =
+	
+	SimpleMath::Vector3 axisB[3];
+	for (int i = 0; i < 3; i++)
 	{
-		obbB.GetAxes(0),
-		obbB.GetAxes(1),
-		obbB.GetAxes(2)
-	};
+		axisB[i] = obbB.GetAxis(i);
+	}
 	SimpleMath::Vector3 extentB[3] =
 	{
 		axisB[0]* obbB.GetHalfLength().x,
@@ -364,13 +297,13 @@ bool IsHit(const OBBCollider& obb, const SphereCollider& sphere)
 
 		if (L <= 0) continue;
 
-		float s = delta.Dot(obb.GetAxes(i)) / L;	//投影距離/半径
+		float s = delta.Dot(obb.GetAxis(i)) / L;	//投影距離/半径
 
 		s = fabs(s);
 
 		if (s > 1.0f)
 		{
-			vec += (1.0f - s) * L * obb.GetAxes(i);
+			vec += (1.0f - s) * L * obb.GetAxis(i);
 		}
 	}
 
@@ -453,9 +386,9 @@ MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere)
 
 	for (int i = 0; i < 3; i++)
 	{
-		float dist = delta.Dot(obb.GetAxes(i));
+		float dist = delta.Dot(obb.GetAxis(i));
 		float clamped = std::max(-obb.GetHalfLength(i), std::min(dist, obb.GetHalfLength(i)));
-		closest += obb.GetAxes(i) * clamped;
+		closest += obb.GetAxis(i) * clamped;
 	}
 
 	//最近傍点と球の中心との距離を求める
@@ -543,6 +476,15 @@ DirectX::SimpleMath::Plane CalculatePlane(const DirectX::SimpleMath::Vector3& p1
 	float D = -(normal.Dot(p1));
 
 	return SimpleMath::Plane(normal.x, normal.y, normal.z, D);
+}
+
+void AxisFromQuaternion(const DirectX::SimpleMath::Quaternion& rotation, DirectX::SimpleMath::Vector3* axis)
+{
+	SimpleMath::Matrix rotMatrix = SimpleMath::Matrix::CreateFromQuaternion(rotation);
+
+	axis[0] = SimpleMath::Vector3(rotMatrix._11, rotMatrix._12, rotMatrix._13);	// X軸
+	axis[1] = SimpleMath::Vector3(rotMatrix._21, rotMatrix._22, rotMatrix._23);	// Y軸
+	axis[2] = SimpleMath::Vector3(rotMatrix._31, rotMatrix._32, rotMatrix._33);	// Z軸
 }
 
 OBBCollider::CollisionType DetermineCollisionType(const DirectX::SimpleMath::Vector3& normal)

@@ -44,6 +44,12 @@
     <Filter Include="Game\GameObjects\Stage">
       <UniqueIdentifier>{b5694175-ce38-4375-a57b-86887b4590b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameObjects\Player\State">
+      <UniqueIdentifier>{4df21cdd-abd0-4268-80f2-2e82d6bfbeb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObjects\Enemy\GroundEnemy\State">
+      <UniqueIdentifier>{1a8e2e9e-3781-47cb-b928-f64e6077cb1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -101,23 +107,11 @@
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.h">
       <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.h">
-      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.h">
-      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.h">
-      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Data\WeaponData.h">
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Interface\IState.h">
       <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Player\Player_Idle.h">
-      <Filter>Game\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Player\Player.h">
       <Filter>Game\GameObjects\Player</Filter>
@@ -128,20 +122,8 @@
     <ClInclude Include="Source\Game\GameObjects\Camera.h">
       <Filter>Game\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Player\Player_Walk.h">
-      <Filter>Game\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackBasic.h">
-      <Filter>Game\GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\UI\WeaponUI.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackRolling.h">
-      <Filter>Game\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackHeavy.h">
-      <Filter>Game\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Stage\BounceBox.h">
       <Filter>Game\GameObjects\Stage</Filter>
@@ -151,6 +133,30 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Stage\TargetBox.h">
       <Filter>Game\GameObjects\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_Walk.h">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackBasic.h">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackHeavy.h">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_AttackRolling.h">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Player\Player_Idle.h">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.h">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.h">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.h">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -195,19 +201,7 @@
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.cpp">
       <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.cpp">
-      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.cpp">
-      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.cpp">
-      <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Player\Player.cpp">
-      <Filter>Game\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Player\Player_Idle.cpp">
       <Filter>Game\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\Ground.cpp">
@@ -216,20 +210,8 @@
     <ClCompile Include="Source\Game\GameObjects\Camera.cpp">
       <Filter>Game\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Player\Player_Walk.cpp">
-      <Filter>Game\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackBasic.cpp">
-      <Filter>Game\GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\UI\WeaponUI.cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackRolling.cpp">
-      <Filter>Game\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackHeavy.cpp">
-      <Filter>Game\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\BounceBox.cpp">
       <Filter>Game\GameObjects\Stage</Filter>
@@ -239,6 +221,30 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\TargetBox.cpp">
       <Filter>Game\GameObjects\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackBasic.cpp">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackHeavy.cpp">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackRolling.cpp">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_Idle.cpp">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Player\Player_Walk.cpp">
+      <Filter>Game\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.cpp">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.cpp">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.cpp">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

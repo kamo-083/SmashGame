@@ -57,7 +57,7 @@ void BounceBox::Initialize(DirectX::SimpleMath::Vector3 position,
 
 	m_collider.SetCenter(m_position);
 	m_collider.SetHalfLength(m_halfLength);
-	m_collider.SetAxes(m_angle);
+	m_collider.SetRotation(SimpleMath::Quaternion::CreateFromYawPitchRoll(m_angle.y, m_angle.x, m_angle.z));
 }
 
 

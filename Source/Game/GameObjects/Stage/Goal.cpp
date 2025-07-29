@@ -54,7 +54,7 @@ void Goal::Initialize(DirectX::SimpleMath::Vector3 position)
 	m_position = position;
 
 	m_collider.SetCenter(m_position);
-	m_collider.SetAxes(SimpleMath::Vector3::Zero);
+	m_collider.SetRotation(SimpleMath::Quaternion::Identity);
 	m_collider.SetHalfLength(SimpleMath::Vector3(HALF_LENGTH, HALF_LENGTH, HALF_LENGTH));
 
 	m_canGoal = false;
