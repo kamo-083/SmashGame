@@ -44,10 +44,16 @@ void GroundEnemy_Walk::Initialize(ResourceManager* pResourceManager)
 
 void GroundEnemy_Walk::Update(const float& elapsedTime)
 {
-	SimpleMath::Vector3 force = m_pGroundEnemy->GetPlayerRelativeData().direction * MOVE_SPEED;
+	SimpleMath::Vector3 force = m_pGroundEnemy->GetPlayerRelativeData().direction * MOVE_SPEED * elapsedTime;
+
+	//‰ñ“]
+	if (m_pGroundEnemy->GetPlayerRelativeData().direction.x != 0.0f || m_pGroundEnemy->GetPlayerRelativeData().direction.z != 0.0f)
+	{
+		m_pGroundEnemy->SetRotY(std::atan2f(-m_pGroundEnemy->GetPlayerRelativeData().direction.x, -m_pGroundEnemy->GetPlayerRelativeData().direction.z));
+	}
 
 	// À•W‚ÌXV
-	m_pGroundEnemy->SetVelocity(m_pGroundEnemy->GetVelocity() + force * elapsedTime);
+	m_pGroundEnemy->SetVelocity(m_pGroundEnemy->GetVelocity() + force);
 	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime, m_pGroundEnemy->GetOnGround());
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
 
@@ -61,14 +67,22 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 	{
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Idle());
 	}
+
+	// UŒ‚ó‘Ô‚ÉØ‚è‘Ö‚¦
+	if (m_pGroundEnemy->GetPlayerRelativeData().distance <= m_pGroundEnemy->GetAttackCollider()->GetRadius())
+	{
+		m_pGroundEnemy->SetIsAttack(true);
+		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Attack());
+	}
 }
 
 
 void GroundEnemy_Walk::Render(RenderContext& context)
 {
-	DirectX::SimpleMath::Matrix world;
-	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
-	world = trans;
+	SimpleMath::Matrix world;
+	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
+	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
+	world = rot * trans;
 
 	m_model->Draw(context.deviceContext, *context.states,
 		world, context.view, context.projection, true);

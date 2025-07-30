@@ -19,6 +19,8 @@
 #include "Source/Game/Common/RenderContext.h"
 #include "GeometricPrimitive.h"
 
+#include"ImaseLib/DebugFont.h"
+
 
 // クラスの定義 ===============================================================
 /**
@@ -29,7 +31,7 @@ class BounceBox
 	// クラス定数の宣言 -------------------------------------------------
 private:
 	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 0.5f,0.5f,0.5f };
-	static constexpr float MASS = 1.0f;
+	static constexpr float MASS = 10.0f;
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -79,7 +81,7 @@ public:
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(RenderContext& context);
+	void Draw(RenderContext& context, Imase::DebugFont* debugFont);
 
 	// 終了処理
 	void Finalize();
@@ -88,7 +90,7 @@ public:
 	bool DetectCollisionToBox(OBBCollider obb);
 
 	// 攻撃との当たり判定
-	bool DetectCollisionToAttack(SphereCollider sphere, float power);
+	bool DetectCollisionToAttack(SphereCollider attack, SphereCollider player, float power);
 
 // 取得/設定
 public:

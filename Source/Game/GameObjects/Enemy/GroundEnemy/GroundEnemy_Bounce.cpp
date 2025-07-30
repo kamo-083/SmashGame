@@ -39,6 +39,8 @@ GroundEnemy_Bounce::~GroundEnemy_Bounce()
 void GroundEnemy_Bounce::Initialize(ResourceManager* pResourceManager)
 {
 	m_model = pResourceManager->GetModel("enemy");
+
+	m_pGroundEnemy->SetIsAttack(false);
 }
 
 
@@ -52,7 +54,8 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 	m_pGroundEnemy->GetCollider()->SetCenter(m_pGroundEnemy->GetPosition());
 
 	m_pGroundEnemy->SetOnGround(false);
-	if (m_pGroundEnemy->GetVelocity().Length() < 1.0f)
+
+	if (m_pGroundEnemy->GetVelocity().Length() < 1.0f)	//‰½ŒÌ‚©‚Á”ò‚Î‚³‚êó‘Ô‚É‚È‚Á‚Ä–ß‚Á‚Ä‚±‚È‚¢‚±‚Æ‚ª‚ ‚é
 	{
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Idle());
 	}
@@ -63,7 +66,8 @@ void GroundEnemy_Bounce::Render(RenderContext& context)
 {
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
-	world = trans;
+	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
+	world = rot * trans;
 
 	m_model->Draw(context.deviceContext, *context.states,
 		world, context.view, context.projection);

@@ -20,7 +20,10 @@
  * @param[in] ‚È‚µ
  */
 Enemy::Enemy()
-	:m_onGround{false}
+	:m_rotY{0.0f}
+	,m_onGround{false}
+	,m_isAttack{false}
+	,m_attackForce{0.0f}
 	,m_collisionType{OBBCollider::CollisionType::Others}
 {
 

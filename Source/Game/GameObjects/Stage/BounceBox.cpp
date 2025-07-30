@@ -87,7 +87,7 @@ void BounceBox::Update(float elapsedTime)
  *
  * @return Ç»Çµ
  */
-void BounceBox::Draw(RenderContext& context)
+void BounceBox::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
@@ -101,6 +101,9 @@ void BounceBox::Draw(RenderContext& context)
 	world = scale * rot * trans;
 
 	m_box->Draw(world, context.view, context.projection, DirectX::Colors::Yellow);
+
+	debugFont->AddString(0, 350, DirectX::Colors::Yellow, L"ExternalForce = %f,%f,%f",
+						 m_physics.GetExternalForce().Get().x, m_physics.GetExternalForce().Get().y, m_physics.GetExternalForce().Get().z);
 }
 
 
@@ -132,17 +135,16 @@ bool BounceBox::DetectCollisionToBox(OBBCollider obb)
 	return hit;
 }
 
-bool BounceBox::DetectCollisionToAttack(SphereCollider sphere, float power)
+bool BounceBox::DetectCollisionToAttack(SphereCollider attack, SphereCollider player, float power)
 {
-	bool hit = IsHit(m_collider, sphere);
+	bool hit = IsHit(m_collider, attack);
 
 	if (hit)
 	{
-		MTV mtv = CalculateMTV(m_collider, sphere);
+		MTV mtv = CalculateMTV(m_collider, player);
 
 		// êÅÇ¡îÚÇ‘ï˚å¸ÇÃê›íË
 		DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
-		knockbackDir.Normalize();
 
 		// êÅÇ¡îÚÇ‘óÕÇÃê›íË
 		float knockbackForce = mtv.distance * power;

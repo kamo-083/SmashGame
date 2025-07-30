@@ -68,6 +68,9 @@ private:
 	// ’n–Ê‚Æ‚ÌÚG
 	bool m_onGround;
 
+	// UŒ‚‚ğó‚¯‚Ä‚Á”ò‚Î‚³‚ê‚½
+	bool m_isBounce;
+
 	// ƒ‚ƒfƒ‹
 	DirectX::Model* m_model;
 
@@ -153,8 +156,7 @@ public:
 	void Attack();
 
 	// ˆÚ“®‚Ì•ûŒü‚Æ‰ñ“]
-	DirectX::SimpleMath::Vector3 MoveDirection(float elapsedTime,
-											   DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+	DirectX::SimpleMath::Vector3 MoveDirection(DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 											   Camera* camera);
 
 	// ˆÚ“®‘¬“x‚Ì§ŒÀ
@@ -163,6 +165,7 @@ public:
 	// “–‚½‚è”»’è
 	bool DetectCollisionToBox(OBBCollider collider);
 	bool DetectCollisionToSphere(SphereCollider collider);
+	bool DetectCollisionToAttack(SphereCollider collider, float power);
 
 	// æ“¾/İ’è
 public:
@@ -184,6 +187,8 @@ public:
 	bool GetIsAttack() { return m_isAttack; }
 	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
 	WeaponType GetWeaponType() { return m_weaponType; }
+	bool GetIsBounce() { return m_isBounce; }
+	void SetIsBounce(bool isBounce) { m_isBounce = isBounce; }
 	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
 
 	Player_Idle* GetState_Idle() { return m_idlingState.get(); }

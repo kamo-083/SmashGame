@@ -158,6 +158,9 @@
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.h">
       <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.h">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -244,6 +247,9 @@
       <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.cpp">
+      <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.cpp">
       <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
     </ClCompile>
   </ItemGroup>

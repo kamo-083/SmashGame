@@ -26,12 +26,12 @@ const float Enemy::MASS = 5.0f;		// 質量
  *
  * @param[in] なし
  */
-GroundEnemy::GroundEnemy()
+GroundEnemy::GroundEnemy(ID3D11DeviceContext* context)
 	:Enemy{}
 	,m_currentState{nullptr}
 	,m_playerRelationData{DirectX::SimpleMath::Vector3::Zero,0.0f}
 {
-
+	m_sphere = DirectX::GeometricPrimitive::CreateSphere(context);
 }
 
 
@@ -55,11 +55,18 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager)
 	// 着地判定の初期化
 	m_onGround = false;
 
+	// 攻撃の初期化
+	m_isAttack = false;
+	m_attackForce = 0.0f;
+
 	// 法線ベクトルの初期化
 	m_surfaceNormal = SimpleMath::Vector3::Zero;
 
 	// モデルの読み込み
 	m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\cat.sdkmesh");
+
+	// リソースマネージャの設定
+	m_pResourceManager = pResourceManager;
 
 	// 当たり判定の設定
 	m_collider.SetCenter(m_position);
@@ -79,6 +86,9 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager)
 	// 跳ね返り状態
 	m_bouncingState = std::make_unique<GroundEnemy_Bounce>(this);
 	m_bouncingState->Initialize(pResourceManager);
+	// 攻撃状態
+	m_attackingState = std::make_unique<GroundEnemy_Attack>(this);
+	m_attackingState->Initialize(pResourceManager);
 
 	// 初期状態の設定
 	m_currentState = m_idlingState.get();
@@ -94,8 +104,14 @@ void GroundEnemy::Update(float elapsedTime)
 void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
 	m_currentState->Render(context);
+	
+	bool bounce = false;
+	if (m_currentState == m_bouncingState.get()) true;
 
 	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
+	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"vel  = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
+	debugFont->AddString(0, 260, DirectX::Colors::Blue, L"atk  = %d", m_isAttack);
+	debugFont->AddString(0, 290, DirectX::Colors::Blue, L"boun = %d", bounce);
 }
 
 
@@ -107,7 +123,11 @@ void GroundEnemy::Finalize()
 
 void GroundEnemy::ChangeState(IState* newState)
 {
+	// 新規の状態を現在の状態に設定する
 	m_currentState = newState;
+
+	// 状態を初期化
+	m_currentState->Initialize(m_pResourceManager);
 }
 
 

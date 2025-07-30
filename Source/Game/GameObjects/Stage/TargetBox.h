@@ -30,7 +30,7 @@ class TargetBox
 	// クラス定数の宣言 -------------------------------------------------
 private:
 	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 0.5f,0.5f,0.5f };
-	static constexpr float MASS = 1.0f;
+	static constexpr float MASS = 10.0f;
 	static constexpr float TRIGGER_FORCE = 1.0f;
 
 	// データメンバの宣言 -----------------------------------------------

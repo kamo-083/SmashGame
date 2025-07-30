@@ -58,6 +58,13 @@ void Player_Idle::Update(const float& elapsedTime)
 	// •Ší‚ÌØ‚è‘Ö‚¦
 	m_pPlayer->ChangeWeapon(m_pKbTracker);
 
+	// ‚Á”ò‚Î‚³‚êó‘Ô
+	if (m_pPlayer->GetIsBounce())
+	{
+		if (m_pPlayer->GetVelocity().Length() < 1.0f) m_pPlayer->SetIsBounce(false);
+		else									      return;
+	}
+
 	// •à‚«ó‘Ô‚ÉØ‚è‘Ö‚¦
 	if (m_pKbTracker->GetLastState().W || m_pKbTracker->GetLastState().S || m_pKbTracker->GetLastState().A || m_pKbTracker->GetLastState().D)
 	{
@@ -79,7 +86,7 @@ void Player_Idle::Render(RenderContext& context)
 	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
 	world = rot * trans;
 
-	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.projection);
+	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.projection, m_pPlayer->GetIsBounce());
 }
 
 

@@ -66,7 +66,7 @@ void TestScene::Initialize()
 	m_player->Initialize(m_resourceManager, &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// “G‚Ìì¬
-	m_enemy = std::make_unique<GroundEnemy>();
+	m_enemy = std::make_unique<GroundEnemy>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
 	m_enemy->Initialize(m_resourceManager);
 
 	// ’n–Ê‚Ìì¬
@@ -129,13 +129,14 @@ void TestScene::Update(float elapsedTime)
 	m_player->DetectCollisionToBox(m_ground->GetCollider());
 	m_player->DetectCollisionToBox(m_bounceBox->GetCollider());
 	m_player->DetectCollisionToSphere(*m_enemy->GetCollider());
+	if (m_enemy->GetIsAttack()) m_player->DetectCollisionToAttack(*m_enemy->GetAttackCollider(), m_enemy->GetAttackForce());
 	// “G
 	m_enemy->DetectCollisionToBox(m_ground->GetCollider());
 	m_enemy->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
 	// ” 
 	if (m_player->GetIsAttack())
 	{
-		m_bounceBox->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
+		m_bounceBox->DetectCollisionToAttack(*m_player->GetAttackCollider(), *m_player->GetCollider(), m_player->GetAttackForce());
 	}
 	m_bounceBox->DetectCollisionToBox(m_ground->GetCollider());
 	// “I
@@ -175,7 +176,7 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	m_ground->Draw(context);
 
 	// ” ‚Ì•`‰æ
-	m_bounceBox->Draw(context);
+	m_bounceBox->Draw(context, debugFont);
 
 	// “I‚Ì•`‰æ
 	m_targetBox->Draw(context);

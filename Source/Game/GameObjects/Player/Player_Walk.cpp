@@ -49,7 +49,7 @@ void Player_Walk::Update(const float& elapsedTime)
 	DirectX::SimpleMath::Vector3 inputVelocity = DirectX::SimpleMath::Vector3::Zero;
 
 	//“ü—Í‚É‚æ‚éˆÚ“®‘¬“x
-	inputVelocity = m_pPlayer->MoveDirection(elapsedTime, m_pKbTracker, m_pCamera);
+	inputVelocity = m_pPlayer->MoveDirection(m_pKbTracker, m_pCamera);
 	if (m_pPlayer->GetOnGround())	inputVelocity *= GROUND_SPEED;
 	else							inputVelocity *= AIR_SPEED;
 

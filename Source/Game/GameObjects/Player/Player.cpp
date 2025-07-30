@@ -59,6 +59,9 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	// 着地
 	m_onGround = false;
 
+	// 吹っ飛ばされ状態
+	m_isBounce = false;
+
 	// 武器の設定
 	m_weaponType = WeaponType::BASIC;
 
@@ -75,8 +78,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_collider = SphereCollider(m_position, RADIUS);
 
 	// 攻撃判定の設定
-	DirectX::SimpleMath::Vector3 pos = { m_position.x, m_position.y - RADIUS * 2.0f, m_position.z - RADIUS };
-	m_attackCollider.SetRadius(RADIUS * 2.0f);
+	m_attackCollider = SphereCollider(m_position, RADIUS);
 
 	// キー操作のモードのポインタの設定
 	m_pKeyMode = keyMode;
@@ -179,8 +181,7 @@ void Player::Attack()
 	}
 }
 
-DirectX::SimpleMath::Vector3 Player::MoveDirection(float elapsedTime, 
-												   DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+DirectX::SimpleMath::Vector3 Player::MoveDirection(DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 												   Camera* camera)
 {
 	DirectX::SimpleMath::Vector3 forward = camera->GetForward();
@@ -276,6 +277,32 @@ bool Player::DetectCollisionToSphere(SphereCollider collider)
 			m_collider.SetCenter(m_position);
 			//SetAttackPosition();
 		}
+	}
+
+	return hit;
+}
+
+bool Player::DetectCollisionToAttack(SphereCollider collider, float power)
+{
+	bool hit = IsHit(collider, m_collider);
+
+	if (hit)
+	{
+		MTV mtv = CalculateMTV(collider, m_collider);
+
+		// 吹っ飛ぶ方向の設定
+		DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
+		knockbackDir.Normalize();
+
+		// 吹っ飛ぶ力の設定
+		float knockbackForce = (1.0f + mtv.distance) * power;
+
+		DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
+		m_physics.GetExternalForce().Add(force);
+
+		// 跳ね返り状態に遷移
+		m_isBounce = true;
+		ChangeState(m_idlingState.get());
 	}
 
 	return hit;

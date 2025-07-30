@@ -42,8 +42,17 @@ protected:
 	//速度
 	DirectX::SimpleMath::Vector3 m_velocity;
 
+	//角度
+	float m_rotY;
+
 	//地面
 	bool m_onGround;
+
+	//攻撃中
+	bool m_isAttack;
+
+	//攻撃力
+	float m_attackForce;
 
 	//直前に接触した物
 	OBBCollider::CollisionType m_collisionType;
@@ -59,6 +68,10 @@ protected:
 
 	// モデル
 	DirectX::Model* m_model;
+
+	// リソースマネージャ
+	ResourceManager* m_pResourceManager;
+
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
@@ -96,6 +109,10 @@ public:
 	float GetMass() { return MASS; }
 	bool GetOnGround() { return m_onGround; }
 	void SetOnGround(bool onGround) { m_onGround = onGround; }
+	bool GetIsAttack() { return m_isAttack; }
+	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
+	float GetAttackForce() { return m_attackForce; }
+	void SetAttackForce(float force) { m_attackForce = force; }
 
 // 内部実装
 private:

@@ -198,6 +198,7 @@
     <ClInclude Include="Source\Game\GameObjects\Camera.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\Enemy.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.h" />
+    <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.h" />
@@ -236,6 +237,7 @@
     <ClCompile Include="Source\Game\GameObjects\Camera.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Enemy\Enemy.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Bounce.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Idle.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Walk.cpp" />

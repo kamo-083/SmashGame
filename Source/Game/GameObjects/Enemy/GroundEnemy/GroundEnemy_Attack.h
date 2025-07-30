@@ -1,7 +1,7 @@
 /**
- * @file   GroundEnemy_Walk.h
+ * @file   GroundEnemy_Attack.h
  *
- * @brief  GroundEnemy_Walkに関するヘッダファイル
+ * @brief  GroundEnemy_Attackに関するヘッダファイル
  *
  * @author 制作者名
  *
@@ -27,13 +27,15 @@ class GroundEnemy;
 
 // クラスの定義 ===============================================================
 /**
- * @brief GroundEnemy_Walk
+ * @brief GroundEnemy_Attack
  */
-class GroundEnemy_Walk :public IState
+class GroundEnemy_Attack :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float MOVE_SPEED = 10.0f;	// 移動速度
+	static constexpr float ATTACK_FORCE = 5000.0f;
+	static constexpr float ATTACK_TIME = 2.0f;
+	static constexpr float ATTACK_SIZE = 1.0f;
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -43,15 +45,17 @@ private:
 	// モデル
 	DirectX::Model* m_model;
 
+	// 攻撃時間
+	float m_attackTime;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	GroundEnemy_Walk(GroundEnemy* groundEnemy);
+	GroundEnemy_Attack(GroundEnemy* groundEnemy);
 
 	// デストラクタ
-	~GroundEnemy_Walk();
+	~GroundEnemy_Attack();
 
 
 // 操作

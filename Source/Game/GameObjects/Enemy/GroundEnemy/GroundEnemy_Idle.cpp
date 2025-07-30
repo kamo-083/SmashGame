@@ -44,7 +44,6 @@ void GroundEnemy_Idle::Initialize(ResourceManager* pResourceManager)
 
 void GroundEnemy_Idle::Update(const float& elapsedTime)
 {
-
 	// À•W‚ÌXV
 	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime, m_pGroundEnemy->GetOnGround());
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
@@ -66,7 +65,8 @@ void GroundEnemy_Idle::Render(RenderContext& context)
 {
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
-	world = trans;
+	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
+	world = rot * trans;
 
 	m_model->Draw(context.deviceContext, *context.states,
 				  world, context.view, context.projection);

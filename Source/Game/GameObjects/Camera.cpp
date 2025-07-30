@@ -122,7 +122,7 @@ void Camera::SmoothCameraRotation(float elapsedTime)
 
 	// •âŠÔŒW”‚ÌŒvŽZ
 	m_lerpAngle += CAMERA_ROTATE_SPEED * elapsedTime;
-	if (m_lerpAngle > 1.0f)
+	if (m_lerpAngle >= 1.0f)
 	{
 		m_lerpAngle = 0.0f;
 		m_isRotation = false;
