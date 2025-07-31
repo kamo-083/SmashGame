@@ -132,7 +132,7 @@ void TestScene::Update(float elapsedTime)
 	if (m_enemy->GetIsAttack()) m_player->DetectCollisionToAttack(*m_enemy->GetAttackCollider(), m_enemy->GetAttackForce());
 	// “G
 	m_enemy->DetectCollisionToBox(m_ground->GetCollider());
-	m_enemy->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
+	if (m_player->GetIsAttack()) m_enemy->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
 	// ” 
 	if (m_player->GetIsAttack())
 	{

@@ -55,7 +55,7 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 
 	m_pGroundEnemy->SetOnGround(false);
 
-	if (m_pGroundEnemy->GetVelocity().Length() < 1.0f)	//‰½ŒÌ‚©‚Á”ò‚Î‚³‚êó‘Ô‚É‚È‚Á‚Ä–ß‚Á‚Ä‚±‚È‚¢‚±‚Æ‚ª‚ ‚é
+	if (m_pGroundEnemy->GetVelocity().Length() < 1.0f)
 	{
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Idle());
 	}

@@ -81,6 +81,9 @@ void Game::Update(DX::StepTimer const& timer)
     // シーンマネージャの更新
     m_sceneManager->Update(elapsedTime);
 
+    // Escでゲームを閉じる
+    auto kb = Keyboard::Get().GetState();
+    if (kb.Escape) ExitGame();
 }
 #pragma endregion
 
