@@ -23,6 +23,7 @@ using namespace DirectX;
 Player_Idle::Player_Idle(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ Player }
 	, m_pKbTracker{ kbTracker }
+	, m_stateType{StateType::Idle}
 {
 
 }

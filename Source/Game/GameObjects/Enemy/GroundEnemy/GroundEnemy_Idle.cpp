@@ -22,6 +22,7 @@ using namespace DirectX;
  */
 GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
 	:m_pGroundEnemy{groundEnemy}
+	,m_stateType{StateType::Idle}
 {
 
 }

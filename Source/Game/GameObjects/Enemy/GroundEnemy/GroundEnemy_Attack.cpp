@@ -22,6 +22,7 @@ using namespace DirectX;
  */
 GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy)
 	:m_pGroundEnemy{ groundEnemy }
+	,m_stateType{StateType::Attack}
 {
 
 }

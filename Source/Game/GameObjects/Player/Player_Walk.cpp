@@ -24,6 +24,7 @@ Player_Walk::Player_Walk(Player* player, Camera* camera, DirectX::Keyboard::Keyb
 	: m_pPlayer{ player }
 	, m_pKbTracker{ kbTracker }
 	, m_pCamera{ camera }
+	, m_stateType{StateType::Walk}
 {
 
 }

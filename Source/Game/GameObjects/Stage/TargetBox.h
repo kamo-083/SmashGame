@@ -17,6 +17,7 @@
 #include "Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include "Source/Game/Common/Collision.h"
 #include "Source/Game/Common/RenderContext.h"
+#include "Source/Game/Interface/IState.h"
 #include "Source/Game/GameObjects/Stage/Goal.h"
 #include "GeometricPrimitive.h"
 
@@ -31,7 +32,6 @@ class TargetBox
 private:
 	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 0.5f,0.5f,0.5f };
 	static constexpr float MASS = 10.0f;
-	static constexpr float TRIGGER_FORCE = 1.0f;
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -91,7 +91,7 @@ public:
 	void Finalize();
 
 	// 球との当たり判定
-	bool DetectCollisionToEnemy(SphereCollider enemy, float power);
+	bool DetectCollisionToEnemy(SphereCollider enemy, StateType state);
 
 // 取得/設定
 public:

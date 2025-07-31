@@ -3,6 +3,14 @@
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/ResourceManager.h"
 
+enum class StateType
+{
+	Idle,
+	Walk,
+	Attack,
+	Bounce,
+};
+
 class IState
 {
 public:
@@ -16,4 +24,7 @@ public:
 	virtual void Render(RenderContext& context) = 0;
 	// Œãˆ—
 	virtual void Finalize() = 0;	
+
+	// ó‘Ô‚Ìí—Ş‚ğæ“¾
+	virtual StateType GetStateType() const = 0;
 };

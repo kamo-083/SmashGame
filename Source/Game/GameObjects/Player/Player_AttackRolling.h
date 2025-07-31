@@ -60,6 +60,9 @@ private:
 	// 移動にかける力
 	DirectX::SimpleMath::Vector3 m_force;
 
+	// 状態の種類
+	StateType m_stateType;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -87,6 +90,9 @@ public:
 
 // 取得/設定
 public:
+	// 状態の種類を取得
+	StateType GetStateType() const override { return m_stateType; }
+
 
 // 内部実装
 private:

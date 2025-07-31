@@ -22,6 +22,7 @@ using namespace DirectX;
  */
 GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
 	:m_pGroundEnemy{ groundEnemy }
+	,m_stateType{StateType::Bounce}
 {
 
 }

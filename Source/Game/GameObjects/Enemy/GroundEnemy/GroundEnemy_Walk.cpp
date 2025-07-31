@@ -22,6 +22,7 @@ using namespace DirectX;
  */
 GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy)
 	:m_pGroundEnemy{ groundEnemy }
+	,m_stateType{StateType::Walk}
 {
 
 }

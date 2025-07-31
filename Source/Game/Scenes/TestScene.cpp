@@ -140,7 +140,7 @@ void TestScene::Update(float elapsedTime)
 	}
 	m_bounceBox->DetectCollisionToBox(m_ground->GetCollider());
 	// “I
-	m_targetBox->DetectCollisionToEnemy(*m_enemy->GetCollider(), 1.0f);
+	m_targetBox->DetectCollisionToEnemy(*m_enemy->GetCollider(), m_enemy->GetStateType());
 	// ƒS[ƒ‹
 	m_goal->DetectCollisionToPlayer(*m_player->GetCollider());
 

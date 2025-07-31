@@ -117,13 +117,13 @@ void TargetBox::Finalize()
 
 }
 
-bool TargetBox::DetectCollisionToEnemy(SphereCollider enemy, float power)
+bool TargetBox::DetectCollisionToEnemy(SphereCollider enemy, StateType state)
 {
 	bool hit = IsHit(m_collider, enemy);
 
 	if (hit)
 	{
-		if (power >= TRIGGER_FORCE) m_pGoal->CanGoal();
+		if (state == StateType::Bounce) m_pGoal->CanGoal();
 	}
 
 	return hit;

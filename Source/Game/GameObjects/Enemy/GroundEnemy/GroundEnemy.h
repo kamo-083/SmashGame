@@ -113,6 +113,7 @@ public:
 
 // Žæ“¾/Ý’è
 public:
+	StateType GetStateType() { return m_currentState->GetStateType(); }
 	IState* GetNowState() { return m_currentState; }
 	GroundEnemy_Idle* GetState_Idle() { return m_idlingState.get(); };
 	GroundEnemy_Walk* GetState_Walk() { return m_walkingState.get(); };
