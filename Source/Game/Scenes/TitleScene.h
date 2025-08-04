@@ -48,7 +48,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	TitleScene(SceneManager* pSceneManager, ResourceManager* pResourceManager);
+	TitleScene(SceneManager* pSceneManager, UserResources* pUserReources);
 
 	// デストラクタ
 	~TitleScene();

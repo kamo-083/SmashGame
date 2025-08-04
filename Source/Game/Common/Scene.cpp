@@ -12,6 +12,7 @@
 #include "pch.h"
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Common/SceneManager.h"
+#include "Source/Game/Common/UserResources.h"
 
 
 
@@ -22,9 +23,9 @@
  *
  * @param ‚È‚µ
  */
-Scene::Scene(SceneManager* pSceneManager, ResourceManager* pResourceManager)
+Scene::Scene(SceneManager* pSceneManager, UserResources* pUserReources)
 	: m_sceneManager{ pSceneManager }
-	, m_resourceManager{ pResourceManager }
+	, m_userResorces{ pUserReources }
 	, m_isSceneActive{ false }
 {
 

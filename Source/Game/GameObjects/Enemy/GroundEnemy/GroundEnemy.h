@@ -17,6 +17,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/GameObjects/Enemy/Enemy.h"
 #include"Source/Game/Interface/IState.h"
+#include"Source/Game/Common/UserResources.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Idle.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Walk.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Bounce.h"
@@ -69,6 +70,9 @@ private:
 	// 攻撃判定
 	SphereCollider m_attackCollider;
 
+	// 軌跡エフェクト
+	std::unique_ptr<TrajectoryParticle> m_trajectory;
+
 	//判定表示用の球
 	std::unique_ptr<DirectX::GeometricPrimitive> m_sphere;
 
@@ -77,7 +81,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	GroundEnemy(ID3D11DeviceContext* context);
+	GroundEnemy(UserResources* pUserResources);
 
 	// デストラクタ
 	~GroundEnemy();
@@ -125,6 +129,8 @@ public:
 	float GetRotY() { return m_rotY; }
 	void SetRotY(float rot) { m_rotY = rot + XM_PIDIV2; }	//モデルの向きの関係で少し調整
 	float GetRadius() { return RADIUS; }
+
+	TrajectoryParticle* GetTrajectoryParticle() { return m_trajectory.get(); }
 
 	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
 

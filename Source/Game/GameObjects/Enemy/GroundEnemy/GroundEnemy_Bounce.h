@@ -18,6 +18,7 @@
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/Effect/Trajectory/TrajectoryParticle.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
 
@@ -43,6 +44,9 @@ private:
 
 	// 状態の種類
 	StateType m_stateType;
+
+	// とりあえず吹き飛んでる間はエフェクトを付けたい
+	std::unique_ptr<TrajectoryParticle> m_trajectory;
 
 
 	// メンバ関数の宣言 -------------------------------------------------

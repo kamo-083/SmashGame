@@ -50,6 +50,18 @@
     <Filter Include="Game\GameObjects\Enemy\GroundEnemy\State">
       <UniqueIdentifier>{1a8e2e9e-3781-47cb-b928-f64e6077cb1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{b308b5bc-39ca-475e-9d7f-ffadb700327e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{b2acdf21-3cd6-4cec-99d7-6628900e46f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Circle">
+      <UniqueIdentifier>{b63a5832-5a2a-4ba0-aabf-8d9cc17abfcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Trajectory">
+      <UniqueIdentifier>{75d136f8-c9be-4678-a875-acdb72b33ff3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -161,6 +173,24 @@
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.h">
       <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticleUtility.h">
+      <Filter>Effect\Trajectory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticle.h">
+      <Filter>Effect\Trajectory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Effect\Circle\CircleParticleUtility.h">
+      <Filter>Effect\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h">
+      <Filter>Effect\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\BinaryFile.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\UserResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -252,6 +282,21 @@
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.cpp">
       <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Effect\Trajectory\TrajectoryParticle.cpp">
+      <Filter>Effect\Trajectory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Effect\Trajectory\TrajectoryParticleUtility.cpp">
+      <Filter>Effect\Trajectory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Effect\Circle\CircleParticle.cpp">
+      <Filter>Effect\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Effect\Circle\CircleParticleUtility.cpp">
+      <Filter>Effect\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\BinaryFile.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\directx.ico">
@@ -268,5 +313,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Shaders\Particle.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resources\Shaders\ParticleVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

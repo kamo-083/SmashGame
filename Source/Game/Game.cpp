@@ -46,13 +46,10 @@ void Game::Initialize(HWND window, int width, int height)
 
     // スプライトバッチの作成
     m_spriteBatch = std::make_unique<SpriteBatch>(context);
-
-    // シーンマネージャの作成
-    m_sceneManager = std::make_unique<SceneManager>(m_deviceResources.get());
     
     // 各シーンの作成
-    m_sceneManager->Register("TestScene", std::make_unique<TestScene>(m_sceneManager.get(), m_sceneManager->GetResourceManager()));
-    m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_sceneManager->GetResourceManager()));
+    m_sceneManager->Register("TestScene", std::make_unique<TestScene>(m_sceneManager.get(), m_userResources.get()));
+    m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_userResources.get()));
 
     // 開始シーンの設定
     m_sceneManager->SetStartScene("TestScene");
@@ -116,6 +113,9 @@ void Game::Render()
 
     // シーンマネージャの描画
     m_sceneManager->Render(renderContext);
+
+    // デバッグフォントの描画
+    m_debugFont->Render(m_states.get());
 
     m_deviceResources->PIXEndEvent();
 
@@ -204,12 +204,28 @@ void Game::GetDefaultSize(int& width, int& height) const noexcept
 void Game::CreateDeviceDependentResources()
 {
     auto device = m_deviceResources->GetD3DDevice();
+    auto context = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Initialize device dependent objects here (independent of window size).
-    device;
 
     // 共通ステートの作成
     m_states = std::make_unique<CommonStates>(device);
+
+    // リソースマネージャーの作成
+    m_resourceManager = std::make_unique<ResourceManager>(device);
+
+    // デバッグフォントの作成
+    m_debugFont = std::make_unique<Imase::DebugFont>(device, context, L"Resources/Font/SegoeUI_18.spritefont");
+
+    // ユーザーリソースの設定
+    m_userResources = std::make_unique<UserResources>();
+    m_userResources->SetStepTimerStates(&m_timer);
+    m_userResources->SetDeviceResources(m_deviceResources.get());
+    m_userResources->SetDebugFont(m_debugFont.get());
+    m_userResources->SetResourceManager(m_resourceManager.get());
+
+     // シーンマネージャの作成
+    m_sceneManager = std::make_unique<SceneManager>(m_userResources.get());
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.

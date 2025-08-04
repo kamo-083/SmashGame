@@ -21,6 +21,7 @@
 // クラスの宣言 ===============================================================
 class SceneManager;
 class ResourceManager;
+class UserResources;
 
 
 // クラスの定義 ===============================================================
@@ -36,11 +37,11 @@ protected:
 	// シーンマネージャ
 	SceneManager* m_sceneManager;
 
-	// リソースマネージャ
-	ResourceManager* m_resourceManager;
-
 	// キーボードトラッカー
 	DirectX::Keyboard::KeyboardStateTracker m_kbTracker;
+
+	// ユーザーリソース
+	UserResources* m_userResorces;
 
 	//シーンが有効かどうか
 	bool m_isSceneActive;
@@ -50,7 +51,7 @@ protected:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Scene(SceneManager* pSceneManager, ResourceManager* pResourceManager);
+	Scene(SceneManager* pSceneManager, UserResources* pUserReources);
 
 	// デストラクタ
 	virtual ~Scene();

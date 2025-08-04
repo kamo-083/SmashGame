@@ -182,6 +182,7 @@
     <ClInclude Include="ImaseLib\DebugFont.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Source\Game\Common\AudioManager.h" />
+    <ClInclude Include="Source\Game\Common\BinaryFile.h" />
     <ClInclude Include="Source\Game\Common\Collision.h" />
     <ClInclude Include="Source\Game\Common\DeviceResources.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h" />
@@ -193,7 +194,12 @@
     <ClInclude Include="Source\Game\Common\Scene.h" />
     <ClInclude Include="Source\Game\Common\SceneManager.h" />
     <ClInclude Include="Source\Game\Common\StepTimer.h" />
+    <ClInclude Include="Source\Game\Common\UserResources.h" />
     <ClInclude Include="Source\Game\Data\WeaponData.h" />
+    <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h" />
+    <ClInclude Include="Source\Game\Effect\Circle\CircleParticleUtility.h" />
+    <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticle.h" />
+    <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticleUtility.h" />
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\GameObjects\Camera.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\Enemy.h" />
@@ -224,12 +230,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Game\Common\AudioManager.cpp" />
+    <ClCompile Include="Source\Game\Common\BinaryFile.cpp" />
     <ClCompile Include="Source\Game\Common\Collision.cpp" />
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp" />
     <ClCompile Include="Source\Game\Common\PhysicsEngine\PhysicsObject.cpp" />
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
     <ClCompile Include="Source\Game\Common\SceneManager.cpp" />
+    <ClCompile Include="Source\Game\Effect\Circle\CircleParticle.cpp" />
+    <ClCompile Include="Source\Game\Effect\Circle\CircleParticleUtility.cpp" />
+    <ClCompile Include="Source\Game\Effect\Trajectory\TrajectoryParticle.cpp" />
+    <ClCompile Include="Source\Game\Effect\Trajectory\TrajectoryParticleUtility.cpp" />
     <ClCompile Include="Source\Game\Game.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
@@ -267,6 +278,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Shaders\Particle.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Shaders\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Resources\Shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Shaders\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Resources\Shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Shaders\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Resources\Shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

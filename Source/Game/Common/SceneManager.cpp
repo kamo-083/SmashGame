@@ -23,15 +23,13 @@ using namespace DirectX;
  *
  * @param ‚È‚µ
  */
-SceneManager::SceneManager(DX::DeviceResources* pDR)
+SceneManager::SceneManager(UserResources* pUserResources)
 	: m_scenes{}
 	, m_pCurrentScene{ nullptr }
 	, m_pRequestedScene{ nullptr }
 	, m_sharedData{}
-	, m_pDeviceResources{ pDR }
-	, m_debugFont{ m_pDeviceResources->GetD3DDevice(), m_pDeviceResources->GetD3DDeviceContext(), L"Resources/Font/SegoeUI_18.spritefont" }
+	, m_userResources{ pUserResources }
 {
-	m_resourceManager = std::make_unique<ResourceManager>(m_pDeviceResources->GetD3DDevice());
 }
 
 
@@ -102,12 +100,11 @@ void SceneManager::Render(RenderContext context)
 	// Œ»Ý‚ÌƒV[ƒ“‚ð•`‰æ
 	if (m_pCurrentScene)
 	{
-		m_pCurrentScene->Render(context, &m_debugFont);
+		m_pCurrentScene->Render(context, m_userResources->GetDebugFont());
 	}
 
 	//ƒV[ƒ“–¼‚±‚±‚Å•`‰æ‚µ‚Ä‚à‚¢‚¢‚©‚à‚µ‚ê‚È‚¢
-	m_debugFont.AddString(0, 0, Colors::White, L"SceneManager");
-	m_debugFont.Render(context.states);
+	m_userResources->GetDebugFont()->AddString(0, 0, Colors::White, L"SceneManager");
 }
 
 

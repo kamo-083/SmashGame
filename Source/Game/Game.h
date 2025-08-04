@@ -7,7 +7,10 @@
 #include "Source/Game/Common/DeviceResources.h"
 #include "Source/Game/Common/StepTimer.h"
 #include "Source/Game/Common/SceneManager.h"
+#include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Common/Scene.h"
+#include "Source/Game/Common/UserResources.h"
+#include "ImaseLib/DebugFont.h"
 
 
 // A basic game implementation that creates a D3D11 device and
@@ -72,7 +75,15 @@ private:
     // 射影行列
     DirectX::SimpleMath::Matrix m_proj;
 
-    // シーンマネージャ
+    // シーンマネージャー
     std::unique_ptr<SceneManager> m_sceneManager;
 
+    // リソースマネージャー
+    std::unique_ptr<ResourceManager> m_resourceManager;
+
+    // ユーザーリソース
+    std::unique_ptr<UserResources> m_userResources;
+
+    // デバッグフォント
+    std::unique_ptr <Imase::DebugFont> m_debugFont;
 };

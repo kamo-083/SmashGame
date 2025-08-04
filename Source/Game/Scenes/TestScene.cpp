@@ -25,8 +25,8 @@ using namespace DirectX;
  * @param[in] sceneManager    シーンを管理しているマネージャ
  * @param[in] resourceManager リソースを管理しているマネージャ
  */
-TestScene::TestScene(SceneManager* pSceneManager, ResourceManager* pResourceManager)
-	: Scene{ pSceneManager,pResourceManager }
+TestScene::TestScene(SceneManager* pSceneManager, UserResources* pUserReources)
+	: Scene{ pSceneManager,pUserReources }
 	, m_keyMode{false}
 {
 
@@ -57,32 +57,32 @@ void TestScene::Initialize()
 	m_camera = std::make_unique<Camera>();
 
 	// 武器UIの作成
-	m_weaponUI = std::make_unique<WeaponUI>(m_sceneManager->GetDeviceResources()->GetOutputSize().right,
-		m_sceneManager->GetDeviceResources()->GetOutputSize().bottom);
-	m_weaponUI->Initialize(m_resourceManager);
+	m_weaponUI = std::make_unique<WeaponUI>(m_userResorces->GetDeviceResources()->GetOutputSize().right,
+		m_userResorces->GetDeviceResources()->GetOutputSize().bottom);
+	m_weaponUI->Initialize(m_userResorces->GetResourceManager());
 
 	// プレイヤーの作成
-	m_player = std::make_unique<Player>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
-	m_player->Initialize(m_resourceManager, &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
+	m_player = std::make_unique<Player>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
+	m_player->Initialize(m_userResorces->GetResourceManager(), &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// 敵の作成
-	m_enemy = std::make_unique<GroundEnemy>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
-	m_enemy->Initialize(m_resourceManager);
+	m_enemy = std::make_unique<GroundEnemy>(m_userResorces);
+	m_enemy->Initialize(m_userResorces->GetResourceManager());
 
 	// 地面の作成
-	m_ground = std::make_unique<Ground>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_ground = std::make_unique<Ground>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_ground->Initialize();
 
 	// ゴールの作成
-	m_goal = std::make_unique<Goal>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_goal = std::make_unique<Goal>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_goal->Initialize(SimpleMath::Vector3(-2.0f, 1.0f, 2.0f));
 
 	// 箱の作成
-	m_bounceBox = std::make_unique<BounceBox>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_bounceBox = std::make_unique<BounceBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_bounceBox->Initialize(SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
-	
+
 	// 的の作成
-	m_targetBox = std::make_unique<TargetBox>(m_sceneManager->GetDeviceResources()->GetD3DDeviceContext());
+	m_targetBox = std::make_unique<TargetBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_targetBox->Initialize(m_goal.get(), SimpleMath::Vector3(-2.0f, 0.5f, -2.0f));
 
 	// カメラの初期化

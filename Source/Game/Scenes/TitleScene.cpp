@@ -23,8 +23,8 @@ using namespace DirectX;
  * @param[in] sceneManager    シーンを管理しているマネージャ
  * @param[in] resourceManager リソースを管理しているマネージャ
  */
-TitleScene::TitleScene(SceneManager* pSceneManager, ResourceManager* pResourceManager)
-	: Scene{ pSceneManager,pResourceManager }
+TitleScene::TitleScene(SceneManager* pSceneManager, UserResources* pUserReources)
+	: Scene{ pSceneManager,pUserReources }
 {
 
 }

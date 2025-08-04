@@ -83,7 +83,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	TestScene(SceneManager* pSceneManager, ResourceManager* pResourceManager);
+	TestScene(SceneManager* pSceneManager, UserResources* pUserReources);
 
 	// デストラクタ
 	~TestScene();

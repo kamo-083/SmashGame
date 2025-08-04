@@ -20,6 +20,7 @@
 #include <unordered_map>
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Common/UserResources.h"
 
 #include "ImaseLib/DebugFont.h"
 
@@ -52,17 +53,14 @@ private:
 
 	SharedData m_sharedData;    ///< 共有データ
 
-	std::unique_ptr<ResourceManager> m_resourceManager;
+	UserResources* m_userResources;
 
-	DX::DeviceResources* m_pDeviceResources;
-
-	Imase::DebugFont m_debugFont;
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	SceneManager(DX::DeviceResources* pDR);
+	SceneManager(UserResources* pUserResources);
 
 	// デストラクタ
 	~SceneManager();
@@ -88,8 +86,7 @@ public:
 
 // 取得/設定
 public:
-	ResourceManager* GetResourceManager() { return m_resourceManager.get(); }
-	DX::DeviceResources* GetDeviceResources() { return m_pDeviceResources; }
+	UserResources* GetUserResources() { return m_userResources; }
 
 // 内部実装
 private:

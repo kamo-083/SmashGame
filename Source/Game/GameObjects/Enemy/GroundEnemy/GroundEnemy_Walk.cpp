@@ -45,12 +45,15 @@ void GroundEnemy_Walk::Initialize(ResourceManager* pResourceManager)
 
 void GroundEnemy_Walk::Update(const float& elapsedTime)
 {
-	SimpleMath::Vector3 force = m_pGroundEnemy->GetPlayerRelativeData().direction * MOVE_SPEED * elapsedTime;
+	// プレイヤーとの距離と方向を取得
+	GroundEnemy::PlayerRelationData playerData = m_pGroundEnemy->GetPlayerRelativeData();
+
+	SimpleMath::Vector3 force = playerData.direction * MOVE_SPEED * elapsedTime;
 
 	//回転
-	if (m_pGroundEnemy->GetPlayerRelativeData().direction.x != 0.0f || m_pGroundEnemy->GetPlayerRelativeData().direction.z != 0.0f)
+	if (playerData.direction.x != 0.0f || playerData.direction.z != 0.0f)
 	{
-		m_pGroundEnemy->SetRotY(std::atan2f(-m_pGroundEnemy->GetPlayerRelativeData().direction.x, -m_pGroundEnemy->GetPlayerRelativeData().direction.z));
+		m_pGroundEnemy->SetRotY(std::atan2f(-playerData.direction.x, -playerData.direction.z));
 	}
 
 	// 座標の更新
@@ -63,17 +66,17 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 
 	m_pGroundEnemy->SetOnGround(false);
 
-	// 待機状態に切り替え
-	if (m_pGroundEnemy->GetPlayerRelativeData().distance > GroundEnemy::DitectionRange)
-	{
-		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Idle());
-	}
-
 	// 攻撃状態に切り替え
-	if (m_pGroundEnemy->GetPlayerRelativeData().distance <= m_pGroundEnemy->GetAttackCollider()->GetRadius())
+	if (playerData.distance <= m_pGroundEnemy->GetAttackCollider()->GetRadius())
 	{
 		m_pGroundEnemy->SetIsAttack(true);
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Attack());
+	}
+
+	// 待機状態に切り替え
+	if (playerData.distance > GroundEnemy::DitectionRange)
+	{
+		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Idle());
 	}
 }
 

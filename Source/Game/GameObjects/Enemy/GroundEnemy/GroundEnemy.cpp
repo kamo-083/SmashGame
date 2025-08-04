@@ -26,12 +26,21 @@ const float Enemy::MASS = 5.0f;		// 質量
  *
  * @param[in] なし
  */
-GroundEnemy::GroundEnemy(ID3D11DeviceContext* context)
+GroundEnemy::GroundEnemy(UserResources* pUserResources)
 	:Enemy{}
 	,m_currentState{nullptr}
 	,m_playerRelationData{DirectX::SimpleMath::Vector3::Zero,0.0f}
 {
-	m_sphere = DirectX::GeometricPrimitive::CreateSphere(context);
+	m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
+
+	// 軌跡エフェクトの作成
+	m_trajectory = std::make_unique<TrajectoryParticle>();
+	m_trajectory->Create(
+		pUserResources->GetDeviceResources(),
+		L"Resources/Textures/Effect/smoke.png",
+		0.5f,
+		3.0f,
+		SimpleMath::Color(1, 1, 1, 1));
 }
 
 
@@ -109,7 +118,8 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	if (m_currentState == m_bouncingState.get()) true;
 
 	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
-	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"vel  = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
+	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"dirc  = %f,%f,%f",
+		m_playerRelationData.direction.x, m_playerRelationData.direction.y, m_playerRelationData.direction.z);
 	debugFont->AddString(0, 260, DirectX::Colors::Blue, L"atk  = %d", m_isAttack);
 	debugFont->AddString(0, 290, DirectX::Colors::Blue, L"boun = %d", bounce);
 }
@@ -134,11 +144,12 @@ void GroundEnemy::ChangeState(IState* newState)
 void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius)
 {
 	m_playerRelationData.direction = pos - m_position;
-	//m_playerRelationData.direction.Normalize();
 
 	float centerDistance = m_playerRelationData.direction.Length();
 	float radiusSum = radius + RADIUS;
 	m_playerRelationData.distance = std::fabs(radiusSum - centerDistance);
+
+	m_playerRelationData.direction.Normalize();
 }
 
 
