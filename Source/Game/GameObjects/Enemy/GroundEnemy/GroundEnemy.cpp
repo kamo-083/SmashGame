@@ -15,9 +15,10 @@
 using namespace DirectX;
 
 // 定数
-const float Enemy::RADIUS = 0.5f;	// 半径
-const float Enemy::SPEED = 5.0f;	// 移動速度
-const float Enemy::MASS = 5.0f;		// 質量
+const float Enemy::RADIUS = 0.5f;		// 半径
+const float Enemy::SPEED = 5.0f;		// 移動速度
+const float Enemy::MASS = 5.0f;			// 質量
+const float Enemy::MAX_SPEED = 10.0f;	// 最高速度
 
 
 // メンバ関数の定義 ===========================================================
@@ -39,7 +40,7 @@ GroundEnemy::GroundEnemy(UserResources* pUserResources)
 		pUserResources->GetDeviceResources(),
 		L"Resources/Textures/Effect/smoke.png",
 		0.5f,
-		3.0f,
+		2.0f,
 		SimpleMath::Color(1, 1, 1, 1));
 }
 
@@ -107,6 +108,9 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager)
 void GroundEnemy::Update(float elapsedTime)
 {
 	m_currentState->Update(elapsedTime);
+
+	// 軌跡エフェクトの更新
+	m_trajectory->Update(elapsedTime, m_position, GetStateType() == StateType::Bounce);
 }
 
 
@@ -114,14 +118,13 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
 	m_currentState->Render(context);
 	
-	bool bounce = false;
-	if (m_currentState == m_bouncingState.get()) true;
+	m_trajectory->Render(context.view, context.projection);
 
 	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
-	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"dirc  = %f,%f,%f",
-		m_playerRelationData.direction.x, m_playerRelationData.direction.y, m_playerRelationData.direction.z);
+	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"vel  = %f,%f,%f",
+		m_velocity.x, m_velocity.y, m_velocity.z);
 	debugFont->AddString(0, 260, DirectX::Colors::Blue, L"atk  = %d", m_isAttack);
-	debugFont->AddString(0, 290, DirectX::Colors::Blue, L"boun = %d", bounce);
+	debugFont->AddString(0, 290, DirectX::Colors::Blue, L"state= %d", GetStateType());
 }
 
 
@@ -138,6 +141,14 @@ void GroundEnemy::ChangeState(IState* newState)
 
 	// 状態を初期化
 	m_currentState->Initialize(m_pResourceManager);
+}
+
+
+void GroundEnemy::LimitVelocity()
+{
+	m_velocity.x = std::min(std::max(m_velocity.x, -MAX_SPEED), MAX_SPEED);
+	m_velocity.y = std::min(std::max(m_velocity.y, -MAX_SPEED), MAX_SPEED);
+	m_velocity.z = std::min(std::max(m_velocity.z, -MAX_SPEED), MAX_SPEED);
 }
 
 

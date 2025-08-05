@@ -104,6 +104,9 @@ public:
 	// 状態遷移
 	void ChangeState(IState* newState);
 
+	// 移動速度の制限
+	void LimitVelocity();
+
 	// プレイヤーの距離・向きの計算
 	void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos,float radius);
 
@@ -136,6 +139,5 @@ public:
 
 // 内部実装
 private:
-
 
 };

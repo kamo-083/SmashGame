@@ -47,7 +47,10 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Ground(ID3D11DeviceContext* context);
+	Ground(ID3D11DeviceContext* context,
+		   DirectX::SimpleMath::Vector3 position = CENTER_POS,
+		   DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
+		   DirectX::SimpleMath::Vector3 angle = ANGLE);
 
 	// デストラクタ
 	~Ground();
@@ -56,9 +59,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(DirectX::SimpleMath::Vector3 position = CENTER_POS,
-					DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
-					DirectX::SimpleMath::Vector3 angle = ANGLE);
+	void Initialize();
 
 	// 更新処理
 	void Update();

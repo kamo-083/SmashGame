@@ -64,7 +64,7 @@ private:
 	std::unique_ptr<GroundEnemy> m_enemy;
 
 	//’n–Ê
-	std::unique_ptr<Ground> m_ground;
+	std::vector<std::unique_ptr<Ground>> m_grounds;
 
 	//” 
 	std::unique_ptr<BounceBox> m_bounceBox;

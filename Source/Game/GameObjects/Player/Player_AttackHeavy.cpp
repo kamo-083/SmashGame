@@ -49,7 +49,8 @@ void Player_AttackHeavy::Initialize(ResourceManager* pResourceManager)
 	m_attackTime = ATTACK_TIME;
 
 	// UŒ‚”»’è‚ÌÝ’è
-	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(m_pPlayer->GetRotY()), 0.0f, cosf(m_pPlayer->GetRotY()));
+	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(
+		sinf(m_pPlayer->GetRotY()), m_pPlayer->GetRadius(), cosf(m_pPlayer->GetRotY()));
 	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition() - forward * m_pPlayer->GetRadius());
 	m_pPlayer->GetAttackCollider()->SetRadius(m_pPlayer->GetRadius() * ATTACK_SIZE);
 }
@@ -68,7 +69,8 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	m_pPlayer->GetCollider()->SetCenter(m_pPlayer->GetPosition());
 
 	// UŒ‚”»’è‚ÌXV
-	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(m_pPlayer->GetRotY()), 0.0f, cosf(m_pPlayer->GetRotY()));
+	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(
+		sinf(m_pPlayer->GetRotY()), m_pPlayer->GetRadius(), cosf(m_pPlayer->GetRotY()));
 	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition() - forward * m_pPlayer->GetRadius());
 
 	m_pPlayer->SetOnGround(false);

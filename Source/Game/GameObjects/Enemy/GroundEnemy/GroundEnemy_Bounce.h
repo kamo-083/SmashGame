@@ -45,9 +45,6 @@ private:
 	// 状態の種類
 	StateType m_stateType;
 
-	// とりあえず吹き飛んでる間はエフェクトを付けたい
-	std::unique_ptr<TrajectoryParticle> m_trajectory;
-
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ

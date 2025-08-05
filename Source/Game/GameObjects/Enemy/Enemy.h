@@ -33,6 +33,8 @@ protected:
 	const static float RADIUS;		//半径の大きさ
 	const static float SPEED;		//移動速度
 	const static float MASS;		//質量[kg]
+	const static float MAX_SPEED;	//最高速度
+
 
 // データメンバの宣言 -----------------------------------------------
 protected:

@@ -24,7 +24,6 @@ GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
 	:m_pGroundEnemy{ groundEnemy }
 	,m_stateType{StateType::Bounce}
 {
-	m_trajectory = std::make_unique<TrajectoryParticle>();
 }
 
 
@@ -49,13 +48,11 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 {
 	// 座標の更新
 	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime, m_pGroundEnemy->GetOnGround());
+	m_pGroundEnemy->LimitVelocity();
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新
 	m_pGroundEnemy->GetCollider()->SetCenter(m_pGroundEnemy->GetPosition());
-
-	// 軌跡エフェクトの更新
-	m_pGroundEnemy->GetTrajectoryParticle()->Update(elapsedTime, m_pGroundEnemy->GetPosition());
 
 	m_pGroundEnemy->SetOnGround(false);
 
@@ -75,8 +72,6 @@ void GroundEnemy_Bounce::Render(RenderContext& context)
 
 	m_model->Draw(context.deviceContext, *context.states,
 		world, context.view, context.projection);
-
-	m_pGroundEnemy->GetTrajectoryParticle()->Render(context.view, context.projection);
 }
 
 
