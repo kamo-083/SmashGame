@@ -18,6 +18,7 @@
 #include"Source/Game/GameObjects/Enemy/Enemy.h"
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/UserResources.h"
+#include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Idle.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Walk.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Bounce.h"
@@ -103,6 +104,9 @@ public:
 
 	// 状態遷移
 	void ChangeState(IState* newState);
+
+	// エフェクトの更新
+	void UpdateEffect(float elapsedTime, Camera* camera);
 
 	// 移動速度の制限
 	void LimitVelocity();

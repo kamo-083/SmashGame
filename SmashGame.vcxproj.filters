@@ -191,6 +191,9 @@
     <ClInclude Include="Source\Game\Common\UserResources.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Common\EffectManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -295,6 +298,9 @@
       <Filter>Effect\Circle</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Common\BinaryFile.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\EffectManager.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>

@@ -131,6 +131,9 @@ void TestScene::Update(float elapsedTime)
 	if(!m_keyMode) m_camera->Rotation(&m_kbTracker);
 	m_camera->Update(&m_kbTracker, elapsedTime);
 
+	// エフェクトの更新
+	m_enemy->UpdateEffect(elapsedTime, m_camera.get());
+
 	// 仮リスポーン
 	if (m_player->GetPosition().y <= -10.0f)
 		m_player->Initialize(m_userResorces->GetResourceManager(), &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);

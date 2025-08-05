@@ -108,9 +108,6 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager)
 void GroundEnemy::Update(float elapsedTime)
 {
 	m_currentState->Update(elapsedTime);
-
-	// 軌跡エフェクトの更新
-	m_trajectory->Update(elapsedTime, m_position, GetStateType() == StateType::Bounce);
 }
 
 
@@ -141,6 +138,14 @@ void GroundEnemy::ChangeState(IState* newState)
 
 	// 状態を初期化
 	m_currentState->Initialize(m_pResourceManager);
+}
+
+
+void GroundEnemy::UpdateEffect(float elapsedTime, Camera* camera)
+{
+	// 軌跡エフェクトの更新
+	m_trajectory->Update(elapsedTime, m_position, GetStateType() == StateType::Bounce);
+	m_trajectory->CreateBillboard(m_position, camera->GetTarget(), camera->GetEye(), camera->GetUp());
 }
 
 
