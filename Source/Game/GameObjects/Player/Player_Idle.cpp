@@ -40,7 +40,7 @@ Player_Idle::~Player_Idle()
 
 void Player_Idle::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/mouse.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
 }
 
 

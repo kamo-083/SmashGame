@@ -42,7 +42,7 @@ Player_AttackRolling::~Player_AttackRolling()
 
 void Player_AttackRolling::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/mouse.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
 
 	// —Í‚ÌÝ’è
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);

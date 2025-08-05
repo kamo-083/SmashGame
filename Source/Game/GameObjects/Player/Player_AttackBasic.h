@@ -34,7 +34,7 @@ class Player_AttackBasic :public IState
 	// クラス定数の宣言 -------------------------------------------------
 private:
 	static constexpr float ATTACK_FORCE = 5000.0f;
-	static constexpr float ATTACK_TIME = 0.25f;
+	static constexpr float ATTACK_TIME = 0.2f;
 	static constexpr float ATTACK_SIZE = 2.0f;
 
 	// データメンバの宣言 -----------------------------------------------

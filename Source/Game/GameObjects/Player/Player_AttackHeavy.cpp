@@ -40,7 +40,7 @@ Player_AttackHeavy::~Player_AttackHeavy()
 
 void Player_AttackHeavy::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/mouse.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
 
 	// —Í‚ÌÝ’è
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);

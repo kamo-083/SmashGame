@@ -91,3 +91,13 @@ void EffectManager::Finalize()
 {
 
 }
+
+TrajectoryParticle* EffectManager::CreateTrajectory()
+{
+	m_trajectory.push_back(std::make_unique<TrajectoryParticle>());
+	//m_trajectory[m_trajectory.size()]->Create(
+
+	//)
+
+	return nullptr;
+}

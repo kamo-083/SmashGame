@@ -84,6 +84,8 @@ namespace DX
     }
 }
 
+#include <iostream>
+
 // DirectXTK
 #include "Keyboard.h"
 #include "Mouse.h"

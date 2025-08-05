@@ -41,7 +41,7 @@ Player_Walk::~Player_Walk()
 
 void Player_Walk::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/mouse.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
 }
 
 

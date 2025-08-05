@@ -72,7 +72,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_pResourceManager = pResourceManager;
 
 	// モデルの読み込み
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\mouse.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\player.sdkmesh");
 
 	// コライダーの設定
 	m_collider = SphereCollider(m_position, RADIUS);
@@ -82,6 +82,9 @@ void Player::Initialize(ResourceManager* pResourceManager,
 
 	// キー操作のモードのポインタの設定
 	m_pKeyMode = keyMode;
+
+	// 物理演算の設定
+	m_physics.GetFriction().SetDynamicFriction(1.3f);
 
 	// 待機状態を生成
 	m_idlingState = std::make_unique<Player_Idle>(this, pKbTracker);
@@ -206,10 +209,10 @@ DirectX::SimpleMath::Vector3 Player::MoveDirection(DirectX::Keyboard::KeyboardSt
 		direction -= right;
 	}
 
+	direction.y = 0.0f;
 	if (direction.Length() > 0.0f)
 	{
-		direction.x /= direction.Length();
-		direction.z /= direction.Length();
+		direction.Normalize();
 	}
 
 	//回転

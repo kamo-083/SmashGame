@@ -14,6 +14,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/Effect/Trajectory/TrajectoryParticle.h"
 #include"Source/Game/Effect/Circle/CircleParticle.h"
 
@@ -32,6 +33,12 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// カメラのポインタ
+	Camera* m_pCamera;
+
+	std::vector<std::unique_ptr<TrajectoryParticle>> m_trajectory;
+
+	std::vector<std::unique_ptr<CircleParticle>> m_circle;
 
 
 
@@ -58,6 +65,9 @@ public:
 
 	// 終了処理
 	void Finalize();
+
+	// 軌跡エフェクトの作成
+	TrajectoryParticle* CreateTrajectory();
 
 // 取得/設定
 public:
