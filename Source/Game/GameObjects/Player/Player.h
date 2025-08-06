@@ -81,7 +81,7 @@ private:
 	SphereCollider m_collider;
 
 	// ï®óù
-	PhysicsObject m_physics;
+	std::unique_ptr<PhysicsObject> m_physics;
 
 	// çUåÇ
 	float m_attackForce;
@@ -179,7 +179,7 @@ public:
 	void SetRotY(float rotY) { m_rotY = rotY; }
 	bool GetOnGround() { return m_onGround; }
 	void SetOnGround(bool onGround) { m_onGround = onGround; }
-	PhysicsObject* GetPhysics() { return &m_physics; }
+	PhysicsObject* GetPhysics() { return m_physics.get(); }
 	SphereCollider* GetCollider() { return &m_collider; };
 	SphereCollider* GetAttackCollider() { return &m_attackCollider; }
 	float GetAttackForce() { return m_attackForce; }

@@ -84,7 +84,8 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_pKeyMode = keyMode;
 
 	// •¨—‰‰Z‚Ìİ’è
-	m_physics.GetFriction().SetDynamicFriction(1.3f);
+	m_physics = std::make_unique<PhysicsObject>();
+	m_physics->GetFriction().SetDynamicFriction(1.3f);
 
 	// ‘Ò‹@ó‘Ô‚ğ¶¬
 	m_idlingState = std::make_unique<Player_Idle>(this, pKbTracker);
@@ -301,7 +302,7 @@ bool Player::DetectCollisionToAttack(SphereCollider collider, float power)
 		float knockbackForce = (1.0f + mtv.distance) * power;
 
 		DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
-		m_physics.GetExternalForce().Add(force);
+		m_physics->GetExternalForce().Add(force);
 
 		// ’µ‚Ë•Ô‚èó‘Ô‚É‘JˆÚ
 		m_isBounce = true;

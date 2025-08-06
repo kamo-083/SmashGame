@@ -66,7 +66,7 @@ protected:
 	SphereCollider m_collider;
 
 	//ï®óùââéZ
-	PhysicsObject m_physics;
+	std::unique_ptr<PhysicsObject> m_physics;
 
 	// ÉÇÉfÉã
 	DirectX::Model* m_model;
@@ -107,7 +107,7 @@ public:
 	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }
 	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }
 	SphereCollider* GetCollider() { return &m_collider; }
-	PhysicsObject* GetPhysics() { return &m_physics; }
+	PhysicsObject* GetPhysics() { return m_physics.get(); }
 	float GetMass() { return MASS; }
 	bool GetOnGround() { return m_onGround; }
 	void SetOnGround(bool onGround) { m_onGround = onGround; }

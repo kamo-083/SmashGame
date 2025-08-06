@@ -83,8 +83,9 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager)
 	m_collider.SetRadius(RADIUS);
 
 	// •¨—‰‰Z‚Ìİ’è
-	m_physics.GetFriction().SetStaticFriction(0.5f);
-	m_physics.GetFriction().SetDynamicFriction(0.5f);
+	m_physics = std::make_unique<PhysicsObject>();
+	m_physics->GetFriction().SetStaticFriction(0.5f);
+	m_physics->GetFriction().SetDynamicFriction(0.15f);	// Œ³‚Í0.5f
 
 	// ó‘Ô‚Ìì¬
 	// ‘Ò‹@ó‘Ô
@@ -192,7 +193,7 @@ bool GroundEnemy::DetectCollisionToBox(OBBCollider collider)
 		case OBBCollider::CollisionType::Ground:
 			if (m_currentState==m_bouncingState.get())
 			{
-				m_physics.Reflection(m_velocity, m_surfaceNormal, 0.8f);
+				m_physics->Reflection(m_velocity, m_surfaceNormal, 0.8f);
 			}
 			else
 			{
@@ -202,7 +203,7 @@ bool GroundEnemy::DetectCollisionToBox(OBBCollider collider)
 			}
 			break;
 		case OBBCollider::CollisionType::Wall:
-			m_physics.Reflection(m_velocity, normal, 0.8);
+			m_physics->Reflection(m_velocity, normal, 0.8);
 			break;
 		case OBBCollider::CollisionType::Slope:
 			m_onGround = true;
@@ -234,7 +235,7 @@ bool GroundEnemy::DetectCollisionToSphere(SphereCollider collider)
 		DirectX::SimpleMath::Vector3 normal = mtv.direction;
 		normal.Normalize();
 
-		m_physics.Reflection(m_velocity, normal, 0.8);
+		m_physics->Reflection(m_velocity, normal, 0.8);
 	}
 
 	return hit;
@@ -257,7 +258,7 @@ bool GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
 		float knockbackForce = mtv.distance * power;
 
 		DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
-		m_physics.GetExternalForce().Add(force);
+		m_physics->GetExternalForce().Add(force);
 
 		// ’µ‚Ë•Ô‚èó‘Ô‚É‘JˆÚ
 		ChangeState(m_bouncingState.get());
