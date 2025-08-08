@@ -12,6 +12,7 @@
 #include "DeviceResources.h"
 #include "ImaseLib/DebugFont.h"
 #include "ResourceManager.h"
+#include "EffectManager.h"
 
 // 各シーンに渡す共通リソースを記述してください
 class UserResources
@@ -42,6 +43,9 @@ private:
 	// リソースマネージャー
 	ResourceManager* m_resourceManager;
 
+	// エフェクトマネージャー
+	EffectManager* m_effectManager;
+
 public:
 
 	// コンストラクタ
@@ -52,6 +56,9 @@ public:
 		, m_mouseTracker(nullptr)
 		, m_debugFont(nullptr)
 		, m_states(nullptr)
+		, m_spriteBatch(nullptr)
+		, m_resourceManager(nullptr)
+		, m_effectManager(nullptr)
 	{
 	}
 
@@ -104,6 +111,16 @@ public:
 
 	// リソースマネージャーを取得する関数
 	ResourceManager* GetResourceManager() { return m_resourceManager; }
+	
+	// ------------------------------------------ //
+	// エフェクトマネージャー
+	// ------------------------------------------ //
+		
+	// エフェクトマネージャーを設定する関数
+	void SetEffectManager(EffectManager* effectManager) { m_effectManager = effectManager; }
+
+	// エフェクトマネージャーを取得する関数
+	EffectManager* GetEffectManager() { return m_effectManager; }
 
 };
 

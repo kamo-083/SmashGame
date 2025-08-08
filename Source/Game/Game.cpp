@@ -214,15 +214,21 @@ void Game::CreateDeviceDependentResources()
     // リソースマネージャーの作成
     m_resourceManager = std::make_unique<ResourceManager>(device);
 
+    // エフェクトマネージャーの作成
+    m_effectManager = std::make_unique<EffectManager>(m_deviceResources.get());
+
     // デバッグフォントの作成
     m_debugFont = std::make_unique<Imase::DebugFont>(device, context, L"Resources/Font/SegoeUI_18.spritefont");
 
-    // ユーザーリソースの設定
+    // ユーザーリソースの作成
     m_userResources = std::make_unique<UserResources>();
+
+    // ユーザーリソースの設定
     m_userResources->SetStepTimerStates(&m_timer);
     m_userResources->SetDeviceResources(m_deviceResources.get());
     m_userResources->SetDebugFont(m_debugFont.get());
     m_userResources->SetResourceManager(m_resourceManager.get());
+    m_userResources->SetEffectManager(m_effectManager.get());
 
      // シーンマネージャの作成
     m_sceneManager = std::make_unique<SceneManager>(m_userResources.get());

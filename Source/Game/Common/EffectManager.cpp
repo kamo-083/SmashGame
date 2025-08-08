@@ -21,7 +21,9 @@ using namespace DirectX;
  *
  * @param[in] なし
  */
-EffectManager::EffectManager()
+EffectManager::EffectManager(DX::DeviceResources* deviceResources)
+	: m_pDeviceResources{ deviceResources }
+	, m_pCamera{ nullptr }
 {
 
 }
@@ -39,29 +41,19 @@ EffectManager::~EffectManager()
 
 
 /**
- * @brief 初期化処理
- *
- * @param[in] なし
- *
- * @return なし
- */
-void EffectManager::Initialize()
-{
-
-}
-
-
-
-/**
  * @brief 更新処理
  *
  * @param[in] なし
  *
  * @return なし
  */
-void EffectManager::Update()
+void EffectManager::Update(float elapsedTime)
 {
-
+	for (std::unique_ptr<TrajectoryParticleData>& trajectry : m_trajectory)
+	{
+		trajectry->effect->Update(elapsedTime, *trajectry->position, trajectry->spawn, trajectry->random);
+		trajectry->effect->CreateBillboard(*trajectry->position, m_pCamera->GetTarget(), m_pCamera->GetEye(), m_pCamera->GetUp());
+	}
 }
 
 
@@ -73,9 +65,12 @@ void EffectManager::Update()
  *
  * @return なし
  */
-void EffectManager::Draw()
+void EffectManager::Draw(DirectX::SimpleMath::Matrix proj)
 {
-
+	for (std::unique_ptr<TrajectoryParticleData>& trajectry : m_trajectory)
+	{
+		trajectry->effect->Render(m_pCamera->GetView(), proj);
+	}
 }
 
 
@@ -92,12 +87,27 @@ void EffectManager::Finalize()
 
 }
 
-TrajectoryParticle* EffectManager::CreateTrajectory()
+EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
+	const wchar_t* texPath, float scale, float life, DirectX::SimpleMath::Color color, DirectX::SimpleMath::Vector3* position, bool random)
 {
-	m_trajectory.push_back(std::make_unique<TrajectoryParticle>());
-	//m_trajectory[m_trajectory.size()]->Create(
+	// 軌跡エフェクトの作成
+	std::unique_ptr<TrajectoryParticle> effect = std::make_unique<TrajectoryParticle>();
+	effect->Create(
+		m_pDeviceResources, texPath, scale, life, color
+	);
 
-	//)
+	// パーティクルデータ構造体の作成
+	std::unique_ptr<TrajectoryParticleData> data = std::make_unique<TrajectoryParticleData>
+		(
+			std::move(effect),
+			position,
+			true,		// 本来はfalse
+			random
+		);
 
-	return nullptr;
+	// 配列に格納
+	m_trajectory.push_back(std::move(data));
+
+	// 作成したエフェクトのポインタを返す
+	return m_trajectory.back().get();
 }

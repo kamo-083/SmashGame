@@ -95,6 +95,16 @@ void TestScene::Initialize()
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());
 
+	// エフェクトマネージャーの設定
+	m_userResorces->GetEffectManager()->SetCamera(m_camera.get());
+	m_userResorces->GetEffectManager()->CreateTrajectory(
+		L"Resources/Textures/Effect/maru.png",
+		0.5f,
+		1.0f,
+		SimpleMath::Color(0, 1, 1, 1),
+		&m_player->GetPosition(),
+		false);
+
 	// キー操作のモードの初期化
 	m_keyMode = true;
 }
@@ -133,6 +143,9 @@ void TestScene::Update(float elapsedTime)
 
 	// エフェクトの更新
 	m_enemy->UpdateEffect(elapsedTime, m_camera.get());
+
+	// エフェクトの更新
+	m_userResorces->GetEffectManager()->Update(elapsedTime);
 
 	// 仮リスポーン
 	if (m_player->GetPosition().y <= -10.0f)
@@ -212,6 +225,9 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	// 武器UIの描画
 	m_weaponUI->Draw(context.spriteBatch);
+
+	// エフェクトの描画
+	m_userResorces->GetEffectManager()->Draw(context.projection);
 }
 
 
