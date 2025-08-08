@@ -127,7 +127,7 @@ void SceneManager::SetStartScene(const std::string& startSceneName)
 	//}
 
 	m_pCurrentScene = m_scenes[startSceneName].get();
-	m_pCurrentScene->Initialize();
+	//m_pCurrentScene->Initialize();
 }
 
 

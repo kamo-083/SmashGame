@@ -101,7 +101,7 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 		(
 			std::move(effect),
 			position,
-			true,		// –{—ˆ‚Ífalse
+			false,
 			random
 		);
 

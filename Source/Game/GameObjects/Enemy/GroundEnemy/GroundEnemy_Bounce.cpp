@@ -41,6 +41,8 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pResourceManager)
 	m_model = pResourceManager->GetModel("enemy");
 
 	m_pGroundEnemy->SetIsAttack(false);
+
+	m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(true);
 }
 
 
@@ -58,6 +60,8 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 
 	if (m_pGroundEnemy->GetVelocity().Length() < 1.0f)
 	{
+		m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(false);
+
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Idle());
 	}
 }

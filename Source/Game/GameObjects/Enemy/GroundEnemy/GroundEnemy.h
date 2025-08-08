@@ -72,7 +72,7 @@ private:
 	SphereCollider m_attackCollider;
 
 	// 軌跡エフェクト
-	std::unique_ptr<TrajectoryParticle> m_trajectory;
+	EffectManager::TrajectoryParticleData* m_trajectory;
 
 	//判定表示用の球
 	std::unique_ptr<DirectX::GeometricPrimitive> m_sphere;
@@ -137,7 +137,7 @@ public:
 	void SetRotY(float rot) { m_rotY = rot + XM_PIDIV2; }	//モデルの向きの関係で少し調整
 	float GetRadius() { return RADIUS; }
 
-	TrajectoryParticle* GetTrajectoryParticle() { return m_trajectory.get(); }
+	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }
 
 	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
 

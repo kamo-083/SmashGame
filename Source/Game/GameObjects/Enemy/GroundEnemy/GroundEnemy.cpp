@@ -35,13 +35,14 @@ GroundEnemy::GroundEnemy(UserResources* pUserResources)
 	m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
 
 	// 軌跡エフェクトの作成
-	m_trajectory = std::make_unique<TrajectoryParticle>();
-	m_trajectory->Create(
-		pUserResources->GetDeviceResources(),
+	m_trajectory = pUserResources->GetEffectManager()->CreateTrajectory(
 		L"Resources/Textures/Effect/smoke.png",
 		0.5f,
 		2.0f,
-		SimpleMath::Color(1, 1, 1, 1));
+		SimpleMath::Color(1, 1, 1, 1),
+		&m_position,
+		false
+	);
 }
 
 
@@ -101,6 +102,9 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager)
 	m_attackingState = std::make_unique<GroundEnemy_Attack>(this);
 	m_attackingState->Initialize(pResourceManager);
 
+	// エフェクトを出現をオフ
+	m_trajectory->SetSpawn(false);
+
 	// 初期状態の設定
 	m_currentState = m_idlingState.get();
 }
@@ -116,12 +120,10 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
 	m_currentState->Render(context);
 	
-	m_trajectory->Render(context.view, context.projection);
-
 	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
 	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"vel  = %f,%f,%f",
 		m_velocity.x, m_velocity.y, m_velocity.z);
-	debugFont->AddString(0, 260, DirectX::Colors::Blue, L"atk  = %d", m_isAttack);
+	debugFont->AddString(0, 260, DirectX::Colors::Blue, L"effect  = %d", m_trajectory->spawn);
 	debugFont->AddString(0, 290, DirectX::Colors::Blue, L"state= %d", GetStateType());
 }
 
@@ -144,9 +146,7 @@ void GroundEnemy::ChangeState(IState* newState)
 
 void GroundEnemy::UpdateEffect(float elapsedTime, Camera* camera)
 {
-	// 軌跡エフェクトの更新
-	m_trajectory->Update(elapsedTime, m_position, GetStateType() == StateType::Bounce);
-	m_trajectory->CreateBillboard(m_position, camera->GetTarget(), camera->GetEye(), camera->GetUp());
+
 }
 
 

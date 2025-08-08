@@ -27,7 +27,7 @@
 class EffectManager
 {
 	// クラス定数の宣言 -------------------------------------------------
-private:
+public:
 	struct TrajectoryParticleData
 	{
 		std::unique_ptr<TrajectoryParticle> effect;		// エフェクト
@@ -45,6 +45,9 @@ private:
 			, spawn(inSpawn)
 			, random(inRandom)
 		{}
+
+		// 出現フラグの設定
+		void SetSpawn(bool inSpawn) { spawn = inSpawn; }
 	};
 
 
