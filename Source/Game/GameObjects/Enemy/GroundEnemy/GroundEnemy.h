@@ -74,6 +74,9 @@ private:
 	// 軌跡エフェクト
 	EffectManager::TrajectoryParticleData* m_trajectory;
 
+	// 円形エフェクト
+	EffectManager::CircleParticleData* m_circle;
+
 	//判定表示用の球
 	std::unique_ptr<DirectX::GeometricPrimitive> m_sphere;
 
@@ -138,6 +141,7 @@ public:
 	float GetRadius() { return RADIUS; }
 
 	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }
+	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }
 
 	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
 

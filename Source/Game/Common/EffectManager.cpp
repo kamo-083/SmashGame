@@ -49,10 +49,18 @@ EffectManager::~EffectManager()
  */
 void EffectManager::Update(float elapsedTime)
 {
-	for (std::unique_ptr<TrajectoryParticleData>& trajectry : m_trajectory)
+	// 軌跡エフェクトの更新
+	for (std::unique_ptr<TrajectoryParticleData>& trajectory : m_trajectory)
 	{
-		trajectry->effect->Update(elapsedTime, *trajectry->position, trajectry->spawn, trajectry->random);
-		trajectry->effect->CreateBillboard(*trajectry->position, m_pCamera->GetTarget(), m_pCamera->GetEye(), m_pCamera->GetUp());
+		trajectory->effect->Update(elapsedTime, *trajectory->position, trajectory->spawn, trajectory->random);
+		trajectory->effect->CreateBillboard(*trajectory->position, m_pCamera->GetTarget(), m_pCamera->GetEye(), m_pCamera->GetUp());
+	}
+
+	// 円形エフェクトの更新
+	for (std::unique_ptr<CircleParticleData>& circle : m_circle)
+	{
+		circle->effect->Update(elapsedTime);
+		circle->effect->CreateBillboard(*circle->position, m_pCamera->GetTarget(), m_pCamera->GetEye(), m_pCamera->GetUp());
 	}
 }
 
@@ -67,9 +75,16 @@ void EffectManager::Update(float elapsedTime)
  */
 void EffectManager::Draw(DirectX::SimpleMath::Matrix proj)
 {
-	for (std::unique_ptr<TrajectoryParticleData>& trajectry : m_trajectory)
+	// 軌跡エフェクトの描画
+	for (std::unique_ptr<TrajectoryParticleData>& trajectory : m_trajectory)
 	{
-		trajectry->effect->Render(m_pCamera->GetView(), proj);
+		trajectory->effect->Render(m_pCamera->GetView(), proj);
+	}
+
+	// 円形エフェクトの描画
+	for (std::unique_ptr<CircleParticleData>& circle : m_circle)
+	{
+		circle->effect->Render(m_pCamera->GetView(), proj);
 	}
 }
 
@@ -88,12 +103,13 @@ void EffectManager::Finalize()
 }
 
 EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
-	const wchar_t* texPath, float scale, float life, DirectX::SimpleMath::Color color, DirectX::SimpleMath::Vector3* position, bool random)
+	ID3D11ShaderResourceView* texture, float scale, float life, DirectX::SimpleMath::Color color,
+	DirectX::SimpleMath::Vector3* position, bool random)
 {
 	// 軌跡エフェクトの作成
 	std::unique_ptr<TrajectoryParticle> effect = std::make_unique<TrajectoryParticle>();
 	effect->Create(
-		m_pDeviceResources, texPath, scale, life, color
+		m_pDeviceResources, texture, scale, life, color
 	);
 
 	// パーティクルデータ構造体の作成
@@ -110,4 +126,32 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 
 	// 作成したエフェクトのポインタを返す
 	return m_trajectory.back().get();
+}
+
+EffectManager::CircleParticleData* EffectManager::CreateCircle(
+	ID3D11ShaderResourceView* texture, float scale, float life, DirectX::SimpleMath::Color color, 
+	DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal)
+{
+	// 円形エフェクトの作成
+	std::unique_ptr<CircleParticle> effect = std::make_unique<CircleParticle>();
+	effect->Create(
+		m_pDeviceResources, texture, scale, life, color
+	);
+
+	// パーティクルデータ構造体の作成
+	std::unique_ptr<CircleParticleData> data = std::make_unique<CircleParticleData>
+		(
+			std::move(effect),
+			position,
+			range,
+			num,
+			random,
+			horizontal
+		);
+
+	// 配列に格納
+	m_circle.push_back(std::move(data));
+
+	// 作成したエフェクトのポインタを返す
+	return m_circle.back().get();
 }

@@ -38,27 +38,17 @@ TrajectoryParticle::~TrajectoryParticle()
 {
 }
 
-void TrajectoryParticle::LoadTexture(const wchar_t* path)
-{
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture;
-	CreateWICTextureFromFile(
-		m_pDR->GetD3DDevice(),
-		path,
-		nullptr,
-		texture.ReleaseAndGetAddressOf());
-	m_texture.push_back(texture);
-}
 
-void TrajectoryParticle::Create(DX::DeviceResources* pDR, const wchar_t* texPath, 
-								float scale, float life, SimpleMath::Color color)
+void TrajectoryParticle::Create(DX::DeviceResources* pDR, ID3D11ShaderResourceView* pTexture,
+								float scale, float life, DirectX::SimpleMath::Color color)
 {
 	m_pDR = pDR;
 	ID3D11Device1* device = pDR->GetD3DDevice();
 
 	CreateShader();
 
-	//画像の読み込み
-	LoadTexture(texPath);
+	//画像の保存
+	m_texture.push_back(pTexture);
 
 	m_batch = std::make_unique<PrimitiveBatch<VertexPositionColorTexture>>(pDR->GetD3DDeviceContext());
 	m_states = std::make_unique<CommonStates>(device);
@@ -190,7 +180,7 @@ void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::Simpl
 	for (int i = 0; i < m_texture.size(); i++)
 	{
 		//	for文で一気に設定する
-		context->PSSetShaderResources(i, 1, m_texture[i].GetAddressOf());
+		context->PSSetShaderResources(i, 1, &m_texture[i]);
 	}
 
 	//	インプットレイアウトの登録

@@ -36,13 +36,27 @@ GroundEnemy::GroundEnemy(UserResources* pUserResources)
 
 	// 軌跡エフェクトの作成
 	m_trajectory = pUserResources->GetEffectManager()->CreateTrajectory(
-		L"Resources/Textures/Effect/smoke.png",
+		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.5f,
 		2.0f,
 		SimpleMath::Color(1, 1, 1, 1),
 		&m_position,
 		false
 	);
+
+	// 円形エフェクトの作成
+	m_circle= pUserResources->GetEffectManager()->CreateCircle(
+		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
+		0.75f,
+		1.0f,
+		SimpleMath::Color(1, 1, 1, 1), 
+		&m_position,
+		1.0f, 
+		12,
+		false,
+		true
+	);
+
 }
 
 
@@ -121,8 +135,8 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	m_currentState->Render(context);
 	
 	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
-	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"vel  = %f,%f,%f",
-		m_velocity.x, m_velocity.y, m_velocity.z);
+	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"ePos  = %f,%f,%f",
+		m_circle->position->x, m_circle->position->y, m_circle->position->z);
 	debugFont->AddString(0, 260, DirectX::Colors::Blue, L"effect  = %d", m_trajectory->spawn);
 	debugFont->AddString(0, 290, DirectX::Colors::Blue, L"state= %d", GetStateType());
 }
@@ -194,6 +208,9 @@ bool GroundEnemy::DetectCollisionToBox(OBBCollider collider)
 			if (m_currentState==m_bouncingState.get())
 			{
 				m_physics->Reflection(m_velocity, m_surfaceNormal, 0.8f);
+
+				// 円形エフェクトを発生
+				m_circle->Spawn();
 			}
 			else
 			{
@@ -204,6 +221,9 @@ bool GroundEnemy::DetectCollisionToBox(OBBCollider collider)
 			break;
 		case OBBCollider::CollisionType::Wall:
 			m_physics->Reflection(m_velocity, normal, 0.8);
+
+			// 円形エフェクトを発生
+			m_circle->Spawn();
 			break;
 		case OBBCollider::CollisionType::Slope:
 			m_onGround = true;

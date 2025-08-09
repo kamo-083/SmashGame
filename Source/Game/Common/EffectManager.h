@@ -28,6 +28,7 @@ class EffectManager
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// 軌跡エフェクト
 	struct TrajectoryParticleData
 	{
 		std::unique_ptr<TrajectoryParticle> effect;		// エフェクト
@@ -50,6 +51,44 @@ public:
 		void SetSpawn(bool inSpawn) { spawn = inSpawn; }
 	};
 
+	// 円形エフェクト
+	struct CircleParticleData
+	{
+		std::unique_ptr<CircleParticle> effect;		// エフェクト
+		DirectX::SimpleMath::Vector3* position;		// 表示位置
+		float range;								// 出現範囲
+		int num;									// 出現数
+		bool random;								// 出現座標にランダム性を持たせるか
+		bool horizontal;							// 出現座標を縦または横にする
+
+		// コンストラクタ
+		CircleParticleData(std::unique_ptr<CircleParticle> inEffect, 
+						   DirectX::SimpleMath::Vector3* inPosition,
+						   float inRange,
+						   int inNum,
+						   bool inRandom,
+						   bool inHorizontal)
+			: effect(std::move(inEffect))
+			, position(inPosition)
+			, range(inRange)
+			, num(inNum)
+			, random(inRandom)
+			, horizontal(inHorizontal)
+		{}
+
+		// 出現させる
+		void Spawn()
+		{
+			effect->SpawnParticleEffect(
+				*position,
+				range,
+				random,
+				horizontal,
+				num
+			);
+		}
+	};
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -59,10 +98,9 @@ private:
 	// カメラのポインタ
 	Camera* m_pCamera;
 
+	// エフェクトの配列
 	std::vector<std::unique_ptr<TrajectoryParticleData>> m_trajectory;
-
-	std::vector<std::unique_ptr<CircleParticle>> m_circle;
-
+	std::vector<std::unique_ptr<CircleParticleData>> m_circle;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -88,8 +126,13 @@ public:
 
 	// 軌跡エフェクトの作成
 	TrajectoryParticleData* CreateTrajectory(
-		const wchar_t* texPath, float scale, float life, DirectX::SimpleMath::Color color,
+		ID3D11ShaderResourceView* texture, float scale, float life, DirectX::SimpleMath::Color color,
 		DirectX::SimpleMath::Vector3* position, bool random);
+
+	// 円形エフェクトの作成
+	CircleParticleData* CreateCircle(
+		ID3D11ShaderResourceView* texture, float scale, float life, DirectX::SimpleMath::Color color,
+		DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal);
 
 
 // 取得/設定

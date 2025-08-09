@@ -40,7 +40,7 @@ private:
 
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_batch;
 	std::unique_ptr<DirectX::CommonStates> m_states;
-	std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_texture;
+	std::vector<ID3D11ShaderResourceView*> m_texture;
 	std::vector<DirectX::VertexPositionColorTexture> m_vertices;
 
 	//ƒJƒƒ‰‚ÉŠÖ‚·‚éî•ñ
@@ -68,9 +68,7 @@ public:
 	CircleParticle();
 	~CircleParticle();
 
-	void LoadTexture(const wchar_t* path);
-
-	void Create(DX::DeviceResources* pDR, const wchar_t* texPath, 
+	void Create(DX::DeviceResources* pDR, ID3D11ShaderResourceView* pTexture,
 				float scale, float life, DirectX::SimpleMath::Color color);
 
 	void Update(float elapsedTime);

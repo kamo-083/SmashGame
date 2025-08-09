@@ -97,13 +97,6 @@ void TestScene::Initialize()
 
 	// エフェクトマネージャーの設定
 	m_userResorces->GetEffectManager()->SetCamera(m_camera.get());
-	m_userResorces->GetEffectManager()->CreateTrajectory(
-		L"Resources/Textures/Effect/maru.png",
-		0.5f,
-		1.0f,
-		SimpleMath::Color(0, 1, 1, 1),
-		&m_player->GetPosition(),
-		false);
 
 	// キー操作のモードの初期化
 	m_keyMode = true;
