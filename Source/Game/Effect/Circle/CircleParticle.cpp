@@ -175,6 +175,8 @@ void CircleParticle::SpawnParticleEffect(DirectX::SimpleMath::Vector3 pos,
 										 bool isHorizontal,
 										 int num)
 {
+	if (m_timer < SPAWN_INTERVAL) return;
+
 	for (int i = 0; i < num; i++)
 	{
 		float angle = 0.0f;

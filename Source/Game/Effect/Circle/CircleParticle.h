@@ -65,6 +65,8 @@ private:
 public:
 	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
 
+	static constexpr float SPAWN_INTERVAL = 0.15f;	// ç≈è¨ê∂ê¨ä‘äu
+
 	CircleParticle();
 	~CircleParticle();
 

@@ -72,8 +72,10 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 	else							inputVelocity *= AIR_SPEED;
 	m_pPlayer->LimitVelocity(inputVelocity);
 
+	if (inputVelocity.LengthSquared() != 0.0f) m_force = inputVelocity;
+
 	// À•W‚ÌXV
-	m_pPlayer->SetVelocity(inputVelocity);
+	m_pPlayer->SetVelocity(m_force);
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), MAX_SPEED);
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);

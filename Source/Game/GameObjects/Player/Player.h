@@ -51,7 +51,7 @@ class Player
 private:
 	static constexpr float RADIUS = 1.0f;				//半径の大きさ
 	static constexpr float MAX_SPEED = 7.0f;			//最高速度
-	static constexpr float MASS = 10.0f;				//質量
+	static constexpr float MASS = 20.0f;				//質量
 	static constexpr float SCALE = 1.0f;				//スケール
 
 
