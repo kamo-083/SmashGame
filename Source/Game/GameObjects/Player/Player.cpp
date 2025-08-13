@@ -72,7 +72,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_pResourceManager = pResourceManager;
 
 	// モデルの読み込み
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\player.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\player_cat.sdkmesh");
 
 	// コライダーの設定
 	m_collider = SphereCollider(m_position, RADIUS);

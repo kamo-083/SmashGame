@@ -27,7 +27,7 @@ class Camera
 {
 	// ÉNÉâÉXíËêîÇÃêÈåæ -------------------------------------------------
 private:
-	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_EYE    = { 0.0f,6.0f,10.0f };
+	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_EYE    = { 0.0f,4.0f,8.0f };
 	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_TARGET = { 0.0f,0.0f,0.0f };
 	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_UP     = { 0.0f,1.0f,0.0f };
 	static constexpr float CAMERA_MOVE_SPEED = 5.0f;

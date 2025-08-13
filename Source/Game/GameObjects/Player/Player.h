@@ -49,9 +49,10 @@ class Player
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float RADIUS = 0.5f;				//半径の大きさ
+	static constexpr float RADIUS = 1.0f;				//半径の大きさ
 	static constexpr float MAX_SPEED = 7.0f;			//最高速度
 	static constexpr float MASS = 10.0f;				//質量
+	static constexpr float SCALE = 1.0f;				//スケール
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -190,6 +191,7 @@ public:
 	bool GetIsBounce() { return m_isBounce; }
 	void SetIsBounce(bool isBounce) { m_isBounce = isBounce; }
 	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
+	float GetScale() { return SCALE; }
 
 	Player_Idle* GetState_Idle() { return m_idlingState.get(); }
 	Player_Walk* GetState_Walk() { return m_walkingState.get(); }

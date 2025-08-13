@@ -85,7 +85,8 @@ void Player_Idle::Render(RenderContext& context)
 	SimpleMath::Matrix world;
 	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetPosition());
 	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
-	world = rot * trans;
+	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
+	world = scale * rot * trans;
 
 	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.projection, m_pPlayer->GetIsBounce());
 }

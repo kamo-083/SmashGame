@@ -1,0 +1,4 @@
+MagicaVoxcelのモデルの読み込み方(objからsdkmesh)
+
+objをmeshconvert_tex、ddsをtexconvで変換
+mtlファイルのテクスチャの拡張子をpngからddsに変更

@@ -89,16 +89,17 @@ void Player_AttackHeavy::Render(RenderContext& context)
 	SimpleMath::Matrix world;
 	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetPosition());
 	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
-	world = rot * trans;
+	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
+	world = scale * rot * trans;
 
 	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.projection);
 
 	if (m_pPlayer->GetSpherePrimitive())
 	{
-		DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
-		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetAttackCollider()->GetCenter());
+		scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
+		trans = SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetAttackCollider()->GetCenter());
 		world = scale * trans;
-		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.projection, DirectX::Colors::Red, nullptr, true);
+		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.projection, Colors::Red, nullptr, true);
 	}
 }
 
