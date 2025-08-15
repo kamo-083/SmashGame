@@ -29,6 +29,14 @@
 class Enemy
 {
 // クラス定数の宣言 -------------------------------------------------
+public:	
+// プレイヤーの距離・向き
+	struct PlayerRelationData
+	{
+		DirectX::SimpleMath::Vector3 direction;
+		float distance;
+	};
+
 protected:
 	const static float RADIUS;		//半径の大きさ
 	const static float SPEED;		//移動速度
@@ -79,16 +87,23 @@ protected:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Enemy();
+	Enemy()
+		:m_rotY{ 0.0f }
+		, m_onGround{ false }
+		, m_isAttack{ false }
+		, m_attackForce{ 0.0f }
+		, m_collisionType{ OBBCollider::CollisionType::Others }
+	{}
 
 	// デストラクタ
-	~Enemy();
+	~Enemy()
+	{}
 
 
 // 操作
 public:
 	// 初期化処理
-	virtual void Initialize(ResourceManager* pResourceManager) = 0;
+	virtual void Initialize(ResourceManager* pResourceManager, const DirectX::SimpleMath::Vector3& position) = 0;
 
 	// 更新処理
 	virtual void Update(float elapsedTime) = 0;
@@ -98,6 +113,9 @@ public:
 
 	// 終了処理
 	virtual void Finalize() = 0;
+
+	// プレイヤーとの距離を計算
+	virtual void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius) = 0;
 
 
 // 取得/設定

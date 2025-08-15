@@ -69,10 +69,10 @@ GroundEnemy::~GroundEnemy()
 }
 
 
-void GroundEnemy::Initialize(ResourceManager* pResourceManager)
+void GroundEnemy::Initialize(ResourceManager* pResourceManager, const DirectX::SimpleMath::Vector3& position)
 {
 	// À•W‚Ì‰Šú‰»
-	m_position = SimpleMath::Vector3(0.0f, 5.0f, -4.0f);
+	m_position = SimpleMath::Vector3(position);
 
 	// ‘¬“x‚Ì‰Šú‰»
 	m_velocity = SimpleMath::Vector3::Zero;
@@ -155,12 +155,6 @@ void GroundEnemy::ChangeState(IState* newState)
 
 	// ó‘Ô‚ð‰Šú‰»
 	m_currentState->Initialize(m_pResourceManager);
-}
-
-
-void GroundEnemy::UpdateEffect(float elapsedTime, Camera* camera)
-{
-
 }
 
 

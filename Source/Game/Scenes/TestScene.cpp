@@ -66,8 +66,13 @@ void TestScene::Initialize()
 	m_player->Initialize(m_userResorces->GetResourceManager(), &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// 敵の作成
-	m_enemy = std::make_unique<GroundEnemy>(m_userResorces);
-	m_enemy->Initialize(m_userResorces->GetResourceManager());
+	m_enemy = std::make_unique<EnemyManager>(m_userResorces);
+	EnemyManager::SpawnData data;
+	data.type = EnemyManager::EnemyType::Ground;
+	data.position = SimpleMath::Vector3(0.0f, 5.0f, -4.0f);
+	m_enemy->Spawn(data);
+	data.position = SimpleMath::Vector3(4.0f, 5.0f, -2.0f);
+	m_enemy->Spawn(data);
 
 	// 地面の作成
 	m_grounds.push_back(std::make_unique<Ground>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext()));
@@ -124,8 +129,7 @@ void TestScene::Update(float elapsedTime)
 	m_player->Update(elapsedTime);
 
 	// 敵の更新
-	m_enemy->Update(elapsedTime);
-	m_enemy->CalculatePlayerRelationData(m_player->GetPosition(), m_player->GetRadius());
+	m_enemy->Update(elapsedTime, m_player.get());
 
 	// 箱の更新
 	m_bounceBox->Update(elapsedTime);
@@ -135,38 +139,35 @@ void TestScene::Update(float elapsedTime)
 	m_camera->Update(&m_kbTracker, elapsedTime);
 
 	// エフェクトの更新
-	m_enemy->UpdateEffect(elapsedTime, m_camera.get());
-
-	// エフェクトの更新
 	m_userResorces->GetEffectManager()->Update(elapsedTime);
 
 	// 仮リスポーン
 	if (m_player->GetPosition().y <= -10.0f)
 		m_player->Initialize(m_userResorces->GetResourceManager(), &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
-	if (m_enemy->GetPosition().y <= -30.0f)
-		m_enemy->Initialize(m_userResorces->GetResourceManager());
+	//if (m_enemy->GetPosition().y <= -30.0f)
+	//	m_enemy->Initialize(m_userResorces->GetResourceManager(), { 0.0f, 5.0f, -4.0f });
 
 	// 当たり判定の処理
 	// 地面
 	for (std::unique_ptr<Ground>& ground : m_grounds)
 	{
 		m_player->DetectCollisionToBox(ground->GetCollider());
-		m_enemy->DetectCollisionToBox(ground->GetCollider());
+		//m_enemy->DetectCollisionToBox(ground->GetCollider());
 		m_bounceBox->DetectCollisionToBox(ground->GetCollider());
 	}
 	// プレイヤー
 	m_player->DetectCollisionToBox(m_bounceBox->GetCollider());
-	m_player->DetectCollisionToSphere(*m_enemy->GetCollider());
-	if (m_enemy->GetIsAttack()) m_player->DetectCollisionToAttack(*m_enemy->GetAttackCollider(), m_enemy->GetAttackForce());
+	//m_player->DetectCollisionToSphere(*m_enemy->GetCollider());
+	//if (m_enemy->GetIsAttack()) m_player->DetectCollisionToAttack(*m_enemy->GetAttackCollider(), m_enemy->GetAttackForce());
 	// 敵
-	if (m_player->GetIsAttack()) m_enemy->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
+	//if (m_player->GetIsAttack()) m_enemy->DetectCollisionToAttack(*m_player->GetAttackCollider(), m_player->GetAttackForce());
 	// 箱
 	if (m_player->GetIsAttack())
 	{
 		m_bounceBox->DetectCollisionToAttack(*m_player->GetAttackCollider(), *m_player->GetCollider(), m_player->GetAttackForce());
 	}
 	// 的
-	m_targetBox->DetectCollisionToEnemy(*m_enemy->GetCollider(), m_enemy->GetStateType());
+	//m_targetBox->DetectCollisionToEnemy(*m_enemy->GetCollider(), m_enemy->GetStateType());
 	// ゴール
 	m_goal->DetectCollisionToPlayer(*m_player->GetCollider());
 
@@ -196,7 +197,7 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	m_player->Draw(context, debugFont);
 
 	// 敵の描画
-	m_enemy->Draw(context, debugFont);
+	m_enemy->Draw(context);
 
 	// 地面の描画
 	for (std::unique_ptr<Ground>& ground : m_grounds)

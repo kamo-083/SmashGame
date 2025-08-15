@@ -41,13 +41,6 @@ class GroundEnemy	:public Enemy
 {
 // クラス定数の宣言 -------------------------------------------------
 public:
-	// プレイヤーの距離・向き
-	struct PlayerRelationData
-	{
-		DirectX::SimpleMath::Vector3 direction;
-		float distance;
-	};
-
 	static constexpr float DitectionRange = 2.5f;
 
 
@@ -94,7 +87,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(ResourceManager* pResourceManager) override;
+	void Initialize(ResourceManager* pResourceManager, const DirectX::SimpleMath::Vector3& position) override;
 
 	// 更新処理
 	void Update(float elapsedTime) override;
@@ -107,9 +100,6 @@ public:
 
 	// 状態遷移
 	void ChangeState(IState* newState);
-
-	// エフェクトの更新
-	void UpdateEffect(float elapsedTime, Camera* camera);
 
 	// 移動速度の制限
 	void LimitVelocity();

@@ -194,6 +194,15 @@
     <ClInclude Include="Source\Game\Common\EffectManager.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\CountArea.h">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyManager.h">
+      <Filter>Game\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\CollisionManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -230,9 +239,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp">
       <Filter>Game\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Enemy\Enemy.cpp">
-      <Filter>Game\GameObjects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.cpp">
       <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
@@ -301,6 +307,15 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Common\EffectManager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\CountArea.cpp">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Enemy\EnemyManager.cpp">
+      <Filter>Game\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\CollisionManager.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>

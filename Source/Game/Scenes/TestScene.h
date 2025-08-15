@@ -18,6 +18,7 @@
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/GameObjects/Camera.h"
 #include "Source/Game/GameObjects/Player/Player.h"
+#include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 #include "Source/Game/GameObjects/Stage/Ground.h"
 #include "Source/Game/GameObjects/Stage/BounceBox.h"
@@ -60,7 +61,7 @@ private:
 	std::unique_ptr<Player> m_player;
 
 	//“G
-	std::unique_ptr<GroundEnemy> m_enemy;
+	std::unique_ptr<EnemyManager> m_enemy;
 
 	//’n–Ê
 	std::vector<std::unique_ptr<Ground>> m_grounds;
