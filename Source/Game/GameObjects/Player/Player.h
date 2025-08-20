@@ -16,6 +16,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Interface/IState.h"
+#include"Source/Game/Common/CollisionManager.h"
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/Collision.h"
@@ -117,6 +118,12 @@ private:
 	// キー操作のモードのポインタ
 	bool* m_pKeyMode;
 
+	// 衝突判定のハンドル(本体)
+	uint32_t m_handleBody;
+
+	// 衝突判定のハンドル(攻撃)
+	uint32_t m_handleAttack;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -133,6 +140,7 @@ public:
 public:
 	// 初期化処理
 	void Initialize(ResourceManager* pResourceManager,
+					CollisionManager* pCollisionManager,
 					DirectX::Keyboard::KeyboardStateTracker* pKbTracker, 
 					Camera* pCamera, 
 					WeaponUI* weaponUI,

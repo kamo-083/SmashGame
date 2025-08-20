@@ -16,6 +16,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
+#include "Source/Game/Common/CollisionManager.h"
 #include "Source/Game/GameObjects/Camera.h"
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
@@ -51,6 +52,9 @@ private:
 	// システム関連
 	// 切り替え操作のモード true:武器 false:カメラ
 	bool m_keyMode;
+
+	// コリジョンマネージャー
+	std::unique_ptr<CollisionManager> m_collisionManager;
 
 
 	// オブジェクト関連

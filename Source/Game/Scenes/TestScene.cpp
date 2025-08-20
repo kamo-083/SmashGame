@@ -53,6 +53,9 @@ TestScene::~TestScene()
  */
 void TestScene::Initialize()
 {
+	// コリジョンマネージャーの作成
+	m_collisionManager = std::make_unique<CollisionManager>();
+
 	// カメラの作成
 	m_camera = std::make_unique<Camera>();
 
@@ -140,6 +143,9 @@ void TestScene::Update(float elapsedTime)
 
 	// エフェクトの更新
 	m_userResorces->GetEffectManager()->Update(elapsedTime);
+
+	// 当たり判定の更新
+	m_collisionManager->Update(elapsedTime);
 
 	// 仮リスポーン
 	if (m_player->GetPosition().y <= -10.0f)

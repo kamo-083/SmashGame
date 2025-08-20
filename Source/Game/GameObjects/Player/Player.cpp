@@ -40,7 +40,8 @@ Player::~Player()
 }
 
 
-void Player::Initialize(ResourceManager* pResourceManager, 
+void Player::Initialize(ResourceManager* pResourceManager,
+						CollisionManager* pCollisionManager,
 						DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 						Camera* pCamera, 
 						WeaponUI* weaponUI,
