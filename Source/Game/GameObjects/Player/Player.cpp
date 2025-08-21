@@ -88,6 +88,29 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_physics = std::make_unique<PhysicsObject>();
 	m_physics->GetFriction().SetDynamicFriction(1.3f);
 
+	// コリジョンマネージャーに登録
+	// 本体
+	CollisionManager::Desc bodyDesc{};
+	bodyDesc.type = CollisionManager::Type::Sphere;
+	bodyDesc.layer = CollisionManager::Layer::PlayerBody;
+	bodyDesc.sphere = &m_collider;
+	bodyDesc.position = &m_position;
+	bodyDesc.velocity = &m_velocity;
+	bodyDesc.callback.onResolved =
+		[this](uint32_t, const SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		{
+			const float groundCos = std::cos(XMConvertToRadians(30.0f));
+			if (n.y >= groundCos) m_onGround = true;
+		};
+	m_handleBody = pCollisionManager->Add(bodyDesc);
+	// 攻撃
+	CollisionManager::Desc atkDesc{};
+	atkDesc.type = CollisionManager::Type::Sphere;
+	atkDesc.layer = CollisionManager::Layer::PlayerAttack;
+	atkDesc.isTrigger = true;
+	atkDesc.sphere = &m_attackCollider;
+	m_handleAttack = pCollisionManager->Add(atkDesc);
+
 	// 待機状態を生成
 	m_idlingState = std::make_unique<Player_Idle>(this, pKbTracker);
 	// 待機状態を初期化

@@ -17,6 +17,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/Common/CollisionManager.h"
 
 
 // クラスの定義 ===============================================================
@@ -40,6 +41,9 @@ private:
 
 	OBBCollider m_collider;
 
+	// 衝突判定のハンドル
+	uint32_t m_collisionHandle;
+
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
 
@@ -59,7 +63,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize();
+	void Initialize(CollisionManager* pCollisionManager);
 
 	// 更新処理
 	void Update();

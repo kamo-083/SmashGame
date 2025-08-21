@@ -56,6 +56,18 @@ void TestScene::Initialize()
 	// コリジョンマネージャーの作成
 	m_collisionManager = std::make_unique<CollisionManager>();
 
+	// レイヤーフィルターの登録
+	auto& M = m_collisionManager->Matrix();
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyBody] = true;		// プレイヤーと敵
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::PlayerBody] = true;
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyBody] = true;		// 敵同士
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyAttack] = true;	// プレイヤーと敵の攻撃
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::PlayerAttack] = false;	// プレイヤーとプレイヤーの攻撃
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::PlayerAttack] = true;	// 敵とプレイヤーの攻撃
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyAttack] = false;	// 敵と敵の攻撃
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Stage] = true;			// プレイヤーとステージ
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Stage] = true;			// 敵とステージ
+
 	// カメラの作成
 	m_camera = std::make_unique<Camera>();
 
@@ -66,7 +78,8 @@ void TestScene::Initialize()
 
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_player->Initialize(m_userResorces->GetResourceManager(), &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
+	m_player->Initialize(m_userResorces->GetResourceManager(), m_collisionManager.get(),
+						 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// 敵の作成
 	m_enemy = std::make_unique<EnemyManager>(m_userResorces);
@@ -85,7 +98,7 @@ void TestScene::Initialize()
 		m_userResorces->GetDeviceResources()->GetD3DDeviceContext(), SimpleMath::Vector3(0.0f, 1.5f, -5.0f), SimpleMath::Vector3(5.0f, 3.0f, 0.5f)));
 	for (std::unique_ptr<Ground>& ground : m_grounds)
 	{
-		ground->Initialize();
+		ground->Initialize(m_collisionManager.get());
 	}
 
 	// ゴールの作成
@@ -149,7 +162,8 @@ void TestScene::Update(float elapsedTime)
 
 	// 仮リスポーン
 	if (m_player->GetPosition().y <= -10.0f)
-		m_player->Initialize(m_userResorces->GetResourceManager(), &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
+		m_player->Initialize(m_userResorces->GetResourceManager(), m_collisionManager.get(),
+							 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
 	//if (m_enemy->GetPosition().y <= -30.0f)
 	//	m_enemy->Initialize(m_userResorces->GetResourceManager(), { 0.0f, 5.0f, -4.0f });
 
@@ -157,7 +171,7 @@ void TestScene::Update(float elapsedTime)
 	// 地面
 	for (std::unique_ptr<Ground>& ground : m_grounds)
 	{
-		m_player->DetectCollisionToBox(ground->GetCollider());
+		//m_player->DetectCollisionToBox(ground->GetCollider());
 		//m_enemy->DetectCollisionToBox(ground->GetCollider());
 		m_bounceBox->DetectCollisionToBox(ground->GetCollider());
 	}
