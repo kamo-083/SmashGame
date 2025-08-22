@@ -69,7 +69,9 @@ GroundEnemy::~GroundEnemy()
 }
 
 
-void GroundEnemy::Initialize(ResourceManager* pResourceManager, const DirectX::SimpleMath::Vector3& position)
+void GroundEnemy::Initialize(ResourceManager* pResourceManager,
+							 CollisionManager* pCollisionManager, 
+							 const DirectX::SimpleMath::Vector3& position)
 {
 	// 座標の初期化
 	m_position = SimpleMath::Vector3(position);
@@ -101,6 +103,29 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager, const DirectX::S
 	m_physics = std::make_unique<PhysicsObject>();
 	m_physics->GetFriction().SetStaticFriction(0.5f);
 	m_physics->GetFriction().SetDynamicFriction(0.15f);	// 元は0.5f
+
+	// コリジョンマネージャーに登録
+	// 本体
+	CollisionManager::Desc bodyDesc{};
+	bodyDesc.type = CollisionManager::Type::Sphere;
+	bodyDesc.layer = CollisionManager::Layer::PlayerBody;
+	bodyDesc.sphere = &m_collider;
+	bodyDesc.position = &m_position;
+	bodyDesc.velocity = &m_velocity;
+	bodyDesc.callback.onResolved =
+		[this](uint32_t, const SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		{
+			const float groundCos = std::cos(XMConvertToRadians(30.0f));
+			if (n.y >= groundCos) m_onGround = true;
+		};
+	m_handleBody = pCollisionManager->Add(bodyDesc);
+	// 攻撃
+	CollisionManager::Desc atkDesc{};
+	atkDesc.type = CollisionManager::Type::Sphere;
+	atkDesc.layer = CollisionManager::Layer::PlayerAttack;
+	atkDesc.isTrigger = true;
+	atkDesc.sphere = &m_attackCollider;
+	m_handleAttack = pCollisionManager->Add(atkDesc);
 
 	// 状態の作成
 	// 待機状態

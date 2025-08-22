@@ -163,6 +163,20 @@ void CircleParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMat
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST, &m_vertices[0], m_vertices.size());
 	m_batch->End();
 
+	// 使ったSRVを解除
+	ID3D11ShaderResourceView* nullSRV[8] = {};
+	context->PSSetShaderResources(0, (UINT)std::min<size_t>(m_texture.size(), 8), nullSRV);
+
+	// サンプラ解除
+	ID3D11SamplerState* nullSmp[1] = { nullptr };
+	context->PSSetSamplers(0, 1, nullSmp);
+
+	// ブレンド/深度/ラスタ/入力レイアウトを元に戻す or 解除
+	context->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
+	context->OMSetDepthStencilState(nullptr, 0);
+	context->RSSetState(nullptr);
+	context->IASetInputLayout(nullptr);
+
 	//	シェーダの登録を解除
 	context->VSSetShader(nullptr, nullptr, 0);
 	context->PSSetShader(nullptr, nullptr, 0);

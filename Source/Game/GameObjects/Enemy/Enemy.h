@@ -16,6 +16,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/ResourceManager.h"
+#include"Source/Game/Common/CollisionManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
@@ -82,6 +83,12 @@ protected:
 	// リソースマネージャ
 	ResourceManager* m_pResourceManager;
 
+	// 衝突判定のハンドル(本体)
+	uint32_t m_handleBody;
+
+	// 衝突判定のハンドル(攻撃)
+	uint32_t m_handleAttack;
+
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
@@ -103,7 +110,9 @@ public:
 // 操作
 public:
 	// 初期化処理
-	virtual void Initialize(ResourceManager* pResourceManager, const DirectX::SimpleMath::Vector3& position) = 0;
+	virtual void Initialize(ResourceManager* pResourceManager,
+							CollisionManager* pCollisionManager,
+							const DirectX::SimpleMath::Vector3& position) = 0;
 
 	// 更新処理
 	virtual void Update(float elapsedTime) = 0;

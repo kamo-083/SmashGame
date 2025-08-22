@@ -65,7 +65,7 @@ private:
 	std::unique_ptr<Player> m_player;
 
 	//“G
-	std::unique_ptr<EnemyManager> m_enemy;
+	std::unique_ptr<EnemyManager> m_enemyManager;
 
 	//’n–Ê
 	std::vector<std::unique_ptr<Ground>> m_grounds;

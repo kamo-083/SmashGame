@@ -22,8 +22,9 @@ using namespace DirectX;
  *
  * @param[in] ‚È‚µ
  */
-EnemyManager::EnemyManager(UserResources* pUserResources)
+EnemyManager::EnemyManager(UserResources* pUserResources, CollisionManager* pCollisionManager)
 	:m_pUserResources{pUserResources}
+	,m_pCollisionManager{pCollisionManager}
 	,m_nextID{0}
 {
 
@@ -112,7 +113,9 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 
 	// “G‚ğ¶¬
 	std::unique_ptr<Enemy> enemy = Create(spawnData.type);
-	enemy->Initialize(m_pUserResources->GetResourceManager(), spawnData.position);
+	enemy->Initialize(m_pUserResources->GetResourceManager(),
+					  m_pCollisionManager,
+					  spawnData.position);
 
 	// ”z—ñ‚É“o˜^
 	std::unique_ptr<EnemyData> data = std::make_unique<EnemyData>

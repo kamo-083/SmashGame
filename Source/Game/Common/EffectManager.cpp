@@ -35,7 +35,8 @@ EffectManager::EffectManager(DX::DeviceResources* deviceResources)
  */
 EffectManager::~EffectManager()
 {
-
+	m_trajectory.clear();
+	m_circle.clear();
 }
 
 
