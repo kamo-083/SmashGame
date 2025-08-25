@@ -38,6 +38,10 @@ Scene::Scene(SceneManager* pSceneManager, UserResources* pUserReources)
  */
 Scene::~Scene()
 {
+	m_sceneManager = nullptr;
+	m_userResorces = nullptr;
+
+	m_kbTracker.Reset();
 }
 
 

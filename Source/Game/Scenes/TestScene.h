@@ -17,6 +17,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/GameObjects/Camera.h"
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
@@ -55,6 +56,9 @@ private:
 
 	// コリジョンマネージャー
 	std::unique_ptr<CollisionManager> m_collisionManager;
+
+	// エフェクトマネージャー
+	std::unique_ptr<EffectManager> m_effectManager;
 
 
 	// オブジェクト関連

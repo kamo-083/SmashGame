@@ -33,7 +33,7 @@ BounceBox::BounceBox(ID3D11DeviceContext* context)
  */
 BounceBox::~BounceBox()
 {
-
+	m_box.reset();
 }
 
 

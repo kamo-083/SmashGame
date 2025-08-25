@@ -106,6 +106,27 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         }
     }
 
+    // •Ð•t‚¯
+    if (g_game)g_game->Shutdown();
+
+    if (HMODULE hDxgiDebug = LoadLibraryExW(L"dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32))
+    {
+        using GetDebug = HRESULT(WINAPI*)(REFIID, void**);
+        auto DXGIGetDebugInterface = reinterpret_cast<GetDebug>(
+            GetProcAddress(hDxgiDebug, "DXGIGetDebugInterface"));
+
+        if (DXGIGetDebugInterface)
+        {
+            Microsoft::WRL::ComPtr<IDXGIDebug1> debug;
+            if (SUCCEEDED(DXGIGetDebugInterface(__uuidof(IDXGIDebug1), &debug)))
+            {
+                debug->ReportLiveObjects(DXGI_DEBUG_ALL, static_cast<DXGI_DEBUG_RLO_FLAGS>(
+                    DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL | DXGI_DEBUG_RLO_DETAIL));
+            }
+        }
+        FreeLibrary(hDxgiDebug);
+    }
+
     g_game.reset();
 
     CoUninitialize();

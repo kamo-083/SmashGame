@@ -27,7 +27,8 @@ const float Enemy::MAX_SPEED = 10.0f;	// 最高速度
  *
  * @param[in] なし
  */
-GroundEnemy::GroundEnemy(UserResources* pUserResources)
+GroundEnemy::GroundEnemy(UserResources* pUserResources,
+						 EffectManager* pEffectManager)
 	:Enemy{}
 	,m_currentState{nullptr}
 	,m_playerRelationData{DirectX::SimpleMath::Vector3::Zero,0.0f}
@@ -35,7 +36,7 @@ GroundEnemy::GroundEnemy(UserResources* pUserResources)
 	m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
 
 	// 軌跡エフェクトの作成
-	m_trajectory = pUserResources->GetEffectManager()->CreateTrajectory(
+	m_trajectory = pEffectManager->CreateTrajectory(
 		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.5f,
 		2.0f,
@@ -45,7 +46,7 @@ GroundEnemy::GroundEnemy(UserResources* pUserResources)
 	);
 
 	// 円形エフェクトの作成
-	m_circle= pUserResources->GetEffectManager()->CreateCircle(
+	m_circle = pEffectManager->CreateCircle(
 		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.75f,
 		1.0f,
@@ -65,12 +66,12 @@ GroundEnemy::GroundEnemy(UserResources* pUserResources)
  */
 GroundEnemy::~GroundEnemy()
 {
-
+	m_sphere.reset();
 }
 
 
 void GroundEnemy::Initialize(ResourceManager* pResourceManager,
-							 CollisionManager* pCollisionManager, 
+							 CollisionManager* pCollisionManager,
 							 const DirectX::SimpleMath::Vector3& position)
 {
 	// 座標の初期化
@@ -108,7 +109,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	// 本体
 	CollisionManager::Desc bodyDesc{};
 	bodyDesc.type = CollisionManager::Type::Sphere;
-	bodyDesc.layer = CollisionManager::Layer::PlayerBody;
+	bodyDesc.layer = CollisionManager::Layer::EnemyBody;
 	bodyDesc.sphere = &m_collider;
 	bodyDesc.position = &m_position;
 	bodyDesc.velocity = &m_velocity;
@@ -122,7 +123,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	// 攻撃
 	CollisionManager::Desc atkDesc{};
 	atkDesc.type = CollisionManager::Type::Sphere;
-	atkDesc.layer = CollisionManager::Layer::PlayerAttack;
+	atkDesc.layer = CollisionManager::Layer::EnemyAttack;
 	atkDesc.isTrigger = true;
 	atkDesc.sphere = &m_attackCollider;
 	m_handleAttack = pCollisionManager->Add(atkDesc);
@@ -142,7 +143,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	m_attackingState->Initialize(pResourceManager);
 
 	// エフェクトを出現をオフ
-	m_trajectory->SetSpawn(false);
+	m_trajectory->SetSpawn(true);
 
 	// 初期状態の設定
 	m_currentState = m_idlingState.get();
@@ -160,16 +161,29 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	m_currentState->Render(context);
 	
 	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
-	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"ePos  = %f,%f,%f",
-		m_circle->position->x, m_circle->position->y, m_circle->position->z);
-	debugFont->AddString(0, 260, DirectX::Colors::Blue, L"effect  = %d", m_trajectory->spawn);
-	debugFont->AddString(0, 290, DirectX::Colors::Blue, L"state= %d", GetStateType());
+	//debugFont->AddString(0, 230, DirectX::Colors::Blue, L"ePos  = %f,%f,%f",
+	//	m_circle->position->x, m_circle->position->y, m_circle->position->z);
+	//debugFont->AddString(0, 260, DirectX::Colors::Blue, L"effect  = %d", m_trajectory->spawn);
+	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"state= %d", GetStateType());
 }
 
 
-void GroundEnemy::Finalize()
+void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 {
 	m_idlingState.reset();
+
+	m_model = nullptr;
+
+	if (m_handleBody) 
+	{
+		pCollisionManager->Remove(m_handleBody);
+		m_handleBody = 0;
+	}
+	if (m_handleAttack) 
+	{
+		pCollisionManager->Remove(m_handleAttack);
+		m_handleAttack = 0;
+	}
 }
 
 

@@ -28,6 +28,15 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> TrajectoryParticle::INPUT_LAYOUT =
 
 TrajectoryParticle::TrajectoryParticle()
 	:m_pDR(nullptr)
+	, m_CBuffer(nullptr)
+	, m_inputLayout(nullptr)
+	, m_batch(nullptr)
+	, m_states(nullptr)
+	, m_texture()
+	, m_vertices()
+	, m_vertexShader(nullptr)
+	, m_pixelShader(nullptr)
+	, m_geometryShader(nullptr)
 	, m_timer(0.0f)
 	, m_scale(0.0f)
 	, m_life(0.0f)
@@ -36,22 +45,46 @@ TrajectoryParticle::TrajectoryParticle()
 
 TrajectoryParticle::~TrajectoryParticle()
 {
+	m_particleUtility.clear();
+	m_texture.clear();
+
+	m_pDR = nullptr;
+	m_CBuffer = nullptr;
+	m_inputLayout = nullptr;
+	m_batch = nullptr;
+	m_states = nullptr;
+	m_vertexShader = nullptr;
+	m_pixelShader = nullptr;
+	m_geometryShader = nullptr;
 }
 
 
-void TrajectoryParticle::Create(DX::DeviceResources* pDR, ID3D11ShaderResourceView* pTexture,
-								float scale, float life, DirectX::SimpleMath::Color color)
+void TrajectoryParticle:: Create(DX::DeviceResources* DR,
+								 ID3D11Buffer* CBuffer,
+								 ID3D11InputLayout* inputLayout,
+								 DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>* batch,
+								 DirectX::CommonStates* states,
+								 ID3D11ShaderResourceView* texture,
+								 ID3D11VertexShader* vertexShader,
+								 ID3D11PixelShader* pixelShader,
+								 ID3D11GeometryShader* geometryShader,
+								 float scale, float life, DirectX::SimpleMath::Color color)			
 {
-	m_pDR = pDR;
-	ID3D11Device1* device = pDR->GetD3DDevice();
+	m_pDR = DR;
+	ID3D11Device1* device = DR->GetD3DDevice();
 
-	CreateShader();
+	m_CBuffer = CBuffer;
+	m_inputLayout = inputLayout;
 
 	//画像の保存
-	m_texture.push_back(pTexture);
+	m_texture.push_back(texture);
 
-	m_batch = std::make_unique<PrimitiveBatch<VertexPositionColorTexture>>(pDR->GetD3DDeviceContext());
-	m_states = std::make_unique<CommonStates>(device);
+	m_batch = batch;
+	m_states = states;
+
+	m_pixelShader = pixelShader;
+	m_vertexShader = vertexShader;
+	m_geometryShader = geometryShader;
 
 	m_scale = scale;
 	m_color = color;
@@ -147,9 +180,9 @@ void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::Simpl
 	cbuff.matWorld = m_world.Transpose();
 	cbuff.Diffuse = DirectX::SimpleMath::Vector4(1, 1, 1, 1);
 
-	context->UpdateSubresource(m_CBuffer.Get(), 0, NULL, &cbuff, 0, 0);
+	context->UpdateSubresource(m_CBuffer, 0, NULL, &cbuff, 0, 0);
 
-	ID3D11Buffer* cb[1] = { m_CBuffer.Get() };
+	ID3D11Buffer* cb[1] = { m_CBuffer };
 
 	context->VSSetConstantBuffers(0, 1, cb);
 	context->PSSetConstantBuffers(0, 1, cb);
@@ -172,9 +205,9 @@ void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::Simpl
 	context->RSSetState(m_states->CullNone());
 
 	//	シェーダをセットする
-	context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
-	context->PSSetShader(m_pixelShader.Get(), nullptr, 0);
-	context->GSSetShader(m_geometryShader.Get(), nullptr, 0);
+	context->VSSetShader(m_vertexShader, nullptr, 0);
+	context->PSSetShader(m_pixelShader, nullptr, 0);
+	context->GSSetShader(m_geometryShader, nullptr, 0);
 
 	//	Create関数で読み込んだ画像をピクセルシェーダに登録する
 	for (int i = 0; i < m_texture.size(); i++)
@@ -184,7 +217,7 @@ void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::Simpl
 	}
 
 	//	インプットレイアウトの登録
-	context->IASetInputLayout(m_inputLayout.Get());
+	context->IASetInputLayout(m_inputLayout);
 
 	//	板ポリゴンを描画
 	m_batch->Begin();
@@ -228,50 +261,4 @@ void TrajectoryParticle::CreateBillboard(DirectX::SimpleMath::Vector3 position,
 	m_cameraPosition = eye;
 	m_cameraTarget = target;
 	m_billboard = rot * m_billboard;
-}
-
-void TrajectoryParticle::CreateShader()
-{
-	ID3D11Device1* device = m_pDR->GetD3DDevice();
-
-	//	コンパイルされたシェーダファイルを読み込み
-	std::unique_ptr<BinaryFile> VSData = BinaryFile::LoadFile(L"Resources/Shaders/ParticleVS.cso");
-	std::unique_ptr<BinaryFile> PSData = BinaryFile::LoadFile(L"Resources/Shaders/ParticlePS.cso");
-	std::unique_ptr<BinaryFile> GSData = BinaryFile::LoadFile(L"Resources/Shaders/ParticleGS.cso");
-
-	//	インプットレイアウトの作成
-	device->CreateInputLayout(&INPUT_LAYOUT[0],
-		static_cast<UINT>(INPUT_LAYOUT.size()),
-		VSData->GetData(), VSData->GetSize(),
-		m_inputLayout.GetAddressOf());
-
-	//	頂点シェーダ作成
-	if (FAILED(device->CreateVertexShader(VSData->GetData(), VSData->GetSize(), NULL, m_vertexShader.ReleaseAndGetAddressOf())))
-	{
-		MessageBox(0, L"CreateVertexShader Failed.", NULL, MB_OK);
-		return;
-	}
-
-	//	ピクセルシェーダ作成
-	if (FAILED(device->CreatePixelShader(PSData->GetData(), PSData->GetSize(), NULL, m_pixelShader.ReleaseAndGetAddressOf())))
-	{
-		MessageBox(0, L"CreatePixelShader Failed.", NULL, MB_OK);
-		return;
-	}
-
-	//	ジオメトリシェーダ作成
-	if (FAILED(device->CreateGeometryShader(GSData->GetData(), GSData->GetSize(), NULL, m_geometryShader.ReleaseAndGetAddressOf())))
-	{
-		MessageBox(0, L"CreateGeometryShader Failed.", NULL, MB_OK);
-		return;
-	}
-
-	//	シェーダーにデータを渡すためのコンスタントバッファ生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(ConstBuffer);
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = 0;
-	device->CreateBuffer(&bd, nullptr, &m_CBuffer);
 }

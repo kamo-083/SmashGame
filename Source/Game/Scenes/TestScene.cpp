@@ -39,7 +39,8 @@ TestScene::TestScene(SceneManager* pSceneManager, UserResources* pUserReources)
  */
 TestScene::~TestScene()
 {
-
+	m_enemyManager->Finalize();
+	m_effectManager->Finalize();
 }
 
 
@@ -71,6 +72,10 @@ void TestScene::Initialize()
 	// カメラの作成
 	m_camera = std::make_unique<Camera>();
 
+	// エフェクトマネージャーの作成
+	m_effectManager = std::make_unique<EffectManager>(m_userResorces->GetDeviceResources());
+	m_effectManager->SetCamera(m_camera.get());
+
 	// 武器UIの作成
 	m_weaponUI = std::make_unique<WeaponUI>(m_userResorces->GetDeviceResources()->GetOutputSize().right,
 		m_userResorces->GetDeviceResources()->GetOutputSize().bottom);
@@ -80,15 +85,23 @@ void TestScene::Initialize()
 	m_player = std::make_unique<Player>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_player->Initialize(m_userResorces->GetResourceManager(), m_collisionManager.get(),
 						 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
+	m_effectManager->CreateTrajectory(
+		m_userResorces->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
+		0.5f,
+		2.0f,
+		SimpleMath::Color(1, 1, 1, 1),
+		&m_player->GetPosition(),
+		false
+	);
 
 	// 敵の作成
-	m_enemyManager = std::make_unique<EnemyManager>(m_userResorces, m_collisionManager.get());
-	//EnemyManager::SpawnData data;
-	//data.type = EnemyManager::EnemyType::Ground;
-	//data.position = SimpleMath::Vector3(0.0f, 5.0f, -4.0f);
-	//m_enemyManager->Spawn(data);
-	//data.position = SimpleMath::Vector3(4.0f, 5.0f, -2.0f);
-	//m_enemyManager->Spawn(data);
+	m_enemyManager = std::make_unique<EnemyManager>(m_userResorces, m_collisionManager.get(), m_effectManager.get());
+	EnemyManager::SpawnData data;
+	data.type = EnemyManager::EnemyType::Ground;
+	data.position = SimpleMath::Vector3(0.0f, 5.0f, -4.0f);
+	m_enemyManager->Spawn(data);
+	data.position = SimpleMath::Vector3(4.0f, 5.0f, -2.0f);
+	m_enemyManager->Spawn(data);
 
 	// 地面の作成
 	m_grounds.push_back(std::make_unique<Ground>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext()));
@@ -115,9 +128,6 @@ void TestScene::Initialize()
 
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());
-
-	// エフェクトマネージャーの設定
-	m_userResorces->GetEffectManager()->SetCamera(m_camera.get());
 
 	// キー操作のモードの初期化
 	m_keyMode = true;
@@ -155,7 +165,7 @@ void TestScene::Update(float elapsedTime)
 	m_camera->Update(&m_kbTracker, elapsedTime);
 
 	// エフェクトの更新
-	m_userResorces->GetEffectManager()->Update(elapsedTime);
+	m_effectManager->Update(elapsedTime);
 
 	// 当たり判定の更新
 	m_collisionManager->Update(elapsedTime);
@@ -183,6 +193,7 @@ void TestScene::Update(float elapsedTime)
 	// シーンの切り替え
 	if (m_kbTracker.pressed.P)
 	{
+		m_effectManager->Finalize();
 		ChangeScene("TitleScene");
 	}
 }
@@ -230,7 +241,7 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	m_weaponUI->Draw(context.spriteBatch);
 
 	// エフェクトの描画
-	m_userResorces->GetEffectManager()->Draw(context.projection);
+	m_effectManager->Draw(context.projection);
 }
 
 
@@ -244,4 +255,15 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  */
 void TestScene::Finalize()
 {
+	if (m_player) m_player->Finalize();
+	if (m_enemyManager) m_enemyManager->Finalize();
+	if (m_effectManager)	m_effectManager->Finalize();
+	if (m_bounceBox)	m_bounceBox->Finalize();
+	if (m_targetBox)	m_targetBox->Finalize();
+	if (m_goal)	m_goal->Finalize();
+
+	for (auto& ground : m_grounds)
+	{
+		ground->Finalize();
+	}
 }

@@ -22,9 +22,12 @@ using namespace DirectX;
  *
  * @param[in] ‚È‚µ
  */
-EnemyManager::EnemyManager(UserResources* pUserResources, CollisionManager* pCollisionManager)
+EnemyManager::EnemyManager(UserResources* pUserResources,
+						   CollisionManager* pCollisionManager,
+						   EffectManager* pEffectManager)
 	:m_pUserResources{pUserResources}
 	,m_pCollisionManager{pCollisionManager}
+	,m_pEffectManager{pEffectManager}
 	,m_nextID{0}
 {
 
@@ -37,7 +40,7 @@ EnemyManager::EnemyManager(UserResources* pUserResources, CollisionManager* pCol
  */
 EnemyManager::~EnemyManager()
 {
-
+	m_enemies.clear();
 }
 
 
@@ -103,7 +106,11 @@ void EnemyManager::Draw(RenderContext& context)
  */
 void EnemyManager::Finalize()
 {
-
+	for (auto& enemy : m_enemies)
+	{
+		enemy->enemy->Finalize(m_pCollisionManager);
+	}
+	m_enemies.clear();
 }
 
 EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
@@ -134,7 +141,7 @@ std::unique_ptr<Enemy> EnemyManager::Create(EnemyType type)
 	switch (type)
 	{
 	case Ground:
-		return std::make_unique<GroundEnemy>(m_pUserResources);
+		return std::make_unique<GroundEnemy>(m_pUserResources, m_pEffectManager);
 	}
 
 	return nullptr;

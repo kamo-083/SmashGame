@@ -129,7 +129,6 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Player();
 	Player(ID3D11DeviceContext* context);
 
 	// デストラクタ

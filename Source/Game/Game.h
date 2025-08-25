@@ -8,7 +8,6 @@
 #include "Source/Game/Common/StepTimer.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/ResourceManager.h"
-#include "Source/Game/Common/EffectManager.h"
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Common/UserResources.h"
 #include "ImaseLib/DebugFont.h"
@@ -51,6 +50,8 @@ public:
     // Properties
     void GetDefaultSize( int& width, int& height ) const noexcept;
 
+    void Shutdown();
+
 private:
 
     void Update(DX::StepTimer const& timer);
@@ -81,9 +82,6 @@ private:
 
     // リソースマネージャー
     std::unique_ptr<ResourceManager> m_resourceManager;
-
-    // エフェクトマネージャー
-    std::unique_ptr<EffectManager> m_effectManager;
 
     // ユーザーリソース
     std::unique_ptr<UserResources> m_userResources;

@@ -20,11 +20,6 @@ using namespace DirectX;
  *
  * @param[in] ‚È‚µ
  */
-Player::Player()
-{
-
-}
-
 Player::Player(ID3D11DeviceContext* context)
 {
 	m_sphere = DirectX::GeometricPrimitive::CreateSphere(context);
@@ -36,7 +31,7 @@ Player::Player(ID3D11DeviceContext* context)
  */
 Player::~Player()
 {
-
+	m_sphere.reset();
 }
 
 
@@ -161,6 +156,8 @@ void Player::Finalize()
 {
 	// ó‘Ô‚ğƒŠƒZƒbƒg‚·‚é
 	m_idlingState.reset();
+
+	m_model = nullptr;
 }
 
 

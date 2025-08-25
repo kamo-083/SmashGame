@@ -33,7 +33,7 @@ TargetBox::TargetBox(ID3D11DeviceContext* context)
  */
 TargetBox::~TargetBox()
 {
-
+	m_box.reset();
 }
 
 

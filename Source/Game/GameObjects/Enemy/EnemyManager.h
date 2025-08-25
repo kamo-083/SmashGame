@@ -16,6 +16,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/GameObjects/Enemy/Enemy.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
@@ -68,6 +69,9 @@ private:
 	// コリジョンマネージャーのポインタ
 	CollisionManager* m_pCollisionManager;
 
+	// エフェクトマネージャーのポインタ
+	EffectManager* m_pEffectManager;
+
 	// ID
 	int m_nextID;
 
@@ -79,7 +83,9 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	EnemyManager(UserResources* pUserResources, CollisionManager* pCollisionManager);
+	EnemyManager(UserResources* pUserResources, 
+				 CollisionManager* pCollisionManager,
+				 EffectManager* pEffectManager);
 
 	// デストラクタ
 	~EnemyManager();

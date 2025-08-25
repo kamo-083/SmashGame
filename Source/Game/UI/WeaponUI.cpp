@@ -12,6 +12,7 @@ WeaponUI::WeaponUI(float width, float height)
 
 WeaponUI::~WeaponUI()
 {
+	m_texture.clear();
 }
 
 void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float height)

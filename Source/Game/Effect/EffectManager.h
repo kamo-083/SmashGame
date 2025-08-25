@@ -89,6 +89,15 @@ public:
 		}
 	};
 
+	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
+
+	struct ConstBuffer
+	{
+		DirectX::SimpleMath::Matrix	 matWorld;
+		DirectX::SimpleMath::Matrix	 matView;
+		DirectX::SimpleMath::Matrix	 matProj;
+		DirectX::SimpleMath::Vector4 Diffuse;
+	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -101,6 +110,17 @@ private:
 	// エフェクトの配列
 	std::vector<std::unique_ptr<TrajectoryParticleData>> m_trajectory;
 	std::vector<std::unique_ptr<CircleParticleData>> m_circle;
+
+	Microsoft::WRL::ComPtr<ID3D11Buffer> m_CBuffer;
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+
+	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_batch;
+	std::unique_ptr<DirectX::CommonStates> m_states;
+
+	//シェーダー
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
+	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
+	Microsoft::WRL::ComPtr<ID3D11GeometryShader> m_geometryShader;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -142,5 +162,5 @@ public:
 
 // 内部実装
 private:
-
+	void CreateShader();
 };

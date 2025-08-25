@@ -20,6 +20,7 @@
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
+#include"Source/Game/Effect/EffectManager.h"
 
 #include"ImaseLib/DebugFont.h"
 
@@ -121,7 +122,7 @@ public:
 	virtual void Draw(RenderContext& context, Imase::DebugFont* debugFont) = 0;
 
 	// 終了処理
-	virtual void Finalize() = 0;
+	virtual void Finalize(CollisionManager* pCollisionManager) = 0;
 
 	// プレイヤーとの距離を計算
 	virtual void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius) = 0;

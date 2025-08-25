@@ -78,7 +78,8 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	GroundEnemy(UserResources* pUserResources);
+	GroundEnemy(UserResources* pUserResources,
+				EffectManager* pEffectManager);
 
 	// デストラクタ
 	~GroundEnemy();
@@ -88,7 +89,7 @@ public:
 public:
 	// 初期化処理
 	void Initialize(ResourceManager* pResourceManager,
-					CollisionManager* pCollisionManager, 
+					CollisionManager* pCollisionManager,
 					const DirectX::SimpleMath::Vector3& position) override;
 
 	// 更新処理
@@ -98,7 +99,7 @@ public:
 	void Draw(RenderContext& context, Imase::DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize() override;
+	void Finalize(CollisionManager* pCollisionManager) override;
 
 	// 状態遷移
 	void ChangeState(IState* newState);

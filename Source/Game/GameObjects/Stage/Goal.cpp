@@ -37,7 +37,7 @@ Goal::Goal(ID3D11DeviceContext* context)
  */
 Goal::~Goal()
 {
-
+	m_geometricPrimitive.reset();
 }
 
 

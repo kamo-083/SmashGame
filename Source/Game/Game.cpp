@@ -80,7 +80,10 @@ void Game::Update(DX::StepTimer const& timer)
 
     // Escでゲームを閉じる
     auto kb = Keyboard::Get().GetState();
-    if (kb.Escape) ExitGame();
+    if (kb.Escape)
+    {
+        ExitGame();
+    }
 }
 #pragma endregion
 
@@ -122,6 +125,7 @@ void Game::Render()
     // Show the new frame.
     m_deviceResources->Present();
 }
+
 
 // Helper method to clear the back buffers.
 void Game::Clear()
@@ -197,6 +201,26 @@ void Game::GetDefaultSize(int& width, int& height) const noexcept
     width = 1280;
     height =720;
 }
+
+void Game::Shutdown()
+{
+    m_sceneManager.reset();
+    m_resourceManager.reset();
+
+    m_spriteBatch.reset();
+    m_states.reset();
+    m_debugFont.reset();
+
+    m_userResources.reset();
+
+    auto context = m_deviceResources->GetD3DDeviceContext();
+    context->OMSetRenderTargets(0, nullptr, nullptr);
+    context->ClearState();
+    context->Flush();
+
+    m_deviceResources.reset();
+}
+
 #pragma endregion
 
 #pragma region Direct3D Resources
@@ -214,9 +238,6 @@ void Game::CreateDeviceDependentResources()
     // リソースマネージャーの作成
     m_resourceManager = std::make_unique<ResourceManager>(device);
 
-    // エフェクトマネージャーの作成
-    m_effectManager = std::make_unique<EffectManager>(m_deviceResources.get());
-
     // デバッグフォントの作成
     m_debugFont = std::make_unique<Imase::DebugFont>(device, context, L"Resources/Font/SegoeUI_18.spritefont");
 
@@ -228,7 +249,6 @@ void Game::CreateDeviceDependentResources()
     m_userResources->SetDeviceResources(m_deviceResources.get());
     m_userResources->SetDebugFont(m_debugFont.get());
     m_userResources->SetResourceManager(m_resourceManager.get());
-    m_userResources->SetEffectManager(m_effectManager.get());
 
      // シーンマネージャの作成
     m_sceneManager = std::make_unique<SceneManager>(m_userResources.get());
@@ -251,6 +271,7 @@ void Game::CreateWindowSizeDependentResources()
 void Game::OnDeviceLost()
 {
     // TODO: Add Direct3D resource cleanup here.
+
 }
 
 void Game::OnDeviceRestored()

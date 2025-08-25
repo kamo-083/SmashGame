@@ -35,11 +35,11 @@ private:
 
 	float m_timer;
 
-	Microsoft::WRL::ComPtr<ID3D11Buffer> m_CBuffer;
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+	ID3D11Buffer* m_CBuffer;
+	ID3D11InputLayout* m_inputLayout;
 
-	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_batch;
-	std::unique_ptr<DirectX::CommonStates> m_states;
+	DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>* m_batch;
+	DirectX::CommonStates* m_states;
 	std::vector<ID3D11ShaderResourceView*> m_texture;
 	std::vector<DirectX::VertexPositionColorTexture> m_vertices;
 
@@ -48,9 +48,9 @@ private:
 	DirectX::SimpleMath::Vector3 m_cameraTarget;
 
 	//シェーダー
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
-	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
-	Microsoft::WRL::ComPtr<ID3D11GeometryShader> m_geometryShader;
+	ID3D11VertexShader* m_vertexShader;
+	ID3D11PixelShader* m_pixelShader;
+	ID3D11GeometryShader* m_geometryShader;
 
 	DirectX::SimpleMath::Matrix m_world;
 	DirectX::SimpleMath::Matrix m_view;
@@ -68,7 +68,15 @@ public:
 	TrajectoryParticle();
 	~TrajectoryParticle();
 
-	void Create(DX::DeviceResources* pDR, ID3D11ShaderResourceView* pTexture,
+	void Create(DX::DeviceResources* DR,
+				ID3D11Buffer* CBuffer,
+				ID3D11InputLayout* inputLayout,
+				DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>* batch,
+				DirectX::CommonStates* states,
+				ID3D11ShaderResourceView* texture,
+				ID3D11VertexShader* vertexShader,
+				ID3D11PixelShader* pixelShader,
+				ID3D11GeometryShader* geometryShader,
 				float scale, float life, DirectX::SimpleMath::Color color);
 
 	void Update(float elapsedTime, DirectX::SimpleMath::Vector3 pos, bool spawn = true, bool isRandom = false);
@@ -81,6 +89,5 @@ public:
 						 DirectX::SimpleMath::Vector3 up);
 
 private:
-	void CreateShader();
 
 };

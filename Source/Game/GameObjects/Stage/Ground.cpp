@@ -39,7 +39,7 @@ Ground::Ground(ID3D11DeviceContext* context,
  */
 Ground::~Ground()
 {
-
+	m_geometricPrimitive.reset();
 }
 
 

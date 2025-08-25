@@ -186,7 +186,6 @@
     <ClInclude Include="Source\Game\Common\Collision.h" />
     <ClInclude Include="Source\Game\Common\CollisionManager.h" />
     <ClInclude Include="Source\Game\Common\DeviceResources.h" />
-    <ClInclude Include="Source\Game\Common\EffectManager.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\Friction.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\Gravity.h" />
@@ -200,6 +199,7 @@
     <ClInclude Include="Source\Game\Data\WeaponData.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticleUtility.h" />
+    <ClInclude Include="Source\Game\Effect\EffectManager.h" />
     <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticle.h" />
     <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticleUtility.h" />
     <ClInclude Include="Source\Game\Game.h" />
@@ -238,13 +238,13 @@
     <ClCompile Include="Source\Game\Common\Collision.cpp" />
     <ClCompile Include="Source\Game\Common\CollisionManager.cpp" />
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp" />
-    <ClCompile Include="Source\Game\Common\EffectManager.cpp" />
     <ClCompile Include="Source\Game\Common\PhysicsEngine\PhysicsObject.cpp" />
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
     <ClCompile Include="Source\Game\Common\SceneManager.cpp" />
     <ClCompile Include="Source\Game\Effect\Circle\CircleParticle.cpp" />
     <ClCompile Include="Source\Game\Effect\Circle\CircleParticleUtility.cpp" />
+    <ClCompile Include="Source\Game\Effect\EffectManager.cpp" />
     <ClCompile Include="Source\Game\Effect\Trajectory\TrajectoryParticle.cpp" />
     <ClCompile Include="Source\Game\Effect\Trajectory\TrajectoryParticleUtility.cpp" />
     <ClCompile Include="Source\Game\Game.cpp">
