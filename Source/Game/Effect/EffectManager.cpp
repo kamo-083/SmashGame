@@ -154,7 +154,7 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 		(
 			std::move(effect),
 			position,
-			true,
+			false,
 			random
 		);
 

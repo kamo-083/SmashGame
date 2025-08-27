@@ -81,7 +81,8 @@ void Player::Initialize(ResourceManager* pResourceManager,
 
 	// 物理演算の設定
 	m_physics = std::make_unique<PhysicsObject>();
-	m_physics->GetFriction().SetDynamicFriction(1.3f);
+	m_physics->GetFriction().SetDynamicFriction(DYNAMIC_FRICTION_FORCE);
+	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION_FORCE);
 
 	// コリジョンマネージャーに登録
 	// 本体
@@ -96,6 +97,27 @@ void Player::Initialize(ResourceManager* pResourceManager,
 		{
 			const float groundCos = std::cos(XMConvertToRadians(30.0f));
 			if (n.y >= groundCos) m_onGround = true;
+		};
+	bodyDesc.callback.onEnter =
+		[this, pCollisionManager](uint32_t, uint32_t other)		// 敵の攻撃で吹っ飛ぶ
+		{
+			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyAttack) return;
+
+			MTV mtv = CalculateMTV(*pCollisionManager->GetDesc(other)->sphere, m_collider);
+
+			// 吹っ飛ぶ方向の設定
+			DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
+			knockbackDir.Normalize();
+
+			// 吹っ飛ぶ力の設定
+			float knockbackForce = mtv.distance * 100000.0f;
+
+			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
+			m_physics->GetExternalForce().Add(force);
+
+			// 跳ね返り状態に遷移
+			m_isBounce = true;
+			ChangeState(m_idlingState.get());
 		};
 	m_handleBody = pCollisionManager->Add(bodyDesc);
 	// 攻撃
@@ -146,9 +168,9 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	m_currentState->Render(context);
 
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
-	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
+	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_collider.GetCenter().x, m_collider.GetCenter().y, m_collider.GetCenter().z);
 	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"weapon = %d", static_cast<int>(m_weaponType));
-	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"onGround = %d", static_cast<int>(m_onGround));
+	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"bounce = %d", static_cast<int>(m_isBounce));
 }
 
 
@@ -251,84 +273,4 @@ void Player::LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max)
 	velocity.x = std::min(std::max(velocity.x, -max), max);
 	velocity.y = std::min(std::max(velocity.y, -MAX_SPEED), MAX_SPEED);
 	velocity.z = std::min(std::max(velocity.z, -max), max);
-}
-
-bool Player::DetectCollisionToBox(OBBCollider collider)
-{
-	bool hit = IsHit(collider, m_collider);
-
-	if (hit)
-	{
-		MTV mtv = CalculateMTV(collider, m_collider);
-		if (mtv.distance > 0.0f && mtv.direction.LengthSquared() > 0.00001f)
-		{
-			m_position += mtv.direction * mtv.distance;
-			m_collider.SetCenter(m_position);
-		}
-
-		//法線ベクトルを元にオブジェクトの種類を判定
-		DirectX::SimpleMath::Vector3 normal = mtv.direction;
-		normal.Normalize();
-
-		OBBCollider::CollisionType type = DetermineCollisionType(normal);
-		switch (type)
-		{
-		case OBBCollider::CollisionType::Ground:
-			m_velocity.y = 0.0f;
-			m_onGround = true;
-			break;
-		case OBBCollider::CollisionType::Wall:
-			if (abs(normal.x) > abs(normal.z)) m_velocity.x = 0.0f;
-			else							   m_velocity.z = 0.0f;
-			break;
-		default:
-			break;
-		}
-	}
-
-	return hit;
-}
-
-bool Player::DetectCollisionToSphere(SphereCollider collider)
-{
-	bool hit = IsHit(collider, m_collider);
-
-	if (hit)
-	{
-		MTV mtv = CalculateMTV(collider, m_collider);
-		if (mtv.distance > 0.0f && mtv.direction.LengthSquared() > 0.00001f)
-		{
-			m_position += mtv.direction * mtv.distance;
-			m_collider.SetCenter(m_position);
-			//SetAttackPosition();
-		}
-	}
-
-	return hit;
-}
-
-bool Player::DetectCollisionToAttack(SphereCollider collider, float power)
-{
-	bool hit = IsHit(collider, m_collider);
-
-	if (hit)
-	{
-		MTV mtv = CalculateMTV(collider, m_collider);
-
-		// 吹っ飛ぶ方向の設定
-		DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
-		knockbackDir.Normalize();
-
-		// 吹っ飛ぶ力の設定
-		float knockbackForce = (1.0f + mtv.distance) * power;
-
-		DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
-		m_physics->GetExternalForce().Add(force);
-
-		// 跳ね返り状態に遷移
-		m_isBounce = true;
-		ChangeState(m_idlingState.get());
-	}
-
-	return hit;
 }

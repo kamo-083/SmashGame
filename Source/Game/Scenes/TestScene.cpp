@@ -85,14 +85,14 @@ void TestScene::Initialize()
 	m_player = std::make_unique<Player>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_player->Initialize(m_userResorces->GetResourceManager(), m_collisionManager.get(),
 						 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
-	m_effectManager->CreateTrajectory(
-		m_userResorces->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
-		0.5f,
-		2.0f,
-		SimpleMath::Color(1, 1, 1, 1),
-		&m_player->GetPosition(),
-		false
-	);
+	//m_effectManager->CreateTrajectory(
+	//	m_userResorces->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
+	//	0.5f,
+	//	2.0f,
+	//	SimpleMath::Color(1, 1, 1, 1),
+	//	&m_player->GetPosition(),
+	//	false
+	//);
 
 	// “G‚Ìì¬
 	m_enemyManager = std::make_unique<EnemyManager>(m_userResorces, m_collisionManager.get(), m_effectManager.get());
@@ -182,7 +182,6 @@ void TestScene::Update(float elapsedTime)
 		m_bounceBox->DetectCollisionToBox(ground->GetCollider());
 	}
 	// ƒvƒŒƒCƒ„[
-	m_player->DetectCollisionToBox(m_bounceBox->GetCollider());	// ” 
 	if (m_player->GetIsAttack())
 	{
 		m_bounceBox->DetectCollisionToAttack(*m_player->GetAttackCollider(), *m_player->GetCollider(), m_player->GetAttackForce());

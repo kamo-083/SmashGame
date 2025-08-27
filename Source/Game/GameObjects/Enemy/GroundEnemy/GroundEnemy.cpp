@@ -119,6 +119,26 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 			const float groundCos = std::cos(XMConvertToRadians(30.0f));
 			if (n.y >= groundCos) m_onGround = true;
 		};
+	bodyDesc.callback.onEnter =
+		[this, pCollisionManager](uint32_t, uint32_t other)		// プレイヤーの攻撃で吹っ飛ぶ
+		{			
+			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::PlayerAttack) return;
+
+			MTV mtv = CalculateMTV(*pCollisionManager->GetDesc(other)->sphere, m_collider);
+
+			// 吹っ飛ぶ方向の設定
+			DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
+			knockbackDir.Normalize();
+
+			// 吹っ飛ぶ力の設定
+			float knockbackForce = mtv.distance * 10000.0f;
+
+			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
+			m_physics->GetExternalForce().Add(force);
+
+			// 跳ね返り状態に遷移
+			ChangeState(m_bouncingState.get());
+		};
 	m_handleBody = pCollisionManager->Add(bodyDesc);
 	// 攻撃
 	CollisionManager::Desc atkDesc{};
@@ -143,7 +163,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	m_attackingState->Initialize(pResourceManager);
 
 	// エフェクトを出現をオフ
-	m_trajectory->SetSpawn(true);
+	m_trajectory->SetSpawn(false);
 
 	// 初期状態の設定
 	m_currentState = m_idlingState.get();
