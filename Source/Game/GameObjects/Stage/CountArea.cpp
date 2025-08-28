@@ -52,10 +52,12 @@ CountArea::~CountArea()
  */
 void CountArea::Initialize(CollisionManager* pCollisionManager,
 						   DirectX::SimpleMath::Vector3 position, float x, float z,
-						   TriggerMode mode, int targetNum)
+						   std::function<void()> operation,TriggerMode mode, int targetNum)
 {
 	m_position = position;
 
+	m_operation = operation;
+	
 	m_mode = mode;
 
 	m_targetNum = targetNum;
@@ -146,7 +148,10 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
  */
 void CountArea::Update()
 {
-
+	if (m_isTrigger)
+	{
+		m_operation();
+	}
 }
 
 

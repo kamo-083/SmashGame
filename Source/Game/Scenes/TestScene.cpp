@@ -122,7 +122,11 @@ void TestScene::Initialize()
 
 	// ƒGƒŠƒA‚Ìì¬
 	m_area = std::make_unique<CountArea>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_area->Initialize(m_collisionManager.get(), SimpleMath::Vector3(0.0f, 1.0f, 3.0f), 1.0f, 1.0f, CountArea::TriggerMode::AllOut);
+	m_area->Initialize(m_collisionManager.get(), SimpleMath::Vector3(0.0f, 1.0f, 3.0f), 1.0f, 1.0f,
+		[this]()
+		{m_goal->CanGoal(); }
+		,
+		CountArea::TriggerMode::ReachCount, 1);
 
 	// ” ‚Ìì¬
 	m_bounceBox = std::make_unique<BounceBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());

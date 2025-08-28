@@ -14,6 +14,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include <functional>
 #include"ImaseLib/DebugFont.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/CollisionManager.h"
@@ -57,6 +58,9 @@ private:
 	// エリア内にいる敵IDのリスト
 	std::vector<uint32_t> m_insideList;
 
+	// 条件を達成したときの動作
+	std::function<void()> m_operation;
+
 	// 当たり判定
 	OBBCollider m_collider;
 
@@ -80,8 +84,8 @@ public:
 public:
 	// 初期化処理
 	void Initialize(CollisionManager* pCollisionManager,
-					DirectX::SimpleMath::Vector3 position, float x, float z, 
-					TriggerMode mode, int targetNum = 0);
+					DirectX::SimpleMath::Vector3 position, float x, float z,
+					std::function<void()> operation, TriggerMode mode, int targetNum = 0);
 
 	// 更新処理
 	void Update();
