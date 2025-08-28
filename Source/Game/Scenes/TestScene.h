@@ -26,6 +26,7 @@
 #include "Source/Game/GameObjects/Stage/BounceBox.h"
 #include "Source/Game/GameObjects/Stage/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Goal.h"
+#include "Source/Game/GameObjects/Stage/CountArea.h"
 #include "Source/Game/UI/WeaponUI.h"
 
 
@@ -82,6 +83,9 @@ private:
 	
 	//ÉSÅ[Éã
 	std::unique_ptr<Goal> m_goal;
+
+	//ÉGÉäÉA
+	std::unique_ptr<CountArea> m_area;
 
 	//ïêäÌUI
 	std::unique_ptr<WeaponUI> m_weaponUI;

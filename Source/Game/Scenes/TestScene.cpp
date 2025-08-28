@@ -68,6 +68,8 @@ void TestScene::Initialize()
 	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyAttack] = false;	// 敵と敵の攻撃
 	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Stage] = true;			// プレイヤーとステージ
 	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Stage] = true;			// 敵とステージ
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Trigger] = true;			// プレイヤーとトリガー
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Trigger] = true;			// 敵とトリガー
 
 	// カメラの作成
 	m_camera = std::make_unique<Camera>();
@@ -118,6 +120,10 @@ void TestScene::Initialize()
 	m_goal = std::make_unique<Goal>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_goal->Initialize(SimpleMath::Vector3(-2.0f, 1.0f, 2.0f));
 
+	// エリアの作成
+	m_area = std::make_unique<CountArea>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
+	m_area->Initialize(m_collisionManager.get(), SimpleMath::Vector3(0.0f, 1.0f, 3.0f), 1.0f, 1.0f, CountArea::TriggerMode::AllOut);
+
 	// 箱の作成
 	m_bounceBox = std::make_unique<BounceBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_bounceBox->Initialize(SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
@@ -159,6 +165,9 @@ void TestScene::Update(float elapsedTime)
 
 	// 箱の更新
 	m_bounceBox->Update(elapsedTime);
+
+	// エリアの更新
+	m_area->Update();
 
 	// カメラの更新
 	if(!m_keyMode) m_camera->Rotation(&m_kbTracker);
@@ -232,6 +241,9 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	// ゴールの描画
 	m_goal->Draw(context,debugFont);
+
+	// エリアの描画
+	m_area->Draw(context, debugFont);
 
 	// カメラの描画(デバッグフォント)
 	m_camera->Draw(debugFont);

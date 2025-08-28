@@ -73,7 +73,7 @@ private:
 	EffectManager* m_pEffectManager;
 
 	// ID
-	int m_nextID;
+	uint32_t m_nextID;
 
 	// “G
 	std::vector<std::unique_ptr<EnemyData>> m_enemies;

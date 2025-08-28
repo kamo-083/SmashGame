@@ -122,7 +122,8 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 	std::unique_ptr<Enemy> enemy = Create(spawnData.type);
 	enemy->Initialize(m_pUserResources->GetResourceManager(),
 					  m_pCollisionManager,
-					  spawnData.position);
+					  spawnData.position,
+					  m_nextID);
 
 	// ”z—ñ‚É“o˜^
 	std::unique_ptr<EnemyData> data = std::make_unique<EnemyData>

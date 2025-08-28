@@ -90,7 +90,8 @@ public:
 	// ‰Šú‰»ˆ—
 	void Initialize(ResourceManager* pResourceManager,
 					CollisionManager* pCollisionManager,
-					const DirectX::SimpleMath::Vector3& position) override;
+					const DirectX::SimpleMath::Vector3& position,
+					uint32_t id) override;
 
 	// XVˆ—
 	void Update(float elapsedTime) override;

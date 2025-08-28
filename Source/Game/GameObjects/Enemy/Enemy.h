@@ -113,7 +113,8 @@ public:
 	// ‰Šú‰»ˆ—
 	virtual void Initialize(ResourceManager* pResourceManager,
 							CollisionManager* pCollisionManager,
-							const DirectX::SimpleMath::Vector3& position) = 0;
+							const DirectX::SimpleMath::Vector3& position,
+							uint32_t id) = 0;
 
 	// XVˆ—
 	virtual void Update(float elapsedTime) = 0;

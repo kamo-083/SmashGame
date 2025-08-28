@@ -94,7 +94,7 @@ void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	m_geometricPrimitive->Draw(world, context.view, context.projection, DirectX::Colors::Aqua, nullptr, true);
 
 	debugFont->AddString(0, 140, Colors::Yellow, L" can = %d", m_canGoal);
-	debugFont->AddString(0, 165, Colors::Yellow, L"goal = %d", m_isGoal);
+	debugFont->AddString(100, 140, Colors::Yellow, L"goal = %d", m_isGoal);
 }
 
 

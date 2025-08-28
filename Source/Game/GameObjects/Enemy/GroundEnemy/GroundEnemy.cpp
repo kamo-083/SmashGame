@@ -72,7 +72,8 @@ GroundEnemy::~GroundEnemy()
 
 void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 							 CollisionManager* pCollisionManager,
-							 const DirectX::SimpleMath::Vector3& position)
+							 const DirectX::SimpleMath::Vector3& position,
+							 uint32_t id)
 {
 	// ç¿ïWÇÃèâä˙âª
 	m_position = SimpleMath::Vector3(position);
@@ -110,6 +111,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	CollisionManager::Desc bodyDesc{};
 	bodyDesc.type = CollisionManager::Type::Sphere;
 	bodyDesc.layer = CollisionManager::Layer::EnemyBody;
+	bodyDesc.userId = id;
 	bodyDesc.sphere = &m_collider;
 	bodyDesc.position = &m_position;
 	bodyDesc.velocity = &m_velocity;
