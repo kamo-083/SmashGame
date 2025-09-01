@@ -123,18 +123,16 @@ void TestScene::Initialize()
 	// エリアの作成
 	m_area = std::make_unique<CountArea>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
 	m_area->Initialize(m_collisionManager.get(), SimpleMath::Vector3(0.0f, 1.0f, 3.0f), 1.0f, 1.0f,
-		[this]()
-		{m_goal->CanGoal(); }
-		,
+		[this]() {m_goal->CanGoal(); },
 		CountArea::TriggerMode::ReachCount, 1);
 
 	// 箱の作成
 	m_bounceBox = std::make_unique<BounceBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_bounceBox->Initialize(SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
+	m_bounceBox->Initialize(m_collisionManager.get(), SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
 
 	// 的の作成
 	m_targetBox = std::make_unique<TargetBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_targetBox->Initialize(m_goal.get(), SimpleMath::Vector3(-2.0f, 0.5f, -2.0f));
+	m_targetBox->Initialize(m_collisionManager.get(), m_goal.get(), SimpleMath::Vector3(-2.0f, 0.5f, -2.0f));
 
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());

@@ -16,6 +16,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include "Source/Game/Common/Collision.h"
+#include"Source/Game/Common/CollisionManager.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Interface/IState.h"
 #include "Source/Game/GameObjects/Stage/Goal.h"
@@ -59,6 +60,9 @@ private:
 	// ゴールのポインタ
 	Goal* m_pGoal;
 
+	// 衝突判定のハンドル
+	uint32_t m_collisionHandle;
+
 	// 四角形
 	std::unique_ptr<DirectX::GeometricPrimitive> m_box;
 
@@ -76,7 +80,8 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(Goal* goal,
+	void Initialize(CollisionManager* pCollisionManager,
+					Goal* goal,
 					DirectX::SimpleMath::Vector3 position,
 					DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
 					DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero);

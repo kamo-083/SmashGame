@@ -45,7 +45,8 @@ TargetBox::~TargetBox()
  *
  * @return なし
  */
-void TargetBox::Initialize(Goal* goal,
+void TargetBox::Initialize(CollisionManager* pCollisionManager,
+						   Goal* goal,
 						   DirectX::SimpleMath::Vector3 position,
 						   DirectX::SimpleMath::Vector3 halfLength,
 						   DirectX::SimpleMath::Vector3 angle)
@@ -62,6 +63,15 @@ void TargetBox::Initialize(Goal* goal,
 	m_collider.SetCenter(m_position);
 	m_collider.SetHalfLength(m_halfLength);
 	m_collider.SetRotation(SimpleMath::Quaternion::CreateFromYawPitchRoll(m_angle.y, m_angle.x, m_angle.z));
+
+	// コリジョンマネージャーに登録
+	CollisionManager::Desc desc{};
+	desc.type = CollisionManager::Type::OBB;
+	desc.layer = CollisionManager::Layer::Stage;
+	desc.obb = &m_collider;
+	desc.position = nullptr;
+	desc.velocity = nullptr;
+	m_collisionHandle = pCollisionManager->Add(desc);
 }
 
 
