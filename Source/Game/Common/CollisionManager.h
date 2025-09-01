@@ -81,6 +81,7 @@ public:
 		DirectX::SimpleMath::Vector3* position = nullptr;
 		DirectX::SimpleMath::Vector3* velocity = nullptr;
 		Callbacks callback;
+		float* uerData = nullptr;
 	};
 
 	struct Node
@@ -90,6 +91,7 @@ public:
 		std::unordered_set<uint32_t> overlapsPrev;
 		std::unordered_set<uint32_t> overlapsNow;
 		bool alive = true;
+		bool enabled = true;
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -123,6 +125,12 @@ public:
 
 	// 除外
 	void Remove(uint32_t handle);
+
+	// 有効化設定
+	void SetEnabled(uint32_t handle, bool enabled);
+
+	// 有効フラグを取得
+	bool IsEbabled(uint32_t handle);
 
 
 // 取得/設定

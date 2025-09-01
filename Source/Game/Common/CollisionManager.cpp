@@ -64,12 +64,18 @@ void CollisionManager::Update(float elapsedTime)
 		if (itA == m_nodes.end() || !itA->second.alive) continue;
 		Node& A = itA->second;
 
+		// Aが有効でないならスキップ
+		if (!A.enabled) continue;
+
 		for (size_t j = i + 1; j < N; j++)
 		{
 			// 判定するオブジェクトBを取得
 			auto itB = m_nodes.find(m_order[j]);
 			if (itB == m_nodes.end() || !itB->second.alive) continue;
 			Node& B = itB->second;
+
+			// Bが有効でないならスキップ
+			if (!B.enabled) continue;
 
 			// レイヤーフィルターのチェック
 			if (!m_matrix.Test(A.desc.layer, B.desc.layer) &&
@@ -183,6 +189,7 @@ uint32_t CollisionManager::Add(const Desc& desc)
 	n.handle = h;
 	n.desc = desc;
 	n.alive = true;
+	n.enabled = true;
 
 	m_nodes.emplace(h, std::move(n));
 	m_order.push_back(h);
@@ -197,6 +204,24 @@ void CollisionManager::Remove(uint32_t handle)
 	if (it != m_nodes.end())
 	{
 		it->second.alive = false;
+	}
+}
+
+void CollisionManager::SetEnabled(uint32_t handle, bool enabled)
+{
+	auto it = m_nodes.find(handle);
+	if (it != m_nodes.end())
+	{
+		it->second.enabled = enabled;
+	}
+}
+
+bool CollisionManager::IsEbabled(uint32_t handle)
+{
+	auto it = m_nodes.find(handle);
+	if (it != m_nodes.end())
+	{
+		return it->second.enabled;
 	}
 }
 

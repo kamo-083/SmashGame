@@ -17,7 +17,6 @@
 #include "Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include "Source/Game/Common/Collision.h"
 #include"Source/Game/Common/CollisionManager.h"
-#include"Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "GeometricPrimitive.h"
 
@@ -79,7 +78,6 @@ public:
 public:
 	// èâä˙âªèàóù
 	void Initialize(CollisionManager* pCollisionManager,
-					EnemyManager* pEnemyManager,
 					DirectX::SimpleMath::Vector3 position,
 					DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
 					DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero);

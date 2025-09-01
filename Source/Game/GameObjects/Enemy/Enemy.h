@@ -88,6 +88,9 @@ protected:
 	// リソースマネージャ
 	ResourceManager* m_pResourceManager;
 
+	// コリジョンマネージャー
+	CollisionManager* m_pCollisionManager;
+
 	// 衝突判定のハンドル(本体)
 	uint32_t m_handleBody;
 
@@ -106,6 +109,7 @@ public:
 		, m_isAttack{ false }
 		, m_attackForce{ 0.0f }
 		, m_collisionType{ OBBCollider::CollisionType::Others }
+		, m_pCollisionManager{nullptr}
 	{}
 
 	// デストラクタ
@@ -133,6 +137,9 @@ public:
 	// プレイヤーとの距離を計算
 	virtual void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius) = 0;
 
+	// 攻撃の当たり判定の有効設定
+	void SetAttackCollisionEnabled(bool enabled) 
+	{ m_pCollisionManager->SetEnabled(m_handleAttack, enabled); }
 
 // 取得/設定
 public:

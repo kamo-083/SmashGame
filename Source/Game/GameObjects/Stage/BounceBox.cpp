@@ -46,7 +46,6 @@ BounceBox::~BounceBox()
  * @return ‚È‚µ
  */
 void BounceBox::Initialize(CollisionManager* pCollisionManager,
-						   EnemyManager* pEnemyManager,
 						   DirectX::SimpleMath::Vector3 position,
 						   DirectX::SimpleMath::Vector3 halfLength,
 						   DirectX::SimpleMath::Vector3 angle)
@@ -69,14 +68,22 @@ void BounceBox::Initialize(CollisionManager* pCollisionManager,
 	desc.position = nullptr;
 	desc.velocity = nullptr;
 	desc.callback.onEnter =
-		[this,pCollisionManager,pEnemyManager](uint32_t,uint32_t other)
+		[this, pCollisionManager](uint32_t, uint32_t other)
 		{
-			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyBody) return;
+			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::PlayerAttack) return;
 
-			Enemy* enemy = pEnemyManager->GetEnemyByID(pCollisionManager->GetDesc(other)->userId);
+			MTV mtv = CalculateMTV(m_collider, *pCollisionManager->GetDesc(other)->sphere);
 
-			if(enemy->GetStateType()==StateType::Bounce)
-			{ }
+			// ‚Á”ò‚Ô•ûŒü‚ÌÝ’è
+			DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
+			knockbackDir.Normalize();
+
+			// ‚Á”ò‚Ô—Í‚ÌÝ’è
+			float knockbackForce = mtv.distance * *pCollisionManager->GetDesc(other)->uerData;
+
+			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
+			m_physics.GetExternalForce().Add(force);
+
 		};
 	m_collisionHandle = pCollisionManager->Add(desc);
 }

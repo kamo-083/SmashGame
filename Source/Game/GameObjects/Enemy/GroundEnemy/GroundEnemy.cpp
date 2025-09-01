@@ -73,7 +73,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 							 CollisionManager* pCollisionManager,
 							 const DirectX::SimpleMath::Vector3& position,
 							 uint32_t id)
-{
+{ 
 	// 座標の初期化
 	m_position = SimpleMath::Vector3(position);
 
@@ -105,7 +105,9 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	m_physics->GetFriction().SetStaticFriction(0.5f);
 	m_physics->GetFriction().SetDynamicFriction(0.15f);	// 元は0.5f
 
-	// コリジョンマネージャーに登録
+	// コリジョンマネージャーの登録
+	m_pCollisionManager = pCollisionManager;
+
 	// 本体
 	CollisionManager::Desc bodyDesc{};
 	bodyDesc.type = CollisionManager::Type::Sphere;
@@ -121,18 +123,18 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 			if (n.y >= groundCos) m_onGround = true;
 		};
 	bodyDesc.callback.onEnter =
-		[this, pCollisionManager](uint32_t, uint32_t other)		// プレイヤーの攻撃で吹っ飛ぶ
+		[this](uint32_t, uint32_t other)		// プレイヤーの攻撃で吹っ飛ぶ
 		{			
-			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::PlayerAttack) return;
+			if (m_pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::PlayerAttack) return;
 
-			MTV mtv = CalculateMTV(*pCollisionManager->GetDesc(other)->sphere, m_collider);
+			MTV mtv = CalculateMTV(*m_pCollisionManager->GetDesc(other)->sphere, m_collider);
 
 			// 吹っ飛ぶ方向の設定
 			DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
 			knockbackDir.Normalize();
 
 			// 吹っ飛ぶ力の設定
-			float knockbackForce = mtv.distance * 10000.0f;
+			float knockbackForce = *m_pCollisionManager->GetDesc(other)->uerData;
 
 			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
 			m_physics->GetExternalForce().Add(force);
@@ -140,14 +142,15 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 			// 跳ね返り状態に遷移
 			ChangeState(m_bouncingState.get());
 		};
-	m_handleBody = pCollisionManager->Add(bodyDesc);
+	m_handleBody = m_pCollisionManager->Add(bodyDesc);
 	// 攻撃
 	CollisionManager::Desc atkDesc{};
 	atkDesc.type = CollisionManager::Type::Sphere;
 	atkDesc.layer = CollisionManager::Layer::EnemyAttack;
 	atkDesc.isTrigger = true;
 	atkDesc.sphere = &m_attackCollider;
-	m_handleAttack = pCollisionManager->Add(atkDesc);
+	atkDesc.uerData = &m_attackForce;
+	m_handleAttack = m_pCollisionManager->Add(atkDesc);
 
 	// 状態の作成
 	// 待機状態

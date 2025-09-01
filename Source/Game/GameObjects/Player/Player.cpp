@@ -21,6 +21,8 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 Player::Player(ID3D11DeviceContext* context)
+	:m_attackForce{0.0f}
+	,m_pCollisionManager{nullptr}
 {
 	m_sphere = DirectX::GeometricPrimitive::CreateSphere(context);
 }
@@ -84,7 +86,9 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_physics->GetFriction().SetDynamicFriction(DYNAMIC_FRICTION_FORCE);
 	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION_FORCE);
 
-	// ƒRƒŠƒWƒ‡ƒ“ƒ}ƒl[ƒWƒƒ[‚É“o˜^
+	// ƒRƒŠƒWƒ‡ƒ“ƒ}ƒl[ƒWƒƒ[‚Ì“o˜^
+	m_pCollisionManager = pCollisionManager;
+
 	// –{‘Ì
 	CollisionManager::Desc bodyDesc{};
 	bodyDesc.type = CollisionManager::Type::Sphere;
@@ -99,18 +103,18 @@ void Player::Initialize(ResourceManager* pResourceManager,
 			if (n.y >= groundCos) m_onGround = true;
 		};
 	bodyDesc.callback.onEnter =
-		[this, pCollisionManager](uint32_t, uint32_t other)		// “G‚ÌUŒ‚‚Å‚Á”ò‚Ô
+		[this](uint32_t, uint32_t other)		// “G‚ÌUŒ‚‚Å‚Á”ò‚Ô
 		{
-			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyAttack) return;
+			if (m_pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyAttack) return;
 
-			MTV mtv = CalculateMTV(*pCollisionManager->GetDesc(other)->sphere, m_collider);
+			MTV mtv = CalculateMTV(*m_pCollisionManager->GetDesc(other)->sphere, m_collider);
 
 			// ‚Á”ò‚Ô•ûŒü‚Ìİ’è
 			DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
 			knockbackDir.Normalize();
 
 			// ‚Á”ò‚Ô—Í‚Ìİ’è
-			float knockbackForce = mtv.distance * 100000.0f;
+			float knockbackForce = *m_pCollisionManager->GetDesc(other)->uerData;
 
 			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
 			m_physics->GetExternalForce().Add(force);
@@ -119,14 +123,16 @@ void Player::Initialize(ResourceManager* pResourceManager,
 			m_isBounce = true;
 			ChangeState(m_idlingState.get());
 		};
-	m_handleBody = pCollisionManager->Add(bodyDesc);
+	m_handleBody = m_pCollisionManager->Add(bodyDesc);
 	// UŒ‚
 	CollisionManager::Desc atkDesc{};
 	atkDesc.type = CollisionManager::Type::Sphere;
 	atkDesc.layer = CollisionManager::Layer::PlayerAttack;
 	atkDesc.isTrigger = true;
 	atkDesc.sphere = &m_attackCollider;
-	m_handleAttack = pCollisionManager->Add(atkDesc);
+	atkDesc.uerData = &m_attackForce;
+	m_handleAttack = m_pCollisionManager->Add(atkDesc);
+	m_pCollisionManager->SetEnabled(m_handleAttack, false);
 
 	// ‘Ò‹@ó‘Ô‚ğ¶¬
 	m_idlingState = std::make_unique<Player_Idle>(this, pKbTracker);
@@ -212,6 +218,8 @@ void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 void Player::Attack()
 {
 	m_isAttack = true;
+	SetAttackCollisionEnabled(true);
+
 	switch (m_weaponType)
 	{
 	case WeaponType::BASIC:
@@ -273,4 +281,9 @@ void Player::LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max)
 	velocity.x = std::min(std::max(velocity.x, -max), max);
 	velocity.y = std::min(std::max(velocity.y, -MAX_SPEED), MAX_SPEED);
 	velocity.z = std::min(std::max(velocity.z, -max), max);
+}
+
+void Player::SetAttackCollisionEnabled(bool enabled)
+{
+	m_pCollisionManager->SetEnabled(m_handleAttack, enabled);
 }

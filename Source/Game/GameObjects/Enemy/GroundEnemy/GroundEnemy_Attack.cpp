@@ -74,6 +74,7 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 	if (m_attackTime <= 0.0f)
 	{
 		m_pGroundEnemy->SetIsAttack(false);
+		m_pGroundEnemy->SetAttackCollisionEnabled(false);
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Idle());
 	}
 }

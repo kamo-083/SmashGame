@@ -120,6 +120,9 @@ private:
 	// キー操作のモードのポインタ
 	bool* m_pKeyMode;
 
+	// コリジョンマネージャー
+	CollisionManager* m_pCollisionManager;
+
 	// 衝突判定のハンドル(本体)
 	uint32_t m_handleBody;
 
@@ -171,6 +174,9 @@ public:
 
 	// 移動速度の制限
 	void LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max = MAX_SPEED);
+
+	// 攻撃の当たり判定の有効設定
+	void SetAttackCollisionEnabled(bool enabled);
 
 	// 取得/設定
 public:

@@ -128,7 +128,7 @@ void TestScene::Initialize()
 
 	// ” ‚Ìì¬
 	m_bounceBox = std::make_unique<BounceBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_bounceBox->Initialize(m_collisionManager.get(), m_enemyManager.get(),
+	m_bounceBox->Initialize(m_collisionManager.get(),
 							SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
 
 	// “I‚Ìì¬

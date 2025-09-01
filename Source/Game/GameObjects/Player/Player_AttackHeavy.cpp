@@ -79,6 +79,7 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	if (m_attackTime <= 0.0f)
 	{
 		m_pPlayer->SetIsAttack(false);
+		m_pPlayer->SetAttackCollisionEnabled(false);
 		m_pPlayer->ChangeState(m_pPlayer->GetState_Walk());
 	}
 }

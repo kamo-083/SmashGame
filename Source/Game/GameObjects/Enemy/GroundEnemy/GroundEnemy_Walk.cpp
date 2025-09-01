@@ -71,6 +71,7 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 	if (playerData.distance <= m_pGroundEnemy->GetAttackCollider()->GetRadius())
 	{
 		m_pGroundEnemy->SetIsAttack(true);
+		m_pGroundEnemy->SetAttackCollisionEnabled(true);
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Attack());
 	}
 
