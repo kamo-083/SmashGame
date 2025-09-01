@@ -128,11 +128,13 @@ void TestScene::Initialize()
 
 	// ” ‚Ìì¬
 	m_bounceBox = std::make_unique<BounceBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_bounceBox->Initialize(m_collisionManager.get(), SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
+	m_bounceBox->Initialize(m_collisionManager.get(), m_enemyManager.get(),
+							SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
 
 	// “I‚Ìì¬
 	m_targetBox = std::make_unique<TargetBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_targetBox->Initialize(m_collisionManager.get(), m_goal.get(), SimpleMath::Vector3(-2.0f, 0.5f, -2.0f));
+	m_targetBox->Initialize(m_collisionManager.get(), m_enemyManager.get(),
+							m_goal.get(), SimpleMath::Vector3(-2.0f, 0.5f, -2.0f));
 
 	// ƒJƒƒ‰‚Ì‰Šú‰»
 	m_camera->Initialize(&m_player->GetPosition());

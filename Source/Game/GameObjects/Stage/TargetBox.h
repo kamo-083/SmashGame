@@ -17,6 +17,7 @@
 #include "Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include "Source/Game/Common/Collision.h"
 #include"Source/Game/Common/CollisionManager.h"
+#include"Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Interface/IState.h"
 #include "Source/Game/GameObjects/Stage/Goal.h"
@@ -81,6 +82,7 @@ public:
 public:
 	// èâä˙âªèàóù
 	void Initialize(CollisionManager* pCollisionManager,
+					EnemyManager* pEnemyManager,
 					Goal* goal,
 					DirectX::SimpleMath::Vector3 position,
 					DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,

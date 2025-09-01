@@ -137,6 +137,17 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 	return m_enemies.back().get();
 }
 
+Enemy* EnemyManager::GetEnemyByID(uint32_t id) const
+{
+	// ID‚ªˆê’v‚·‚é“G‚ð’T‚µ‚Ä•Ô‚·
+	for (auto& enemy : m_enemies)
+	{
+		if (enemy->alive && enemy->id == id) return enemy->enemy.get();
+	}
+
+	return nullptr;
+}
+
 std::unique_ptr<Enemy> EnemyManager::Create(EnemyType type)
 {
 	switch (type)

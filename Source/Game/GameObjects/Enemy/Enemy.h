@@ -15,6 +15,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/CollisionManager.h"
 #include"Source/Game/Common/RenderContext.h"
@@ -48,6 +49,9 @@ protected:
 
 // データメンバの宣言 -----------------------------------------------
 protected:
+	// 現在の状態へのポインタ
+	IState* m_currentState;
+
 	//座標
 	DirectX::SimpleMath::Vector3 m_position;
 
@@ -96,7 +100,8 @@ protected:
 public:
 	// コンストラクタ
 	Enemy()
-		:m_rotY{ 0.0f }
+		: m_currentState{ nullptr }
+		, m_rotY{ 0.0f }
 		, m_onGround{ false }
 		, m_isAttack{ false }
 		, m_attackForce{ 0.0f }
@@ -131,6 +136,8 @@ public:
 
 // 取得/設定
 public:
+	StateType GetStateType() { return m_currentState->GetStateType(); }
+	IState* GetNowState() { return m_currentState; }
 	DirectX::SimpleMath::Vector3 GetPosition() { return m_position; }
 	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }
 	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }

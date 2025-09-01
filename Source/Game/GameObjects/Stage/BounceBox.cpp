@@ -46,6 +46,7 @@ BounceBox::~BounceBox()
  * @return ‚È‚µ
  */
 void BounceBox::Initialize(CollisionManager* pCollisionManager,
+						   EnemyManager* pEnemyManager,
 						   DirectX::SimpleMath::Vector3 position,
 						   DirectX::SimpleMath::Vector3 halfLength,
 						   DirectX::SimpleMath::Vector3 angle)
@@ -67,6 +68,16 @@ void BounceBox::Initialize(CollisionManager* pCollisionManager,
 	desc.obb = &m_collider;
 	desc.position = nullptr;
 	desc.velocity = nullptr;
+	desc.callback.onEnter =
+		[this,pCollisionManager,pEnemyManager](uint32_t,uint32_t other)
+		{
+			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyBody) return;
+
+			Enemy* enemy = pEnemyManager->GetEnemyByID(pCollisionManager->GetDesc(other)->userId);
+
+			if(enemy->GetStateType()==StateType::Bounce)
+			{ }
+		};
 	m_collisionHandle = pCollisionManager->Add(desc);
 }
 

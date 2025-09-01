@@ -30,7 +30,6 @@ const float Enemy::MAX_SPEED = 10.0f;	// Å‚‘¬“x
 GroundEnemy::GroundEnemy(UserResources* pUserResources,
 						 EffectManager* pEffectManager)
 	:Enemy{}
-	,m_currentState{nullptr}
 	,m_playerRelationData{DirectX::SimpleMath::Vector3::Zero,0.0f}
 {
 	m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());

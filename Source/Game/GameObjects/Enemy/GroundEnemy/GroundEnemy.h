@@ -16,7 +16,6 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/GameObjects/Enemy/Enemy.h"
-#include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/UserResources.h"
 #include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Idle.h"
@@ -46,9 +45,6 @@ public:
 
 // データメンバの宣言 -----------------------------------------------
 private:
-	// 現在の状態へのポインタ
-	IState* m_currentState;
-
 	// 待機状態
 	std::unique_ptr<GroundEnemy_Idle> m_idlingState;
 	// 歩き状態
@@ -121,8 +117,6 @@ public:
 
 // 取得/設定
 public:
-	StateType GetStateType() { return m_currentState->GetStateType(); }
-	IState* GetNowState() { return m_currentState; }
 	GroundEnemy_Idle* GetState_Idle() { return m_idlingState.get(); };
 	GroundEnemy_Walk* GetState_Walk() { return m_walkingState.get(); };
 	GroundEnemy_Bounce* GetState_Bounce() { return m_bouncingState.get(); };

@@ -46,12 +46,12 @@ public:
 
 	struct EnemyData
 	{
-		int id;
+		uint32_t id;
 		EnemyType type;
 		bool alive;
 		std::unique_ptr<Enemy> enemy;
 
-		EnemyData(int inId, EnemyType inType, std::unique_ptr<Enemy> inEnemy)
+		EnemyData(uint32_t inId, EnemyType inType, std::unique_ptr<Enemy> inEnemy)
 			:id(inId)
 			, type(inType)
 			, alive(true)
@@ -107,6 +107,10 @@ public:
 
 	// oŒ»
 	EnemyData* Spawn(const SpawnData& spawnData);
+
+	// ID‚©‚ç“G‚ğæ“¾
+	Enemy* GetEnemyByID(uint32_t id) const;
+
 
 // æ“¾/İ’è
 public:
