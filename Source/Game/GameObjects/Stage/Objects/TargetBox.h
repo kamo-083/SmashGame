@@ -20,7 +20,7 @@
 #include"Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Interface/IState.h"
-#include "Source/Game/GameObjects/Stage/Goal.h"
+#include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "GeometricPrimitive.h"
 
 

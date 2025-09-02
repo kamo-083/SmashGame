@@ -62,6 +62,9 @@
     <Filter Include="Effect\Trajectory">
       <UniqueIdentifier>{75d136f8-c9be-4678-a875-acdb72b33ff3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameObjects\Stage\Objects">
+      <UniqueIdentifier>{e7a5db7a-afc7-4f5f-8c12-1faf94c00c3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -128,23 +131,11 @@
     <ClInclude Include="Source\Game\GameObjects\Player\Player.h">
       <Filter>Game\GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Stage\Ground.h">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Camera.h">
       <Filter>Game\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\UI\WeaponUI.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Stage\BounceBox.h">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Stage\Goal.h">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Stage\TargetBox.h">
-      <Filter>Game\GameObjects\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Player\Player_Walk.h">
       <Filter>Game\GameObjects\Player\State</Filter>
@@ -191,9 +182,6 @@
     <ClInclude Include="Source\Game\Common\UserResources.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Stage\CountArea.h">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyManager.h">
       <Filter>Game\GameObjects\Enemy</Filter>
     </ClInclude>
@@ -202,6 +190,24 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Effect\EffectManager.h">
       <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\BounceBox.h">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\CountArea.h">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Goal.h">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Ground.h">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\TargetBox.h">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\StageManager.h">
+      <Filter>Game\GameObjects\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -246,23 +252,11 @@
     <ClCompile Include="Source\Game\GameObjects\Player\Player.cpp">
       <Filter>Game\GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Stage\Ground.cpp">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Camera.cpp">
       <Filter>Game\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\UI\WeaponUI.cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Stage\BounceBox.cpp">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Stage\Goal.cpp">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Stage\TargetBox.cpp">
-      <Filter>Game\GameObjects\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackBasic.cpp">
       <Filter>Game\GameObjects\Player\State</Filter>
@@ -306,9 +300,6 @@
     <ClCompile Include="Source\Game\Common\BinaryFile.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Stage\CountArea.cpp">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Enemy\EnemyManager.cpp">
       <Filter>Game\GameObjects\Enemy</Filter>
     </ClCompile>
@@ -317,6 +308,24 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Effect\EffectManager.cpp">
       <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\BounceBox.cpp">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\CountArea.cpp">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Goal.cpp">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Ground.cpp">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\TargetBox.cpp">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\StageManager.cpp">
+      <Filter>Game\GameObjects\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

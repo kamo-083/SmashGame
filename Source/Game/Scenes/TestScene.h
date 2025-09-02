@@ -22,11 +22,11 @@
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
-#include "Source/Game/GameObjects/Stage/Ground.h"
-#include "Source/Game/GameObjects/Stage/BounceBox.h"
-#include "Source/Game/GameObjects/Stage/TargetBox.h"
-#include "Source/Game/GameObjects/Stage/Goal.h"
-#include "Source/Game/GameObjects/Stage/CountArea.h"
+#include "Source/Game/GameObjects/Stage/Objects/Ground.h"
+#include "Source/Game/GameObjects/Stage/Objects/BounceBox.h"
+#include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
+#include "Source/Game/GameObjects/Stage/Objects/Goal.h"
+#include "Source/Game/GameObjects/Stage/Objects/CountArea.h"
 #include "Source/Game/UI/WeaponUI.h"
 
 
