@@ -178,6 +178,9 @@ public:
 	// 攻撃の当たり判定の有効設定
 	void SetAttackCollisionEnabled(bool enabled);
 
+	// 攻撃の連続ヒットの有効設定
+	void SetAttackCollisionMultiHit(bool multiHit);
+
 	// 取得/設定
 public:
 	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }

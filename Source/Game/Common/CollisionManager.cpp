@@ -216,12 +216,21 @@ void CollisionManager::SetEnabled(uint32_t handle, bool enabled)
 	}
 }
 
-bool CollisionManager::IsEbabled(uint32_t handle)
+bool CollisionManager::IsEnabled(uint32_t handle)
 {
 	auto it = m_nodes.find(handle);
 	if (it != m_nodes.end())
 	{
 		return it->second.enabled;
+	}
+}
+
+void CollisionManager::SetMultiHit(uint32_t handle, bool multiHit)
+{
+	auto it = m_nodes.find(handle);
+	if (it != m_nodes.end())
+	{
+		it->second.desc.isMultiHit = multiHit;
 	}
 }
 

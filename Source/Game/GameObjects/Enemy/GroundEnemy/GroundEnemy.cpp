@@ -124,23 +124,19 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 		};
 	bodyDesc.callback.onEnter =
 		[this](uint32_t, uint32_t other)		// プレイヤーの攻撃で吹っ飛ぶ
+		{
+			auto otherDesc = m_pCollisionManager->GetDesc(other);
+			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack) return;
+
+			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->uerData);
+		};
+	bodyDesc.callback.onStay =
+		[this](uint32_t, uint32_t other)		// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)
 		{			
-			if (m_pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::PlayerAttack) return;
+			auto otherDesc = m_pCollisionManager->GetDesc(other);
+			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack && !otherDesc->isMultiHit) return;
 
-			MTV mtv = CalculateMTV(*m_pCollisionManager->GetDesc(other)->sphere, m_collider);
-
-			// 吹っ飛ぶ方向の設定
-			DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
-			knockbackDir.Normalize();
-
-			// 吹っ飛ぶ力の設定
-			float knockbackForce = *m_pCollisionManager->GetDesc(other)->uerData;
-
-			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
-			m_physics->GetExternalForce().Add(force);
-
-			// 跳ね返り状態に遷移
-			ChangeState(m_bouncingState.get());
+			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->uerData);
 		};
 	m_handleBody = m_pCollisionManager->Add(bodyDesc);
 	// 攻撃

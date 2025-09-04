@@ -74,7 +74,8 @@ public:
 	{
 		Type type;
 		Layer layer;
-		bool isTrigger = false;	// イベントだけ発生させたい→true
+		bool isTrigger = false;		// イベントだけ→true
+		bool isMultiHit = false;	// 連続ヒット有→true
 		uint32_t userId = 0;
 		SphereCollider* sphere = nullptr;
 		OBBCollider* obb = nullptr;
@@ -126,11 +127,14 @@ public:
 	// 除外
 	void Remove(uint32_t handle);
 
-	// 有効化設定
+	// 判定有効化設定
 	void SetEnabled(uint32_t handle, bool enabled);
 
-	// 有効フラグを取得
-	bool IsEbabled(uint32_t handle);
+	// 判定有効フラグを取得
+	bool IsEnabled(uint32_t handle);
+		
+	// 連続ヒット有効化設定
+	void SetMultiHit(uint32_t handle, bool maltiHit);
 
 
 // 取得/設定

@@ -223,12 +223,15 @@ void Player::Attack()
 	switch (m_weaponType)
 	{
 	case WeaponType::BASIC:
+		SetAttackCollisionMultiHit(false);
 		ChangeState(m_basicAttackingState.get());
 		break;
 	case WeaponType::ROLLING:
+		SetAttackCollisionMultiHit(true);
 		ChangeState(m_rollingAttackingState.get());
 		break;
 	case WeaponType::HEAVY:
+		SetAttackCollisionMultiHit(false);
 		ChangeState(m_heavyAttackingState.get());
 		break;
 	default:
@@ -286,4 +289,9 @@ void Player::LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max)
 void Player::SetAttackCollisionEnabled(bool enabled)
 {
 	m_pCollisionManager->SetEnabled(m_handleAttack, enabled);
+}
+
+void Player::SetAttackCollisionMultiHit(bool multiHit)
+{
+	m_pCollisionManager->SetMultiHit(m_handleAttack, multiHit);
 }
