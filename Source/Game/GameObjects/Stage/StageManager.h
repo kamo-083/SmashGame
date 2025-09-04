@@ -17,6 +17,8 @@
 #include "Source/Game/Common/CollisionManager.h"
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
+#include "Source/Game/GameObjects/Enemy/EnemyManager.h"
+#include "Source/Game/GameObjects/Stage/StageLoader.h"
 
 
 // クラスの宣言	===============================================================
@@ -35,22 +37,6 @@ class StageManager
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	enum class ObjectType
-	{
-		Ground,
-		BounceBox,
-		TargetBox,
-		Area,
-		Goal
-	};
-
-	struct ObjectData
-	{
-		ObjectType type;
-		DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3::Zero;
-		DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3::One;
-		bool active = true;
-	};
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -84,7 +70,8 @@ public:
 // 操作
 public:
 	// ステージを生成
-	void CreateStage(const UserResources* pUR, const CollisionManager* pCM);
+	void CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyManager* pEM,
+					 const std::string& path);
 
 	// 更新処理
 	void Update(float elapsedTime);

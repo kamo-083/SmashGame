@@ -1,0 +1,6 @@
+{
+    "objects": [
+        { "type": "Ground", "pos": [ 1, 3, 0 ], "scale": [ 1, 1, 1 ]},
+        { "type": "Ground", "pos": [ 0, 5, 3 ], "scale": [ 1, 1, 1 ]}
+    ]
+}

@@ -27,6 +27,7 @@
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/GameObjects/Stage/Objects/CountArea.h"
+#include "Source/Game/GameObjects/Stage/StageManager.h"
 #include "Source/Game/UI/WeaponUI.h"
 
 
@@ -86,6 +87,9 @@ private:
 
 	//エリア
 	std::unique_ptr<CountArea> m_area;
+
+	// ステージマネージャー
+	std::unique_ptr<StageManager> m_stageManager;
 
 	//武器UI
 	std::unique_ptr<WeaponUI> m_weaponUI;

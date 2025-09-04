@@ -105,6 +105,11 @@ void TestScene::Initialize()
 	data.position = SimpleMath::Vector3(4.0f, 5.0f, -2.0f);
 	m_enemyManager->Spawn(data);
 
+	// ステージマネージャーの作成
+	m_stageManager = std::make_unique<StageManager>();
+	m_stageManager->CreateStage(m_userResorces, m_collisionManager.get(), m_enemyManager.get(),
+								"Resources/Json/test.json");
+
 	// 地面の作成
 	m_grounds.push_back(std::make_unique<Ground>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext()));
 	m_grounds.push_back(std::make_unique<Ground>(
@@ -177,6 +182,9 @@ void TestScene::Update(float elapsedTime)
 	if(!m_keyMode) m_camera->Rotation(&m_kbTracker);
 	m_camera->Update(&m_kbTracker, elapsedTime);
 
+	// ステージマネージャーの更新
+	m_stageManager->Update(elapsedTime);
+
 	// エフェクトの更新
 	m_effectManager->Update(elapsedTime);
 
@@ -231,6 +239,9 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	// 敵の描画
 	m_enemyManager->Draw(context);
 
+	// ステージマネージャーの描画
+	m_stageManager->Draw(context, debugFont);
+
 	// 地面の描画
 	for (std::unique_ptr<Ground>& ground : m_grounds)
 	{
@@ -270,9 +281,10 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  */
 void TestScene::Finalize()
 {
-	if (m_player) m_player->Finalize();
+	if (m_player)		m_player->Finalize();
 	if (m_enemyManager) m_enemyManager->Finalize();
-	if (m_effectManager)	m_effectManager->Finalize();
+	if (m_stageManager) m_stageManager->Finalize();
+	if (m_effectManager)m_effectManager->Finalize();
 	if (m_bounceBox)	m_bounceBox->Finalize();
 	if (m_targetBox)	m_targetBox->Finalize();
 	if (m_goal)	m_goal->Finalize();

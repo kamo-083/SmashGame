@@ -65,6 +65,9 @@
     <Filter Include="Game\GameObjects\Stage\Objects">
       <UniqueIdentifier>{e7a5db7a-afc7-4f5f-8c12-1faf94c00c3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Json">
+      <UniqueIdentifier>{92f6e619-17d3-4bd9-acbd-67c4de95dd1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -209,6 +212,9 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\StageManager.h">
       <Filter>Game\GameObjects\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\StageLoader.h">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -345,6 +351,9 @@
     <None Include="packages.config" />
     <None Include="Resources\Shaders\Particle.hlsli">
       <Filter>Shader</Filter>
+    </None>
+    <None Include="Resources\Json\test.json">
+      <Filter>Json</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
