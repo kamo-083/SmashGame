@@ -215,6 +215,9 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\StageLoader.h">
       <Filter>Game\GameObjects\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\StageSelectScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -332,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\StageManager.cpp">
       <Filter>Game\GameObjects\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp">
+      <Filter>Game\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

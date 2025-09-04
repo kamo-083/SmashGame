@@ -225,6 +225,7 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\StageLoader.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\StageManager.h" />
     <ClInclude Include="Source\Game\Interface\IState.h" />
+    <ClInclude Include="Source\Game\Scenes\StageSelectScene.h" />
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\TestScene.h" />
     <ClInclude Include="Source\Game\UI\WeaponUI.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Ground.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\TargetBox.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\StageManager.cpp" />
+    <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TestScene.cpp" />
     <ClCompile Include="Source\Game\UI\WeaponUI.cpp" />

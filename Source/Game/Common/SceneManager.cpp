@@ -143,7 +143,6 @@ void SceneManager::RequestSceneChange(const std::string& requestSceneName)
 {
 	if (m_scenes.count(requestSceneName) == 0)
 	{
-		//GameLib::ShowErrorMessage("%sƒV[ƒ“‚Í“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB", requestSceneName.c_str());
 		return;
 	}
 

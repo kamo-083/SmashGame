@@ -21,12 +21,6 @@
 #include "Source/Game/GameObjects/Camera.h"
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
-#include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
-#include "Source/Game/GameObjects/Stage/Objects/Ground.h"
-#include "Source/Game/GameObjects/Stage/Objects/BounceBox.h"
-#include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
-#include "Source/Game/GameObjects/Stage/Objects/Goal.h"
-#include "Source/Game/GameObjects/Stage/Objects/CountArea.h"
 #include "Source/Game/GameObjects/Stage/StageManager.h"
 #include "Source/Game/UI/WeaponUI.h"
 
@@ -34,8 +28,6 @@
 // クラスの宣言 ===============================================================
 class Camera;
 class Player;
-class GroundEnemy;
-class Ground;
 class WeaponUI;
 
 
@@ -79,12 +71,15 @@ private:
 	//武器UI
 	std::unique_ptr<WeaponUI> m_weaponUI;
 
+	// ステージファイルへのパス
+	std::string m_stageFilePath;
+
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	TestScene(SceneManager* pSceneManager, UserResources* pUserReources);
+	TestScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path);
 
 	// デストラクタ
 	~TestScene();

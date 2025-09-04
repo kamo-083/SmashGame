@@ -1,5 +1,5 @@
 /**
- * @file   TitleScene.cpp
+ * @file   StageSelectScene.cpp
  *
  * @brief  ＸＸＸＸシーンに関するソースファイル
  *
@@ -10,7 +10,7 @@
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
-#include "TitleScene.h"
+#include "StageSelectScene.h"
 
 using namespace DirectX;
 
@@ -22,7 +22,7 @@ using namespace DirectX;
  * @param[in] sceneManager    シーンを管理しているマネージャ
  * @param[in] resourceManager リソースを管理しているマネージャ
  */
-TitleScene::TitleScene(SceneManager* pSceneManager, UserResources* pUserResources)
+StageSelectScene::StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources)
 	: Scene{ pSceneManager,pUserResources }
 {
 
@@ -33,7 +33,7 @@ TitleScene::TitleScene(SceneManager* pSceneManager, UserResources* pUserResource
 /**
  * @brief デストラクタ
  */
-TitleScene::~TitleScene()
+StageSelectScene::~StageSelectScene()
 {
 
 }
@@ -47,9 +47,9 @@ TitleScene::~TitleScene()
  *
  * @return なし
  */
-void TitleScene::Initialize()
+void StageSelectScene::Initialize()
 {
-	m_logoTexture = m_userResources->GetResourceManager()->RequestTexture("titleLogo", L"Resources/Textures/Text/title.png");
+
 }
 
 
@@ -61,7 +61,7 @@ void TitleScene::Initialize()
  *
  * @return なし
  */
-void TitleScene::Update(float elapsedTime)
+void StageSelectScene::Update(float elapsedTime)
 {
 	// キーボードの更新
 	auto kb = Keyboard::Get().GetState();
@@ -70,7 +70,7 @@ void TitleScene::Update(float elapsedTime)
 	// シーンの切り替え
 	if (m_kbTracker.pressed.P)
 	{
-		ChangeScene("StageSelectScene");
+		ChangeScene("TestScene");
 	}
 }
 
@@ -83,15 +83,10 @@ void TitleScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
+void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
-	debugFont->AddString(0, 30, Colors::White, L"TitleScene");
+	debugFont->AddString(0, 30, Colors::White, L"StageSelectScene");
 
-	context.spriteBatch->Begin();
-
-	context.spriteBatch->Draw(m_logoTexture, DirectX::SimpleMath::Vector2(640.0f, 100.0f));
-
-	context.spriteBatch->End();
 }
 
 
@@ -103,7 +98,7 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  *
  * @return なし
  */
-void TitleScene::Finalize()
+void StageSelectScene::Finalize()
 {
-	m_logoTexture = nullptr;
+	
 }

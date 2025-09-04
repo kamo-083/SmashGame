@@ -1,5 +1,5 @@
 /**
- * @file   TitleScene.h
+ * @file   StageSelectScene.h
  *
  * @brief  テストシーンに関するヘッダファイル
  *
@@ -18,14 +18,16 @@
 #include "Source/Game/Common/Scene.h"
 
 
+
 // クラスの宣言 ===============================================================
+
 
 
 // クラスの定義 ===============================================================
 /**
  * @brief テストシーン
  */
-class TitleScene : public Scene
+class StageSelectScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
@@ -39,17 +41,17 @@ private:
 
 
 	// オブジェクト関連
-	ID3D11ShaderResourceView* m_logoTexture;
+
 
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	TitleScene(SceneManager* pSceneManager, UserResources* pUserResources);
+	StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources);
 
 	// デストラクタ
-	~TitleScene();
+	~StageSelectScene();
 
 
 	// 操作

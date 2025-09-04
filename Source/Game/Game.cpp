@@ -7,6 +7,7 @@
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Scenes/TestScene.h"
 #include "Source/Game/Scenes/TitleScene.h"
+#include "Source/Game/Scenes/StageSelectScene.h"
 
 extern void ExitGame() noexcept;
 
@@ -48,8 +49,9 @@ void Game::Initialize(HWND window, int width, int height)
     m_spriteBatch = std::make_unique<SpriteBatch>(context);
     
     // 各シーンの作成
-    m_sceneManager->Register("TestScene", std::make_unique<TestScene>(m_sceneManager.get(), m_userResources.get()));
+    m_sceneManager->Register("TestScene", std::make_unique<TestScene>(m_sceneManager.get(), m_userResources.get(), "Resources/Json/test.json"));
     m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_userResources.get()));
+    m_sceneManager->Register("StageSelectScene", std::make_unique<StageSelectScene>(m_sceneManager.get(), m_userResources.get()));
 
     // 開始シーンの設定
     //m_sceneManager->SetStartScene("TitleScene");

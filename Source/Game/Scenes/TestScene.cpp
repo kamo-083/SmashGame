@@ -12,7 +12,6 @@
 #include "pch.h"
 #include "TestScene.h"
 #include "Source/Game/Common/SceneManager.h"
-#include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Common/RenderContext.h"
 
 using namespace DirectX;
@@ -25,9 +24,10 @@ using namespace DirectX;
  * @param[in] sceneManager    シーンを管理しているマネージャ
  * @param[in] resourceManager リソースを管理しているマネージャ
  */
-TestScene::TestScene(SceneManager* pSceneManager, UserResources* pUserReources)
-	: Scene{ pSceneManager,pUserReources }
+TestScene::TestScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path)
+	: Scene{ pSceneManager,pUserResources }
 	, m_keyMode{false}
+	, m_stageFilePath{path}
 {
 
 }
@@ -39,8 +39,7 @@ TestScene::TestScene(SceneManager* pSceneManager, UserResources* pUserReources)
  */
 TestScene::~TestScene()
 {
-	m_enemyManager->Finalize();
-	m_effectManager->Finalize();
+
 }
 
 
@@ -75,34 +74,26 @@ void TestScene::Initialize()
 	m_camera = std::make_unique<Camera>();
 
 	// エフェクトマネージャーの作成
-	m_effectManager = std::make_unique<EffectManager>(m_userResorces->GetDeviceResources());
+	m_effectManager = std::make_unique<EffectManager>(m_userResources->GetDeviceResources());
 	m_effectManager->SetCamera(m_camera.get());
 
 	// 武器UIの作成
-	m_weaponUI = std::make_unique<WeaponUI>(m_userResorces->GetDeviceResources()->GetOutputSize().right,
-		m_userResorces->GetDeviceResources()->GetOutputSize().bottom);
-	m_weaponUI->Initialize(m_userResorces->GetResourceManager());
+	m_weaponUI = std::make_unique<WeaponUI>(m_userResources->GetDeviceResources()->GetOutputSize().right,
+											m_userResources->GetDeviceResources()->GetOutputSize().bottom);
+	m_weaponUI->Initialize(m_userResources->GetResourceManager());
 
 	// プレイヤーの作成
-	m_player = std::make_unique<Player>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_player->Initialize(m_userResorces->GetResourceManager(), m_collisionManager.get(),
+	m_player = std::make_unique<Player>(m_userResources->GetDeviceResources()->GetD3DDeviceContext());
+	m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
 						 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
-	//m_effectManager->CreateTrajectory(
-	//	m_userResorces->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
-	//	0.5f,
-	//	2.0f,
-	//	SimpleMath::Color(1, 1, 1, 1),
-	//	&m_player->GetPosition(),
-	//	false
-	//);
 
 	// エネミーマネージャーの作成
-	m_enemyManager = std::make_unique<EnemyManager>(m_userResorces, m_collisionManager.get(), m_effectManager.get());
+	m_enemyManager = std::make_unique<EnemyManager>(m_userResources, m_collisionManager.get(), m_effectManager.get());
 
 	// ステージマネージャーの作成
 	m_stageManager = std::make_unique<StageManager>();
-	m_stageManager->CreateStage(m_userResorces, m_collisionManager.get(), m_enemyManager.get(),
-								"Resources/Json/test.json");
+	m_stageManager->CreateStage(m_userResources, m_collisionManager.get(), m_enemyManager.get(),
+								m_stageFilePath);
 
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());
@@ -150,14 +141,14 @@ void TestScene::Update(float elapsedTime)
 
 	// 仮リスポーン
 	if (m_player->GetPosition().y <= -10.0f)
-		m_player->Initialize(m_userResorces->GetResourceManager(), m_collisionManager.get(),
+		m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
 							 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// シーンの切り替え
-	if (m_kbTracker.pressed.P)
+	if (m_stageManager->IsGoal() || m_kbTracker.pressed.P)
 	{
 		m_effectManager->Finalize();
-		ChangeScene("TitleScene");
+		ChangeScene("StageSelectScene");
 	}
 }
 

@@ -82,14 +82,14 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 			break;
 		}
 		// 的の箱
-		case StageLoader::ObjectType::TargetBox:	// とりあえずgoal.getしてるけど例外出ると思うので要対策
+		case StageLoader::ObjectType::TargetBox:	// とりあえずgoal.getしてるけど順番によっては例外出ると思うので要対策
 		{
 			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(context)));
 			m_targetBoxes.back()->Initialize(pCM, pEM, m_goal.get(), data.position, data.scale);
 			break;
 		}
 		// エリア
-		case StageLoader::ObjectType::Area:	// スケール以降の引数は仮で入れているので後から修正
+		case StageLoader::ObjectType::Area:
 		{
 			// 操作を設定
 			std::function<void()> operate;
@@ -256,4 +256,9 @@ void StageManager::CreateOperate(std::function<void()>& outOperate, StageLoader:
 
 		return;
 	}
+}
+
+bool StageManager::IsGoal()
+{
+	return m_goal->IsGoal();
 }

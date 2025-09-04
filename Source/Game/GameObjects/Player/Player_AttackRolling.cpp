@@ -85,7 +85,7 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 
 	// UŒ‚”»’è‚ÌXV
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(m_pPlayer->GetRotY()), 0.0f, cosf(m_pPlayer->GetRotY()));
-	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition() - forward * m_pPlayer->GetRadius());
+	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition());
 
 	m_pPlayer->SetOnGround(false);
 

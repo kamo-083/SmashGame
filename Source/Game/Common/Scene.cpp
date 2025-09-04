@@ -12,7 +12,6 @@
 #include "pch.h"
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Common/SceneManager.h"
-#include "Source/Game/Common/UserResources.h"
 
 
 
@@ -23,9 +22,9 @@
  *
  * @param ‚È‚µ
  */
-Scene::Scene(SceneManager* pSceneManager, UserResources* pUserReources)
+Scene::Scene(SceneManager* pSceneManager, UserResources* pUserResources)
 	: m_sceneManager{ pSceneManager }
-	, m_userResorces{ pUserReources }
+	, m_userResources{ pUserResources }
 	, m_isSceneActive{ false }
 {
 
@@ -39,7 +38,7 @@ Scene::Scene(SceneManager* pSceneManager, UserResources* pUserReources)
 Scene::~Scene()
 {
 	m_sceneManager = nullptr;
-	m_userResorces = nullptr;
+	m_userResources = nullptr;
 
 	m_kbTracker.Reset();
 }
