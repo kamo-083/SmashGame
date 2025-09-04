@@ -85,7 +85,7 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 			const auto* d = pCollisionManager->GetDesc(handle);
 			auto epos = d->sphere->GetCenter();     // 敵の中心
 			auto apos = m_collider.GetCenter();     // エリア中心
-			auto ahl = m_collider.GetHalfLength(); // エリア半径
+			auto ahl = m_collider.GetHalfLength();  // エリア半径
 			char buf[256];
 			sprintf_s(buf, "ENTER id=%u  enemy=(%.2f,%.2f,%.2f)  areaC=(%.2f,%.2f,%.2f)  areaHL=(%.2f,%.2f,%.2f)\n",
 				d->userId, epos.x, epos.y, epos.z, apos.x, apos.y, apos.z, ahl.x, ahl.y, ahl.z);

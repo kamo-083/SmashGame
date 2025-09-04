@@ -41,6 +41,7 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pResourceManager)
 	m_model = pResourceManager->GetModel("enemy");
 
 	m_pGroundEnemy->SetIsAttack(false);
+	m_pGroundEnemy->SetAttackCollisionEnabled(false);
 
 	m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(true);
 }

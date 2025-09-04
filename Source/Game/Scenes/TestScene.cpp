@@ -68,8 +68,8 @@ void TestScene::Initialize()
 	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyAttack] = false;	// 敵と敵の攻撃
 	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Stage] = true;			// プレイヤーとステージ
 	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Stage] = true;			// 敵とステージ
-	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Trigger] = true;			// プレイヤーとトリガー
-	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Trigger] = true;			// 敵とトリガー
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Trigger] = true;		// プレイヤーとトリガー
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Trigger] = true;		// 敵とトリガー
 
 	// カメラの作成
 	m_camera = std::make_unique<Camera>();
@@ -96,50 +96,13 @@ void TestScene::Initialize()
 	//	false
 	//);
 
-	// 敵の作成
+	// エネミーマネージャーの作成
 	m_enemyManager = std::make_unique<EnemyManager>(m_userResorces, m_collisionManager.get(), m_effectManager.get());
-	EnemyManager::SpawnData data;
-	data.type = EnemyManager::EnemyType::Ground;
-	data.position = SimpleMath::Vector3(0.0f, 5.0f, -4.0f);
-	m_enemyManager->Spawn(data);
-	data.position = SimpleMath::Vector3(4.0f, 5.0f, -2.0f);
-	m_enemyManager->Spawn(data);
 
 	// ステージマネージャーの作成
 	m_stageManager = std::make_unique<StageManager>();
 	m_stageManager->CreateStage(m_userResorces, m_collisionManager.get(), m_enemyManager.get(),
 								"Resources/Json/test.json");
-
-	// 地面の作成
-	m_grounds.push_back(std::make_unique<Ground>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext()));
-	m_grounds.push_back(std::make_unique<Ground>(
-		m_userResorces->GetDeviceResources()->GetD3DDeviceContext(), SimpleMath::Vector3(-5.0f, 1.5f, 0.0f), SimpleMath::Vector3(0.5f, 3.0f, 5.0f)));
-	m_grounds.push_back(std::make_unique<Ground>(
-		m_userResorces->GetDeviceResources()->GetD3DDeviceContext(), SimpleMath::Vector3(0.0f, 1.5f, -5.0f), SimpleMath::Vector3(5.0f, 3.0f, 0.5f)));
-	for (std::unique_ptr<Ground>& ground : m_grounds)
-	{
-		ground->Initialize(m_collisionManager.get());
-	}
-
-	// ゴールの作成
-	m_goal = std::make_unique<Goal>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_goal->Initialize(SimpleMath::Vector3(-2.0f, 1.0f, 2.0f));
-
-	// エリアの作成
-	m_area = std::make_unique<CountArea>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_area->Initialize(m_collisionManager.get(), SimpleMath::Vector3(0.0f, 1.0f, 3.0f), 1.0f, 1.0f,
-		[this]() {m_goal->CanGoal(); },
-		CountArea::TriggerMode::ReachCount, 1);
-
-	// 箱の作成
-	m_bounceBox = std::make_unique<BounceBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_bounceBox->Initialize(m_collisionManager.get(),
-							SimpleMath::Vector3(2.0f, 0.5f, 2.0f));
-
-	// 的の作成
-	m_targetBox = std::make_unique<TargetBox>(m_userResorces->GetDeviceResources()->GetD3DDeviceContext());
-	m_targetBox->Initialize(m_collisionManager.get(), m_enemyManager.get(),
-							m_goal.get(), SimpleMath::Vector3(-2.0f, 0.5f, -2.0f));
 
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());
@@ -163,7 +126,7 @@ void TestScene::Update(float elapsedTime)
 	auto kb = Keyboard::Get().GetState();
 	m_kbTracker.Update(kb);
 
-	// キー操作のモード
+	// キー操作のモード切り替え
 	if (m_kbTracker.pressed.K) m_keyMode = !m_keyMode;
 
 	// プレイヤーの更新
@@ -171,12 +134,6 @@ void TestScene::Update(float elapsedTime)
 
 	// 敵の更新
 	m_enemyManager->Update(elapsedTime, m_player.get());
-
-	// 箱の更新
-	m_bounceBox->Update(elapsedTime);
-
-	// エリアの更新
-	m_area->Update();
 
 	// カメラの更新
 	if(!m_keyMode) m_camera->Rotation(&m_kbTracker);
@@ -195,20 +152,6 @@ void TestScene::Update(float elapsedTime)
 	if (m_player->GetPosition().y <= -10.0f)
 		m_player->Initialize(m_userResorces->GetResourceManager(), m_collisionManager.get(),
 							 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
-
-	// 当たり判定の処理
-	// 地面
-	for (std::unique_ptr<Ground>& ground : m_grounds)
-	{
-		m_bounceBox->DetectCollisionToBox(ground->GetCollider());
-	}
-	// プレイヤー
-	if (m_player->GetIsAttack())
-	{
-		m_bounceBox->DetectCollisionToAttack(*m_player->GetAttackCollider(), *m_player->GetCollider(), m_player->GetAttackForce());
-	}
-	// ゴール
-	m_goal->DetectCollisionToPlayer(*m_player->GetCollider());
 
 	// シーンの切り替え
 	if (m_kbTracker.pressed.P)
@@ -242,24 +185,6 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	// ステージマネージャーの描画
 	m_stageManager->Draw(context, debugFont);
 
-	// 地面の描画
-	for (std::unique_ptr<Ground>& ground : m_grounds)
-	{
-		ground->Draw(context);
-	}
-
-	// 箱の描画
-	m_bounceBox->Draw(context, debugFont);
-
-	// 的の描画
-	m_targetBox->Draw(context);
-
-	// ゴールの描画
-	m_goal->Draw(context,debugFont);
-
-	// エリアの描画
-	m_area->Draw(context, debugFont);
-
 	// カメラの描画(デバッグフォント)
 	m_camera->Draw(debugFont);
 
@@ -285,12 +210,4 @@ void TestScene::Finalize()
 	if (m_enemyManager) m_enemyManager->Finalize();
 	if (m_stageManager) m_stageManager->Finalize();
 	if (m_effectManager)m_effectManager->Finalize();
-	if (m_bounceBox)	m_bounceBox->Finalize();
-	if (m_targetBox)	m_targetBox->Finalize();
-	if (m_goal)	m_goal->Finalize();
-
-	for (auto& ground : m_grounds)
-	{
-		ground->Finalize();
-	}
 }

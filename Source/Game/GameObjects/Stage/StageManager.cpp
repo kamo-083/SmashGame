@@ -55,57 +55,75 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 {
 	StageLoader loader;
 	std::vector<StageLoader::ObjectData> objectData;
+	std::vector<StageLoader::EnemyData> enemyData;
 
 	// データの読み込み
-	loader.LoadData(path, objectData);
+	loader.LoadData(path, objectData, enemyData);
 
 	ID3D11DeviceContext* context = pUR->GetDeviceResources()->GetD3DDeviceContext();
 
+	// ステージオブジェクトの生成
 	for (StageLoader::ObjectData data : objectData)
 	{
 		switch (data.type)
 		{
-			// 地面
+		// 地面
 		case StageLoader::ObjectType::Ground:
 		{
-			m_grounds.push_back(std::move(std::make_unique<Ground>(context, data.position, data.scale)));
-			m_grounds;
+			m_grounds.push_back(std::move(std::make_unique<Ground>(context)));
+			m_grounds.back()->Initialize(pCM, data.position, data.scale);
 			break;
 		}
 		// 吹っ飛ぶ箱
 		case StageLoader::ObjectType::BounceBox:
 		{
-			std::unique_ptr<BounceBox> bounce = std::make_unique<BounceBox>(context);
-			bounce->Initialize(pCM, data.position, data.scale);
-			m_bounceBoxes.push_back(std::move(bounce));
+			m_bounceBoxes.push_back(std::move(std::make_unique<BounceBox>(context)));
+			m_bounceBoxes.back()->Initialize(pCM, data.position, data.scale);
 			break;
 		}
 		// 的の箱
 		case StageLoader::ObjectType::TargetBox:	// とりあえずgoal.getしてるけど例外出ると思うので要対策
 		{
-			std::unique_ptr<TargetBox> target = std::make_unique<TargetBox>(context);
-			target->Initialize(pCM, pEM, m_goal.get(), data.position, data.scale);
-			m_targetBoxes.push_back(std::move(target));
+			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(context)));
+			m_targetBoxes.back()->Initialize(pCM, pEM, m_goal.get(), data.position, data.scale);
 			break;
 		}
 		// エリア
 		case StageLoader::ObjectType::Area:	// スケール以降の引数は仮で入れているので後から修正
 		{
-			std::unique_ptr<CountArea> area = std::make_unique<CountArea>(context);
-			area->Initialize(pCM, data.position, data.scale.x, data.scale.z,
-							 [](){},CountArea::TriggerMode::AllOut);
-			m_areas.push_back(std::move(area));
+			// 操作を設定
+			std::function<void()> operate;
+			CreateOperate(operate, data.areaAction);
+
+			// モードを設定
+			CountArea::TriggerMode mode{};
+			if (data.areaAction.mode == "AllOut") mode = CountArea::TriggerMode::AllOut;
+			else if (data.areaAction.mode == "ReachCount") mode = CountArea::TriggerMode::ReachCount;
+
+			m_areas.push_back(std::move(std::make_unique<CountArea>(context)));
+			m_areas.back()->Initialize(pCM, data.position, data.scale.x, data.scale.z,
+									   operate, mode);
 			break;
 		}
 		// ゴール
 		case StageLoader::ObjectType::Goal:
 		{
 			m_goal = std::make_unique<Goal>(context);
-			m_goal->Initialize(data.position);
+			m_goal->Initialize(pCM, data.position);
 			break;
 		}
 
 		}
+	}
+
+	// 敵の生成
+	for (StageLoader::EnemyData data : enemyData)
+	{
+		EnemyManager::SpawnData spawnData;
+		if (data.type == "Ground") spawnData.type = EnemyManager::EnemyType::Ground;
+		spawnData.position = data.position;
+
+		pEM->Spawn(spawnData);
 	}
 }
 
@@ -145,7 +163,7 @@ void StageManager::Update(float elapsedTime)
 	}
 
 	// ゴールの更新
-	m_goal->Update();
+	if(m_goal) m_goal->Update();
 }
 
 
@@ -223,6 +241,19 @@ void StageManager::Finalize()
 	}
 
 	// ゴールの終了
-	m_goal->Finalize();
+	if(m_goal) m_goal->Finalize();
 
+}
+
+void StageManager::CreateOperate(std::function<void()>& outOperate, StageLoader::AreaActionDesc& desc)
+{
+	if (desc.command == "EnableGoal")
+	{
+		outOperate = [this]()
+			{
+				m_goal->CanGoal();
+			};
+
+		return;
+	}
 }

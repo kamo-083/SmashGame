@@ -52,6 +52,7 @@ void Game::Initialize(HWND window, int width, int height)
     m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_userResources.get()));
 
     // 開始シーンの設定
+    //m_sceneManager->SetStartScene("TitleScene");
     m_sceneManager->SetStartScene("TestScene");
 }
 

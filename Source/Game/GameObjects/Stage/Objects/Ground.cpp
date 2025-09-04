@@ -20,14 +20,11 @@ using namespace DirectX;
  *
  * @param[in] ‚È‚µ
  */
-Ground::Ground(ID3D11DeviceContext* context,
-			   DirectX::SimpleMath::Vector3 position,
-			   DirectX::SimpleMath::Vector3 halfLength,
-			   DirectX::SimpleMath::Vector3 angle)
-	:m_position{position}
-	,m_halfLength{halfLength}
-	,m_angle{angle}
-	,m_collider{}
+Ground::Ground(ID3D11DeviceContext* context)
+	: m_position{ SimpleMath::Vector3::Zero }
+	, m_halfLength{ SimpleMath::Vector3::Zero }
+	, m_angle{ SimpleMath::Vector3::Zero }
+	, m_collider{}
 {
 	m_geometricPrimitive = GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -51,8 +48,15 @@ Ground::~Ground()
  *
  * @return ‚È‚µ
  */
-void Ground::Initialize(CollisionManager* pCollisionManager)
+void Ground::Initialize(CollisionManager* pCollisionManager,
+						DirectX::SimpleMath::Vector3 position,
+						DirectX::SimpleMath::Vector3 halfLength,
+						DirectX::SimpleMath::Vector3 angle)
 {
+	m_position = position;
+	m_halfLength = halfLength;
+	m_angle = angle;
+
 	m_collider.SetCenter(m_position);
 	m_collider.SetRotation(SimpleMath::Quaternion::CreateFromYawPitchRoll(m_angle.y, m_angle.x, m_angle.z));
 	m_collider.SetHalfLength(m_halfLength);

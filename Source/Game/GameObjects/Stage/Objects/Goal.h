@@ -21,6 +21,10 @@
 
 
 // クラスの定義 ===============================================================
+class CollisionManager;
+
+
+// クラスの定義 ===============================================================
 /**
  * @brief 地面
  */
@@ -40,6 +44,8 @@ private:
 
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
+	uint32_t m_collisionHandle;
+
 	bool m_canGoal;
 	bool m_isGoal;
 
@@ -56,7 +62,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(DirectX::SimpleMath::Vector3 position);
+	void Initialize(CollisionManager* pCollisionManager, DirectX::SimpleMath::Vector3 position);
 
 	// 更新処理
 	void Update();

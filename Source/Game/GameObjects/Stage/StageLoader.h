@@ -21,6 +21,7 @@
 
 using json = nlohmann::json;
 
+
 // クラスの定義 ===============================================================
 /**
  * @brief StageLoader
@@ -32,11 +33,18 @@ public:
 	enum class ObjectType
 	{
 		None = -1,
+		Goal,
 		Ground,
 		BounceBox,
 		TargetBox,
 		Area,
-		Goal
+	};
+
+	struct AreaActionDesc
+	{
+		std::string mode;
+		std::string command;
+		int target = 0;
 	};
 
 	struct ObjectData
@@ -45,8 +53,14 @@ public:
 		DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3::Zero;
 		DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3::One;
 		bool active = true;
+		AreaActionDesc areaAction;
 	};
-
+	
+	struct EnemyData
+	{
+		std::string type;
+		DirectX::SimpleMath::Vector3 position;
+	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -66,7 +80,7 @@ public:
 
 // 操作
 public:
-	bool LoadData(const std::string& path, std::vector<ObjectData>& outputData)
+	bool LoadData(const std::string& path, std::vector<ObjectData>& outputObjects, std::vector<EnemyData>& outputEnemies)
 	{
 		using namespace DirectX;
 
@@ -86,7 +100,8 @@ public:
 		json j = json::parse(stream);
 
 		// データを読み込む
-		outputData.clear();
+		// ステージオブジェクト
+		outputObjects.clear();
 		for (auto& element : j["objects"])
 		{
 			ObjectData data;
@@ -121,11 +136,44 @@ public:
 				};
 			}
 
+			// 操作
+			if (data.type == ObjectType::Area)
+			{
+				data.areaAction.mode = element.value("mode", "AllOut");
+				data.areaAction.command = element.value("command", "EnableGoal");
+				data.areaAction.target = element["target"];
+			}
+
 			// 有効化
 			data.active = element.value("active", true);
 
 			// 配列に追加
-			outputData.push_back(std::move(data));
+			outputObjects.push_back(std::move(data));
+		}
+
+		// 敵
+		outputEnemies.clear();
+		for (auto& element : j["enemies"])
+		{
+			EnemyData data;
+
+			// 種類
+			std::string typeStr = element.value("type", "Ground");
+			data.type = typeStr;
+
+			// 座標
+			if (element.contains("pos") && element["pos"].is_array() && element["pos"].size() >= 3)
+			{
+				data.position = SimpleMath::Vector3
+				{
+					element["pos"][0].get<float>(),
+					element["pos"][1].get<float>(),
+					element["pos"][2].get<float>()
+				};
+			}
+
+			// 配列に追加
+			outputEnemies.push_back(std::move(data));
 		}
 
 		return true;

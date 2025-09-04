@@ -73,21 +73,6 @@ private:
 	//敵
 	std::unique_ptr<EnemyManager> m_enemyManager;
 
-	//地面
-	std::vector<std::unique_ptr<Ground>> m_grounds;
-
-	//箱
-	std::unique_ptr<BounceBox> m_bounceBox;
-
-	//的
-	std::unique_ptr<TargetBox> m_targetBox;
-	
-	//ゴール
-	std::unique_ptr<Goal> m_goal;
-
-	//エリア
-	std::unique_ptr<CountArea> m_area;
-
 	// ステージマネージャー
 	std::unique_ptr<StageManager> m_stageManager;
 

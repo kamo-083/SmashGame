@@ -11,6 +11,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Goal.h"
+#include "Source/Game/Common/CollisionManager.h"
 
 
 using namespace DirectX;
@@ -22,10 +23,11 @@ using namespace DirectX;
  * @param[in] なし
  */
 Goal::Goal(ID3D11DeviceContext* context)
-	:m_position{ SimpleMath::Vector3::Zero }
+	: m_position{ SimpleMath::Vector3::Zero }
 	, m_collider{}
-	,m_isGoal{false}
-	,m_canGoal{false}
+	, m_collisionHandle{ 0 }
+	, m_isGoal{ false }
+	, m_canGoal{ false }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -49,13 +51,30 @@ Goal::~Goal()
  *
  * @return なし
  */
-void Goal::Initialize(DirectX::SimpleMath::Vector3 position)
+void Goal::Initialize(CollisionManager* pCollisionManager, DirectX::SimpleMath::Vector3 position)
 {
 	m_position = position;
 
 	m_collider.SetCenter(m_position);
 	m_collider.SetRotation(SimpleMath::Quaternion::Identity);
 	m_collider.SetHalfLength(SimpleMath::Vector3(HALF_LENGTH, HALF_LENGTH, HALF_LENGTH));
+
+	// コリジョンマネージャーに登録
+	CollisionManager::Desc desc{};
+	desc.type = CollisionManager::Type::OBB;
+	desc.layer = CollisionManager::Layer::Trigger;
+	desc.obb = &m_collider;
+	desc.position = nullptr;
+	desc.velocity = nullptr;
+	desc.isTrigger = true;
+	desc.callback.onEnter = 
+		[this, pCollisionManager](uint32_t, uint32_t other)
+		{
+			if (!m_canGoal || pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::PlayerBody) return;
+
+			m_isGoal = true;
+		};
+	m_collisionHandle = pCollisionManager->Add(desc);
 
 	m_canGoal = false;
 	m_isGoal = false;

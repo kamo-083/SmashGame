@@ -14,6 +14,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include <functional>
 #include "Source/Game/Common/CollisionManager.h"
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
@@ -81,6 +82,8 @@ public:
 
 	// 終了処理
 	void Finalize();
+
+	void CreateOperate(std::function<void()>& outOperate, StageLoader::AreaActionDesc& desc);
 
 // 取得/設定
 public:
