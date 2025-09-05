@@ -89,9 +89,6 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	m_isAttack = false;
 	m_attackForce = 0.0f;
 
-	// 法線ベクトルの初期化
-	m_surfaceNormal = SimpleMath::Vector3::Zero;
-
 	// モデルの読み込み
 	m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\cat.sdkmesh");
 
@@ -119,13 +116,16 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	bodyDesc.position = &m_position;
 	bodyDesc.velocity = &m_velocity;
 	bodyDesc.callback.onResolved =
-		[this](uint32_t, const SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		[this](uint32_t other, const SimpleMath::Vector3& n, float)	// 接地フラグを立てる
 		{
 			const float groundCos = std::cos(XMConvertToRadians(30.0f));
 			if (n.y >= groundCos) m_onGround = true;
+
+			// 地面・壁との反射
+			if (m_pCollisionManager->GetDesc(other)->layer == CollisionManager::Layer::Stage) ReflectOnCollision(n);
 		};
 	bodyDesc.callback.onEnter =
-		[this](uint32_t, uint32_t other)		// プレイヤーの攻撃で吹っ飛ぶ
+		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ
 		{
 			auto otherDesc = m_pCollisionManager->GetDesc(other);
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack) return;
@@ -133,7 +133,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->uerData);
 		};
 	bodyDesc.callback.onStay =
-		[this](uint32_t, uint32_t other)		// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)
+		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)
 		{			
 			auto otherDesc = m_pCollisionManager->GetDesc(other);
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack && !otherDesc->isMultiHit) return;
@@ -239,84 +239,6 @@ void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, 
 }
 
 
-bool GroundEnemy::DetectCollisionToBox(OBBCollider collider)
-{
-	bool hit = IsHit(collider, m_collider);
-
-	if (hit)
-	{
-		MTV mtv = CalculateMTV(collider, m_collider);
-		if (mtv.distance > 0.0f && mtv.direction.LengthSquared() > 0.00001f)
-		{
-			m_position += mtv.direction * mtv.distance;
-			m_collider.SetCenter(m_position);
-		}
-
-		//法線ベクトルを元にオブジェクトの種類を判定
-		DirectX::SimpleMath::Vector3 normal = mtv.direction;
-		normal.Normalize();
-
-		m_collisionType = DetermineCollisionType(normal);
-		switch (m_collisionType)
-		{
-		case OBBCollider::CollisionType::Ground:
-			if (m_currentState==m_bouncingState.get())
-			{
-				m_physics->Reflection(m_velocity, m_surfaceNormal, 0.8f);
-
-				// 円形エフェクトを発生
-				m_circle->Spawn();
-			}
-			else
-			{
-				m_onGround = true;
-				m_velocity.y = 0.0f;
-				m_surfaceNormal = normal;
-			}
-			break;
-		case OBBCollider::CollisionType::Wall:
-			m_physics->Reflection(m_velocity, normal, 0.8);
-
-			// 円形エフェクトを発生
-			m_circle->Spawn();
-			break;
-		case OBBCollider::CollisionType::Slope:
-			m_onGround = true;
-			m_surfaceNormal = normal;
-			break;
-		default:
-			break;
-		}
-	}
-
-	return hit;
-}
-
-
-bool GroundEnemy::DetectCollisionToSphere(SphereCollider collider)
-{
-	bool hit = IsHit(collider, m_collider);
-
-	if (hit)
-	{
-		MTV mtv = CalculateMTV(collider, m_collider);
-		if (mtv.distance > 0.0f && mtv.direction.LengthSquared() > 0.00001f)
-		{
-			m_position += mtv.direction * mtv.distance;
-			m_collider.SetCenter(m_position);
-		}
-
-		//法線ベクトルを元にオブジェクトの種類を判定
-		DirectX::SimpleMath::Vector3 normal = mtv.direction;
-		normal.Normalize();
-
-		m_physics->Reflection(m_velocity, normal, 0.8);
-	}
-
-	return hit;
-}
-
-
 bool GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
 {
 	bool hit = IsHit(collider, m_collider);
@@ -340,5 +262,24 @@ bool GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
 	}
 
 	return hit;
+}
+
+void GroundEnemy::ReflectOnCollision(DirectX::SimpleMath::Vector3 normal)
+{
+	if (m_currentState != m_bouncingState.get()) return;
+
+	switch (DetermineCollisionType(normal))
+	{
+	case OBBCollider::CollisionType::Ground:
+		// 円形エフェクトを発生
+		m_circle->Spawn();
+		break;
+	case OBBCollider::CollisionType::Wall:
+		m_physics->Reflection(m_velocity, normal, 0.8);
+
+		// 円形エフェクトを発生
+		m_circle->Spawn();
+		break;
+	}
 }
 

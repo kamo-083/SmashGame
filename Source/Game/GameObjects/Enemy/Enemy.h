@@ -70,12 +70,6 @@ protected:
 	//攻撃力
 	float m_attackForce;
 
-	//直前に接触した物
-	OBBCollider::CollisionType m_collisionType;
-
-	//法線ベクトル
-	DirectX::SimpleMath::Vector3 m_surfaceNormal;
-
 	//球のコライダー
 	SphereCollider m_collider;
 
@@ -108,7 +102,6 @@ public:
 		, m_onGround{ false }
 		, m_isAttack{ false }
 		, m_attackForce{ 0.0f }
-		, m_collisionType{ OBBCollider::CollisionType::Others }
 		, m_pCollisionManager{nullptr}
 	{}
 

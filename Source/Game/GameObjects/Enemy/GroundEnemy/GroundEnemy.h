@@ -107,10 +107,6 @@ public:
 	// プレイヤーの距離・向きの計算
 	void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos,float radius);
 
-	// 当たり判定
-	bool DetectCollisionToBox(OBBCollider collider);
-	bool DetectCollisionToSphere(SphereCollider collider);
-
 	// 攻撃の当たり判定
 	bool DetectCollisionToAttack(SphereCollider collider, float power);
 
@@ -135,5 +131,6 @@ public:
 
 // 内部実装
 private:
-
+	// 地面・壁との反射
+	void ReflectOnCollision(DirectX::SimpleMath::Vector3 normal);
 };
