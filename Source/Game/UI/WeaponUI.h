@@ -12,7 +12,7 @@ public:
 		LEFT
 	};
 
-	static constexpr float SLIDE_DISTANCE = 5.0f;
+	static constexpr float SLIDE_DISTANCE = 2.0f;
 
 private:
 	// •Šíˆê——

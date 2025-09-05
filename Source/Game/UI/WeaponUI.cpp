@@ -102,22 +102,24 @@ void WeaponUI::ChangeWeapon(WeaponType type, bool right)
 void WeaponUI::ChangeWeapon(WeaponType type)
 {
 	if (m_weaponList[0] == type) return;
-	
-	bool plus = true;
-	if (m_weaponList[0] > type)
-	{
-		plus = false;
-	}
 
-	for (WeaponType& l : m_weaponList)
-	{
-		if (plus) ++l;
-		else	   --l;
-	}
+	// 切り替え前を保存
+	WeaponType bf = *m_weaponList.begin();
+
+	int typeNum = static_cast<int>(WeaponType::TYPE_NUM);
+	int current = static_cast<int>(m_weaponList[0]);
+	int target = static_cast<int>(type);
+
+	// スライド距離を計算
+	int right = (target - current + typeNum) % typeNum;
+	int left = (current - target + typeNum) % typeNum;
+
+	// スライド方向を設定
+	bool goLeft = (right <= left);
 
 	// スライド処理の有効化
 	float width = m_textureSize.x * 0.5f;
-	if (plus)
+	if (goLeft)
 	{
 		m_slide = Slide::LEFT;
 		m_slideWidth = width;
@@ -126,5 +128,12 @@ void WeaponUI::ChangeWeapon(WeaponType type)
 	{
 		m_slide = Slide::RIGHT;
 		m_slideWidth = -width;
+	}
+
+	// 実データの回転
+	for (WeaponType& l : m_weaponList)
+	{
+		if (goLeft) ++l;
+		else		 --l;
 	}
 }

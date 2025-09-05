@@ -216,12 +216,12 @@ void Player::ChangeState(IState* newState)
 void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	if (!(*m_pKeyMode)) return;
-
-	if (pKbTracker->pressed.J)
+	
+	if (pKbTracker->pressed.L)
 	{
 		++m_weaponType;
 	}
-	else if (pKbTracker->pressed.L)
+	else if (pKbTracker->pressed.J)
 	{
 		--m_weaponType;
 	}
