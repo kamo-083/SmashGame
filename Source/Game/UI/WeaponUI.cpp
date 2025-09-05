@@ -4,15 +4,17 @@
 using namespace DirectX;
 
 WeaponUI::WeaponUI(float width, float height)
-	:m_windowSize(width, height)
+	: m_windowSize(width, height)
+	, m_slide{ Slide::NONE }
+	, m_slideWidth{ 0.0f }
 {
 	m_weaponList.resize(static_cast<int>(WeaponType::TYPE_NUM));
-	m_texture.resize(static_cast<int>(WeaponType::TYPE_NUM));
+	m_textures.resize(static_cast<int>(WeaponType::TYPE_NUM));
 }
 
 WeaponUI::~WeaponUI()
 {
-	m_texture.clear();
+	m_textures.clear();
 }
 
 void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float height)
@@ -24,12 +26,44 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	}
 
 	// テクスチャの読み込み
-	m_texture[static_cast<int>(WeaponType::BASIC)] = resourceManager->RequestTexture("weapon_basic", L"Resources/Textures/Weapon/bou.png");
-	m_texture[static_cast<int>(WeaponType::ROLLING)] = resourceManager->RequestTexture("weapon_rolling", L"Resources/Textures/Weapon/glass_ball.png");
-	m_texture[static_cast<int>(WeaponType::HEAVY)] = resourceManager->RequestTexture("weapon_heavy", L"Resources/Textures/Weapon/war_ishiono.png");
+	m_textures[static_cast<int>(WeaponType::BASIC)] = resourceManager->RequestTexture("weapon_basic", L"Resources/Textures/Weapon/bou.png");
+	m_textures[static_cast<int>(WeaponType::ROLLING)] = resourceManager->RequestTexture("weapon_rolling", L"Resources/Textures/Weapon/glass_ball.png");
+	m_textures[static_cast<int>(WeaponType::HEAVY)] = resourceManager->RequestTexture("weapon_heavy", L"Resources/Textures/Weapon/war_ishiono.png");
 
 	// 画像サイズの設定
 	m_textureSize = SimpleMath::Vector2(width, height);
+
+	// スライド処理関連の初期化
+	m_slideWidth = 0.0f;
+	m_slide = Slide::NONE;
+}
+
+void WeaponUI::Update(float elapsedTime)
+{
+	// スライド処理
+	switch (m_slide)
+	{
+	case WeaponUI::Slide::NONE:
+		return;
+	case WeaponUI::Slide::RIGHT:
+		m_slideWidth += SLIDE_DISTANCE;
+
+		if (m_slideWidth >= 0.0f)
+		{
+			m_slideWidth = 0.0f;
+			m_slide = Slide::NONE;
+		}
+		break;
+	case WeaponUI::Slide::LEFT:
+		m_slideWidth -= SLIDE_DISTANCE;
+
+		if (m_slideWidth <= 0.0f)
+		{
+			m_slideWidth = 0.0f;
+			m_slide = Slide::NONE;
+		}
+		break;
+	}
 }
 
 void WeaponUI::Draw(DirectX::SpriteBatch* spriteBatch)
@@ -40,14 +74,14 @@ void WeaponUI::Draw(DirectX::SpriteBatch* spriteBatch)
 
 	for (int i = 0; i < static_cast<int>(WeaponType::TYPE_NUM); i++)
 	{
-		displayPos.x = m_windowSize.x - m_textureSize.x * std::abs(i - static_cast<int>(WeaponType::TYPE_NUM));
+		displayPos.x = m_windowSize.x + m_slideWidth - m_textureSize.x * std::abs(i - static_cast<int>(WeaponType::TYPE_NUM));
 		if (i == 0)
 		{
-			spriteBatch->Draw(m_texture[static_cast<int>(m_weaponList[i])], SimpleMath::Vector2(displayPos.x, displayPos.y - 50.0f));
+			spriteBatch->Draw(m_textures[static_cast<int>(m_weaponList[i])], SimpleMath::Vector2(displayPos.x, displayPos.y - 50.0f));
 		}
 		else
 		{
-			spriteBatch->Draw(m_texture[static_cast<int>(m_weaponList[i])], displayPos);
+			spriteBatch->Draw(m_textures[static_cast<int>(m_weaponList[i])], displayPos);
 		}
 	}
 
@@ -79,5 +113,18 @@ void WeaponUI::ChangeWeapon(WeaponType type)
 	{
 		if (plus) ++l;
 		else	   --l;
+	}
+
+	// スライド処理の有効化
+	float width = m_textureSize.x * 0.5f;
+	if (plus)
+	{
+		m_slide = Slide::LEFT;
+		m_slideWidth = width;
+	}
+	else
+	{
+		m_slide = Slide::RIGHT;
+		m_slideWidth = -width;
 	}
 }

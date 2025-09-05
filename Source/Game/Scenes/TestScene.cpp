@@ -132,6 +132,9 @@ void TestScene::Update(float elapsedTime)
 	// エフェクトの更新
 	m_effectManager->Update(elapsedTime);
 
+	// UIの更新
+	m_weaponUI->Update(elapsedTime);
+
 	// 当たり判定の更新
 	m_collisionManager->Update(elapsedTime);
 
