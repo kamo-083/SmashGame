@@ -24,6 +24,7 @@ using namespace DirectX;
  */
 TitleScene::TitleScene(SceneManager* pSceneManager, UserResources* pUserResources)
 	: Scene{ pSceneManager,pUserResources }
+	, m_logoTexture{ nullptr }
 {
 
 }

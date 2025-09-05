@@ -21,8 +21,10 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy)
-	:m_pGroundEnemy{ groundEnemy }
-	,m_stateType{StateType::Attack}
+	: m_pGroundEnemy{ groundEnemy }
+	, m_model{ nullptr }
+	, m_attackTime{ 0.0f }
+	, m_stateType{ StateType::Attack }
 {
 
 }

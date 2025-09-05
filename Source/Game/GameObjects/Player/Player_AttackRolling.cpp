@@ -24,8 +24,9 @@ Player_AttackRolling::Player_AttackRolling(Player* Player, Camera* camera, Direc
 	: m_pPlayer{ Player }
 	, m_pKbTracker{ kbTracker }
 	, m_pCamera{ camera }
+	, m_attackTime{ 0.0f }
 	, m_force{ SimpleMath::Vector3::Zero }
-	, m_stateType{StateType::Attack}
+	, m_stateType{ StateType::Attack }
 {
 
 }

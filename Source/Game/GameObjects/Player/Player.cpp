@@ -21,8 +21,22 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 Player::Player(ID3D11DeviceContext* context)
-	:m_attackForce{0.0f}
-	,m_pCollisionManager{nullptr}
+	: m_rotY{ 0.0f }
+	, m_onGround{ false }
+	, m_isBounce{ false }
+	, m_model{ nullptr }
+	, m_pResourceManager{ nullptr }
+	, m_collider{}
+	, m_attackForce{ 0.0f }
+	, m_isAttack{ false }
+	, m_attackCollider{}
+	, m_weaponType{}
+	, m_pWeaponUI{ nullptr }
+	, m_currentState{ nullptr }
+	, m_pKeyMode{ nullptr }
+	, m_pCollisionManager{ nullptr }
+	, m_handleBody{ 0 }
+	, m_handleAttack{ 0 }
 {
 	m_sphere = DirectX::GeometricPrimitive::CreateSphere(context);
 }
@@ -174,7 +188,7 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	m_currentState->Render(context);
 
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
-	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_collider.GetCenter().x, m_collider.GetCenter().y, m_collider.GetCenter().z);
+	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
 	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"weapon = %d", static_cast<int>(m_weaponType));
 	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"bounce = %d", static_cast<int>(m_isBounce));
 }

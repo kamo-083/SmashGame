@@ -28,9 +28,11 @@ const float Enemy::MAX_SPEED = 10.0f;	// Å‚‘¬“x
  * @param[in] ‚È‚µ
  */
 GroundEnemy::GroundEnemy(UserResources* pUserResources,
-						 EffectManager* pEffectManager)
-	:Enemy{}
-	,m_playerRelationData{DirectX::SimpleMath::Vector3::Zero,0.0f}
+	EffectManager* pEffectManager)
+	: Enemy{}
+	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
+	, m_trajectory{ nullptr }
+	, m_circle{ nullptr }
 {
 	m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
 
@@ -49,9 +51,9 @@ GroundEnemy::GroundEnemy(UserResources* pUserResources,
 		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.75f,
 		1.0f,
-		SimpleMath::Color(1, 1, 1, 1), 
+		SimpleMath::Color(1, 1, 1, 1),
 		&m_position,
-		1.0f, 
+		1.0f,
 		12,
 		false,
 		true

@@ -23,10 +23,12 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 Camera::Camera()
-	:m_eye{ CAMERA_DEFAULT_EYE }
-	,m_target{ CAMERA_DEFAULT_TARGET }
-	,m_angle{ SimpleMath::Vector3::Zero }
-	,m_followTargetPos{ nullptr }
+	: m_eye{ CAMERA_DEFAULT_EYE }
+	, m_target{ CAMERA_DEFAULT_TARGET }
+	, m_angle{ SimpleMath::Vector3::Zero }
+	, m_followTargetPos{ nullptr }
+	, m_isRotation{ false }
+	, m_lerpAngle{ 0.0f }
 {
 
 }

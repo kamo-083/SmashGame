@@ -22,6 +22,8 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 BounceBox::BounceBox(ID3D11DeviceContext* context)
+	: m_onGround{ false }
+	, m_collisionHandle{ 0 }
 {
 	m_box = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }

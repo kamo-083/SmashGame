@@ -23,7 +23,9 @@ using namespace DirectX;
 Player_AttackBasic::Player_AttackBasic(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ Player }
 	, m_pKbTracker{ kbTracker }
-	,m_stateType{StateType::Attack}
+	, m_model{ nullptr }
+	, m_attackTime{ 0.0f }
+	, m_stateType{ StateType::Attack }
 {
 
 }

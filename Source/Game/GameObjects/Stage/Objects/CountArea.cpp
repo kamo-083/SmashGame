@@ -22,11 +22,12 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 CountArea::CountArea(ID3D11DeviceContext* context)
-	:m_insideList()
-	,m_mode(TriggerMode::ReachCount)
-	,m_targetNum(0)
-	,m_isTrigger(false)
-	,m_armed(false)
+	: m_mode(TriggerMode::ReachCount)
+	, m_targetNum(0)
+	, m_isTrigger(false)
+	, m_armed(false)
+	, m_insideList()
+	, m_collisionHandle{ 0 }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }

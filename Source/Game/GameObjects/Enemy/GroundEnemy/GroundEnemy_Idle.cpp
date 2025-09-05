@@ -21,8 +21,9 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
-	:m_pGroundEnemy{groundEnemy}
-	,m_stateType{StateType::Idle}
+	: m_pGroundEnemy{ groundEnemy }
+	, m_model{ nullptr }
+	, m_stateType{ StateType::Idle }
 {
 
 }

@@ -22,8 +22,9 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy)
-	:m_pGroundEnemy{ groundEnemy }
-	,m_stateType{StateType::Walk}
+	: m_pGroundEnemy{ groundEnemy }
+	, m_model{ nullptr }
+	, m_stateType{ StateType::Walk }
 {
 
 }

@@ -25,6 +25,7 @@ Ground::Ground(ID3D11DeviceContext* context)
 	, m_halfLength{ SimpleMath::Vector3::Zero }
 	, m_angle{ SimpleMath::Vector3::Zero }
 	, m_collider{}
+	, m_collisionHandle{ 0 }
 {
 	m_geometricPrimitive = GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }

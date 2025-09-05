@@ -21,8 +21,9 @@ using namespace DirectX;
  * @param[in] ‚È‚µ
  */
 GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
-	:m_pGroundEnemy{ groundEnemy }
-	,m_stateType{StateType::Bounce}
+	: m_pGroundEnemy{ groundEnemy }
+	, m_model{ nullptr }
+	, m_stateType{ StateType::Bounce }
 {
 }
 
