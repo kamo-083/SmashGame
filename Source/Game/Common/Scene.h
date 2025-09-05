@@ -36,9 +36,6 @@ protected:
 	// シーンマネージャ
 	SceneManager* m_sceneManager;
 
-	// キーボードトラッカー
-	DirectX::Keyboard::KeyboardStateTracker m_kbTracker;
-
 	// ユーザーリソース
 	UserResources* m_userResources;
 

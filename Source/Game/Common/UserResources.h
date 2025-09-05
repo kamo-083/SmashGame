@@ -78,6 +78,16 @@ public:
 
 	// デバイスリソースを取得する関数
 	DX::DeviceResources* GetDeviceResources() { return m_deviceResources; }
+	
+	// ------------------------------------------ //
+	// キーボードステートトラッカー	
+	// ------------------------------------------ //
+
+	// キーボードステートトラッカーを設定する関数
+	void SetKeyboardTracker(DirectX::Keyboard::KeyboardStateTracker* keyboardTracker) { m_keyboardTracker = keyboardTracker; }
+
+	// キーボードステートトラッカーを取得する関数
+	DirectX::Keyboard::KeyboardStateTracker* GetKeyboardTracker() { return m_keyboardTracker; }
 
 	// ------------------------------------------ //
 	// デバッグフォント	

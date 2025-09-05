@@ -88,4 +88,8 @@ private:
 
     // デバッグフォント
     std::unique_ptr <Imase::DebugFont> m_debugFont;
+
+    // キーボードトラッカー
+    std::unique_ptr<DirectX::Keyboard::KeyboardStateTracker> m_kbTracker;
+
 };

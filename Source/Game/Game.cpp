@@ -55,7 +55,7 @@ void Game::Initialize(HWND window, int width, int height)
 
     // 開始シーンの設定
     //m_sceneManager->SetStartScene("TitleScene");
-    m_sceneManager->SetStartScene("TestScene");
+    m_sceneManager->SetStartScene("TitleScene");
 }
 
 #pragma region Frame Update
@@ -76,13 +76,15 @@ void Game::Update(DX::StepTimer const& timer)
     float elapsedTime = float(timer.GetElapsedSeconds());
 
     // TODO: Add your game logic here.
-    elapsedTime;
+
+    // キーボードの更新
+    auto kb = Keyboard::Get().GetState();
+    m_kbTracker->Update(kb);
 
     // シーンマネージャの更新
     m_sceneManager->Update(elapsedTime);
 
     // Escでゲームを閉じる
-    auto kb = Keyboard::Get().GetState();
     if (kb.Escape)
     {
         ExitGame();
@@ -238,6 +240,9 @@ void Game::CreateDeviceDependentResources()
     // 共通ステートの作成
     m_states = std::make_unique<CommonStates>(device);
 
+    // キーボードトラッカーの作成
+    m_kbTracker = std::make_unique<Keyboard::KeyboardStateTracker>();
+
     // リソースマネージャーの作成
     m_resourceManager = std::make_unique<ResourceManager>(device);
 
@@ -250,6 +255,7 @@ void Game::CreateDeviceDependentResources()
     // ユーザーリソースの設定
     m_userResources->SetStepTimerStates(&m_timer);
     m_userResources->SetDeviceResources(m_deviceResources.get());
+    m_userResources->SetKeyboardTracker(m_kbTracker.get());
     m_userResources->SetDebugFont(m_debugFont.get());
     m_userResources->SetResourceManager(m_resourceManager.get());
 

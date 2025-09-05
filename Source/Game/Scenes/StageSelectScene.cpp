@@ -63,12 +63,8 @@ void StageSelectScene::Initialize()
  */
 void StageSelectScene::Update(float elapsedTime)
 {
-	// キーボードの更新
-	auto kb = Keyboard::Get().GetState();
-	m_kbTracker.Update(kb);
-
 	// シーンの切り替え
-	if (m_kbTracker.pressed.P)
+	if (m_userResources->GetKeyboardTracker()->pressed.Space || m_userResources->GetKeyboardTracker()->pressed.P)
 	{
 		ChangeScene("TestScene");
 	}

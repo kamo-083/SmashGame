@@ -85,7 +85,7 @@ void TestScene::Initialize()
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources->GetDeviceResources()->GetD3DDeviceContext());
 	m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
-						 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
+						 m_userResources->GetKeyboardTracker(), m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// エネミーマネージャーの作成
 	m_enemyManager = std::make_unique<EnemyManager>(m_userResources, m_collisionManager.get(), m_effectManager.get());
@@ -113,12 +113,8 @@ void TestScene::Initialize()
  */
 void TestScene::Update(float elapsedTime)
 {
-	// キーボードの更新
-	auto kb = Keyboard::Get().GetState();
-	m_kbTracker.Update(kb);
-
 	// キー操作のモード切り替え
-	if (m_kbTracker.pressed.K) m_keyMode = !m_keyMode;
+	if (m_userResources->GetKeyboardTracker()->pressed.K) m_keyMode = !m_keyMode;
 
 	// プレイヤーの更新
 	m_player->Update(elapsedTime);
@@ -127,8 +123,8 @@ void TestScene::Update(float elapsedTime)
 	m_enemyManager->Update(elapsedTime, m_player.get());
 
 	// カメラの更新
-	if(!m_keyMode) m_camera->Rotation(&m_kbTracker);
-	m_camera->Update(&m_kbTracker, elapsedTime);
+	if (!m_keyMode) m_camera->Rotation(m_userResources->GetKeyboardTracker());
+	m_camera->Update(m_userResources->GetKeyboardTracker(), elapsedTime);
 
 	// ステージマネージャーの更新
 	m_stageManager->Update(elapsedTime);
@@ -142,10 +138,10 @@ void TestScene::Update(float elapsedTime)
 	// 仮リスポーン
 	if (m_player->GetPosition().y <= -10.0f)
 		m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
-							 &m_kbTracker, m_camera.get(), m_weaponUI.get(), &m_keyMode);
+							 m_userResources->GetKeyboardTracker(), m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// シーンの切り替え
-	if (m_stageManager->IsGoal() || m_kbTracker.pressed.P)
+	if (m_stageManager->IsGoal() || m_userResources->GetKeyboardTracker()->pressed.P)
 	{
 		m_effectManager->Finalize();
 		ChangeScene("StageSelectScene");

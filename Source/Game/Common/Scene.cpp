@@ -39,8 +39,6 @@ Scene::~Scene()
 {
 	m_sceneManager = nullptr;
 	m_userResources = nullptr;
-
-	m_kbTracker.Reset();
 }
 
 
