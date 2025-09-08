@@ -25,10 +25,11 @@ const float Enemy::MAX_SPEED = 10.0f;	// 最高速度
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] pUserResources	ユーザーリソースのポインタ
+ * @param[in] pEffectManager エフェクトマネージャーのポインタ
  */
 GroundEnemy::GroundEnemy(UserResources* pUserResources,
-	EffectManager* pEffectManager)
+						 EffectManager* pEffectManager)
 	: Enemy{}
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
@@ -71,6 +72,16 @@ GroundEnemy::~GroundEnemy()
 }
 
 
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pCollisionManager コリジョンマネージャーのポインタ
+ * @param[in] position			初期位置
+ * @param[in] id				ID
+ *
+ * @return なし
+ */
 void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 							 CollisionManager* pCollisionManager,
 							 const DirectX::SimpleMath::Vector3& position,
@@ -172,12 +183,27 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void GroundEnemy::Update(float elapsedTime)
 {
 	m_currentState->Update(elapsedTime);
 }
 
 
+/**
+ * @brief 描画処理
+ *
+ * @param[in] context	描画用構造体
+ * @param[in] debugFont デバッグ用フォント
+ *
+ * @return なし
+ */
 void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
 	m_currentState->Render(context);
@@ -190,6 +216,13 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 }
 
 
+/**
+ * @brief 終了処理
+ *
+ * @param[in] pCollisionManager コリジョンマネージャーのポインタ
+ *
+ * @return なし
+ */
 void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 {
 	m_idlingState.reset();
@@ -212,6 +245,13 @@ void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 }
 
 
+/**
+ * @brief 状態の切り替え
+ *
+ * @param[in] newState 次の状態へのポインタ
+ *
+ * @return なし
+ */
 void GroundEnemy::ChangeState(IState* newState)
 {
 	// 新規の状態を現在の状態に設定する
@@ -222,6 +262,13 @@ void GroundEnemy::ChangeState(IState* newState)
 }
 
 
+/**
+ * @brief 移動速度の制限
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void GroundEnemy::LimitVelocity()
 {
 	m_velocity.x = std::min(std::max(m_velocity.x, -MAX_SPEED), MAX_SPEED);
@@ -230,6 +277,14 @@ void GroundEnemy::LimitVelocity()
 }
 
 
+/**
+ * @brief プレイヤーとの位置関係を計算
+ *
+ * @param[in] pos	 プレイヤーの位置
+ * @param[in] radius プレイヤーの半径
+ *
+ * @return なし
+ */
 void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius)
 {
 	m_playerRelationData.direction = pos - m_position;
@@ -242,31 +297,40 @@ void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, 
 }
 
 
-bool GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
+/**
+ * @brief 攻撃を受けた時の処理
+ *
+ * @param[in] collider 相手のコライダー
+ * @param[in] power	   攻撃力
+ *
+ * @return 攻撃が
+ */
+void GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
 {
-	bool hit = IsHit(collider, m_collider);
+	MTV mtv = CalculateMTV(collider, m_collider);
 
-	if (hit)
-	{
-		MTV mtv = CalculateMTV(collider, m_collider);
+	// 吹っ飛ぶ方向の設定
+	DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
+	knockbackDir.Normalize();
 
-		// 吹っ飛ぶ方向の設定
-		DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
-		knockbackDir.Normalize();
+	// 吹っ飛ぶ力の設定
+	float knockbackForce = mtv.distance * power;
 
-		// 吹っ飛ぶ力の設定
-		float knockbackForce = mtv.distance * power;
+	DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
+	m_physics->GetExternalForce().Add(force);
 
-		DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
-		m_physics->GetExternalForce().Add(force);
-
-		// 跳ね返り状態に遷移
-		ChangeState(m_bouncingState.get());
-	}
-
-	return hit;
+	// 跳ね返り状態に遷移
+	ChangeState(m_bouncingState.get());
 }
 
+
+/**
+ * @brief 地面や壁との反射
+ *
+ * @param[in] normal 法線ベクトル
+ *
+ * @return なし
+ */
 void GroundEnemy::ReflectOnCollision(DirectX::SimpleMath::Vector3 normal)
 {
 	if (m_currentState != m_bouncingState.get()) return;

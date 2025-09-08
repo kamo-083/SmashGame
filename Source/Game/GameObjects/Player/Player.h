@@ -147,8 +147,8 @@ public:
 					CollisionManager* pCollisionManager,
 					DirectX::Keyboard::KeyboardStateTracker* pKbTracker, 
 					Camera* pCamera, 
-					WeaponUI* weaponUI,
-					bool* keyMode);
+					WeaponUI* pWeaponUI,
+					bool* pKeyMode);
 
 	// XVˆ—
 	void Update(const float& elapsedTime);

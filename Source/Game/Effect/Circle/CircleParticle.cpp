@@ -19,7 +19,12 @@
 
 using namespace DirectX;
 
-
+// メンバ関数の定義 ===========================================================
+/**
+ * @brief コンストラクタ
+ *
+ * @param[in] まし
+ */
 CircleParticle::CircleParticle()
 	:m_pDR(nullptr)
 	, m_timer(0.0f)
@@ -37,6 +42,10 @@ CircleParticle::CircleParticle()
 {
 }
 
+
+/**
+ * @brief デストラクタ
+ */
 CircleParticle::~CircleParticle()
 {
 	m_particleUtility.clear();
@@ -53,6 +62,24 @@ CircleParticle::~CircleParticle()
 }
 
 
+/**
+ * @brief エフェクトの作成
+ *
+ * @param[in] DR			 デバイスリソースのポインタ
+ * @param[in] CBuffer		 バッファのポインタ
+ * @param[in] inputLayout	 入力レイアウトのポインタ
+ * @param[in] batch			 プリミティブバッチのポインタ
+ * @param[in] states		 共通ステートのポインタ
+ * @param[in] texture		 テクスチャのポインタ
+ * @param[in] vertexShader	 頂点シェーダーのポインタ
+ * @param[in] pixelShader	 ピクセルシェーダーのポインタ
+ * @param[in] geometryShader ジオメトリシェーダーのポインタ
+ * @param[in] scale			 大きさ
+ * @param[in] life			 寿命
+ * @param[in] color			 色
+ *
+ * @return なし
+ */
 void CircleParticle::Create(DX::DeviceResources* DR,
 							ID3D11Buffer* CBuffer,
 							ID3D11InputLayout* inputLayout,
@@ -85,6 +112,13 @@ void CircleParticle::Create(DX::DeviceResources* DR,
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void CircleParticle::Update(float elapsedTime)
 {
 	m_timer += elapsedTime;
@@ -105,6 +139,15 @@ void CircleParticle::Update(float elapsedTime)
 	}
 }
 
+
+/**
+ * @brief 描画処理
+ *
+ * @param[in] view ビュー行列
+ * @param[in] proj 射影行列
+ *
+ * @return なし
+ */
 void CircleParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {
 	ID3D11DeviceContext1* context = m_pDR->GetD3DDeviceContext();
@@ -215,6 +258,18 @@ void CircleParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMat
 	context->GSSetConstantBuffers(0, 1, nullCB);
 }
 
+
+/**
+ * @brief エフェクトを出現
+ *
+ * @param[in] pos		   出現位置
+ * @param[in] range		   円の半径
+ * @param[in] isRandom	   位置のランダム性
+ * @param[in] isHorizontal 円の向き
+ * @param[in] num		   1度に出現する数
+ *
+ * @return なし
+ */
 void CircleParticle::SpawnParticleEffect(DirectX::SimpleMath::Vector3 pos,
 										 float range,
 										 bool isRandom,
@@ -270,6 +325,17 @@ void CircleParticle::SpawnParticleEffect(DirectX::SimpleMath::Vector3 pos,
 	m_timer = 0.0f;
 }
 
+
+/**
+ * @brief ビルボードの作成
+ *
+ * @param[in] position  位置
+ * @param[in] target	カメラの注視点
+ * @param[in] eye		カメラの位置
+ * @param[in] up		カメラの上方向ベクトル
+ *
+ * @return なし
+ */
 void CircleParticle::CreateBillboard(DirectX::SimpleMath::Vector3 position,
 									 DirectX::SimpleMath::Vector3 target, 
 									 DirectX::SimpleMath::Vector3 eye,

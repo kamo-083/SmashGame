@@ -80,6 +80,15 @@ public:
 
 // 操作
 public:
+	/**
+	 * @brief ファイル読み込み
+	 *
+	 * @param[in] path			ファイルパス
+	 * @param[in] outputObjects オブジェクト情報出力用
+	 * @param[in] outputEnemies エネミー情報出力用
+	 *
+	 * @return 読み込みに成功/失敗
+	 */
 	bool LoadData(const std::string& path, std::vector<ObjectData>& outputObjects, std::vector<EnemyData>& outputEnemies)
 	{
 		using namespace DirectX;

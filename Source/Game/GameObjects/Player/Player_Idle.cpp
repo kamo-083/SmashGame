@@ -18,10 +18,11 @@ using namespace DirectX;
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] player	プレイヤーのポインタ
+ * @param[in] kbTracker キーボードトラッカーのポインタ
  */
-Player_Idle::Player_Idle(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
-	: m_pPlayer{ Player }
+Player_Idle::Player_Idle(Player* player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
+	: m_pPlayer{ player }
 	, m_pKbTracker{ kbTracker }
 	, m_model{ nullptr }
 	, m_stateType{ StateType::Idle }
@@ -39,12 +40,26 @@ Player_Idle::~Player_Idle()
 }
 
 
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] pResourceManager  リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
 void Player_Idle::Initialize(ResourceManager* pResourceManager)
 {
 	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void Player_Idle::Update(const float& elapsedTime)
 {
 	// 座標の更新
@@ -81,6 +96,13 @@ void Player_Idle::Update(const float& elapsedTime)
 }
 
 
+/**
+ * @brief 描画処理
+ *
+ * @param[in] context	描画用構造体
+ *
+ * @return なし
+ */
 void Player_Idle::Render(RenderContext& context)
 {
 	SimpleMath::Matrix world;
@@ -93,6 +115,13 @@ void Player_Idle::Render(RenderContext& context)
 }
 
 
+/**
+ * @brief 終了処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void Player_Idle::Finalize()
 {
 

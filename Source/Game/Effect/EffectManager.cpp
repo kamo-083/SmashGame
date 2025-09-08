@@ -28,7 +28,8 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> EffectManager::INPUT_LAYOUT =
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] deviceResources デバイスリソースのポインタ
+ * @param[in] states		  共通ステートのポインタ
  */
 EffectManager::EffectManager(DX::DeviceResources* deviceResources, DirectX::CommonStates* states)
 	: m_pDeviceResources{ deviceResources }
@@ -45,7 +46,6 @@ EffectManager::EffectManager(DX::DeviceResources* deviceResources, DirectX::Comm
 	auto* alpha = m_states->AlphaBlend();
 	alpha->SetPrivateData(WKPDID_D3DDebugObjectName, 26, "Effect.CommonStates.Alpha");
 }
-
 
 
 /**
@@ -69,11 +69,10 @@ EffectManager::~EffectManager()
 }
 
 
-
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param[in] elapsedTime 経過時間
  *
  * @return なし
  */
@@ -95,11 +94,10 @@ void EffectManager::Update(float elapsedTime)
 }
 
 
-
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param[in] proj 射影行列
  *
  * @return なし
  */
@@ -117,7 +115,6 @@ void EffectManager::Draw(DirectX::SimpleMath::Matrix proj)
 		circle->effect->Render(m_pCamera->GetView(), proj);
 	}
 }
-
 
 
 /**
@@ -145,6 +142,18 @@ void EffectManager::Finalize()
 }
 
 
+/**
+ * @brief 軌跡エフェクトの生成
+ *
+ * @param[in] texture	テクスチャのポインタ
+ * @param[in] scale		大きさ
+ * @param[in] life		寿命
+ * @param[in] color		色
+ * @param[in] position	出現座標のポインタ
+ * @param[in] random	出現位置のランダム性
+ *
+ * @return 軌跡エフェクトのポインタ
+ */
 EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 	ID3D11ShaderResourceView* texture, float scale, float life, DirectX::SimpleMath::Color color,
 	DirectX::SimpleMath::Vector3* position, bool random)
@@ -180,6 +189,22 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 	return m_trajectory.back().get();
 }
 
+
+/**
+ * @brief 円形エフェクトの生成
+ *
+ * @param[in] texture	 テクスチャのポインタ
+ * @param[in] scale		 大きさ
+ * @param[in] life		 寿命
+ * @param[in] color		 色
+ * @param[in] position   出現座標のポインタ
+ * @param[in] range		 円の半径
+ * @param[in] num		 1度に出現する数
+ * @param[in] random	 出現位置のランダム性
+ * @param[in] horizontal 円の向き
+ *
+ * @return 円形エフェクトのポインタ
+ */
 EffectManager::CircleParticleData* EffectManager::CreateCircle(
 	ID3D11ShaderResourceView* texture, float scale, float life, DirectX::SimpleMath::Color color, 
 	DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal)
@@ -218,6 +243,13 @@ EffectManager::CircleParticleData* EffectManager::CreateCircle(
 }
 
 
+/**
+ * @brief シェーダーを作成
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void EffectManager::CreateShader()
 {
 	ID3D11Device1* device = m_pDeviceResources->GetD3DDevice();

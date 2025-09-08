@@ -20,7 +20,9 @@ using namespace DirectX;
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] pUserResources	ユーザーリソースのポインタ
+ * @param[in] pCollisionManager コリジョンマネージャーのポインタ
+ * @param[in] pEffectManager エフェクトマネージャーのポインタ
  */
 EnemyManager::EnemyManager(UserResources* pUserResources,
 						   CollisionManager* pCollisionManager,
@@ -44,7 +46,6 @@ EnemyManager::~EnemyManager()
 }
 
 
-
 /**
  * @brief 初期化処理
  *
@@ -58,11 +59,10 @@ void EnemyManager::Initialize()
 }
 
 
-
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param[in] elapsedTime 経過時間
  *
  * @return なし
  */
@@ -79,11 +79,10 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 }
 
 
-
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param[in] context	描画用構造体
  *
  * @return なし
  */
@@ -94,7 +93,6 @@ void EnemyManager::Draw(RenderContext& context)
 		enemy->enemy->Draw(context, m_pUserResources->GetDebugFont());
 	}
 }
-
 
 
 /**
@@ -113,6 +111,14 @@ void EnemyManager::Finalize()
 	m_enemies.clear();
 }
 
+
+/**
+ * @brief 敵を出現させる
+ *
+ * @param[in] spawnData 出現させる敵の情報
+ *
+ * @return 出現した敵の情報
+ */
 EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 {
 	// IDを更新
@@ -137,6 +143,14 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 	return m_enemies.back().get();
 }
 
+
+/**
+ * @brief IDから敵を取得
+ *
+ * @param[in] id 敵ID
+ *
+ * @return 敵のポインタ
+ */
 Enemy* EnemyManager::GetEnemyByID(uint32_t id) const
 {
 	// IDが一致する敵を探して返す
@@ -148,6 +162,14 @@ Enemy* EnemyManager::GetEnemyByID(uint32_t id) const
 	return nullptr;
 }
 
+
+/**
+ * @brief 敵を生成
+ *
+ * @param[in] type 敵の種類
+ *
+ * @return 敵のユニークポインタ
+ */
 std::unique_ptr<Enemy> EnemyManager::Create(EnemyType type)
 {
 	switch (type)

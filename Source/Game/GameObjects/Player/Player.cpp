@@ -51,12 +51,26 @@ Player::~Player()
 }
 
 
+
+
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pCollisionManager コリジョンマネージャーのポインタ
+ * @param[in] pKbTracker		キーボードトラッカーのポインタ
+ * @param[in] pCamera			カメラのポインタ
+ * @param[in] pWeaponUI			武器UIのポインタ
+ * @param[in] pKeyMode			キー入力モードのポインタ
+ *
+ * @return なし
+ */
 void Player::Initialize(ResourceManager* pResourceManager,
 						CollisionManager* pCollisionManager,
 						DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 						Camera* pCamera, 
-						WeaponUI* weaponUI,
-						bool* keyMode)
+						WeaponUI* pWeaponUI,
+						bool* pKeyMode)
 {
 	// 座標の初期化
 	m_position = SimpleMath::Vector3::Zero;
@@ -79,7 +93,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_weaponType = WeaponType::BASIC;
 
 	// 武器UIの設定
-	m_pWeaponUI = weaponUI;
+	m_pWeaponUI = pWeaponUI;
 
 	// リソースマネージャの設定
 	m_pResourceManager = pResourceManager;
@@ -95,7 +109,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_attackCollider = SphereCollider(m_position, RADIUS);
 
 	// キー操作のモードのポインタの設定
-	m_pKeyMode = keyMode;
+	m_pKeyMode = pKeyMode;
 
 	// 物理演算の設定
 	m_physics = std::make_unique<PhysicsObject>();
@@ -177,6 +191,13 @@ void Player::Initialize(ResourceManager* pResourceManager,
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void Player::Update(const float& elapsedTime)
 {
 	// 現在の状態を更新する
@@ -184,6 +205,14 @@ void Player::Update(const float& elapsedTime)
 }
 
 
+/**
+ * @brief 描画処理
+ *
+ * @param[in] context	描画用構造体
+ * @param[in] debugFont デバッグ用フォント
+ *
+ * @return なし
+ */
 void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
 	// 現在の状態を描画する
@@ -196,6 +225,13 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 }
 
 
+/**
+ * @brief 終了処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void Player::Finalize()
 {
 	// 状態をリセットする
@@ -205,6 +241,15 @@ void Player::Finalize()
 }
 
 
+
+
+/**
+ * @brief 状態の切り替え
+ *
+ * @param[in] newState 次の状態へのポインタ
+ *
+ * @return なし
+ */
 void Player::ChangeState(IState* newState)
 {
 	// 新規の状態を現在の状態に設定する
@@ -215,6 +260,15 @@ void Player::ChangeState(IState* newState)
 }
 
 
+
+
+/**
+ * @brief 武器の切り替え
+ *
+ * @param[in] pKbTracker キーボードトラッカーのポインタ
+ *
+ * @return なし
+ */
 void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	if (!(*m_pKeyMode)) return;
@@ -231,6 +285,15 @@ void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 	m_pWeaponUI->ChangeWeapon(m_weaponType);
 }
 
+
+
+/**
+ * @brief 攻撃処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void Player::Attack()
 {
 	m_isAttack = true;
@@ -255,6 +318,16 @@ void Player::Attack()
 	}
 }
 
+
+
+/**
+ * @brief 移動方向を計算
+ *
+ * @param[in] kbTracker キーボードトラッカーのポインタ
+ * @param[in] camera	カメラのポインタ
+ *
+ * @return 移動方向
+ */
 DirectX::SimpleMath::Vector3 Player::MoveDirection(DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 												   Camera* camera)
 {
@@ -295,6 +368,16 @@ DirectX::SimpleMath::Vector3 Player::MoveDirection(DirectX::Keyboard::KeyboardSt
 	return direction;
 }
 
+
+
+/**
+ * @brief 移動速度の制限
+ *
+ * @param[in] velocity	現在の移動速度
+ * @param[in] max		速度上限
+ *
+ * @return なし
+ */
 void Player::LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max)
 {
 	velocity.x = std::min(std::max(velocity.x, -max), max);
@@ -302,11 +385,29 @@ void Player::LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max)
 	velocity.z = std::min(std::max(velocity.z, -max), max);
 }
 
+
+
+/**
+ * @brief 攻撃判定の有効/無効化
+ *
+ * @param[in] enabled 有効/無効
+ *
+ * @return なし
+ */
 void Player::SetAttackCollisionEnabled(bool enabled)
 {
 	m_pCollisionManager->SetEnabled(m_handleAttack, enabled);
 }
 
+
+
+/**
+ * @brief 攻撃判定の連続ヒットの有効/無効化
+ *
+ * @param[in] multiHit 有効/無効
+ *
+ * @return なし
+ */
 void Player::SetAttackCollisionMultiHit(bool multiHit)
 {
 	m_pCollisionManager->SetMultiHit(m_handleAttack, multiHit);

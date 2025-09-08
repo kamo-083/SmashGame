@@ -1,7 +1,7 @@
 /**
  * @file   StageScene.h
  *
- * @brief  テストシーンに関するヘッダファイル
+ * @brief  ステージシーンに関するヘッダファイル
  *
  * @author 制作者名
  *
@@ -33,7 +33,7 @@ class WeaponUI;
 
 // クラスの定義 ===============================================================
 /**
- * @brief テストシーン
+ * @brief ステージシーン
  */
 class StageScene : public Scene
 {

@@ -18,7 +18,7 @@ using namespace DirectX;
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] groundEnemy 敵のポインタ
  */
 GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
 	: m_pGroundEnemy{ groundEnemy }
@@ -37,6 +37,13 @@ GroundEnemy_Bounce::~GroundEnemy_Bounce()
 }
 
 
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] pResourceManager  リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
 void GroundEnemy_Bounce::Initialize(ResourceManager* pResourceManager)
 {
 	m_model = pResourceManager->GetModel("enemy");
@@ -48,6 +55,13 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pResourceManager)
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void GroundEnemy_Bounce::Update(const float& elapsedTime)
 {
 	// 座標の更新
@@ -69,6 +83,13 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 }
 
 
+/**
+ * @brief 描画処理
+ *
+ * @param[in] context	描画用構造体
+ *
+ * @return なし
+ */
 void GroundEnemy_Bounce::Render(RenderContext& context)
 {
 	DirectX::SimpleMath::Matrix world;
@@ -81,6 +102,13 @@ void GroundEnemy_Bounce::Render(RenderContext& context)
 }
 
 
+/**
+ * @brief 終了処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void GroundEnemy_Bounce::Finalize()
 {
 

@@ -18,7 +18,9 @@ using namespace DirectX;
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] player	プレイヤーのポインタ
+ * @param[in] camera	カメラのポインタ
+ * @param[in] kbTracker キーボードトラッカーのポインタ
  */
 Player_AttackRolling::Player_AttackRolling(Player* Player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ Player }
@@ -27,6 +29,7 @@ Player_AttackRolling::Player_AttackRolling(Player* Player, Camera* camera, Direc
 	, m_attackTime{ 0.0f }
 	, m_force{ SimpleMath::Vector3::Zero }
 	, m_stateType{ StateType::Attack }
+	, m_model{ nullptr }
 {
 
 }
@@ -41,6 +44,13 @@ Player_AttackRolling::~Player_AttackRolling()
 }
 
 
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] pResourceManager  リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
 void Player_AttackRolling::Initialize(ResourceManager* pResourceManager)
 {
 	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
@@ -61,6 +71,13 @@ void Player_AttackRolling::Initialize(ResourceManager* pResourceManager)
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void Player_AttackRolling::Update(const float& elapsedTime)
 {
 	m_attackTime -= elapsedTime;
@@ -100,6 +117,13 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 }
 
 
+/**
+ * @brief 描画処理
+ *
+ * @param[in] context	描画用構造体
+ *
+ * @return なし
+ */
 void Player_AttackRolling::Render(RenderContext& context)
 {
 	SimpleMath::Matrix world;
@@ -120,6 +144,13 @@ void Player_AttackRolling::Render(RenderContext& context)
 }
 
 
+/**
+ * @brief 終了処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void Player_AttackRolling::Finalize()
 {
 

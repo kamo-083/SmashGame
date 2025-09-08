@@ -18,7 +18,9 @@ using namespace DirectX;
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] player	プレイヤーのポインタ
+ * @param[in] camera	カメラのポインタ
+ * @param[in] kbTracker キーボードトラッカーのポインタ
  */
 Player_Walk::Player_Walk(Player* player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ player }
@@ -40,12 +42,26 @@ Player_Walk::~Player_Walk()
 }
 
 
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] pResourceManager  リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
 void Player_Walk::Initialize(ResourceManager* pResourceManager)
 {
 	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void Player_Walk::Update(const float& elapsedTime)
 {
 	DirectX::SimpleMath::Vector3 inputVelocity = DirectX::SimpleMath::Vector3::Zero;
@@ -83,6 +99,13 @@ void Player_Walk::Update(const float& elapsedTime)
 }
 
 
+/**
+ * @brief 描画処理
+ *
+ * @param[in] context	描画用構造体
+ *
+ * @return なし
+ */
 void Player_Walk::Render(RenderContext& context)
 {
 	SimpleMath::Matrix world;
@@ -95,6 +118,13 @@ void Player_Walk::Render(RenderContext& context)
 }
 
 
+/**
+ * @brief 終了処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void Player_Walk::Finalize()
 {
 

@@ -26,6 +26,12 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> TrajectoryParticle::INPUT_LAYOUT =
 	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, sizeof(SimpleMath::Vector3) + sizeof(SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
 
+// メンバ関数の定義 ===========================================================
+/**
+ * @brief コンストラクタ
+ *
+ * @param[in] なし
+ */
 TrajectoryParticle::TrajectoryParticle()
 	:m_pDR(nullptr)
 	, m_CBuffer(nullptr)
@@ -43,6 +49,10 @@ TrajectoryParticle::TrajectoryParticle()
 {
 }
 
+
+/**
+ * @brief デストラクタ
+ */
 TrajectoryParticle::~TrajectoryParticle()
 {
 	m_particleUtility.clear();
@@ -59,6 +69,24 @@ TrajectoryParticle::~TrajectoryParticle()
 }
 
 
+/**
+ * @brief エフェクトの作成
+ *
+ * @param[in] DR			 デバイスリソースのポインタ
+ * @param[in] CBuffer		 バッファのポインタ
+ * @param[in] inputLayout	 入力レイアウトのポインタ
+ * @param[in] batch			 プリミティブバッチのポインタ
+ * @param[in] states		 共通ステートのポインタ
+ * @param[in] texture		 テクスチャのポインタ
+ * @param[in] vertexShader	 頂点シェーダーのポインタ
+ * @param[in] pixelShader	 ピクセルシェーダーのポインタ
+ * @param[in] geometryShader ジオメトリシェーダーのポインタ
+ * @param[in] scale			 大きさ
+ * @param[in] life			 寿命
+ * @param[in] color			 色
+ *
+ * @return なし
+ */
 void TrajectoryParticle:: Create(DX::DeviceResources* DR,
 								 ID3D11Buffer* CBuffer,
 								 ID3D11InputLayout* inputLayout,
@@ -91,6 +119,17 @@ void TrajectoryParticle:: Create(DX::DeviceResources* DR,
 	m_life = life;
 }
 
+
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ * @param[in] pos		  出現位置
+ * @param[in] spawn		  出現させるか
+ * @param[in] isRandom	  位置のランダム性
+ *
+ * @return なし
+ */
 void TrajectoryParticle::Update(float elapsedTime, SimpleMath::Vector3 pos, bool spawn, bool isRandom)
 {
 	//パーティクルの生成
@@ -140,6 +179,15 @@ void TrajectoryParticle::Update(float elapsedTime, SimpleMath::Vector3 pos, bool
 	}
 }
 
+
+/**
+ * @brief 描画処理
+ *
+ * @param[in] view ビュー行列
+ * @param[in] proj 射影行列
+ *
+ * @return なし
+ */
 void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {
 	ID3D11DeviceContext1* context = m_pDR->GetD3DDeviceContext();
@@ -250,6 +298,17 @@ void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::Simpl
 	context->GSSetConstantBuffers(0, 1, nullCB);
 }
 
+
+/**
+ * @brief ビルボードの作成
+ *
+ * @param[in] position  位置
+ * @param[in] target	カメラの注視点
+ * @param[in] eye		カメラの位置
+ * @param[in] up		カメラの上方向ベクトル
+ *
+ * @return なし
+ */
 void TrajectoryParticle::CreateBillboard(DirectX::SimpleMath::Vector3 position, 
 										 DirectX::SimpleMath::Vector3 target, 
 										 DirectX::SimpleMath::Vector3 eye,

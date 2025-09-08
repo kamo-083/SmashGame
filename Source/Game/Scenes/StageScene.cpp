@@ -1,7 +1,7 @@
 /**
  * @file   StageScene.cpp
  *
- * @brief  ＸＸＸＸシーンに関するソースファイル
+ * @brief  ステージシーンに関するソースファイル
  *
  * @author 制作者名
  *
@@ -107,7 +107,7 @@ void StageScene::Initialize()
 /**
  * @brief 更新処理
  *
- * @param[in] inputDevice 入力デバイス
+ * @param[in] elapsedTime 経過時間
  *
  * @return なし
  */
@@ -156,7 +156,8 @@ void StageScene::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param[in] context	描画用構造体
+ * @param[in] debugFont デバッグ用フォント
  *
  * @return なし
  */

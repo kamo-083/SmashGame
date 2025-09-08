@@ -108,7 +108,7 @@ public:
 	void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos,float radius);
 
 	// UŒ‚‚Ì“–‚½‚è”»’è
-	bool DetectCollisionToAttack(SphereCollider collider, float power);
+	void DetectCollisionToAttack(SphereCollider collider, float power);
 
 
 // æ“¾/İ’è

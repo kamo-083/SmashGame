@@ -46,7 +46,10 @@ StageManager::~StageManager()
 /**
  * @brief ステージ生成
  *
- * @param[in] なし
+ * @param[in] pUR  ユーザーリソースのポインタ
+ * @param[in] pCM  コリジョンマネージャーのポインタ
+ * @param[in] pEM  エネミーマネージャーのポインタ
+ * @param[in] path ステージのパスファイル
  *
  * @return なし
  */
@@ -132,7 +135,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param[in] elapsedTime 経過時間
  *
  * @return なし
  */
@@ -171,7 +174,8 @@ void StageManager::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param[in] context	描画用構造体
+ * @param[in] debugFont デバッグ用フォント
  *
  * @return なし
  */
@@ -245,6 +249,16 @@ void StageManager::Finalize()
 
 }
 
+
+
+/**
+ * @brief ギミック処理生成
+ *
+ * @param[in] outOperate 処理出力用
+ * @param[in] desc		 ギミック情報
+ *
+ * @return なし
+ */
 void StageManager::CreateOperate(std::function<void()>& outOperate, StageLoader::AreaActionDesc& desc)
 {
 	if (desc.command == "EnableGoal")
@@ -258,6 +272,15 @@ void StageManager::CreateOperate(std::function<void()>& outOperate, StageLoader:
 	}
 }
 
+
+
+/**
+ * @brief ゴールしているかを返す
+ *
+ * @param[in] なし
+ *
+ * @return ゴールしているか
+ */
 bool StageManager::IsGoal()
 {
 	return m_goal->IsGoal();

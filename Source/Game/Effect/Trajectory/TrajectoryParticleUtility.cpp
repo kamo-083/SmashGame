@@ -18,6 +18,15 @@
 
 using namespace DirectX;
 
+// メンバ関数の定義 ===========================================================
+/**
+ * @brief コンストラクタ
+ *
+ * @param[in] position  出現位置
+ * @param[in] scale		大きさ
+ * @param[in] life		寿命
+ * @param[in] color		色
+ */
 TrajectoryParticleUtility::TrajectoryParticleUtility(
 	DirectX::SimpleMath::Vector3 position,
 	DirectX::SimpleMath::Vector3 scale,
@@ -30,10 +39,22 @@ TrajectoryParticleUtility::TrajectoryParticleUtility(
 	m_color = color;
 }
 
+
+/**
+ * @brief デストラクタ
+ */
 TrajectoryParticleUtility::~TrajectoryParticleUtility()
 {
 }
 
+
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 bool TrajectoryParticleUtility::Update(float elapsedTime)
 {
 	//大きさの更新

@@ -18,7 +18,8 @@ using namespace DirectX;
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] player	プレイヤーのポインタ
+ * @param[in] kbTracker キーボードトラッカーのポインタ
  */
 Player_AttackHeavy::Player_AttackHeavy(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ Player }
@@ -40,6 +41,13 @@ Player_AttackHeavy::~Player_AttackHeavy()
 }
 
 
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] pResourceManager  リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
 void Player_AttackHeavy::Initialize(ResourceManager* pResourceManager)
 {
 	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
@@ -58,6 +66,13 @@ void Player_AttackHeavy::Initialize(ResourceManager* pResourceManager)
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void Player_AttackHeavy::Update(const float& elapsedTime)
 {
 	m_attackTime -= elapsedTime;
@@ -87,6 +102,13 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 }
 
 
+/**
+ * @brief 描画処理
+ *
+ * @param[in] context	描画用構造体
+ *
+ * @return なし
+ */
 void Player_AttackHeavy::Render(RenderContext& context)
 {
 	SimpleMath::Matrix world;
@@ -107,6 +129,13 @@ void Player_AttackHeavy::Render(RenderContext& context)
 }
 
 
+/**
+ * @brief 終了処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void Player_AttackHeavy::Finalize()
 {
 

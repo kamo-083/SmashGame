@@ -19,7 +19,7 @@ using namespace DirectX;
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] groundEnemy 敵のポインタ
  */
 GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy)
 	: m_pGroundEnemy{ groundEnemy }
@@ -39,12 +39,26 @@ GroundEnemy_Walk::~GroundEnemy_Walk()
 }
 
 
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] pResourceManager  リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
 void GroundEnemy_Walk::Initialize(ResourceManager* pResourceManager)
 {
 	m_model = pResourceManager->GetModel("enemy");
 }
 
 
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 void GroundEnemy_Walk::Update(const float& elapsedTime)
 {
 	// プレイヤーとの距離と方向を取得
@@ -84,6 +98,13 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 }
 
 
+/**
+ * @brief 描画処理
+ *
+ * @param[in] context	描画用構造体
+ *
+ * @return なし
+ */
 void GroundEnemy_Walk::Render(RenderContext& context)
 {
 	SimpleMath::Matrix world;
@@ -96,6 +117,13 @@ void GroundEnemy_Walk::Render(RenderContext& context)
 }
 
 
+/**
+ * @brief 終了処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
 void GroundEnemy_Walk::Finalize()
 {
 

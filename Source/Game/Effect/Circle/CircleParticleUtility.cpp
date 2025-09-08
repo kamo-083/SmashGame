@@ -18,6 +18,15 @@
 
 using namespace DirectX;
 
+// メンバ関数の定義 ===========================================================
+/**
+ * @brief コンストラクタ
+ *
+ * @param[in] position  出現位置
+ * @param[in] scale		大きさ
+ * @param[in] life		寿命
+ * @param[in] color		色
+ */
 CircleParticleUtility::CircleParticleUtility(
 	DirectX::SimpleMath::Vector3 position,
 	DirectX::SimpleMath::Vector3 scale,
@@ -30,10 +39,22 @@ CircleParticleUtility::CircleParticleUtility(
 	m_color = color;
 }
 
+
+/**
+ * @brief デストラクタ
+ */
 CircleParticleUtility::~CircleParticleUtility()
 {
 }
 
+
+/**
+ * @brief 更新処理
+ *
+ * @param[in] elapsedTime 経過時間
+ *
+ * @return なし
+ */
 bool CircleParticleUtility::Update(float elapsedTime)
 {
 	//大きさの更新
