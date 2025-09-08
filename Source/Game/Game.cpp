@@ -125,6 +125,8 @@ void Game::Render()
     // デバッグフォントの描画
     m_debugFont->Render(m_states.get());
 
+    renderContext.Reset();
+
     m_deviceResources->PIXEndEvent();
 
     // Show the new frame.
@@ -212,18 +214,41 @@ void Game::Shutdown()
     m_sceneManager.reset();
     m_resourceManager.reset();
 
+    m_userResources.reset();
+
+    m_debugFont.reset();
     m_spriteBatch.reset();
     m_states.reset();
-    m_debugFont.reset();
-
-    m_userResources.reset();
 
     auto context = m_deviceResources->GetD3DDeviceContext();
     context->OMSetRenderTargets(0, nullptr, nullptr);
     context->ClearState();
     context->Flush();
 
+#if _DEBUG
+    // D3D11
+    if (auto device = m_deviceResources->GetD3DDevice())
+    {
+        Microsoft::WRL::ComPtr<ID3D11Debug> dbg;
+        if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&dbg))))
+        {
+            dbg->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+        }
+    }
+    // --------------------------------------------
+#endif
+
     m_deviceResources.reset();
+
+#if _DEBUG
+    // DXGI
+    Microsoft::WRL::ComPtr<IDXGIDebug1> dxgiDbg;
+    if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDbg))))
+    {
+        dxgiDbg->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+    }
+    // --------------------------------------------
+#endif
 }
 
 #pragma endregion
@@ -261,6 +286,12 @@ void Game::CreateDeviceDependentResources()
 
      // シーンマネージャの作成
     m_sceneManager = std::make_unique<SceneManager>(m_userResources.get());
+
+    // debug
+    //static const char c_szName[] = "Game";
+    //HRESULT hr = context->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(c_szName) - 1, c_szName);
+    auto* alpha2 = m_states->AlphaBlend();
+    alpha2->SetPrivateData(WKPDID_D3DDebugObjectName, 23, "Game.CommonStates.Alpha");
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.

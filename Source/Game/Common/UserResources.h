@@ -59,6 +59,19 @@ public:
 	{
 	}
 
+	// デストラクタ
+	~UserResources()
+	{
+		m_timer = nullptr;
+		m_deviceResources = nullptr;
+		m_keyboardTracker = nullptr;
+		m_mouseTracker = nullptr;
+		m_debugFont = nullptr;
+		m_states = nullptr;
+		m_spriteBatch = nullptr;
+		m_resourceManager = nullptr;
+	}
+
 	// ------------------------------------------ //
 	// ステップタイマー	
 	// ------------------------------------------ //

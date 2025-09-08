@@ -33,7 +33,7 @@ class Player_AttackHeavy :public IState
 {
 	// ƒNƒ‰ƒX’è”‚ÌéŒ¾ -------------------------------------------------
 private:
-	static constexpr float ATTACK_FORCE = 10000.0f;
+	static constexpr float ATTACK_FORCE = 5000.0f;
 	static constexpr float ATTACK_TIME = 1.0f;
 	static constexpr float ATTACK_SIZE = 2.0f;
 

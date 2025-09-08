@@ -61,7 +61,7 @@ private:
 	uint32_t m_collisionHandle;
 
 	// lŠpŒ`
-	std::unique_ptr<DirectX::GeometricPrimitive> m_box;
+	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
 
 	// ƒƒ“ƒoŠÖ”‚ÌéŒ¾ -------------------------------------------------

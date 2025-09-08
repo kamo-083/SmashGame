@@ -127,7 +127,7 @@ void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
  */
 void Goal::Finalize()
 {
-
+	m_geometricPrimitive.reset();
 }
 
 

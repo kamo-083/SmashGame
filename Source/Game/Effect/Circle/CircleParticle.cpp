@@ -207,6 +207,12 @@ void CircleParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMat
 	context->VSSetShader(nullptr, nullptr, 0);
 	context->PSSetShader(nullptr, nullptr, 0);
 	context->GSSetShader(nullptr, nullptr, 0);
+
+	// 定義バッファを解除
+	ID3D11Buffer* nullCB[1] = { nullptr };
+	context->VSSetConstantBuffers(0, 1, nullCB);
+	context->PSSetConstantBuffers(0, 1, nullCB);
+	context->GSSetConstantBuffers(0, 1, nullCB);
 }
 
 void CircleParticle::SpawnParticleEffect(DirectX::SimpleMath::Vector3 pos,

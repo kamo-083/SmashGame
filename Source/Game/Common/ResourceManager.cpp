@@ -27,7 +27,6 @@
 ResourceManager::ResourceManager(ID3D11Device* pDevice)
 	:m_pDevice{ pDevice }
 {
-
 }
 
 
@@ -37,6 +36,8 @@ ResourceManager::ResourceManager(ID3D11Device* pDevice)
  */
 ResourceManager::~ResourceManager()
 {
+	m_pDevice = nullptr;
+
 	//”O‚Ì‚½‚ß‰Šú‰»
 	m_textures.clear();
 	m_models.clear();

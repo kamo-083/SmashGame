@@ -43,6 +43,8 @@ SceneManager::~SceneManager()
 	{
 		m_pCurrentScene->Finalize();
 	}
+
+	m_scenes.clear();
 }
 
 
@@ -164,7 +166,6 @@ void SceneManager::ChangeScene()
 	{
 		return;
 	}
-
 
 	if (m_pCurrentScene)
 	{

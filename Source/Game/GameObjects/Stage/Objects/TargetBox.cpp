@@ -26,7 +26,7 @@ TargetBox::TargetBox(ID3D11DeviceContext* context)
 	, m_pGoal{ nullptr }
 	, m_collisionHandle{ 0 }
 {
-	m_box = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
+	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
 
 
@@ -36,7 +36,7 @@ TargetBox::TargetBox(ID3D11DeviceContext* context)
  */
 TargetBox::~TargetBox()
 {
-	m_box.reset();
+	m_geometricPrimitive.reset();
 }
 
 
@@ -129,7 +129,7 @@ void TargetBox::Draw(RenderContext& context)
 		DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	m_box->Draw(world, context.view, context.projection, DirectX::Colors::Violet);
+	m_geometricPrimitive->Draw(world, context.view, context.projection, DirectX::Colors::Violet);
 }
 
 
@@ -143,7 +143,7 @@ void TargetBox::Draw(RenderContext& context)
  */
 void TargetBox::Finalize()
 {
-
+	m_geometricPrimitive.reset();
 }
 
 bool TargetBox::DetectCollisionToEnemy(SphereCollider enemy, StateType state)

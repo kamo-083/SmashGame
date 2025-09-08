@@ -34,7 +34,7 @@ class Player_AttackRolling :public IState
 {
 	// ƒNƒ‰ƒX’è”‚ÌéŒ¾ -------------------------------------------------
 private:
-	static constexpr float ATTACK_FORCE = 1000.0f;
+	static constexpr float ATTACK_FORCE = 200.0f;
 	static constexpr float ATTACK_TIME = 5.0f;
 	static constexpr float ATTACK_SIZE = 3.0f;
 	static constexpr float GROUND_SPEED = 7.0f;

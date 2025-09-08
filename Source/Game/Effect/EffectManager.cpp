@@ -38,6 +38,12 @@ EffectManager::EffectManager(DX::DeviceResources* deviceResources)
 	m_states = std::make_unique<CommonStates>(m_pDeviceResources->GetD3DDevice());
 
 	CreateShader();
+
+	// debug
+	//static const char c_szName[] = "EffectManager";
+	//HRESULT hr = m_pDeviceResources->GetD3DDeviceContext()->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(c_szName) - 1, c_szName);
+	auto* alpha = m_states->AlphaBlend();
+	alpha->SetPrivateData(WKPDID_D3DDebugObjectName, 26, "Effect.CommonStates.Alpha");
 }
 
 
@@ -53,13 +59,13 @@ EffectManager::~EffectManager()
 	m_pDeviceResources = nullptr;
 	m_pCamera = nullptr;
 
-	m_CBuffer.Reset();
-	m_inputLayout.Reset();
 	m_batch.reset();
-	m_states.reset();
+	m_inputLayout.Reset();
 	m_vertexShader.Reset();
 	m_pixelShader.Reset();
 	m_geometryShader.Reset();
+	m_CBuffer.Reset();
+	m_states.reset();
 }
 
 
@@ -126,7 +132,16 @@ void EffectManager::Finalize()
 	m_trajectory.clear();
 	m_circle.clear();
 
+	m_pDeviceResources = nullptr;
 	m_pCamera = nullptr;
+
+	m_batch.reset();
+	m_inputLayout.Reset();
+	m_vertexShader.Reset();
+	m_pixelShader.Reset();
+	m_geometryShader.Reset();
+	m_CBuffer.Reset();
+	m_states.reset();
 }
 
 

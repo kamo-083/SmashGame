@@ -197,7 +197,18 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 void TestScene::Finalize()
 {
 	if (m_player)		m_player->Finalize();
+	m_player.reset();
+
 	if (m_enemyManager) m_enemyManager->Finalize();
+	m_enemyManager.reset();
+
 	if (m_stageManager) m_stageManager->Finalize();
+	m_stageManager.reset();
+
 	if (m_effectManager)m_effectManager->Finalize();
+	m_effectManager.reset();
+
+	m_camera.reset();
+	m_weaponUI.reset();
+	m_collisionManager.reset();
 }

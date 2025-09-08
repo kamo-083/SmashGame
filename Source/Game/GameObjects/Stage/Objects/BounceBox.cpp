@@ -25,7 +25,7 @@ BounceBox::BounceBox(ID3D11DeviceContext* context)
 	: m_onGround{ false }
 	, m_collisionHandle{ 0 }
 {
-	m_box = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
+	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
 
 
@@ -35,7 +35,7 @@ BounceBox::BounceBox(ID3D11DeviceContext* context)
  */
 BounceBox::~BounceBox()
 {
-	m_box.reset();
+	m_geometricPrimitive.reset();
 }
 
 
@@ -130,7 +130,7 @@ void BounceBox::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 									  DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	m_box->Draw(world, context.view, context.projection, DirectX::Colors::Yellow);
+	m_geometricPrimitive->Draw(world, context.view, context.projection, DirectX::Colors::Yellow);
 
 	debugFont->AddString(0, 350, DirectX::Colors::Yellow, L"ExternalForce = %f,%f,%f",
 						 m_physics.GetExternalForce().Get().x, m_physics.GetExternalForce().Get().y, m_physics.GetExternalForce().Get().z);
@@ -147,7 +147,7 @@ void BounceBox::Draw(RenderContext& context, Imase::DebugFont* debugFont)
  */
 void BounceBox::Finalize()
 {
-
+	m_geometricPrimitive.reset();
 }
 
 bool BounceBox::DetectCollisionToBox(OBBCollider obb)

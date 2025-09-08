@@ -24,6 +24,7 @@ using namespace DirectX;
  */
 StageSelectScene::StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources)
 	: Scene{ pSceneManager,pUserResources }
+	, m_selectNum{ 0 }
 {
 
 }
@@ -49,7 +50,7 @@ StageSelectScene::~StageSelectScene()
  */
 void StageSelectScene::Initialize()
 {
-
+	m_selectNum = 0;
 }
 
 
@@ -63,10 +64,26 @@ void StageSelectScene::Initialize()
  */
 void StageSelectScene::Update(float elapsedTime)
 {
-	// シーンの切り替え
-	if (m_userResources->GetKeyboardTracker()->pressed.Space || m_userResources->GetKeyboardTracker()->pressed.P)
+	Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
+
+	if (kb->pressed.D)
 	{
-		ChangeScene("TestScene");
+		m_selectNum++;
+		if (m_selectNum == STAGES) m_selectNum = 0;
+	}
+	else if (kb->pressed.A)
+	{
+		m_selectNum--;
+		if (m_selectNum < 0) m_selectNum = STAGES - 1;
+	}
+
+	// シーンの切り替え
+	if (kb->pressed.Space || kb->pressed.P)
+	{
+		//ChangeScene("TestScene");
+
+		std::string stageName = "Stage" + std::to_string(m_selectNum) + "Scene";
+		ChangeScene(stageName);
 	}
 }
 
@@ -82,7 +99,7 @@ void StageSelectScene::Update(float elapsedTime)
 void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
 	debugFont->AddString(0, 30, Colors::White, L"StageSelectScene");
-
+	debugFont->AddString(0, 60, Colors::Yellow, L"SelectNum:%d",m_selectNum);
 }
 
 

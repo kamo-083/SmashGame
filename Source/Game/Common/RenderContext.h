@@ -33,4 +33,13 @@ struct RenderContext
 
 	// 2D
 	DirectX::SpriteBatch* spriteBatch;		//スプライトバッチ
+
+	void Reset()
+	{
+		view = DirectX::SimpleMath::Matrix::Identity;
+		projection = DirectX::SimpleMath::Matrix::Identity;
+		deviceContext = nullptr;
+		states = nullptr;
+		spriteBatch = nullptr;
+	}
 };

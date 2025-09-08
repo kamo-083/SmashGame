@@ -84,6 +84,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_pResourceManager = pResourceManager;
 
 	// モデルの読み込み
+	//m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\stand_cat2.sdkmesh");
 	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\player_cat.sdkmesh");
 
 	// コライダーの設定

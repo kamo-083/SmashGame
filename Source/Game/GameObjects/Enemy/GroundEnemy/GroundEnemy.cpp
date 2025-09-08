@@ -206,6 +206,9 @@ void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 		pCollisionManager->Remove(m_handleAttack);
 		m_handleAttack = 0;
 	}
+
+	m_circle = nullptr;
+	m_trajectory = nullptr;
 }
 
 

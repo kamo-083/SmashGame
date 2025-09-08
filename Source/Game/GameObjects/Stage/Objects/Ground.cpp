@@ -122,7 +122,7 @@ void Ground::Draw(RenderContext& context)
  */
 void Ground::Finalize()
 {
-
+	m_geometricPrimitive.reset();
 }
 
 

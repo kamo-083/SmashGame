@@ -39,7 +39,7 @@ CountArea::CountArea(ID3D11DeviceContext* context)
  */
 CountArea::~CountArea()
 {
-	
+	m_geometricPrimitive.reset();
 }
 
 
@@ -190,5 +190,5 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
  */
 void CountArea::Finalize()
 {
-
+	m_geometricPrimitive.reset();
 }
