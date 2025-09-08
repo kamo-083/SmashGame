@@ -78,12 +78,16 @@ void StageSelectScene::Update(float elapsedTime)
 	}
 
 	// シーンの切り替え
-	if (kb->pressed.Space)
+	if (kb->pressed.Space)	// 選択したステージへ
 	{
 		std::string stageName = "Stage" + std::to_string(m_selectNum + 1) + "Scene";
 		ChangeScene(stageName);
 	}
-	if (kb->pressed.P)
+	if (kb->pressed.Q)		// タイトル画面へ
+	{
+		ChangeScene("TitleScene");
+	}
+	if (kb->pressed.P)		// テスト用ステージへ
 	{
 		ChangeScene("TestScene");
 	}

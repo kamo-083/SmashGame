@@ -29,7 +29,22 @@ class TitleScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	struct Textures
+	{
+		ID3D11ShaderResourceView* logo;
+		ID3D11ShaderResourceView* pressSpaceKey;
 
+		Textures()
+			:logo(nullptr)
+			,pressSpaceKey(nullptr)
+		{}
+
+		~Textures()
+		{
+			logo = nullptr;
+			pressSpaceKey = nullptr;
+		}
+	};
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -39,7 +54,7 @@ private:
 
 
 	// オブジェクト関連
-	ID3D11ShaderResourceView* m_logoTexture;
+	std::unique_ptr<Textures> m_textures;
 
 
 // メンバ関数の宣言 -------------------------------------------------

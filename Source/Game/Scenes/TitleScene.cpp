@@ -24,7 +24,6 @@ using namespace DirectX;
  */
 TitleScene::TitleScene(SceneManager* pSceneManager, UserResources* pUserResources)
 	: Scene{ pSceneManager,pUserResources }
-	, m_logoTexture{ nullptr }
 {
 
 }
@@ -50,7 +49,10 @@ TitleScene::~TitleScene()
  */
 void TitleScene::Initialize()
 {
-	m_logoTexture = m_userResources->GetResourceManager()->RequestTexture("titleLogo", L"Resources/Textures/Text/title.png");
+	// テクスチャの読み込み
+	m_textures = std::make_unique<Textures>();
+	m_textures->logo = m_userResources->GetResourceManager()->RequestTexture("titleLogo", L"Resources/Textures/Text/title.png");
+	m_textures->pressSpaceKey= m_userResources->GetResourceManager()->RequestTexture("pressSpaceKey", L"Resources/Textures/Text/pressSpaceKey.png");
 }
 
 
@@ -87,7 +89,8 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	context.spriteBatch->Begin();
 
-	context.spriteBatch->Draw(m_logoTexture, DirectX::SimpleMath::Vector2(640.0f, 100.0f));
+	context.spriteBatch->Draw(m_textures->logo, DirectX::SimpleMath::Vector2(640.0f, 100.0f));
+	context.spriteBatch->Draw(m_textures->pressSpaceKey, DirectX::SimpleMath::Vector2(640.0f, 300.0f));
 
 	context.spriteBatch->End();
 }
@@ -103,5 +106,5 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  */
 void TitleScene::Finalize()
 {
-	m_logoTexture = nullptr;
+	m_textures.reset();
 }
