@@ -5,7 +5,7 @@
 #include "pch.h"
 #include "Game.h"
 #include "Source/Game/Common/RenderContext.h"
-#include "Source/Game/Scenes/TestScene.h"
+#include "Source/Game/Scenes/StageScene.h"
 #include "Source/Game/Scenes/TitleScene.h"
 #include "Source/Game/Scenes/StageSelectScene.h"
 
@@ -49,7 +49,9 @@ void Game::Initialize(HWND window, int width, int height)
     m_spriteBatch = std::make_unique<SpriteBatch>(context);
     
     // 各シーンの作成
-    m_sceneManager->Register("TestScene", std::make_unique<TestScene>(m_sceneManager.get(), m_userResources.get(), "Resources/Json/test.json"));
+    m_sceneManager->Register("TestScene", std::make_unique<StageScene>(m_sceneManager.get(), m_userResources.get(), "Resources/Json/test.json"));
+    m_sceneManager->Register("Stage1Scene", std::make_unique<StageScene>(m_sceneManager.get(), m_userResources.get(), "Resources/Json/stage1.json"));
+    m_sceneManager->Register("Stage2Scene", std::make_unique<StageScene>(m_sceneManager.get(), m_userResources.get(), "Resources/Json/stage2.json"));
     m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_userResources.get()));
     m_sceneManager->Register("StageSelectScene", std::make_unique<StageSelectScene>(m_sceneManager.get(), m_userResources.get()));
 
@@ -282,6 +284,7 @@ void Game::CreateDeviceDependentResources()
     m_userResources->SetDeviceResources(m_deviceResources.get());
     m_userResources->SetKeyboardTracker(m_kbTracker.get());
     m_userResources->SetDebugFont(m_debugFont.get());
+    m_userResources->SetStates(m_states.get());
     m_userResources->SetResourceManager(m_resourceManager.get());
 
      // シーンマネージャの作成

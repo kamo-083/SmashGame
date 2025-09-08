@@ -115,7 +115,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_batch;
-	std::unique_ptr<DirectX::CommonStates> m_states;
+	DirectX::CommonStates* m_states;
 
 	//シェーダー
 	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
@@ -127,7 +127,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	EffectManager(DX::DeviceResources* deviceResources);
+	EffectManager(DX::DeviceResources* deviceResources, DirectX::CommonStates* states);
 
 	// デストラクタ
 	~EffectManager();

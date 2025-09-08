@@ -31,7 +31,7 @@ class StageSelectScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	static const int STAGES;	// ステージ数
+	static constexpr int STAGES = 2;	// ステージ数
 
 
 	// データメンバの宣言 -----------------------------------------------

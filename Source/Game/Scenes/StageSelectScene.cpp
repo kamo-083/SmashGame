@@ -78,12 +78,14 @@ void StageSelectScene::Update(float elapsedTime)
 	}
 
 	// ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
-	if (kb->pressed.Space || kb->pressed.P)
+	if (kb->pressed.Space)
 	{
-		//ChangeScene("TestScene");
-
-		std::string stageName = "Stage" + std::to_string(m_selectNum) + "Scene";
+		std::string stageName = "Stage" + std::to_string(m_selectNum + 1) + "Scene";
 		ChangeScene(stageName);
+	}
+	if (kb->pressed.P)
+	{
+		ChangeScene("TestScene");
 	}
 }
 

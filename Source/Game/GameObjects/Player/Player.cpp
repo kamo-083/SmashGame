@@ -60,6 +60,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 {
 	// À•W‚Ì‰Šú‰»
 	m_position = SimpleMath::Vector3::Zero;
+	m_position.z = 2.0f;
 	m_position.y = 2.0f;
 
 	// ‘¬“x‚Ì‰Šú‰»

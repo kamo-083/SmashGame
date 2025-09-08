@@ -1,5 +1,5 @@
 /**
- * @file   TestScene.h
+ * @file   StageScene.h
  *
  * @brief  テストシーンに関するヘッダファイル
  *
@@ -35,7 +35,7 @@ class WeaponUI;
 /**
  * @brief テストシーン
  */
-class TestScene : public Scene
+class StageScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
@@ -79,10 +79,10 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	TestScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path);
+	StageScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path);
 
 	// デストラクタ
-	~TestScene();
+	~StageScene();
 
 
 // 操作

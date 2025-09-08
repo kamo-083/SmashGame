@@ -227,7 +227,7 @@
     <ClInclude Include="Source\Game\Interface\IState.h" />
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h" />
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
-    <ClInclude Include="Source\Game\Scenes\TestScene.h" />
+    <ClInclude Include="Source\Game\Scenes\StageScene.h" />
     <ClInclude Include="Source\Game\UI\WeaponUI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -275,7 +275,7 @@
     <ClCompile Include="Source\Game\GameObjects\Stage\StageManager.cpp" />
     <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
-    <ClCompile Include="Source\Game\Scenes\TestScene.cpp" />
+    <ClCompile Include="Source\Game\Scenes\StageScene.cpp" />
     <ClCompile Include="Source\Game\UI\WeaponUI.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
@@ -290,6 +290,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Json\stage1.json" />
+    <None Include="Resources\Json\stage2.json" />
     <None Include="Resources\Json\test.json" />
     <None Include="Resources\Shaders\Particle.hlsli" />
   </ItemGroup>

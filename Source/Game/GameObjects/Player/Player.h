@@ -22,7 +22,7 @@
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include"Source/Game/Data/WeaponData.h"
-#include"Source/Game/Scenes/TestScene.h"
+#include"Source/Game/Scenes/StageScene.h"
 #include"ImaseLib/DebugFont.h"
 #include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/UI/WeaponUI.h"

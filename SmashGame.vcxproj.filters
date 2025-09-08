@@ -113,7 +113,7 @@
     <ClInclude Include="ImaseLib\DebugFont.h">
       <Filter>ImaseLib</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\TestScene.h">
+    <ClInclude Include="Source\Game\Scenes\StageScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Scenes\TitleScene.h">
@@ -249,7 +249,7 @@
     <ClCompile Include="ImaseLib\DebugFont.cpp">
       <Filter>ImaseLib</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Scenes\TestScene.cpp">
+    <ClCompile Include="Source\Game\Scenes\StageScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp">
@@ -359,6 +359,12 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="Resources\Json\test.json">
+      <Filter>Json</Filter>
+    </None>
+    <None Include="Resources\Json\stage1.json">
+      <Filter>Json</Filter>
+    </None>
+    <None Include="Resources\Json\stage2.json">
       <Filter>Json</Filter>
     </None>
   </ItemGroup>

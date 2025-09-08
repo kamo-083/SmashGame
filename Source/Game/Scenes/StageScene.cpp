@@ -1,5 +1,5 @@
 /**
- * @file   TestScene.cpp
+ * @file   StageScene.cpp
  *
  * @brief  ＸＸＸＸシーンに関するソースファイル
  *
@@ -10,7 +10,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
-#include "TestScene.h"
+#include "StageScene.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/RenderContext.h"
 
@@ -24,7 +24,7 @@ using namespace DirectX;
  * @param[in] sceneManager    シーンを管理しているマネージャ
  * @param[in] resourceManager リソースを管理しているマネージャ
  */
-TestScene::TestScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path)
+StageScene::StageScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path)
 	: Scene{ pSceneManager,pUserResources }
 	, m_keyMode{false}
 	, m_stageFilePath{path}
@@ -37,7 +37,7 @@ TestScene::TestScene(SceneManager* pSceneManager, UserResources* pUserResources,
 /**
  * @brief デストラクタ
  */
-TestScene::~TestScene()
+StageScene::~StageScene()
 {
 
 }
@@ -51,7 +51,7 @@ TestScene::~TestScene()
  *
  * @return なし
  */
-void TestScene::Initialize()
+void StageScene::Initialize()
 {
 	// コリジョンマネージャーの作成
 	m_collisionManager = std::make_unique<CollisionManager>();
@@ -74,7 +74,7 @@ void TestScene::Initialize()
 	m_camera = std::make_unique<Camera>();
 
 	// エフェクトマネージャーの作成
-	m_effectManager = std::make_unique<EffectManager>(m_userResources->GetDeviceResources());
+	m_effectManager = std::make_unique<EffectManager>(m_userResources->GetDeviceResources(),m_userResources->GetStates());
 	m_effectManager->SetCamera(m_camera.get());
 
 	// 武器UIの作成
@@ -111,7 +111,7 @@ void TestScene::Initialize()
  *
  * @return なし
  */
-void TestScene::Update(float elapsedTime)
+void StageScene::Update(float elapsedTime)
 {
 	// キー操作のモード切り替え
 	if (m_userResources->GetKeyboardTracker()->pressed.K) m_keyMode = !m_keyMode;
@@ -160,9 +160,9 @@ void TestScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
+void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
-	debugFont->AddString(0, 30, Colors::White, L"TestScene");
+	debugFont->AddString(0, 30, Colors::White, L"StageScene");
 
 	context.view = m_camera->GetView();
 
@@ -194,7 +194,7 @@ void TestScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  *
  * @return なし
  */
-void TestScene::Finalize()
+void StageScene::Finalize()
 {
 	if (m_player)		m_player->Finalize();
 	m_player.reset();

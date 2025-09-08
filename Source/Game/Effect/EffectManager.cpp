@@ -30,12 +30,12 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> EffectManager::INPUT_LAYOUT =
  *
  * @param[in] ‚È‚µ
  */
-EffectManager::EffectManager(DX::DeviceResources* deviceResources)
+EffectManager::EffectManager(DX::DeviceResources* deviceResources, DirectX::CommonStates* states)
 	: m_pDeviceResources{ deviceResources }
 	, m_pCamera{ nullptr }
 {
 	m_batch = std::make_unique<PrimitiveBatch<VertexPositionColorTexture>>(m_pDeviceResources->GetD3DDeviceContext());
-	m_states = std::make_unique<CommonStates>(m_pDeviceResources->GetD3DDevice());
+	m_states = states;
 
 	CreateShader();
 
@@ -65,7 +65,7 @@ EffectManager::~EffectManager()
 	m_pixelShader.Reset();
 	m_geometryShader.Reset();
 	m_CBuffer.Reset();
-	m_states.reset();
+	m_states = nullptr;
 }
 
 
@@ -141,7 +141,7 @@ void EffectManager::Finalize()
 	m_pixelShader.Reset();
 	m_geometryShader.Reset();
 	m_CBuffer.Reset();
-	m_states.reset();
+	m_states = nullptr;
 }
 
 
@@ -156,7 +156,7 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 		m_CBuffer.Get(),
 		m_inputLayout.Get(),
 		m_batch.get(),
-		m_states.get(),
+		m_states,
 		texture,
 		m_vertexShader.Get(),
 		m_pixelShader.Get(),
@@ -191,7 +191,7 @@ EffectManager::CircleParticleData* EffectManager::CreateCircle(
 		m_CBuffer.Get(),
 		m_inputLayout.Get(),
 		m_batch.get(),
-		m_states.get(),
+		m_states,
 		texture,
 		m_vertexShader.Get(),
 		m_pixelShader.Get(),

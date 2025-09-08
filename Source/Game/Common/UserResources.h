@@ -111,6 +111,16 @@ public:
 
 	// デバッグフォントを取得する関数
 	Imase::DebugFont* GetDebugFont() { return m_debugFont; }
+	
+	// ------------------------------------------ //
+	// 共通ステート	
+	// ------------------------------------------ //
+
+	// 共通ステートを設定する関数
+	void SetStates(DirectX::CommonStates* states) { m_states = states; }
+
+	// 共通ステートを取得する関数
+	DirectX::CommonStates* GetStates() { return m_states; }
 
 	// ------------------------------------------ //
 	// スプライトバッチ
