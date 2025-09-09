@@ -16,11 +16,13 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Interface/IState.h"
+#include"Source/Game/Common/UserResources.h"
 #include"Source/Game/Common/CollisionManager.h"
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
+#include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/Data/WeaponData.h"
 #include"Source/Game/Scenes/StageScene.h"
 #include"ImaseLib/DebugFont.h"
@@ -57,6 +59,11 @@ private:
 	static constexpr float DYNAMIC_FRICTION_FORCE = 0.5f;	//動摩擦力
 	static constexpr float STATIC_FRICTION_FORCE = 1.0f;	//静止摩擦力
 
+	struct Animations
+	{
+		DX::AnimationSDKMESH* idle;
+
+	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -77,6 +84,9 @@ private:
 
 	// モデル
 	DirectX::Model* m_model;
+
+	// アニメーション
+	std::unique_ptr<Animations> m_animations;
 
 	// リソースマネージャ
 	ResourceManager* m_pResourceManager;
@@ -129,12 +139,19 @@ private:
 	// 衝突判定のハンドル(攻撃)
 	uint32_t m_handleAttack;
 
+	// 軌跡エフェクト
+	EffectManager::TrajectoryParticleData* m_trajectory;
+
+	// 円形エフェクト
+	EffectManager::CircleParticleData* m_circle;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Player(ID3D11DeviceContext* context);
+	Player(UserResources* pUserResources,
+		   EffectManager* pEffectManager);
 
 	// デストラクタ
 	~Player();
@@ -205,6 +222,9 @@ public:
 	void SetIsBounce(bool isBounce) { m_isBounce = isBounce; }
 	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
 	float GetScale() { return SCALE; }
+	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }
+	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }
+	Animations* GetAnimation() { return m_animations.get(); }
 
 	Player_Idle* GetState_Idle() { return m_idlingState.get(); }
 	Player_Walk* GetState_Walk() { return m_walkingState.get(); }

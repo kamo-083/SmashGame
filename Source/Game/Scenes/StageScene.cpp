@@ -83,7 +83,7 @@ void StageScene::Initialize()
 	m_weaponUI->Initialize(m_userResources->GetResourceManager());
 
 	// ƒvƒŒƒCƒ„[‚Ìì¬
-	m_player = std::make_unique<Player>(m_userResources->GetDeviceResources()->GetD3DDeviceContext());
+	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get());
 	m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
 						 m_userResources->GetKeyboardTracker(), m_camera.get(), m_weaponUI.get(), &m_keyMode);
 

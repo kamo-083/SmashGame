@@ -51,6 +51,12 @@ private:
 	// モデル
 	DirectX::Model* m_model;
 
+	// アニメーション
+	DX::AnimationSDKMESH* m_animation;
+
+	// アニメーションボーン配列
+	DirectX::ModelBone::TransformArray m_drawBones;
+
 	// カメラのポインタ
 	Camera* m_pCamera;
 

@@ -20,7 +20,8 @@ using namespace DirectX;
  *
  * @param[in] なし
  */
-Player::Player(ID3D11DeviceContext* context)
+Player::Player(UserResources* pUserResources,
+			   EffectManager* pEffectManager)
 	: m_rotY{ 0.0f }
 	, m_onGround{ false }
 	, m_isBounce{ false }
@@ -38,7 +39,30 @@ Player::Player(ID3D11DeviceContext* context)
 	, m_handleBody{ 0 }
 	, m_handleAttack{ 0 }
 {
-	m_sphere = DirectX::GeometricPrimitive::CreateSphere(context);
+	m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
+
+	// 軌跡エフェクトの作成
+	m_trajectory = pEffectManager->CreateTrajectory(
+		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
+		0.5f,
+		2.0f,
+		SimpleMath::Color(1, 1, 1, 1),
+		&m_position,
+		false
+	);
+
+	// 円形エフェクトの作成
+	m_circle = pEffectManager->CreateCircle(
+		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
+		0.75f,
+		1.0f,
+		SimpleMath::Color(1, 1, 1, 1),
+		&m_position,
+		1.0f,
+		12,
+		false,
+		true
+	);
 }
 
 
@@ -100,7 +124,11 @@ void Player::Initialize(ResourceManager* pResourceManager,
 
 	// モデルの読み込み
 	//m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\stand_cat2.sdkmesh");
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\player_cat.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\playerCat_idle.sdkmesh", true);
+
+	// アニメーションの読み込み
+	m_animations = std::make_unique<Animations>();
+	m_animations->idle = pResourceManager->RequestAnimation("playerIdle", L"Resources\\Models\\playerCat_idle.sdkmesh_anim");
 
 	// コライダーの設定
 	m_collider = SphereCollider(m_position, RADIUS);
@@ -151,6 +179,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 
 			// 跳ね返り状態に遷移
 			m_isBounce = true;
+			m_trajectory->SetSpawn(true);
 			ChangeState(m_idlingState.get());
 		};
 	m_handleBody = m_pCollisionManager->Add(bodyDesc);
@@ -238,6 +267,8 @@ void Player::Finalize()
 	m_idlingState.reset();
 
 	m_model = nullptr;
+	m_circle = nullptr;
+	m_trajectory = nullptr;
 }
 
 

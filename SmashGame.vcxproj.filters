@@ -224,6 +224,9 @@
     <ClInclude Include="Source\Game\UI\UIWidget.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Common\Animation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -350,6 +353,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\UIWidget.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\Animation.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

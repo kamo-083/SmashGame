@@ -127,7 +127,7 @@ ID3D11ShaderResourceView* ResourceManager::GetTexture(const std::string& key)
 	return m_textures[key].Get();
 }
 
-bool ResourceManager::LoadSDKMESH(const std::string& key, const wchar_t* filename)
+bool ResourceManager::LoadSDKMESH(const std::string& key, const wchar_t* filename, bool anim)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_models.find(key);
@@ -140,7 +140,10 @@ bool ResourceManager::LoadSDKMESH(const std::string& key, const wchar_t* filenam
 	DirectX::EffectFactory fx(m_pDevice);
 	fx.SetDirectory(L"Resources\\Models");
 
-	m_models[key] = DirectX::Model::CreateFromSDKMESH(m_pDevice, filename, fx);
+	DirectX::ModelLoaderFlags flags = DirectX::ModelLoaderFlags::ModelLoader_Clockwise;
+	if (anim) flags = DirectX::ModelLoaderFlags::ModelLoader_IncludeBones;
+
+	m_models[key] = DirectX::Model::CreateFromSDKMESH(m_pDevice, filename, fx, flags);
 
 	return true;
 }
@@ -159,16 +162,60 @@ DirectX::Model* ResourceManager::GetModel(const std::string& key)
 	return m_models[key].get();
 }
 
-DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const wchar_t* filename)
+DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const wchar_t* filename, bool anim)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_models.find(key);
 	if (it == m_models.end())
 	{
 		//登録されていなかったら読み込む
-		if (!LoadSDKMESH(key, filename)) return nullptr;
+		if (!LoadSDKMESH(key, filename, anim)) return nullptr;
 	}
 
 	//キーに対応したモデルのポインタを返す
 	return m_models[key].get();
+}
+
+bool ResourceManager::LoadAnimation(const std::string& key, const wchar_t* filename)
+{
+	auto it = m_animations.find(key);
+	if (it != m_animations.end())
+	{
+		std::cerr << "そのキーは既に使用されています: " << key << std::endl;
+		return false;
+	}
+	
+	std::unique_ptr<DX::AnimationSDKMESH> anim = std::make_unique<DX::AnimationSDKMESH>();
+	anim->Load(filename);
+	m_animations[key] = std::move(anim);
+
+	return true;
+}
+
+DX::AnimationSDKMESH* ResourceManager::GetAnimation(const std::string& key)
+{
+	//まだ登録されていないキーか確認
+	auto it = m_animations.find(key);
+	if (it == m_animations.end())
+	{
+		std::cerr << "指定されたキーが見つかりません: " << key << std::endl;
+		return nullptr;
+	}
+
+	//キーに対応したモデルのポインタを返す
+	return m_animations[key].get();
+}
+
+DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, const wchar_t* filename)
+{
+	//まだ登録されていないキーか確認
+	auto it = m_animations.find(key);
+	if (it == m_animations.end())
+	{
+		//登録されていなかったら読み込む
+		if (!LoadAnimation(key, filename)) return nullptr;
+	}
+
+	//キーに対応したモデルのポインタを返す
+	return m_animations[key].get();
 }

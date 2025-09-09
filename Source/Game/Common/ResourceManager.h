@@ -16,9 +16,8 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "DeviceResources.h"
+#include "Source/Game/Common/Animation.h"
 #include <unordered_map>
-
-
 
 
 // クラスの定義 ===============================================================
@@ -42,6 +41,9 @@ private:
 
 	//モデル
 	std::unordered_map<std::string, std::unique_ptr<DirectX::Model>> m_models;
+
+	//アニメーション
+	std::unordered_map<std::string, std::unique_ptr<DX::AnimationSDKMESH>> m_animations;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -69,13 +71,23 @@ public:
 	ID3D11ShaderResourceView* RequestTexture(const std::string& key, const wchar_t* filename);
 
 	//モデルの読み込み
-	bool LoadSDKMESH(const std::string& key, const wchar_t* filename);
+	bool LoadSDKMESH(const std::string& key, const wchar_t* filename, bool anim = false);
 
 	//モデルの取得
 	DirectX::Model* GetModel(const std::string& key);
 
 	//モデルの要求(キーがあったら渡す、無かったら読み込んでから渡す)
-	DirectX::Model* RequestSDKMESH(const std::string& key, const wchar_t* filename);
+	DirectX::Model* RequestSDKMESH(const std::string& key, const wchar_t* filename, bool anim = false);
+
+	//アニメーションの読み込み
+	bool LoadAnimation(const std::string& key, const wchar_t* filename);
+
+	//アニメーションの取得
+	DX::AnimationSDKMESH* GetAnimation(const std::string& key);
+	
+	//アニメーションの要求(キーがあったら渡す、無かったら読み込んでから渡す)
+	DX::AnimationSDKMESH* RequestAnimation(const std::string& key, const wchar_t* filename);
+
 
 // 内部実装
 private:
