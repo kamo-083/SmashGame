@@ -80,16 +80,20 @@ void UIWidget::Update(float elapsedTime)
  *
  * @return ‚È‚µ
  */
-void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch)
+void UIWidget::Draw(RenderContext context)
 {
 	SimpleMath::Color color = { 1, 1, 1, m_params.opacity };
 	SimpleMath::Vector2 size = { m_texSize.x * 0.5f,m_texSize.y * 0.5f };
 
-	spriteBatch->Begin();
+	context.spriteBatch->Begin(
+		SpriteSortMode_Deferred,
+		context.states->NonPremultiplied(),
+		context.states->LinearClamp()
+	);
 
-	spriteBatch->Draw(m_texture, m_params.pos, nullptr, color, m_params.rotation, size, m_params.scale, SpriteEffects_None, 0.0f);
+	context.spriteBatch->Draw(m_texture, m_params.pos, nullptr, color, m_params.rotation, size, m_params.scale, SpriteEffects_None, 0.0f);
 
-	spriteBatch->End();
+	context.spriteBatch->End();
 }
 
 

@@ -14,6 +14,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/Tween.h"
 
 
@@ -61,7 +62,7 @@ public:
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(DirectX::SpriteBatch* spriteBatch);
+	void Draw(RenderContext context);
 
 	// 終了処理
 	void Finalize();

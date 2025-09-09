@@ -106,23 +106,41 @@ float Tween::EaseValue(Ease ease, float t)
 {
 	switch (ease)
 	{
+	case Tween::Ease::Liner:
+	{
+		return t;
+	}
 	case Tween::Ease::OutQuart:
 	{
-		float n = 1.0f - t;
-		return 1 - (n * n * n * n);
+		return 1.f - std::pow(1.f - t, 4.f);
+	}
+	case Tween::Ease::OutBack:
+	{
+		float n = 1.70158f;
+		float m = n + 1;
+		return 1.f + m * std::pow(t - 1.f, 3.f) + n * std::pow(t - 1.f, 2.f);
+	}
+	case Tween::Ease::OutElastic:
+	{
+		if (t == 0.f)	   return 0.f;
+		else if (t == 1.f) return 1.f;
+		else 
+		{
+			float c = (2.f * XM_PI) / 3.f;
+			return std::pow(2.f, -10.f * t) * std::sin((t * 10.f - 0.75f) * c) + 1;
+		}
 	}
 	case Tween::Ease::OutBounce:
 	{
-		float n1 = 7.5625;
-		float d1 = 2.75;
+		float a = 7.5625;	// ŒW”
+		float k = 2.75f;	// ‹æŠÔ‚ÌŠî€’l
 
-		if (t < 1.f / d1)		 return n1 * t * t;
-		else if (t < 2.f / d1)	 return n1 * (t -= 1.5f / d1) * t + 0.75f;
-		else if (t < 2.25f / d1) return n1 * (t -= 2.25f / d1) * t + 0.9375f;
-		else					 return n1 * (t -= 2.625f / d1) * t + 0.984375f;
+		if (t < 1.f / k)		 return a * t * t;
+		else if (t < 2.f / k)	 return a * (t -= 1.5f / k) * t + 0.75f;
+		else if (t < 2.25f / k)  return a * (t -= 2.25f / k) * t + 0.9375f;
+		else					 return a * (t -= 2.625f / k) * t + 0.984375f;
 	}
 	}
-
 	return t;
 }
 

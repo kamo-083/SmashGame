@@ -28,7 +28,10 @@ public:
 	enum class Ease
 	{
 		NONE = -1,
+		Liner,
 		OutQuart,
+		OutBack,
+		OutElastic,
 		OutBounce,
 	};
 

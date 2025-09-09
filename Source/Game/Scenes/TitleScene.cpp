@@ -60,7 +60,7 @@ void TitleScene::Initialize()
 		Tween::UIParams{SimpleMath::Vector2(200.0f, 300.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
 		Tween::UIParams{SimpleMath::Vector2(200.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		1.0f,
-		Tween::Ease::OutBounce
+		Tween::Ease::OutQuart
 	};
 	m_ui->Initialize(m_userResources->GetResourceManager()->RequestTexture("uiTest",L"Resources/Textures/star.png"),
 					 data, SimpleMath::Vector2(100, 100));
@@ -107,7 +107,7 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	context.spriteBatch->End();
 
-	m_ui->Draw(context.spriteBatch);
+	m_ui->Draw(context);
 }
 
 
