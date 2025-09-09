@@ -53,6 +53,17 @@ void TitleScene::Initialize()
 	m_textures = std::make_unique<Textures>();
 	m_textures->logo = m_userResources->GetResourceManager()->RequestTexture("titleLogo", L"Resources/Textures/Text/title.png");
 	m_textures->pressSpaceKey= m_userResources->GetResourceManager()->RequestTexture("pressSpaceKey", L"Resources/Textures/Text/pressSpaceKey.png");
+
+	m_ui = std::make_unique<UIWidget>();
+	Tween::TweenData data =
+	{
+		Tween::UIParams{SimpleMath::Vector2(200.0f, 300.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{SimpleMath::Vector2(200.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
+		1.0f,
+		Tween::Ease::OutBounce
+	};
+	m_ui->Initialize(m_userResources->GetResourceManager()->RequestTexture("uiTest",L"Resources/Textures/star.png"),
+					 data, SimpleMath::Vector2(100, 100));
 }
 
 
@@ -66,6 +77,8 @@ void TitleScene::Initialize()
  */
 void TitleScene::Update(float elapsedTime)
 {
+	m_ui->Update(elapsedTime);
+
 	// ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
 	if (m_userResources->GetKeyboardTracker()->pressed.Space || m_userResources->GetKeyboardTracker()->pressed.P)
 	{
@@ -89,10 +102,12 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	context.spriteBatch->Begin();
 
-	context.spriteBatch->Draw(m_textures->logo, DirectX::SimpleMath::Vector2(640.0f, 100.0f));
-	context.spriteBatch->Draw(m_textures->pressSpaceKey, DirectX::SimpleMath::Vector2(640.0f, 300.0f));
+	context.spriteBatch->Draw(m_textures->logo, SimpleMath::Vector2(640.0f, 100.0f));
+	//context.spriteBatch->Draw(m_textures->pressSpaceKey, SimpleMath::Vector2(640.0f, 300.0f));
 
 	context.spriteBatch->End();
+
+	m_ui->Draw(context.spriteBatch);
 }
 
 
@@ -107,4 +122,7 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 void TitleScene::Finalize()
 {
 	m_textures.reset();
+
+	if (m_ui)m_ui->Finalize();
+	m_ui.reset();
 }

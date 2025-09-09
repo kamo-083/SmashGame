@@ -228,7 +228,8 @@
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h" />
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\StageScene.h" />
-    <ClInclude Include="Source\Game\UI\TweenManager.h" />
+    <ClInclude Include="Source\Game\UI\Tween.h" />
+    <ClInclude Include="Source\Game\UI\UIWidget.h" />
     <ClInclude Include="Source\Game\UI\WeaponUI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -277,7 +278,8 @@
     <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\StageScene.cpp" />
-    <ClCompile Include="Source\Game\UI\TweenManager.cpp" />
+    <ClCompile Include="Source\Game\UI\Tween.cpp" />
+    <ClCompile Include="Source\Game\UI\UIWidget.cpp" />
     <ClCompile Include="Source\Game\UI\WeaponUI.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>

@@ -218,7 +218,10 @@
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\TweenManager.h">
+    <ClInclude Include="Source\Game\UI\Tween.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\UIWidget.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -342,7 +345,10 @@
     <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\TweenManager.cpp">
+    <ClCompile Include="Source\Game\UI\Tween.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\UIWidget.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>

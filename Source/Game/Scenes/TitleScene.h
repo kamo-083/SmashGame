@@ -16,6 +16,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
+#include "Source/Game/UI/UIWidget.h"
 
 
 // クラスの宣言 ===============================================================
@@ -55,6 +56,8 @@ private:
 
 	// オブジェクト関連
 	std::unique_ptr<Textures> m_textures;
+
+	std::unique_ptr<UIWidget> m_ui;
 
 
 // メンバ関数の宣言 -------------------------------------------------
