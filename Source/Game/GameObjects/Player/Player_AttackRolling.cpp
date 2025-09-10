@@ -60,7 +60,7 @@ void Player_AttackRolling::Initialize(ResourceManager* pResourceManager)
 			m_pPlayer->GetAnimation()->atk_rolling
 		);
 	}
-	m_modelAnimator->Initialize();
+	m_modelAnimator->Initialize(ANIM_TIME);
 
 	// —Í‚ÌÝ’è
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);

@@ -210,6 +210,7 @@ void AnimationSDKMESH::Apply(
             XMMATRIX trans = XMMatrixTranslation(data->Translation.x, data->Translation.y, data->Translation.z);
             XMMATRIX rotation = XMMatrixRotationQuaternion(quat);
             XMMATRIX scale = XMMatrixScaling(data->Scaling.x, data->Scaling.y, data->Scaling.z);
+            //XMMATRIX scale = XMMatrixIdentity();
 
             m_animBones[j] = XMMatrixMultiply(XMMatrixMultiply(rotation, scale), trans);
         }
@@ -226,7 +227,7 @@ void AnimationSDKMESH::Apply(
 }
 
 // アニメーションのリセット
-void AnimationSDKMESH::Reset()
+void AnimationSDKMESH::ResetTime()
 {
     m_animTime = 0.0;
 }

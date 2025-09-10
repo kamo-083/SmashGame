@@ -24,6 +24,10 @@ using namespace DX;
 ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animation)
 	: m_model{ model }
 	, m_animation{ animation }
+	, m_animElapsedTime{ 0.0f }
+	, m_animEndTime{ 0.0f }
+	, m_roop{ false }
+
 {
 
 }
@@ -48,13 +52,22 @@ ModelAnimator::~ModelAnimator()
  *
  * @return なし
  */
-void ModelAnimator::Initialize()
+void ModelAnimator::Initialize(float endTime, bool roop)
 {
 	// アニメーションとモデルをバインドする
 	m_animation->Bind(*m_model);
 
 	// ボーン用のトランスフォーム配列を生成
 	m_drawBones = ModelBone::MakeArray(m_model->bones.size());
+
+	// アニメーション時間をリセット
+	m_animation->ResetTime();
+
+	// 終了時間を設定
+	m_animEndTime = endTime;
+
+	// ループを設定
+	m_roop = roop;
 }
 
 
@@ -68,8 +81,19 @@ void ModelAnimator::Initialize()
  */
 void ModelAnimator::Update(float elapsedTime)
 {
+	if (m_animElapsedTime >= m_animEndTime) return;
+
+	m_animElapsedTime += elapsedTime;
+
 	// アニメーションの更新
 	m_animation->Update(elapsedTime);
+
+	// ループ処理
+	if (m_roop && m_animElapsedTime >= m_animEndTime)
+	{
+		m_animation->ResetTime();
+		m_animElapsedTime = 0.0f;
+	}
 }
 
 
@@ -90,16 +114,16 @@ void ModelAnimator::Draw(RenderContext context, const DirectX::SimpleMath::Matri
 	m_animation->Apply(*m_model, nbones, m_drawBones.get());
 
 	// アニメーションモデルを描画する
-	//m_model->DrawSkinned(
-	//	context.deviceContext,
-	//	*context.states, nbones,
-	//	m_drawBones.get(),
-	//	world,
-	//	context.view,
-	//	context.projection
-	//);
+	m_model->DrawSkinned(
+		context.deviceContext,
+		*context.states, nbones,
+		m_drawBones.get(),
+		world,
+		context.view,
+		context.projection
+	);
 
-	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.projection);
+	//m_model->Draw(context.deviceContext, *context.states, world, context.view, context.projection);
 }
 
 

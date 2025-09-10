@@ -41,6 +41,7 @@ private:
 	static constexpr float GROUND_SPEED = 7.0f;
 	static constexpr float AIR_SPEED = 0.75f;
 	static constexpr float MAX_SPEED = 10.0f;
+	static constexpr float ANIM_TIME = 1.5f;
 	
 	// データメンバの宣言 -----------------------------------------------
 private:

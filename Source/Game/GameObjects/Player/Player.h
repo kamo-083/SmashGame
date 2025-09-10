@@ -55,7 +55,7 @@ private:
 	static constexpr float RADIUS = 0.5f;					//半径の大きさ
 	static constexpr float MAX_SPEED = 7.0f;				//最高速度
 	static constexpr float MASS = 8.0f;						//質量
-	static constexpr float SCALE = 1.0f;					//スケール
+	static constexpr float SCALE = 0.02f;					//スケール
 	static constexpr float DYNAMIC_FRICTION_FORCE = 0.5f;	//動摩擦力
 	static constexpr float STATIC_FRICTION_FORCE = 1.0f;	//静止摩擦力
 

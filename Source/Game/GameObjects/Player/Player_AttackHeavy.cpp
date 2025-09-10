@@ -57,7 +57,7 @@ void Player_AttackHeavy::Initialize(ResourceManager* pResourceManager)
 			m_pPlayer->GetAnimation()->atk_heavy
 		);
 	}
-	m_modelAnimator->Initialize();
+	m_modelAnimator->Initialize(ATTACK_TIME);
 
 	// —Í‚ÌÝ’è
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);

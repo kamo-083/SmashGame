@@ -40,6 +40,15 @@ private:
 	// ボーン配列
 	DirectX::ModelBone::TransformArray m_drawBones;
 
+	// 経過時間
+	float m_animElapsedTime;
+
+	// アニメーション終了時間
+	float m_animEndTime;
+
+	// ループさせるか
+	bool m_roop;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -54,7 +63,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize();
+	void Initialize(float endTime = FLT_MAX, bool roop = true);
 
 	// 更新処理
 	void Update(float elapsedTime);

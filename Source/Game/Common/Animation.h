@@ -51,7 +51,8 @@ namespace DX
             size_t nbones,
             _Out_writes_(nbones) DirectX::XMMATRIX* boneTransforms) const;
 
-        void Reset();   // ’Ç‰Á
+        // ’Ç‰Á
+        void ResetTime();
 
     private: 
         // cpp‚©‚çˆÚ“®
