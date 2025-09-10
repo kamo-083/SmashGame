@@ -227,6 +227,9 @@
     <ClInclude Include="Source\Game\Common\Animation.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Common\ModelAnimator.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -355,6 +358,9 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Common\Animation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\ModelAnimator.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>

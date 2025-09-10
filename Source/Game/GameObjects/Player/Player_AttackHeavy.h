@@ -18,6 +18,7 @@
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/Common/ModelAnimator.h"
 #include"Player.h"
 
 
@@ -44,14 +45,8 @@ private:
 	// キーボードトラッカーのポインタ
 	DirectX::Keyboard::KeyboardStateTracker* m_pKbTracker;
 
-	// モデル
-	DirectX::Model* m_model;
-
-	// アニメーション
-	DX::AnimationSDKMESH* m_animation;
-
-	// アニメーションボーン配列
-	DirectX::ModelBone::TransformArray m_drawBones;
+	// モデルアニメーター
+	std::unique_ptr<ModelAnimator> m_modelAnimator;
 
 	// 攻撃時間
 	float m_attackTime;

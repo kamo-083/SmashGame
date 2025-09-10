@@ -23,10 +23,6 @@ using namespace DirectX;
 namespace
 {
 #pragma pack(push,8)
-
-    constexpr uint32_t SDKMESH_FILE_VERSION = 101;
-    constexpr uint32_t MAX_FRAME_NAME = 100;
-
     struct SDKANIMATION_FILE_HEADER
     {
         uint32_t Version;
@@ -40,27 +36,6 @@ namespace
     };
 
     static_assert(sizeof(SDKANIMATION_FILE_HEADER) == 40, "SDK Mesh structure size incorrect");
-
-    struct SDKANIMATION_DATA
-    {
-        XMFLOAT3 Translation;
-        XMFLOAT4 Orientation;
-        XMFLOAT3 Scaling;
-    };
-
-    static_assert(sizeof(SDKANIMATION_DATA) == 40, "SDK Mesh structure size incorrect");
-
-    struct SDKANIMATION_FRAME_DATA
-    {
-        char FrameName[MAX_FRAME_NAME];
-        union
-        {
-            uint64_t DataOffset;
-            SDKANIMATION_DATA* pAnimationData;
-        };
-    };
-
-    static_assert(sizeof(SDKANIMATION_FRAME_DATA) == 112, "SDK Mesh structure size incorrect");
 
 #pragma pack(pop)
 }
@@ -138,6 +113,7 @@ bool AnimationSDKMESH::Bind(const Model& model)
     auto frameData = reinterpret_cast<SDKANIMATION_FRAME_DATA*>(m_animData.get() + header->AnimationDataOffset);
 
     m_boneToTrack.resize(model.bones.size());
+    m_frameDataPtrs.resize(header->NumFrames);  // 追加
     for (auto& it : m_boneToTrack)
     {
         it = ModelBone::c_Invalid;
@@ -153,7 +129,8 @@ bool AnimationSDKMESH::Bind(const Model& model)
             || end > m_animSize)
             throw std::runtime_error("Animation file invalid");
 
-        frameData[j].pAnimationData = reinterpret_cast<SDKANIMATION_DATA*>(m_animData.get() + offset);
+        m_frameDataPtrs[j] = reinterpret_cast<SDKANIMATION_DATA*>(m_animData.get() + offset);
+        //frameData[j].pAnimationData = reinterpret_cast<SDKANIMATION_DATA*>(m_animData.get() + offset);
 
         wchar_t frameName[MAX_FRAME_NAME] = {};
         MultiByteToWideChar(CP_UTF8, 0, frameData[j].FrameName, -1, frameName, MAX_FRAME_NAME);
@@ -213,7 +190,6 @@ void AnimationSDKMESH::Apply(
     tick %= header->NumAnimationKeys;
 
     // Compute local bone transforms
-    auto frameData = reinterpret_cast<SDKANIMATION_FRAME_DATA*>(m_animData.get() + header->AnimationDataOffset);
 
     for (size_t j = 0; j < nbones; ++j)
     {
@@ -223,8 +199,7 @@ void AnimationSDKMESH::Apply(
         }
         else
         {
-            auto frame = &frameData[m_boneToTrack[j]];
-            auto data = &frame->pAnimationData[tick];
+            auto data = m_frameDataPtrs[m_boneToTrack[j]] + tick;
 
             XMVECTOR quat = XMVectorSet(data->Orientation.x, data->Orientation.y, data->Orientation.z, data->Orientation.w);
             if (XMVector4Equal(quat, g_XMZero))
@@ -250,6 +225,11 @@ void AnimationSDKMESH::Apply(
     }
 }
 
+// アニメーションのリセット
+void AnimationSDKMESH::Reset()
+{
+    m_animTime = 0.0;
+}
 
 //--------------------------------------------------------------------------------------
 // Visual Studio Starter Kit CMO animation

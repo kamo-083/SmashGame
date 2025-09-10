@@ -123,12 +123,15 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_pResourceManager = pResourceManager;
 
 	// モデルの読み込み
-	//m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\stand_cat2.sdkmesh");
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\playerCat_idle.sdkmesh", true);
+	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\playerCat.sdkmesh", true);
 
 	// アニメーションの読み込み
 	m_animations = std::make_unique<Animations>();
-	m_animations->idle = pResourceManager->RequestAnimation("playerIdle", L"Resources\\Models\\playerCat_idle.sdkmesh_anim");
+	m_animations->idle = pResourceManager->RequestAnimation("playerIdle", L"Resources\\Animations\\playerCat_idle.sdkmesh_anim");
+	m_animations->walk = pResourceManager->RequestAnimation("playerWalk", L"Resources\\Animations\\playerCat_walk.sdkmesh_anim");
+	m_animations->atk_basic = pResourceManager->RequestAnimation("playerAtkB", L"Resources\\Animations\\playerCat_atkBasic.sdkmesh_anim");
+	m_animations->atk_rolling = pResourceManager->RequestAnimation("playerAtkR", L"Resources\\Animations\\playerCat_atkRoll.sdkmesh_anim");
+	m_animations->atk_heavy = pResourceManager->RequestAnimation("playerAtkH", L"Resources\\Animations\\playerCat_atkHeavy.sdkmesh_anim");
 
 	// コライダーの設定
 	m_collider = SphereCollider(m_position, RADIUS);
@@ -195,28 +198,22 @@ void Player::Initialize(ResourceManager* pResourceManager,
 
 	// 待機状態を生成
 	m_idlingState = std::make_unique<Player_Idle>(this, pKbTracker);
-	// 待機状態を初期化
-	m_idlingState->Initialize(pResourceManager);
 
 	// 歩き状態を生成
 	m_walkingState = std::make_unique<Player_Walk>(this, pCamera, pKbTracker);
-	// 歩き状態を初期化
-	m_walkingState->Initialize(pResourceManager);
 
 	// 通常攻撃状態を生成
 	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, pKbTracker);
-	m_basicAttackingState->Initialize(pResourceManager);
 
 	// 転がり攻撃状態を生成
 	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(this, pCamera, pKbTracker);
-	m_rollingAttackingState->Initialize(pResourceManager);
 	
 	// 転がり攻撃状態を生成
 	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, pKbTracker);
-	m_heavyAttackingState->Initialize(pResourceManager);
 
 	// 初期状態を設定する
 	m_currentState = m_idlingState.get();
+	m_currentState->Initialize(m_pResourceManager);
 }
 
 
@@ -264,7 +261,20 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 void Player::Finalize()
 {
 	// 状態をリセットする
+	if (m_idlingState) m_idlingState->Finalize();
 	m_idlingState.reset();
+
+	if (m_walkingState) m_walkingState->Finalize();
+	m_walkingState.reset();
+
+	if (m_basicAttackingState) m_basicAttackingState->Finalize();
+	m_basicAttackingState.reset();
+
+	if (m_rollingAttackingState) m_rollingAttackingState->Finalize();
+	m_rollingAttackingState.reset();
+
+	if (m_heavyAttackingState) m_heavyAttackingState->Finalize();
+	m_heavyAttackingState.reset();
 
 	m_model = nullptr;
 	m_circle = nullptr;

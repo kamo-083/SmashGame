@@ -62,7 +62,10 @@ private:
 	struct Animations
 	{
 		DX::AnimationSDKMESH* idle;
-
+		DX::AnimationSDKMESH* walk;
+		DX::AnimationSDKMESH* atk_basic;
+		DX::AnimationSDKMESH* atk_rolling;
+		DX::AnimationSDKMESH* atk_heavy;
 	};
 
 	// データメンバの宣言 -----------------------------------------------

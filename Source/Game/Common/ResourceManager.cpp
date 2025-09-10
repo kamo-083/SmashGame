@@ -38,9 +38,9 @@ ResourceManager::~ResourceManager()
 {
 	m_pDevice = nullptr;
 
-	//”O‚Ì‚½‚ß‰Šú‰»
 	m_textures.clear();
 	m_models.clear();
+	m_animations.clear();
 }
 
 bool ResourceManager::LoadPNG(const std::string& key, const wchar_t* filename)

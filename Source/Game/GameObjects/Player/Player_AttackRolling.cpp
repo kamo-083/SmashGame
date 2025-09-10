@@ -29,7 +29,6 @@ Player_AttackRolling::Player_AttackRolling(Player* Player, Camera* camera, Direc
 	, m_attackTime{ 0.0f }
 	, m_force{ SimpleMath::Vector3::Zero }
 	, m_stateType{ StateType::Attack }
-	, m_model{ nullptr }
 {
 
 }
@@ -53,16 +52,15 @@ Player_AttackRolling::~Player_AttackRolling()
  */
 void Player_AttackRolling::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources/Models/player.sdkmesh");
-
-	// アニメーションを取得
-	m_animation = m_pPlayer->GetAnimation()->idle;
-
-	// アニメーションとモデルをバインドする
-	m_animation->Bind(*m_model);
-
-	// ボーン用のトランスフォーム配列を生成
-	m_drawBones = DirectX::ModelBone::MakeArray(m_model->bones.size());
+	// モデルアニメーターの作成
+	if (!m_modelAnimator)
+	{
+		m_modelAnimator = std::make_unique<ModelAnimator>(
+			pResourceManager->GetModel("player"),
+			m_pPlayer->GetAnimation()->atk_rolling
+		);
+	}
+	m_modelAnimator->Initialize();
 
 	// 力の設定
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);
@@ -117,7 +115,7 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 	m_pPlayer->SetOnGround(false);
 
 	// アニメーションの更新
-	m_animation->Update(elapsedTime);
+	m_modelAnimator->Update(elapsedTime);
 
 	// 待機状態に切り替え
 	if (m_attackTime <= 0.0f)
@@ -144,23 +142,8 @@ void Player_AttackRolling::Render(RenderContext& context)
 	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
 	world = scale * rot * trans;
 
-	//m_model->Draw(context.deviceContext, *context.states, world, context.view, context.projection, m_pPlayer->GetIsBounce());
+	m_modelAnimator->Draw(context, world);
 
-	// ボーン数を取得する
-	size_t nbones = m_model->bones.size();
-
-	// アニメーションにモデルを適用する
-	m_animation->Apply(*m_model, nbones, m_drawBones.get());
-
-	// アニメーションモデルを描画する
-	m_model->DrawSkinned(
-		context.deviceContext,
-		*context.states, nbones,
-		m_drawBones.get(),
-		world,
-		context.view,
-		context.projection
-	);
 	if (m_pPlayer->GetSpherePrimitive())
 	{
 		scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
@@ -180,5 +163,5 @@ void Player_AttackRolling::Render(RenderContext& context)
  */
 void Player_AttackRolling::Finalize()
 {
-
+	m_modelAnimator.reset();
 }

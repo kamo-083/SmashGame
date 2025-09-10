@@ -39,6 +39,7 @@ namespace DX
             m_animData.reset();
             m_boneToTrack.clear();
             m_animBones.reset();
+            m_frameDataPtrs.clear();    // ’Ç‰Á
         }
 
         bool Bind(const DirectX::Model& model);
@@ -50,12 +51,40 @@ namespace DX
             size_t nbones,
             _Out_writes_(nbones) DirectX::XMMATRIX* boneTransforms) const;
 
+        void Reset();   // ’Ç‰Á
+
+    private: 
+        // cpp‚©‚çˆÚ“®
+        static constexpr uint32_t SDKMESH_FILE_VERSION = 101;
+        static constexpr uint32_t MAX_FRAME_NAME = 100;
+
+        struct SDKANIMATION_DATA
+        {
+            DirectX::XMFLOAT3 Translation;
+            DirectX::XMFLOAT4 Orientation;
+            DirectX::XMFLOAT3 Scaling;
+        };
+        static_assert(sizeof(SDKANIMATION_DATA) == 40, "SDK Mesh structure size incorrect");
+
+        struct SDKANIMATION_FRAME_DATA
+        {
+            char FrameName[MAX_FRAME_NAME];
+            union
+            {
+                uint64_t DataOffset;
+                SDKANIMATION_DATA* pAnimationData;
+            };
+        };
+        static_assert(sizeof(SDKANIMATION_FRAME_DATA) == 112, "SDK Mesh structure size incorrect");
+
     private:
         double                              m_animTime;
         std::unique_ptr<uint8_t[]>          m_animData;
         size_t                              m_animSize;
         std::vector<uint32_t>               m_boneToTrack;
         DirectX::ModelBone::TransformArray  m_animBones;
+
+        std::vector<const SDKANIMATION_DATA*> m_frameDataPtrs;  // ’Ç‰Á
     };
 
     class AnimationCMO

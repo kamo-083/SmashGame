@@ -187,6 +187,7 @@
     <ClInclude Include="Source\Game\Common\Collision.h" />
     <ClInclude Include="Source\Game\Common\CollisionManager.h" />
     <ClInclude Include="Source\Game\Common\DeviceResources.h" />
+    <ClInclude Include="Source\Game\Common\ModelAnimator.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\Friction.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\Gravity.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="Source\Game\Common\Collision.cpp" />
     <ClCompile Include="Source\Game\Common\CollisionManager.cpp" />
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp" />
+    <ClCompile Include="Source\Game\Common\ModelAnimator.cpp" />
     <ClCompile Include="Source\Game\Common\PhysicsEngine\PhysicsObject.cpp" />
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
