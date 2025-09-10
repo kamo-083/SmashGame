@@ -61,12 +61,16 @@ public:
 	{
 		EnemyType::Basic,
 		0.5f,5.0f,5.0f,10.0f
-	};
-	
+	};	
 	EnemyDesc HeavyDesc
 	{
 		EnemyType::Heavy,
 		0.5f,1.0f,20.0f,3.0f
+	};
+	EnemyDesc LightDesc
+	{
+		EnemyType::Light,
+		0.5f,5.0f,2.0f,10.0f
 	};
 
 	// データメンバの宣言 -----------------------------------------------

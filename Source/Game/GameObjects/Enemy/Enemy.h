@@ -46,6 +46,8 @@ protected:
 	const float MASS;		//質量[kg]
 	const float MAX_SPEED;	//最高速度
 
+	static constexpr float SCALE = 0.005f;
+
 
 // データメンバの宣言 -----------------------------------------------
 protected:
@@ -156,6 +158,7 @@ public:
 	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
 	float GetAttackForce() { return m_attackForce; }
 	void SetAttackForce(float force) { m_attackForce = force; }
+	float  GetScale() { return SCALE; }
 
 // 内部実装
 private:

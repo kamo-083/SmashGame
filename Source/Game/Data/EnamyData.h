@@ -4,6 +4,7 @@ enum class EnemyType
 {
 	Basic,
 	Heavy,
+	Light,
 };
 
 struct EnemyDesc

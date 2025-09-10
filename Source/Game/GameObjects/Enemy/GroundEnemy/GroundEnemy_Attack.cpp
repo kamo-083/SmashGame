@@ -105,19 +105,20 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
  */
 void GroundEnemy_Attack::Render(RenderContext& context)
 {
-	DirectX::SimpleMath::Matrix world;
-	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
+	SimpleMath::Matrix world;
+	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
 	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
-	world = rot * trans;
+	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
+	world = scale * rot * trans;
 
 	m_model->Draw(context.deviceContext, *context.states,
 		world, context.view, context.projection);
 
 	if (m_pGroundEnemy->GetSpherePrimitive())
 	{
-		DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetAttackCollider()->GetRadius());
+		DirectX::SimpleMath::Matrix sphereScale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetAttackCollider()->GetRadius());
 		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetAttackCollider()->GetCenter());
-		world = scale * trans;
+		world = sphereScale * trans;
 		m_pGroundEnemy->GetSpherePrimitive()->Draw(world, context.view, context.projection, DirectX::Colors::Red, nullptr, true);
 	}
 }

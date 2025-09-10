@@ -110,7 +110,8 @@ void GroundEnemy_Walk::Render(RenderContext& context)
 	SimpleMath::Matrix world;
 	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
 	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
-	world = rot * trans;
+	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
+	world = scale * rot * trans;
 
 	m_model->Draw(context.deviceContext, *context.states,
 		world, context.view, context.projection, true);

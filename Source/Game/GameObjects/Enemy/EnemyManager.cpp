@@ -182,6 +182,10 @@ std::unique_ptr<Enemy> EnemyManager::Create(EnemyType type)
 		return std::make_unique<GroundEnemy>(
 			HeavyDesc.radius, HeavyDesc.speed, HeavyDesc.mass, HeavyDesc.max_speed,
 			m_pUserResources, m_pEffectManager);
+	case EnemyType::Light:
+		return std::make_unique<GroundEnemy>(
+			LightDesc.radius, LightDesc.speed, LightDesc.mass, LightDesc.max_speed,
+			m_pUserResources, m_pEffectManager);
 	}
 
 	return nullptr;

@@ -94,7 +94,8 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	m_attackForce = 0.0f;
 
 	// モデルの読み込み
-	m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\cat.sdkmesh");
+	//m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\cat.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\Enemy_Basic.sdkmesh");
 
 	// リソースマネージャの設定
 	m_pResourceManager = pResourceManager;
