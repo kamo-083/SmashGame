@@ -9,7 +9,7 @@
     ],
 
     "enemies": [
-        { "type": "Ground", "pos":[ -3, 1, -1 ]},
-        { "type": "Ground", "pos":[ 0, 1, -4 ]}
+        { "type": "Basic", "pos":[ -3, 1, -1 ]},
+        { "type": "Heavy", "pos":[ 0, 1, -4 ]}
     ]
 }

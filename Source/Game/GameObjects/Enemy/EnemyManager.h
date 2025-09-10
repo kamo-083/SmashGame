@@ -17,6 +17,7 @@
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
+#include "Source/Game/Data/EnamyData.h"
 #include "Source/Game/GameObjects/Enemy/Enemy.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
@@ -33,11 +34,6 @@ class EnemyManager
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	enum EnemyType
-	{
-		Ground,
-	};
-
 	struct SpawnData
 	{
 		EnemyType type;
@@ -60,6 +56,18 @@ public:
 		}
 	};
 
+	// 敵情報(仮)
+	 EnemyDesc BasicDesc
+	{
+		EnemyType::Basic,
+		0.5f,5.0f,5.0f,10.0f
+	};
+	
+	EnemyDesc HeavyDesc
+	{
+		EnemyType::Heavy,
+		0.5f,1.0f,20.0f,3.0f
+	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:

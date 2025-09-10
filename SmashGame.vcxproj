@@ -198,6 +198,7 @@
     <ClInclude Include="Source\Game\Common\SceneManager.h" />
     <ClInclude Include="Source\Game\Common\StepTimer.h" />
     <ClInclude Include="Source\Game\Common\UserResources.h" />
+    <ClInclude Include="Source\Game\Data\EnamyData.h" />
     <ClInclude Include="Source\Game\Data\WeaponData.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticleUtility.h" />

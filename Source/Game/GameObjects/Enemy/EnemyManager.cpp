@@ -132,13 +132,13 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 					  m_nextID);
 
 	// ”z—ñ‚É“o˜^
-	std::unique_ptr<EnemyData> data = std::make_unique<EnemyData>
+	std::unique_ptr<EnemyData> enemyData = std::make_unique<EnemyData>
 		(
 			m_nextID,
 			spawnData.type,
 			std::move(enemy)
 		);
-	m_enemies.push_back(std::move(data));
+	m_enemies.push_back(std::move(enemyData));
 
 	return m_enemies.back().get();
 }
@@ -174,8 +174,14 @@ std::unique_ptr<Enemy> EnemyManager::Create(EnemyType type)
 {
 	switch (type)
 	{
-	case Ground:
-		return std::make_unique<GroundEnemy>(m_pUserResources, m_pEffectManager);
+	case EnemyType::Basic:
+		return std::make_unique<GroundEnemy>(
+			BasicDesc.radius, BasicDesc.speed, BasicDesc.mass, BasicDesc.max_speed,
+			m_pUserResources, m_pEffectManager);
+	case EnemyType::Heavy:
+		return std::make_unique<GroundEnemy>(
+			HeavyDesc.radius, HeavyDesc.speed, HeavyDesc.mass, HeavyDesc.max_speed,
+			m_pUserResources, m_pEffectManager);
 	}
 
 	return nullptr;

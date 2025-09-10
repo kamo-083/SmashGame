@@ -74,7 +74,8 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	GroundEnemy(UserResources* pUserResources,
+	GroundEnemy(float radius, float speed, float mass, float maxSpeed,
+				UserResources* pUserResources,
 				EffectManager* pEffectManager);
 
 	// デストラクタ

@@ -321,34 +321,22 @@ void CollisionManager::ResolveSphereVsSphere(Node& a, Node& b)
 	SimpleMath::Vector3 normal = mtv.direction;
 	normal.Normalize();
 
-	float depth = mtv.distance * 0.5f;
-
 	// ç¿ïWÇí≤êÆ
 	if (a.desc.position)
 	{
-		*a.desc.position -= normal * depth;
+		*a.desc.position -= normal * mtv.distance;
 		a.desc.sphere->SetCenter(*a.desc.position);
-	}
-	if (b.desc.position)
-	{
-		*b.desc.position += normal * depth;
-		b.desc.sphere->SetCenter(*b.desc.position);
 	}
 
 	// ë¨ìxÇí≤êÆ
 	SlideVelocity(a.desc.velocity, normal);
-	SlideVelocity(b.desc.velocity, -normal);
 
 	a.overlapsNow.insert(b.handle);
 	b.overlapsNow.insert(a.handle);
 
 	if (a.desc.callback.onResolved)
 	{
-		a.desc.callback.onResolved(b.handle, normal, depth);
-	}
-	if (b.desc.callback.onResolved)
-	{
-		b.desc.callback.onResolved(a.handle, -normal, depth);
+		a.desc.callback.onResolved(b.handle, normal, mtv.distance);
 	}
 }
 

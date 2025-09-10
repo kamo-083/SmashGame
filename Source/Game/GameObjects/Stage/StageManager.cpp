@@ -123,7 +123,8 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 	for (StageLoader::EnemyData data : enemyData)
 	{
 		EnemyManager::SpawnData spawnData;
-		if (data.type == "Ground") spawnData.type = EnemyManager::EnemyType::Ground;
+		if (data.type == "Basic")	   spawnData.type = EnemyType::Basic;
+		else if (data.type == "Heavy") spawnData.type = EnemyType::Heavy;
 		spawnData.position = data.position;
 
 		pEM->Spawn(spawnData);

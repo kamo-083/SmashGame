@@ -41,10 +41,10 @@ public:
 	};
 
 protected:
-	const static float RADIUS;		//半径の大きさ
-	const static float SPEED;		//移動速度
-	const static float MASS;		//質量[kg]
-	const static float MAX_SPEED;	//最高速度
+	const float RADIUS;		//半径の大きさ
+	const float SPEED;		//移動速度
+	const float MASS;		//質量[kg]
+	const float MAX_SPEED;	//最高速度
 
 
 // データメンバの宣言 -----------------------------------------------
@@ -96,13 +96,18 @@ protected:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Enemy()
-		: m_currentState{ nullptr }
+	Enemy(float radius, float speed, float mass, float maxSpeed)
+		: RADIUS{ radius }
+		, SPEED{ speed }
+		, MASS{ mass }
+		, MAX_SPEED{ maxSpeed }
+		, m_currentState{ nullptr }
 		, m_rotY{ 0.0f }
 		, m_onGround{ false }
 		, m_isAttack{ false }
 		, m_attackForce{ 0.0f }
-		, m_pCollisionManager{nullptr}
+		, m_pCollisionManager{ nullptr }
+		, m_pResourceManager{ nullptr }
 	{}
 
 	// デストラクタ

@@ -14,13 +14,6 @@
 
 using namespace DirectX;
 
-// 定数
-const float Enemy::RADIUS = 0.5f;		// 半径
-const float Enemy::SPEED = 5.0f;		// 移動速度
-const float Enemy::MASS = 5.0f;			// 質量
-const float Enemy::MAX_SPEED = 10.0f;	// 最高速度
-
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -28,9 +21,10 @@ const float Enemy::MAX_SPEED = 10.0f;	// 最高速度
  * @param[in] pUserResources	ユーザーリソースのポインタ
  * @param[in] pEffectManager エフェクトマネージャーのポインタ
  */
-GroundEnemy::GroundEnemy(UserResources* pUserResources,
-						 EffectManager* pEffectManager)
-	: Enemy{}
+GroundEnemy::GroundEnemy(float radius, float speed, float mass, float maxSpeed,
+	UserResources* pUserResources,
+	EffectManager* pEffectManager)
+	: Enemy{ radius,  speed,  mass,  maxSpeed }
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
 	, m_circle{ nullptr }
@@ -59,7 +53,6 @@ GroundEnemy::GroundEnemy(UserResources* pUserResources,
 		false,
 		true
 	);
-
 }
 
 

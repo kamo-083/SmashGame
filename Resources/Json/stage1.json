@@ -7,6 +7,6 @@
     ],
 
     "enemies": [
-        { "type": "Ground", "pos":[ -3, 2, -1 ]}
+        { "type": "Basic", "pos":[ -3, 2, -1 ]}
     ]
 }

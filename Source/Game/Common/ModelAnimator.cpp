@@ -63,6 +63,9 @@ void ModelAnimator::Initialize(float endTime, bool roop)
 	// アニメーション時間をリセット
 	m_animation->ResetTime();
 
+	// 経過時間をリセット
+	m_animElapsedTime = 0.0f;
+
 	// 終了時間を設定
 	m_animEndTime = endTime;
 

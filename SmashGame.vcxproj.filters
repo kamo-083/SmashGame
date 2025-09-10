@@ -230,6 +230,9 @@
     <ClInclude Include="Source\Game\Common\ModelAnimator.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Data\EnamyData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
