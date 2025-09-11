@@ -63,7 +63,7 @@ void TitleScene::Initialize()
 		Tween::UIParams{SimpleMath::Vector2(0.0f, 200.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		1.0f,
 		Tween::Ease::OutBounce,
-		false
+		Tween::PlaybackMode::Once
 	};
 	m_titleLogo->Initialize(m_textures->logo, data, SimpleMath::Vector2(600.0f, 150.0f));
 
@@ -73,10 +73,10 @@ void TitleScene::Initialize()
 	data =
 	{
 		Tween::UIParams{SimpleMath::Vector2(640.0f, 450.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,-1.0f},
-		2.0f,
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,-0.5f},
+		1.0f,
 		Tween::Ease::OutQuart,
-		true
+		Tween::PlaybackMode::PingPong
 	};
 	start->Initialize(
 		m_textures->pressSpaceKey, data, SimpleMath::Vector2(400.0f, 105.0f),
@@ -88,10 +88,10 @@ void TitleScene::Initialize()
 	data =
 	{
 		Tween::UIParams{SimpleMath::Vector2(640.0f, 550.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,-1.0f},
-		2.0f,
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,-0.5f},
+		1.0f,
 		Tween::Ease::OutQuart,
-		true
+		Tween::PlaybackMode::PingPong
 	};
 	exit->Initialize(
 		m_textures->pressSpaceKey, data, SimpleMath::Vector2(400.0f, 105.0f),

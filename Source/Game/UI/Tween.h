@@ -35,6 +35,14 @@ public:
 		OutBounce,
 	};
 
+	enum class PlaybackMode
+	{
+		Once,
+		Once_Reverse,
+		Repeat,
+		PingPong,
+	};
+
 	struct UIParams
 	{
 		DirectX::SimpleMath::Vector2 pos;	// 位置
@@ -45,11 +53,11 @@ public:
 
 	struct TweenData
 	{
-		UIParams start;		// 初期値
-		UIParams delta;		// 全体の変化量
-		float duration;		// 再生時間
-		Ease ease;			// 処理
-		bool loop;			// ループさせるか
+		UIParams start;			// 初期値
+		UIParams delta;			// 全体の変化量
+		float duration;			// 再生時間
+		Ease ease;				// 処理
+		PlaybackMode loop;		// 再生方法
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -65,6 +73,9 @@ private:
 
 	// 終了フラグ
 	bool m_finished;
+
+	// 反転
+	bool m_reverse;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -98,8 +109,8 @@ public:
 // 取得/設定
 public:
 	// 終了しているか
-	bool Finished() { return m_finished; }
-
+	bool Finished() const { return m_finished; }
+	UIParams GetStartParams() const { return m_data.start; }
 
 // 内部実装
 private:

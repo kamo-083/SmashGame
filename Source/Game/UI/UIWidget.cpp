@@ -115,6 +115,7 @@ void UIWidget::Finalize()
 
 void UIWidget::TweenReset()
 {
+	m_params = m_tween->GetStartParams();
 	m_tween->ResetTime();
 	m_tween->Play();
 }

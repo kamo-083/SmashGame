@@ -26,8 +26,12 @@ Tween::Tween(TweenData data)
 	, m_elapsedTime{ 0.0f }
 	, m_playing{ false }
 	, m_finished{ false }
+	, m_reverse{ false }
 {
-
+	if (m_data.loop == PlaybackMode::Once_Reverse)
+	{
+		m_reverse = true;
+	}
 }
 
 
@@ -53,7 +57,10 @@ void Tween::Update(float deltaTime, UIParams& params)
 
 	m_elapsedTime += deltaTime;
 
-	float n = EaseValue(m_data.ease, m_elapsedTime / m_data.duration);
+	float t = m_elapsedTime / m_data.duration;
+	if (m_reverse) t = 1.0f - t;
+
+	float n = EaseValue(m_data.ease, t);
 
 	// à íuÇï‚ä‘
 	params.pos = m_data.start.pos + m_data.delta.pos * n;
@@ -71,14 +78,20 @@ void Tween::Update(float deltaTime, UIParams& params)
 
 	if (m_elapsedTime >= m_data.duration)
 	{
-		if (m_data.loop)	// ÉãÅ[ÉvÇæÇ¡ÇΩÇÁ
+		switch (m_data.loop)
 		{
-			m_elapsedTime = 0.0f;
-		}
-		else
-		{
-			m_playing = false;
+		case PlaybackMode::Once:
+		case PlaybackMode::Once_Reverse:
 			m_finished = true;
+			m_playing = false;
+			break;
+		case PlaybackMode::Repeat:
+			m_elapsedTime = 0.0f;
+			break;
+		case PlaybackMode::PingPong:
+			m_reverse = !m_reverse;
+			m_elapsedTime = 0.0f;
+			break;
 		}
 	}
 }
