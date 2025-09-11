@@ -53,7 +53,8 @@ void TitleScene::Initialize()
 	// テクスチャの読み込み
 	m_textures = std::make_unique<Textures>();
 	m_textures->logo = m_userResources->GetResourceManager()->RequestTexture("titleLogo", L"Resources/Textures/Text/title.png");
-	m_textures->pressSpaceKey= m_userResources->GetResourceManager()->RequestTexture("pressSpaceKey", L"Resources/Textures/Text/pressSpaceKey.png");
+	m_textures->start= m_userResources->GetResourceManager()->RequestTexture("startText", L"Resources/Textures/Text/startText.png");
+	m_textures->exit= m_userResources->GetResourceManager()->RequestTexture("exitText", L"Resources/Textures/Text/exitText.png");
 
 	// タイトルロゴを作成
 	m_titleLogo = std::make_unique<UIWidget>();
@@ -73,13 +74,13 @@ void TitleScene::Initialize()
 	data =
 	{
 		Tween::UIParams{SimpleMath::Vector2(640.0f, 450.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,-0.5f},
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.25f,0.25f),0.0f,0.0f},
 		1.0f,
 		Tween::Ease::OutQuart,
 		Tween::PlaybackMode::PingPong
 	};
 	start->Initialize(
-		m_textures->pressSpaceKey, data, SimpleMath::Vector2(400.0f, 105.0f),
+		m_textures->start, data, SimpleMath::Vector2(400.0f, 67.0f),
 		[this]() {ChangeScene("StageSelectScene"); }	// シーン切り替え
 	);
 	m_buttons.push_back(std::move(start));
@@ -88,13 +89,13 @@ void TitleScene::Initialize()
 	data =
 	{
 		Tween::UIParams{SimpleMath::Vector2(640.0f, 550.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,-0.5f},
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.25f,0.25f),0.0f,0.0f},
 		1.0f,
 		Tween::Ease::OutQuart,
 		Tween::PlaybackMode::PingPong
 	};
 	exit->Initialize(
-		m_textures->pressSpaceKey, data, SimpleMath::Vector2(400.0f, 105.0f),
+		m_textures->exit, data, SimpleMath::Vector2(400.0f, 67.0f),
 		[this]() {PostQuitMessage(0); }		// ゲームを終了
 	);
 	m_buttons.push_back(std::move(exit));

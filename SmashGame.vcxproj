@@ -232,6 +232,7 @@
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\StageScene.h" />
     <ClInclude Include="Source\Game\UI\Button.h" />
+    <ClInclude Include="Source\Game\UI\StagePanel.h" />
     <ClInclude Include="Source\Game\UI\Tween.h" />
     <ClInclude Include="Source\Game\UI\UIWidget.h" />
     <ClInclude Include="Source\Game\UI\WeaponUI.h" />
@@ -285,6 +286,7 @@
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\StageScene.cpp" />
     <ClCompile Include="Source\Game\UI\Button.cpp" />
+    <ClCompile Include="Source\Game\UI\StagePanel.cpp" />
     <ClCompile Include="Source\Game\UI\Tween.cpp" />
     <ClCompile Include="Source\Game\UI\UIWidget.cpp" />
     <ClCompile Include="Source\Game\UI\WeaponUI.cpp" />

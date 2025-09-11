@@ -124,6 +124,9 @@ void Tween::Stop()
 void Tween::ResetTime()
 {
 	m_elapsedTime = 0.0f;
+
+	if (m_data.loop == PlaybackMode::Once_Reverse)	m_reverse = true;
+	else											m_reverse = false;
 }
 
 

@@ -1,7 +1,7 @@
 /**
- * @file   Button.h
+ * @file   StagePanel.h
  *
- * @brief  Buttonに関するヘッダファイル
+ * @brief  StagePanelに関するヘッダファイル
  *
  * @author 制作者名
  *
@@ -19,39 +19,36 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief Button
+ * @brief StagePanel
  */
-class Button
+class StagePanel
 {
 	// クラス定数の宣言 -------------------------------------------------
-private:
-
+public:
+	const int STAGE_NUM;
 
 
 	// データメンバの宣言 -----------------------------------------------
 private:
 	std::unique_ptr<UIWidget> m_UI;
 
-	std::function<void()> m_operate;
-
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Button();
+	StagePanel(int stage_num);
 
 	// デストラクタ
-	~Button();
+	~StagePanel();
 
 
 // 操作
 public:
 	// 初期化処理
-	void Initialize(ID3D11ShaderResourceView* texture, 
-					const Tween::TweenData data, 
-					DirectX::SimpleMath::Vector2 size,
-					std::function<void()> operate);
+	void Initialize(ID3D11ShaderResourceView* texture,
+					DirectX::SimpleMath::Vector2 texSize,
+					DirectX::SimpleMath::Vector2 windowSize);
 
 	// 更新処理
 	void Update(float elapsedTime);
@@ -61,13 +58,6 @@ public:
 
 	// 終了処理
 	void Finalize();
-
-	// 押した
-	void Press();
-
-	// リセット
-	void Reset();
-
 
 // 取得/設定
 public:

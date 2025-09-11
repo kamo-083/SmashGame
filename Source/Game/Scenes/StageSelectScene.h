@@ -16,7 +16,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-
+#include "Source/Game/UI/StagePanel.h"
 
 
 // クラスの宣言 ===============================================================
@@ -42,6 +42,9 @@ private:
 
 	// オブジェクト関連
 	int m_selectNum;	// 選択中のステージ番号
+
+	std::vector<std::unique_ptr<StagePanel>> m_stagePanels;
+
 
 
 // メンバ関数の宣言 -------------------------------------------------

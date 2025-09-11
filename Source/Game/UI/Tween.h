@@ -27,7 +27,6 @@ class Tween
 public:
 	enum class Ease
 	{
-		NONE = -1,
 		Liner,
 		OutQuart,
 		OutBack,
@@ -68,7 +67,7 @@ private:
 	// 経過時間
 	float m_elapsedTime;
 
-	// 開始フラグ
+	// 再生フラグ
 	bool m_playing;
 
 	// 終了フラグ

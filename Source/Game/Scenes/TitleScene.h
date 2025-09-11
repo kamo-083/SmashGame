@@ -34,7 +34,8 @@ public:
 	struct Textures
 	{
 		ID3D11ShaderResourceView* logo;
-		ID3D11ShaderResourceView* pressSpaceKey;
+		ID3D11ShaderResourceView* start;
+		ID3D11ShaderResourceView* exit;
 	};
 
 	static constexpr int BUTTONS = 2;
