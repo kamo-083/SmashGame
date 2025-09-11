@@ -22,7 +22,6 @@ using namespace DirectX;
  */
 GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
 	: m_pGroundEnemy{ groundEnemy }
-	, m_model{ nullptr }
 	, m_stateType{ StateType::Bounce }
 {
 }
@@ -46,7 +45,14 @@ GroundEnemy_Bounce::~GroundEnemy_Bounce()
  */
 void GroundEnemy_Bounce::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->GetModel("enemy");
+	if (!m_modelAnimator)
+	{
+		m_modelAnimator = std::make_unique<ModelAnimator>(
+			pResourceManager->GetModel("enemy"),
+			m_pGroundEnemy->GetAnimation()->idle
+		);
+	}
+	m_modelAnimator->Initialize();
 
 	m_pGroundEnemy->SetIsAttack(false);
 	m_pGroundEnemy->SetAttackCollisionEnabled(false);
@@ -74,6 +80,9 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 
 	m_pGroundEnemy->SetOnGround(false);
 
+	// アニメーションの更新
+	m_modelAnimator->Update(elapsedTime);
+
 	if (m_pGroundEnemy->GetVelocity().Length() < 1.0f)
 	{
 		m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(false);
@@ -98,8 +107,7 @@ void GroundEnemy_Bounce::Render(RenderContext& context)
 	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
-	m_model->Draw(context.deviceContext, *context.states,
-		world, context.view, context.projection);
+	m_modelAnimator->Draw(context, world);
 }
 
 

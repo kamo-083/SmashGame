@@ -95,7 +95,13 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 
 	// モデルの読み込み
 	//m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\cat.sdkmesh");
-	m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\Enemy_Basic.sdkmesh");
+	m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\enemyBasic.sdkmesh", true);
+
+	// アニメーションの読み込み		jsonでファイルパスとかステータスとか読み込めるようにする
+	m_animations = std::make_unique<Animations>();
+	m_animations->idle = pResourceManager->RequestAnimation("EnemyBasicIdle", L"Resources\\Animations\\enemyBasic_idle.sdkmesh_anim");
+	m_animations->walk = pResourceManager->RequestAnimation("EnemyBasicWalk", L"Resources\\Animations\\enemyBasic_walk.sdkmesh_anim");
+	m_animations->attack = pResourceManager->RequestAnimation("EnemyBasicAttack", L"Resources\\Animations\\enemyBasic_atk.sdkmesh_anim");
 
 	// リソースマネージャの設定
 	m_pResourceManager = pResourceManager;
@@ -222,6 +228,7 @@ void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 	m_idlingState.reset();
 
 	m_model = nullptr;
+	m_animations.reset();
 
 	if (m_handleBody) 
 	{

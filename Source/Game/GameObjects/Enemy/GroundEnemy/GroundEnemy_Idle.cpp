@@ -22,7 +22,6 @@ using namespace DirectX;
  */
 GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
 	: m_pGroundEnemy{ groundEnemy }
-	, m_model{ nullptr }
 	, m_stateType{ StateType::Idle }
 {
 
@@ -47,7 +46,14 @@ GroundEnemy_Idle::~GroundEnemy_Idle()
  */
 void GroundEnemy_Idle::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->GetModel("enemy");
+	if (!m_modelAnimator)
+	{
+		m_modelAnimator = std::make_unique<ModelAnimator>(
+			pResourceManager->GetModel("enemy"),
+			m_pGroundEnemy->GetAnimation()->idle
+		);
+	}
+	m_modelAnimator->Initialize();
 }
 
 
@@ -68,6 +74,9 @@ void GroundEnemy_Idle::Update(const float& elapsedTime)
 	m_pGroundEnemy->GetCollider()->SetCenter(m_pGroundEnemy->GetPosition());
 
 	m_pGroundEnemy->SetOnGround(false);
+
+	// アニメーションの更新
+	m_modelAnimator->Update(elapsedTime);
 
 	// 歩き状態に切り替え
 	if (m_pGroundEnemy->GetPlayerRelativeData().distance <= GroundEnemy::DitectionRange)
@@ -92,8 +101,7 @@ void GroundEnemy_Idle::Render(RenderContext& context)
 	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
-	m_model->Draw(context.deviceContext, *context.states,
-				  world, context.view, context.projection);
+	m_modelAnimator->Draw(context, world);
 }
 
 

@@ -19,6 +19,7 @@
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Effect/Trajectory/TrajectoryParticle.h"
+#include"Source/Game/Common/ModelAnimator.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
 
@@ -39,8 +40,8 @@ private:
 private:
 	GroundEnemy* m_pGroundEnemy;
 
-	// モデル
-	DirectX::Model* m_model;
+	// モデルアニメーター
+	std::unique_ptr<ModelAnimator> m_modelAnimator;
 
 	// 状態の種類
 	StateType m_stateType;

@@ -22,7 +22,6 @@ using namespace DirectX;
  */
 GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy)
 	: m_pGroundEnemy{ groundEnemy }
-	, m_model{ nullptr }
 	, m_attackTime{ 0.0f }
 	, m_stateType{ StateType::Attack }
 {
@@ -48,7 +47,14 @@ GroundEnemy_Attack::~GroundEnemy_Attack()
  */
 void GroundEnemy_Attack::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->GetModel("enemy");
+	if (!m_modelAnimator)
+	{
+		m_modelAnimator = std::make_unique<ModelAnimator>(
+			pResourceManager->GetModel("enemy"),
+			m_pGroundEnemy->GetAnimation()->attack
+		);
+	}
+	m_modelAnimator->Initialize(ATTACK_TIME);
 
 	m_attackTime = ATTACK_TIME;
 
@@ -86,6 +92,9 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 
 	m_pGroundEnemy->SetOnGround(false);
 
+	// アニメーションの更新
+	m_modelAnimator->Update(elapsedTime);
+
 	// 待機状態に切り替え
 	if (m_attackTime <= 0.0f)
 	{
@@ -111,8 +120,7 @@ void GroundEnemy_Attack::Render(RenderContext& context)
 	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
-	m_model->Draw(context.deviceContext, *context.states,
-		world, context.view, context.projection);
+	m_modelAnimator->Draw(context, world);
 
 	if (m_pGroundEnemy->GetSpherePrimitive())
 	{

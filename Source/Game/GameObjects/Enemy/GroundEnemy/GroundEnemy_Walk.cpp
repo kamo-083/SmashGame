@@ -23,7 +23,6 @@ using namespace DirectX;
  */
 GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy)
 	: m_pGroundEnemy{ groundEnemy }
-	, m_model{ nullptr }
 	, m_stateType{ StateType::Walk }
 {
 
@@ -48,7 +47,14 @@ GroundEnemy_Walk::~GroundEnemy_Walk()
  */
 void GroundEnemy_Walk::Initialize(ResourceManager* pResourceManager)
 {
-	m_model = pResourceManager->GetModel("enemy");
+	if (!m_modelAnimator)
+	{
+		m_modelAnimator = std::make_unique<ModelAnimator>(
+			pResourceManager->GetModel("enemy"),
+			m_pGroundEnemy->GetAnimation()->walk
+		);
+	}
+	m_modelAnimator->Initialize();
 }
 
 
@@ -82,6 +88,9 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 
 	m_pGroundEnemy->SetOnGround(false);
 
+	// アニメーションの更新
+	m_modelAnimator->Update(elapsedTime);
+
 	// 攻撃状態に切り替え
 	if (playerData.distance <= m_pGroundEnemy->GetAttackCollider()->GetRadius())
 	{
@@ -113,8 +122,7 @@ void GroundEnemy_Walk::Render(RenderContext& context)
 	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
-	m_model->Draw(context.deviceContext, *context.states,
-		world, context.view, context.projection, true);
+	m_modelAnimator->Draw(context, world);
 }
 
 

@@ -40,6 +40,13 @@ class GroundEnemy	:public Enemy
 {
 // クラス定数の宣言 -------------------------------------------------
 public:
+	struct Animations
+	{
+		DX::AnimationSDKMESH* idle;
+		DX::AnimationSDKMESH* walk;
+		DX::AnimationSDKMESH* attack;
+	};
+
 	static constexpr float DitectionRange = 2.5f;
 
 
@@ -59,6 +66,9 @@ private:
 
 	// 攻撃判定
 	SphereCollider m_attackCollider;
+
+	// アニメーション
+	std::unique_ptr<Animations> m_animations;
 
 	// 軌跡エフェクト
 	EffectManager::TrajectoryParticleData* m_trajectory;
@@ -124,6 +134,8 @@ public:
 	float GetRotY() { return m_rotY; }
 	void SetRotY(float rot) { m_rotY = rot + XM_PIDIV2; }	//モデルの向きの関係で少し調整
 	float GetRadius() { return RADIUS; }
+
+	Animations* GetAnimation() { return m_animations.get(); }
 
 	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }
 	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }
