@@ -68,14 +68,28 @@ void EnemyManager::Initialize()
  */
 void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 {
-	for (auto& enemy : m_enemies)
+	for (auto& e : m_enemies)
 	{
-		if (!enemy->alive) continue;
+		e->enemy->Update(elapsedTime);
 
-		enemy->enemy->Update(elapsedTime);
+		e->enemy->CalculatePlayerRelationData(pPlayer->GetPosition(), pPlayer->GetRadius());
 
-		enemy->enemy->CalculatePlayerRelationData(pPlayer->GetPosition(), pPlayer->GetRadius());
+		// —‰º‚µ‚½“G‚ÌŠˆ“®‚ğ’â~
+		if (e->enemy->GetPosition().y < KillHeight) e->alive = false;
 	}
+
+	// ¶‘¶’†‚Å‚È‚¢“G‚ğíœ
+	m_enemies.erase(std::remove_if(m_enemies.begin(), m_enemies.end(),
+		[&](std::unique_ptr<EnemyData>& e)
+		{
+			if (!e->alive)
+			{
+				e->enemy->Finalize(m_pCollisionManager);
+				return true;
+			}
+			return false;
+		}),
+		m_enemies.end());
 }
 
 
@@ -88,9 +102,9 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
  */
 void EnemyManager::Draw(RenderContext& context)
 {
-	for (auto& enemy : m_enemies)
+	for (auto& e : m_enemies)
 	{
-		enemy->enemy->Draw(context, m_pUserResources->GetDebugFont());
+		e->enemy->Draw(context, m_pUserResources->GetDebugFont());
 	}
 }
 
@@ -104,9 +118,9 @@ void EnemyManager::Draw(RenderContext& context)
  */
 void EnemyManager::Finalize()
 {
-	for (auto& enemy : m_enemies)
+	for (auto& e : m_enemies)
 	{
-		enemy->enemy->Finalize(m_pCollisionManager);
+		e->enemy->Finalize(m_pCollisionManager);
 	}
 	m_enemies.clear();
 }

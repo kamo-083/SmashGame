@@ -47,7 +47,7 @@ private:
 	float m_animEndTime;
 
 	// ループさせるか
-	bool m_roop;
+	bool m_loop;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -63,7 +63,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(float endTime = FLT_MAX, bool roop = true);
+	void Initialize(float endTime = FLT_MAX, bool loop = true);
 
 	// 更新処理
 	void Update(float elapsedTime);

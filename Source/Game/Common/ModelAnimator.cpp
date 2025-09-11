@@ -26,7 +26,7 @@ ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animat
 	, m_animation{ animation }
 	, m_animElapsedTime{ 0.0f }
 	, m_animEndTime{ 0.0f }
-	, m_roop{ false }
+	, m_loop{ false }
 
 {
 
@@ -52,7 +52,7 @@ ModelAnimator::~ModelAnimator()
  *
  * @return なし
  */
-void ModelAnimator::Initialize(float endTime, bool roop)
+void ModelAnimator::Initialize(float endTime, bool loop)
 {
 	// アニメーションとモデルをバインドする
 	m_animation->Bind(*m_model);
@@ -70,7 +70,7 @@ void ModelAnimator::Initialize(float endTime, bool roop)
 	m_animEndTime = endTime;
 
 	// ループを設定
-	m_roop = roop;
+	m_loop = loop;
 }
 
 
@@ -92,7 +92,7 @@ void ModelAnimator::Update(float elapsedTime)
 	m_animation->Update(elapsedTime);
 
 	// ループ処理
-	if (m_roop && m_animElapsedTime >= m_animEndTime)
+	if (m_loop && m_animElapsedTime >= m_animEndTime)
 	{
 		m_animation->ResetTime();
 		m_animElapsedTime = 0.0f;

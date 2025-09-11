@@ -71,8 +71,15 @@ void Tween::Update(float deltaTime, UIParams& params)
 
 	if (m_elapsedTime >= m_data.duration)
 	{
-		m_playing = false;
-		m_finished = true;
+		if (m_data.loop)	// ÉãÅ[ÉvÇæÇ¡ÇΩÇÁ
+		{
+			m_elapsedTime = 0.0f;
+		}
+		else
+		{
+			m_playing = false;
+			m_finished = true;
+		}
 	}
 }
 
@@ -99,6 +106,11 @@ void Tween::Play()
 void Tween::Stop()
 {
 	m_playing = false;
+}
+
+void Tween::ResetTime()
+{
+	m_elapsedTime = 0.0f;
 }
 
 
@@ -137,7 +149,7 @@ float Tween::EaseValue(Ease ease, float t)
 
 		if (t < 1.f / k)		 return a * t * t;
 		else if (t < 2.f / k)	 return a * (t -= 1.5f / k) * t + 0.75f;
-		else if (t < 2.25f / k)  return a * (t -= 2.25f / k) * t + 0.9375f;
+		else if (t < 2.5f / k)  return a * (t -= 2.25f / k) * t + 0.9375f;
 		else					 return a * (t -= 2.625f / k) * t + 0.984375f;
 	}
 	}

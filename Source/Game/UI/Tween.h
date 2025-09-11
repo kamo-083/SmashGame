@@ -49,6 +49,7 @@ public:
 		UIParams delta;		// 全体の変化量
 		float duration;		// 再生時間
 		Ease ease;			// 処理
+		bool loop;			// ループさせるか
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -89,6 +90,9 @@ public:
 
 	// 停止
 	void Stop();
+
+	// リセット
+	void ResetTime();
 
 
 // 取得/設定

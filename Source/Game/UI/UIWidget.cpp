@@ -112,3 +112,9 @@ void UIWidget::Finalize()
 	m_tween->Finalize();
 	m_tween.reset();
 }
+
+void UIWidget::TweenReset()
+{
+	m_tween->ResetTime();
+	m_tween->Play();
+}

@@ -233,6 +233,9 @@
     <ClInclude Include="Source\Game\Data\EnamyData.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\Button.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -365,6 +368,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Common\ModelAnimator.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Button.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

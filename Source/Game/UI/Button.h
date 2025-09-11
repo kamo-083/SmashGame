@@ -1,7 +1,7 @@
 /**
- * @file   UIWidget.h
+ * @file   Button.h
  *
- * @brief  UIWidgetに関するヘッダファイル
+ * @brief  Buttonに関するヘッダファイル
  *
  * @author 制作者名
  *
@@ -15,14 +15,14 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/UI/Tween.h"
+#include"Source/Game/UI/UIWidget.h"
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief UIWidget
+ * @brief Button
  */
-class UIWidget
+class Button
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -31,32 +31,28 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// テクスチャ
-	ID3D11ShaderResourceView* m_texture;
+	std::unique_ptr<UIWidget> m_UI;
 
-	// UIのパラメータ
-	Tween::UIParams m_params;
-
-	// 画像サイズ
-	DirectX::SimpleMath::Vector2 m_texSize;
-
-	std::unique_ptr<Tween> m_tween;
+	std::function<void()> m_operate;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	UIWidget();
+	Button();
 
 	// デストラクタ
-	~UIWidget();
+	~Button();
 
 
 // 操作
 public:
 	// 初期化処理
-	void Initialize(ID3D11ShaderResourceView* texture, const Tween::TweenData data, DirectX::SimpleMath::Vector2 size);
+	void Initialize(ID3D11ShaderResourceView* texture, 
+					const Tween::TweenData data, 
+					DirectX::SimpleMath::Vector2 size,
+					std::function<void()> operate);
 
 	// 更新処理
 	void Update(float elapsedTime);
@@ -67,8 +63,12 @@ public:
 	// 終了処理
 	void Finalize();
 
-	// Tweenをリセット
-	void TweenReset();
+	// 押した
+	void Press();
+
+	// リセット
+	void Reset();
+
 
 // 取得/設定
 public:

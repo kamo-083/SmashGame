@@ -24,6 +24,7 @@ using namespace DirectX;
  */
 TitleScene::TitleScene(SceneManager* pSceneManager, UserResources* pUserResources)
 	: Scene{ pSceneManager,pUserResources }
+	, m_selectButton{ 0 }
 {
 
 }
@@ -54,16 +55,51 @@ void TitleScene::Initialize()
 	m_textures->logo = m_userResources->GetResourceManager()->RequestTexture("titleLogo", L"Resources/Textures/Text/title.png");
 	m_textures->pressSpaceKey= m_userResources->GetResourceManager()->RequestTexture("pressSpaceKey", L"Resources/Textures/Text/pressSpaceKey.png");
 
-	m_ui = std::make_unique<UIWidget>();
+	// タイトルロゴを作成
+	m_titleLogo = std::make_unique<UIWidget>();
 	Tween::TweenData data =
 	{
-		Tween::UIParams{SimpleMath::Vector2(200.0f, 300.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(200.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
+		Tween::UIParams{SimpleMath::Vector2(640.0f, 0.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 200.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		1.0f,
-		Tween::Ease::OutQuart
+		Tween::Ease::OutBounce,
+		false
 	};
-	m_ui->Initialize(m_userResources->GetResourceManager()->RequestTexture("uiTest",L"Resources/Textures/star.png"),
-					 data, SimpleMath::Vector2(100, 100));
+	m_titleLogo->Initialize(m_textures->logo, data, SimpleMath::Vector2(600.0f, 150.0f));
+
+	// ボタンを作成
+	m_buttons.reserve(BUTTONS);
+	std::unique_ptr<Button> start = std::make_unique<Button>(); 
+	data =
+	{
+		Tween::UIParams{SimpleMath::Vector2(640.0f, 450.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,-1.0f},
+		2.0f,
+		Tween::Ease::OutQuart,
+		true
+	};
+	start->Initialize(
+		m_textures->pressSpaceKey, data, SimpleMath::Vector2(400.0f, 105.0f),
+		[this]() {ChangeScene("StageSelectScene"); }	// シーン切り替え
+	);
+	m_buttons.push_back(std::move(start));
+
+	std::unique_ptr<Button> exit = std::make_unique<Button>(); 
+	data =
+	{
+		Tween::UIParams{SimpleMath::Vector2(640.0f, 550.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,-1.0f},
+		2.0f,
+		Tween::Ease::OutQuart,
+		true
+	};
+	exit->Initialize(
+		m_textures->pressSpaceKey, data, SimpleMath::Vector2(400.0f, 105.0f),
+		[this]() {PostQuitMessage(0); }		// ゲームを終了
+	);
+	m_buttons.push_back(std::move(exit));
+	
+	m_selectButton = 0;
 }
 
 
@@ -77,10 +113,33 @@ void TitleScene::Initialize()
  */
 void TitleScene::Update(float elapsedTime)
 {
-	m_ui->Update(elapsedTime);
+	Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
 
-	// シーンの切り替え
-	if (m_userResources->GetKeyboardTracker()->pressed.Space || m_userResources->GetKeyboardTracker()->pressed.P)
+	// ボタン切り替え
+	if (kb->pressed.S)
+	{
+		ButtonReset(m_selectButton);
+		m_selectButton++;
+		if (m_selectButton == BUTTONS) m_selectButton = 0;
+	}
+	else if (kb->pressed.W)
+	{
+		ButtonReset(m_selectButton);
+		m_selectButton--;
+		if (m_selectButton < 0) m_selectButton = BUTTONS - 1;
+	}
+	
+	// ボタンの操作
+	if (m_userResources->GetKeyboardTracker()->pressed.Space)
+	{
+		m_buttons[m_selectButton]->Press();
+	}
+
+	// UIの更新
+	m_titleLogo->Update(elapsedTime);
+	m_buttons[m_selectButton]->Update(elapsedTime);
+
+	if (m_userResources->GetKeyboardTracker()->pressed.P)
 	{
 		ChangeScene("StageSelectScene");
 	}
@@ -100,14 +159,12 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
 	debugFont->AddString(0, 30, Colors::White, L"TitleScene");
 
-	context.spriteBatch->Begin();
+	m_titleLogo->Draw(context);
 
-	context.spriteBatch->Draw(m_textures->logo, SimpleMath::Vector2(640.0f, 100.0f));
-	//context.spriteBatch->Draw(m_textures->pressSpaceKey, SimpleMath::Vector2(640.0f, 300.0f));
-
-	context.spriteBatch->End();
-
-	m_ui->Draw(context);
+	for (auto& button : m_buttons)
+	{
+		button->Draw(context);
+	}
 }
 
 
@@ -121,8 +178,20 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  */
 void TitleScene::Finalize()
 {
-	m_textures.reset();
+	if (m_titleLogo)m_titleLogo->Finalize();
+	m_titleLogo.reset();
 
-	if (m_ui)m_ui->Finalize();
-	m_ui.reset();
+	for (auto& button : m_buttons)
+	{
+		button->Finalize();
+	}
+	m_buttons.clear();
+
+	m_textures.reset();
+}
+
+void TitleScene::ButtonReset(int buttonNum)
+{
+	m_buttons[buttonNum]->Reset();
+	m_buttons[buttonNum]->Update(0.0f);
 }

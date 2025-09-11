@@ -17,6 +17,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/UI/UIWidget.h"
+#include "Source/Game/UI/Button.h"
 
 
 // クラスの宣言 ===============================================================
@@ -34,18 +35,9 @@ public:
 	{
 		ID3D11ShaderResourceView* logo;
 		ID3D11ShaderResourceView* pressSpaceKey;
-
-		Textures()
-			:logo(nullptr)
-			,pressSpaceKey(nullptr)
-		{}
-
-		~Textures()
-		{
-			logo = nullptr;
-			pressSpaceKey = nullptr;
-		}
 	};
+
+	static constexpr int BUTTONS = 2;
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -57,7 +49,10 @@ private:
 	// オブジェクト関連
 	std::unique_ptr<Textures> m_textures;
 
-	std::unique_ptr<UIWidget> m_ui;
+	std::unique_ptr<UIWidget> m_titleLogo;
+	std::vector<std::unique_ptr<Button>> m_buttons;
+
+	int m_selectButton;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -91,6 +86,6 @@ public:
 
 	// 内部実装
 private:
-
+	void ButtonReset(int buttonNum);
 
 };
