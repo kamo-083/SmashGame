@@ -56,7 +56,10 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(ID3D11ShaderResourceView* texture, const Tween::TweenData data, DirectX::SimpleMath::Vector2 size);
+	void Initialize(ID3D11ShaderResourceView* texture,
+					const Tween::TweenData data,
+					DirectX::SimpleMath::Vector2 size,
+					bool play = true);
 
 	// 更新処理
 	void Update(float elapsedTime);
@@ -68,10 +71,12 @@ public:
 	void Finalize();
 
 	// Tweenをリセット
-	void TweenReset();
+	void TweenReset(bool play = true);
+
 
 // 取得/設定
 public:
+	Tween* GetTween() { return m_tween.get(); }
 
 // 内部実装
 private:

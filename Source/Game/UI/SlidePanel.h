@@ -1,7 +1,7 @@
 /**
- * @file   StagePanel.h
+ * @file   SlidePanel.h
  *
- * @brief  StagePanelに関するヘッダファイル
+ * @brief  SlidePanelに関するヘッダファイル
  *
  * @author 制作者名
  *
@@ -19,28 +19,38 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief StagePanel
+ * @brief SlidePanel
  */
-class StagePanel
+class SlidePanel
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
 	const int STAGE_NUM;
+
+	enum class DIRECTION
+	{
+		NONE = -1,
+		RIGHT,
+		LEFT
+	};
 
 
 	// データメンバの宣言 -----------------------------------------------
 private:
 	std::unique_ptr<UIWidget> m_UI;
 
+	// 前回動かした方向
+	DIRECTION m_lastDirection;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	StagePanel(int stage_num);
+	SlidePanel(int stage_num);
 
 	// デストラクタ
-	~StagePanel();
+	~SlidePanel();
 
 
 // 操作
@@ -58,6 +68,9 @@ public:
 
 	// 終了処理
 	void Finalize();
+
+	void Slide(DIRECTION dir);
+
 
 // 取得/設定
 public:

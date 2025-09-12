@@ -104,12 +104,19 @@ public:
 	// リセット
 	void ResetTime();
 
+	// Tweenのパラメータを反転する
+	void ReverseUIParam();
+	void ReverseDeltaParam();
 
 // 取得/設定
 public:
 	// 終了しているか
 	bool Finished() const { return m_finished; }
 	UIParams GetStartParams() const { return m_data.start; }
+
+	TweenData GetTweenData() const { return m_data; }
+	void SetTweenData(TweenData data) { m_data = data; }
+
 
 // 内部実装
 private:

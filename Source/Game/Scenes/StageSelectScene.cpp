@@ -50,7 +50,37 @@ StageSelectScene::~StageSelectScene()
  */
 void StageSelectScene::Initialize()
 {
-	m_selectNum = 0;
+	// ウィンドウサイズの取得
+	SimpleMath::Vector2 windowSize = SimpleMath::Vector2(
+		m_userResources->GetDeviceResources()->GetOutputSize().right,
+		m_userResources->GetDeviceResources()->GetOutputSize().bottom
+	);
+
+	for (int i = 0; i < STAGES; i++)
+	{
+		SimpleMath::Vector2 pos = SimpleMath::Vector2(
+			windowSize.x / static_cast<float>(STAGES) * i + 350.0f * 0.5f,
+			windowSize.y * 0.5f
+		);
+
+		Tween::TweenData data =
+		{
+			Tween::UIParams{pos,SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+			Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.05f,0.05f),0.0f,0.0f},
+			0.5f,
+			Tween::Ease::OutQuart,
+			Tween::PlaybackMode::PingPong
+		};
+
+		std::unique_ptr<Button> panel = std::make_unique<Button>();
+		panel->Initialize(m_userResources->GetResourceManager()->RequestTexture("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
+			data, SimpleMath::Vector2(350.f, 400.f),
+			[this, i]() {
+				std::string stageName = "Stage" + std::to_string(i + 1) + "Scene";
+				ChangeScene(stageName);
+			});
+		m_stagePanels.push_back(std::move(panel));
+	}
 }
 
 
@@ -66,22 +96,29 @@ void StageSelectScene::Update(float elapsedTime)
 {
 	Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
 
+	// ステージ切り替え
 	if (kb->pressed.D)
 	{
+		PanelReset(m_selectNum);
+
 		m_selectNum++;
 		if (m_selectNum == STAGES) m_selectNum = 0;
 	}
 	else if (kb->pressed.A)
 	{
+		PanelReset(m_selectNum);
+
 		m_selectNum--;
 		if (m_selectNum < 0) m_selectNum = STAGES - 1;
 	}
 
-	// シーンの切り替え
-	if (kb->pressed.Space)	// 選択したステージへ
+	// ステージパネルの更新
+	m_stagePanels[m_selectNum]->Update(elapsedTime);
+
+	// シーン移動
+	if (kb->pressed.Space)	// 各ステージへ
 	{
-		std::string stageName = "Stage" + std::to_string(m_selectNum + 1) + "Scene";
-		ChangeScene(stageName);
+		m_stagePanels[m_selectNum]->Press();
 	}
 	if (kb->pressed.Q)		// タイトル画面へ
 	{
@@ -107,6 +144,11 @@ void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont
 {
 	debugFont->AddString(0, 30, Colors::White, L"StageSelectScene");
 	debugFont->AddString(0, 60, Colors::Yellow, L"SelectNum:%d",m_selectNum);
+
+	for (auto& panel : m_stagePanels)
+	{
+		panel->Draw(context);
+	}
 }
 
 
@@ -120,5 +162,16 @@ void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont
  */
 void StageSelectScene::Finalize()
 {
-	
+	for (auto& panel : m_stagePanels)
+	{
+		panel->Finalize();
+	}
+	m_stagePanels.clear();
+}
+
+void StageSelectScene::PanelReset(int panelNum)
+{
+	m_stagePanels[panelNum]->Reset();
+	m_stagePanels[panelNum]->Update(0.0f);
+
 }

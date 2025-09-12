@@ -236,7 +236,7 @@
     <ClInclude Include="Source\Game\UI\Button.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\StagePanel.h">
+    <ClInclude Include="Source\Game\UI\SlidePanel.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -375,7 +375,7 @@
     <ClCompile Include="Source\Game\UI\Button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\StagePanel.cpp">
+    <ClCompile Include="Source\Game\UI\SlidePanel.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>

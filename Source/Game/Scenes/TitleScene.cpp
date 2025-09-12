@@ -74,8 +74,8 @@ void TitleScene::Initialize()
 	data =
 	{
 		Tween::UIParams{SimpleMath::Vector2(640.0f, 450.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.25f,0.25f),0.0f,0.0f},
-		1.0f,
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
+		0.5f,
 		Tween::Ease::OutQuart,
 		Tween::PlaybackMode::PingPong
 	};
@@ -89,8 +89,8 @@ void TitleScene::Initialize()
 	data =
 	{
 		Tween::UIParams{SimpleMath::Vector2(640.0f, 550.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.25f,0.25f),0.0f,0.0f},
-		1.0f,
+		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
+		0.5f,
 		Tween::Ease::OutQuart,
 		Tween::PlaybackMode::PingPong
 	};

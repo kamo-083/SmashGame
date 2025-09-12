@@ -113,6 +113,7 @@ void Tween::Finalize()
 void Tween::Play()
 {
 	m_playing = true;
+	m_finished = false;
 }
 
 
@@ -129,6 +130,32 @@ void Tween::ResetTime()
 	else											m_reverse = false;
 }
 
+
+void Tween::ReverseUIParam()
+{
+	Tween::TweenData d = m_data;
+
+	d.start.pos += d.delta.pos;
+	d.start.scale += d.delta.scale;
+	d.start.rotation += d.delta.rotation;
+	d.start.opacity += d.delta.opacity;
+	
+	ReverseDeltaParam();
+
+	m_data = d;
+}
+
+void Tween::ReverseDeltaParam()
+{
+	Tween::TweenData d = m_data;
+
+	d.delta.pos *= -1;
+	d.delta.scale *= -1;
+	d.delta.rotation *= -1;
+	d.delta.opacity *= -1;
+
+	m_data = d;
+}
 
 float Tween::EaseValue(Ease ease, float t)
 {

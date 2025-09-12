@@ -16,7 +16,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-#include "Source/Game/UI/StagePanel.h"
+#include "Source/Game/UI/Button.h"
 
 
 // クラスの宣言 ===============================================================
@@ -31,7 +31,7 @@ class StageSelectScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	static constexpr int STAGES = 2;	// ステージ数
+	static constexpr int STAGES = 3;	// ステージ数
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -43,8 +43,7 @@ private:
 	// オブジェクト関連
 	int m_selectNum;	// 選択中のステージ番号
 
-	std::vector<std::unique_ptr<StagePanel>> m_stagePanels;
-
+	std::vector<std::unique_ptr<Button>> m_stagePanels;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -78,6 +77,7 @@ public:
 
 	// 内部実装
 private:
+	void PanelReset(int panelNum);
 
 
 };
