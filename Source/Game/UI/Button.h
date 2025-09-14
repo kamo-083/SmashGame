@@ -30,7 +30,7 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	std::unique_ptr<UIWidget> m_UI;
+	std::unique_ptr<UIWidget> m_widget;
 
 	std::function<void()> m_operate;
 

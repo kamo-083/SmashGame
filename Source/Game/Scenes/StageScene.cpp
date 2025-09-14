@@ -179,7 +179,7 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	m_camera->Draw(debugFont);
 
 	// 武器UIの描画
-	m_weaponUI->Draw(context.spriteBatch);
+	m_weaponUI->Draw(context);
 
 	// エフェクトの描画
 	m_effectManager->Draw(context.projection);
@@ -196,8 +196,11 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  */
 void StageScene::Finalize()
 {
-	if (m_player)		m_player->Finalize();
+	if (m_player) m_player->Finalize();
 	m_player.reset();
+
+	if (m_weaponUI) m_weaponUI->Finalize();
+	m_weaponUI.reset();
 
 	if (m_enemyManager) m_enemyManager->Finalize();
 	m_enemyManager.reset();
@@ -205,7 +208,7 @@ void StageScene::Finalize()
 	if (m_stageManager) m_stageManager->Finalize();
 	m_stageManager.reset();
 
-	if (m_effectManager)m_effectManager->Finalize();
+	if (m_effectManager) m_effectManager->Finalize();
 	m_effectManager.reset();
 
 	m_camera.reset();

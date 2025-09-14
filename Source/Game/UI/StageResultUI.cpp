@@ -1,7 +1,7 @@
 /**
- * @file   SlidePanel.cpp
+ * @file   StageResultUI.cpp
  *
- * @brief  SlidePanelに関するソースファイル
+ * @brief  StageResultUIに関するソースファイル
  *
  * @author 制作者名
  *
@@ -10,7 +10,7 @@
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
-#include "SlidePanel.h"
+#include "StageResultUI.h"
 
 using namespace DirectX;
 
@@ -21,9 +21,7 @@ using namespace DirectX;
  *
  * @param[in] なし
  */
-SlidePanel::SlidePanel(int stage_num)
-	: PANEL_NUM{ stage_num }
-	, m_lastDirection{ Direction::RIGHT }
+StageResultUI::StageResultUI()
 {
 
 }
@@ -33,7 +31,7 @@ SlidePanel::SlidePanel(int stage_num)
 /**
  * @brief デストラクタ
  */
-SlidePanel::~SlidePanel()
+StageResultUI::~StageResultUI()
 {
 
 }
@@ -47,18 +45,21 @@ SlidePanel::~SlidePanel()
  *
  * @return なし
  */
-void SlidePanel::Initialize(ID3D11ShaderResourceView* texture,
-							DirectX::SimpleMath::Vector2 texSize,
-							DirectX::SimpleMath::Vector2 windowSize)
+void StageResultUI::Initialize(ID3D11ShaderResourceView* texture,
+	DirectX::SimpleMath::Vector2 texSize,
+	DirectX::SimpleMath::Vector2 windowSize)
 {
-	SimpleMath::Vector2 startPos =
-		SimpleMath::Vector2(texSize.x * 0.75f + windowSize.x / 3.0f * PANEL_NUM, windowSize.y * 0.5f);
+	SimpleMath::Vector2 startPos = SimpleMath::Vector2
+	{
+		windowSize.x * 0.5f,
+		texSize.y * 0.5f
+	};
 
 	m_widget = std::make_unique<UIWidget>();
 	Tween::TweenData data =
 	{
 		Tween::UIParams{startPos,SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(texSize.x, 0.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
+		Tween::UIParams{SimpleMath::Vector2(0.0f, texSize.y * 0.5f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		0.5f,
 		Tween::Ease::OutQuart,
 		Tween::PlaybackMode::Once
@@ -75,7 +76,7 @@ void SlidePanel::Initialize(ID3D11ShaderResourceView* texture,
  *
  * @return なし
  */
-void SlidePanel::Update(float elapsedTime)
+void StageResultUI::Update(float elapsedTime)
 {
 	m_widget->Update(elapsedTime);
 
@@ -91,7 +92,7 @@ void SlidePanel::Update(float elapsedTime)
  *
  * @return なし
  */
-void SlidePanel::Draw(RenderContext context)
+void StageResultUI::Draw(RenderContext context)
 {
 	m_widget->Draw(context);
 }
@@ -105,21 +106,9 @@ void SlidePanel::Draw(RenderContext context)
  *
  * @return なし
  */
-void SlidePanel::Finalize()
+void StageResultUI::Finalize()
 {
 	if (m_widget) m_widget->Finalize();
 	m_widget.reset();
 }
 
-void SlidePanel::Slide(Direction dir)
-{
-	if (dir == Direction::NONE) return;
-
-	if (dir != m_lastDirection)
-	{
-		m_widget->GetTween()->ReverseDeltaParam();
-		m_lastDirection = dir;
-	}
-
-	m_widget->TweenReset(true);
-}

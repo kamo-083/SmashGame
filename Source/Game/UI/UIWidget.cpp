@@ -99,6 +99,14 @@ void UIWidget::Draw(RenderContext context)
 	context.spriteBatch->End();
 }
 
+void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch)
+{
+	SimpleMath::Color color = { 1, 1, 1, m_params.opacity };
+	SimpleMath::Vector2 size = { m_texSize.x * 0.5f,m_texSize.y * 0.5f };
+
+	spriteBatch->Draw(m_texture, m_params.pos, nullptr, color, m_params.rotation, size, m_params.scale, SpriteEffects_None, 0.0f);
+}
+
 
 
 /**
@@ -122,4 +130,14 @@ void UIWidget::TweenReset(bool play)
 	m_tween->ResetTime();
 
 	if (play) m_tween->Play();
+}
+
+void UIWidget::SetParam(Tween::UIParams start, Tween::UIParams delta)
+{
+	m_params = start;
+
+	Tween::TweenData data = m_tween->GetTweenData();
+	data.start = start;
+	data.delta = delta;
+	m_tween->SetTweenData(data);
 }

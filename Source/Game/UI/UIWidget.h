@@ -66,6 +66,7 @@ public:
 
 	// 描画処理
 	void Draw(RenderContext context);
+	void Draw(DirectX::SpriteBatch* spriteBatch);
 
 	// 終了処理
 	void Finalize();
@@ -77,6 +78,12 @@ public:
 // 取得/設定
 public:
 	Tween* GetTween() { return m_tween.get(); }
+	Tween::UIParams GetParam () const { return m_params; }
+	Tween::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }
+	void SetTexture(ID3D11ShaderResourceView* texture) { m_texture = texture; }
+
+	// 新しいパラメータをセット
+	void SetParam(Tween::UIParams start, Tween::UIParams delta);
 
 // 内部実装
 private:

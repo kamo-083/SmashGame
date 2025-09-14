@@ -50,8 +50,8 @@ void Button::Initialize(ID3D11ShaderResourceView* texture,
 						DirectX::SimpleMath::Vector2 size,
 						std::function<void()> operate)
 {
-	m_UI = std::make_unique<UIWidget>();
-	m_UI->Initialize(texture, data, size);
+	m_widget = std::make_unique<UIWidget>();
+	m_widget->Initialize(texture, data, size);
 
 	m_operate = operate;
 }
@@ -67,7 +67,7 @@ void Button::Initialize(ID3D11ShaderResourceView* texture,
  */
 void Button::Update(float elapsedTime)
 {
-	m_UI->Update(elapsedTime);
+	m_widget->Update(elapsedTime);
 }
 
 
@@ -81,7 +81,7 @@ void Button::Update(float elapsedTime)
  */
 void Button::Draw(RenderContext context)
 {
-	m_UI->Draw(context);
+	m_widget->Draw(context);
 }
 
 
@@ -95,8 +95,8 @@ void Button::Draw(RenderContext context)
  */
 void Button::Finalize()
 {
-	if(m_UI) m_UI->Finalize();
-	m_UI.reset();
+	if(m_widget) m_widget->Finalize();
+	m_widget.reset();
 
 	m_operate = nullptr;
 }
@@ -109,5 +109,5 @@ void Button::Press()
 
 void Button::Reset()
 {
-	m_UI->TweenReset();
+	m_widget->TweenReset();
 }

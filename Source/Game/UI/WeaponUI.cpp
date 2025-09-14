@@ -5,7 +5,7 @@ using namespace DirectX;
 
 WeaponUI::WeaponUI(float width, float height)
 	: m_windowSize(width, height)
-	, m_slide{ Slide::NONE }
+	, m_lastDirection{ Direction::NONE }
 	, m_slideWidth{ 0.0f }
 {
 	m_weaponList.resize(static_cast<int>(WeaponType::TYPE_NUM));
@@ -35,76 +35,143 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 
 	// スライド処理関連の初期化
 	m_slideWidth = 0.0f;
-	m_slide = Slide::NONE;
+	m_lastDirection = Direction::NONE;
+
+	// 表示レイアウトの設定
+	m_layoutList.resize(static_cast<int>(Layout::DisplayNum));
+
+	SimpleMath::Vector2 center = { m_windowSize.x - m_textureSize.x*2.0f, m_windowSize.y - m_textureSize.y * 0.8f };
+	float  offsetX = m_textureSize.x * 1.2f; 
+	
+	m_layoutList[static_cast<int>(Layout::LEFT)] = { center + SimpleMath::Vector2(-offsetX, 0), {0.8f,0.8f}, 0.6f };
+	m_layoutList[static_cast<int>(Layout::CENTER)] = { center, {1.2f,1.2f}, 1.0f };
+	m_layoutList[static_cast<int>(Layout::RIGHT)] = { center + SimpleMath::Vector2(+offsetX, 0), {0.8f,0.8f}, 0.6f };
+
+	// ウィジェットの作成
+	m_widgets.clear();
+	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); i++) 
+	{
+		Tween::TweenData data{
+			{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity },
+			{ {},{},0,0 },
+			0.1f,
+			Tween::Ease::OutQuart,
+			Tween::PlaybackMode::Once
+		};
+		std::unique_ptr<UIWidget> widget = std::make_unique<UIWidget>();
+		widget->Initialize(m_textures[i], data, m_textureSize, false);
+		m_widgets.push_back(std::move(widget));
+	}
 }
 
 void WeaponUI::Update(float elapsedTime)
 {
+
+	bool anyPlaying = false;
+	for (auto& widget : m_widgets)
+	{
+		widget->Update(elapsedTime);
+		anyPlaying |= !widget->GetTween()->Finished();
+	}
+
+	if (!anyPlaying && m_lastDirection != Direction::NONE)
+	{
+		int N = static_cast<int>(WeaponType::TYPE_NUM);
+		int center = static_cast<int>(m_weaponList[0]);
+		int left = (center - 1 + N) % N;
+		int right = (center + 1) % N;
+
+		m_widgets[static_cast<int>(Layout::LEFT)]->SetTexture(m_textures[left]);
+		m_widgets[static_cast<int>(Layout::CENTER)]->SetTexture(m_textures[center]);
+		m_widgets[static_cast<int>(Layout::RIGHT)]->SetTexture(m_textures[right]);
+
+		for (int i = 0; i < static_cast<int>(Layout::DisplayNum); ++i) {
+			Tween::UIParams start{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity };
+			Tween::UIParams delta{ {},{},0,0 };
+			m_widgets[i]->SetParam(start, delta); 
+			m_widgets[i]->GetTween()->ResetTime();
+		}
+
+		m_lastDirection = Direction::NONE;
+	}
+
 	// スライド処理
-	switch (m_slide)
-	{
-	case WeaponUI::Slide::NONE:
-		return;
-	case WeaponUI::Slide::RIGHT:
-		m_slideWidth += SLIDE_DISTANCE;
+	//switch (m_slide)
+	//{
+	//case WeaponUI::Slide::NONE:
+	//	return;
+	//case WeaponUI::Slide::RIGHT:
+	//	m_slideWidth += SLIDE_DISTANCE;
 
-		if (m_slideWidth >= 0.0f)
-		{
-			m_slideWidth = 0.0f;
-			m_slide = Slide::NONE;
-		}
-		break;
-	case WeaponUI::Slide::LEFT:
-		m_slideWidth -= SLIDE_DISTANCE;
+	//	if (m_slideWidth >= 0.0f)
+	//	{
+	//		m_slideWidth = 0.0f;
+	//		m_slide = Slide::NONE;
+	//	}
+	//	break;
+	//case WeaponUI::Slide::LEFT:
+	//	m_slideWidth -= SLIDE_DISTANCE;
 
-		if (m_slideWidth <= 0.0f)
-		{
-			m_slideWidth = 0.0f;
-			m_slide = Slide::NONE;
-		}
-		break;
-	}
+	//	if (m_slideWidth <= 0.0f)
+	//	{
+	//		m_slideWidth = 0.0f;
+	//		m_slide = Slide::NONE;
+	//	}
+	//	break;
+	//}
 }
 
-void WeaponUI::Draw(DirectX::SpriteBatch* spriteBatch)
+void WeaponUI::Draw(RenderContext context)
 {
-	SimpleMath::Vector2 displayPos = m_windowSize - m_textureSize;
+	context.spriteBatch->Begin(
+		SpriteSortMode_Deferred,
+		context.states->NonPremultiplied(),
+		context.states->LinearClamp()
+	);
 
-	spriteBatch->Begin();
-
-	for (int i = 0; i < static_cast<int>(WeaponType::TYPE_NUM); i++)
+	for (auto& widget : m_widgets)
 	{
-		displayPos.x = m_windowSize.x + m_slideWidth - m_textureSize.x * std::abs(i - static_cast<int>(WeaponType::TYPE_NUM));
-		if (i == 0)
-		{
-			spriteBatch->Draw(m_textures[static_cast<int>(m_weaponList[i])], SimpleMath::Vector2(displayPos.x, displayPos.y - 50.0f));
-		}
-		else
-		{
-			spriteBatch->Draw(m_textures[static_cast<int>(m_weaponList[i])], displayPos);
-		}
+		widget->Draw(context.spriteBatch);
 	}
 
-	spriteBatch->End();
+	context.spriteBatch->End();
+
+	//SimpleMath::Vector2 displayPos = m_windowSize - m_textureSize;
+
+	//spriteBatch->Begin();
+
+	//for (int i = 0; i < static_cast<int>(WeaponType::TYPE_NUM); i++)
+	//{
+	//	displayPos.x = m_windowSize.x + m_slideWidth - m_textureSize.x * std::abs(i - static_cast<int>(WeaponType::TYPE_NUM));
+	//	if (i == 0)
+	//	{
+	//		spriteBatch->Draw(m_textures[static_cast<int>(m_weaponList[i])], SimpleMath::Vector2(displayPos.x, displayPos.y - 50.0f));
+	//	}
+	//	else
+	//	{
+	//		spriteBatch->Draw(m_textures[static_cast<int>(m_weaponList[i])], displayPos);
+	//	}
+	//}
+
+	//spriteBatch->End();
 }
 
-void WeaponUI::ChangeWeapon(WeaponType type, bool right)
+void WeaponUI::Finalize()
 {
-	if (m_weaponList[0] == type) return;
+	m_layoutList.clear();
 
-	for (WeaponType& l : m_weaponList)
+	for (auto& widget : m_widgets)
 	{
-		if (right) ++l;
-		else	   --l;
+		widget->Finalize();
 	}
+	m_widgets.clear();
+
+	m_textures.clear();
 }
 
 void WeaponUI::ChangeWeapon(WeaponType type)
 {
 	if (m_weaponList[0] == type) return;
-
-	// 切り替え前を保存
-	WeaponType bf = *m_weaponList.begin();
 
 	int typeNum = static_cast<int>(WeaponType::TYPE_NUM);
 	int current = static_cast<int>(m_weaponList[0]);
@@ -115,25 +182,60 @@ void WeaponUI::ChangeWeapon(WeaponType type)
 	int left = (current - target + typeNum) % typeNum;
 
 	// スライド方向を設定
-	bool goLeft = (right <= left);
+	Direction dir = (right <= left) ? Direction::LEFT : Direction::RIGHT;
+
+	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); i++)
+	{
+		int j = (i + 1 != static_cast<int>(Layout::DisplayNum)) ? i + 1 : 0;
+		MakeParam(*m_widgets[i], m_layoutList[j]);
+	}
 
 	// スライド処理の有効化
 	float width = m_textureSize.x * 0.5f;
-	if (goLeft)
+	if (dir == Direction::LEFT)
 	{
-		m_slide = Slide::LEFT;
+		Slide(dir);
+		m_lastDirection = Direction::LEFT;
 		m_slideWidth = width;
 	}
 	else
 	{
-		m_slide = Slide::RIGHT;
+		Slide(dir);
+		m_lastDirection = Direction::RIGHT;
 		m_slideWidth = -width;
 	}
 
 	// 実データの回転
 	for (WeaponType& l : m_weaponList)
 	{
-		if (goLeft) ++l;
-		else		 --l;
+		if (dir == Direction::LEFT) ++l;
+		else						--l;
 	}
+}
+
+void WeaponUI::Slide(Direction dir)
+{
+	if (m_lastDirection != dir)
+	{
+		m_lastDirection = dir;
+	}
+
+	for (auto& widget : m_widgets)
+	{
+		widget->TweenReset();
+	}
+}
+
+void WeaponUI::MakeParam(UIWidget& widget, const LayoutData& to)
+{
+	Tween::UIParams from = widget.GetParam();
+
+	Tween::UIParams delta = {
+		to.pos - from.pos,
+		to.scale - from.scale,
+		from.rotation,
+		to.opacity - from.opacity
+	};
+
+	widget.SetParam(from, delta);
 }

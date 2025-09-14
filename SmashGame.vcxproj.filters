@@ -239,6 +239,9 @@
     <ClInclude Include="Source\Game\UI\SlidePanel.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\StageResultUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -378,6 +381,9 @@
     <ClCompile Include="Source\Game\UI\SlidePanel.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\UI\StageResultUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\directx.ico">
@@ -404,6 +410,9 @@
       <Filter>Json</Filter>
     </None>
     <None Include="Resources\Json\stage2.json">
+      <Filter>Json</Filter>
+    </None>
+    <None Include="Resources\Json\stage3.json">
       <Filter>Json</Filter>
     </None>
   </ItemGroup>

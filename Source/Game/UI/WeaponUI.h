@@ -1,15 +1,33 @@
 #pragma once
 #include"Source/Game/Data/WeaponData.h"
 #include"Source/Game/Common/ResourceManager.h"
+#include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/UI/UIWidget.h"
 
 class WeaponUI
 {
 public:
-	enum class Slide
+	enum class Direction
 	{
 		NONE = -1,
 		RIGHT,
 		LEFT
+	};
+
+	enum class Layout
+	{
+		LEFT,
+		CENTER,
+		RIGHT,
+
+		DisplayNum
+	};
+
+	struct LayoutData
+	{
+		DirectX::SimpleMath::Vector2 pos;
+		DirectX::SimpleMath::Vector2 scale;
+		float opacity;
 	};
 
 	static constexpr float SLIDE_DISTANCE = 2.0f;
@@ -17,6 +35,9 @@ public:
 private:
 	// 武器一覧
 	std::vector<WeaponType> m_weaponList;
+
+	// レイアウト
+	std::vector<LayoutData> m_layoutList;
 
 	// テクスチャ
 	std::vector<ID3D11ShaderResourceView*> m_textures;
@@ -27,8 +48,11 @@ private:
 	// 画像サイズ
 	DirectX::SimpleMath::Vector2 m_textureSize;
 
+	// ウィジェット
+	std::vector<std::unique_ptr<UIWidget>> m_widgets;
+
 	// スライド状態
-	Slide m_slide;
+	Direction m_lastDirection;
 
 	// スライドの幅
 	float m_slideWidth;
@@ -45,11 +69,17 @@ public:
 	void Update(float elapsedTime);
 
 	// 描画
-	void Draw(DirectX::SpriteBatch* spriteBatch);
+	void Draw(RenderContext context);
+
+	// 終了
+	void Finalize();
 
 
 	// 選択中の武器を設定
-	void ChangeWeapon(WeaponType type, bool right);
 	void ChangeWeapon(WeaponType type);
+
+private:
+	void Slide(Direction dir);
+	void MakeParam(UIWidget& widget, const LayoutData& to);
 };
 

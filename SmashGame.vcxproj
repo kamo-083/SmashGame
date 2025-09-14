@@ -233,6 +233,7 @@
     <ClInclude Include="Source\Game\Scenes\StageScene.h" />
     <ClInclude Include="Source\Game\UI\Button.h" />
     <ClInclude Include="Source\Game\UI\SlidePanel.h" />
+    <ClInclude Include="Source\Game\UI\StageResultUI.h" />
     <ClInclude Include="Source\Game\UI\Tween.h" />
     <ClInclude Include="Source\Game\UI\UIWidget.h" />
     <ClInclude Include="Source\Game\UI\WeaponUI.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="Source\Game\Scenes\StageScene.cpp" />
     <ClCompile Include="Source\Game\UI\Button.cpp" />
     <ClCompile Include="Source\Game\UI\SlidePanel.cpp" />
+    <ClCompile Include="Source\Game\UI\StageResultUI.cpp" />
     <ClCompile Include="Source\Game\UI\Tween.cpp" />
     <ClCompile Include="Source\Game\UI\UIWidget.cpp" />
     <ClCompile Include="Source\Game\UI\WeaponUI.cpp" />
@@ -305,6 +307,7 @@
     <None Include="packages.config" />
     <None Include="Resources\Json\stage1.json" />
     <None Include="Resources\Json\stage2.json" />
+    <None Include="Resources\Json\stage3.json" />
     <None Include="Resources\Json\test.json" />
     <None Include="Resources\Shaders\Particle.hlsli" />
   </ItemGroup>
