@@ -167,10 +167,8 @@ void StageScene::Update(float elapsedTime)
 	// 当たり判定の更新
 	m_collisionManager->Update(elapsedTime);
 
-	// 仮リスポーン
-	if (m_player->GetPosition().y <= -10.0f)
-		m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
-							 m_userResources->GetKeyboardTracker(), m_camera.get(), m_weaponUI.get(), &m_keyMode);
+	// 落下時のリスポーン
+	if (m_player->GetPosition().y <= m_player->GetKillHeight()) m_player->Respawn();
 
 	// リザルトの表示　
 	if (m_stageManager->IsGoal() || m_userResources->GetKeyboardTracker()->pressed.P)

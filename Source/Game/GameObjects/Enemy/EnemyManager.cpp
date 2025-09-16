@@ -77,7 +77,7 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 		e->enemy->CalculatePlayerRelationData(pPlayer->GetPosition(), pPlayer->GetRadius());
 
 		// —‰º‚µ‚½“G‚ÌŠˆ“®‚ğ’â~
-		if (e->enemy->GetPosition().y < KillHeight) e->alive = false;
+		if (e->enemy->GetPosition().y < KILL_HEIGHT) e->alive = false;
 	}
 
 	// ¶‘¶’†‚Å‚È‚¢“G‚ğíœ

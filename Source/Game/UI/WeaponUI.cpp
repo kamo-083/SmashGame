@@ -6,7 +6,6 @@ using namespace DirectX;
 WeaponUI::WeaponUI(float width, float height)
 	: m_windowSize(width, height)
 	, m_lastDirection{ Direction::NONE }
-	, m_slideWidth{ 0.0f }
 {
 	m_weaponList.resize(static_cast<int>(WeaponType::TYPE_NUM));
 	m_textures.resize(static_cast<int>(WeaponType::TYPE_NUM));
@@ -33,8 +32,7 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	// 画像サイズの設定
 	m_textureSize = SimpleMath::Vector2(width, height);
 
-	// スライド処理関連の初期化
-	m_slideWidth = 0.0f;
+	// スライド処理方向の初期化
 	m_lastDirection = Direction::NONE;
 
 	// 表示レイアウトの設定
@@ -126,26 +124,8 @@ void WeaponUI::ChangeWeapon(WeaponType type)
 	// スライド方向を設定
 	Direction dir = (right <= left) ? Direction::LEFT : Direction::RIGHT;
 
-	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); i++)
-	{
-		int j = (i + 1 != static_cast<int>(Layout::DisplayNum)) ? i + 1 : 0;
-		MakeParam(*m_widgets[i], m_layoutList[j]);
-	}
-
 	// スライド処理の有効化
-	float width = m_textureSize.x * 0.5f;
-	if (dir == Direction::LEFT)
-	{
-		Slide(dir);
-		m_lastDirection = Direction::LEFT;
-		m_slideWidth = width;
-	}
-	else
-	{
-		Slide(dir);
-		m_lastDirection = Direction::RIGHT;
-		m_slideWidth = -width;
-	}
+	Slide(dir);
 
 	// 実データの回転
 	for (WeaponType& l : m_weaponList)
@@ -160,6 +140,21 @@ void WeaponUI::Slide(Direction dir)
 	if (m_lastDirection != dir)
 	{
 		m_lastDirection = dir;
+	}
+
+	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); i++)
+	{
+		int j = 0;
+		if (m_lastDirection == Direction::LEFT)
+		{
+			j = (i != 0) ? i - 1 : static_cast<int>(Layout::DisplayNum) - 1;
+		}
+		else if (m_lastDirection == Direction::RIGHT)
+		{
+			j = (i + 1 != static_cast<int>(Layout::DisplayNum)) ? i + 1 : 0;
+		}
+
+		MakeParam(*m_widgets[i], m_layoutList[j]);
 	}
 
 	for (auto& widget : m_widgets)

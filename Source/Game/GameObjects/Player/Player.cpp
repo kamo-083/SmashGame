@@ -97,9 +97,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 						bool* pKeyMode)
 {
 	// 座標の初期化
-	m_position = SimpleMath::Vector3::Zero;
-	m_position.z = 2.0f;
-	m_position.y = 2.0f;
+	m_position = START_POS;
 
 	// 速度の初期化
 	m_velocity = SimpleMath::Vector3::Zero;
@@ -357,6 +355,38 @@ void Player::Attack()
 	default:
 		break;
 	}
+}
+
+
+/**
+ * @brief リスポーン
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
+void Player::Respawn()
+{
+	// 座標の初期化
+	m_position = START_POS;
+
+	// 速度の初期化
+	m_velocity = SimpleMath::Vector3::Zero;
+
+	// 向きの初期化
+	m_rotY = 0.0f;
+
+	// 着地
+	m_onGround = false;
+
+	// 吹っ飛ばされ状態
+	m_isBounce = false;
+
+	// 軌跡エフェクトをオフ
+	m_trajectory->SetSpawn(false);
+
+	// 状態の切り替え
+	ChangeState(m_idlingState.get());
 }
 
 

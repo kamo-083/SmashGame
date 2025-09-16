@@ -58,6 +58,8 @@ private:
 	static constexpr float SCALE = 0.02f;					//ƒXƒP[ƒ‹
 	static constexpr float DYNAMIC_FRICTION_FORCE = 0.5f;	//“®–€C—Í
 	static constexpr float STATIC_FRICTION_FORCE = 1.0f;	//Ã~–€C—Í
+	static constexpr float KILL_HEIGHT = -10.0f;			//—‰º”»’è‚ğ‚³‚ê‚é‚‚³
+	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,2.0f,2.0f };
 
 	struct Animations
 	{
@@ -188,6 +190,9 @@ public:
 	// UŒ‚
 	void Attack();
 
+	// ƒŠƒXƒ|[ƒ“
+	void Respawn();
+
 	// ˆÚ“®‚Ì•ûŒü‚Æ‰ñ“]
 	DirectX::SimpleMath::Vector3 MoveDirection(DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 											   Camera* camera);
@@ -228,6 +233,7 @@ public:
 	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }
 	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }
 	Animations* GetAnimation() { return m_animations.get(); }
+	float GetKillHeight() { return KILL_HEIGHT; }
 
 	Player_Idle* GetState_Idle() { return m_idlingState.get(); }
 	Player_Walk* GetState_Walk() { return m_walkingState.get(); }

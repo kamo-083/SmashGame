@@ -57,7 +57,7 @@ public:
 		}
 	};
 
-	static constexpr float KillHeight = -50.0f;
+	static constexpr float KILL_HEIGHT = -50.0f;
 
 	// データメンバの宣言 -----------------------------------------------
 private:

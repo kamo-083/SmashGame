@@ -54,8 +54,6 @@ private:
 	// スライド状態
 	Direction m_lastDirection;
 
-	// スライドの幅
-	float m_slideWidth;
 
 public:
 	// コンストラクタ・デストラクタ
