@@ -105,7 +105,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 
 			m_areas.push_back(std::move(std::make_unique<CountArea>(context)));
 			m_areas.back()->Initialize(pCM, data.position, data.scale.x, data.scale.z,
-									   operate, mode);
+									   operate, mode, data.areaAction.target);
 			break;
 		}
 		// ÉSÅ[Éã

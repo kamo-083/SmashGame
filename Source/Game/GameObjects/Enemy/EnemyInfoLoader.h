@@ -44,6 +44,13 @@ public:
 		Attack,
 	};
 
+	struct AttackDesc
+	{
+		float time;
+		float size;
+		float force;
+	};
+
 	struct EnemyInfo
 	{
 		EnemyType type;
@@ -53,6 +60,7 @@ public:
 		float max_speed = 0.0f;
 		float static_friction = 0.0f;
 		float dynamic_friction = 0.0f;
+		AttackDesc attack;
 
 		std::string modelPath;
 		std::string idleAnimPath;
@@ -151,6 +159,17 @@ public:
 			if (element.contains("dynamic_friction") && element["dynamic_friction"].is_number())
 			{
 				data.dynamic_friction = element["dynamic_friction"];
+			}
+
+			// çUåÇ
+			if (element.contains("attack") && element["attack"].is_array())
+			{
+				data.attack = AttackDesc
+				{
+					element["attack"][0].get<float>(),
+					element["attack"][1].get<float>(),
+					element["attack"][2].get<float>()
+				};
 			}
 
 			// ÉÇÉfÉãÇÃÉpÉX

@@ -22,8 +22,9 @@ using namespace DirectX;
  * @param[in] sceneManager    シーンを管理しているマネージャ
  * @param[in] resourceManager リソースを管理しているマネージャ
  */
-StageSelectScene::StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources)
+StageSelectScene::StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources, int stages)
 	: Scene{ pSceneManager,pUserResources }
+	, STAGES{ stages }
 	, m_selectNum{ 0 }
 {
 
@@ -59,7 +60,7 @@ void StageSelectScene::Initialize()
 	for (int i = 0; i < STAGES; i++)
 	{
 		SimpleMath::Vector2 pos = SimpleMath::Vector2(
-			windowSize.x / static_cast<float>(STAGES) * i + 350.0f * 0.5f,
+			windowSize.x / static_cast<float>(STAGES) * i + 350.0f * 0.6f,
 			windowSize.y * 0.5f
 		);
 

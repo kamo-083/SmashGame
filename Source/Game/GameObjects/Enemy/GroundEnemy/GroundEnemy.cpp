@@ -171,7 +171,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	m_bouncingState = std::make_unique<GroundEnemy_Bounce>(this);
 	m_bouncingState->Initialize(pResourceManager);
 	// 攻撃状態
-	m_attackingState = std::make_unique<GroundEnemy_Attack>(this);
+	m_attackingState = std::make_unique<GroundEnemy_Attack>(this, info);
 	m_attackingState->Initialize(pResourceManager);
 
 	// エフェクトを出現をオフ

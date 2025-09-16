@@ -20,8 +20,11 @@ using namespace DirectX;
  *
  * @param[in] groundEnemy “G‚Ìƒ|ƒCƒ“ƒ^
  */
-GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy)
+GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info)
 	: m_pGroundEnemy{ groundEnemy }
+	, ATTACK_TIME{ info.attack.time }
+	, ATTACK_SIZE{ info.attack.size }
+	, ATTACK_FORCE{ info.attack.force }
 	, m_attackTime{ 0.0f }
 	, m_stateType{ StateType::Attack }
 {

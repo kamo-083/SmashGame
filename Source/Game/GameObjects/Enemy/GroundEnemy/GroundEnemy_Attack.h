@@ -34,9 +34,9 @@ class GroundEnemy_Attack :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float ATTACK_FORCE = 5000.0f;
-	static constexpr float ATTACK_TIME = 1.0f;
-	static constexpr float ATTACK_SIZE = 1.0f;
+	const float ATTACK_FORCE;
+	const float ATTACK_TIME;
+	const float ATTACK_SIZE;
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -57,7 +57,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	GroundEnemy_Attack(GroundEnemy* groundEnemy);
+	GroundEnemy_Attack(GroundEnemy* groundEnemy,const EnemyInfoLoader::EnemyInfo& info);
 
 	// デストラクタ
 	~GroundEnemy_Attack();

@@ -31,7 +31,7 @@ class StageSelectScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	static constexpr int STAGES = 3;	// ステージ数
+	const int STAGES;	// ステージ数
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -50,7 +50,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources);
+	StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources, int stages);
 
 	// デストラクタ
 	~StageSelectScene();

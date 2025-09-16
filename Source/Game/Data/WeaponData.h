@@ -5,6 +5,7 @@ enum class WeaponType
 	BASIC,
 	ROLLING,
 	HEAVY,
+
 	TYPE_NUM
 };
 

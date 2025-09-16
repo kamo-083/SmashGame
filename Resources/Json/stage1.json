@@ -6,6 +6,6 @@
     ],
 
     "enemies": [
-        { "type": "Basic", "pos":[ -3, 2, -1 ]}
+        { "type": "Basic", "pos":[ -3, 1, -1 ]}
     ]
 }

@@ -6,7 +6,7 @@
     ],
 
     "enemies": [
-        { "type": "Basic", "pos":[ -1, 2, -3.5 ]},
-        { "type": "Basic", "pos":[ 1, 2, -2.5 ]}
+        { "type": "Heavy", "pos":[ -1, 1, -3.5 ]},
+        { "type": "Basic", "pos":[ 1, 1, -2.5 ]}
     ]
 }
