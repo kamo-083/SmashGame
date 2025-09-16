@@ -26,8 +26,9 @@ using namespace DirectX;
  */
 StageScene::StageScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path)
 	: Scene{ pSceneManager,pUserResources }
-	, m_keyMode{false}
-	, m_stageFilePath{path}
+	, m_keyMode{ false }
+	, m_stageFilePath{ path }
+	, m_overlayMode{ Overlay::NONE }
 {
 
 }
@@ -76,10 +77,21 @@ void StageScene::Initialize()
 	m_effectManager = std::make_unique<EffectManager>(m_userResources->GetDeviceResources(),m_userResources->GetStates());
 	m_effectManager->SetCamera(m_camera.get());
 
+	// ウィンドウサイズの取得
+	SimpleMath::Vector2 windowSize = SimpleMath::Vector2(
+		m_userResources->GetDeviceResources()->GetOutputSize().right,
+		m_userResources->GetDeviceResources()->GetOutputSize().bottom
+	);
+
 	// 武器UIの作成
 	m_weaponUI = std::make_unique<WeaponUI>(m_userResources->GetDeviceResources()->GetOutputSize().right,
 											m_userResources->GetDeviceResources()->GetOutputSize().bottom);
 	m_weaponUI->Initialize(m_userResources->GetResourceManager());
+
+	// リザルトUIの作成
+	m_resultUI = std::make_unique<StageResultUI>();
+	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestTexture("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
+						   SimpleMath::Vector2(350.f, 400.f), windowSize);
 
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get());
@@ -99,6 +111,9 @@ void StageScene::Initialize()
 
 	// キー操作のモードの初期化
 	m_keyMode = true;
+
+	// 表示状態の初期化
+	m_overlayMode = Overlay::NONE;
 }
 
 
@@ -112,6 +127,20 @@ void StageScene::Initialize()
  */
 void StageScene::Update(float elapsedTime)
 {
+	if (m_overlayMode == Overlay::RESULT)
+	{
+		m_resultUI->Update(elapsedTime);
+
+		// シーンの切り替え
+		if (m_userResources->GetKeyboardTracker()->pressed.Space)
+		{
+			m_effectManager->Finalize();
+			ChangeScene("StageSelectScene");
+		}
+
+		return;
+	}
+
 	// キー操作のモード切り替え
 	if (m_userResources->GetKeyboardTracker()->pressed.K) m_keyMode = !m_keyMode;
 
@@ -142,11 +171,10 @@ void StageScene::Update(float elapsedTime)
 		m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
 							 m_userResources->GetKeyboardTracker(), m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
-	// シーンの切り替え
+	// リザルトの表示　
 	if (m_stageManager->IsGoal() || m_userResources->GetKeyboardTracker()->pressed.P)
 	{
-		m_effectManager->Finalize();
-		ChangeScene("StageSelectScene");
+		m_overlayMode = Overlay::RESULT;
 	}
 }
 
@@ -183,6 +211,11 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	// エフェクトの描画
 	m_effectManager->Draw(context.projection);
+
+	if (m_overlayMode == Overlay::RESULT)
+	{
+		m_resultUI->Draw(context);
+	}
 }
 
 
@@ -201,6 +234,9 @@ void StageScene::Finalize()
 
 	if (m_weaponUI) m_weaponUI->Finalize();
 	m_weaponUI.reset();
+
+	if (m_resultUI) m_resultUI->Finalize();
+	m_resultUI.reset();
 
 	if (m_enemyManager) m_enemyManager->Finalize();
 	m_enemyManager.reset();

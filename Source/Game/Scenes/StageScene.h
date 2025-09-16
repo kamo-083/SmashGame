@@ -23,6 +23,7 @@
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/GameObjects/Stage/StageManager.h"
 #include "Source/Game/UI/WeaponUI.h"
+#include "Source/Game/UI/StageResultUI.h"
 
 
 // クラスの宣言 ===============================================================
@@ -39,7 +40,13 @@ class StageScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-
+	// 通常、ポーズ、ゴール後のenumで管理したらいいかも
+	enum class Overlay
+	{
+		NONE = -1,
+		PAUSE_MENU,
+		RESULT,
+	};
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -53,6 +60,9 @@ private:
 
 	// エフェクトマネージャー
 	std::unique_ptr<EffectManager> m_effectManager;
+
+	// オーバーレイ
+	Overlay m_overlayMode;
 
 
 	// オブジェクト関連
@@ -70,6 +80,9 @@ private:
 
 	//武器UI
 	std::unique_ptr<WeaponUI> m_weaponUI;
+
+	//リザルトUI
+	std::unique_ptr<StageResultUI> m_resultUI;
 
 	// ステージファイルへのパス
 	std::string m_stageFilePath;

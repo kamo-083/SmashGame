@@ -52,7 +52,7 @@ void StageResultUI::Initialize(ID3D11ShaderResourceView* texture,
 	SimpleMath::Vector2 startPos = SimpleMath::Vector2
 	{
 		windowSize.x * 0.5f,
-		texSize.y * 0.5f
+		windowSize.y * 0.5f - texSize.y * 0.5f
 	};
 
 	m_widget = std::make_unique<UIWidget>();
@@ -60,11 +60,11 @@ void StageResultUI::Initialize(ID3D11ShaderResourceView* texture,
 	{
 		Tween::UIParams{startPos,SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
 		Tween::UIParams{SimpleMath::Vector2(0.0f, texSize.y * 0.5f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
-		0.5f,
-		Tween::Ease::OutQuart,
+		0.25f,
+		Tween::Ease::OutBack,
 		Tween::PlaybackMode::Once
 	};
-	m_widget->Initialize(texture, data, texSize, false);
+	m_widget->Initialize(texture, data, texSize);
 }
 
 
@@ -80,7 +80,7 @@ void StageResultUI::Update(float elapsedTime)
 {
 	m_widget->Update(elapsedTime);
 
-	if (m_widget->GetTween()->Finished()) m_widget->TweenReset(false);
+	//if (m_widget->GetTween()->Finished()) m_widget->TweenReset(false);
 }
 
 

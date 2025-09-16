@@ -212,7 +212,8 @@ void AnimationSDKMESH::Apply(
             XMMATRIX scale = XMMatrixScaling(data->Scaling.x, data->Scaling.y, data->Scaling.z);
             //XMMATRIX scale = XMMatrixIdentity();
 
-            m_animBones[j] = XMMatrixMultiply(XMMatrixMultiply(rotation, scale), trans);
+            //m_animBones[j] = XMMatrixMultiply(XMMatrixMultiply(rotation, scale), trans);
+            m_animBones[j] = XMMatrixMultiply(scale, XMMatrixMultiply(rotation, trans));
         }
     }
 
