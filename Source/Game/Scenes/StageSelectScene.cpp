@@ -82,6 +82,11 @@ void StageSelectScene::Initialize()
 			});
 		m_stagePanels.push_back(std::move(panel));
 	}
+
+	m_numberSprite = std::make_unique<NumberSprite>(
+		SimpleMath::Vector2(48.f, 72.f),
+		m_userResources->GetResourceManager()->RequestTexture("number", L"Resources/Textures/Text/number_48.png"),
+		1);
 }
 
 
@@ -144,11 +149,30 @@ void StageSelectScene::Update(float elapsedTime)
 void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
 	debugFont->AddString(0, 30, Colors::White, L"StageSelectScene");
-	debugFont->AddString(0, 60, Colors::Yellow, L"SelectNum:%d",m_selectNum);
+	debugFont->AddString(0, 60, Colors::Yellow, L"Select:%d",m_selectNum);
 
 	for (auto& panel : m_stagePanels)
 	{
 		panel->Draw(context);
+	}
+
+	// ウィンドウサイズの取得
+	SimpleMath::Vector2 windowSize = SimpleMath::Vector2(
+		m_userResources->GetDeviceResources()->GetOutputSize().right,
+		m_userResources->GetDeviceResources()->GetOutputSize().bottom
+	);
+
+	// ステージ番号の描画
+	for (int i = 0; i < STAGES; i++)
+	{
+		SimpleMath::Vector2 pos = SimpleMath::Vector2(
+			windowSize.x / static_cast<float>(STAGES) * i + 380.0f * 0.6f,
+			windowSize.y * 0.25f
+		);
+
+		m_numberSprite->SetNumber(i + 1);
+		m_numberSprite->SetPosition(pos);
+		m_numberSprite->Draw(*context.spriteBatch);
 	}
 }
 

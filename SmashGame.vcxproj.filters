@@ -245,6 +245,9 @@
     <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyInfoLoader.h">
       <Filter>Game\GameObjects\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\NumberSprite.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -385,6 +388,9 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\UI\StageResultUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\NumberSprite.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
