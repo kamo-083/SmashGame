@@ -100,6 +100,7 @@ void StageScene::Initialize()
 
 	// エネミーマネージャーの作成
 	m_enemyManager = std::make_unique<EnemyManager>(m_userResources, m_collisionManager.get(), m_effectManager.get());
+	m_enemyManager->Initialize();
 
 	// ステージマネージャーの作成
 	m_stageManager = std::make_unique<StageManager>();

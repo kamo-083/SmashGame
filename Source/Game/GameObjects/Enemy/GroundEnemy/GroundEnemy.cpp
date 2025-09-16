@@ -18,13 +18,12 @@ using namespace DirectX;
 /**
  * @brief コンストラクタ
  *
+ * @param[in] info				敵の情報
  * @param[in] pUserResources	ユーザーリソースのポインタ
  * @param[in] pEffectManager エフェクトマネージャーのポインタ
  */
-GroundEnemy::GroundEnemy(float radius, float speed, float mass, float maxSpeed,
-	UserResources* pUserResources,
-	EffectManager* pEffectManager)
-	: Enemy{ radius,  speed,  mass,  maxSpeed }
+GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* pUserResources, EffectManager* pEffectManager)
+	: Enemy{ info }
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
 	, m_circle{ nullptr }
@@ -78,6 +77,7 @@ GroundEnemy::~GroundEnemy()
 void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 							 CollisionManager* pCollisionManager,
 							 const DirectX::SimpleMath::Vector3& position,
+							 const EnemyInfoLoader::EnemyInfo& info,
 							 uint32_t id)
 { 
 	// 座標の初期化
@@ -93,15 +93,14 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	m_isAttack = false;
 	m_attackForce = 0.0f;
 
-	// モデルの読み込み
-	//m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\cat.sdkmesh");
-	m_model = pResourceManager->RequestSDKMESH("enemy", L"Resources\\Models\\enemyBasic.sdkmesh", true);
+	// モデルの読み込み		(キーがとりあえずパスになっているので変える)
+	m_model = pResourceManager->RequestSDKMESH(info.modelPath, info.modelPath, true);
 
-	// アニメーションの読み込み		jsonでファイルパスとかステータスとか読み込めるようにする
+	// アニメーションの読み込み
 	m_animations = std::make_unique<Animations>();
-	m_animations->idle = pResourceManager->RequestAnimation("EnemyBasicIdle", L"Resources\\Animations\\enemyBasic_idle.sdkmesh_anim");
-	m_animations->walk = pResourceManager->RequestAnimation("EnemyBasicWalk", L"Resources\\Animations\\enemyBasic_walk.sdkmesh_anim");
-	m_animations->attack = pResourceManager->RequestAnimation("EnemyBasicAttack", L"Resources\\Animations\\enemyBasic_atk.sdkmesh_anim");
+	m_animations->idle = pResourceManager->RequestAnimation(info.idleAnimPath, info.idleAnimPath);
+	m_animations->walk = pResourceManager->RequestAnimation(info.walkAnimPath, info.walkAnimPath);
+	m_animations->attack = pResourceManager->RequestAnimation(info.attackAnimPath, info.attackAnimPath);
 
 	// リソースマネージャの設定
 	m_pResourceManager = pResourceManager;
@@ -112,8 +111,8 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 
 	// 物理演算の設定
 	m_physics = std::make_unique<PhysicsObject>();
-	m_physics->GetFriction().SetStaticFriction(0.5f);
-	m_physics->GetFriction().SetDynamicFriction(0.15f);	// 元は0.5f
+	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION);
+	m_physics->GetFriction().SetDynamicFriction(DYNAMIC_FRICTION);
 
 	// コリジョンマネージャーの登録
 	m_pCollisionManager = pCollisionManager;

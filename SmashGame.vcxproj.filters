@@ -242,6 +242,9 @@
     <ClInclude Include="Source\Game\UI\StageResultUI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyInfoLoader.h">
+      <Filter>Game\GameObjects\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -413,6 +416,9 @@
       <Filter>Json</Filter>
     </None>
     <None Include="Resources\Json\stage3.json">
+      <Filter>Json</Filter>
+    </None>
+    <None Include="Resources\Json\enemyInfo.json">
       <Filter>Json</Filter>
     </None>
   </ItemGroup>

@@ -1,0 +1,43 @@
+{
+    "info": [
+        {
+            "type": "Basic",
+            "radius": 0.5,
+            "mass": 5.0,
+            "speed": 5.0,
+            "max_speed": 10.0,
+            "static_friction": 0.5,
+            "dynamic_friction": 0.15,
+            "modelPath": "Resources/Models/enemyBasic.sdkmesh",
+            "idleAnimPath": "Resources/Animations/enemyBasic_idle.sdkmesh_anim",
+            "walkAnimPath": "Resources/Animations/enemyBasic_walk.sdkmesh_anim",
+            "attackAnimPath": "Resources/Animations/enemyBasic_atk.sdkmesh_anim"
+        },
+        {
+            "type": "Heavy",
+            "radius": 0.5,
+            "mass": 20.0,
+            "speed": 1.0,
+            "max_speed": 2.0,
+            "static_friction": 0.5,
+            "dynamic_friction": 0.15,
+            "modelPath": "Resources/Models/enemyHeavy.sdkmesh",
+            "idleAnimPath": "Resources/Animations/enemyHeavy_idle.sdkmesh_anim",
+            "walkAnimPath": "Resources/Animations/enemyHeavy_walk.sdkmesh_anim",
+            "attackAnimPath": "Resources/Animations/enemyHeavy_atk.sdkmesh_anim"
+        },
+        {
+            "type": "Light",
+            "radius": 0.5,
+            "mass": 2.0,
+            "speed": 5.0,
+            "max_speed": 10.0,
+            "static_friction": 0.5,
+            "dynamic_friction": 0.15,
+            "modelPath": "Resources/Models/enemyLight.sdkmesh",
+            "idleAnimPath": "Resources/Animations/enemyLight_idle.sdkmesh_anim",
+            "walkAnimPath": "Resources/Animations/enemyLight_walk.sdkmesh_anim",
+            "attackAnimPath": "Resources/Animations/enemyLight_atk.sdkmesh_anim"
+        }
+    ]
+}

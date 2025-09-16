@@ -78,6 +78,7 @@ public:
 
 	//モデルの要求(キーがあったら渡す、無かったら読み込んでから渡す)
 	DirectX::Model* RequestSDKMESH(const std::string& key, const wchar_t* filename, bool anim = false);
+	DirectX::Model* RequestSDKMESH(const std::string& key, const std::string& filename, bool anim = false);
 
 	//アニメーションの読み込み
 	bool LoadAnimation(const std::string& key, const wchar_t* filename);
@@ -87,10 +88,11 @@ public:
 	
 	//アニメーションの要求(キーがあったら渡す、無かったら読み込んでから渡す)
 	DX::AnimationSDKMESH* RequestAnimation(const std::string& key, const wchar_t* filename);
+	DX::AnimationSDKMESH* RequestAnimation(const std::string& key, const std::string& filename);
 
 
 // 内部実装
 private:
-
+	std::wstring StringToWchar(std::string str);
 
 };

@@ -148,6 +148,7 @@ bool ResourceManager::LoadSDKMESH(const std::string& key, const wchar_t* filenam
 	return true;
 }
 
+
 DirectX::Model* ResourceManager::GetModel(const std::string& key)
 {
 	//まだ登録されていないキーか確認
@@ -176,6 +177,12 @@ DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const wc
 	return m_models[key].get();
 }
 
+DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const std::string& filename, bool anim)
+{
+	// ファイルパスを変換してから読み込み
+	return RequestSDKMESH(key, StringToWchar(filename).c_str(), anim);
+}
+
 bool ResourceManager::LoadAnimation(const std::string& key, const wchar_t* filename)
 {
 	auto it = m_animations.find(key);
@@ -191,6 +198,7 @@ bool ResourceManager::LoadAnimation(const std::string& key, const wchar_t* filen
 
 	return true;
 }
+
 
 DX::AnimationSDKMESH* ResourceManager::GetAnimation(const std::string& key)
 {
@@ -216,6 +224,17 @@ DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, 
 		if (!LoadAnimation(key, filename)) return nullptr;
 	}
 
-	//キーに対応したモデルのポインタを返す
+	//キーに対応したアニメーションのポインタを返す
 	return m_animations[key].get();
+}
+
+DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, const std::string& filename)
+{
+	// ファイルパスを変換してから読み込み
+	return RequestAnimation(key, StringToWchar(filename).c_str());
+}
+
+std::wstring ResourceManager::StringToWchar(std::string str)
+{
+	return std::wstring(str.begin(), str.end());
 }

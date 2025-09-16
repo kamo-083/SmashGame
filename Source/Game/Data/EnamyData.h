@@ -6,12 +6,3 @@ enum class EnemyType
 	Heavy,
 	Light,
 };
-
-struct EnemyDesc
-{
-	EnemyType type;
-	float radius;
-	float speed;
-	float mass;
-	float max_speed;
-};

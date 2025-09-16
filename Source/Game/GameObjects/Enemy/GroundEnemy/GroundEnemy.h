@@ -24,12 +24,11 @@
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Attack.h"
 
 
-// クラスの定義 ===============================================================
+// クラスの宣言 ===============================================================
 class GroundEnemy_Idle;
 class GroundEnemy_Walk;
 class GroundEnemy_Bounce;
 class GroundEnemy_Attack;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -84,7 +83,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	GroundEnemy(float radius, float speed, float mass, float maxSpeed,
+	GroundEnemy(const EnemyInfoLoader::EnemyInfo& info,
 				UserResources* pUserResources,
 				EffectManager* pEffectManager);
 
@@ -98,6 +97,7 @@ public:
 	void Initialize(ResourceManager* pResourceManager,
 					CollisionManager* pCollisionManager,
 					const DirectX::SimpleMath::Vector3& position,
+					const EnemyInfoLoader::EnemyInfo& info,
 					uint32_t id) override;
 
 	// 更新処理
@@ -135,6 +135,7 @@ public:
 	void SetRotY(float rot) { m_rotY = rot + XM_PIDIV2; }	//モデルの向きの関係で少し調整
 	float GetRadius() { return RADIUS; }
 
+	Model* GetModel() { return m_model; }
 	Animations* GetAnimation() { return m_animations.get(); }
 
 	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }

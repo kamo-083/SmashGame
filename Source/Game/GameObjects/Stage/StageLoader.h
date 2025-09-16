@@ -12,8 +12,8 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
+#include "pch.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <fstream>

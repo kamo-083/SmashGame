@@ -81,5 +81,6 @@ public:
 private:
 	void Slide(Direction dir);
 	void MakeParam(UIWidget& widget, const LayoutData& to);
+	void BindWeaponSlots();
 };
 

@@ -62,11 +62,11 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 		widget->Initialize(m_textures[i], data, m_textureSize, false);
 		m_widgets.push_back(std::move(widget));
 	}
+	BindWeaponSlots();
 }
 
 void WeaponUI::Update(float elapsedTime)
 {
-
 	bool anyPlaying = false;
 	for (auto& widget : m_widgets)
 	{
@@ -76,49 +76,10 @@ void WeaponUI::Update(float elapsedTime)
 
 	if (!anyPlaying && m_lastDirection != Direction::NONE)
 	{
-		int N = static_cast<int>(WeaponType::TYPE_NUM);
-		int center = static_cast<int>(m_weaponList[0]);
-		int left = (center - 1 + N) % N;
-		int right = (center + 1) % N;
-
-		m_widgets[static_cast<int>(Layout::LEFT)]->SetTexture(m_textures[left]);
-		m_widgets[static_cast<int>(Layout::CENTER)]->SetTexture(m_textures[center]);
-		m_widgets[static_cast<int>(Layout::RIGHT)]->SetTexture(m_textures[right]);
-
-		for (int i = 0; i < static_cast<int>(Layout::DisplayNum); ++i) {
-			Tween::UIParams start{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity };
-			Tween::UIParams delta{ {},{},0,0 };
-			m_widgets[i]->SetParam(start, delta); 
-			m_widgets[i]->GetTween()->ResetTime();
-		}
+		BindWeaponSlots();
 
 		m_lastDirection = Direction::NONE;
 	}
-
-	// ƒXƒ‰ƒCƒhˆ—
-	//switch (m_slide)
-	//{
-	//case WeaponUI::Slide::NONE:
-	//	return;
-	//case WeaponUI::Slide::RIGHT:
-	//	m_slideWidth += SLIDE_DISTANCE;
-
-	//	if (m_slideWidth >= 0.0f)
-	//	{
-	//		m_slideWidth = 0.0f;
-	//		m_slide = Slide::NONE;
-	//	}
-	//	break;
-	//case WeaponUI::Slide::LEFT:
-	//	m_slideWidth -= SLIDE_DISTANCE;
-
-	//	if (m_slideWidth <= 0.0f)
-	//	{
-	//		m_slideWidth = 0.0f;
-	//		m_slide = Slide::NONE;
-	//	}
-	//	break;
-	//}
 }
 
 void WeaponUI::Draw(RenderContext context)
@@ -135,25 +96,6 @@ void WeaponUI::Draw(RenderContext context)
 	}
 
 	context.spriteBatch->End();
-
-	//SimpleMath::Vector2 displayPos = m_windowSize - m_textureSize;
-
-	//spriteBatch->Begin();
-
-	//for (int i = 0; i < static_cast<int>(WeaponType::TYPE_NUM); i++)
-	//{
-	//	displayPos.x = m_windowSize.x + m_slideWidth - m_textureSize.x * std::abs(i - static_cast<int>(WeaponType::TYPE_NUM));
-	//	if (i == 0)
-	//	{
-	//		spriteBatch->Draw(m_textures[static_cast<int>(m_weaponList[i])], SimpleMath::Vector2(displayPos.x, displayPos.y - 50.0f));
-	//	}
-	//	else
-	//	{
-	//		spriteBatch->Draw(m_textures[static_cast<int>(m_weaponList[i])], displayPos);
-	//	}
-	//}
-
-	//spriteBatch->End();
 }
 
 void WeaponUI::Finalize()
@@ -238,4 +180,24 @@ void WeaponUI::MakeParam(UIWidget& widget, const LayoutData& to)
 	};
 
 	widget.SetParam(from, delta);
+}
+
+void WeaponUI::BindWeaponSlots()
+{
+	int N = static_cast<int>(WeaponType::TYPE_NUM);
+	int center = static_cast<int>(m_weaponList[0]);
+	int left = (center - 1 + N) % N;
+	int right = (center + 1) % N;
+
+	m_widgets[static_cast<int>(Layout::LEFT)]->SetTexture(m_textures[left]);
+	m_widgets[static_cast<int>(Layout::CENTER)]->SetTexture(m_textures[center]);
+	m_widgets[static_cast<int>(Layout::RIGHT)]->SetTexture(m_textures[right]);
+
+	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); ++i)
+	{
+		Tween::UIParams start{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity };
+		Tween::UIParams delta{ {},{},0,0 };
+		m_widgets[i]->SetParam(start, delta);
+		m_widgets[i]->GetTween()->ResetTime();
+	}
 }

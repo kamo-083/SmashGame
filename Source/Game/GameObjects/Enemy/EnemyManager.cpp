@@ -13,6 +13,7 @@
 #include "EnemyManager.h"
 #include "Source/Game/GameObjects/Player/Player.h"
 
+
 using namespace DirectX;
 
 
@@ -55,7 +56,8 @@ EnemyManager::~EnemyManager()
  */
 void EnemyManager::Initialize()
 {
-
+	EnemyInfoLoader loader;
+	loader.LoadData("Resources/Json/enemyInfo.json", m_enemyInfo);
 }
 
 
@@ -143,6 +145,7 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 	enemy->Initialize(m_pUserResources->GetResourceManager(),
 					  m_pCollisionManager,
 					  spawnData.position,
+					  m_enemyInfo[static_cast<int>(spawnData.type)],
 					  m_nextID);
 
 	// ”z—ñ‚É“o˜^
@@ -186,21 +189,9 @@ Enemy* EnemyManager::GetEnemyByID(uint32_t id) const
  */
 std::unique_ptr<Enemy> EnemyManager::Create(EnemyType type)
 {
-	switch (type)
-	{
-	case EnemyType::Basic:
-		return std::make_unique<GroundEnemy>(
-			BasicDesc.radius, BasicDesc.speed, BasicDesc.mass, BasicDesc.max_speed,
-			m_pUserResources, m_pEffectManager);
-	case EnemyType::Heavy:
-		return std::make_unique<GroundEnemy>(
-			HeavyDesc.radius, HeavyDesc.speed, HeavyDesc.mass, HeavyDesc.max_speed,
-			m_pUserResources, m_pEffectManager);
-	case EnemyType::Light:
-		return std::make_unique<GroundEnemy>(
-			LightDesc.radius, LightDesc.speed, LightDesc.mass, LightDesc.max_speed,
-			m_pUserResources, m_pEffectManager);
-	}
+	return std::make_unique<GroundEnemy>(
+		m_enemyInfo[static_cast<int>(type)],
+		m_pUserResources, m_pEffectManager);
 
 	return nullptr;
 }

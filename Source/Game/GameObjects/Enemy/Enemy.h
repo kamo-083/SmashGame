@@ -22,6 +22,7 @@
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
+#include"Source/Game/GameObjects/Enemy/EnemyInfoLoader.h"
 
 #include"ImaseLib/DebugFont.h"
 
@@ -41,10 +42,12 @@ public:
 	};
 
 protected:
-	const float RADIUS;		//半径の大きさ
-	const float SPEED;		//移動速度
-	const float MASS;		//質量[kg]
-	const float MAX_SPEED;	//最高速度
+	const float RADIUS;				//半径の大きさ
+	const float SPEED;				//移動速度
+	const float MASS;				//質量[kg]
+	const float MAX_SPEED;			//最高速度
+	const float STATIC_FRICTION;	//静止摩擦係数
+	const float DYNAMIC_FRICTION;	//動摩擦係数
 
 	static constexpr float SCALE = 0.005f;
 
@@ -98,11 +101,13 @@ protected:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Enemy(float radius, float speed, float mass, float maxSpeed)
-		: RADIUS{ radius }
-		, SPEED{ speed }
-		, MASS{ mass }
-		, MAX_SPEED{ maxSpeed }
+	Enemy(EnemyInfoLoader::EnemyInfo info)
+		: RADIUS{ info.radius }
+		, SPEED{ info.speed }
+		, MASS{ info.mass }
+		, MAX_SPEED{ info.max_speed }
+		, STATIC_FRICTION{ info.static_friction }
+		, DYNAMIC_FRICTION{ info.dynamic_friction }
 		, m_currentState{ nullptr }
 		, m_rotY{ 0.0f }
 		, m_onGround{ false }
@@ -123,6 +128,7 @@ public:
 	virtual void Initialize(ResourceManager* pResourceManager,
 							CollisionManager* pCollisionManager,
 							const DirectX::SimpleMath::Vector3& position,
+							const EnemyInfoLoader::EnemyInfo& info,
 							uint32_t id) = 0;
 
 	// 更新処理

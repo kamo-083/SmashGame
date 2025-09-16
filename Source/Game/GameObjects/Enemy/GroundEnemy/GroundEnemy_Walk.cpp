@@ -50,7 +50,7 @@ void GroundEnemy_Walk::Initialize(ResourceManager* pResourceManager)
 	if (!m_modelAnimator)
 	{
 		m_modelAnimator = std::make_unique<ModelAnimator>(
-			pResourceManager->GetModel("enemy"),
+			m_pGroundEnemy->GetModel(),
 			m_pGroundEnemy->GetAnimation()->walk
 		);
 	}

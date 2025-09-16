@@ -18,6 +18,7 @@
 #include "Source/Game/Common/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/Data/EnamyData.h"
+#include "Source/Game/GameObjects/Enemy/EnemyInfoLoader.h"
 #include "Source/Game/GameObjects/Enemy/Enemy.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
@@ -56,23 +57,6 @@ public:
 		}
 	};
 
-	// 敵情報(仮)
-	 EnemyDesc BasicDesc
-	{
-		EnemyType::Basic,
-		0.5f,5.0f,5.0f,10.0f
-	};	
-	EnemyDesc HeavyDesc
-	{
-		EnemyType::Heavy,
-		0.5f,1.0f,20.0f,3.0f
-	};
-	EnemyDesc LightDesc
-	{
-		EnemyType::Light,
-		0.5f,5.0f,2.0f,10.0f
-	};
-
 	static constexpr float KillHeight = -50.0f;
 
 	// データメンバの宣言 -----------------------------------------------
@@ -91,6 +75,9 @@ private:
 
 	// 敵
 	std::vector<std::unique_ptr<EnemyData>> m_enemies;
+
+	// 種類ごとの情報
+	std::vector<EnemyInfoLoader::EnemyInfo> m_enemyInfo;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
