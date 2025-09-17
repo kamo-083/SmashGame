@@ -312,11 +312,8 @@ void GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
 	// ‚Á”ò‚Ô•ûŒü‚Ìİ’è
 	DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
 	knockbackDir.Normalize();
-
-	// ‚Á”ò‚Ô—Í‚Ìİ’è
-	float knockbackForce = mtv.distance * power;
-
-	DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
+	
+	DirectX::SimpleMath::Vector3 force = knockbackDir * power;
 	m_physics->GetExternalForce().Add(force);
 
 	// ’µ‚Ë•Ô‚èó‘Ô‚É‘JˆÚ

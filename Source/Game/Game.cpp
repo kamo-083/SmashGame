@@ -57,8 +57,8 @@ void Game::Initialize(HWND window, int width, int height)
     m_sceneManager->Register("Stage3Scene", std::make_unique<StageScene>(m_sceneManager.get(), m_userResources.get(), "Resources/Json/stage3.json"));
 
     // 開始シーンの設定
-    m_sceneManager->SetStartScene("TitleScene");
-    //m_sceneManager->SetStartScene("StageSelectScene");
+    //m_sceneManager->SetStartScene("TitleScene");
+    m_sceneManager->SetStartScene("StageSelectScene");
 }
 
 #pragma region Frame Update

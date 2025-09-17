@@ -169,7 +169,6 @@ void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont
 			windowSize.x / static_cast<float>(STAGES) * i + 380.0f * 0.6f,
 			windowSize.y * 0.25f
 		);
-
 		m_numberSprite->SetNumber(i + 1);
 		m_numberSprite->SetPosition(pos);
 		m_numberSprite->Draw(*context.spriteBatch);

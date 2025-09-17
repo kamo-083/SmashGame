@@ -90,7 +90,7 @@ void StageScene::Initialize()
 
 	// リザルトUIの作成
 	m_resultUI = std::make_unique<StageResultUI>();
-	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestTexture("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
+	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestTexture("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
 						   SimpleMath::Vector2(350.f, 400.f), windowSize);
 
 	// プレイヤーの作成

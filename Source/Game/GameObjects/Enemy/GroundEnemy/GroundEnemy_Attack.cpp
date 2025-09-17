@@ -65,7 +65,7 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pResourceManager)
 
 	float rot = m_pGroundEnemy->GetRotY() - XM_PIDIV2;	//ƒ‚ƒfƒ‹‚ÌŒü‚«‚ÌŠÖŒW‚Å’²®
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(rot), 0.0f, cosf(rot));
-	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * m_pGroundEnemy->GetRadius());
+	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * 0.5f));
 	m_pGroundEnemy->GetAttackCollider()->SetRadius(ATTACK_SIZE);
 }
 
@@ -91,7 +91,7 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 	// UŒ‚”»’è‚ÌXV
 	float rot = m_pGroundEnemy->GetRotY() - XM_PIDIV2;	//ƒ‚ƒfƒ‹‚ÌŒü‚«‚ÌŠÖŒW‚Å’²®
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(rot), 0.0f, cosf(rot));
-	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * m_pGroundEnemy->GetRadius());
+	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * 0.5f));
 
 	m_pGroundEnemy->SetOnGround(false);
 
@@ -127,7 +127,7 @@ void GroundEnemy_Attack::Render(RenderContext& context)
 
 	if (m_pGroundEnemy->GetSpherePrimitive())
 	{
-		DirectX::SimpleMath::Matrix sphereScale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetAttackCollider()->GetRadius());
+		DirectX::SimpleMath::Matrix sphereScale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetAttackCollider()->GetRadius()*2.0f);
 		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetAttackCollider()->GetCenter());
 		world = sphereScale * trans;
 		m_pGroundEnemy->GetSpherePrimitive()->Draw(world, context.view, context.projection, DirectX::Colors::Red, nullptr, true);
