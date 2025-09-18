@@ -38,9 +38,6 @@ public:
 				  float radius,
 				  float elapsedTime);
 
-	//–€ŽC‚ð‰Á‚¦‚é
-	void AddFriction(DirectX::SimpleMath::Vector3& velocity, float mass, bool onGround, float elapsedTime);
-
 	//Žæ“¾
 	ExternalForce& GetExternalForce() { return m_externalForce; }
 	Gravity& GetGravity() { return m_gravity; }

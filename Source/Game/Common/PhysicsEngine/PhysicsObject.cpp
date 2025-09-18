@@ -52,7 +52,7 @@ void PhysicsObject::Reflection(DirectX::SimpleMath::Vector3& velocity,
 	DirectX::SimpleMath::Vector3 v = velocity;
 	DirectX::SimpleMath::Vector3 n = normal;
 	DirectX::SimpleMath::Vector3 reflectionVector = CalculateReflectionVector(v, n);
-	velocity = reflectionVector * restitution;
+	velocity = reflectionVector * restitution; 
 }
 
 void PhysicsObject::RollDown(DirectX::SimpleMath::Vector3& velocity, 

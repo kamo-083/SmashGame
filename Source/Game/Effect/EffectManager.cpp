@@ -40,7 +40,7 @@ EffectManager::EffectManager(DX::DeviceResources* deviceResources, DirectX::Comm
 
 	CreateShader();
 
-	// debug
+	// -- debug ----------------
 	//static const char c_szName[] = "EffectManager";
 	//HRESULT hr = m_pDeviceResources->GetD3DDeviceContext()->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(c_szName) - 1, c_szName);
 	auto* alpha = m_states->AlphaBlend();

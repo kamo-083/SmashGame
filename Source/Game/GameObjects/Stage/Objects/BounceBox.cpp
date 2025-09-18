@@ -69,6 +69,7 @@ void BounceBox::Initialize(CollisionManager* pCollisionManager,
 	desc.obb = &m_collider;
 	desc.position = nullptr;
 	desc.velocity = nullptr;
+	desc.restitution = 0.5f;
 	desc.callback.onEnter =
 		[this, pCollisionManager](uint32_t, uint32_t other)
 		{
@@ -81,7 +82,7 @@ void BounceBox::Initialize(CollisionManager* pCollisionManager,
 			knockbackDir.Normalize();
 
 			// ‚Á”ò‚Ô—Í‚ÌÝ’è
-			float knockbackForce = mtv.distance * *pCollisionManager->GetDesc(other)->uerData;
+			float knockbackForce = mtv.distance * *pCollisionManager->GetDesc(other)->userData;
 
 			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
 			m_physics.GetExternalForce().Add(force);

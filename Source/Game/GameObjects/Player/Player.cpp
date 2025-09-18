@@ -155,6 +155,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	bodyDesc.sphere = &m_collider;
 	bodyDesc.position = &m_position;
 	bodyDesc.velocity = &m_velocity;
+	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
 		[this](uint32_t, const SimpleMath::Vector3& n, float)	// Ú’nƒtƒ‰ƒO‚ğ—§‚Ä‚é
 		{
@@ -173,7 +174,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 			knockbackDir.Normalize();
 
 			// ‚Á”ò‚Ô—Í‚Ìİ’è
-			float knockbackForce = *m_pCollisionManager->GetDesc(other)->uerData;
+			float knockbackForce = *m_pCollisionManager->GetDesc(other)->userData;
 
 			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
 			m_physics->GetExternalForce().Add(force);
@@ -190,7 +191,7 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	atkDesc.layer = CollisionManager::Layer::PlayerAttack;
 	atkDesc.isTrigger = true;
 	atkDesc.sphere = &m_attackCollider;
-	atkDesc.uerData = &m_attackForce;
+	atkDesc.userData = &m_attackForce;
 	m_handleAttack = m_pCollisionManager->Add(atkDesc);
 	m_pCollisionManager->SetEnabled(m_handleAttack, false);
 

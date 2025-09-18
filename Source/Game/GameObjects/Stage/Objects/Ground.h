@@ -32,7 +32,6 @@ private:
 	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 5.0f,0.5f,5.0f };
 	static constexpr DirectX::SimpleMath::Vector3 ANGLE = { 0.0f,0.0f,0.0f };
 
-
 // データメンバの宣言 -----------------------------------------------
 private:
 	DirectX::SimpleMath::Vector3 m_position;

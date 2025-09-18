@@ -125,6 +125,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	bodyDesc.sphere = &m_collider;
 	bodyDesc.position = &m_position;
 	bodyDesc.velocity = &m_velocity;
+	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
 		[this](uint32_t other, const SimpleMath::Vector3& n, float)	// 接地フラグを立てる
 		{
@@ -140,7 +141,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 			auto otherDesc = m_pCollisionManager->GetDesc(other);
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack) return;
 
-			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->uerData);
+			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
 		};
 	bodyDesc.callback.onStay =
 		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)
@@ -148,7 +149,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 			auto otherDesc = m_pCollisionManager->GetDesc(other);
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack && !otherDesc->isMultiHit) return;
 
-			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->uerData);
+			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
 		};
 	m_handleBody = m_pCollisionManager->Add(bodyDesc);
 	// 攻撃
@@ -157,7 +158,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	atkDesc.layer = CollisionManager::Layer::EnemyAttack;
 	atkDesc.isTrigger = true;
 	atkDesc.sphere = &m_attackCollider;
-	atkDesc.uerData = &m_attackForce;
+	atkDesc.userData = &m_attackForce;
 	m_handleAttack = m_pCollisionManager->Add(atkDesc);
 
 	// 状態の作成

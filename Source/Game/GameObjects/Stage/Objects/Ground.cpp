@@ -69,6 +69,7 @@ void Ground::Initialize(CollisionManager* pCollisionManager,
 	desc.obb = &m_collider;
 	desc.position = nullptr;
 	desc.velocity = nullptr;
+	desc.restitution = 0.0f;
 	m_collisionHandle = pCollisionManager->Add(desc);
 }
 

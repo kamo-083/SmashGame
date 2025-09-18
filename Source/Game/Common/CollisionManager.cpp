@@ -87,22 +87,26 @@ void CollisionManager::Update(float elapsedTime)
 			{
 				bool hit = false;
 
-				// 衝突判定
-				if (A.desc.type == Type::Sphere && B.desc.type == Type::Sphere)
+				// トリガーの衝突判定
+				if (A.desc.type == Type::Sphere && B.desc.type == Type::Sphere)		// 球同士
 				{
+					// 登録されていたら判定する
 					if (A.desc.sphere && B.desc.sphere) hit = IsHit(*A.desc.sphere, *B.desc.sphere);
 				}
-				else if (A.desc.type == Type::Sphere && B.desc.type == Type::OBB)
+				else if (A.desc.type == Type::Sphere && B.desc.type == Type::OBB)	// 球vsOBB
 				{
+					// 登録されていたら判定する
 					if (A.desc.sphere && B.desc.obb) hit = IsHit(*B.desc.obb, *A.desc.sphere);
 				}
-				else if (A.desc.type == Type::OBB && B.desc.type == Type::Sphere)
+				else if (A.desc.type == Type::OBB && B.desc.type == Type::Sphere)	// OBBvs球
 				{
+					// 登録されていたら判定する
 					if (A.desc.obb && B.desc.sphere) hit = IsHit(*A.desc.obb, *B.desc.sphere);
 				}
 				else
 				{
-					if (A.desc.obb && B.desc.obb) hit = IsHit(*A.desc.obb, *B.desc.obb);
+					// 登録されていたら判定する
+					if (A.desc.obb && B.desc.obb) hit = IsHit(*A.desc.obb, *B.desc.obb);	// OBBvsOBB
 				}
 
 				// 当たっていたら重なりを記録
@@ -114,16 +118,16 @@ void CollisionManager::Update(float elapsedTime)
 				continue;
 			}
 
-			// 衝突判定
+			// オブジェクトの衝突判定
 			if (A.desc.type == Type::Sphere)
 			{
-				if (B.desc.type == Type::Sphere) ResolveSphereVsSphere(A, B);
-				else							 ResolveSphereVsOBB(A, B);
+				if (B.desc.type == Type::Sphere) ResolveSphereVsSphere(A, B);	// 球vs球
+				else							 ResolveSphereVsOBB(A, B);		// 球vsOBB
 			}
 			else
 			{
-				if (B.desc.type == Type::Sphere) ResolveSphereVsOBB(B, A);
-				else							 ResolveOBBVsOBB(A, B);
+				if (B.desc.type == Type::Sphere) ResolveSphereVsOBB(B, A);		// OBBvs球
+				else							 ResolveOBBVsOBB(A, B);			// OBBvsOBB
 			}
 		}
 	}
@@ -190,6 +194,13 @@ uint32_t CollisionManager::Add(const Desc& desc)
 	n.desc = desc;
 	n.alive = true;
 	n.enabled = true;
+
+	// 未入力の場合、質量の逆数を計算
+	if (n.desc.invMass <= 0.0f)
+	{	
+		if (n.desc.mass > 0.0f) n.desc.invMass = 1.0f / desc.mass;
+		else					n.desc.invMass = 0.0f;
+	}
 
 	m_nodes.emplace(h, std::move(n));
 	m_order.push_back(h);
@@ -276,14 +287,14 @@ void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 	SimpleMath::Vector3 normal = mtv.direction;
 	normal.Normalize();
 	
-	// 座標を調整
+		// 座標を調整
 	if (a.desc.position)
 	{
 		*a.desc.position += normal * mtv.distance;
 		a.desc.sphere->SetCenter(*a.desc.position);
 	}
 
-	// 速度を調整
+		// 速度を調整
 	SlideVelocity(a.desc.velocity, normal);
 
 	a.overlapsNow.insert(b.handle);
@@ -321,15 +332,50 @@ void CollisionManager::ResolveSphereVsSphere(Node& a, Node& b)
 	SimpleMath::Vector3 normal = mtv.direction;
 	normal.Normalize();
 
-	// 座標を調整
-	if (a.desc.position)
+	float invA = a.desc.invMass;
+	float invB = b.desc.invMass;
+	float invSum = invA + invB;
+
+	if (invSum > 0.0f)
 	{
-		*a.desc.position -= normal * mtv.distance;
-		a.desc.sphere->SetCenter(*a.desc.position);
+
+		SimpleMath::Vector3 correction = normal * (mtv.distance * 0.8f / invSum);
+
+		// 座標を調整
+		if (a.desc.position && invA > 0.0f)
+		{
+			*a.desc.position -= correction * invA;
+			a.desc.sphere->SetCenter(*a.desc.position);
+		}
+		if (b.desc.position && invB > 0.0f)
+		{
+			*b.desc.position += correction * invB;
+			b.desc.sphere->SetCenter(*b.desc.position);
+		}
 	}
 
-	// 速度を調整
-	SlideVelocity(a.desc.velocity, normal);
+	// 相対速度
+	SimpleMath::Vector3 velA = a.desc.velocity ? *a.desc.velocity : SimpleMath::Vector3::Zero;
+	SimpleMath::Vector3 velB = b.desc.velocity ? *b.desc.velocity : SimpleMath::Vector3::Zero;
+	SimpleMath::Vector3 rv = velB - velA;
+	float vn = rv.Dot(normal);
+
+	if (invSum > 0.0f && vn < 0.0f)
+	{
+		float e = std::min(a.desc.restitution, b.desc.restitution);
+		float j = -(1.0f + e) * vn / invSum;
+		SimpleMath::Vector3 impulse = j * normal;
+
+		// 速度を調整
+		if (a.desc.velocity && invA > 0.0f)
+		{
+			*a.desc.velocity -= impulse * invA;
+		}
+		if (b.desc.velocity && invB > 0.0f)
+		{
+			*b.desc.velocity += impulse * invB;
+		}
+	}
 
 	a.overlapsNow.insert(b.handle);
 	b.overlapsNow.insert(a.handle);
@@ -337,6 +383,10 @@ void CollisionManager::ResolveSphereVsSphere(Node& a, Node& b)
 	if (a.desc.callback.onResolved)
 	{
 		a.desc.callback.onResolved(b.handle, normal, mtv.distance);
+	}
+	if (b.desc.callback.onResolved)
+	{
+		b.desc.callback.onResolved(b.handle, normal, mtv.distance);
 	}
 }
 

@@ -75,6 +75,7 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 	desc.obb = &m_collider;
 	desc.position = nullptr;
 	desc.velocity = nullptr;
+	desc.restitution = 0.0f;
 	desc.callback.onEnter =
 		[this, pCollisionManager, pEnemyManager](uint32_t, uint32_t other)
 		{
