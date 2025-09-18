@@ -69,7 +69,6 @@ void BounceBox::Initialize(CollisionManager* pCollisionManager,
 	desc.obb = &m_collider;
 	desc.position = nullptr;
 	desc.velocity = nullptr;
-	desc.restitution = 0.5f;
 	desc.callback.onEnter =
 		[this, pCollisionManager](uint32_t, uint32_t other)
 		{

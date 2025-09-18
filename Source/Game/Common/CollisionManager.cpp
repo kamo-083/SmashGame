@@ -286,16 +286,60 @@ void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 	// 方向を正規化
 	SimpleMath::Vector3 normal = mtv.direction;
 	normal.Normalize();
-	
-		// 座標を調整
-	if (a.desc.position)
+	if (b.desc.layer == CollisionManager::Layer::Stage && normal.y < 0.0f)
 	{
-		*a.desc.position += normal * mtv.distance;
-		a.desc.sphere->SetCenter(*a.desc.position);
+		normal = -normal;
 	}
 
+	const float percent = 0.8f;
+	const float slop = 0.01f;
+	float invA = a.desc.invMass;
+	float invB = b.desc.invMass;
+	float invSum = invA + invB;
+
+	float depth = mtv.distance - slop;
+	if (depth < 0.0f) depth = 0.0f;
+
+	if (invSum > 0.0f && depth > 0.0f)
+	{
+		SimpleMath::Vector3 correction = normal * (depth * percent / invSum);
+
+		// 座標を調整
+		if (a.desc.position && invA > 0.0f)
+		{
+			*a.desc.position += correction * invA;
+			a.desc.sphere->SetCenter(*a.desc.position);
+		}
+		if (b.desc.position && invB > 0.0f)
+		{
+			*b.desc.position -= correction * invB;
+			b.desc.obb->SetCenter(*b.desc.position);
+		}
+	}
+
+	// 相対速度
+	SimpleMath::Vector3 velA = a.desc.velocity ? *a.desc.velocity : SimpleMath::Vector3::Zero;
+	SimpleMath::Vector3 velB = b.desc.velocity ? *b.desc.velocity : SimpleMath::Vector3::Zero;
+	SimpleMath::Vector3 rv = velA - velB;
+	float vn = rv.Dot(normal);
+
+	if (invSum > 0.0f && vn < 0.0f)
+	{
+		// インパルス
+		float e = std::min(a.desc.restitution, b.desc.restitution);
+		float j = -(1.0f + e) * vn / invSum;
+		SimpleMath::Vector3 impulse = j * normal;
+
 		// 速度を調整
-	SlideVelocity(a.desc.velocity, normal);
+		if (a.desc.velocity && invA > 0.0f)
+		{
+			*a.desc.velocity += impulse * invA;
+		}
+		if (b.desc.velocity && invB > 0.0f)
+		{
+			*b.desc.velocity -= impulse * invB;
+		}
+	}
 
 	a.overlapsNow.insert(b.handle);
 	b.overlapsNow.insert(a.handle);
@@ -303,6 +347,10 @@ void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 	if (a.desc.callback.onResolved)
 	{
 		a.desc.callback.onResolved(b.handle, normal, mtv.distance);
+	}
+	if (b.desc.callback.onResolved)
+	{
+		b.desc.callback.onResolved(b.handle, normal, mtv.distance);
 	}
 }
 

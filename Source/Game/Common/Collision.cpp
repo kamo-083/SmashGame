@@ -415,17 +415,47 @@ MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere)
 	float distance = displacement.Length();
 	float penetration = sphere.GetRadius() - distance;
 
+	// 外側
 	if (penetration > 0.0f && distance > 0.0001f)
 	{
 		//押し出しベクトルを計算
 		mtv.direction = displacement / distance;	//正規化
 		mtv.distance = penetration;
+
+		return mtv;
 	}
-	else
+
+	// 内側
+	float proj[3] =
 	{
-		mtv.direction = SimpleMath::Vector3::Zero;
-		mtv.distance = 0.0f;
+		delta.Dot(obb.GetAxis(0)),
+		delta.Dot(obb.GetAxis(1)),
+		delta.Dot(obb.GetAxis(2))
+	};
+
+	float gap[3] =
+	{
+		obb.GetHalfLength(0) - std::fabs(proj[0]),
+		obb.GetHalfLength(1) - std::fabs(proj[1]),
+		obb.GetHalfLength(2) - std::fabs(proj[2])
+	};
+	
+	// 最小移動量と向きを求める
+	int minAxis = 0;
+	float minMove = gap[0] + sphere.GetRadius();
+	for (int i = 1; i < 3; ++i)
+	{
+		float move = gap[i] + sphere.GetRadius();
+		if (move < minMove)
+		{
+			minMove = move;
+			minAxis = i;
+		}
 	}
+
+	SimpleMath::Vector3 dir = (proj[minAxis] >= 0.0f ? obb.GetAxis(minAxis) : -obb.GetAxis(minAxis));
+	mtv.direction = dir;
+	mtv.distance = minMove;
 
 	return mtv;
 }
