@@ -90,7 +90,7 @@ void StageScene::Initialize()
 
 	// リザルトUIの作成
 	m_resultUI = std::make_unique<StageResultUI>();
-	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestTexture("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
+	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
 						   SimpleMath::Vector2(350.f, 400.f), windowSize);
 
 	// プレイヤーの作成
@@ -109,6 +109,10 @@ void StageScene::Initialize()
 
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());
+
+	// 空の作成
+	m_sky = std::make_unique<Sky>();
+	m_sky->Initialize(m_userResources);
 
 	// キー操作のモードの初期化
 	m_keyMode = true;
@@ -193,6 +197,9 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	context.view = m_camera->GetView();
 
+	// 空の描画
+	m_sky->Draw(context);
+
 	// プレイヤーの描画
 	m_player->Draw(context, debugFont);
 
@@ -236,6 +243,9 @@ void StageScene::Finalize()
 
 	if (m_resultUI) m_resultUI->Finalize();
 	m_resultUI.reset();
+
+	if (m_sky) m_sky->Finalize();
+	m_sky.reset();
 
 	if (m_enemyManager) m_enemyManager->Finalize();
 	m_enemyManager.reset();

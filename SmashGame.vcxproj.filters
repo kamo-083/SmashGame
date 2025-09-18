@@ -248,6 +248,9 @@
     <ClInclude Include="Source\Game\UI\NumberSprite.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Sky.h">
+      <Filter>Game\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -392,6 +395,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\NumberSprite.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Sky.cpp">
+      <Filter>Game\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

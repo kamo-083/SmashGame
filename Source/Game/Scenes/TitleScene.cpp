@@ -52,9 +52,9 @@ void TitleScene::Initialize()
 {
 	// テクスチャの読み込み
 	m_textures = std::make_unique<Textures>();
-	m_textures->logo = m_userResources->GetResourceManager()->RequestTexture("titleLogo", L"Resources/Textures/Text/title.png");
-	m_textures->start= m_userResources->GetResourceManager()->RequestTexture("startText", L"Resources/Textures/Text/startText.png");
-	m_textures->exit= m_userResources->GetResourceManager()->RequestTexture("exitText", L"Resources/Textures/Text/exitText.png");
+	m_textures->logo = m_userResources->GetResourceManager()->RequestPNG("titleLogo", L"Resources/Textures/Text/title.png");
+	m_textures->start= m_userResources->GetResourceManager()->RequestPNG("startText", L"Resources/Textures/Text/startText.png");
+	m_textures->exit= m_userResources->GetResourceManager()->RequestPNG("exitText", L"Resources/Textures/Text/exitText.png");
 
 	// タイトルロゴを作成
 	m_titleLogo = std::make_unique<UIWidget>();

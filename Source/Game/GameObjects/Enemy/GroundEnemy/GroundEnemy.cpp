@@ -32,7 +32,7 @@ GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* 
 
 	// 軌跡エフェクトの作成
 	m_trajectory = pEffectManager->CreateTrajectory(
-		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
+		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.5f,
 		2.0f,
 		SimpleMath::Color(1, 1, 1, 1),
@@ -42,7 +42,7 @@ GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* 
 
 	// 円形エフェクトの作成
 	m_circle = pEffectManager->CreateCircle(
-		pUserResources->GetResourceManager()->RequestTexture("smoke", L"Resources/Textures/Effect/smoke.png"),
+		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.75f,
 		1.0f,
 		SimpleMath::Color(1, 1, 1, 1),

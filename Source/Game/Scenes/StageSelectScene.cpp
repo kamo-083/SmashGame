@@ -74,7 +74,7 @@ void StageSelectScene::Initialize()
 		};
 
 		std::unique_ptr<Button> panel = std::make_unique<Button>();
-		panel->Initialize(m_userResources->GetResourceManager()->RequestTexture("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
+		panel->Initialize(m_userResources->GetResourceManager()->RequestPNG("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
 			data, SimpleMath::Vector2(350.f, 400.f),
 			[this, i]() {
 				std::string stageName = "Stage" + std::to_string(i + 1) + "Scene";
@@ -85,7 +85,7 @@ void StageSelectScene::Initialize()
 
 	m_numberSprite = std::make_unique<NumberSprite>(
 		SimpleMath::Vector2(48.f, 72.f),
-		m_userResources->GetResourceManager()->RequestTexture("number", L"Resources/Textures/Text/number_48.png"),
+		m_userResources->GetResourceManager()->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1);
 }
 

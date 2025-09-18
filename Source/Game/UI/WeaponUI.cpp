@@ -25,9 +25,9 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	}
 
 	// テクスチャの読み込み
-	m_textures[static_cast<int>(WeaponType::BASIC)] = resourceManager->RequestTexture("weapon_basic", L"Resources/Textures/Weapon/bou.png");
-	m_textures[static_cast<int>(WeaponType::ROLLING)] = resourceManager->RequestTexture("weapon_rolling", L"Resources/Textures/Weapon/glass_ball.png");
-	m_textures[static_cast<int>(WeaponType::HEAVY)] = resourceManager->RequestTexture("weapon_heavy", L"Resources/Textures/Weapon/war_ishiono.png");
+	m_textures[static_cast<int>(WeaponType::BASIC)] = resourceManager->RequestPNG("weapon_basic", L"Resources/Textures/Weapon/bou.png");
+	m_textures[static_cast<int>(WeaponType::ROLLING)] = resourceManager->RequestPNG("weapon_rolling", L"Resources/Textures/Weapon/glass_ball.png");
+	m_textures[static_cast<int>(WeaponType::HEAVY)] = resourceManager->RequestPNG("weapon_heavy", L"Resources/Textures/Weapon/war_ishiono.png");
 
 	// 画像サイズの設定
 	m_textureSize = SimpleMath::Vector2(width, height);

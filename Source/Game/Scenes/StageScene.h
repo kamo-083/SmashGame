@@ -22,6 +22,7 @@
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/GameObjects/Stage/StageManager.h"
+#include "Source/Game/GameObjects/Sky.h"
 #include "Source/Game/UI/WeaponUI.h"
 #include "Source/Game/UI/StageResultUI.h"
 
@@ -83,6 +84,9 @@ private:
 
 	//リザルトUI
 	std::unique_ptr<StageResultUI> m_resultUI;
+
+	// 空
+	std::unique_ptr<Sky> m_sky;
 
 	// ステージファイルへのパス
 	std::string m_stageFilePath;
