@@ -14,14 +14,14 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/UIWidget.h"
+#include"Source/Game/UI/UIElement.h"
 
 
 // クラスの定義 ===============================================================
 /**
  * @brief StageResultUI
  */
-class StageResultUI
+class StageResultUI :public UIElement
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
@@ -29,7 +29,6 @@ public:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	std::unique_ptr<UIWidget> m_widget;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -42,12 +41,12 @@ public:
 	~StageResultUI();
 
 
-// 操作
+	// 操作
 public:
 	// 初期化処理
 	void Initialize(ID3D11ShaderResourceView* texture,
-					DirectX::SimpleMath::Vector2 texSize,
-					DirectX::SimpleMath::Vector2 windowSize);
+		DirectX::SimpleMath::Vector2 texSize,
+		DirectX::SimpleMath::Vector2 windowSize);
 
 	// 更新処理
 	void Update(float elapsedTime);
@@ -59,10 +58,10 @@ public:
 	void Finalize();
 
 
-// 取得/設定
+	// 取得/設定
 public:
 
-// 内部実装
+	// 内部実装
 private:
 
 };

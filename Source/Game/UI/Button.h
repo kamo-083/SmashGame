@@ -14,14 +14,14 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/UIWidget.h"
+#include"Source/Game/UI/UIElement.h"
 
 
 // クラスの定義 ===============================================================
 /**
  * @brief Button
  */
-class Button
+class Button :public UIElement
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -30,8 +30,6 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	std::unique_ptr<UIWidget> m_widget;
-
 	std::function<void()> m_operate;
 
 
@@ -45,13 +43,13 @@ public:
 	~Button();
 
 
-// 操作
+	// 操作
 public:
 	// 初期化処理
-	void Initialize(ID3D11ShaderResourceView* texture, 
-					const Tween::TweenData data, 
-					DirectX::SimpleMath::Vector2 size,
-					std::function<void()> operate);
+	void Initialize(ID3D11ShaderResourceView* texture,
+		const Tween::TweenData data,
+		DirectX::SimpleMath::Vector2 size,
+		std::function<void()> operate);
 
 	// 更新処理
 	void Update(float elapsedTime);
@@ -69,10 +67,10 @@ public:
 	void Reset();
 
 
-// 取得/設定
+	// 取得/設定
 public:
 
-// 内部実装
+	// 内部実装
 private:
 
 };

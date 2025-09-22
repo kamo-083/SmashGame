@@ -238,6 +238,7 @@
     <ClInclude Include="Source\Game\UI\SlidePanel.h" />
     <ClInclude Include="Source\Game\UI\StageResultUI.h" />
     <ClInclude Include="Source\Game\UI\Tween.h" />
+    <ClInclude Include="Source\Game\UI\UIElement.h" />
     <ClInclude Include="Source\Game\UI\UIWidget.h" />
     <ClInclude Include="Source\Game\UI\WeaponUI.h" />
   </ItemGroup>

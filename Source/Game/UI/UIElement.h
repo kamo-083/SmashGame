@@ -1,7 +1,7 @@
 /**
- * @file   SlidePanel.h
+ * @file   UIElement.h
  *
- * @brief  SlidePanelに関するヘッダファイル
+ * @brief  基本的なUIの基底クラスに関するヘッダファイル
  *
  * @author 制作者名
  *
@@ -14,66 +14,53 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/UIElement.h"
+#include"Source/Game/UI/UIWidget.h"
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief SlidePanel
+ * @brief 基本的なUIの基底クラス
  */
-class SlidePanel :public UIElement
+class UIElement
 {
 	// クラス定数の宣言 -------------------------------------------------
-public:
-	const int PANEL_NUM;
+private:
 
-	enum class Direction
-	{
-		NONE = -1,
-		RIGHT,
-		LEFT
-	};
 
 
 	// データメンバの宣言 -----------------------------------------------
-private:
-	// 前回動かした方向
-	Direction m_lastDirection;
+protected:
+	// ウィジェット
+	std::unique_ptr<UIWidget> m_widget;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	SlidePanel(int stage_num);
+	UIElement()
+	{}
 
 	// デストラクタ
-	~SlidePanel();
+	~UIElement()
+	{}
 
 
-	// 操作
+// 操作
 public:
-	// 初期化処理
-	void Initialize(ID3D11ShaderResourceView* texture,
-		DirectX::SimpleMath::Vector2 texSize,
-		DirectX::SimpleMath::Vector2 windowSize);
-
 	// 更新処理
-	void Update(float elapsedTime);
+	virtual void Update(float elapsedTime) = 0;
 
 	// 描画処理
-	void Draw(RenderContext context);
+	virtual void Draw(RenderContext context) = 0;
 
 	// 終了処理
-	void Finalize();
+	virtual void Finalize() = 0;
 
-	void Slide(Direction dir);
-
-
-	// 取得/設定
+// 取得/設定
 public:
 
-	// 内部実装
+// 内部実装
 private:
 
 };
