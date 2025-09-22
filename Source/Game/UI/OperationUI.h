@@ -33,7 +33,7 @@ public:
 		ID3D11ShaderResourceView* keyText;
 	};
 
-	static constexpr float TWEEN_TIME = 0.5f;
+	static constexpr float TWEEN_TIME = 0.25f;
 
 
 	// データメンバの宣言 -----------------------------------------------

@@ -99,14 +99,46 @@ void UIWidget::Draw(RenderContext context)
 	context.spriteBatch->End();
 }
 
-void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch)
-{
+/**
+ * @brief 描画処理 (SpriteBatchのBegin/End無し)(設定画像以外を表示したい場合)
+ *
+ * @param[in] spriteBatch スプライトバッチのポインタ
+ * @param[in] texture	  テクスチャのポインタ
+ * @param[in] pos		  座標
+ * @param[in] rect		  切り取り範囲
+ * @param[in] rot		  回転
+ * @param[in] size		  画像サイズ
+ *
+ * @return なし
+ */
+void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch,
+					ID3D11ShaderResourceView* texture,
+					DirectX::SimpleMath::Vector2 pos,
+					const RECT* rect,
+					float rot,
+					DirectX::SimpleMath::Vector2 size)
+{ 
+	// 各引数が初期値だった場合、既に登録済みのデータを使う
+	// テクスチャ
+	if (!texture) texture = m_texture;
+
+	// 座標
+	if (pos == SimpleMath::Vector2::Zero) pos = m_params.pos;
+	else								  pos += m_params.pos;
+
+	// 回転
+	if (rot == FLT_MAX) rot = m_params.rotation;
+
+	// 中心
+	SimpleMath::Vector2 origin;
+	if (size == SimpleMath::Vector2::Zero) origin = m_texSize * 0.5f;
+	else								   origin = size * 0.5f;
+
+	// 透明度
 	SimpleMath::Color color = { 1, 1, 1, m_params.opacity };
-	SimpleMath::Vector2 size = { m_texSize.x * 0.5f,m_texSize.y * 0.5f };
 
-	spriteBatch->Draw(m_texture, m_params.pos, nullptr, color, m_params.rotation, size, m_params.scale, SpriteEffects_None, 0.0f);
+	spriteBatch->Draw(texture, pos, rect, color, rot, origin, m_params.scale);
 }
-
 
 
 /**

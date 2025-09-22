@@ -47,9 +47,9 @@ OperationUI::~OperationUI()
  * @return ‚È‚µ
  */
 void OperationUI::Initialize(ResourceManager* resourceManager, 
-	DirectX::SimpleMath::Vector2 centerPos, 
-	float arrowInterval,
-	bool active)
+							 DirectX::SimpleMath::Vector2 centerPos, 
+							 float arrowInterval,
+							 bool active)
 {
 	// —LŒøE–³Œø‚Ìİ’è
 	m_active = active;
@@ -77,14 +77,8 @@ void OperationUI::Initialize(ResourceManager* resourceManager,
 	// ¶
 	widget = std::make_unique<UIWidget>();
 	SimpleMath::Vector2 leftPos = SimpleMath::Vector2(centerPos.x - arrowInterval * 0.5f, centerPos.y);
-	data =
-	{
-		{leftPos,SimpleMath::Vector2::Zero,XM_PI,1.0f},
-		{SimpleMath::Vector2::Zero,SimpleMath::Vector2::Zero,0.0f,0.0f},
-		TWEEN_TIME,
-		Tween::Ease::Liner,
-		Tween::PlaybackMode::Once
-	};
+	data.start.pos = leftPos;
+	data.start.rotation = XM_PI;
 	widget->Initialize(m_textures->arrow, data, SimpleMath::Vector2(200.f, 100.f), false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets.push_back(std::move(widget));
@@ -92,14 +86,8 @@ void OperationUI::Initialize(ResourceManager* resourceManager,
 	// ‰E
 	widget = std::make_unique<UIWidget>();
 	SimpleMath::Vector2 rightPos = SimpleMath::Vector2(centerPos.x + arrowInterval * 0.5f, centerPos.y);
-	data =
-	{
-		{rightPos,SimpleMath::Vector2::Zero,0.0f,1.0f},
-		{SimpleMath::Vector2::Zero,SimpleMath::Vector2::Zero,0.0f,0.0f},
-		TWEEN_TIME,
-		Tween::Ease::Liner,
-		Tween::PlaybackMode::Once
-	};
+	data.start.pos = rightPos;
+	data.start.rotation = 0.0f;
 	widget->Initialize(m_textures->arrow, data, SimpleMath::Vector2(200.f, 100.f), false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets.push_back(std::move(widget));
@@ -132,13 +120,31 @@ void OperationUI::Update(float elapsedTime)
  */
 void OperationUI::Draw(RenderContext context)
 {
+	context.spriteBatch->Begin(
+		SpriteSortMode_Deferred,
+		context.states->NonPremultiplied(),
+		context.states->LinearClamp()
+	);
+
 	for (auto& widget : m_widgets)
 	{
-		//if (m_active && widget == *m_widgets.begin()) continue;
-		//else if (!m_active && widget != *m_widgets.begin()) return;
+		widget->Draw(context.spriteBatch);
 
-		widget->Draw(context);
+		// •¶š(‰¼)
+		RECT rect = { 50.f, 50.f };
+		SimpleMath::Vector2 size = { 50.f, 50.f };
+
+		widget->Draw(
+			context.spriteBatch,
+			m_textures->box,
+			size,
+			&rect,
+			0.0f,
+			size
+		);
 	}
+
+	context.spriteBatch->End();
 }
 
 

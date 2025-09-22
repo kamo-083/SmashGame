@@ -236,9 +236,6 @@
     <ClInclude Include="Source\Game\UI\Button.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\SlidePanel.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\UI\StageResultUI.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -391,9 +388,6 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\UI\Button.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\SlidePanel.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\UI\StageResultUI.cpp">

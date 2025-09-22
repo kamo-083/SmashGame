@@ -236,7 +236,6 @@
     <ClInclude Include="Source\Game\UI\Button.h" />
     <ClInclude Include="Source\Game\UI\NumberSprite.h" />
     <ClInclude Include="Source\Game\UI\OperationUI.h" />
-    <ClInclude Include="Source\Game\UI\SlidePanel.h" />
     <ClInclude Include="Source\Game\UI\StageResultUI.h" />
     <ClInclude Include="Source\Game\UI\Tween.h" />
     <ClInclude Include="Source\Game\UI\UIElement.h" />
@@ -295,7 +294,6 @@
     <ClCompile Include="Source\Game\UI\Button.cpp" />
     <ClCompile Include="Source\Game\UI\NumberSprite.cpp" />
     <ClCompile Include="Source\Game\UI\OperationUI.cpp" />
-    <ClCompile Include="Source\Game\UI\SlidePanel.cpp" />
     <ClCompile Include="Source\Game\UI\StageResultUI.cpp" />
     <ClCompile Include="Source\Game\UI\Tween.cpp" />
     <ClCompile Include="Source\Game\UI\UIWidget.cpp" />
