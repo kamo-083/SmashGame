@@ -93,6 +93,10 @@ void StageScene::Initialize()
 	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
 						   SimpleMath::Vector2(350.f, 400.f), windowSize);
 
+	// 操作方法UIの作成(仮)
+	m_operationUI = std::make_unique<OperationUI>();
+	m_operationUI->Initialize(m_userResources->GetResourceManager(), SimpleMath::Vector2(250.f, 600.f), 350.f, true);
+
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get());
 	m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
@@ -147,7 +151,13 @@ void StageScene::Update(float elapsedTime)
 	}
 
 	// キー操作のモード切り替え
-	if (m_userResources->GetKeyboardTracker()->pressed.K) m_keyMode = !m_keyMode;
+	if (m_userResources->GetKeyboardTracker()->pressed.K)
+	{
+		m_keyMode = !m_keyMode;
+
+		// UI切り替え
+		m_operationUI->Active(m_keyMode);
+	}
 
 	// プレイヤーの更新
 	m_player->Update(elapsedTime);
@@ -167,6 +177,8 @@ void StageScene::Update(float elapsedTime)
 
 	// UIの更新
 	m_weaponUI->Update(elapsedTime);
+
+	m_operationUI->Update(elapsedTime);
 
 	// 当たり判定の更新
 	m_collisionManager->Update(elapsedTime);
@@ -215,6 +227,8 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	// 武器UIの描画
 	m_weaponUI->Draw(context);
 
+	m_operationUI->Draw(context);
+
 	// エフェクトの描画
 	m_effectManager->Draw(context.projection);
 
@@ -243,6 +257,9 @@ void StageScene::Finalize()
 
 	if (m_resultUI) m_resultUI->Finalize();
 	m_resultUI.reset();
+
+	if (m_operationUI) m_operationUI->Finalize();
+	m_operationUI.reset();
 
 	if (m_sky) m_sky->Finalize();
 	m_sky.reset();

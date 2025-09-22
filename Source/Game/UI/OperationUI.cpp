@@ -1,0 +1,200 @@
+/**
+ * @file   OperationUI.cpp
+ *
+ * @brief  操作方法UIに関するソースファイル
+ *
+ * @author 制作者名
+ *
+ * @date   日付
+ */
+
+ // ヘッダファイルの読み込み ===================================================
+#include "pch.h"
+#include "OperationUI.h"
+
+using namespace DirectX;
+
+
+// メンバ関数の定義 ===========================================================
+/**
+ * @brief コンストラクタ
+ *
+ * @param[in] なし
+ */
+OperationUI::OperationUI()
+	: m_active{ false }
+{
+
+}
+
+
+
+/**
+ * @brief デストラクタ
+ */
+OperationUI::~OperationUI()
+{
+
+}
+
+
+
+/**
+ * @brief 初期化処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
+void OperationUI::Initialize(ResourceManager* resourceManager, 
+	DirectX::SimpleMath::Vector2 centerPos, 
+	float arrowInterval,
+	bool active)
+{
+	// 有効・無効の設定
+	m_active = active;
+
+	// 画像の読み込み
+	m_textures = std::make_unique<Textures>();
+	m_textures->arrow = resourceManager->RequestPNG("arrow", L"Resources/Textures/UI/triangleArrow.png");
+	m_textures->box = resourceManager->RequestPNG("box", L"Resources/Textures/UI/keyBox.png");
+
+	// 中央(無効状態の時に表示する)
+	std::unique_ptr<UIWidget> widget = std::make_unique<UIWidget>();
+	Tween::TweenData data =
+	{
+		{centerPos,SimpleMath::Vector2::Zero,0.0f,1.0f},
+		{SimpleMath::Vector2::Zero,SimpleMath::Vector2::Zero,0.0f,0.0f},
+		TWEEN_TIME,
+		Tween::Ease::Liner,
+		Tween::PlaybackMode::Once
+	};
+	widget->Initialize(m_textures->box, data, SimpleMath::Vector2(150.f, 150.f), false);
+	SwitchParam(!m_active, *widget.get());
+	m_widgets.push_back(std::move(widget));
+
+	// 左右(有効状態の時に表示する)
+	// 左
+	widget = std::make_unique<UIWidget>();
+	SimpleMath::Vector2 leftPos = SimpleMath::Vector2(centerPos.x - arrowInterval * 0.5f, centerPos.y);
+	data =
+	{
+		{leftPos,SimpleMath::Vector2::Zero,XM_PI,1.0f},
+		{SimpleMath::Vector2::Zero,SimpleMath::Vector2::Zero,0.0f,0.0f},
+		TWEEN_TIME,
+		Tween::Ease::Liner,
+		Tween::PlaybackMode::Once
+	};
+	widget->Initialize(m_textures->arrow, data, SimpleMath::Vector2(200.f, 100.f), false);
+	SwitchParam(m_active, *widget.get());
+	m_widgets.push_back(std::move(widget));
+
+	// 右
+	widget = std::make_unique<UIWidget>();
+	SimpleMath::Vector2 rightPos = SimpleMath::Vector2(centerPos.x + arrowInterval * 0.5f, centerPos.y);
+	data =
+	{
+		{rightPos,SimpleMath::Vector2::Zero,0.0f,1.0f},
+		{SimpleMath::Vector2::Zero,SimpleMath::Vector2::Zero,0.0f,0.0f},
+		TWEEN_TIME,
+		Tween::Ease::Liner,
+		Tween::PlaybackMode::Once
+	};
+	widget->Initialize(m_textures->arrow, data, SimpleMath::Vector2(200.f, 100.f), false);
+	SwitchParam(m_active, *widget.get());
+	m_widgets.push_back(std::move(widget));
+}
+
+
+/**
+ * @brief 更新処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
+void OperationUI::Update(float elapsedTime)
+{
+	for (auto& widget : m_widgets)
+	{
+		widget->Update(elapsedTime);
+	}
+}
+
+
+
+/**
+ * @brief 描画処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
+void OperationUI::Draw(RenderContext context)
+{
+	for (auto& widget : m_widgets)
+	{
+		//if (m_active && widget == *m_widgets.begin()) continue;
+		//else if (!m_active && widget != *m_widgets.begin()) return;
+
+		widget->Draw(context);
+	}
+}
+
+
+
+/**
+ * @brief 終了処理
+ *
+ * @param[in] なし
+ *
+ * @return なし
+ */
+void OperationUI::Finalize()
+{
+	m_textures.reset();
+
+	for (auto& widget : m_widgets)
+	{
+		widget->Finalize();
+	}
+	m_widgets.clear();
+}
+
+
+void OperationUI::Active(bool active)
+{
+	if (m_active == active) return;
+
+	m_active = active;
+
+	SwitchParam(!m_active, *m_widgets[0].get());
+	SwitchParam(m_active, *m_widgets[1].get());
+	SwitchParam(m_active, *m_widgets[2].get());
+}
+
+void OperationUI::SwitchParam(bool active, UIWidget& widget)
+{
+	Tween::TweenData nowData = widget.GetTween()->GetTweenData();
+	Tween::TweenData newData = nowData;
+
+	if (active)
+	{
+		newData.start.scale = SimpleMath::Vector2(0.0f,0.0f);
+		newData.start.opacity = 0.0f;
+		newData.delta.scale = SimpleMath::Vector2(1.0f,1.0f);
+		newData.delta.opacity = 1.0f;
+		newData.ease = Tween::Ease::OutBack;
+	}
+	else
+	{
+		newData.start.scale = SimpleMath::Vector2(1.0f, 1.0f);
+		newData.start.opacity = 1.0f;
+		newData.delta.scale = SimpleMath::Vector2(-1.0f, -1.0f);
+		newData.delta.opacity = -1.0f;
+		newData.ease = Tween::Ease::OutQuart;
+	}
+
+	widget.GetTween()->SetTweenData(newData);
+	widget.TweenReset();
+}

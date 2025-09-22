@@ -49,16 +49,16 @@ public:
 	void Initialize(ID3D11ShaderResourceView* texture,
 		const Tween::TweenData data,
 		DirectX::SimpleMath::Vector2 size,
-		std::function<void()> operate);
+		std::function<void()> operate = nullptr);
 
 	// XVˆ—
-	void Update(float elapsedTime);
+	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
-	void Draw(RenderContext context);
+	void Draw(RenderContext context) override;
 
 	// I—¹ˆ—
-	void Finalize();
+	void Finalize() override;
 
 	// ‰Ÿ‚µ‚½
 	void Press();

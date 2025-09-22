@@ -254,6 +254,9 @@
     <ClInclude Include="Source\Game\UI\UIElement.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\OperationUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -401,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Sky.cpp">
       <Filter>Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\OperationUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

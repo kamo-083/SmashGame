@@ -27,7 +27,7 @@ public:
 	{
 		DirectX::SimpleMath::Vector2 pos;
 		DirectX::SimpleMath::Vector2 scale;
-		float opacity;
+		float opacity = 1.0f;
 	};
 
 	static constexpr float SLIDE_DISTANCE = 2.0f;

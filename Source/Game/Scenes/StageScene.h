@@ -25,6 +25,7 @@
 #include "Source/Game/GameObjects/Sky.h"
 #include "Source/Game/UI/WeaponUI.h"
 #include "Source/Game/UI/StageResultUI.h"
+#include "Source/Game/UI/OperationUI.h"
 
 
 // クラスの宣言 ===============================================================
@@ -84,6 +85,9 @@ private:
 
 	//リザルトUI
 	std::unique_ptr<StageResultUI> m_resultUI;
+
+	//操作方法UI
+	std::unique_ptr<OperationUI> m_operationUI;
 
 	// 空
 	std::unique_ptr<Sky> m_sky;

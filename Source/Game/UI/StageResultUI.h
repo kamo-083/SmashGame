@@ -49,13 +49,13 @@ public:
 		DirectX::SimpleMath::Vector2 windowSize);
 
 	// XVˆ—
-	void Update(float elapsedTime);
+	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
-	void Draw(RenderContext context);
+	void Draw(RenderContext context) override;
 
 	// I—¹ˆ—
-	void Finalize();
+	void Finalize() override;
 
 
 	// æ“¾/İ’è

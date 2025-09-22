@@ -104,7 +104,7 @@ void Button::Finalize()
 
 void Button::Press()
 {
-	m_operate();
+	if (m_operate)	m_operate();
 }
 
 void Button::Reset()
