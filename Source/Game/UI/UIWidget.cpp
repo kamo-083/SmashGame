@@ -115,24 +115,32 @@ void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch,
 					ID3D11ShaderResourceView* texture,
 					DirectX::SimpleMath::Vector2 pos,
 					const RECT* rect,
-					float rot,
-					DirectX::SimpleMath::Vector2 size)
+					float rot)
 { 
 	// 各引数が初期値だった場合、既に登録済みのデータを使う
 	// テクスチャ
 	if (!texture) texture = m_texture;
 
+	// 描画サイズ
+	SimpleMath::Vector2 srcSize = m_texSize;
+	if (rect) 
+	{
+		srcSize.x = float(rect->right - rect->left);
+		srcSize.y = float(rect->bottom - rect->top);
+	}
+
 	// 座標
 	if (pos == SimpleMath::Vector2::Zero) pos = m_params.pos;
-	else								  pos += m_params.pos;
+	else								  pos = m_params.pos + pos * m_params.scale;
+	//else								  pos += m_params.pos;
 
 	// 回転
 	if (rot == FLT_MAX) rot = m_params.rotation;
 
 	// 中心
-	SimpleMath::Vector2 origin;
-	if (size == SimpleMath::Vector2::Zero) origin = m_texSize * 0.5f;
-	else								   origin = size * 0.5f;
+	SimpleMath::Vector2 origin = srcSize * 0.5f;
+	//if (size == SimpleMath::Vector2::Zero) origin = m_texSize * 0.5f;
+	//else								   origin = size * 0.5f;
 
 	// 透明度
 	SimpleMath::Color color = { 1, 1, 1, m_params.opacity };

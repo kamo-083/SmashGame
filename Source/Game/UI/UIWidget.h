@@ -70,8 +70,7 @@ public:
 			  ID3D11ShaderResourceView* texture = nullptr,
 			  DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero,
 			  const RECT* rect = nullptr,
-			  float rot = FLT_MAX,
-			  DirectX::SimpleMath::Vector2 size = DirectX::SimpleMath::Vector2::Zero);
+			  float rot = FLT_MAX);
 
 	// èIóπèàóù
 	void Finalize();

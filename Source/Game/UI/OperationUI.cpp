@@ -131,16 +131,14 @@ void OperationUI::Draw(RenderContext context)
 		widget->Draw(context.spriteBatch);
 
 		// •¶Žš(‰¼)
-		RECT rect = { 50.f, 50.f };
-		SimpleMath::Vector2 size = { 50.f, 50.f };
+		RECT rect = { 20.f, 20.f };
 
 		widget->Draw(
 			context.spriteBatch,
 			m_textures->box,
-			size,
+			SimpleMath::Vector2::Zero,
 			&rect,
-			0.0f,
-			size
+			0.0f
 		);
 	}
 
