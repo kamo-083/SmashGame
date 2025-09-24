@@ -46,18 +46,24 @@ OperationUI::~OperationUI()
  *
  * @return なし
  */
-void OperationUI::Initialize(ResourceManager* resourceManager, 
+void OperationUI::Initialize(const Textures& textures, 
 							 DirectX::SimpleMath::Vector2 centerPos, 
 							 float arrowInterval,
-							 bool active)
+							 bool active,
+							 DirectX::SimpleMath::Vector2 iconSize)
 {
 	// 有効・無効の設定
 	m_active = active;
 
-	// 画像の読み込み
+	// 画像の登録
 	m_textures = std::make_unique<Textures>();
-	m_textures->arrow = resourceManager->RequestPNG("arrow", L"Resources/Textures/UI/triangleArrow.png");
-	m_textures->box = resourceManager->RequestPNG("box", L"Resources/Textures/UI/keyBox.png");
+	m_textures->arrow = textures.arrow;
+	m_textures->frame = textures.frame;
+	m_textures->keyText = textures.keyText;
+	m_textures->icon = textures.icon;
+
+	// ウィジェットの作成
+	m_widgets.resize(static_cast<int>(Layout::DisplayNum));
 
 	// 中央(無効状態の時に表示する)
 	std::unique_ptr<UIWidget> widget = std::make_unique<UIWidget>();
@@ -69,9 +75,9 @@ void OperationUI::Initialize(ResourceManager* resourceManager,
 		Tween::Ease::Liner,
 		Tween::PlaybackMode::Once
 	};
-	widget->Initialize(m_textures->box, data, SimpleMath::Vector2(150.f, 150.f), false);
+	widget->Initialize(m_textures->frame, data, SimpleMath::Vector2(200.f, 200.f), false);
 	SwitchParam(!m_active, *widget.get());
-	m_widgets.push_back(std::move(widget));
+	m_widgets[static_cast<int>(Layout::CENTER)] = std::move(widget);
 
 	// 左右(有効状態の時に表示する)
 	// 左
@@ -81,7 +87,7 @@ void OperationUI::Initialize(ResourceManager* resourceManager,
 	data.start.rotation = XM_PI;
 	widget->Initialize(m_textures->arrow, data, SimpleMath::Vector2(200.f, 100.f), false);
 	SwitchParam(m_active, *widget.get());
-	m_widgets.push_back(std::move(widget));
+	m_widgets[static_cast<int>(Layout::LEFT)] = std::move(widget);
 
 	// 右
 	widget = std::make_unique<UIWidget>();
@@ -90,7 +96,13 @@ void OperationUI::Initialize(ResourceManager* resourceManager,
 	data.start.rotation = 0.0f;
 	widget->Initialize(m_textures->arrow, data, SimpleMath::Vector2(200.f, 100.f), false);
 	SwitchParam(m_active, *widget.get());
-	m_widgets.push_back(std::move(widget));
+	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
+
+	// アイコン座標の設定
+	if (m_textures->icon)
+	{
+		m_iconPos = m_widgets[static_cast<int>(Layout::CENTER)]->GetTween()->GetStartParams().pos - iconSize * 0.5f;
+	}
 }
 
 
@@ -135,11 +147,17 @@ void OperationUI::Draw(RenderContext context)
 
 		widget->Draw(
 			context.spriteBatch,
-			m_textures->box,
+			m_textures->keyText,
 			SimpleMath::Vector2::Zero,
 			&rect,
 			0.0f
 		);
+	}
+
+	// 画像があればアイコンを表示
+	if (m_textures->icon)
+	{
+		context.spriteBatch->Draw(m_textures->icon, m_iconPos);
 	}
 
 	context.spriteBatch->End();

@@ -87,7 +87,7 @@ private:
 	std::unique_ptr<StageResultUI> m_resultUI;
 
 	//‘€ì•û–@UI
-	std::unique_ptr<OperationUI> m_operationUI;
+	std::unique_ptr<OperationUI> m_cameraUI;
 
 	// ‹ó
 	std::unique_ptr<Sky> m_sky;

@@ -93,9 +93,16 @@ void StageScene::Initialize()
 	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
 						   SimpleMath::Vector2(350.f, 400.f), windowSize);
 
-	// 操作方法UIの作成(仮)
-	m_operationUI = std::make_unique<OperationUI>();
-	m_operationUI->Initialize(m_userResources->GetResourceManager(), SimpleMath::Vector2(250.f, 600.f), 350.f, true);
+	// 操作方法UIの画像読み込み
+	OperationUI::Textures uiTextures;
+	uiTextures.arrow = m_userResources->GetResourceManager()->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
+	uiTextures.frame = m_userResources->GetResourceManager()->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
+	uiTextures.keyText = m_userResources->GetResourceManager()->RequestPNG("box", L"Resources/Textures/UI/keyBox.png");
+	uiTextures.icon = m_userResources->GetResourceManager()->RequestPNG("camera", L"Resources/Textures/UI/camera.png");
+
+	// カメラ操作UIの作成(仮)
+	m_cameraUI = std::make_unique<OperationUI>();
+	m_cameraUI->Initialize(uiTextures, SimpleMath::Vector2(250.f, 600.f), 350.f, false, SimpleMath::Vector2(200.f, 135.f));
 
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get());
@@ -156,7 +163,7 @@ void StageScene::Update(float elapsedTime)
 		m_keyMode = !m_keyMode;
 
 		// UI切り替え
-		m_operationUI->Active(m_keyMode);
+		m_cameraUI->Active(!m_keyMode);
 	}
 
 	// プレイヤーの更新
@@ -177,8 +184,7 @@ void StageScene::Update(float elapsedTime)
 
 	// UIの更新
 	m_weaponUI->Update(elapsedTime);
-
-	m_operationUI->Update(elapsedTime);
+	m_cameraUI->Update(elapsedTime);
 
 	// 当たり判定の更新
 	m_collisionManager->Update(elapsedTime);
@@ -224,10 +230,9 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	// カメラの描画(デバッグフォント)
 	m_camera->Draw(debugFont);
 
-	// 武器UIの描画
+	// UIの描画
 	m_weaponUI->Draw(context);
-
-	m_operationUI->Draw(context);
+	m_cameraUI->Draw(context);
 
 	// エフェクトの描画
 	m_effectManager->Draw(context.projection);
@@ -258,8 +263,8 @@ void StageScene::Finalize()
 	if (m_resultUI) m_resultUI->Finalize();
 	m_resultUI.reset();
 
-	if (m_operationUI) m_operationUI->Finalize();
-	m_operationUI.reset();
+	if (m_cameraUI) m_cameraUI->Finalize();
+	m_cameraUI.reset();
 
 	if (m_sky) m_sky->Finalize();
 	m_sky.reset();

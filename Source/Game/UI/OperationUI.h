@@ -28,9 +28,19 @@ class OperationUI
 public:
 	struct Textures
 	{
-		ID3D11ShaderResourceView* arrow;
-		ID3D11ShaderResourceView* box;
-		ID3D11ShaderResourceView* keyText;
+		ID3D11ShaderResourceView* arrow = nullptr;
+		ID3D11ShaderResourceView* frame = nullptr;
+		ID3D11ShaderResourceView* keyText = nullptr;
+		ID3D11ShaderResourceView* icon = nullptr;
+	};
+
+	enum class Layout
+	{
+		CENTER,
+		LEFT,
+		RIGHT,
+
+		DisplayNum
 	};
 
 	static constexpr float TWEEN_TIME = 0.25f;
@@ -43,6 +53,8 @@ private:
 	std::unique_ptr<Textures> m_textures;
 
 	bool m_active;
+
+	DirectX::SimpleMath::Vector2 m_iconPos;
 
 
 	// ƒƒ“ƒoŠÖ”‚ÌéŒ¾ -------------------------------------------------
@@ -59,10 +71,12 @@ public:
 public:
 	// ‰Šú‰»ˆ—
 	void Initialize(
-		ResourceManager* resourceManager,
+		const Textures& textures,
 		DirectX::SimpleMath::Vector2 centerPos,
 		float arrowInterval,
-		bool active);
+		bool active,
+		DirectX::SimpleMath::Vector2 iconSize = DirectX::SimpleMath::Vector2::Zero
+	);
 
 	// XVˆ—
 	void Update(float elapsedTime);
