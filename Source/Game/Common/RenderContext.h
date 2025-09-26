@@ -27,7 +27,7 @@ struct RenderContext
 {
 	// 3D
 	DirectX::SimpleMath::Matrix view;		//ビュー行列
-	DirectX::SimpleMath::Matrix projection;	//射影行列
+	DirectX::SimpleMath::Matrix proj;		//射影行列
 	ID3D11DeviceContext* deviceContext;		//デバイスコンテキスト
 	DirectX::CommonStates* states;			//共通ステート
 
@@ -37,7 +37,7 @@ struct RenderContext
 	void Reset()
 	{
 		view = DirectX::SimpleMath::Matrix::Identity;
-		projection = DirectX::SimpleMath::Matrix::Identity;
+		proj = DirectX::SimpleMath::Matrix::Identity;
 		deviceContext = nullptr;
 		states = nullptr;
 		spriteBatch = nullptr;

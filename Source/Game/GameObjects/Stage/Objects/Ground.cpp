@@ -109,7 +109,7 @@ void Ground::Draw(RenderContext& context)
 									  SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	m_geometricPrimitive->Draw(world, context.view, context.projection, Colors::GreenYellow);
+	m_geometricPrimitive->Draw(world, context.view, context.proj, Colors::GreenYellow);
 }
 
 

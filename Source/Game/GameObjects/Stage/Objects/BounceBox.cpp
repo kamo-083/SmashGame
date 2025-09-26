@@ -130,7 +130,7 @@ void BounceBox::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 									  DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	m_geometricPrimitive->Draw(world, context.view, context.projection, DirectX::Colors::Yellow);
+	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);
 
 	debugFont->AddString(0, 350, DirectX::Colors::Yellow, L"ExternalForce = %f,%f,%f",
 						 m_physics.GetExternalForce().Get().x, m_physics.GetExternalForce().Get().y, m_physics.GetExternalForce().Get().z);

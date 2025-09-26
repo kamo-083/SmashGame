@@ -132,7 +132,7 @@ void Player_AttackBasic::Render(RenderContext& context)
 		scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
 		trans = SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetAttackCollider()->GetCenter());
 		world = scale * trans;
-		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.projection, Colors::Blue, nullptr, true);
+		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, Colors::Blue, nullptr, true);
 	}
 }
 

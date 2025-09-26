@@ -27,6 +27,8 @@
 #include "Source/Game/UI/StageResultUI.h"
 #include "Source/Game/UI/OperationUI.h"
 
+#include "Source/Game/UI/NumberRenderer/NumberRenderer3D.h"
+
 
 // クラスの宣言 ===============================================================
 class Camera;
@@ -65,6 +67,9 @@ private:
 
 	// オーバーレイ
 	Overlay m_overlayMode;
+
+	// 数値表示テスト
+	std::unique_ptr<NumberRenderer3D> m_numRendrer;
 
 
 	// オブジェクト関連

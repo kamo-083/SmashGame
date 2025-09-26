@@ -1,7 +1,7 @@
 /**
- * @file   NumberSprite.h
+ * @file   INumberRenderer.h
  *
- * @brief  NumberSpriteに関するヘッダファイル
+ * @brief  INumberRendererに関するヘッダファイル
  *
  * @author 制作者名
  *
@@ -12,63 +12,63 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
-
+#include "pch.h"
+#include "Source/Game/Common/RenderContext.h"
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief NumberSprite
+ * @brief INumberRenderer
  */
-class NumberSprite
+class INumberRenderer
 {
 	// クラス定数の宣言 -------------------------------------------------
-public:
+protected:
+	// 1桁のスプライトの大きさ
 	const DirectX::SimpleMath::Vector2 SPRITE_SIZE;
 
+	// 桁数
 	const int NUM_DIGIT;
 
 
 	// データメンバの宣言 -----------------------------------------------
-private:
+protected:
 	// 表示する数字
 	int m_number;
 
 	// テクスチャ
 	ID3D11ShaderResourceView* m_texture;
 
-	// 表示位置
-	DirectX::SimpleMath::Vector2 m_position;
-
 
 	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	NumberSprite(DirectX::SimpleMath::Vector2 spriteSize, ID3D11ShaderResourceView* texture, int digit);
+	INumberRenderer(DirectX::SimpleMath::Vector2 spriteSize, ID3D11ShaderResourceView* texture, int digit)
+		: SPRITE_SIZE(spriteSize)
+		, NUM_DIGIT(digit)
+		, m_texture(texture)
+		, m_number(0)
+	{}
 
 	// デストラクタ
-	~NumberSprite();
+	~INumberRenderer()
+	{
+	}
 
-
-// 操作
 public:
 	// 初期化処理
-	void Initialize(DirectX::SimpleMath::Vector2 position, const int& number);
+	virtual void Initialize(const int& number) = 0;
 
 	// 描画処理
-	void Draw(DirectX::SpriteBatch& spriteBatch);
+	virtual void Draw(RenderContext& renderContext) = 0;
 
 	// 終了処理
-	void Finalize();
+	virtual void Finalize() = 0;
 
-// 取得/設定
-public:
 	// 数値を設定
-	void SetNumber(const int& number) { m_number = number; }
-
-	// 座標を設定
-	void SetPosition(const DirectX::SimpleMath::Vector2& pos) { m_position = pos; }
-
+	void SetNumber(const int& number)
+	{
+		m_number = number; 
+	}
 };

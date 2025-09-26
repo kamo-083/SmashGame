@@ -68,6 +68,9 @@
     <Filter Include="Json">
       <UniqueIdentifier>{92f6e619-17d3-4bd9-acbd-67c4de95dd1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\NumberRenderer">
+      <UniqueIdentifier>{af060d01-6dd9-4a00-b567-25ebf74f6f1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -254,6 +257,15 @@
     <ClInclude Include="Source\Game\UI\OperationUI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\NumberRenderer\INumberRenderer.h">
+      <Filter>UI\NumberRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer2D.h">
+      <Filter>UI\NumberRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.h">
+      <Filter>UI\NumberRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -401,6 +413,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\OperationUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer2D.cpp">
+      <Filter>UI\NumberRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.cpp">
+      <Filter>UI\NumberRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

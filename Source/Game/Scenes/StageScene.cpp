@@ -130,6 +130,17 @@ void StageScene::Initialize()
 
 	// 表示状態の初期化
 	m_overlayMode = Overlay::NONE;
+
+
+	// 3D数値表示テスト
+	m_numRendrer = std::make_unique<NumberRenderer3D>(
+		SimpleMath::Vector2(48.f, 72.f),
+		m_userResources->GetResourceManager()->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
+		3,
+		m_userResources->GetDeviceResources()
+	);
+	m_numRendrer->Initialize(123);
+	m_numRendrer->SetPosition(SimpleMath::Vector3(0.f, 3.f, 0.f));
 }
 
 
@@ -197,6 +208,9 @@ void StageScene::Update(float elapsedTime)
 	{
 		m_overlayMode = Overlay::RESULT;
 	}
+
+	// 3D数値表示テスト
+	//m_numRendrer->CreateBillboard(m_camera->GetEye(), m_camera->GetUp());
 }
 
 
@@ -235,12 +249,15 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	m_cameraUI->Draw(context);
 
 	// エフェクトの描画
-	m_effectManager->Draw(context.projection);
+	m_effectManager->Draw(context.proj);
 
 	if (m_overlayMode == Overlay::RESULT)
 	{
 		m_resultUI->Draw(context);
 	}
+
+	// 3D数値表示テスト
+	m_numRendrer->Draw(context);
 }
 
 
@@ -254,6 +271,10 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
  */
 void StageScene::Finalize()
 {
+	// 3D数値表示テスト
+	if (m_numRendrer) m_numRendrer->Finalize();
+	m_numRendrer.reset();
+
 	if (m_player) m_player->Finalize();
 	m_player.reset();
 

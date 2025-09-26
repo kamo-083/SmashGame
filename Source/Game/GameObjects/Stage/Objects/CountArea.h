@@ -19,6 +19,7 @@
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/CollisionManager.h"
 #include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/UI/NumberRenderer/NumberRenderer3D.h"
 
 
 // ƒNƒ‰ƒX‚Ì’è‹` ===============================================================

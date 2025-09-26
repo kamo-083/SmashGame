@@ -172,7 +172,7 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(size.x * 2.0f, size.y * 2.0f, size.z * 2.0f);
 	world = scale * trans;
 
-	m_geometricPrimitive->Draw(world, context.view, context.projection, DirectX::Colors::Magenta, nullptr, true);
+	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Magenta, nullptr, true);
 
 	//debugFont->AddString(0, 170, Colors::Magenta, L" areaPos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 170, Colors::Magenta, L"enter = %d", m_insideList.size());

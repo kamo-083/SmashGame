@@ -79,7 +79,7 @@ void Sky::Draw(const RenderContext& context)
 {
 	SimpleMath::Matrix world = SimpleMath::Matrix::Identity;
 
-	m_skyDome->Draw(context.deviceContext, *context.states, world, context.view, context.projection);
+	m_skyDome->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 
 	m_skyDome->UpdateEffects([](IEffect* effect)
 		{

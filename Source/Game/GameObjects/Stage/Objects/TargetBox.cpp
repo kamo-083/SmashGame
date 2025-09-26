@@ -130,7 +130,7 @@ void TargetBox::Draw(RenderContext& context)
 		DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	m_geometricPrimitive->Draw(world, context.view, context.projection, DirectX::Colors::Violet);
+	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Violet);
 }
 
 

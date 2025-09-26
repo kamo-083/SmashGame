@@ -130,7 +130,7 @@ void GroundEnemy_Attack::Render(RenderContext& context)
 		DirectX::SimpleMath::Matrix sphereScale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetAttackCollider()->GetRadius()*2.0f);
 		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetAttackCollider()->GetCenter());
 		world = sphereScale * trans;
-		m_pGroundEnemy->GetSpherePrimitive()->Draw(world, context.view, context.projection, DirectX::Colors::Red, nullptr, true);
+		m_pGroundEnemy->GetSpherePrimitive()->Draw(world, context.view, context.proj, DirectX::Colors::Red, nullptr, true);
 	}
 }
 

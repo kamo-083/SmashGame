@@ -123,7 +123,7 @@ void ModelAnimator::Draw(RenderContext context, const DirectX::SimpleMath::Matri
 		m_drawBones.get(),
 		world,
 		context.view,
-		context.projection
+		context.proj
 	);
 
 	//m_model->Draw(context.deviceContext, *context.states, world, context.view, context.projection);
