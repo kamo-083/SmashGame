@@ -65,7 +65,7 @@ NumberRenderer3D::NumberRenderer3D(
 
 	// レンダーテクスチャの作成
 	m_renderTexture = std::make_unique<RenderTexture>();
-	m_renderTexture->Initialize(deviceResources->GetD3DDevice(), 100, 100, deviceResources->GetRenderTargetView());
+	m_renderTexture->Initialize(deviceResources->GetD3DDevice(), 200, 100, deviceResources->GetRenderTargetView());
 }
 
 
@@ -111,7 +111,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	m_renderTexture->Clear(renderContext.deviceContext, clear);
 
 	int data = m_number;
-	float x = m_position.x + NUM_DIGIT * SPRITE_SIZE.x;
+	float x = m_position.x + (NUM_DIGIT - 1) * SPRITE_SIZE.x;
 	float y = m_position.y;
 
 	renderContext.spriteBatch->Begin();
@@ -120,8 +120,8 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	{
 		int number = data % 10;
 		int sourceX = number * SPRITE_SIZE.x;
-		DirectX::SimpleMath::Vector2 pos = { x,y };
-		RECT rect = { sourceX,0,sourceX + SPRITE_SIZE.x,SPRITE_SIZE.y };
+		DirectX::SimpleMath::Vector2 pos = { x, y };
+		RECT rect = { sourceX, 0 , sourceX + SPRITE_SIZE.x, SPRITE_SIZE.y };
 		DirectX::FXMVECTOR color = DirectX::Colors::White;
 
 		renderContext.spriteBatch->Draw(m_texture, pos, &rect,
@@ -153,8 +153,9 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	// 回転
 	if (m_isBillboard)
 	{
-		world *= m_billboard;
+		//world *= m_billboard;		// ビルボード計算のどこかがおかしい
 	}
+	//world = SimpleMath::Matrix::CreateRotationY(XM_PIDIV2);	// 回転テスト
 
 	// 不透明のみ描画する設定
 	m_batchEffect->SetTexture(m_renderTexture->GetSRV());
@@ -166,6 +167,10 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	m_batchEffect->Apply(renderContext.deviceContext);
 	renderContext.deviceContext->IASetInputLayout(m_inputLayout.Get());
 
+	// 画像の幅と高さを取得
+	float width = static_cast<float>(m_renderTexture->GetWidth());
+	float height = static_cast<float>(m_renderTexture->GetHeight());
+
 	// 頂点情報
 	VertexPositionTexture vertex[4];
 	for (int j = 0; j < 4; j++)
@@ -173,9 +178,8 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 		vertex[j] = VERTECES[j];
 
 		// 座標の設定
-		//vertex[j].position.x = (m_position.x + 100.f) * vertex[j].position.x;
-		vertex[j].position.x += m_position.x;
-		vertex[j].position.y += m_position.y;
+		vertex[j].position.x = vertex[j].position.x * (1.f + width / height) + m_position.x;
+		vertex[j].position.y = vertex[j].position.y * (1.f + height / width) + m_position.y;
 		vertex[j].position.z += m_position.z;
 	}
 
@@ -187,6 +191,11 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	m_primitiveBatch->End();
 
 	m_isBillboard = false;
+
+	// オフスクリーンのテスト
+	renderContext.spriteBatch->Begin();
+	renderContext.spriteBatch->Draw(m_renderTexture->GetSRV(), SimpleMath::Vector2(0, 0));
+	renderContext.spriteBatch->End();
 }
 
 

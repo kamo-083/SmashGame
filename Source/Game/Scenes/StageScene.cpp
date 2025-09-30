@@ -212,7 +212,7 @@ void StageScene::Update(float elapsedTime)
 	}
 
 	// 3D数値表示テスト
-	//m_numRendrer->CreateBillboard(m_camera->GetEye(), m_camera->GetUp());
+	m_numRendrer->CreateBillboard(m_camera->GetEye(), m_camera->GetUp());
 }
 
 
