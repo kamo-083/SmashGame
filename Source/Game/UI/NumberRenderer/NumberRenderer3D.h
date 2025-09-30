@@ -16,6 +16,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/NumberRenderer/INumberRenderer.h"
 #include"Source/Game/Common/DeviceResources.h"
+#include"Source/Game/Common/RenderTexture.h"
 
 
 // クラスの定義 ===============================================================
@@ -49,6 +50,9 @@ private:
 
 	//プリミティブバッチ
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionTexture>> m_primitiveBatch;
+
+	// レンダーテクスチャ
+	std::unique_ptr<RenderTexture> m_renderTexture;
 
 
 	// メンバ関数の宣言 -------------------------------------------------

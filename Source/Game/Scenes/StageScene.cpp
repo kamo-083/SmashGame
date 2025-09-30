@@ -14,6 +14,8 @@
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/RenderContext.h"
 
+#include"Source/Game/Common/RenderTexture.h"
+
 using namespace DirectX;
 
 

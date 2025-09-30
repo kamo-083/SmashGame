@@ -193,6 +193,7 @@
     <ClInclude Include="Source\Game\Common\PhysicsEngine\Gravity.h" />
     <ClInclude Include="Source\Game\Common\PhysicsEngine\PhysicsObject.h" />
     <ClInclude Include="Source\Game\Common\RenderContext.h" />
+    <ClInclude Include="Source\Game\Common\RenderTexture.h" />
     <ClInclude Include="Source\Game\Common\ResourceManager.h" />
     <ClInclude Include="Source\Game\Common\Scene.h" />
     <ClInclude Include="Source\Game\Common\SceneManager.h" />
@@ -259,6 +260,7 @@
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp" />
     <ClCompile Include="Source\Game\Common\ModelAnimator.cpp" />
     <ClCompile Include="Source\Game\Common\PhysicsEngine\PhysicsObject.cpp" />
+    <ClCompile Include="Source\Game\Common\RenderTexture.cpp" />
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
     <ClCompile Include="Source\Game\Common\SceneManager.cpp" />

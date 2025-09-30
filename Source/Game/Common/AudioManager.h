@@ -65,6 +65,11 @@ private:
 		std::vector<BYTE> data;							//音声データ
 		WAVEFORMATEX format;							//WAVのフォーマット情報
 		XAUDIO2_BUFFER buffer;							//XAudio2で再生するためのバッファ
+			
+			
+			
+			
+			;							//XAudio2で再生するためのバッファ
 		IXAudio2SourceVoice* pSourceVoice = nullptr;	//再生用のソースボイス
 	};
 

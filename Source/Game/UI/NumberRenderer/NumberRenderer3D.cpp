@@ -62,6 +62,10 @@ NumberRenderer3D::NumberRenderer3D(
 
 	// プリミティブバッチの作成
 	m_primitiveBatch = std::make_unique<PrimitiveBatch<VertexPositionTexture>>(context);
+
+	// レンダーテクスチャの作成
+	m_renderTexture = std::make_unique<RenderTexture>();
+	m_renderTexture->Initialize(deviceResources->GetD3DDevice(), 100, 100, deviceResources->GetRenderTargetView());
 }
 
 
@@ -96,19 +100,42 @@ void NumberRenderer3D::Initialize(const int& number)
  * @brief 描画処理
  *
  * @param[in] なし
- *
- * 空の画像を内部で作って、数字の画像を貼って１つの画像にするみたいなやり方もある
- * 回転や拡縮してもいい感じになるらしい
  * 
  * @return なし
  */
 void NumberRenderer3D::Draw(RenderContext& renderContext)
 {
-	// 数値を取得
-	int data = m_number;
+	// オフスクリーンに数字を描画
+	m_renderTexture->SetRTVTexture(renderContext.deviceContext, nullptr);
+	const float clear[4] = { 0,0,0,0 };
+	m_renderTexture->Clear(renderContext.deviceContext, clear);
 
-	// 表示するX座標を計算
-	float pos_x = m_position.x + 1.f * 0.5f;
+	int data = m_number;
+	float x = m_position.x + NUM_DIGIT * SPRITE_SIZE.x;
+	float y = m_position.y;
+
+	renderContext.spriteBatch->Begin();
+
+	for (int i = 0; i < NUM_DIGIT; i++)
+	{
+		int number = data % 10;
+		int sourceX = number * SPRITE_SIZE.x;
+		DirectX::SimpleMath::Vector2 pos = { x,y };
+		RECT rect = { sourceX,0,sourceX + SPRITE_SIZE.x,SPRITE_SIZE.y };
+		DirectX::FXMVECTOR color = DirectX::Colors::White;
+
+		renderContext.spriteBatch->Draw(m_texture, pos, &rect,
+			color, 0.0f, DirectX::XMFLOAT2(0, 0),
+			1.0f, DirectX::SpriteEffects_None, 0.0f);
+
+		data /= 10;
+		x -= SPRITE_SIZE.x;
+	}
+
+	renderContext.spriteBatch->End();
+
+	// 通常の画面に切り替え
+	m_renderTexture->SetRTVDefault(renderContext.deviceContext, nullptr);
 
 	// テクスチャサンプラーの設定
 	ID3D11SamplerState* samplers[1] = { renderContext.states->PointClamp() };
@@ -130,7 +157,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	}
 
 	// 不透明のみ描画する設定
-	m_batchEffect->SetTexture(m_texture);
+	m_batchEffect->SetTexture(m_renderTexture->GetSRV());
 	m_batchEffect->SetAlphaFunction(D3D11_COMPARISON_NOT_EQUAL);
 	m_batchEffect->SetReferenceAlpha(0);
 	m_batchEffect->SetWorld(world);
@@ -139,42 +166,23 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	m_batchEffect->Apply(renderContext.deviceContext);
 	renderContext.deviceContext->IASetInputLayout(m_inputLayout.Get());
 
+	// 頂点情報
+	VertexPositionTexture vertex[4];
+	for (int j = 0; j < 4; j++)
+	{
+		vertex[j] = VERTECES[j];
+
+		// 座標の設定
+		//vertex[j].position.x = (m_position.x + 100.f) * vertex[j].position.x;
+		vertex[j].position.x += m_position.x;
+		vertex[j].position.y += m_position.y;
+		vertex[j].position.z += m_position.z;
+	}
+
 	m_primitiveBatch->Begin();
 
-	for (int i = 0; i < NUM_DIGIT; i++)
-	{
-		// 表示値を計算
-		int number = data % 10;
-
-		// 頂点情報
-		VertexPositionTexture vertex[4];
-		for (int j = 0; j < 4; j++)
-		{
-			vertex[j] = VERTECES[j];
-
-			// 座標の設定
-			vertex[j].position.x += pos_x;
-			vertex[j].position.y += m_position.y;
-			vertex[j].position.z += m_position.z;
-		}
-
-		// UV座標の設定
-		float sprite_width = SPRITE_SIZE.x * 10.0f;
-		float uv_x = SPRITE_SIZE.x * number;
-		vertex[0].textureCoordinate = { (uv_x + SPRITE_SIZE.x) / sprite_width, 0.0f };
-		vertex[1].textureCoordinate = { (uv_x + SPRITE_SIZE.x) / sprite_width, 1.0f };
-		vertex[2].textureCoordinate = { uv_x / sprite_width, 1.0f };
-		vertex[3].textureCoordinate = { uv_x / sprite_width, 0.0f };
-
-		// 半透明部分が含まれることを想定した描画
-		m_primitiveBatch->DrawQuad(vertex[0], vertex[1], vertex[2], vertex[3]);
-
-		// 値を更新
-		data /= 10;
-
-		// X座標を更新
-		pos_x -= 1.f;
-	}
+	// 半透明部分が含まれることを想定した描画
+	m_primitiveBatch->DrawQuad(vertex[0], vertex[1], vertex[2], vertex[3]);
 
 	m_primitiveBatch->End();
 
