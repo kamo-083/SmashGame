@@ -153,7 +153,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	// 回転
 	if (m_isBillboard)
 	{
-		//world *= m_billboard;		// ビルボード計算のどこかがおかしい
+		world *= m_billboard;		// ビルボード計算のどこかがおかしい
 	}
 	//world = SimpleMath::Matrix::CreateRotationY(XM_PIDIV2);	// 回転テスト
 
@@ -178,9 +178,8 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 		vertex[j] = VERTECES[j];
 
 		// 座標の設定
-		vertex[j].position.x = vertex[j].position.x * (1.f + width / height) + m_position.x;
-		vertex[j].position.y = vertex[j].position.y * (1.f + height / width) + m_position.y;
-		vertex[j].position.z += m_position.z;
+		vertex[j].position.x = vertex[j].position.x * (1.f + width / height);
+		vertex[j].position.y = vertex[j].position.y * (1.f + height / width);
 	}
 
 	m_primitiveBatch->Begin();
