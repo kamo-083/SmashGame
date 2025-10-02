@@ -35,9 +35,11 @@ NumberRenderer3D::NumberRenderer3D(
 	DirectX::SimpleMath::Vector2 spriteSize,
 	ID3D11ShaderResourceView* texture,
 	int digit,
-	DX::DeviceResources* deviceResources)
+	DX::DeviceResources* deviceResources,
+	float boardScale)
 	: INumberRenderer(spriteSize, texture, digit)
 	, DIGITS_WIDTH{ spriteSize.x * digit }
+	, SCALE{ boardScale }
 	, m_position{ SimpleMath::Vector3::Zero }
 	, m_isBillboard{ false }
 	, m_billboard{ SimpleMath::Matrix::Identity }
@@ -65,7 +67,11 @@ NumberRenderer3D::NumberRenderer3D(
 
 	// レンダーテクスチャの作成
 	m_renderTexture = std::make_unique<RenderTexture>();
-	m_renderTexture->Initialize(deviceResources->GetD3DDevice(), 200, 100, deviceResources->GetRenderTargetView());
+	m_renderTexture->Initialize(
+		deviceResources->GetD3DDevice(),
+		//100, 200,
+		DIGITS_WIDTH * SCALE, spriteSize.y * SCALE,
+		deviceResources->GetRenderTargetView());
 }
 
 
@@ -110,8 +116,10 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	const float clear[4] = { 0,0,0,0 };
 	m_renderTexture->Clear(renderContext.deviceContext, clear);
 
+	SimpleMath::Vector2 size = SPRITE_SIZE * SCALE;
+
 	int data = m_number;
-	float x = m_position.x + (NUM_DIGIT - 1) * SPRITE_SIZE.x;
+	float x = m_position.x + (NUM_DIGIT - 1) * size.x;
 	float y = m_position.y;
 
 	renderContext.spriteBatch->Begin();
@@ -126,10 +134,10 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 
 		renderContext.spriteBatch->Draw(m_texture, pos, &rect,
 			color, 0.0f, DirectX::XMFLOAT2(0, 0),
-			1.0f, DirectX::SpriteEffects_None, 0.0f);
+			SCALE, DirectX::SpriteEffects_None, 0.0f);
 
 		data /= 10;
-		x -= SPRITE_SIZE.x;
+		x -= size.x;
 	}
 
 	renderContext.spriteBatch->End();
@@ -153,9 +161,8 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	// 回転
 	if (m_isBillboard)
 	{
-		world *= m_billboard;		// ビルボード計算のどこかがおかしい
+		world *= m_billboard;
 	}
-	//world = SimpleMath::Matrix::CreateRotationY(XM_PIDIV2);	// 回転テスト
 
 	// 不透明のみ描画する設定
 	m_batchEffect->SetTexture(m_renderTexture->GetSRV());
@@ -235,3 +242,4 @@ void NumberRenderer3D::CreateBillboard(
 	//ビルボードを回転させる
 	m_billboard = rotY * m_billboard;
 }
+

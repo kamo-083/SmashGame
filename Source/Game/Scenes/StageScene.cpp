@@ -139,7 +139,7 @@ void StageScene::Initialize()
 		SimpleMath::Vector2(48.f, 72.f),
 		m_userResources->GetResourceManager()->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		3,
-		m_userResources->GetDeviceResources()
+		m_userResources->GetDeviceResources(), 0.5f
 	);
 	m_numRendrer->Initialize(123);
 	m_numRendrer->SetPosition(SimpleMath::Vector3(0.f, 3.f, 0.f));

@@ -32,6 +32,8 @@ public:
 	// 表示する数値全体の幅
 	const float DIGITS_WIDTH;
 
+	// スケール
+	const float SCALE;
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -63,7 +65,8 @@ public:
 		DirectX::SimpleMath::Vector2 spriteSize,
 		ID3D11ShaderResourceView* texture,
 		int digit,
-		DX::DeviceResources* deviceResources);
+		DX::DeviceResources* deviceResources,
+		float boardScale = 1.f);
 
 	// デストラクタ
 	~NumberRenderer3D();
@@ -91,6 +94,9 @@ public:
 public:
 	// 座標を設定
 	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }
+
+	// スケールを取得
+	float GetScale() { return SCALE; }
 
 
 	// 内部実装
