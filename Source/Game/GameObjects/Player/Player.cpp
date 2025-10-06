@@ -39,7 +39,7 @@ Player::Player(UserResources* pUserResources,
 	, m_handleBody{ 0 }
 	, m_handleAttack{ 0 }
 {
-	m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
+	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
 
 	// 軌跡エフェクトの作成
 	m_trajectory = pEffectManager->CreateTrajectory(

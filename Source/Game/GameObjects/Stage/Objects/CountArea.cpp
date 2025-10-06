@@ -21,7 +21,7 @@ using namespace DirectX;
  *
  * @param[in] ‚È‚µ
  */
-CountArea::CountArea(ID3D11DeviceContext* context)
+CountArea::CountArea(UserResources* ur)
 	: m_mode(TriggerMode::ReachCount)
 	, m_targetNum(0)
 	, m_isTrigger(false)
@@ -29,7 +29,17 @@ CountArea::CountArea(ID3D11DeviceContext* context)
 	, m_insideList()
 	, m_collisionHandle{ 0 }
 {
-	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
+	auto dr = ur->GetDeviceResources();
+	auto rm = ur->GetResourceManager();
+
+	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(dr->GetD3DDeviceContext(), { 1.0f, 1.0f, 1.0f }, true);
+
+	m_numberBorad = std::make_unique<NumberRenderer3D>(
+		SimpleMath::Vector2(48.f, 72.f),
+		rm->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
+		1,
+		dr
+	);
 }
 
 
@@ -65,6 +75,13 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 
 	m_isTrigger = false;
 
+	// ”ŽšUI‚Ìì¬
+	m_numberBorad->Initialize(m_insideList.size());
+
+	SimpleMath::Vector3 boradPos = { m_position.x, m_position.y + AREA_HALF_HEIGHT * 2.f, m_position.z };
+	m_numberBorad->SetPosition(m_position);
+
+	// “–‚½‚è”»’è‚ÌÝ’è
 	m_collider.SetCenter(m_position);
 	m_collider.SetHalfLength(SimpleMath::Vector3(x, AREA_HALF_HEIGHT, z));
 	m_collider.SetRotation(SimpleMath::Quaternion::Identity);
@@ -153,6 +170,9 @@ void CountArea::Update()
 	{
 		m_operation();
 	}
+
+	// •\Ž¦‚·‚é”Žš‚ÌXV
+	m_numberBorad->SetNumber(m_insideList.size());
 }
 
 
@@ -174,6 +194,8 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 
 	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Magenta, nullptr, true);
 
+	m_numberBorad->Draw(context);
+
 	//debugFont->AddString(0, 170, Colors::Magenta, L" areaPos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 170, Colors::Magenta, L"enter = %d", m_insideList.size());
 	debugFont->AddString(110, 170, Colors::Magenta, L"trigger = %d", m_isTrigger);
@@ -191,4 +213,7 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 void CountArea::Finalize()
 {
 	m_geometricPrimitive.reset();
+
+	if(m_numberBorad) m_numberBorad->Finalize();
+	m_numberBorad.reset();
 }

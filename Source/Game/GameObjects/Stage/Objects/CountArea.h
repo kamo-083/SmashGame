@@ -18,6 +18,7 @@
 #include"ImaseLib/DebugFont.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/CollisionManager.h"
+#include"Source/Game/Common/UserResources.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/NumberRenderer/NumberRenderer3D.h"
 
@@ -70,12 +71,14 @@ private:
 
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
+	std::unique_ptr<NumberRenderer3D> m_numberBorad;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	CountArea(ID3D11DeviceContext* context);
+	CountArea(UserResources* ur);
 
 	// デストラクタ
 	~CountArea();

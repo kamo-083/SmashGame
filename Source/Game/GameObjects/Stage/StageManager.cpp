@@ -103,7 +103,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 			if (data.areaAction.mode == "AllOut") mode = CountArea::TriggerMode::AllOut;
 			else if (data.areaAction.mode == "ReachCount") mode = CountArea::TriggerMode::ReachCount;
 
-			m_areas.push_back(std::move(std::make_unique<CountArea>(context)));
+			m_areas.push_back(std::move(std::make_unique<CountArea>(pUR)));
 			m_areas.back()->Initialize(pCM, data.position, data.scale.x, data.scale.z,
 									   operate, mode, data.areaAction.target);
 			break;

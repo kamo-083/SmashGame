@@ -22,8 +22,10 @@ using namespace DirectX;
  * @param[in] なし
  */
 RenderTexture::RenderTexture()
-	:m_width(0)
-	,m_height(0)
+	: m_width(0)
+	, m_height(0)
+	, m_defaultRTV(nullptr)
+	, m_defaultDSV(nullptr)
 {
 
 }
@@ -35,7 +37,8 @@ RenderTexture::RenderTexture()
  */
 RenderTexture::~RenderTexture()
 {
-
+	m_defaultRTV = nullptr;
+	m_defaultDSV = nullptr;
 }
 
 
@@ -51,7 +54,8 @@ bool RenderTexture::Initialize(
 	ID3D11Device* device,
 	int width,
 	int height,
-	ID3D11RenderTargetView* rtv)
+	ID3D11RenderTargetView* rtv,
+	ID3D11DepthStencilView* dsv)
 {
 	HRESULT result;
 
@@ -98,6 +102,9 @@ bool RenderTexture::Initialize(
 	// 通常のレンダーターゲットビューを格納
 	m_defaultRTV = rtv;
 
+	// 通常の深度ステンシルビューを格納
+	m_defaultDSV = dsv;
+
 	return true;
 }
 
@@ -119,12 +126,15 @@ void RenderTexture::Finalize()
 void RenderTexture::SetRTVTexture(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthStencilView)
 {
 	ID3D11RenderTargetView* rtv = m_renderTargetView.Get();
+
 	context->OMSetRenderTargets(1, &rtv, depthStencilView);
 }
 
 void RenderTexture::SetRTVDefault(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthStencilView)
 {
 	ID3D11RenderTargetView* rtv = m_defaultRTV;
+
+	if (!depthStencilView) depthStencilView = m_defaultDSV;
 	context->OMSetRenderTargets(1, &rtv, depthStencilView);
 }
 

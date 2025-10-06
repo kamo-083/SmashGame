@@ -71,7 +71,9 @@ NumberRenderer3D::NumberRenderer3D(
 		deviceResources->GetD3DDevice(),
 		//100, 200,
 		DIGITS_WIDTH * SCALE, spriteSize.y * SCALE,
-		deviceResources->GetRenderTargetView());
+		deviceResources->GetRenderTargetView(),
+		deviceResources->GetDepthStencilView()
+	);
 }
 
 
@@ -128,13 +130,13 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	{
 		int number = data % 10;
 		int sourceX = number * SPRITE_SIZE.x;
-		DirectX::SimpleMath::Vector2 pos = { x, y };
+		SimpleMath::Vector2 pos = { x, y };
 		RECT rect = { sourceX, 0 , sourceX + SPRITE_SIZE.x, SPRITE_SIZE.y };
-		DirectX::FXMVECTOR color = DirectX::Colors::White;
+		FXMVECTOR color = Colors::White;
 
 		renderContext.spriteBatch->Draw(m_texture, pos, &rect,
-			color, 0.0f, DirectX::XMFLOAT2(0, 0),
-			SCALE, DirectX::SpriteEffects_None, 0.0f);
+			color, 0.0f, XMFLOAT2(0, 0),
+			SCALE, SpriteEffects_None, 0.0f);
 
 		data /= 10;
 		x -= size.x;
@@ -145,9 +147,30 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	// 通常の画面に切り替え
 	m_renderTexture->SetRTVDefault(renderContext.deviceContext, nullptr);
 
+	// 画像の幅と高さを取得
+	float width = static_cast<float>(m_renderTexture->GetWidth());
+	float height = static_cast<float>(m_renderTexture->GetHeight());
+
+	// 頂点情報
+	VertexPositionTexture vertex[4];
+	for (int j = 0; j < 4; j++)
+	{
+		vertex[j] = VERTECES[j];
+
+		// 座標の設定
+		vertex[j].position.x = vertex[j].position.x * (1.f + width / height);
+		vertex[j].position.y = vertex[j].position.y * (1.f + height / width);
+	}
+
 	// テクスチャサンプラーの設定
-	ID3D11SamplerState* samplers[1] = { renderContext.states->PointClamp() };
+	ID3D11SamplerState* samplers[1] = { renderContext.states->LinearClamp() };
 	renderContext.deviceContext->PSSetSamplers(0, 1, samplers);
+
+	//	半透明描画指定
+	ID3D11BlendState* blendstate = renderContext.states->NonPremultiplied();
+
+	//	透明判定処理
+	renderContext.deviceContext->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
 
 	// 深度バッファに書き込み参照する
 	renderContext.deviceContext->OMSetDepthStencilState(renderContext.states->DepthDefault(), 0);
@@ -156,7 +179,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	renderContext.deviceContext->RSSetState(renderContext.states->CullNone());
 
 	// ワールド行列の計算
-	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+	SimpleMath::Matrix world = SimpleMath::Matrix::CreateTranslation(m_position);
 
 	// 回転
 	if (m_isBillboard)
@@ -174,34 +197,17 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	m_batchEffect->Apply(renderContext.deviceContext);
 	renderContext.deviceContext->IASetInputLayout(m_inputLayout.Get());
 
-	// 画像の幅と高さを取得
-	float width = static_cast<float>(m_renderTexture->GetWidth());
-	float height = static_cast<float>(m_renderTexture->GetHeight());
-
-	// 頂点情報
-	VertexPositionTexture vertex[4];
-	for (int j = 0; j < 4; j++)
-	{
-		vertex[j] = VERTECES[j];
-
-		// 座標の設定
-		vertex[j].position.x = vertex[j].position.x * (1.f + width / height);
-		vertex[j].position.y = vertex[j].position.y * (1.f + height / width);
-	}
-
+	//	半透明部分が含まれることを想定した描画 
 	m_primitiveBatch->Begin();
-
-	// 半透明部分が含まれることを想定した描画
 	m_primitiveBatch->DrawQuad(vertex[0], vertex[1], vertex[2], vertex[3]);
-
 	m_primitiveBatch->End();
 
 	m_isBillboard = false;
 
 	// オフスクリーンのテスト
-	renderContext.spriteBatch->Begin();
-	renderContext.spriteBatch->Draw(m_renderTexture->GetSRV(), SimpleMath::Vector2(0, 0));
-	renderContext.spriteBatch->End();
+	//renderContext.spriteBatch->Begin();
+	//renderContext.spriteBatch->Draw(m_renderTexture->GetSRV(), SimpleMath::Vector2(0, 0));
+	//renderContext.spriteBatch->End();
 }
 
 
@@ -228,14 +234,14 @@ void NumberRenderer3D::CreateBillboard(
 	m_isBillboard = true;
 
 	// 行列を作成
-	m_billboard = DirectX::SimpleMath::Matrix::CreateBillboard(
+	m_billboard = SimpleMath::Matrix::CreateBillboard(
 		m_position,
 		eye,
 		up
 	);
 
 	//Y軸を180度回転させる
-	DirectX::SimpleMath::Matrix rotY = DirectX::SimpleMath::Matrix::Identity;
+	SimpleMath::Matrix rotY = SimpleMath::Matrix::Identity;
 	rotY._11 = -1.0f;
 	rotY._33 = -1.0f;
 

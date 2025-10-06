@@ -68,9 +68,6 @@ private:
 	// オーバーレイ
 	Overlay m_overlayMode;
 
-	// 数値表示テスト
-	std::unique_ptr<NumberRenderer3D> m_numRendrer;
-
 
 	// オブジェクト関連
 	//カメラ

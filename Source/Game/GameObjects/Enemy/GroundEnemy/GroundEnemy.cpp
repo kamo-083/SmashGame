@@ -28,7 +28,7 @@ GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* 
 	, m_trajectory{ nullptr }
 	, m_circle{ nullptr }
 {
-	m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
+	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
 
 	// 軌跡エフェクトの作成
 	m_trajectory = pEffectManager->CreateTrajectory(
@@ -47,7 +47,7 @@ GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* 
 		1.0f,
 		SimpleMath::Color(1, 1, 1, 1),
 		&m_position,
-		1.0f,
+		RADIUS * 1.5f,
 		12,
 		false,
 		true

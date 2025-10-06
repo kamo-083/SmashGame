@@ -247,7 +247,7 @@ void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::Simpl
 	context->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
 
 	//	深度バッファに書き込み参照する
-	context->OMSetDepthStencilState(m_states->DepthDefault(), 0);
+	context->OMSetDepthStencilState(m_states->DepthRead(), 0);
 
 	//	カリングはなし
 	context->RSSetState(m_states->CullNone());
@@ -273,18 +273,18 @@ void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::Simpl
 	m_batch->End();
 
 	// 使ったSRVを解除
-	ID3D11ShaderResourceView* nullSRV[8] = {};
-	context->PSSetShaderResources(0, (UINT)std::min<size_t>(m_texture.size(), 8), nullSRV);
+	//ID3D11ShaderResourceView* nullSRV[8] = {};
+	//context->PSSetShaderResources(0, (UINT)std::min<size_t>(m_texture.size(), 8), nullSRV);
 
 	// サンプラ解除
-	ID3D11SamplerState* nullSmp[1] = { nullptr };
-	context->PSSetSamplers(0, 1, nullSmp);
+	//ID3D11SamplerState* nullSmp[1] = { nullptr };
+	//context->PSSetSamplers(0, 1, nullSmp);
 
 	// ブレンド/深度/ラスタ/入力レイアウトを元に戻す or 解除
-	context->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
-	context->OMSetDepthStencilState(nullptr, 0);
-	context->RSSetState(nullptr);
-	context->IASetInputLayout(nullptr);
+	//context->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
+	//context->OMSetDepthStencilState(nullptr, 0);
+	//context->RSSetState(nullptr);
+	//context->IASetInputLayout(nullptr);
 
 	//	シェーダの登録を解除
 	context->VSSetShader(nullptr, nullptr, 0);
@@ -292,10 +292,10 @@ void TrajectoryParticle::Render(DirectX::SimpleMath::Matrix view, DirectX::Simpl
 	context->GSSetShader(nullptr, nullptr, 0);
 
 	// 定義バッファを解除
-	ID3D11Buffer* nullCB[1] = { nullptr };
-	context->VSSetConstantBuffers(0, 1, nullCB);
-	context->PSSetConstantBuffers(0, 1, nullCB);
-	context->GSSetConstantBuffers(0, 1, nullCB);
+	//ID3D11Buffer* nullCB[1] = { nullptr };
+	//context->VSSetConstantBuffers(0, 1, nullCB);
+	//context->PSSetConstantBuffers(0, 1, nullCB);
+	//context->GSSetConstantBuffers(0, 1, nullCB);
 }
 
 

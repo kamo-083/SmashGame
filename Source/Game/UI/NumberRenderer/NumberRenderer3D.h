@@ -98,6 +98,9 @@ public:
 	// スケールを取得
 	float GetScale() { return SCALE; }
 
+	// 表示する数値を設定
+	void SetNumber(int num) { m_number = num; }
+
 
 	// 内部実装
 private:

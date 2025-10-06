@@ -48,6 +48,9 @@ private:
 	// 通常のレンダーターゲットビュー
 	ID3D11RenderTargetView* m_defaultRTV;
 
+	// 通常の深度ステンシルビュー
+	ID3D11DepthStencilView* m_defaultDSV;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -66,7 +69,8 @@ public:
 		ID3D11Device* device,
 		int width,
 		int height,
-		ID3D11RenderTargetView* rtv);
+		ID3D11RenderTargetView* rtv,
+		ID3D11DepthStencilView* dsv);
 
 	// 終了処理
 	void Finalize();
