@@ -38,7 +38,8 @@ CountArea::CountArea(UserResources* ur)
 		SimpleMath::Vector2(48.f, 72.f),
 		rm->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1,
-		dr
+		dr,
+		0.5f
 	);
 }
 
@@ -78,8 +79,8 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 	// ”šUI‚Ìì¬
 	m_numberBorad->Initialize(m_insideList.size());
 
-	SimpleMath::Vector3 boradPos = { m_position.x, m_position.y + AREA_HALF_HEIGHT * 2.f, m_position.z };
-	m_numberBorad->SetPosition(m_position);
+	SimpleMath::Vector3 boradPos = { m_position.x, m_position.y + AREA_HALF_HEIGHT * 0.5f, m_position.z };
+	m_numberBorad->SetPosition(boradPos);
 
 	// “–‚½‚è”»’è‚Ìİ’è
 	m_collider.SetCenter(m_position);

@@ -121,7 +121,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	SimpleMath::Vector2 size = SPRITE_SIZE * SCALE;
 
 	int data = m_number;
-	float x = m_position.x + (NUM_DIGIT - 1) * size.x;
+	float x = (m_position.x + (NUM_DIGIT - 1)) * size.x;
 	float y = m_position.y;
 
 	renderContext.spriteBatch->Begin();
@@ -179,7 +179,9 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	renderContext.deviceContext->RSSetState(renderContext.states->CullNone());
 
 	// ワールド行列の計算
-	SimpleMath::Matrix world = SimpleMath::Matrix::CreateTranslation(m_position);
+	SimpleMath::Matrix world =
+		SimpleMath::Matrix::CreateScale(SCALE) *
+		SimpleMath::Matrix::CreateTranslation(m_position);
 
 	// ビルボードの回転
 	if (m_isBillboard)
