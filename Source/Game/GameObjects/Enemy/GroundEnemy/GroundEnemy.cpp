@@ -242,7 +242,12 @@ void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 	}
 
 	m_circle = nullptr;
-	m_trajectory = nullptr;
+
+	if (m_trajectory)
+	{
+		m_trajectory->effect->Deactivate();
+		m_trajectory = nullptr;
+	}
 }
 
 

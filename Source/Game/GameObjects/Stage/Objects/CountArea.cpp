@@ -125,6 +125,9 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 			{
 				if (m_insideList.size() >= m_targetNum) m_isTrigger = true;
 			}
+
+			// 表示する数字の更新
+			m_numberBorad->SetNumber(m_insideList.size());
 		};
 	desc.callback.onExit =
 		[this,pCollisionManager](uint32_t, uint32_t handle)
@@ -151,6 +154,9 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 			{
 				if (m_insideList.size() == 0 && m_armed) m_isTrigger = true;
 			}
+
+			// 表示する数字の更新
+			m_numberBorad->SetNumber(m_insideList.size());
 		};
 	m_collisionHandle = pCollisionManager->Add(desc);
 }
@@ -164,15 +170,14 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
  *
  * @return なし
  */
-void CountArea::Update()
+void CountArea::Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp)
 {
 	if (m_isTrigger)
 	{
 		m_operation();
 	}
 
-	// 表示する数字の更新
-	m_numberBorad->SetNumber(m_insideList.size());
+	m_numberBorad->CreateBillboard(cameraPos, cameraUp);
 }
 
 

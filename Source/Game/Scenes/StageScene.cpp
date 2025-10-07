@@ -152,7 +152,6 @@ void StageScene::Update(float elapsedTime)
 		// シーンの切り替え
 		if (m_userResources->GetKeyboardTracker()->pressed.Space)
 		{
-			m_effectManager->Finalize();
 			ChangeScene("StageSelectScene");
 		}
 
@@ -179,7 +178,7 @@ void StageScene::Update(float elapsedTime)
 	m_camera->Update(m_userResources->GetKeyboardTracker(), elapsedTime);
 
 	// ステージマネージャーの更新
-	m_stageManager->Update(elapsedTime);
+	m_stageManager->Update(elapsedTime, m_camera->GetEye(), m_camera->GetUp());
 
 	// エフェクトの更新
 	m_effectManager->Update(elapsedTime);

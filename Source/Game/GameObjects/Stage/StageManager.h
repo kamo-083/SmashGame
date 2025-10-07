@@ -75,7 +75,7 @@ public:
 					 const std::string& path);
 
 	// XVˆ—
-	void Update(float elapsedTime);
+	void Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);
 
 	// •`‰æˆ—
 	void Draw(RenderContext context, Imase::DebugFont* debugFont);

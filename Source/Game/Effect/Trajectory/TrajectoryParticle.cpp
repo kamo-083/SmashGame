@@ -46,6 +46,7 @@ TrajectoryParticle::TrajectoryParticle()
 	, m_timer(0.0f)
 	, m_scale(0.0f)
 	, m_life(0.0f)
+	, m_isActive(false)
 {
 }
 
@@ -117,6 +118,8 @@ void TrajectoryParticle:: Create(DX::DeviceResources* DR,
 	m_scale = scale;
 	m_color = color;
 	m_life = life;
+
+	m_isActive = true;
 }
 
 

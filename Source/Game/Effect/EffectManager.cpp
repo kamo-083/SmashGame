@@ -78,6 +78,14 @@ EffectManager::~EffectManager()
  */
 void EffectManager::Update(float elapsedTime)
 {
+	// 無効なエフェクトを削除
+	m_trajectory.erase(std::remove_if(m_trajectory.begin(), m_trajectory.end(),
+		[&](std::unique_ptr<TrajectoryParticleData>& t)
+		{
+			return !t->effect->IsActive();
+		}),
+		m_trajectory.end());
+
 	// 軌跡エフェクトの更新
 	for (std::unique_ptr<TrajectoryParticleData>& trajectory : m_trajectory)
 	{

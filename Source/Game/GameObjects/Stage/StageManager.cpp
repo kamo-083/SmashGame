@@ -141,7 +141,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
  *
  * @return なし
  */
-void StageManager::Update(float elapsedTime)
+void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp)
 {
 	// 地面の更新
 	for (auto& ground : m_grounds)
@@ -164,7 +164,7 @@ void StageManager::Update(float elapsedTime)
 	// エリアの更新
 	for (auto& area : m_areas)
 	{
-		area->Update();
+		area->Update(cameraPos, cameraUp);
 	}
 
 	// ゴールの更新

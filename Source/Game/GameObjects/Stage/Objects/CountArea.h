@@ -92,7 +92,7 @@ public:
 					std::function<void()> operation, TriggerMode mode, int targetNum = 0);
 
 	// XVˆ—
-	void Update();
+	void Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);
 
 	// •`‰æˆ—
 	void Draw(RenderContext& context, Imase::DebugFont* debugFont);

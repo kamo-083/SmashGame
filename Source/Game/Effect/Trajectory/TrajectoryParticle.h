@@ -62,6 +62,8 @@ private:
 	float m_life;
 	DirectX::SimpleMath::Color m_color;
 
+	bool m_isActive;	// —LŒø‚©
+
 public:
 	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
 
@@ -87,6 +89,12 @@ public:
 						 DirectX::SimpleMath::Vector3 target,
 						 DirectX::SimpleMath::Vector3 eye,
 						 DirectX::SimpleMath::Vector3 up);
+
+	// —LŒø‚©‚Ç‚¤‚©
+	bool IsActive() { return m_isActive; }
+
+	// –³Œø‰»
+	void Deactivate() { m_isActive = false; }
 
 private:
 

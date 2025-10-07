@@ -58,8 +58,8 @@ private:
 	static constexpr float SCALE = 0.02f;					//ƒXƒP[ƒ‹
 	static constexpr float DYNAMIC_FRICTION_FORCE = 0.5f;	//“®–€C—Í
 	static constexpr float STATIC_FRICTION_FORCE = 1.0f;	//Ã~–€C—Í
-	static constexpr float KILL_HEIGHT = -10.0f;			//—‰º”»’è‚ğ‚³‚ê‚é‚‚³
-	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,2.0f,2.0f };
+	static constexpr float KILL_HEIGHT = -5.0f;				//—‰º”»’è‚ğ‚³‚ê‚é‚‚³
+	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,0.0f,2.0f };
 
 	struct Animations
 	{
