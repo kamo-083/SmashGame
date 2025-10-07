@@ -86,6 +86,7 @@ public:
 	// ‘€ì‚Ìì¬
 	void CreateOperate(std::function<void()>& outOperate, StageLoader::AreaActionDesc& desc);
 
+
 // æ“¾/İ’è
 public:
 	// ƒS[ƒ‹‚µ‚Ä‚¢‚é‚©

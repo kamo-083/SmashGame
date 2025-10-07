@@ -181,7 +181,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	// ワールド行列の計算
 	SimpleMath::Matrix world = SimpleMath::Matrix::CreateTranslation(m_position);
 
-	// 回転
+	// ビルボードの回転
 	if (m_isBillboard)
 	{
 		world *= m_billboard;
@@ -201,8 +201,6 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	m_primitiveBatch->Begin();
 	m_primitiveBatch->DrawQuad(vertex[0], vertex[1], vertex[2], vertex[3]);
 	m_primitiveBatch->End();
-
-	m_isBillboard = false;
 
 	// オフスクリーンのテスト
 	//renderContext.spriteBatch->Begin();
