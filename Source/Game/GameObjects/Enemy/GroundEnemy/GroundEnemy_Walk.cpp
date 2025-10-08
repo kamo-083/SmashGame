@@ -11,7 +11,7 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "GroundEnemy_Walk.h"
-#include "Source/Game/GameObjects/Enemy/Enemy.h"
+#include "Source/Game/GameObjects/Enemy/IEnemy.h"
 
 using namespace DirectX;
 
@@ -68,7 +68,7 @@ void GroundEnemy_Walk::Initialize(ResourceManager* pResourceManager)
 void GroundEnemy_Walk::Update(const float& elapsedTime)
 {
 	// プレイヤーとの距離と方向を取得
-	Enemy::PlayerRelationData playerData = m_pGroundEnemy->GetPlayerRelativeData();
+	IEnemy::PlayerRelationData playerData = m_pGroundEnemy->GetPlayerRelativeData();
 
 	SimpleMath::Vector3 force = playerData.direction * MOVE_SPEED * elapsedTime;
 

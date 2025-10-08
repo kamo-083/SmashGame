@@ -1,5 +1,5 @@
 /**
- * @file   Enemy.h
+ * @file   IEnemy.h
  *
  * @brief  敵に関するヘッダファイル
  *
@@ -15,7 +15,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/GameObjects/Enemy/Enemy.h"
+#include"Source/Game/GameObjects/Enemy/IEnemy.h"
 #include"Source/Game/Common/UserResources.h"
 #include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Idle.h"
@@ -34,7 +34,7 @@ class GroundEnemy_Attack;
 /**
  * @brief 敵
  */
-class GroundEnemy	:public Enemy
+class GroundEnemy	:public IEnemy
 
 {
 // クラス定数の宣言 -------------------------------------------------

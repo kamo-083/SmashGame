@@ -141,7 +141,7 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 	m_nextID++;
 
 	// “G‚ğ¶¬
-	std::unique_ptr<Enemy> enemy = Create(spawnData.type);
+	std::unique_ptr<IEnemy> enemy = Create(spawnData.type);
 	enemy->Initialize(m_pUserResources->GetResourceManager(),
 					  m_pCollisionManager,
 					  spawnData.position,
@@ -168,7 +168,7 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
  *
  * @return “G‚Ìƒ|ƒCƒ“ƒ^
  */
-Enemy* EnemyManager::GetEnemyByID(uint32_t id) const
+IEnemy* EnemyManager::GetEnemyByID(uint32_t id) const
 {
 	// ID‚ªˆê’v‚·‚é“G‚ğ’T‚µ‚Ä•Ô‚·
 	for (auto& enemy : m_enemies)
@@ -187,7 +187,7 @@ Enemy* EnemyManager::GetEnemyByID(uint32_t id) const
  *
  * @return “G‚Ìƒ†ƒj[ƒNƒ|ƒCƒ“ƒ^
  */
-std::unique_ptr<Enemy> EnemyManager::Create(EnemyType type)
+std::unique_ptr<IEnemy> EnemyManager::Create(EnemyType type)
 {
 	return std::make_unique<GroundEnemy>(
 		m_enemyInfo[static_cast<int>(type)],

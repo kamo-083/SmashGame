@@ -19,7 +19,7 @@
 #include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/Data/EnamyData.h"
 #include "Source/Game/GameObjects/Enemy/EnemyInfoLoader.h"
-#include "Source/Game/GameObjects/Enemy/Enemy.h"
+#include "Source/Game/GameObjects/Enemy/IEnemy.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
 
@@ -46,9 +46,9 @@ public:
 		uint32_t id;
 		EnemyType type;
 		bool alive;
-		std::unique_ptr<Enemy> enemy;
+		std::unique_ptr<IEnemy> enemy;
 
-		EnemyData(uint32_t inId, EnemyType inType, std::unique_ptr<Enemy> inEnemy)
+		EnemyData(uint32_t inId, EnemyType inType, std::unique_ptr<IEnemy> inEnemy)
 			:id(inId)
 			, type(inType)
 			, alive(true)
@@ -110,7 +110,7 @@ public:
 	EnemyData* Spawn(const SpawnData& spawnData);
 
 	// ID‚©‚ç“G‚ğæ“¾
-	Enemy* GetEnemyByID(uint32_t id) const;
+	IEnemy* GetEnemyByID(uint32_t id) const;
 
 
 // æ“¾/İ’è
@@ -118,6 +118,6 @@ public:
 
 // “à•”À‘•
 private:
-	std::unique_ptr<Enemy> Create(EnemyType type);
+	std::unique_ptr<IEnemy> Create(EnemyType type);
 
 };

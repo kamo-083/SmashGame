@@ -83,7 +83,7 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyBody) return;
 
 			//ID‚©‚ç“G‚ðŽæ“¾
-			Enemy* enemy = pEnemyManager->GetEnemyByID(pCollisionManager->GetDesc(other)->userId);
+			IEnemy* enemy = pEnemyManager->GetEnemyByID(pCollisionManager->GetDesc(other)->userId);
 
 			// “–‚½‚Á‚½“G‚ª’µ‚Ë•Ô‚èó‘Ô‚È‚çƒS[ƒ‹‰Â”\‚É‚·‚é
 			if (enemy->GetStateType() == StateType::Bounce)

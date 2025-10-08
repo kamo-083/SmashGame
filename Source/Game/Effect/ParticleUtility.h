@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------
-// File: TrajectoryParticleUtility.h
+// File: ParticleUtility.h
 //-------------------------------------------------------------------------------------
 
 #pragma once
@@ -14,7 +14,7 @@
 #include <CommonStates.h>
 #include <vector>
 
-class TrajectoryParticleUtility
+class ParticleUtility
 {
 private:
 	//座標
@@ -32,14 +32,14 @@ private:
 
 public:
 	//コンストラクタ
-	TrajectoryParticleUtility(
+	ParticleUtility(
 		DirectX::SimpleMath::Vector3 startPosition,
 		DirectX::SimpleMath::Vector3 scale,
 		float life,
 		DirectX::SimpleMath::Color color);
 
 	//デストラクタ
-	~TrajectoryParticleUtility();
+	~ParticleUtility();
 
 	//更新
 	bool Update(float elapsedTime);

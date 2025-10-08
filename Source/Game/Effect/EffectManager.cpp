@@ -85,6 +85,12 @@ void EffectManager::Update(float elapsedTime)
 			return !t->effect->IsActive();
 		}),
 		m_trajectory.end());
+	m_circle.erase(std::remove_if(m_circle.begin(), m_circle.end(),
+		[&](std::unique_ptr<CircleParticleData>& t)
+		{
+			return !t->effect->IsActive();
+		}),
+		m_circle.end());
 
 	// 軌跡エフェクトの更新
 	for (std::unique_ptr<TrajectoryParticleData>& trajectory : m_trajectory)
@@ -114,13 +120,13 @@ void EffectManager::Draw(DirectX::SimpleMath::Matrix proj)
 	// 軌跡エフェクトの描画
 	for (std::unique_ptr<TrajectoryParticleData>& trajectory : m_trajectory)
 	{
-		trajectory->effect->Render(m_pCamera->GetView(), proj);
+		trajectory->effect->Draw(m_pCamera->GetView(), proj);
 	}
 
 	// 円形エフェクトの描画
 	for (std::unique_ptr<CircleParticleData>& circle : m_circle)
 	{
-		circle->effect->Render(m_pCamera->GetView(), proj);
+		circle->effect->Draw(m_pCamera->GetView(), proj);
 	}
 }
 

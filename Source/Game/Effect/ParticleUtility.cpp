@@ -1,9 +1,9 @@
 //--------------------------------------------------------------------------------------
-// File: TrajectoryParticleUtility.cpp
+// File: ParticleUtility.cpp
 //-------------------------------------------------------------------------------------
 
 #include "pch.h"
-#include "TrajectoryParticleUtility.h"
+#include "ParticleUtility.h"
 
 #include "Source/Game/Common/StepTimer.h"
 #include "Source/Game/Common/DeviceResources.h"
@@ -14,7 +14,7 @@
 #include <WICTextureLoader.h>
 #include <CommonStates.h>
 #include <vector>
-#include "TrajectoryParticleUtility.h"
+#include "ParticleUtility.h"
 
 using namespace DirectX;
 
@@ -27,7 +27,7 @@ using namespace DirectX;
  * @param[in] life		寿命
  * @param[in] color		色
  */
-TrajectoryParticleUtility::TrajectoryParticleUtility(
+ParticleUtility::ParticleUtility(
 	DirectX::SimpleMath::Vector3 position,
 	DirectX::SimpleMath::Vector3 scale,
 	float life,
@@ -43,7 +43,7 @@ TrajectoryParticleUtility::TrajectoryParticleUtility(
 /**
  * @brief デストラクタ
  */
-TrajectoryParticleUtility::~TrajectoryParticleUtility()
+ParticleUtility::~ParticleUtility()
 {
 }
 
@@ -55,7 +55,7 @@ TrajectoryParticleUtility::~TrajectoryParticleUtility()
  *
  * @return なし
  */
-bool TrajectoryParticleUtility::Update(float elapsedTime)
+bool ParticleUtility::Update(float elapsedTime)
 {
 	//大きさの更新
 	m_nowScale = SimpleMath::Vector3::Lerp(SimpleMath::Vector3::Zero, m_startScale, m_life);

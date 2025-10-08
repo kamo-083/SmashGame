@@ -1,5 +1,5 @@
 /**
- * @file   Enemy.h
+ * @file   IEnemy.h
  *
  * @brief  敵に関するヘッダファイル
  *
@@ -30,7 +30,7 @@
 /**
  * @brief 敵
  */
-class Enemy
+class IEnemy
 {
 // クラス定数の宣言 -------------------------------------------------
 public:	
@@ -101,7 +101,7 @@ protected:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Enemy(EnemyInfoLoader::EnemyInfo info)
+	IEnemy(EnemyInfoLoader::EnemyInfo info)
 		: RADIUS{ info.radius }
 		, SPEED{ info.speed }
 		, MASS{ info.mass }
@@ -118,7 +118,7 @@ public:
 	{}
 
 	// デストラクタ
-	~Enemy()
+	~IEnemy()
 	{}
 
 

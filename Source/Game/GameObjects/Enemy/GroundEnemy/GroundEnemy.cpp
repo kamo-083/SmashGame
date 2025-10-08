@@ -23,7 +23,7 @@ using namespace DirectX;
  * @param[in] pEffectManager エフェクトマネージャーのポインタ
  */
 GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* pUserResources, EffectManager* pEffectManager)
-	: Enemy{ info }
+	: IEnemy{ info }
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
 	, m_circle{ nullptr }
@@ -225,7 +225,11 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
  */
 void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 {
+	// ステートのリセット
 	m_idlingState.reset();
+	m_walkingState.reset();
+	m_attackingState.reset();
+	m_bouncingState.reset();
 
 	m_model = nullptr;
 	m_animations.reset();
@@ -241,8 +245,11 @@ void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 		m_handleAttack = 0;
 	}
 
-	m_circle = nullptr;
-
+	if (m_circle)
+	{
+		m_circle->effect->Deactivate();
+		m_circle = nullptr;
+	}
 	if (m_trajectory)
 	{
 		m_trajectory->effect->Deactivate();
