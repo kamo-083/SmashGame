@@ -87,6 +87,8 @@ void StageSelectScene::Initialize()
 		SimpleMath::Vector2(48.f, 72.f),
 		m_userResources->GetResourceManager()->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1);
+
+	// シェーダーの読み込み
 }
 
 

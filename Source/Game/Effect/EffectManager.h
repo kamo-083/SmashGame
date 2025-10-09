@@ -15,9 +15,9 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/GameObjects/Camera.h"
+#include"Source/Game/Common/ShaderManager.h"
 #include"Source/Game/Effect/Trajectory/TrajectoryParticle.h"
 #include"Source/Game/Effect/Circle/CircleParticle.h"
-
 
 
 // クラスの定義 ===============================================================
@@ -112,15 +112,14 @@ private:
 	std::vector<std::unique_ptr<CircleParticleData>> m_circle;
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_CBuffer;
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_batch;
 	DirectX::CommonStates* m_states;
 
 	//シェーダー
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
-	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
-	Microsoft::WRL::ComPtr<ID3D11GeometryShader> m_geometryShader;
+	ShaderManager::VertexShaderEntry* m_vs;
+	ShaderManager::PixelShaderEntry* m_ps;
+	ShaderManager::GeometryShaderEntry* m_gs;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -135,6 +134,9 @@ public:
 
 // 操作
 public:
+	// シェーダーの読み込み
+	void CrateShader(ShaderManager* shaderManager);
+
 	// 更新処理
 	void Update(float elapsedTime);
 
@@ -162,5 +164,5 @@ public:
 
 // 内部実装
 private:
-	void CreateShader();
+
 };

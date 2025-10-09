@@ -26,7 +26,7 @@
 class ShaderManager
 {
 	// ƒNƒ‰ƒX’è”‚ÌéŒ¾ -------------------------------------------------
-private:
+public:
 	struct VertexShaderEntry
 	{
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> vs;

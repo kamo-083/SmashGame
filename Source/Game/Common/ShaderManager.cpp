@@ -133,7 +133,7 @@ ShaderManager::VertexShaderEntry* ShaderManager::GetVS(const std::string& name)
 	auto it = m_vertexShaders.find(name);
 
 	// 名前が存在しているか確認
-	if (it != m_vertexShaders.end())
+	if (it == m_vertexShaders.end())
 	{
 		return nullptr;
 	}
@@ -146,7 +146,7 @@ ShaderManager::PixelShaderEntry* ShaderManager::GetPS(const std::string& name)
 	auto it = m_pixelShaders.find(name);
 
 	// 名前が存在しているか確認
-	if (it != m_pixelShaders.end())
+	if (it == m_pixelShaders.end())
 	{
 		return nullptr;
 	}
@@ -159,7 +159,7 @@ ShaderManager::GeometryShaderEntry* ShaderManager::GetGS(const std::string& name
 	auto it = m_geometryShaders.find(name);
 
 	// 名前が存在しているか確認
-	if (it != m_geometryShaders.end())
+	if (it == m_geometryShaders.end())
 	{
 		return nullptr;
 	}

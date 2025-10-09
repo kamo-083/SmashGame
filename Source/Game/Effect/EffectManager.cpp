@@ -34,11 +34,12 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> EffectManager::INPUT_LAYOUT =
 EffectManager::EffectManager(DX::DeviceResources* deviceResources, DirectX::CommonStates* states)
 	: m_pDeviceResources{ deviceResources }
 	, m_pCamera{ nullptr }
+	, m_vs{ nullptr }
+	, m_ps{ nullptr }
+	, m_gs{ nullptr }
 {
 	m_batch = std::make_unique<PrimitiveBatch<VertexPositionColorTexture>>(m_pDeviceResources->GetD3DDeviceContext());
 	m_states = states;
-
-	CreateShader();
 
 	// -- debug ----------------
 	//static const char c_szName[] = "EffectManager";
@@ -59,14 +60,48 @@ EffectManager::~EffectManager()
 	m_pDeviceResources = nullptr;
 	m_pCamera = nullptr;
 
+	m_vs = nullptr;
+	m_ps = nullptr;
+	m_gs = nullptr;
+
 	m_batch.reset();
-	m_inputLayout.Reset();
-	m_vertexShader.Reset();
-	m_pixelShader.Reset();
-	m_geometryShader.Reset();
 	m_CBuffer.Reset();
 	m_states = nullptr;
 }
+
+
+
+/**
+ * @brief シェーダーの読み込み
+ *
+ * @param[in] shaderManager シェーダーマネージャー
+ *
+ * @return なし
+ */
+void EffectManager::CrateShader(ShaderManager* shaderManager)
+{
+	// 頂点シェーダー
+	shaderManager->CreateVS("effectVS", L"Resources/Shaders/ParticleVS.cso", INPUT_LAYOUT);
+	m_vs = shaderManager->GetVS("effectVS");
+
+	// ピクセルシェーダー
+	shaderManager->CreatePS("effectPS", L"Resources/Shaders/ParticlePS.cso");
+	m_ps = shaderManager->GetPS("effectPS");
+
+	// ジオメトリシェーダー
+	shaderManager->CreateGS("effectGS", L"Resources/Shaders/ParticleGS.cso");
+	m_gs = shaderManager->GetGS("effectGS");
+
+	//	シェーダーにデータを渡すためのコンスタントバッファ生成
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(ConstBuffer);
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags = 0;
+	m_pDeviceResources->GetD3DDevice()->CreateBuffer(&bd, nullptr, &m_CBuffer);
+}
+
 
 
 /**
@@ -146,11 +181,11 @@ void EffectManager::Finalize()
 	m_pDeviceResources = nullptr;
 	m_pCamera = nullptr;
 
+	m_vs = nullptr;
+	m_ps = nullptr;
+	m_gs = nullptr;
+
 	m_batch.reset();
-	m_inputLayout.Reset();
-	m_vertexShader.Reset();
-	m_pixelShader.Reset();
-	m_geometryShader.Reset();
 	m_CBuffer.Reset();
 	m_states = nullptr;
 }
@@ -177,13 +212,13 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 	effect->Create(
 		m_pDeviceResources,
 		m_CBuffer.Get(),
-		m_inputLayout.Get(),
+		m_vs->inputLayout.Get(),
 		m_batch.get(),
 		m_states,
 		texture,
-		m_vertexShader.Get(),
-		m_pixelShader.Get(),
-		m_geometryShader.Get(),
+		m_vs->vs.Get(),
+		m_ps->ps.Get(),
+		m_gs->gs.Get(),
 		scale, life, color
 	);
 
@@ -228,13 +263,13 @@ EffectManager::CircleParticleData* EffectManager::CreateCircle(
 	effect->Create(
 		m_pDeviceResources, 
 		m_CBuffer.Get(),
-		m_inputLayout.Get(),
+		m_vs->inputLayout.Get(),
 		m_batch.get(),
 		m_states,
 		texture,
-		m_vertexShader.Get(),
-		m_pixelShader.Get(),
-		m_geometryShader.Get(),
+		m_vs->vs.Get(),
+		m_ps->ps.Get(),
+		m_gs->gs.Get(),
 		scale, life, color
 	);
 
@@ -254,58 +289,4 @@ EffectManager::CircleParticleData* EffectManager::CreateCircle(
 
 	// 作成したエフェクトのポインタを返す
 	return m_circle.back().get();
-}
-
-
-/**
- * @brief シェーダーを作成
- *
- * @param[in] なし
- *
- * @return なし
- */
-void EffectManager::CreateShader()
-{
-	ID3D11Device1* device = m_pDeviceResources->GetD3DDevice();
-
-	//	コンパイルされたシェーダファイルを読み込み
-	std::unique_ptr<BinaryFile> VSData = BinaryFile::LoadFile(L"Resources/Shaders/ParticleVS.cso");
-	std::unique_ptr<BinaryFile> PSData = BinaryFile::LoadFile(L"Resources/Shaders/ParticlePS.cso");
-	std::unique_ptr<BinaryFile> GSData = BinaryFile::LoadFile(L"Resources/Shaders/ParticleGS.cso");
-
-	//	インプットレイアウトの作成
-	device->CreateInputLayout(&INPUT_LAYOUT[0],
-		static_cast<UINT>(INPUT_LAYOUT.size()),
-		VSData->GetData(), VSData->GetSize(),
-		m_inputLayout.GetAddressOf());
-
-	//	頂点シェーダ作成
-	if (FAILED(device->CreateVertexShader(VSData->GetData(), VSData->GetSize(), NULL, m_vertexShader.ReleaseAndGetAddressOf())))
-	{
-		MessageBox(0, L"CreateVertexShader Failed.", NULL, MB_OK);
-		return;
-	}
-
-	//	ピクセルシェーダ作成
-	if (FAILED(device->CreatePixelShader(PSData->GetData(), PSData->GetSize(), NULL, m_pixelShader.ReleaseAndGetAddressOf())))
-	{
-		MessageBox(0, L"CreatePixelShader Failed.", NULL, MB_OK);
-		return;
-	}
-
-	//	ジオメトリシェーダ作成
-	if (FAILED(device->CreateGeometryShader(GSData->GetData(), GSData->GetSize(), NULL, m_geometryShader.ReleaseAndGetAddressOf())))
-	{
-		MessageBox(0, L"CreateGeometryShader Failed.", NULL, MB_OK);
-		return;
-	}
-
-	//	シェーダーにデータを渡すためのコンスタントバッファ生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(ConstBuffer);
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = 0;
-	device->CreateBuffer(&bd, nullptr, &m_CBuffer);
 }
