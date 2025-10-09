@@ -83,7 +83,7 @@ void StageSelectScene::Initialize()
 		m_stagePanels.push_back(std::move(panel));
 	}
 
-	m_numberSprite = std::make_unique<NumberSprite>(
+	m_numberBoard = std::make_unique<NumberRenderer2D>(
 		SimpleMath::Vector2(48.f, 72.f),
 		m_userResources->GetResourceManager()->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1);
@@ -169,9 +169,9 @@ void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont
 			windowSize.x / static_cast<float>(STAGES) * i + 380.0f * 0.6f,
 			windowSize.y * 0.25f
 		);
-		m_numberSprite->SetNumber(i + 1);
-		m_numberSprite->SetPosition(pos);
-		m_numberSprite->Draw(*context.spriteBatch);
+		m_numberBoard->SetNumber(i + 1);
+		m_numberBoard->SetPosition(pos);
+		m_numberBoard->Draw(context);
 	}
 }
 
@@ -197,5 +197,4 @@ void StageSelectScene::PanelReset(int panelNum)
 {
 	m_stagePanels[panelNum]->Reset();
 	m_stagePanels[panelNum]->Update(0.0f);
-
 }

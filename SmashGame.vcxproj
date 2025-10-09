@@ -197,6 +197,7 @@
     <ClInclude Include="Source\Game\Common\ResourceManager.h" />
     <ClInclude Include="Source\Game\Common\Scene.h" />
     <ClInclude Include="Source\Game\Common\SceneManager.h" />
+    <ClInclude Include="Source\Game\Common\ShaderManager.h" />
     <ClInclude Include="Source\Game\Common\StepTimer.h" />
     <ClInclude Include="Source\Game\Common\UserResources.h" />
     <ClInclude Include="Source\Game\Data\EnamyData.h" />
@@ -238,7 +239,6 @@
     <ClInclude Include="Source\Game\UI\NumberRenderer\INumberRenderer.h" />
     <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer2D.h" />
     <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.h" />
-    <ClInclude Include="Source\Game\UI\NumberSprite.h" />
     <ClInclude Include="Source\Game\UI\OperationUI.h" />
     <ClInclude Include="Source\Game\UI\StageResultUI.h" />
     <ClInclude Include="Source\Game\UI\Tween.h" />
@@ -264,6 +264,7 @@
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
     <ClCompile Include="Source\Game\Common\SceneManager.cpp" />
+    <ClCompile Include="Source\Game\Common\ShaderManager.cpp" />
     <ClCompile Include="Source\Game\Effect\Circle\CircleParticle.cpp" />
     <ClCompile Include="Source\Game\Effect\EffectManager.cpp" />
     <ClCompile Include="Source\Game\Effect\IEffectParticle.cpp" />
@@ -299,7 +300,6 @@
     <ClCompile Include="Source\Game\UI\Button.cpp" />
     <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer2D.cpp" />
     <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.cpp" />
-    <ClCompile Include="Source\Game\UI\NumberSprite.cpp" />
     <ClCompile Include="Source\Game\UI\OperationUI.cpp" />
     <ClCompile Include="Source\Game\UI\StageResultUI.cpp" />
     <ClCompile Include="Source\Game\UI\Tween.cpp" />

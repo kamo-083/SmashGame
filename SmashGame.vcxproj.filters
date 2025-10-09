@@ -233,9 +233,6 @@
     <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyInfoLoader.h">
       <Filter>Game\GameObjects\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\NumberSprite.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Sky.h">
       <Filter>Game\GameObjects</Filter>
     </ClInclude>
@@ -268,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticle.h">
       <Filter>Effect\Trajectory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\ShaderManager.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -396,9 +396,6 @@
     <ClCompile Include="Source\Game\UI\StageResultUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\NumberSprite.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Sky.cpp">
       <Filter>Game\GameObjects</Filter>
     </ClCompile>
@@ -425,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Effect\Trajectory\TrajectoryParticle.cpp">
       <Filter>Effect\Trajectory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\ShaderManager.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

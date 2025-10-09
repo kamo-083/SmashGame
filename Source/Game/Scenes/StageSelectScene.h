@@ -17,7 +17,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/UI/Button.h"
-#include "Source/Game/UI/NumberSprite.h"
+#include "Source/Game/UI/NumberRenderer/NumberRenderer2D.h"
 
 
 // クラスの宣言 ===============================================================
@@ -38,7 +38,7 @@ public:
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
-	std::unique_ptr<NumberSprite> m_numberSprite;
+	std::unique_ptr<NumberRenderer2D> m_numberBoard;
 
 
 	// オブジェクト関連

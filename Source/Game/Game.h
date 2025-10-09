@@ -10,6 +10,7 @@
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Common/UserResources.h"
+#include "Source/Game/Common/ShaderManager.h"
 #include "ImaseLib/DebugFont.h"
 
 
@@ -82,6 +83,9 @@ private:
 
     // リソースマネージャー
     std::unique_ptr<ResourceManager> m_resourceManager;
+
+    // シェーダーマネージャー
+    std::unique_ptr<ShaderManager> m_shaderManager;
 
     // ユーザーリソース
     std::unique_ptr<UserResources> m_userResources;

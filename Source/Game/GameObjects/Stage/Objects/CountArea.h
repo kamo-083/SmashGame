@@ -69,6 +69,17 @@ private:
 	// 衝突判定のハンドル
 	uint32_t m_collisionHandle;
 
+	// バッチ
+	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_batch;
+
+	Microsoft::WRL::ComPtr<ID3D11Buffer> m_CBuffer;
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+
+	// シェーダー
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
+	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
+	Microsoft::WRL::ComPtr<ID3D11GeometryShader> m_geometryShader;
+
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
 	std::unique_ptr<NumberRenderer3D> m_numberBorad;

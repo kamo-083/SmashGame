@@ -11,6 +11,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "CountArea.h"
+#include "Source/Game/Common/BinaryFile.h"
 
 using namespace DirectX;
 
@@ -29,10 +30,12 @@ CountArea::CountArea(UserResources* ur)
 	, m_insideList()
 	, m_collisionHandle{ 0 }
 {
-	auto dr = ur->GetDeviceResources();
-	auto rm = ur->GetResourceManager();
+	DX::DeviceResources* dr = ur->GetDeviceResources();
+	ResourceManager*	 rm = ur->GetResourceManager();
 
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(dr->GetD3DDeviceContext(), { 1.0f, 1.0f, 1.0f }, true);
+
+	m_batch = std::make_unique<PrimitiveBatch<VertexPositionColor>>(dr->GetD3DDeviceContext());
 
 	m_numberBorad = std::make_unique<NumberRenderer3D>(
 		SimpleMath::Vector2(48.f, 72.f),
@@ -199,6 +202,16 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	world = scale * trans;
 
 	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Magenta, nullptr, true);
+
+	// エリアを板で囲う
+	float vertexes[4];
+	vertexes[0] = m_position.z + size.z;	// 奥
+	vertexes[1] = m_position.x + size.x;	// 右
+	vertexes[2] = m_position.z - size.z;	// 手前
+	vertexes[3] = m_position.x - size.x;	// 左
+
+	
+
 
 	m_numberBorad->Draw(context);
 

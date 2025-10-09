@@ -216,6 +216,7 @@ void Game::Shutdown()
 {
     m_sceneManager.reset();
     m_resourceManager.reset();
+    m_shaderManager.reset();
 
     m_userResources.reset();
 
@@ -274,6 +275,9 @@ void Game::CreateDeviceDependentResources()
     // リソースマネージャーの作成
     m_resourceManager = std::make_unique<ResourceManager>(device);
 
+    // シェーダーマネージャーの作成
+    m_shaderManager = std::make_unique<ShaderManager>(device);
+
     // デバッグフォントの作成
     m_debugFont = std::make_unique<Imase::DebugFont>(device, context, L"Resources/Font/SegoeUI_18.spritefont");
 
@@ -287,6 +291,7 @@ void Game::CreateDeviceDependentResources()
     m_userResources->SetDebugFont(m_debugFont.get());
     m_userResources->SetStates(m_states.get());
     m_userResources->SetResourceManager(m_resourceManager.get());
+    m_userResources->SetShaderManager(m_shaderManager.get());
 
      // シーンマネージャの作成
     m_sceneManager = std::make_unique<SceneManager>(m_userResources.get());

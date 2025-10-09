@@ -11,8 +11,8 @@
 #include "StepTimer.h"
 #include "DeviceResources.h"
 #include "ImaseLib/DebugFont.h"
-#include "ResourceManager.h"
-#include "Source/Game/Effect/EffectManager.h"
+#include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Common/ShaderManager.h"
 
 // 各シーンに渡す共通リソースを記述してください
 class UserResources
@@ -42,6 +42,9 @@ private:
 
 	// リソースマネージャー
 	ResourceManager* m_resourceManager;
+
+	// シェーダーマネージャー
+	ShaderManager* m_shaderManager;
 
 
 public:
@@ -141,6 +144,17 @@ public:
 
 	// リソースマネージャーを取得する関数
 	ResourceManager* GetResourceManager() { return m_resourceManager; }
+	
+
+	// ------------------------------------------ //
+	// シェーダーマネージャー
+	// ------------------------------------------ //
+		
+	// シェーダーマネージャーを設定する関数
+	void SetShaderManager(ShaderManager* shaderManager) { m_shaderManager = shaderManager; }
+
+	// シェーダーマネージャーを取得する関数
+	ShaderManager* GetShaderManager() { return m_shaderManager; }
 	
 };
 

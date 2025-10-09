@@ -49,7 +49,7 @@ bool ResourceManager::LoadPNG(const std::string& key, const wchar_t* filename)
 
 	//まだ登録されていないキーか確認
 	auto it = m_textures.find(key);
-	if (it != m_textures.end())
+	if (m_textures.find(key) != m_textures.end())
 	{
 		std::cerr << "そのキーは既に使用されています: " << key << std::endl;
 		return false;
