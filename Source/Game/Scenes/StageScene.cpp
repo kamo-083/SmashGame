@@ -77,7 +77,7 @@ void StageScene::Initialize()
 
 	// エフェクトマネージャーの作成
 	m_effectManager = std::make_unique<EffectManager>(m_userResources->GetDeviceResources(),m_userResources->GetStates());
-	m_effectManager->CrateShader(m_userResources->GetShaderManager());
+	m_effectManager->LoadShaders(m_userResources->GetShaderManager());
 	m_effectManager->SetCamera(m_camera.get());
 
 	// ウィンドウサイズの取得

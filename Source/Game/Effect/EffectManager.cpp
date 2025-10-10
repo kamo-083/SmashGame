@@ -78,18 +78,18 @@ EffectManager::~EffectManager()
  *
  * @return なし
  */
-void EffectManager::CrateShader(ShaderManager* shaderManager)
+void EffectManager::LoadShaders(ShaderManager* shaderManager)
 {
 	// 頂点シェーダー
-	shaderManager->CreateVS("effectVS", L"Resources/Shaders/ParticleVS.cso", INPUT_LAYOUT);
+	shaderManager->CreateVS("effectVS", L"Resources/Shaders/Particle/ParticleVS.cso", INPUT_LAYOUT);
 	m_vs = shaderManager->GetVS("effectVS");
 
 	// ピクセルシェーダー
-	shaderManager->CreatePS("effectPS", L"Resources/Shaders/ParticlePS.cso");
+	shaderManager->CreatePS("effectPS", L"Resources/Shaders/Particle/ParticlePS.cso");
 	m_ps = shaderManager->GetPS("effectPS");
 
 	// ジオメトリシェーダー
-	shaderManager->CreateGS("effectGS", L"Resources/Shaders/ParticleGS.cso");
+	shaderManager->CreateGS("effectGS", L"Resources/Shaders/Particle/ParticleGS.cso");
 	m_gs = shaderManager->GetGS("effectGS");
 
 	//	シェーダーにデータを渡すためのコンスタントバッファ生成

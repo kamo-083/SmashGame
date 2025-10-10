@@ -71,6 +71,12 @@
     <Filter Include="UI\NumberRenderer">
       <UniqueIdentifier>{af060d01-6dd9-4a00-b567-25ebf74f6f1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Particle">
+      <UniqueIdentifier>{5790f00b-9224-4163-8eb7-076a710c82f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Area">
+      <UniqueIdentifier>{5673818c-9d0d-48ff-8e40-d4631e6c4782}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -442,9 +448,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\Shaders\Particle.hlsli">
-      <Filter>Shader</Filter>
-    </None>
     <None Include="Resources\Json\test.json">
       <Filter>Json</Filter>
     </None>
@@ -460,16 +463,31 @@
     <None Include="Resources\Json\enemyInfo.json">
       <Filter>Json</Filter>
     </None>
+    <None Include="Resources\Shaders\Particle\Particle.hlsli">
+      <Filter>Shader\Particle</Filter>
+    </None>
+    <None Include="Resources\Shaders\Area\Area.hlsli">
+      <Filter>Shader\Area</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Shaders\ParticleVS.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Resources\Shaders\Particle\ParticleVS.hlsl">
+      <Filter>Shader\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Resources\Shaders\Particle\ParticleGS.hlsl">
+      <Filter>Shader\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Resources\Shaders\Particle\ParticlePS.hlsl">
+      <Filter>Shader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Area\AreaGS.hlsl">
+      <Filter>Shader\Area</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Area\AreaPS.hlsl">
+      <Filter>Shader\Area</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Area\AreaVS.hlsl">
+      <Filter>Shader\Area</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

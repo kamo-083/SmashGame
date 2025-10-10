@@ -135,7 +135,7 @@ public:
 // 操作
 public:
 	// シェーダーの読み込み
-	void CrateShader(ShaderManager* shaderManager);
+	void LoadShaders(ShaderManager* shaderManager);
 
 	// 更新処理
 	void Update(float elapsedTime);

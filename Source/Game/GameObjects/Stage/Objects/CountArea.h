@@ -16,9 +16,10 @@
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
 #include"ImaseLib/DebugFont.h"
+#include"Source/Game/Common/UserResources.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/CollisionManager.h"
-#include"Source/Game/Common/UserResources.h"
+#include"Source/Game/Common/ShaderManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/NumberRenderer/NumberRenderer3D.h"
 
@@ -39,6 +40,21 @@ public:
 		ReachCount,	// 目標数以上入れる
 		AllOut		// 全部外に出す
 	};
+
+	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
+
+	struct ConstBuffer
+	{
+		DirectX::SimpleMath::Matrix	 matWorld;
+		DirectX::SimpleMath::Matrix	 matView;
+		DirectX::SimpleMath::Matrix	 matProj;
+		DirectX::SimpleMath::Vector4 Diffuse;
+		float Height;
+		DirectX::SimpleMath::Vector3 Start;
+		DirectX::SimpleMath::Vector3 End;
+		float Dummy = 0.0f;
+	};
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -73,12 +89,11 @@ private:
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_batch;
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_CBuffer;
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
 	// シェーダー
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
-	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
-	Microsoft::WRL::ComPtr<ID3D11GeometryShader> m_geometryShader;
+	ShaderManager::VertexShaderEntry* m_vs;
+	ShaderManager::PixelShaderEntry* m_ps;
+	ShaderManager::GeometryShaderEntry* m_gs;
 
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
@@ -117,5 +132,7 @@ public:
 
 // 内部実装
 private:
+	// シェーダーの読み込み
+	void LoadShaders(ShaderManager* shaderManager, ID3D11Device* device);
 
 };
