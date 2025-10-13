@@ -50,9 +50,7 @@ public:
 		DirectX::SimpleMath::Matrix	 matProj;
 		DirectX::SimpleMath::Vector4 Diffuse;
 		float Height;
-		DirectX::SimpleMath::Vector3 Start;
-		DirectX::SimpleMath::Vector3 End;
-		float Dummy = 0.0f;
+		DirectX::SimpleMath::Vector3 Dummy;
 	};
 
 
@@ -135,4 +133,10 @@ private:
 	// シェーダーの読み込み
 	void LoadShaders(ShaderManager* shaderManager, ID3D11Device* device);
 
+	// エリアを囲うポリゴンの描画
+	void DrawArea(
+		RenderContext& context,
+		DirectX::SimpleMath::Matrix& world,
+		DirectX::SimpleMath::Vector3& areaSize
+		);
 };

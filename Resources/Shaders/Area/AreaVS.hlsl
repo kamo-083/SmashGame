@@ -1,11 +1,13 @@
 #include "Area.hlsli"
 
-PS_INPUT main(VS_INPUT input)
+GS_INPUT main(VS_INPUT input)
 {
-	PS_INPUT output = (PS_INPUT)0;
+    GS_INPUT output;
 
+    output.PosSV = float4(0, 0, 0, 1);
+	
 	//	ピクセルシェーダに渡す座標は、入力そのまま
-	output.Pos = float4(input.Pos,1);
+    output.PosWS = input.Pos;
 
 	//	色も指定値を使う
 	output.Color = input.Color;

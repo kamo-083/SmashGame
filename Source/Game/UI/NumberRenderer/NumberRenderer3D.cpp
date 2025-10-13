@@ -74,6 +74,12 @@ NumberRenderer3D::NumberRenderer3D(
 		deviceResources->GetRenderTargetView(),
 		deviceResources->GetDepthStencilView()
 	);
+
+	// 深度ステンシルステートの作成
+	D3D11_DEPTH_STENCIL_DESC depthDesc = {};
+	depthDesc.DepthEnable = false;
+	ID3D11DepthStencilState* m_depthDisable = nullptr;
+	device->CreateDepthStencilState(&depthDesc, &m_depthDisable);
 }
 
 
@@ -167,13 +173,13 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	renderContext.deviceContext->PSSetSamplers(0, 1, samplers);
 
 	//	半透明描画指定
-	ID3D11BlendState* blendstate = renderContext.states->NonPremultiplied();
+	ID3D11BlendState* blendstate = renderContext.states->Opaque();
 
 	//	透明判定処理
 	renderContext.deviceContext->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
 
-	// 深度バッファに書き込み参照する
-	renderContext.deviceContext->OMSetDepthStencilState(renderContext.states->DepthDefault(), 0);
+	// 深度テストの無効化
+	renderContext.deviceContext->OMSetDepthStencilState(m_depthDisable.Get(), 0);
 
 	// カリングの設定
 	renderContext.deviceContext->RSSetState(renderContext.states->CullNone());
@@ -203,6 +209,9 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	m_primitiveBatch->Begin();
 	m_primitiveBatch->DrawQuad(vertex[0], vertex[1], vertex[2], vertex[3]);
 	m_primitiveBatch->End();
+
+	// 深度テストの設定をもとに戻す
+	renderContext.deviceContext->OMSetDepthStencilState(renderContext.states->DepthDefault(), 0);
 
 	// オフスクリーンのテスト
 	//renderContext.spriteBatch->Begin();

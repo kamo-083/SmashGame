@@ -2,7 +2,7 @@
     "objects": [        
         { "type": "Goal", "pos": [ 4, 1, -4 ], "scale": [ 1, 1, 1 ]},
         { "type": "Ground", "pos": [ 0, -1, 0 ], "scale": [ 5, 1, 5 ]},
-        { "type": "Area", "pos": [ 0, 1, -2 ], "scale": [ 3, 1, 2 ], "mode": "ReachCount", "command": "EnableGoal", "target": 2}
+        { "type": "Area", "pos": [ 0, 0, -2 ], "scale": [ 3, 1, 2 ], "mode": "ReachCount", "command": "EnableGoal", "target": 2}
     ],
 
     "enemies": [

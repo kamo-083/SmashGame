@@ -81,7 +81,8 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 						   DirectX::SimpleMath::Vector3 position, float x, float z,
 						   std::function<void()> operation,TriggerMode mode, int targetNum)
 {
-	m_position = position;
+	DirectX::SimpleMath::Vector3 pos = { position.x,position.y + AREA_HALF_HEIGHT,position.z };
+	m_position = pos;
 
 	m_operation = operation;
 	
@@ -215,69 +216,11 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 
 	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Magenta, nullptr, true);
 
-
-	// エリアを囲う
-	float vertexes[4];
-	vertexes[0] = m_position.z + size.z;	// 奥
-	vertexes[1] = m_position.x + size.x;	// 右
-	vertexes[2] = m_position.z - size.z;	// 手前
-	vertexes[3] = m_position.x - size.x;	// 左
-
-	DirectX::VertexPositionColor v[2];
-	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], m_position.y, vertexes[2]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
-	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], m_position.y, vertexes[2]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
-
-	ConstBuffer cbuff;
-	cbuff.matView = context.view.Transpose();
-	cbuff.matProj = context.proj.Transpose();
-	cbuff.matWorld = world.Transpose();
-	cbuff.Diffuse = DirectX::SimpleMath::Vector4(1, 1, 1, 1);
-	cbuff.Start = DirectX::SimpleMath::Vector3(vertexes[3], m_position.y, vertexes[2]);
-	cbuff.End = DirectX::SimpleMath::Vector3(vertexes[1], m_position.y, vertexes[2]);
-	cbuff.Height = AREA_HALF_HEIGHT * 2.0f;
-	ID3D11Buffer* cb[1] = { m_CBuffer.Get()};
-
-	context.deviceContext->UpdateSubresource(m_CBuffer.Get(), 0, NULL, &cbuff, 0, 0);
-
-	context.deviceContext->VSSetConstantBuffers(0, 1, cb);
-	context.deviceContext->PSSetConstantBuffers(0, 1, cb);
-	context.deviceContext->GSSetConstantBuffers(0, 1, cb);
-
-	//	半透明描画指定
-	ID3D11BlendState* blendstate = context.states->NonPremultiplied();
-
-	//	透明判定処理
-	context.deviceContext->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
-
-	//	深度バッファに書き込み参照する
-	context.deviceContext->OMSetDepthStencilState(context.states->DepthDefault(), 0);
-
-	//	カリングはなし
-	context.deviceContext->RSSetState(context.states->CullNone());
-
-	//	シェーダをセットする
-	context.deviceContext->VSSetShader(m_vs->vs.Get(), nullptr, 0);
-	context.deviceContext->PSSetShader(m_ps->ps.Get(), nullptr, 0);
-	context.deviceContext->GSSetShader(m_gs->gs.Get(), nullptr, 0);
-
-	//	インプットレイアウトの登録
-	context.deviceContext->IASetInputLayout(m_vs->inputLayout.Get());
-
-	//	板ポリゴンを描画
-	m_batch->Begin();
-	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST, v, 2);
-	m_batch->End();
-
-	//	シェーダの登録を解除
-	context.deviceContext->VSSetShader(nullptr, nullptr, 0);
-	context.deviceContext->PSSetShader(nullptr, nullptr, 0);
-	context.deviceContext->GSSetShader(nullptr, nullptr, 0);
-
-
 	// 数字の描画
 	m_numberBorad->Draw(context);
+
+	// 囲いの描画
+	DrawArea(context, world, size);
 
 	//debugFont->AddString(0, 170, Colors::Magenta, L" areaPos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 170, Colors::Magenta, L"enter = %d", m_insideList.size());
@@ -333,4 +276,91 @@ void CountArea::LoadShaders(ShaderManager* shaderManager, ID3D11Device* device)
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.CPUAccessFlags = 0;
 	device->CreateBuffer(&bd, nullptr, &m_CBuffer);
+}
+
+void CountArea::DrawArea(
+	RenderContext& context,
+	DirectX::SimpleMath::Matrix& world,
+	DirectX::SimpleMath::Vector3& areaSize)
+{
+	ConstBuffer cbuff;
+	cbuff.matView = context.view.Transpose();
+	cbuff.matProj = context.proj.Transpose();
+	cbuff.matWorld = world.Transpose();
+	cbuff.Diffuse = DirectX::SimpleMath::Vector4(1, 1, 1, 1);
+	cbuff.Height = AREA_HALF_HEIGHT * 2.0f;
+	ID3D11Buffer* cb[1] = { m_CBuffer.Get() };
+
+	context.deviceContext->UpdateSubresource(m_CBuffer.Get(), 0, NULL, &cbuff, 0, 0);
+
+	context.deviceContext->VSSetConstantBuffers(0, 1, cb);
+	context.deviceContext->PSSetConstantBuffers(0, 1, cb);
+	context.deviceContext->GSSetConstantBuffers(0, 1, cb);
+
+	//	半透明描画指定
+	ID3D11BlendState* blendstate = context.states->NonPremultiplied();
+
+	//	透明判定処理
+	context.deviceContext->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
+
+	//	深度バッファに書き込み参照する
+	context.deviceContext->OMSetDepthStencilState(context.states->DepthDefault(), 0);
+
+	//	カリングはなし
+	context.deviceContext->RSSetState(context.states->CullNone());
+
+	//	シェーダをセットする
+	context.deviceContext->VSSetShader(m_vs->vs.Get(), nullptr, 0);
+	context.deviceContext->PSSetShader(m_ps->ps.Get(), nullptr, 0);
+	context.deviceContext->GSSetShader(m_gs->gs.Get(), nullptr, 0);
+
+	//	インプットレイアウトの登録
+	context.deviceContext->IASetInputLayout(m_vs->inputLayout.Get());
+
+	float vertexes[4];
+	vertexes[0] = m_position.z + areaSize.z;	// 奥
+	vertexes[1] = m_position.x + areaSize.x;	// 右
+	vertexes[2] = m_position.z - areaSize.z;	// 手前
+	vertexes[3] = m_position.x - areaSize.x;	// 左
+
+	DirectX::VertexPositionColor v[2];
+	float yPos = m_position.y - AREA_HALF_HEIGHT;
+
+	//	板ポリゴンを描画
+	m_batch->Begin();
+
+	// 手前
+	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[2]);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
+
+	// 奥
+	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[0]);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[0]);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
+
+	// 右
+	v[0].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[2]);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[0]);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
+
+	// 左
+	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[1].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[0]);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
+
+	m_batch->End();
+
+	//	シェーダの登録を解除
+	context.deviceContext->VSSetShader(nullptr, nullptr, 0);
+	context.deviceContext->PSSetShader(nullptr, nullptr, 0);
+	context.deviceContext->GSSetShader(nullptr, nullptr, 0);
 }
