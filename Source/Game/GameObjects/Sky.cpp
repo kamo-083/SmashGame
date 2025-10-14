@@ -23,6 +23,7 @@ using namespace DirectX;
  */
 Sky::Sky()
 	: m_skyDome{ nullptr }
+	, m_pPosition{ nullptr }
 {
 
 }
@@ -78,6 +79,7 @@ void Sky::Update(float elapsedTime)
 void Sky::Draw(const RenderContext& context)
 {
 	SimpleMath::Matrix world = SimpleMath::Matrix::Identity;
+	if (m_pPosition) world *= SimpleMath::Matrix::CreateTranslation(*m_pPosition);
 
 	m_skyDome->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 
@@ -111,4 +113,5 @@ void Sky::Draw(const RenderContext& context)
 void Sky::Finalize()
 {
 	m_skyDome = nullptr;
+	m_pPosition = nullptr;
 }

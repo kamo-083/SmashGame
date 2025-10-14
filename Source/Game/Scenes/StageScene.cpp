@@ -127,6 +127,7 @@ void StageScene::Initialize()
 	// 空の作成
 	m_sky = std::make_unique<Sky>();
 	m_sky->Initialize(m_userResources);
+	m_sky->SetPosition(&m_player->GetPosition());
 
 	// キー操作のモードの初期化
 	m_keyMode = true;

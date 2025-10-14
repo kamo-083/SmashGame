@@ -88,7 +88,10 @@ void StageSelectScene::Initialize()
 		m_userResources->GetResourceManager()->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1);
 
-	// シェーダーの読み込み
+	// テクスチャの読み込み
+	ResourceManager* pRM = m_userResources->GetResourceManager();
+	m_textures = std::make_unique<Textures>();
+	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/background.png");
 }
 
 
@@ -152,6 +155,11 @@ void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont
 {
 	debugFont->AddString(0, 30, Colors::White, L"StageSelectScene");
 	debugFont->AddString(0, 60, Colors::Yellow, L"Select:%d",m_selectNum);
+
+	// 背景の描画
+	context.spriteBatch->Begin();
+	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
+	context.spriteBatch->End();
 
 	for (auto& panel : m_stagePanels)
 	{

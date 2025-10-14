@@ -34,6 +34,11 @@ class StageSelectScene : public Scene
 public:
 	const int STAGES;	// ステージ数
 
+	struct Textures
+	{
+		ID3D11ShaderResourceView* background;
+	};
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -42,6 +47,8 @@ private:
 
 
 	// オブジェクト関連
+	std::unique_ptr<Textures> m_textures;
+
 	int m_selectNum;	// 選択中のステージ番号
 
 	std::vector<std::unique_ptr<Button>> m_stagePanels;

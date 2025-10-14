@@ -51,10 +51,12 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	// テクスチャの読み込み
+	ResourceManager* pRM = m_userResources->GetResourceManager();
 	m_textures = std::make_unique<Textures>();
-	m_textures->logo = m_userResources->GetResourceManager()->RequestPNG("titleLogo", L"Resources/Textures/Text/title.png");
-	m_textures->start= m_userResources->GetResourceManager()->RequestPNG("startText", L"Resources/Textures/Text/startText.png");
-	m_textures->exit= m_userResources->GetResourceManager()->RequestPNG("exitText", L"Resources/Textures/Text/exitText.png");
+	m_textures->logo = pRM->RequestPNG("titleLogo", L"Resources/Textures/Text/title.png");
+	m_textures->start = pRM->RequestPNG("startText", L"Resources/Textures/Text/startText.png");
+	m_textures->exit = pRM->RequestPNG("exitText", L"Resources/Textures/Text/exitText.png");
+	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/background.png");
 
 	// タイトルロゴを作成
 	m_titleLogo = std::make_unique<UIWidget>();
@@ -159,6 +161,11 @@ void TitleScene::Update(float elapsedTime)
 void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
 	debugFont->AddString(0, 30, Colors::White, L"TitleScene");
+
+	// 背景の描画
+	context.spriteBatch->Begin();
+	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
+	context.spriteBatch->End();
 
 	m_titleLogo->Draw(context);
 

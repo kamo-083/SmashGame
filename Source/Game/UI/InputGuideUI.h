@@ -1,7 +1,7 @@
 /**
- * @file   Sky.h
+ * @file   InputGuideUI.h
  *
- * @brief  Skyに関するヘッダファイル
+ * @brief  InputGuideUIに関するヘッダファイル
  *
  * @author 制作者名
  *
@@ -14,57 +14,61 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include "Source/Game/Common/RenderContext.h"
-#include "Source/Game/Common/UserResources.h"
+#include"Source/Game/UI/Button.h"
+
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief Sky
+ * @brief InputGuideUI
  */
-class Sky
+class InputGuideUI
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
+	struct Textures
+	{
+		ID3D11ShaderResourceView* attack = nullptr;
+		ID3D11ShaderResourceView* move = nullptr;
+	};
 
 
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// スカイドーム
-	DirectX::Model* m_skyDome;
-
-	// 中心座標のポインタ
-	DirectX::SimpleMath::Vector3* m_pPosition;
+	std::vector<std::unique_ptr<Button>> m_guides;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Sky();
+	InputGuideUI();
 
 	// デストラクタ
-	~Sky();
+	~InputGuideUI();
 
 
 // 操作
 public:
-	// 初期化処理
-	void Initialize(UserResources* pUserResources);
+	// 操作ガイドの追加
+	void AddGuide(
+		ID3D11ShaderResourceView* texture,
+		const Tween::TweenData data,
+		DirectX::SimpleMath::Vector2 size);
 
 	// 更新処理
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(const RenderContext& context);
+	void Draw(RenderContext context);
 
 	// 終了処理
 	void Finalize();
 
 // 取得/設定
 public:
-	void SetPosition(DirectX::SimpleMath::Vector3* pos) { m_pPosition = pos; }
+
 
 // 内部実装
 private:

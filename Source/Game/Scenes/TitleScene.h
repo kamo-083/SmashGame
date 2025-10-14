@@ -36,6 +36,7 @@ public:
 		ID3D11ShaderResourceView* logo;
 		ID3D11ShaderResourceView* start;
 		ID3D11ShaderResourceView* exit;
+		ID3D11ShaderResourceView* background;
 	};
 
 	static constexpr int BUTTONS = 2;
