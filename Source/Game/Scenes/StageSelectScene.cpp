@@ -131,10 +131,6 @@ void StageSelectScene::Update(float elapsedTime)
 	{
 		ChangeScene("TitleScene");
 	}
-	if (kb->pressed.P)		// テスト用ステージへ
-	{
-		ChangeScene("TestScene");
-	}
 }
 
 

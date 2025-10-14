@@ -45,16 +45,16 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	// 表示レイアウトの設定
 	m_layoutList.resize(static_cast<int>(Layout::DisplayNum));
 
-	DirectX::SimpleMath::Vector2 center = { m_windowSize.x - m_textureSize.x*2.0f, m_windowSize.y - m_textureSize.y * 0.8f };
-	float  offsetX = m_textureSize.x * 1.2f; 
-	
+	DirectX::SimpleMath::Vector2 center = { m_windowSize.x - m_textureSize.x * 2.0f, m_windowSize.y - m_textureSize.y * 0.8f };
+	float  offsetX = m_textureSize.x * 1.2f;
+
 	m_layoutList[static_cast<int>(Layout::LEFT)] = { center + DirectX::SimpleMath::Vector2(-offsetX, 0), {0.8f,0.8f}, 0.6f };
 	m_layoutList[static_cast<int>(Layout::CENTER)] = { center, {1.2f,1.2f}, 1.0f };
 	m_layoutList[static_cast<int>(Layout::RIGHT)] = { center + DirectX::SimpleMath::Vector2(+offsetX, 0), {0.8f,0.8f}, 0.6f };
 
 	// ウィジェットの作成
 	m_widgets.clear();
-	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); i++) 
+	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); i++)
 	{
 		Tween::TweenData data{
 			{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity },
@@ -68,6 +68,21 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 		m_widgets.push_back(std::move(widget));
 	}
 	BindWeaponSlots();
+
+	// 操作方法UIの画像読み込み
+	OperationUI::Textures uiTextures;
+	uiTextures.nomalArrow = resourceManager->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
+	uiTextures.rotateArrow = resourceManager->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
+	uiTextures.keyText = resourceManager->RequestPNG("box", L"Resources/Textures/text/operationText.png");
+
+	// 操作方法UIの作成
+	m_operationUI = std::make_unique<OperationUI>();
+	m_operationUI->Initialize(
+		uiTextures,
+		DirectX::SimpleMath::Vector2(center.x, center.y - m_textureSize.y),
+		280.f,
+		true,
+		DirectX::SimpleMath::Vector2(200.f, 135.f));
 }
 
 void WeaponUI::Update(float elapsedTime)
@@ -85,16 +100,22 @@ void WeaponUI::Update(float elapsedTime)
 
 		m_lastDirection = Direction::NONE;
 	}
+
+	m_operationUI->Update(elapsedTime);
 }
 
 void WeaponUI::Draw(RenderContext context)
 {
+	// 操作方法UIの描画
+	m_operationUI->Draw(context);
+
 	context.spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
 		context.states->NonPremultiplied(),
 		context.states->LinearClamp()
 	);
 
+	// 各武器アイコンの描画
 	for (auto& widget : m_widgets)
 	{
 		widget->Draw(context.spriteBatch);
@@ -114,6 +135,9 @@ void WeaponUI::Finalize()
 	m_widgets.clear();
 
 	m_textures.clear();
+
+	m_operationUI->Finalize();
+	m_operationUI.reset();
 }
 
 void WeaponUI::ChangeWeapon(WeaponType type)
@@ -140,6 +164,11 @@ void WeaponUI::ChangeWeapon(WeaponType type)
 		if (dir == Direction::LEFT) ++l;
 		else						--l;
 	}
+}
+
+void WeaponUI::SwitchUIMode()
+{
+	m_operationUI->Active(!m_operationUI->IsActive());
 }
 
 void WeaponUI::Slide(Direction dir)

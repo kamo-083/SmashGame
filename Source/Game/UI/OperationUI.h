@@ -26,8 +26,8 @@ class OperationUI
 public:
 	struct Textures
 	{
-		ID3D11ShaderResourceView* arrow = nullptr;
-		ID3D11ShaderResourceView* frame = nullptr;
+		ID3D11ShaderResourceView* nomalArrow = nullptr;
+		ID3D11ShaderResourceView* rotateArrow = nullptr;
 		ID3D11ShaderResourceView* keyText = nullptr;
 		ID3D11ShaderResourceView* icon = nullptr;
 	};
@@ -42,6 +42,12 @@ public:
 	};
 
 	static constexpr float TWEEN_TIME = 0.25f;
+
+	// テキスト画像を切り取る時の左端
+	static constexpr float TEXT_UV_LEFT = 430.0f;
+
+	// テキスト画像の1文字の大きさ
+	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 50.0f,100.0f };
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -91,6 +97,8 @@ public:
 
 	// 取得/設定
 public:
+	// 有効かどうかを返す
+	bool IsActive() { return m_active; }
 
 	// 内部実装
 private:

@@ -53,8 +53,8 @@ void OperationUI::Initialize(const Textures& textures,
 
 	// ‰æ‘œ‚Ì“o˜^
 	m_textures = std::make_unique<Textures>();
-	m_textures->arrow = textures.arrow;
-	m_textures->frame = textures.frame;
+	m_textures->nomalArrow = textures.nomalArrow;
+	m_textures->rotateArrow = textures.rotateArrow;
 	m_textures->keyText = textures.keyText;
 	m_textures->icon = textures.icon;
 
@@ -71,7 +71,7 @@ void OperationUI::Initialize(const Textures& textures,
 		Tween::Ease::Liner,
 		Tween::PlaybackMode::Once
 	};
-	widget->Initialize(m_textures->frame, data, DirectX::SimpleMath::Vector2(200.f, 200.f), false);
+	widget->Initialize(m_textures->rotateArrow, data, DirectX::SimpleMath::Vector2(200.f, 200.f), false);
 	SwitchParam(!m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::CENTER)] = std::move(widget);
 
@@ -81,7 +81,7 @@ void OperationUI::Initialize(const Textures& textures,
 	DirectX::SimpleMath::Vector2 leftPos = DirectX::SimpleMath::Vector2(centerPos.x - arrowInterval * 0.5f, centerPos.y);
 	data.start.pos = leftPos;
 	data.start.rotation = DirectX::XM_PI;
-	widget->Initialize(m_textures->arrow, data, DirectX::SimpleMath::Vector2(200.f, 100.f), false);
+	widget->Initialize(m_textures->nomalArrow, data, DirectX::SimpleMath::Vector2(200.f, 100.f), false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::LEFT)] = std::move(widget);
 
@@ -90,7 +90,7 @@ void OperationUI::Initialize(const Textures& textures,
 	DirectX::SimpleMath::Vector2 rightPos = DirectX::SimpleMath::Vector2(centerPos.x + arrowInterval * 0.5f, centerPos.y);
 	data.start.pos = rightPos;
 	data.start.rotation = 0.0f;
-	widget->Initialize(m_textures->arrow, data, DirectX::SimpleMath::Vector2(200.f, 100.f), false);
+	widget->Initialize(m_textures->nomalArrow, data, DirectX::SimpleMath::Vector2(200.f, 100.f), false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
 
@@ -134,12 +134,24 @@ void OperationUI::Draw(RenderContext context)
 		context.states->LinearClamp()
 	);
 
+	// –îˆó‚ð•`‰æ
 	for (auto& widget : m_widgets)
 	{
 		widget->Draw(context.spriteBatch);
+	}
 
-		// •¶Žš(‰¼)
-		RECT rect = { 20.f, 20.f };
+	// ‰æ‘œ‚ª‚ ‚ê‚ÎƒAƒCƒRƒ“‚ð•`‰æ
+	if (m_textures->icon)
+	{
+		context.spriteBatch->Draw(m_textures->icon, m_iconPos);
+	}
+
+	// •¶Žš‚ð•`‰æ
+	int loopTime = 0;
+	for (auto& widget : m_widgets)
+	{
+		float uvLeft = TEXT_UV_LEFT + TEXT_SIZE.x * loopTime;
+		RECT rect = { uvLeft, 0.0f, uvLeft + TEXT_SIZE.x, TEXT_SIZE.y };
 
 		widget->Draw(
 			context.spriteBatch,
@@ -148,12 +160,8 @@ void OperationUI::Draw(RenderContext context)
 			&rect,
 			0.0f
 		);
-	}
 
-	// ‰æ‘œ‚ª‚ ‚ê‚ÎƒAƒCƒRƒ“‚ð•\Ž¦
-	if (m_textures->icon)
-	{
-		context.spriteBatch->Draw(m_textures->icon, m_iconPos);
+		loopTime++;
 	}
 
 	context.spriteBatch->End();

@@ -77,7 +77,7 @@ void StageScene::Initialize()
 	m_effectManager->SetCamera(m_camera.get());
 
 	// ウィンドウサイズの取得
-	SimpleMath::Vector2 windowSize = SimpleMath::Vector2(
+	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
 		m_userResources->GetDeviceResources()->GetOutputSize().right,
 		m_userResources->GetDeviceResources()->GetOutputSize().bottom
 	);
@@ -90,18 +90,18 @@ void StageScene::Initialize()
 	// リザルトUIの作成
 	m_resultUI = std::make_unique<StageResultUI>();
 	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
-						   SimpleMath::Vector2(350.f, 400.f), windowSize);
+						   DirectX::SimpleMath::Vector2(350.f, 400.f), windowSize);
 
 	// 操作方法UIの画像読み込み
 	OperationUI::Textures uiTextures;
-	uiTextures.arrow = m_userResources->GetResourceManager()->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
-	uiTextures.frame = m_userResources->GetResourceManager()->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
-	uiTextures.keyText = m_userResources->GetResourceManager()->RequestPNG("box", L"Resources/Textures/UI/keyBox.png");
+	uiTextures.nomalArrow = m_userResources->GetResourceManager()->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
+	uiTextures.rotateArrow = m_userResources->GetResourceManager()->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
+	uiTextures.keyText = m_userResources->GetResourceManager()->RequestPNG("box", L"Resources/Textures/text/operationText.png");
 	uiTextures.icon = m_userResources->GetResourceManager()->RequestPNG("camera", L"Resources/Textures/UI/camera.png");
 
-	// カメラ操作UIの作成(仮)
+	// カメラ操作UIの作成
 	m_cameraUI = std::make_unique<OperationUI>();
-	m_cameraUI->Initialize(uiTextures, SimpleMath::Vector2(250.f, 600.f), 350.f, false, SimpleMath::Vector2(200.f, 135.f));
+	m_cameraUI->Initialize(uiTextures, DirectX::SimpleMath::Vector2(250.f, 600.f), 350.f, false, DirectX::SimpleMath::Vector2(200.f, 135.f));
 
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get());
@@ -162,7 +162,8 @@ void StageScene::Update(float elapsedTime)
 		m_keyMode = !m_keyMode;
 
 		// UI切り替え
-		m_cameraUI->Active(!m_keyMode);
+		m_cameraUI->Active(!m_cameraUI->IsActive());
+		m_weaponUI->SwitchUIMode();
 	}
 
 	// プレイヤーの更新

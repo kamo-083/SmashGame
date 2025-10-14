@@ -3,6 +3,7 @@
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/UIWidget.h"
+#include"Source/Game/UI/OperationUI.h"
 
 class WeaponUI
 {
@@ -58,6 +59,9 @@ private:
 	// スライド状態
 	Direction m_lastDirection;
 
+	// 操作方法UI
+	std::unique_ptr<OperationUI> m_operationUI;
+
 
 public:
 	// コンストラクタ・デストラクタ
@@ -76,9 +80,11 @@ public:
 	// 終了
 	void Finalize();
 
-
 	// 選択中の武器を設定
 	void ChangeWeapon(WeaponType type);
+
+	// 操作方法UIの状態を切り替え
+	void SwitchUIMode();
 
 private:
 	void Slide(Direction dir);
