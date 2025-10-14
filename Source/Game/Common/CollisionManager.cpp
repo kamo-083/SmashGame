@@ -3,16 +3,12 @@
  *
  * @brief  CollisionManagerに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "CollisionManager.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -284,7 +280,7 @@ void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 	}
 
 	// 方向を正規化
-	SimpleMath::Vector3 normal = mtv.direction;
+	DirectX::SimpleMath::Vector3 normal = mtv.direction;
 	normal.Normalize();
 	if (b.desc.layer == CollisionManager::Layer::Stage && normal.y < 0.0f)
 	{
@@ -302,7 +298,7 @@ void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 
 	if (invSum > 0.0f && depth > 0.0f)
 	{
-		SimpleMath::Vector3 correction = normal * (depth * percent / invSum);
+		DirectX::SimpleMath::Vector3 correction = normal * (depth * percent / invSum);
 
 		// 座標を調整
 		if (a.desc.position && invA > 0.0f)
@@ -318,9 +314,9 @@ void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 	}
 
 	// 相対速度
-	SimpleMath::Vector3 velA = a.desc.velocity ? *a.desc.velocity : SimpleMath::Vector3::Zero;
-	SimpleMath::Vector3 velB = b.desc.velocity ? *b.desc.velocity : SimpleMath::Vector3::Zero;
-	SimpleMath::Vector3 rv = velA - velB;
+	DirectX::SimpleMath::Vector3 velA = a.desc.velocity ? *a.desc.velocity : DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 velB = b.desc.velocity ? *b.desc.velocity : DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 rv = velA - velB;
 	float vn = rv.Dot(normal);
 
 	if (invSum > 0.0f && vn < 0.0f)
@@ -328,7 +324,7 @@ void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 		// インパルス
 		float e = std::min(a.desc.restitution, b.desc.restitution);
 		float j = -(1.0f + e) * vn / invSum;
-		SimpleMath::Vector3 impulse = j * normal;
+		DirectX::SimpleMath::Vector3 impulse = j * normal;
 
 		// 速度を調整
 		if (a.desc.velocity && invA > 0.0f)
@@ -377,7 +373,7 @@ void CollisionManager::ResolveSphereVsSphere(Node& a, Node& b)
 	}
 
 	// 方向を正規化
-	SimpleMath::Vector3 normal = mtv.direction;
+	DirectX::SimpleMath::Vector3 normal = mtv.direction;
 	normal.Normalize();
 
 	float invA = a.desc.invMass;
@@ -387,7 +383,7 @@ void CollisionManager::ResolveSphereVsSphere(Node& a, Node& b)
 	if (invSum > 0.0f)
 	{
 
-		SimpleMath::Vector3 correction = normal * (mtv.distance * 0.8f / invSum);
+		DirectX::SimpleMath::Vector3 correction = normal * (mtv.distance * 0.8f / invSum);
 
 		// 座標を調整
 		if (a.desc.position && invA > 0.0f)
@@ -403,16 +399,16 @@ void CollisionManager::ResolveSphereVsSphere(Node& a, Node& b)
 	}
 
 	// 相対速度
-	SimpleMath::Vector3 velA = a.desc.velocity ? *a.desc.velocity : SimpleMath::Vector3::Zero;
-	SimpleMath::Vector3 velB = b.desc.velocity ? *b.desc.velocity : SimpleMath::Vector3::Zero;
-	SimpleMath::Vector3 rv = velB - velA;
+	DirectX::SimpleMath::Vector3 velA = a.desc.velocity ? *a.desc.velocity : DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 velB = b.desc.velocity ? *b.desc.velocity : DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 rv = velB - velA;
 	float vn = rv.Dot(normal);
 
 	if (invSum > 0.0f && vn < 0.0f)
 	{
 		float e = std::min(a.desc.restitution, b.desc.restitution);
 		float j = -(1.0f + e) * vn / invSum;
-		SimpleMath::Vector3 impulse = j * normal;
+		DirectX::SimpleMath::Vector3 impulse = j * normal;
 
 		// 速度を調整
 		if (a.desc.velocity && invA > 0.0f)
@@ -461,7 +457,7 @@ void CollisionManager::ResolveOBBVsOBB(Node& a, Node& b)
 	}
 
 	// 方向を正規化
-	SimpleMath::Vector3 normal = mtv.direction;
+	DirectX::SimpleMath::Vector3 normal = mtv.direction;
 	normal.Normalize();
 
 	// 座標を調整

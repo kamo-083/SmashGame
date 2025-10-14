@@ -3,9 +3,7 @@
  *
  * @brief  GroundEnemy_Walkに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -13,7 +11,6 @@
 #include "GroundEnemy_Walk.h"
 #include "Source/Game/GameObjects/Enemy/IEnemy.h"
 
-using namespace DirectX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -70,7 +67,7 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 	// プレイヤーとの距離と方向を取得
 	IEnemy::PlayerRelationData playerData = m_pGroundEnemy->GetPlayerRelativeData();
 
-	SimpleMath::Vector3 force = playerData.direction * MOVE_SPEED * elapsedTime;
+	DirectX::SimpleMath::Vector3 force = playerData.direction * MOVE_SPEED * elapsedTime;
 
 	//回転
 	if (playerData.direction.x != 0.0f || playerData.direction.z != 0.0f)
@@ -116,10 +113,10 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
  */
 void GroundEnemy_Walk::Render(RenderContext& context)
 {
-	SimpleMath::Matrix world;
-	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
-	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
-	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
+	DirectX::SimpleMath::Matrix world;
+	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
+	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
+	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
 	m_modelAnimator->Draw(context, world);

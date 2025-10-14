@@ -3,16 +3,13 @@
  *
  * @brief  Player_Idleに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player_Idle.h"
 
-using namespace DirectX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -119,10 +116,10 @@ void Player_Idle::Update(const float& elapsedTime)
  */
 void Player_Idle::Render(RenderContext& context)
 {
-	SimpleMath::Matrix world;
-	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetPosition());
-	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
-	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
+	DirectX::SimpleMath::Matrix world;
+	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetPosition());
+	DirectX::SimpleMath::Matrix rot =	DirectX::SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
+	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
 	world = scale * rot * trans;
 
 	m_modelAnimator->Draw(context, world);

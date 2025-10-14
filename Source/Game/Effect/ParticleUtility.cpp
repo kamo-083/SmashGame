@@ -1,6 +1,10 @@
-//--------------------------------------------------------------------------------------
-// File: ParticleUtility.cpp
-//-------------------------------------------------------------------------------------
+/**
+ * @file   ParticleUtility.cpp
+ *
+ * @brief  ParticleUtilityに関するソースファイル
+ *
+ * @author 清水まこと
+ */
 
 #include "pch.h"
 #include "ParticleUtility.h"
@@ -16,7 +20,6 @@
 #include <vector>
 #include "ParticleUtility.h"
 
-using namespace DirectX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -58,7 +61,7 @@ ParticleUtility::~ParticleUtility()
 bool ParticleUtility::Update(float elapsedTime)
 {
 	//大きさの更新
-	m_nowScale = SimpleMath::Vector3::Lerp(SimpleMath::Vector3::Zero, m_startScale, m_life);
+	m_nowScale = DirectX::SimpleMath::Vector3::Lerp(DirectX::SimpleMath::Vector3::Zero, m_startScale, m_life);
 	
 	//寿命の更新
 	m_life -= elapsedTime;

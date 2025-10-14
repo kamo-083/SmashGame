@@ -7,6 +7,7 @@
 class WeaponUI
 {
 public:
+	// スライド方向
 	enum class Direction
 	{
 		NONE = -1,
@@ -14,22 +15,25 @@ public:
 		LEFT
 	};
 
+	// 表示レイアウト
 	enum class Layout
 	{
 		LEFT,
 		CENTER,
 		RIGHT,
 
-		DisplayNum
+		DisplayNum	// 表示数
 	};
 
+	// 表示に必要な情報
 	struct LayoutData
 	{
-		DirectX::SimpleMath::Vector2 pos;
-		DirectX::SimpleMath::Vector2 scale;
-		float opacity = 1.0f;
+		DirectX::SimpleMath::Vector2 pos;		// 表示位置
+		DirectX::SimpleMath::Vector2 scale;		// 大きさ
+		float opacity = 1.0f;					// 透明度
 	};
 
+	// スライド距離
 	static constexpr float SLIDE_DISTANCE = 2.0f;
 
 private:

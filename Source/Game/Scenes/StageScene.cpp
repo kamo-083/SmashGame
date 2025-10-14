@@ -3,9 +3,7 @@
  *
  * @brief  ステージシーンに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
 // ヘッダファイルの読み込み ===================================================
@@ -15,8 +13,6 @@
 #include "Source/Game/Common/RenderContext.h"
 
 #include"Source/Game/Common/RenderTexture.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================

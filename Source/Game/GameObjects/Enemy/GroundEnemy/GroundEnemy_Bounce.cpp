@@ -3,16 +3,13 @@
  *
  * @brief  GroundEnemy_Bounceに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "GroundEnemy_Bounce.h"
 
-using namespace DirectX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -103,8 +100,8 @@ void GroundEnemy_Bounce::Render(RenderContext& context)
 {
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
-	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
-	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
+	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
+	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
 	m_modelAnimator->Draw(context, world);

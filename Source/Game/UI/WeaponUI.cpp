@@ -1,7 +1,14 @@
+/**
+ * @file   WeaponUI.cpp
+ *
+ * @brief  WeaponUIに関するソースファイル
+ *
+ * @author 清水まこと
+ */
+
 #include "pch.h"
 #include "WeaponUI.h"
 
-using namespace DirectX;
 
 WeaponUI::WeaponUI(float width, float height)
 	: m_windowSize(width, height)
@@ -30,7 +37,7 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	m_textures[static_cast<int>(WeaponType::HEAVY)] = resourceManager->RequestPNG("weapon_heavy", L"Resources/Textures/Weapon/war_ishiono.png");
 
 	// 画像サイズの設定
-	m_textureSize = SimpleMath::Vector2(width, height);
+	m_textureSize = DirectX::SimpleMath::Vector2(width, height);
 
 	// スライド処理方向の初期化
 	m_lastDirection = Direction::NONE;
@@ -38,12 +45,12 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	// 表示レイアウトの設定
 	m_layoutList.resize(static_cast<int>(Layout::DisplayNum));
 
-	SimpleMath::Vector2 center = { m_windowSize.x - m_textureSize.x*2.0f, m_windowSize.y - m_textureSize.y * 0.8f };
+	DirectX::SimpleMath::Vector2 center = { m_windowSize.x - m_textureSize.x*2.0f, m_windowSize.y - m_textureSize.y * 0.8f };
 	float  offsetX = m_textureSize.x * 1.2f; 
 	
-	m_layoutList[static_cast<int>(Layout::LEFT)] = { center + SimpleMath::Vector2(-offsetX, 0), {0.8f,0.8f}, 0.6f };
+	m_layoutList[static_cast<int>(Layout::LEFT)] = { center + DirectX::SimpleMath::Vector2(-offsetX, 0), {0.8f,0.8f}, 0.6f };
 	m_layoutList[static_cast<int>(Layout::CENTER)] = { center, {1.2f,1.2f}, 1.0f };
-	m_layoutList[static_cast<int>(Layout::RIGHT)] = { center + SimpleMath::Vector2(+offsetX, 0), {0.8f,0.8f}, 0.6f };
+	m_layoutList[static_cast<int>(Layout::RIGHT)] = { center + DirectX::SimpleMath::Vector2(+offsetX, 0), {0.8f,0.8f}, 0.6f };
 
 	// ウィジェットの作成
 	m_widgets.clear();
@@ -83,7 +90,7 @@ void WeaponUI::Update(float elapsedTime)
 void WeaponUI::Draw(RenderContext context)
 {
 	context.spriteBatch->Begin(
-		SpriteSortMode_Deferred,
+		DirectX::SpriteSortMode_Deferred,
 		context.states->NonPremultiplied(),
 		context.states->LinearClamp()
 	);
@@ -137,6 +144,7 @@ void WeaponUI::ChangeWeapon(WeaponType type)
 
 void WeaponUI::Slide(Direction dir)
 {
+	// 最後にスライドした方向を記録
 	if (m_lastDirection != dir)
 	{
 		m_lastDirection = dir;

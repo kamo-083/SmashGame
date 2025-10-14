@@ -3,16 +3,13 @@
  *
  * @brief  地面に関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Ground.h"
 
-using namespace DirectX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -21,13 +18,13 @@ using namespace DirectX;
  * @param[in] なし
  */
 Ground::Ground(ID3D11DeviceContext* context)
-	: m_position{ SimpleMath::Vector3::Zero }
-	, m_halfLength{ SimpleMath::Vector3::Zero }
-	, m_angle{ SimpleMath::Vector3::Zero }
+	: m_position{ DirectX::SimpleMath::Vector3::Zero }
+	, m_halfLength{ DirectX::SimpleMath::Vector3::Zero }
+	, m_angle{ DirectX::SimpleMath::Vector3::Zero }
 	, m_collider{}
 	, m_collisionHandle{ 0 }
 {
-	m_geometricPrimitive = GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
+	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
 
 
@@ -59,7 +56,7 @@ void Ground::Initialize(CollisionManager* pCollisionManager,
 	m_angle = angle;
 
 	m_collider.SetCenter(m_position);
-	m_collider.SetRotation(SimpleMath::Quaternion::CreateFromYawPitchRoll(m_angle.y, m_angle.x, m_angle.z));
+	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(m_angle.y, m_angle.x, m_angle.z));
 	m_collider.SetHalfLength(m_halfLength);
 
 	// コリジョンマネージャーに登録
@@ -98,18 +95,18 @@ void Ground::Update()
  */
 void Ground::Draw(RenderContext& context)
 {
-	SimpleMath::Matrix world;
-	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_position);
-	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_halfLength * 2.0f);
-	float rotX = XMConvertToRadians(m_angle.x);
-	float rotY = XMConvertToRadians(m_angle.y);
-	float rotZ = XMConvertToRadians(m_angle.z);
-	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationX(rotX) *
-									  SimpleMath::Matrix::CreateRotationY(rotY) *
-									  SimpleMath::Matrix::CreateRotationZ(rotZ);
+	DirectX::SimpleMath::Matrix world;
+	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
+	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_halfLength * 2.0f);
+	float rotX = DirectX::XMConvertToRadians(m_angle.x);
+	float rotY = DirectX::XMConvertToRadians(m_angle.y);
+	float rotZ = DirectX::XMConvertToRadians(m_angle.z);
+	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationX(rotX) *
+		DirectX::SimpleMath::Matrix::CreateRotationY(rotY) *
+		DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	m_geometricPrimitive->Draw(world, context.view, context.proj, Colors::GreenYellow);
+	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::GreenYellow);
 }
 
 

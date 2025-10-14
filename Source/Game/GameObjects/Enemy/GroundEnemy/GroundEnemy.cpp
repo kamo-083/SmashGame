@@ -3,16 +3,13 @@
  *
  * @brief  敵に関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "GroundEnemy.h"
 
-using namespace DirectX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -35,7 +32,7 @@ GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* 
 		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.5f,
 		2.0f,
-		SimpleMath::Color(1, 1, 1, 1),
+		DirectX::SimpleMath::Color(1, 1, 1, 1),
 		&m_position,
 		false
 	);
@@ -45,7 +42,7 @@ GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* 
 		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.75f,
 		1.0f,
-		SimpleMath::Color(1, 1, 1, 1),
+		DirectX::SimpleMath::Color(1, 1, 1, 1),
 		&m_position,
 		RADIUS * 1.5f,
 		12,
@@ -81,10 +78,10 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 							 uint32_t id)
 { 
 	// 座標の初期化
-	m_position = SimpleMath::Vector3(position);
+	m_position = DirectX::SimpleMath::Vector3(position);
 
 	// 速度の初期化
-	m_velocity = SimpleMath::Vector3::Zero;
+	m_velocity = DirectX::SimpleMath::Vector3::Zero;
 
 	// 着地判定の初期化
 	m_onGround = false;
@@ -127,7 +124,7 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	bodyDesc.velocity = &m_velocity;
 	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
-		[this](uint32_t other, const SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
 		{
 			const float groundCos = std::cos(XMConvertToRadians(30.0f));
 			if (n.y >= groundCos) m_onGround = true;

@@ -1,18 +1,14 @@
 /**
  * @file   TitleScene.cpp
  *
- * @brief  ＸＸＸＸシーンに関するソースファイル
+ * @brief  タイトルシーンに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "TitleScene.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -62,46 +58,46 @@ void TitleScene::Initialize()
 	m_titleLogo = std::make_unique<UIWidget>();
 	Tween::TweenData data =
 	{
-		Tween::UIParams{SimpleMath::Vector2(640.0f, 0.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 200.0f),SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(640.0f, 0.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 200.0f),DirectX::SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		1.0f,
 		Tween::Ease::OutBounce,
 		Tween::PlaybackMode::Once
 	};
-	m_titleLogo->Initialize(m_textures->logo, data, SimpleMath::Vector2(600.0f, 150.0f));
+	m_titleLogo->Initialize(m_textures->logo, data, DirectX::SimpleMath::Vector2(600.0f, 150.0f));
 
 	// ボタンを作成
 	m_buttons.reserve(BUTTONS);
-	std::unique_ptr<Button> start = std::make_unique<Button>(); 
+	std::unique_ptr<Button> start = std::make_unique<Button>();
 	data =
 	{
-		Tween::UIParams{SimpleMath::Vector2(640.0f, 450.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(640.0f, 450.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
 		0.5f,
 		Tween::Ease::OutQuart,
 		Tween::PlaybackMode::PingPong
 	};
 	start->Initialize(
-		m_textures->start, data, SimpleMath::Vector2(400.0f, 67.0f),
+		m_textures->start, data, DirectX::SimpleMath::Vector2(400.0f, 67.0f),
 		[this]() {ChangeScene("StageSelectScene"); }	// シーン切り替え
 	);
 	m_buttons.push_back(std::move(start));
 
-	std::unique_ptr<Button> exit = std::make_unique<Button>(); 
+	std::unique_ptr<Button> exit = std::make_unique<Button>();
 	data =
 	{
-		Tween::UIParams{SimpleMath::Vector2(640.0f, 550.0f),SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(640.0f, 550.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
 		0.5f,
 		Tween::Ease::OutQuart,
 		Tween::PlaybackMode::PingPong
 	};
 	exit->Initialize(
-		m_textures->exit, data, SimpleMath::Vector2(400.0f, 67.0f),
+		m_textures->exit, data, DirectX::SimpleMath::Vector2(400.0f, 67.0f),
 		[this]() {PostQuitMessage(0); }		// ゲームを終了
 	);
 	m_buttons.push_back(std::move(exit));
-	
+
 	m_selectButton = 0;
 }
 
@@ -116,7 +112,7 @@ void TitleScene::Initialize()
  */
 void TitleScene::Update(float elapsedTime)
 {
-	Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
+	DirectX::Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
 
 	// ボタン切り替え
 	if (kb->pressed.S)
@@ -131,7 +127,7 @@ void TitleScene::Update(float elapsedTime)
 		m_selectButton--;
 		if (m_selectButton < 0) m_selectButton = BUTTONS - 1;
 	}
-	
+
 	// ボタンの操作
 	if (m_userResources->GetKeyboardTracker()->pressed.Space)
 	{
@@ -160,7 +156,7 @@ void TitleScene::Update(float elapsedTime)
  */
 void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
-	debugFont->AddString(0, 30, Colors::White, L"TitleScene");
+	debugFont->AddString(0, 30, DirectX::Colors::White, L"TitleScene");
 
 	// 背景の描画
 	context.spriteBatch->Begin();

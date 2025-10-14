@@ -3,17 +3,13 @@
  *
  * @brief  ModelAnimatorに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "ModelAnimator.h"
 
-using namespace DirectX;
-using namespace DX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -58,7 +54,7 @@ void ModelAnimator::Initialize(float endTime, bool loop)
 	m_animation->Bind(*m_model);
 
 	// ボーン用のトランスフォーム配列を生成
-	m_drawBones = ModelBone::MakeArray(m_model->bones.size());
+	m_drawBones = DirectX::ModelBone::MakeArray(m_model->bones.size());
 
 	// アニメーション時間をリセット
 	m_animation->ResetTime();

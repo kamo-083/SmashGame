@@ -3,22 +3,18 @@
  *
  * @brief  CountAreaに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "CountArea.h"
-#include "Source/Game/Common/BinaryFile.h"
 
-using namespace DirectX;
 
 const std::vector<D3D11_INPUT_ELEMENT_DESC> CountArea::INPUT_LAYOUT =
 {
 	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0,							 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
 
 // メンバ関数の定義 ===========================================================
@@ -40,10 +36,10 @@ CountArea::CountArea(UserResources* ur)
 
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(dr->GetD3DDeviceContext(), { 1.0f, 1.0f, 1.0f }, true);
 
-	m_batch = std::make_unique<PrimitiveBatch<VertexPositionColor>>(dr->GetD3DDeviceContext());
+	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(dr->GetD3DDeviceContext());
 
 	m_numberBorad = std::make_unique<NumberRenderer3D>(
-		SimpleMath::Vector2(48.f, 72.f),
+		DirectX::SimpleMath::Vector2(48.f, 72.f),
 		rm->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1,
 		dr,
@@ -95,13 +91,13 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 	// 数字UIの作成
 	m_numberBorad->Initialize(m_insideList.size());
 
-	SimpleMath::Vector3 boradPos = { m_position.x, m_position.y + AREA_HALF_HEIGHT * 0.5f, m_position.z };
+	DirectX::SimpleMath::Vector3 boradPos = { m_position.x, m_position.y + AREA_HALF_HEIGHT * 0.5f, m_position.z };
 	m_numberBorad->SetPosition(boradPos);
 
 	// 当たり判定の設定
 	m_collider.SetCenter(m_position);
-	m_collider.SetHalfLength(SimpleMath::Vector3(x, AREA_HALF_HEIGHT, z));
-	m_collider.SetRotation(SimpleMath::Quaternion::Identity);
+	m_collider.SetHalfLength(DirectX::SimpleMath::Vector3(x, AREA_HALF_HEIGHT, z));
+	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
 
 	// コリジョンマネージャーに登録
 	CollisionManager::Desc desc{};
@@ -208,7 +204,7 @@ void CountArea::Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMa
  */
 void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
-	SimpleMath::Vector3 size = m_collider.GetHalfLength();
+	DirectX::SimpleMath::Vector3 size = m_collider.GetHalfLength();
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(size.x * 2.0f, size.y * 2.0f, size.z * 2.0f);
@@ -223,8 +219,8 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	DrawArea(context, world, size);
 
 	//debugFont->AddString(0, 170, Colors::Magenta, L" areaPos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
-	debugFont->AddString(0, 170, Colors::Magenta, L"enter = %d", m_insideList.size());
-	debugFont->AddString(110, 170, Colors::Magenta, L"trigger = %d", m_isTrigger);
+	debugFont->AddString(0, 170, DirectX::Colors::Magenta, L"enter = %d", m_insideList.size());
+	debugFont->AddString(110, 170, DirectX::Colors::Magenta, L"trigger = %d", m_isTrigger);
 }
 
 
@@ -240,7 +236,7 @@ void CountArea::Finalize()
 {
 	m_geometricPrimitive.reset();
 
-	if(m_numberBorad) m_numberBorad->Finalize();
+	if (m_numberBorad) m_numberBorad->Finalize();
 	m_numberBorad.reset();
 }
 
@@ -331,30 +327,30 @@ void CountArea::DrawArea(
 
 	// 手前
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[2]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
 	// 奥
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[0]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[0]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
 	// 右
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[2]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[0]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
 	// 左
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[0]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(Colors::Red);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
 	m_batch->End();

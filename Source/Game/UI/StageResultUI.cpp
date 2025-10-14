@@ -3,16 +3,12 @@
  *
  * @brief  StageResultUIに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "StageResultUI.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -49,7 +45,7 @@ void StageResultUI::Initialize(ID3D11ShaderResourceView* texture,
 	DirectX::SimpleMath::Vector2 texSize,
 	DirectX::SimpleMath::Vector2 windowSize)
 {
-	SimpleMath::Vector2 startPos = SimpleMath::Vector2
+	DirectX::SimpleMath::Vector2 startPos = DirectX::SimpleMath::Vector2
 	{
 		windowSize.x * 0.5f,
 		windowSize.y * 0.5f
@@ -58,8 +54,8 @@ void StageResultUI::Initialize(ID3D11ShaderResourceView* texture,
 	m_widget = std::make_unique<UIWidget>();
 	Tween::TweenData data =
 	{
-		Tween::UIParams{startPos,SimpleMath::Vector2(1.0f,0.0f),0.0f,1.0f},
-		Tween::UIParams{SimpleMath::Vector2(0.0f, 0.0f),SimpleMath::Vector2(0.0f,1.0f),0.0f,0.0f},
+		Tween::UIParams{startPos,DirectX::SimpleMath::Vector2(1.0f,0.0f),0.0f,1.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.0f,1.0f),0.0f,0.0f},
 		0.25f,
 		Tween::Ease::OutBack,
 		Tween::PlaybackMode::Once

@@ -3,16 +3,12 @@
  *
  * @brief  Skyに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Sky.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -78,24 +74,24 @@ void Sky::Update(float elapsedTime)
  */
 void Sky::Draw(const RenderContext& context)
 {
-	SimpleMath::Matrix world = SimpleMath::Matrix::Identity;
-	if (m_pPosition) world *= SimpleMath::Matrix::CreateTranslation(*m_pPosition);
+	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+	if (m_pPosition) world *= DirectX::SimpleMath::Matrix::CreateTranslation(*m_pPosition);
 
 	m_skyDome->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 
-	m_skyDome->UpdateEffects([](IEffect* effect)
+	m_skyDome->UpdateEffects([](DirectX::IEffect* effect)
 		{
-			auto lights = dynamic_cast<IEffectLights*>(effect);	// ライト
+			auto lights = dynamic_cast<DirectX::IEffectLights*>(effect);	// ライト
 			if (lights)
 			{
 				lights->SetLightEnabled(0, false);
 				lights->SetLightEnabled(1, false);
 				lights->SetLightEnabled(2, false);
 			}
-			auto basicEffect = dynamic_cast<BasicEffect*>(effect);	// 自己発光
+			auto basicEffect = dynamic_cast<DirectX::BasicEffect*>(effect);	// 自己発光
 			if (basicEffect)
 			{
-				basicEffect->SetEmissiveColor(Colors::White);
+				basicEffect->SetEmissiveColor(DirectX::Colors::White);
 			}
 		}
 	);

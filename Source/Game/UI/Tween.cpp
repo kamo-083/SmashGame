@@ -3,16 +3,12 @@
  *
  * @brief  Tweenに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Tween.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -159,6 +155,7 @@ void Tween::ReverseDeltaParam()
 
 float Tween::EaseValue(Ease ease, float t)
 {
+
 	switch (ease)
 	{
 	case Tween::Ease::Liner:
@@ -181,7 +178,7 @@ float Tween::EaseValue(Ease ease, float t)
 		else if (t == 1.f) return 1.f;
 		else 
 		{
-			float c = (2.f * XM_PI) / 3.f;
+			float c = (2.f * DirectX::XM_PI) / 3.f;
 			return std::pow(2.f, -10.f * t) * std::sin((t * 10.f - 0.75f) * c) + 1;
 		}
 	}
@@ -202,8 +199,9 @@ float Tween::EaseValue(Ease ease, float t)
 
 float Tween::ShortestAngle(float delta)
 {
-	if (delta > XM_PI)  delta -= XM_2PI;
-	if (delta < -XM_PI) delta += XM_2PI;
+
+	if (delta > DirectX::XM_PI)  delta -= DirectX::XM_2PI;
+	if (delta < -DirectX::XM_PI) delta += DirectX::XM_2PI;
 	return delta;
 }
 

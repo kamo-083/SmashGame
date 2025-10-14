@@ -3,16 +3,13 @@
  *
  * @brief  GroundEnemy_Attackに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "GroundEnemy_Attack.h"
 
-using namespace DirectX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -117,10 +114,10 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
  */
 void GroundEnemy_Attack::Render(RenderContext& context)
 {
-	SimpleMath::Matrix world;
-	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
-	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
-	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
+	DirectX::SimpleMath::Matrix world;
+	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
+	DirectX::SimpleMath::Matrix rot =	DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
+	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
 	m_modelAnimator->Draw(context, world);

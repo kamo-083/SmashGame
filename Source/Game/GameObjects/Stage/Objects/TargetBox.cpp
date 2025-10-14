@@ -3,16 +3,12 @@
  *
  * @brief  TargetBoxに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "TargetBox.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -58,7 +54,7 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 	m_position = position;
 	m_halfLength = halfLength;
 	m_angle = angle;
-	m_velocity = SimpleMath::Vector3::Zero;
+	m_velocity = DirectX::SimpleMath::Vector3::Zero;
 
 	m_pGoal = goal;
 
@@ -66,7 +62,7 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 
 	m_collider.SetCenter(m_position);
 	m_collider.SetHalfLength(m_halfLength);
-	m_collider.SetRotation(SimpleMath::Quaternion::CreateFromYawPitchRoll(m_angle.y, m_angle.x, m_angle.z));
+	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(m_angle.y, m_angle.x, m_angle.z));
 
 	// コリジョンマネージャーに登録
 	CollisionManager::Desc desc{};

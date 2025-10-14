@@ -3,25 +3,21 @@
  *
  * @brief  NumberRenderer3Dに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "NumberRenderer3D.h"
 
-using namespace DirectX;
-
 
 // 頂点座標・各頂点のUV座標
-const VertexPositionTexture NumberRenderer3D::VERTECES[4] =
+const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
 {
-	VertexPositionTexture(SimpleMath::Vector3( 0.5f,  0.5f, 0.0f), SimpleMath::Vector2(1.0f, 0.0f)),   // 0:左上
-	VertexPositionTexture(SimpleMath::Vector3( 0.5f, -0.5f, 0.0f), SimpleMath::Vector2(1.0f, 1.0f)),   // 1:右上
-	VertexPositionTexture(SimpleMath::Vector3(-0.5f, -0.5f, 0.0f), SimpleMath::Vector2(0.0f, 1.0f)),   // 3:右下
-	VertexPositionTexture(SimpleMath::Vector3(-0.5f,  0.5f, 0.0f), SimpleMath::Vector2(0.0f, 0.0f)),   // 2:左下
+	DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3(0.5f,  0.5f, 0.0f),  DirectX::SimpleMath::Vector2(1.0f, 0.0f)),   // 0:左上
+	DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3(0.5f, -0.5f, 0.0f),  DirectX::SimpleMath::Vector2(1.0f, 1.0f)),   // 1:右上
+	DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3(-0.5f, -0.5f, 0.0f), DirectX::SimpleMath::Vector2(0.0f, 1.0f)),   // 3:右下
+	DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3(-0.5f,  0.5f, 0.0f), DirectX::SimpleMath::Vector2(0.0f, 0.0f)),   // 2:左下
 };
 
 
@@ -40,15 +36,15 @@ NumberRenderer3D::NumberRenderer3D(
 	: INumberRenderer(spriteSize, texture, digit)
 	, DIGITS_WIDTH{ spriteSize.x * digit }
 	, SCALE{ boardScale }
-	, m_position{ SimpleMath::Vector3::Zero }
+	, m_position{ DirectX::SimpleMath::Vector3::Zero }
 	, m_isBillboard{ false }
-	, m_billboard{ SimpleMath::Matrix::Identity }
+	, m_billboard{ DirectX::SimpleMath::Matrix::Identity }
 {
 	ID3D11Device1* device = deviceResources->GetD3DDevice();
 	ID3D11DeviceContext* context = deviceResources->GetD3DDeviceContext();
 
 	//エフェクトの作成
-	m_batchEffect = std::make_unique<AlphaTestEffect>(device);
+	m_batchEffect = std::make_unique<DirectX::AlphaTestEffect>(device);
 	m_batchEffect->SetAlphaFunction(D3D11_COMPARISON_EQUAL);
 	m_batchEffect->SetReferenceAlpha(255);
 
@@ -57,13 +53,13 @@ NumberRenderer3D::NumberRenderer3D(
 	size_t byteCodeLength;
 	m_batchEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
 	device->CreateInputLayout(
-		VertexPositionTexture::InputElements,
-		VertexPositionTexture::InputElementCount,
+		DirectX::VertexPositionTexture::InputElements,
+		DirectX::VertexPositionTexture::InputElementCount,
 		shaderByteCode, byteCodeLength, m_inputLayout.GetAddressOf()
 	);
 
 	// プリミティブバッチの作成
-	m_primitiveBatch = std::make_unique<PrimitiveBatch<VertexPositionTexture>>(context);
+	m_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionTexture>>(context);
 
 	// レンダーテクスチャの作成
 	m_renderTexture = std::make_unique<RenderTexture>();
@@ -114,7 +110,7 @@ void NumberRenderer3D::Initialize(const int& number)
  * @brief 描画処理
  *
  * @param[in] なし
- * 
+ *
  * @return なし
  */
 void NumberRenderer3D::Draw(RenderContext& renderContext)
@@ -124,7 +120,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	const float clear[4] = { 0,0,0,0 };
 	m_renderTexture->Clear(renderContext.deviceContext, clear);
 
-	SimpleMath::Vector2 size = SPRITE_SIZE * SCALE;
+	DirectX::SimpleMath::Vector2 size = SPRITE_SIZE * SCALE;
 
 	int data = m_number;
 	float x = (m_position.x + (NUM_DIGIT - 1)) * size.x;
@@ -136,13 +132,13 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	{
 		int number = data % 10;
 		int sourceX = number * SPRITE_SIZE.x;
-		SimpleMath::Vector2 pos = { x, y };
+		DirectX::SimpleMath::Vector2 pos = { x, y };
 		RECT rect = { sourceX, 0 , sourceX + SPRITE_SIZE.x, SPRITE_SIZE.y };
-		FXMVECTOR color = Colors::White;
+		DirectX::FXMVECTOR color = DirectX::Colors::White;
 
 		renderContext.spriteBatch->Draw(m_texture, pos, &rect,
-			color, 0.0f, XMFLOAT2(0, 0),
-			SCALE, SpriteEffects_None, 0.0f);
+			color, 0.0f, DirectX::XMFLOAT2(0, 0),
+			SCALE, DirectX::SpriteEffects_None, 0.0f);
 
 		data /= 10;
 		x -= size.x;
@@ -158,7 +154,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	float height = static_cast<float>(m_renderTexture->GetHeight());
 
 	// 頂点情報
-	VertexPositionTexture vertex[4];
+	DirectX::VertexPositionTexture vertex[4];
 	for (int j = 0; j < 4; j++)
 	{
 		vertex[j] = VERTECES[j];
@@ -185,9 +181,9 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	renderContext.deviceContext->RSSetState(renderContext.states->CullNone());
 
 	// ワールド行列の計算
-	SimpleMath::Matrix world =
-		SimpleMath::Matrix::CreateScale(SCALE) *
-		SimpleMath::Matrix::CreateTranslation(m_position);
+	DirectX::SimpleMath::Matrix world =
+		DirectX::SimpleMath::Matrix::CreateScale(SCALE) *
+		DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 
 	// ビルボードの回転
 	if (m_isBillboard)
@@ -215,7 +211,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 
 	// オフスクリーンのテスト
 	//renderContext.spriteBatch->Begin();
-	//renderContext.spriteBatch->Draw(m_renderTexture->GetSRV(), SimpleMath::Vector2(0, 0));
+	//renderContext.spriteBatch->Draw(m_renderTexture->GetSRV(), DirectX::SimpleMath::Vector2(0, 0));
 	//renderContext.spriteBatch->End();
 }
 
@@ -243,14 +239,14 @@ void NumberRenderer3D::CreateBillboard(
 	m_isBillboard = true;
 
 	// 行列を作成
-	m_billboard = SimpleMath::Matrix::CreateBillboard(
+	m_billboard = DirectX::SimpleMath::Matrix::CreateBillboard(
 		m_position,
 		eye,
 		up
 	);
 
 	//Y軸を180度回転させる
-	SimpleMath::Matrix rotY = SimpleMath::Matrix::Identity;
+	DirectX::SimpleMath::Matrix rotY = DirectX::SimpleMath::Matrix::Identity;
 	rotY._11 = -1.0f;
 	rotY._33 = -1.0f;
 

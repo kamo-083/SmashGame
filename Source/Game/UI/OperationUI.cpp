@@ -3,16 +3,12 @@
  *
  * @brief  操作方法UIに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "OperationUI.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -69,32 +65,32 @@ void OperationUI::Initialize(const Textures& textures,
 	std::unique_ptr<UIWidget> widget = std::make_unique<UIWidget>();
 	Tween::TweenData data =
 	{
-		{centerPos,SimpleMath::Vector2::Zero,0.0f,1.0f},
-		{SimpleMath::Vector2::Zero,SimpleMath::Vector2::Zero,0.0f,0.0f},
+		{centerPos,DirectX::SimpleMath::Vector2::Zero,0.0f,1.0f},
+		{DirectX::SimpleMath::Vector2::Zero,DirectX::SimpleMath::Vector2::Zero,0.0f,0.0f},
 		TWEEN_TIME,
 		Tween::Ease::Liner,
 		Tween::PlaybackMode::Once
 	};
-	widget->Initialize(m_textures->frame, data, SimpleMath::Vector2(200.f, 200.f), false);
+	widget->Initialize(m_textures->frame, data, DirectX::SimpleMath::Vector2(200.f, 200.f), false);
 	SwitchParam(!m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::CENTER)] = std::move(widget);
 
 	// 左右(有効状態の時に表示する)
 	// 左
 	widget = std::make_unique<UIWidget>();
-	SimpleMath::Vector2 leftPos = SimpleMath::Vector2(centerPos.x - arrowInterval * 0.5f, centerPos.y);
+	DirectX::SimpleMath::Vector2 leftPos = DirectX::SimpleMath::Vector2(centerPos.x - arrowInterval * 0.5f, centerPos.y);
 	data.start.pos = leftPos;
-	data.start.rotation = XM_PI;
-	widget->Initialize(m_textures->arrow, data, SimpleMath::Vector2(200.f, 100.f), false);
+	data.start.rotation = DirectX::XM_PI;
+	widget->Initialize(m_textures->arrow, data, DirectX::SimpleMath::Vector2(200.f, 100.f), false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::LEFT)] = std::move(widget);
 
 	// 右
 	widget = std::make_unique<UIWidget>();
-	SimpleMath::Vector2 rightPos = SimpleMath::Vector2(centerPos.x + arrowInterval * 0.5f, centerPos.y);
+	DirectX::SimpleMath::Vector2 rightPos = DirectX::SimpleMath::Vector2(centerPos.x + arrowInterval * 0.5f, centerPos.y);
 	data.start.pos = rightPos;
 	data.start.rotation = 0.0f;
-	widget->Initialize(m_textures->arrow, data, SimpleMath::Vector2(200.f, 100.f), false);
+	widget->Initialize(m_textures->arrow, data, DirectX::SimpleMath::Vector2(200.f, 100.f), false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
 
@@ -133,7 +129,7 @@ void OperationUI::Update(float elapsedTime)
 void OperationUI::Draw(RenderContext context)
 {
 	context.spriteBatch->Begin(
-		SpriteSortMode_Deferred,
+		DirectX::SpriteSortMode_Deferred,
 		context.states->NonPremultiplied(),
 		context.states->LinearClamp()
 	);
@@ -148,7 +144,7 @@ void OperationUI::Draw(RenderContext context)
 		widget->Draw(
 			context.spriteBatch,
 			m_textures->keyText,
-			SimpleMath::Vector2::Zero,
+			DirectX::SimpleMath::Vector2::Zero,
 			&rect,
 			0.0f
 		);
@@ -202,17 +198,17 @@ void OperationUI::SwitchParam(bool active, UIWidget& widget)
 
 	if (active)
 	{
-		newData.start.scale = SimpleMath::Vector2(0.0f,0.0f);
+		newData.start.scale = DirectX::SimpleMath::Vector2(0.0f,0.0f);
 		newData.start.opacity = 0.0f;
-		newData.delta.scale = SimpleMath::Vector2(1.0f,1.0f);
+		newData.delta.scale = DirectX::SimpleMath::Vector2(1.0f,1.0f);
 		newData.delta.opacity = 1.0f;
 		newData.ease = Tween::Ease::OutBack;
 	}
 	else
 	{
-		newData.start.scale = SimpleMath::Vector2(1.0f, 1.0f);
+		newData.start.scale = DirectX::SimpleMath::Vector2(1.0f, 1.0f);
 		newData.start.opacity = 1.0f;
-		newData.delta.scale = SimpleMath::Vector2(-1.0f, -1.0f);
+		newData.delta.scale = DirectX::SimpleMath::Vector2(-1.0f, -1.0f);
 		newData.delta.opacity = -1.0f;
 		newData.ease = Tween::Ease::OutQuart;
 	}

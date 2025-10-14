@@ -3,9 +3,7 @@
  *
  * @brief  地面に関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -14,8 +12,6 @@
 #include "Source/Game/Common/CollisionManager.h"
 
 
-using namespace DirectX;
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -23,7 +19,7 @@ using namespace DirectX;
  * @param[in] なし
  */
 Goal::Goal(ID3D11DeviceContext* context)
-	: m_position{ SimpleMath::Vector3::Zero }
+	: m_position{ DirectX::SimpleMath::Vector3::Zero }
 	, m_collider{}
 	, m_collisionHandle{ 0 }
 	, m_isGoal{ false }
@@ -56,8 +52,8 @@ void Goal::Initialize(CollisionManager* pCollisionManager, DirectX::SimpleMath::
 	m_position = position;
 
 	m_collider.SetCenter(m_position);
-	m_collider.SetRotation(SimpleMath::Quaternion::Identity);
-	m_collider.SetHalfLength(SimpleMath::Vector3(HALF_LENGTH, HALF_LENGTH, HALF_LENGTH));
+	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
+	m_collider.SetHalfLength(DirectX::SimpleMath::Vector3(HALF_LENGTH, HALF_LENGTH, HALF_LENGTH));
 
 	// コリジョンマネージャーに登録
 	CollisionManager::Desc desc{};
@@ -112,8 +108,8 @@ void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 
 	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
 
-	debugFont->AddString(0, 140, Colors::Yellow, L" can = %d", m_canGoal);
-	debugFont->AddString(100, 140, Colors::Yellow, L"goal = %d", m_isGoal);
+	debugFont->AddString(0, 140, DirectX::Colors::Yellow, L" can = %d", m_canGoal);
+	debugFont->AddString(100, 140, DirectX::Colors::Yellow, L"goal = %d", m_isGoal);
 }
 
 
@@ -139,7 +135,7 @@ bool Goal::DetectCollisionToPlayer(SphereCollider player)
 	if (hit)
 	{
 		// ゴールの判定処理
-		SimpleMath::Vector3 distance = m_position - player.GetCenter();
+		DirectX::SimpleMath::Vector3 distance = m_position - player.GetCenter();
 		if (distance.Length() <= HALF_LENGTH) m_isGoal = true;
 	}
 

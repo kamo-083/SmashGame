@@ -3,16 +3,12 @@
  *
  * @brief  IEffectParticleに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "IEffectParticle.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -126,9 +122,9 @@ void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath
 	{
 		if (cameraDir.Dot(li.GetPosition() - m_cameraPosition) < 0.0f) 	continue;
 
-		VertexPositionColorTexture vPCT;
-		vPCT.position = XMFLOAT3(li.GetPosition());
-		vPCT.color = XMFLOAT4(li.GetColor());
+		DirectX::VertexPositionColorTexture vPCT;
+		vPCT.position = DirectX::XMFLOAT3(li.GetPosition());
+		vPCT.color = DirectX::XMFLOAT4(li.GetColor());
 		vPCT.textureCoordinate = DirectX::XMFLOAT2(li.GetScale().x, li.GetScale().y);
 
 		m_vertices.push_back(vPCT);
@@ -137,7 +133,7 @@ void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath
 	if (m_vertices.empty()) return;
 
 	// ビルボードを反映
-	m_world = SimpleMath::Matrix::Identity;
+	m_world = DirectX::SimpleMath::Matrix::Identity;
 	m_world *= m_billboard;
 
 	ConstBuffer cbuff;

@@ -3,17 +3,13 @@
  *
  * @brief  TrajectoryParticleに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "TrajectoryParticle.h"
 #include <random>
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -57,7 +53,7 @@ void TrajectoryParticle::Update(float elapsedTime, DirectX::SimpleMath::Vector3 
 		{
 			std::random_device seed;
 			std::mt19937 mt(seed());
-			std::uniform_real_distribution<> random(0.0f, XM_2PI);
+			std::uniform_real_distribution<> random(0.0f, DirectX::XM_2PI);
 			std::uniform_real_distribution<> random2(-1.0f, 1.0f);
 
 			float angle = random(mt);
@@ -65,13 +61,13 @@ void TrajectoryParticle::Update(float elapsedTime, DirectX::SimpleMath::Vector3 
 
 			float x = cosf(angle) * range;
 			float z = sinf(angle) * range;
-			pos += SimpleMath::Vector3(x, 0.0f, z);
+			pos += DirectX::SimpleMath::Vector3(x, 0.0f, z);
 		}
 
 		//座標の設定
 		ParticleUtility particleUtility{
 			pos,
-			SimpleMath::Vector3(m_scale,m_scale,m_scale),
+			DirectX::SimpleMath::Vector3(m_scale,m_scale,m_scale),
 			m_life,
 			m_color
 		};

@@ -3,16 +3,13 @@
  *
  * @brief  Player_AttackBasicに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player_AttackBasic.h"
 
-using namespace DirectX;
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -119,18 +116,18 @@ void Player_AttackBasic::Update(const float& elapsedTime)
  */
 void Player_AttackBasic::Render(RenderContext& context)
 {
-	SimpleMath::Matrix world;
-	SimpleMath::Matrix trans = SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetPosition());
-	SimpleMath::Matrix rot = SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
-	SimpleMath::Matrix scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
+	DirectX::SimpleMath::Matrix world;
+	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetPosition());
+	DirectX::SimpleMath::Matrix rot =	DirectX::SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
+	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
 	world = scale * rot * trans;
 
 	m_modelAnimator->Draw(context, world);
 
 	if (m_pPlayer->GetSpherePrimitive())
 	{
-		scale = SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
-		trans = SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetAttackCollider()->GetCenter());
+		scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
+		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetAttackCollider()->GetCenter());
 		world = scale * trans;
 		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, Colors::Blue, nullptr, true);
 	}

@@ -183,7 +183,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Source\Game\Common\Animation.h" />
     <ClInclude Include="Source\Game\Common\AudioManager.h" />
-    <ClInclude Include="Source\Game\Common\BinaryFile.h" />
     <ClInclude Include="Source\Game\Common\Collision.h" />
     <ClInclude Include="Source\Game\Common\CollisionManager.h" />
     <ClInclude Include="Source\Game\Common\DeviceResources.h" />
@@ -255,7 +254,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Common\Animation.cpp" />
     <ClCompile Include="Source\Game\Common\AudioManager.cpp" />
-    <ClCompile Include="Source\Game\Common\BinaryFile.cpp" />
     <ClCompile Include="Source\Game\Common\Collision.cpp" />
     <ClCompile Include="Source\Game\Common\CollisionManager.cpp" />
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp" />

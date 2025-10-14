@@ -3,16 +3,12 @@
  *
  * @brief  NumberRenderer2Dに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "NumberRenderer2D.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -26,7 +22,7 @@ NumberRenderer2D::NumberRenderer2D(
 	ID3D11ShaderResourceView* texture,
 	int digit)
 	: INumberRenderer(spriteSize, texture, digit)
-	, m_position{ SimpleMath::Vector2::Zero }
+	, m_position{ DirectX::SimpleMath::Vector2::Zero }
 {
 
 }

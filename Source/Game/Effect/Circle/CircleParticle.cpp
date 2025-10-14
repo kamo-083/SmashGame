@@ -3,17 +3,13 @@
  *
  * @brief  CircleParticleに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "CircleParticle.h"
 #include<random>
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -96,7 +92,7 @@ void CircleParticle::SpawnParticleEffect(
 			//乱数生成器
 			std::random_device seed;
 			std::mt19937 mt(seed());
-			std::uniform_real_distribution<> random(0.0f, XM_2PI);
+			std::uniform_real_distribution<> random(0.0f, DirectX::XM_2PI);
 			std::uniform_real_distribution<> random2(-0.5f, 0.5f);
 
 			angle = random(mt);
@@ -104,27 +100,27 @@ void CircleParticle::SpawnParticleEffect(
 		}
 		else
 		{
-			angle = XM_2PI * static_cast<float>(i) / static_cast<float>(num);
+			angle = DirectX::XM_2PI * static_cast<float>(i) / static_cast<float>(num);
 		}
 
-		SimpleMath::Vector3 transPos = pos;
+		DirectX::SimpleMath::Vector3 transPos = pos;
 		if (isHorizontal)
 		{
 			float x = cosf(angle) * range;
 			float z = sinf(angle) * range;
-			transPos += SimpleMath::Vector3(x, 0.0f, z);
+			transPos += DirectX::SimpleMath::Vector3(x, 0.0f, z);
 		}
 		else
 		{
 			float y = cosf(angle) * range;
 			float x = sinf(angle) * range;
-			transPos += SimpleMath::Vector3(x, y, 0.0f);
+			transPos += DirectX::SimpleMath::Vector3(x, y, 0.0f);
 		}
 
 		//座標の設定
 		ParticleUtility particleUtility{
 			transPos,
-			SimpleMath::Vector3(scale,scale,scale),
+			DirectX::SimpleMath::Vector3(scale,scale,scale),
 			m_life,
 			m_color
 		};

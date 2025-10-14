@@ -3,9 +3,7 @@
  *
  * @brief  ShaderManagerに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -13,8 +11,6 @@
 #include "ShaderManager.h"
 #include <fstream>
 #include <assert.h>
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================

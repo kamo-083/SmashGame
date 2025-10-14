@@ -3,9 +3,7 @@
  *
  * @brief  StageManagerに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -16,8 +14,6 @@
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/GameObjects/Stage/Objects/CountArea.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================

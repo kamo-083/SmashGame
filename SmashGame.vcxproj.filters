@@ -176,9 +176,6 @@
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.h">
       <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Common\BinaryFile.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Common\UserResources.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -353,9 +350,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.cpp">
       <Filter>Game\GameObjects\Enemy\GroundEnemy\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Common\BinaryFile.cpp">
-      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Enemy\EnemyManager.cpp">
       <Filter>Game\GameObjects\Enemy</Filter>

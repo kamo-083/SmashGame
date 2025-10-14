@@ -3,18 +3,13 @@
  *
  * @brief  シーンの管理クラスのソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
 // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/Scene.h"
-
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
@@ -106,7 +101,7 @@ void SceneManager::Render(RenderContext context)
 	}
 
 	//シーン名ここで描画してもいいかもしれない
-	m_userResources->GetDebugFont()->AddString(0, 0, Colors::White, L"SceneManager");
+	m_userResources->GetDebugFont()->AddString(0, 0, DirectX::Colors::White, L"SceneManager");
 }
 
 

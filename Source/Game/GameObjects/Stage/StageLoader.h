@@ -3,9 +3,7 @@
  *
  * @brief  StageLoaderに関するヘッダファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================
@@ -91,8 +89,6 @@ public:
 	 */
 	bool LoadData(const std::string& path, std::vector<ObjectData>& outputObjects, std::vector<EnemyData>& outputEnemies)
 	{
-		using namespace DirectX;
-
 		// ファイルを開く
 		std::ifstream stream(path);
 

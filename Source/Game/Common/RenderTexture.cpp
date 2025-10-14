@@ -3,16 +3,12 @@
  *
  * @brief  RenderTextureに関するソースファイル
  *
- * @author 制作者名
- *
- * @date   日付
+ * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "RenderTexture.h"
-
-using namespace DirectX;
 
 
 // メンバ関数の定義 ===========================================================
