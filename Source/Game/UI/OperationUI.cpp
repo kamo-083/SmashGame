@@ -126,13 +126,16 @@ void OperationUI::Update(float elapsedTime)
  *
  * @return ‚È‚µ
  */
-void OperationUI::Draw(RenderContext context)
+void OperationUI::Draw(RenderContext context, bool batchBeginEnd)
 {
-	context.spriteBatch->Begin(
-		DirectX::SpriteSortMode_Deferred,
-		context.states->NonPremultiplied(),
-		context.states->LinearClamp()
-	);
+	if (batchBeginEnd)
+	{
+		context.spriteBatch->Begin(
+			DirectX::SpriteSortMode_Deferred,
+			context.states->NonPremultiplied(),
+			context.states->LinearClamp()
+		);
+	}
 
 	// –îˆó‚ğ•`‰æ
 	for (auto& widget : m_widgets)
@@ -164,7 +167,7 @@ void OperationUI::Draw(RenderContext context)
 		loopTime++;
 	}
 
-	context.spriteBatch->End();
+	if (batchBeginEnd) context.spriteBatch->End();
 }
 
 

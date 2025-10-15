@@ -86,7 +86,7 @@ public:
 	void Update(float elapsedTime);
 
 	// •`‰æˆ—
-	void Draw(RenderContext context);
+	void Draw(RenderContext context, bool batchBeginEnd = true);
 
 	// I—¹ˆ—
 	void Finalize();

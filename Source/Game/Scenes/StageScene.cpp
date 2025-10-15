@@ -95,7 +95,8 @@ void StageScene::Initialize()
 
 	// リザルトUIの作成
 	m_resultUI = std::make_unique<StageResultUI>();
-	m_resultUI->Initialize(pRM->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
+	m_resultUI->Initialize(
+		pRM->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
 		DirectX::SimpleMath::Vector2(350.f, 400.f), windowSize);
 
 	// ステージクリア条件UIの作成

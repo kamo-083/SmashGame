@@ -37,6 +37,10 @@ public:
 	// スライド距離
 	static constexpr float SLIDE_DISTANCE = 2.0f;
 
+	// 基本の画像サイズ
+	static constexpr DirectX::SimpleMath::Vector2 DEFAULT_TEX_SIZE = { 200.f,200.f };
+
+
 private:
 	// 武器一覧
 	std::vector<WeaponType> m_weaponList;
@@ -65,11 +69,11 @@ private:
 
 public:
 	// コンストラクタ・デストラクタ
-	WeaponUI(float width, float height);
+	WeaponUI(float windowWidth, float windowHeight);
 	~WeaponUI();
 
 	// 初期化
-	void Initialize(ResourceManager* resourceManager, float width = 100, float height = 100);
+	void Initialize(ResourceManager* resourceManager, float texWidth = DEFAULT_TEX_SIZE.x, float texHeight = DEFAULT_TEX_SIZE.y);
 
 	// 更新
 	void Update(float elapsedTime);

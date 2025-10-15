@@ -10,8 +10,8 @@
 #include "WeaponUI.h"
 
 
-WeaponUI::WeaponUI(float width, float height)
-	: m_windowSize(width, height)
+WeaponUI::WeaponUI(float windowWidth, float windowHeight)
+	: m_windowSize(windowWidth, windowHeight)
 	, m_lastDirection{ Direction::NONE }
 {
 	m_weaponList.resize(static_cast<int>(WeaponType::TYPE_NUM));
@@ -23,7 +23,7 @@ WeaponUI::~WeaponUI()
 	m_textures.clear();
 }
 
-void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float height)
+void WeaponUI::Initialize(ResourceManager* resourceManager, float texWidth, float texHeight)
 {
 	// 武器の設定
 	for (int i = 0; i < static_cast<int>(WeaponType::TYPE_NUM); i++)
@@ -32,12 +32,12 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	}
 
 	// テクスチャの読み込み
-	m_textures[static_cast<int>(WeaponType::BASIC)] = resourceManager->RequestPNG("weapon_basic", L"Resources/Textures/Weapon/bou.png");
-	m_textures[static_cast<int>(WeaponType::ROLLING)] = resourceManager->RequestPNG("weapon_rolling", L"Resources/Textures/Weapon/glass_ball.png");
-	m_textures[static_cast<int>(WeaponType::HEAVY)] = resourceManager->RequestPNG("weapon_heavy", L"Resources/Textures/Weapon/war_ishiono.png");
+	m_textures[static_cast<int>(WeaponType::BASIC)] = resourceManager->RequestPNG("weapon_basic", L"Resources/Textures/UI/basicAtk.png");
+	m_textures[static_cast<int>(WeaponType::ROLLING)] = resourceManager->RequestPNG("weapon_rolling", L"Resources/Textures/UI/rollingAtk.png");
+	m_textures[static_cast<int>(WeaponType::HEAVY)] = resourceManager->RequestPNG("weapon_heavy", L"Resources/Textures/UI/heavyAtk.png");
 
 	// 画像サイズの設定
-	m_textureSize = DirectX::SimpleMath::Vector2(width, height);
+	m_textureSize = DirectX::SimpleMath::Vector2(texWidth, texHeight);
 
 	// スライド処理方向の初期化
 	m_lastDirection = Direction::NONE;
@@ -45,12 +45,12 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	// 表示レイアウトの設定
 	m_layoutList.resize(static_cast<int>(Layout::DisplayNum));
 
-	DirectX::SimpleMath::Vector2 center = { m_windowSize.x - m_textureSize.x * 2.0f, m_windowSize.y - m_textureSize.y * 0.8f };
-	float  offsetX = m_textureSize.x * 1.2f;
+	DirectX::SimpleMath::Vector2 center = { m_windowSize.x - m_textureSize.x * 1.5f, m_windowSize.y - m_textureSize.y * 0.6f };
+	float  offsetX = m_textureSize.x * 1.1f;
 
 	m_layoutList[static_cast<int>(Layout::LEFT)] = { center + DirectX::SimpleMath::Vector2(-offsetX, 0), {0.8f,0.8f}, 0.6f };
 	m_layoutList[static_cast<int>(Layout::CENTER)] = { center, {1.2f,1.2f}, 1.0f };
-	m_layoutList[static_cast<int>(Layout::RIGHT)] = { center + DirectX::SimpleMath::Vector2(+offsetX, 0), {0.8f,0.8f}, 0.6f };
+	m_layoutList[static_cast<int>(Layout::RIGHT)] = { center + DirectX::SimpleMath::Vector2(offsetX, 0), {0.8f,0.8f}, 0.6f };
 
 	// ウィジェットの作成
 	m_widgets.clear();
@@ -79,8 +79,8 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float width, float h
 	m_operationUI = std::make_unique<OperationUI>();
 	m_operationUI->Initialize(
 		uiTextures,
-		DirectX::SimpleMath::Vector2(center.x, center.y - m_textureSize.y),
-		280.f,
+		DirectX::SimpleMath::Vector2(center.x, center.y - m_textureSize.y * 0.6f),
+		offsetX * 2.0f,
 		true,
 		DirectX::SimpleMath::Vector2(200.f, 135.f));
 }
@@ -106,9 +106,6 @@ void WeaponUI::Update(float elapsedTime)
 
 void WeaponUI::Draw(RenderContext context)
 {
-	// 操作方法UIの描画
-	m_operationUI->Draw(context);
-
 	context.spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
 		context.states->NonPremultiplied(),
@@ -120,6 +117,9 @@ void WeaponUI::Draw(RenderContext context)
 	{
 		widget->Draw(context.spriteBatch);
 	}
+
+	// 操作方法UIの描画
+	m_operationUI->Draw(context, false);
 
 	context.spriteBatch->End();
 }
