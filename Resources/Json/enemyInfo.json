@@ -3,7 +3,7 @@
         {
             "type": "Basic",
             "radius": 0.5,
-            "mass": 20.0,
+            "mass": 15.0,
             "speed": 5.0,
             "max_speed": 10.0,
             "static_friction": 0.25,
@@ -31,12 +31,12 @@
         {
             "type": "Light",
             "radius": 0.25,
-            "mass": 10.0,
+            "mass": 8.0,
             "speed": 8.0,
             "max_speed": 10.0,
             "static_friction": 0.15,
             "dynamic_friction": 0.15,
-            "attack": [ 1.0, 0.5, 5000.0 ],
+            "attack": [ 1.0, 0.5, 3000.0 ],
             "modelPath": "Resources/Models/enemyLight.sdkmesh",
             "idleAnimPath": "Resources/Animations/enemyLight_idle.sdkmesh_anim",
             "walkAnimPath": "Resources/Animations/enemyLight_walk.sdkmesh_anim",
