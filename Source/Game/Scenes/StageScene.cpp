@@ -22,11 +22,14 @@
  * @param[in] sceneManager    シーンを管理しているマネージャ
  * @param[in] resourceManager リソースを管理しているマネージャ
  */
-StageScene::StageScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path)
+StageScene::StageScene(
+	SceneManager* pSceneManager, UserResources* pUserResources,
+	std::string path, ClearConditionsUI::ConditionsType clearCondition)
 	: Scene{ pSceneManager,pUserResources }
 	, m_keyMode{ false }
 	, m_stageFilePath{ path }
 	, m_overlayMode{ Overlay::NONE }
+	, CLEAR_CONDITIONS{ clearCondition }
 {
 
 }
@@ -82,22 +85,29 @@ void StageScene::Initialize()
 		m_userResources->GetDeviceResources()->GetOutputSize().bottom
 	);
 
+	// リソースマネージャーのポインタを取得
+	ResourceManager* pRM = m_userResources->GetResourceManager();
+
 	// 武器UIの作成
 	m_weaponUI = std::make_unique<WeaponUI>(m_userResources->GetDeviceResources()->GetOutputSize().right,
 											m_userResources->GetDeviceResources()->GetOutputSize().bottom);
-	m_weaponUI->Initialize(m_userResources->GetResourceManager());
+	m_weaponUI->Initialize(pRM);
 
 	// リザルトUIの作成
 	m_resultUI = std::make_unique<StageResultUI>();
-	m_resultUI->Initialize(m_userResources->GetResourceManager()->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
-						   DirectX::SimpleMath::Vector2(350.f, 400.f), windowSize);
+	m_resultUI->Initialize(pRM->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
+		DirectX::SimpleMath::Vector2(350.f, 400.f), windowSize);
+
+	// ステージクリア条件UIの作成
+	m_conditionsUI = std::make_unique<ClearConditionsUI>(CLEAR_CONDITIONS);
+	m_conditionsUI->Initialize(windowSize, pRM);
 
 	// 操作方法UIの画像読み込み
 	OperationUI::Textures uiTextures;
-	uiTextures.nomalArrow = m_userResources->GetResourceManager()->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
-	uiTextures.rotateArrow = m_userResources->GetResourceManager()->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
-	uiTextures.keyText = m_userResources->GetResourceManager()->RequestPNG("box", L"Resources/Textures/text/operationText.png");
-	uiTextures.icon = m_userResources->GetResourceManager()->RequestPNG("camera", L"Resources/Textures/UI/camera.png");
+	uiTextures.nomalArrow = pRM->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
+	uiTextures.rotateArrow = pRM->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
+	uiTextures.keyText = pRM->RequestPNG("box", L"Resources/Textures/text/operationText.png");
+	uiTextures.icon = pRM->RequestPNG("camera", L"Resources/Textures/UI/camera.png");
 
 	// カメラ操作UIの作成
 	m_cameraUI = std::make_unique<OperationUI>();
@@ -105,7 +115,7 @@ void StageScene::Initialize()
 
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get());
-	m_player->Initialize(m_userResources->GetResourceManager(), m_collisionManager.get(),
+	m_player->Initialize(pRM, m_collisionManager.get(),
 						 m_userResources->GetKeyboardTracker(), m_camera.get(), m_weaponUI.get(), &m_keyMode);
 
 	// エネミーマネージャーの作成
@@ -120,7 +130,7 @@ void StageScene::Initialize()
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());
 
-	// 空の作成
+	// スカイドームの作成
 	m_sky = std::make_unique<Sky>();
 	m_sky->Initialize(m_userResources);
 	m_sky->SetPosition(&m_player->GetPosition());
@@ -183,8 +193,9 @@ void StageScene::Update(float elapsedTime)
 	m_effectManager->Update(elapsedTime);
 
 	// UIの更新
-	m_weaponUI->Update(elapsedTime);
-	m_cameraUI->Update(elapsedTime);
+	m_conditionsUI->Update(elapsedTime);	// クリア条件
+	m_weaponUI->Update(elapsedTime);		// 武器
+	m_cameraUI->Update(elapsedTime);		// カメラ
 
 	// 当たり判定の更新
 	m_collisionManager->Update(elapsedTime);
@@ -215,7 +226,7 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	context.view = m_camera->GetView();
 
-	// 空の描画
+	// スカイドームの描画
 	m_sky->Draw(context);
 
 	// プレイヤーの描画
@@ -234,8 +245,9 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	m_camera->Draw(debugFont);
 
 	// UIの描画
-	m_weaponUI->Draw(context);
-	m_cameraUI->Draw(context);
+	m_conditionsUI->Draw(context);	// クリア条件
+	m_weaponUI->Draw(context);	  	// 武器
+	m_cameraUI->Draw(context);	  	// カメラ
 
 	if (m_overlayMode == Overlay::RESULT)
 	{
@@ -256,6 +268,9 @@ void StageScene::Finalize()
 {
 	if (m_player) m_player->Finalize();
 	m_player.reset();
+
+	if (m_conditionsUI) m_conditionsUI->Finalize();
+	m_conditionsUI.reset();
 
 	if (m_weaponUI) m_weaponUI->Finalize();
 	m_weaponUI.reset();
@@ -279,6 +294,5 @@ void StageScene::Finalize()
 	m_effectManager.reset();
 
 	m_camera.reset();
-	m_weaponUI.reset();
 	m_collisionManager.reset();
 }

@@ -41,17 +41,17 @@ Player_Walk::~Player_Walk()
 /**
  * @brief 初期化処理
  *
- * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
-void Player_Walk::Initialize(ResourceManager* pResourceManager)
+void Player_Walk::Initialize(ResourceManager* pRM)
 {
 	// モデルアニメーターの作成
 	if (!m_modelAnimator)
 	{
 		m_modelAnimator = std::make_unique<ModelAnimator>(
-			pResourceManager->GetModel("player"),
+			pRM->GetModel("player"),
 			m_pPlayer->GetAnimation()->walk
 		);
 	}

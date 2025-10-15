@@ -163,7 +163,7 @@ public:
 	// ‘€ì
 public:
 	// ‰Šú‰»ˆ—
-	void Initialize(ResourceManager* pResourceManager,
+	void Initialize(ResourceManager* pRM,
 					CollisionManager* pCollisionManager,
 					DirectX::Keyboard::KeyboardStateTracker* pKbTracker, 
 					Camera* pCamera, 

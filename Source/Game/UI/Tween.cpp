@@ -162,8 +162,24 @@ float Tween::EaseValue(Ease ease, float t)
 	{
 		return t;
 	}
+	case Tween::Ease::InQuart:
+	{
+		return std::pow(t, 4.f);
+	}
 	case Tween::Ease::OutQuart:
 	{
+		return 1.f - std::pow(1.f - t, 4.f);
+	}
+	case Tween::Ease::OutInQuart:
+	{
+		if (t < 0.5f) {
+			// ‘O”¼FOut
+			return 0.5f * EaseValue(Ease::OutQuart, t * 2.f);
+		}
+		else {
+			// Œã”¼FIn
+			return 0.5f + 0.5f * EaseValue(Ease::OutQuart, t * 2.f - 1.f);
+		}
 		return 1.f - std::pow(1.f - t, 4.f);
 	}
 	case Tween::Ease::OutBack:

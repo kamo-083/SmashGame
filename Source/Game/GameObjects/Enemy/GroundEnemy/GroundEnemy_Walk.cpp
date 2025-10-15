@@ -38,11 +38,11 @@ GroundEnemy_Walk::~GroundEnemy_Walk()
 /**
  * @brief 初期化処理
  *
- * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
-void GroundEnemy_Walk::Initialize(ResourceManager* pResourceManager)
+void GroundEnemy_Walk::Initialize(ResourceManager* pRM)
 {
 	if (!m_modelAnimator)
 	{

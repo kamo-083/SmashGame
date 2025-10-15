@@ -26,7 +26,9 @@ public:
 	enum class Ease
 	{
 		Liner,
+		InQuart,
 		OutQuart,
+		OutInQuart,
 		OutBack,
 		OutElastic,
 		OutBounce,

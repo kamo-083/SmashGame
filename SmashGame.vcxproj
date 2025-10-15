@@ -235,6 +235,7 @@
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\StageScene.h" />
     <ClInclude Include="Source\Game\UI\Button.h" />
+    <ClInclude Include="Source\Game\UI\ClearConditionsUI.h" />
     <ClInclude Include="Source\Game\UI\NumberRenderer\INumberRenderer.h" />
     <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer2D.h" />
     <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.h" />
@@ -296,6 +297,7 @@
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\StageScene.cpp" />
     <ClCompile Include="Source\Game\UI\Button.cpp" />
+    <ClCompile Include="Source\Game\UI\ClearConditionsUI.cpp" />
     <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer2D.cpp" />
     <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.cpp" />
     <ClCompile Include="Source\Game\UI\OperationUI.cpp" />

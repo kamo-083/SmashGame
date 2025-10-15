@@ -37,11 +37,11 @@ GroundEnemy_Idle::~GroundEnemy_Idle()
 /**
  * @brief 初期化処理
  *
- * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
-void GroundEnemy_Idle::Initialize(ResourceManager* pResourceManager)
+void GroundEnemy_Idle::Initialize(ResourceManager* pRM)
 {
 	if (!m_modelAnimator)
 	{

@@ -77,7 +77,7 @@ Player::~Player()
 /**
  * @brief 初期化処理
  *
- * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pRM  リソースマネージャーのポインタ
  * @param[in] pCollisionManager コリジョンマネージャーのポインタ
  * @param[in] pKbTracker		キーボードトラッカーのポインタ
  * @param[in] pCamera			カメラのポインタ
@@ -86,7 +86,7 @@ Player::~Player()
  *
  * @return なし
  */
-void Player::Initialize(ResourceManager* pResourceManager,
+void Player::Initialize(ResourceManager* pRM,
 						CollisionManager* pCollisionManager,
 						DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 						Camera* pCamera, 
@@ -115,18 +115,18 @@ void Player::Initialize(ResourceManager* pResourceManager,
 	m_pWeaponUI = pWeaponUI;
 
 	// リソースマネージャの設定
-	m_pResourceManager = pResourceManager;
+	m_pResourceManager = pRM;
 
 	// モデルの読み込み
-	m_model = pResourceManager->RequestSDKMESH("player", L"Resources\\Models\\playerCat.sdkmesh", true);
+	m_model = pRM->RequestSDKMESH("player", L"Resources\\Models\\playerCat.sdkmesh", true);
 
 	// アニメーションの読み込み
 	m_animations = std::make_unique<Animations>();
-	m_animations->idle = pResourceManager->RequestAnimation("playerIdle", L"Resources\\Animations\\playerCat_idle.sdkmesh_anim");
-	m_animations->walk = pResourceManager->RequestAnimation("playerWalk", L"Resources\\Animations\\playerCat_walk.sdkmesh_anim");
-	m_animations->atk_basic = pResourceManager->RequestAnimation("playerAtkB", L"Resources\\Animations\\playerCat_atkBasic.sdkmesh_anim");
-	m_animations->atk_rolling = pResourceManager->RequestAnimation("playerAtkR", L"Resources\\Animations\\playerCat_atkRoll.sdkmesh_anim");
-	m_animations->atk_heavy = pResourceManager->RequestAnimation("playerAtkH", L"Resources\\Animations\\playerCat_atkHeavy.sdkmesh_anim");
+	m_animations->idle = pRM->RequestAnimation("playerIdle", L"Resources\\Animations\\playerCat_idle.sdkmesh_anim");
+	m_animations->walk = pRM->RequestAnimation("playerWalk", L"Resources\\Animations\\playerCat_walk.sdkmesh_anim");
+	m_animations->atk_basic = pRM->RequestAnimation("playerAtkB", L"Resources\\Animations\\playerCat_atkBasic.sdkmesh_anim");
+	m_animations->atk_rolling = pRM->RequestAnimation("playerAtkR", L"Resources\\Animations\\playerCat_atkRoll.sdkmesh_anim");
+	m_animations->atk_heavy = pRM->RequestAnimation("playerAtkH", L"Resources\\Animations\\playerCat_atkHeavy.sdkmesh_anim");
 
 	// コライダーの設定
 	m_collider = SphereCollider(m_position, RADIUS);

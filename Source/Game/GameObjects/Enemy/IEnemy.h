@@ -123,7 +123,7 @@ public:
 // ‘€ì
 public:
 	// ‰Šú‰»ˆ—
-	virtual void Initialize(ResourceManager* pResourceManager,
+	virtual void Initialize(ResourceManager* pRM,
 							CollisionManager* pCollisionManager,
 							const DirectX::SimpleMath::Vector3& position,
 							const EnemyInfoLoader::EnemyInfo& info,

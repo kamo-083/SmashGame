@@ -40,17 +40,17 @@ Player_AttackHeavy::~Player_AttackHeavy()
 /**
  * @brief 初期化処理
  *
- * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
-void Player_AttackHeavy::Initialize(ResourceManager* pResourceManager)
+void Player_AttackHeavy::Initialize(ResourceManager* pRM)
 {
 	// モデルアニメーターの作成
 	if (!m_modelAnimator)
 	{
 		m_modelAnimator = std::make_unique<ModelAnimator>(
-			pResourceManager->GetModel("player"),
+			pRM->GetModel("player"),
 			m_pPlayer->GetAnimation()->atk_heavy
 		);
 	}

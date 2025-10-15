@@ -64,14 +64,14 @@ GroundEnemy::~GroundEnemy()
 /**
  * @brief 初期化処理
  *
- * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pRM  リソースマネージャーのポインタ
  * @param[in] pCollisionManager コリジョンマネージャーのポインタ
  * @param[in] position			初期位置
  * @param[in] id				ID
  *
  * @return なし
  */
-void GroundEnemy::Initialize(ResourceManager* pResourceManager,
+void GroundEnemy::Initialize(ResourceManager* pRM,
 							 CollisionManager* pCollisionManager,
 							 const DirectX::SimpleMath::Vector3& position,
 							 const EnemyInfoLoader::EnemyInfo& info,
@@ -91,16 +91,16 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	m_attackForce = 0.0f;
 
 	// モデルの読み込み		(キーがとりあえずパスになっているので変える)
-	m_model = pResourceManager->RequestSDKMESH(info.modelPath, info.modelPath, true);
+	m_model = pRM->RequestSDKMESH(info.modelPath, info.modelPath, true);
 
 	// アニメーションの読み込み
 	m_animations = std::make_unique<Animations>();
-	m_animations->idle = pResourceManager->RequestAnimation(info.idleAnimPath, info.idleAnimPath);
-	m_animations->walk = pResourceManager->RequestAnimation(info.walkAnimPath, info.walkAnimPath);
-	m_animations->attack = pResourceManager->RequestAnimation(info.attackAnimPath, info.attackAnimPath);
+	m_animations->idle = pRM->RequestAnimation(info.idleAnimPath, info.idleAnimPath);
+	m_animations->walk = pRM->RequestAnimation(info.walkAnimPath, info.walkAnimPath);
+	m_animations->attack = pRM->RequestAnimation(info.attackAnimPath, info.attackAnimPath);
 
 	// リソースマネージャの設定
-	m_pResourceManager = pResourceManager;
+	m_pResourceManager = pRM;
 
 	// 当たり判定の設定
 	m_collider.SetCenter(m_position);
@@ -161,16 +161,16 @@ void GroundEnemy::Initialize(ResourceManager* pResourceManager,
 	// 状態の作成
 	// 待機状態
 	m_idlingState = std::make_unique<GroundEnemy_Idle>(this);
-	m_idlingState->Initialize(pResourceManager);
+	m_idlingState->Initialize(pRM);
 	// 歩き状態
 	m_walkingState = std::make_unique<GroundEnemy_Walk>(this);
-	m_walkingState->Initialize(pResourceManager);
+	m_walkingState->Initialize(pRM);
 	// 跳ね返り状態
 	m_bouncingState = std::make_unique<GroundEnemy_Bounce>(this);
-	m_bouncingState->Initialize(pResourceManager);
+	m_bouncingState->Initialize(pRM);
 	// 攻撃状態
 	m_attackingState = std::make_unique<GroundEnemy_Attack>(this, info);
-	m_attackingState->Initialize(pResourceManager);
+	m_attackingState->Initialize(pRM);
 
 	// エフェクトを出現をオフ
 	m_trajectory->SetSpawn(false);

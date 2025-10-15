@@ -21,8 +21,10 @@
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/GameObjects/Stage/StageManager.h"
 #include "Source/Game/GameObjects/Sky.h"
+#include "Source/Game/UI/UIWidget.h"
 #include "Source/Game/UI/WeaponUI.h"
 #include "Source/Game/UI/StageResultUI.h"
+#include "Source/Game/UI/ClearConditionsUI.h"
 #include "Source/Game/UI/OperationUI.h"
 
 #include "Source/Game/UI/NumberRenderer/NumberRenderer3D.h"
@@ -42,13 +44,15 @@ class StageScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	// 通常、ポーズ、ゴール後のenumで管理したらいいかも
+	// シーンの状態
 	enum class Overlay
 	{
 		NONE = -1,
-		PAUSE_MENU,
+		GAMEPLAY,
 		RESULT,
 	};
+
+	const ClearConditionsUI::ConditionsType CLEAR_CONDITIONS;
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -68,28 +72,31 @@ private:
 
 
 	// オブジェクト関連
-	//カメラ
+	// カメラ
 	std::unique_ptr<Camera> m_camera;
 
-	//プレイヤー
+	// プレイヤー
 	std::unique_ptr<Player> m_player;
 
-	//敵
+	// 敵
 	std::unique_ptr<EnemyManager> m_enemyManager;
 
 	// ステージマネージャー
 	std::unique_ptr<StageManager> m_stageManager;
 
-	//武器UI
+	// 武器UI
 	std::unique_ptr<WeaponUI> m_weaponUI;
 
-	//リザルトUI
+	// リザルトUI
 	std::unique_ptr<StageResultUI> m_resultUI;
 
-	//操作方法UI
+	// ステージクリア条件UI
+	std::unique_ptr<ClearConditionsUI> m_conditionsUI;
+
+	// 操作方法UI
 	std::unique_ptr<OperationUI> m_cameraUI;
 
-	// 空
+	// スカイドーム
 	std::unique_ptr<Sky> m_sky;
 
 	// ステージファイルへのパス
@@ -100,7 +107,9 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	StageScene(SceneManager* pSceneManager, UserResources* pUserResources, std::string path);
+	StageScene(
+		SceneManager* pSceneManager, UserResources* pUserResources,
+		std::string path, ClearConditionsUI::ConditionsType clearCondition);
 
 	// デストラクタ
 	~StageScene();

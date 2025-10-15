@@ -92,7 +92,7 @@ public:
 // ‘€ì
 public:
 	// ‰Šú‰»ˆ—
-	void Initialize(ResourceManager* pResourceManager,
+	void Initialize(ResourceManager* pRM,
 					CollisionManager* pCollisionManager,
 					const DirectX::SimpleMath::Vector3& position,
 					const EnemyInfoLoader::EnemyInfo& info,

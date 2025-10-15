@@ -41,11 +41,11 @@ GroundEnemy_Attack::~GroundEnemy_Attack()
 /**
  * @brief 初期化処理
  *
- * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
-void GroundEnemy_Attack::Initialize(ResourceManager* pResourceManager)
+void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 {
 	if (!m_modelAnimator)
 	{

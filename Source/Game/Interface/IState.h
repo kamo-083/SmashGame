@@ -17,7 +17,7 @@ public:
 	// デストラクタ
 	virtual ~IState() = default;
 	// 初期化
-	virtual void Initialize(ResourceManager* pResourceManager) = 0;
+	virtual void Initialize(ResourceManager* pRM) = 0;
 	// 更新
 	virtual void Update(const float& elapsedTime) = 0;
 	// 描画

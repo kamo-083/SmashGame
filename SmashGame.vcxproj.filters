@@ -272,6 +272,9 @@
     <ClInclude Include="Source\Game\Common\ShaderManager.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\ClearConditionsUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -425,6 +428,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Common\ShaderManager.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\ClearConditionsUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

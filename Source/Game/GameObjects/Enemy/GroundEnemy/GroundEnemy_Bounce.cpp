@@ -36,11 +36,11 @@ GroundEnemy_Bounce::~GroundEnemy_Bounce()
 /**
  * @brief 初期化処理
  *
- * @param[in] pResourceManager  リソースマネージャーのポインタ
+ * @param[in] pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
-void GroundEnemy_Bounce::Initialize(ResourceManager* pResourceManager)
+void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
 {
 	if (!m_modelAnimator)
 	{

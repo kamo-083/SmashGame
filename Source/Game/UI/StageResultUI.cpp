@@ -41,7 +41,8 @@ StageResultUI::~StageResultUI()
  *
  * @return ‚È‚µ
  */
-void StageResultUI::Initialize(ID3D11ShaderResourceView* texture,
+void StageResultUI::Initialize(
+	ID3D11ShaderResourceView* texture,
 	DirectX::SimpleMath::Vector2 texSize,
 	DirectX::SimpleMath::Vector2 windowSize)
 {
@@ -75,8 +76,6 @@ void StageResultUI::Initialize(ID3D11ShaderResourceView* texture,
 void StageResultUI::Update(float elapsedTime)
 {
 	m_widget->Update(elapsedTime);
-
-	//if (m_widget->GetTween()->Finished()) m_widget->TweenReset(false);
 }
 
 
