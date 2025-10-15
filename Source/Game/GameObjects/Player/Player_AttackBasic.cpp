@@ -124,6 +124,7 @@ void Player_AttackBasic::Render(RenderContext& context)
 
 	m_modelAnimator->Draw(context, world);
 
+	// 当たり判定のデバッグ描画
 	if (m_pPlayer->GetSpherePrimitive())
 	{
 		scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());

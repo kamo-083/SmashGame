@@ -122,6 +122,7 @@ void GroundEnemy_Attack::Render(RenderContext& context)
 
 	m_modelAnimator->Draw(context, world);
 
+	// 当たり判定のデバッグ描画
 	if (m_pGroundEnemy->GetSpherePrimitive())
 	{
 		DirectX::SimpleMath::Matrix sphereScale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetAttackCollider()->GetRadius()*2.0f);

@@ -204,7 +204,8 @@ void GroundEnemy::Update(float elapsedTime)
 void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
 	m_currentState->Render(context);
-	
+
+	// デバッグ情報の描画
 	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
 	//debugFont->AddString(0, 230, DirectX::Colors::Blue, L"ePos  = %f,%f,%f",
 	//	m_circle->position->x, m_circle->position->y, m_circle->position->z);

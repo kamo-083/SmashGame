@@ -276,6 +276,9 @@ void Game::CreateDeviceDependentResources()
 
     // リソースマネージャーの作成
     m_resourceManager = std::make_unique<ResourceManager>(device);
+    
+    // オーディオマネージャーの作成
+    m_audioManager = std::make_unique<AudioManager>();
 
     // シェーダーマネージャーの作成
     m_shaderManager = std::make_unique<ShaderManager>(device);
@@ -293,6 +296,7 @@ void Game::CreateDeviceDependentResources()
     m_userResources->SetDebugFont(m_debugFont.get());
     m_userResources->SetStates(m_states.get());
     m_userResources->SetResourceManager(m_resourceManager.get());
+    m_userResources->SetAudioManager(m_audioManager.get());
     m_userResources->SetShaderManager(m_shaderManager.get());
 
      // シーンマネージャの作成

@@ -93,6 +93,7 @@ void Camera::Update(DirectX::Keyboard::KeyboardStateTracker* keyboard, float ela
 
 void Camera::Draw(Imase::DebugFont* debugFont)
 {
+	// デバッグ情報の描画
 	debugFont->AddString(820, 0, DirectX::Colors::White, L"eye = %f,%f,%f", m_eye.x, m_eye.y, m_eye.z);
 	debugFont->AddString(820, 25, DirectX::Colors::White, L"target = %f,%f,%f", m_target.x, m_target.y, m_target.z);
 	debugFont->AddString(820, 50, DirectX::Colors::White, L"angle = %f,%f,%f", m_angle.x, m_angle.y, m_angle.z);

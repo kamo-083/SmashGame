@@ -68,6 +68,7 @@ void TitleScene::Initialize()
 
 	// ボタンを作成
 	m_buttons.reserve(BUTTONS);
+	// ゲーム開始のボタン
 	std::unique_ptr<Button> start = std::make_unique<Button>();
 	data =
 	{
@@ -83,6 +84,7 @@ void TitleScene::Initialize()
 	);
 	m_buttons.push_back(std::move(start));
 
+	// ゲーム終了のボタン
 	std::unique_ptr<Button> exit = std::make_unique<Button>();
 	data =
 	{
@@ -94,11 +96,22 @@ void TitleScene::Initialize()
 	};
 	exit->Initialize(
 		m_textures->exit, data, DirectX::SimpleMath::Vector2(400.0f, 67.0f),
-		[this]() {PostQuitMessage(0); }		// ゲームを終了
+		[this]() {
+			if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
+			PostQuitMessage(0);
+		}
 	);
 	m_buttons.push_back(std::move(exit));
 
+	// 選択中のボタンを初期化
 	m_selectButton = 0;
+
+	// BGM・SEの読み込み
+	AudioManager* pAM = m_userResources->GetAudioManager();
+	pAM->LoadMP3("title_selectBGM", "Resources/Sounds/BGM/iwashiro_hitoiki_coffee.mp3");
+
+	// BGMの再生
+	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
 }
 
 

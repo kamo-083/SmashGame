@@ -128,6 +128,7 @@ void BounceBox::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 
 	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);
 
+	// デバッグ情報の描画
 	debugFont->AddString(0, 350, DirectX::Colors::Yellow, L"ExternalForce = %f,%f,%f",
 						 m_physics.GetExternalForce().Get().x, m_physics.GetExternalForce().Get().y, m_physics.GetExternalForce().Get().z);
 }

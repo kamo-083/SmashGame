@@ -53,6 +53,7 @@ void StageSelectScene::Initialize()
 		m_userResources->GetDeviceResources()->GetOutputSize().bottom
 	);
 
+	// ステージ選択パネルの作成
 	for (int i = 0; i < STAGES; i++)
 	{
 		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(
@@ -73,6 +74,10 @@ void StageSelectScene::Initialize()
 		panel->Initialize(m_userResources->GetResourceManager()->RequestPNG("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
 			data, DirectX::SimpleMath::Vector2(350.f, 400.f),
 			[this, i]() {
+				// BGMの停止
+				if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
+
+				// 選択番号からシーン名を作成
 				std::string stageName = "Stage" + std::to_string(i + 1) + "Scene";
 				ChangeScene(stageName);
 			});
@@ -88,6 +93,13 @@ void StageSelectScene::Initialize()
 	ResourceManager* pRM = m_userResources->GetResourceManager();
 	m_textures = std::make_unique<Textures>();
 	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/background.png");
+
+	// BGM・SEの読み込み
+	AudioManager* pAM = m_userResources->GetAudioManager();
+	pAM->LoadMP3("title_selectBGM", "Resources/Sounds/BGM/iwashiro_hitoiki_coffee.mp3");
+
+	// BGMの再生
+	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
 }
 
 

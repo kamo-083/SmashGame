@@ -106,8 +106,10 @@ void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(HALF_LENGTH * 2.0f);
 	world = scale * trans;
 
+	// 当たり判定のデバッグ描画
 	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
 
+	// デバッグ情報の描画
 	debugFont->AddString(0, 140, DirectX::Colors::Yellow, L" can = %d", m_canGoal);
 	debugFont->AddString(100, 140, DirectX::Colors::Yellow, L"goal = %d", m_isGoal);
 }

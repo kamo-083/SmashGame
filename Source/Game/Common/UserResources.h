@@ -12,6 +12,7 @@
 #include "DeviceResources.h"
 #include "ImaseLib/DebugFont.h"
 #include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Common/AudioManager.h"
 #include "Source/Game/Common/ShaderManager.h"
 
 // 各シーンに渡す共通リソースを記述してください
@@ -42,6 +43,9 @@ private:
 
 	// リソースマネージャー
 	ResourceManager* m_resourceManager;
+	
+	// オーディオマネージャー
+	AudioManager* m_audioManager;
 
 	// シェーダーマネージャー
 	ShaderManager* m_shaderManager;
@@ -59,6 +63,8 @@ public:
 		, m_states(nullptr)
 		, m_spriteBatch(nullptr)
 		, m_resourceManager(nullptr)
+		, m_audioManager(nullptr)
+		, m_shaderManager(nullptr)
 	{
 	}
 
@@ -73,6 +79,8 @@ public:
 		m_states = nullptr;
 		m_spriteBatch = nullptr;
 		m_resourceManager = nullptr;
+		m_audioManager = nullptr;
+		m_shaderManager = nullptr;
 	}
 
 	// ------------------------------------------ //
@@ -144,8 +152,17 @@ public:
 
 	// リソースマネージャーを取得する関数
 	ResourceManager* GetResourceManager() { return m_resourceManager; }
-	
+		
+	// ------------------------------------------ //
+	// オーディオマネージャー
+	// ------------------------------------------ //
+		
+	// オーディオマネージャーを設定する関数
+	void SetAudioManager(AudioManager* audioManager) { m_audioManager = audioManager; }
 
+	// オーディオマネージャーを取得する関数
+	AudioManager* GetAudioManager() { return m_audioManager; }
+	
 	// ------------------------------------------ //
 	// シェーダーマネージャー
 	// ------------------------------------------ //

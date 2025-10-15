@@ -73,7 +73,7 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	IXAudio2* m_pXAudio2;						//XAudio2エンジン
+	IXAudio2* m_pXAudio2;						//XAudio2エンジンのポインタ
 	IXAudio2MasteringVoice* m_pMasteringVoice;	//マスターボイス
 
 	std::unordered_map<std::string, AudioData> m_sounds;

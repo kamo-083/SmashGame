@@ -240,6 +240,7 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	// Œ»Ý‚Ìó‘Ô‚ð•`‰æ‚·‚é
 	m_currentState->Render(context);
 
+	// ƒfƒoƒbƒOî•ñ‚Ì•`‰æ
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
 	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"weapon = %d", static_cast<int>(m_weaponType));

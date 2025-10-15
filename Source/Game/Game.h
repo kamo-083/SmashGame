@@ -8,9 +8,10 @@
 #include "Source/Game/Common/StepTimer.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Common/AudioManager.h"
+#include "Source/Game/Common/ShaderManager.h"
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Common/UserResources.h"
-#include "Source/Game/Common/ShaderManager.h"
 #include "ImaseLib/DebugFont.h"
 
 
@@ -83,6 +84,9 @@ private:
 
     // リソースマネージャー
     std::unique_ptr<ResourceManager> m_resourceManager;
+    
+    // オーディオマネージャー
+    std::unique_ptr<AudioManager> m_audioManager;
 
     // シェーダーマネージャー
     std::unique_ptr<ShaderManager> m_shaderManager;

@@ -29,12 +29,13 @@ class TitleScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// 画像の構造体
 	struct Textures
 	{
-		ID3D11ShaderResourceView* logo;
-		ID3D11ShaderResourceView* start;
-		ID3D11ShaderResourceView* exit;
-		ID3D11ShaderResourceView* background;
+		ID3D11ShaderResourceView* logo;			// ロゴ
+		ID3D11ShaderResourceView* start;		// ゲーム開始テキスト
+		ID3D11ShaderResourceView* exit;			// 終了テキスト
+		ID3D11ShaderResourceView* background;	// 背景
 	};
 
 	static constexpr int BUTTONS = 2;
@@ -52,6 +53,7 @@ private:
 	std::unique_ptr<UIWidget> m_titleLogo;
 	std::vector<std::unique_ptr<Button>> m_buttons;
 
+	// 選択中のボタン
 	int m_selectButton;
 
 
