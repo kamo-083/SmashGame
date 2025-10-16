@@ -51,6 +51,7 @@ void Goal::Initialize(CollisionManager* pCollisionManager, DirectX::SimpleMath::
 {
 	m_position = position;
 
+	// ìñÇΩÇËîªíËÇÃçÏê¨
 	m_collider.SetCenter(m_position);
 	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
 	m_collider.SetHalfLength(DirectX::SimpleMath::Vector3(HALF_LENGTH, HALF_LENGTH, HALF_LENGTH));

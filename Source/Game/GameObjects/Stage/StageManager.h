@@ -26,6 +26,7 @@ class BounceBox;
 class TargetBox;
 class Goal;
 class CountArea;
+class Fence;
 
 
 // クラスの定義 ===============================================================
@@ -51,6 +52,9 @@ private:
 
 	//エリア
 	std::vector<std::unique_ptr<CountArea>> m_areas;
+
+	//柵
+	std::vector<std::unique_ptr<Fence>> m_fences;
 
 	//ゴール
 	std::unique_ptr<Goal> m_goal;

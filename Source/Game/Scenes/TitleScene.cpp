@@ -49,22 +49,26 @@ void TitleScene::Initialize()
 	// テクスチャの読み込み
 	ResourceManager* pRM = m_userResources->GetResourceManager();
 	m_textures = std::make_unique<Textures>();
-	m_textures->logo = pRM->RequestPNG("titleLogo", L"Resources/Textures/Text/title.png");
+	m_textures->logo = pRM->RequestPNG("titleLogo", L"Resources/Textures/Text/titleLogo.png");
 	m_textures->start = pRM->RequestPNG("startText", L"Resources/Textures/Text/startText.png");
 	m_textures->exit = pRM->RequestPNG("exitText", L"Resources/Textures/Text/exitText.png");
 	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/background.png");
+
+	// ウィンドウサイズの取得
+	RECT windowSize = m_userResources->GetDeviceResources()->GetOutputSize();
+	float halfWidth = windowSize.right / 2.0f;
 
 	// タイトルロゴを作成
 	m_titleLogo = std::make_unique<UIWidget>();
 	Tween::TweenData data =
 	{
-		Tween::UIParams{DirectX::SimpleMath::Vector2(640.0f, 0.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 200.0f),DirectX::SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(halfWidth, 0.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 230.0f),DirectX::SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		1.0f,
 		Tween::Ease::OutBounce,
 		Tween::PlaybackMode::Once
 	};
-	m_titleLogo->Initialize(m_textures->logo, data, DirectX::SimpleMath::Vector2(600.0f, 150.0f));
+	m_titleLogo->Initialize(m_textures->logo, data, DirectX::SimpleMath::Vector2(640.0f, 360.0f));
 
 	// ボタンを作成
 	m_buttons.reserve(BUTTONS);
@@ -72,7 +76,7 @@ void TitleScene::Initialize()
 	std::unique_ptr<Button> start = std::make_unique<Button>();
 	data =
 	{
-		Tween::UIParams{DirectX::SimpleMath::Vector2(640.0f, 450.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(halfWidth, 500.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
 		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
 		0.5f,
 		Tween::Ease::OutQuart,
@@ -88,7 +92,7 @@ void TitleScene::Initialize()
 	std::unique_ptr<Button> exit = std::make_unique<Button>();
 	data =
 	{
-		Tween::UIParams{DirectX::SimpleMath::Vector2(640.0f, 550.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(halfWidth, 600.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
 		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
 		0.5f,
 		Tween::Ease::OutQuart,

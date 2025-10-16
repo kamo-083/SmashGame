@@ -36,6 +36,7 @@ public:
 		BounceBox,
 		TargetBox,
 		Area,
+		Fence
 	};
 
 	struct AreaActionDesc
@@ -50,8 +51,10 @@ public:
 		ObjectType type = ObjectType::None;
 		DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3::Zero;
 		DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3::One;
+		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero;
 		bool active = true;
 		AreaActionDesc areaAction;
+		int fenceNum = 0;
 	};
 	
 	struct EnemyData
@@ -118,6 +121,7 @@ public:
 			else if (typeStr == "TargetBox") data.type = ObjectType::TargetBox;
 			else if (typeStr == "Area") data.type = ObjectType::Area;
 			else if (typeStr == "Goal") data.type = ObjectType::Goal;
+			else if (typeStr == "Fence") data.type = ObjectType::Fence;
 
 			// À•W
 			if (element.contains("pos") && element["pos"].is_array() && element["pos"].size() >= 3)
@@ -147,6 +151,21 @@ public:
 				data.areaAction.mode = element.value("mode", "AllOut");
 				data.areaAction.command = element.value("command", "EnableGoal");
 				data.areaAction.target = element["target"];
+			}
+
+			// ò‚Ì‰ñ“]E”
+			if (data.type == ObjectType::Fence)
+			{
+				// ‰ñ“]
+				data.angle = SimpleMath::Vector3
+				{
+					element["angle"][0].get<float>(),
+					element["angle"][1].get<float>(),
+					element["angle"][2].get<float>()
+				};
+
+				// ”
+				data.fenceNum = element["num"].get<int>();
 			}
 
 			// —LŒø‰»

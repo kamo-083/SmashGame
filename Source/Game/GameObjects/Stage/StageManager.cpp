@@ -14,6 +14,7 @@
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/GameObjects/Stage/Objects/CountArea.h"
+#include "Source/Game/GameObjects/Stage/Objects/Fence.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -100,8 +101,18 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 			else if (data.areaAction.mode == "ReachCount") mode = CountArea::TriggerMode::ReachCount;
 
 			m_areas.push_back(std::move(std::make_unique<CountArea>(pUR)));
-			m_areas.back()->Initialize(pCM, data.position, data.scale.x, data.scale.z,
-									   operate, mode, data.areaAction.target);
+			m_areas.back()->Initialize(
+				pCM, data.position, data.scale.x, data.scale.z,
+				operate, mode, data.areaAction.target);
+			break;
+		}
+		// 柵
+		case StageLoader::ObjectType::Fence:
+		{
+			m_fences.push_back(std::move(std::make_unique<Fence>(context)));
+			m_fences.back()->Initialize(
+				pUR->GetResourceManager(), pCM, data.fenceNum,
+				data.position, data.scale, data.angle);
 			break;
 		}
 		// ゴール
@@ -162,6 +173,12 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
 	{
 		area->Update(cameraPos, cameraUp);
 	}
+	
+	// 柵の更新
+	for (auto& fences : m_fences)
+	{
+		fences->Update();
+	}
 
 	// ゴールの更新
 	if(m_goal) m_goal->Update();
@@ -179,31 +196,37 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
  */
 void StageManager::Draw(RenderContext context, Imase::DebugFont* debugFont)
 {
-	// 地面の更新
+	// 地面の描画
 	for (auto& ground : m_grounds)
 	{
 		ground->Draw(context);
 	}
 
-	// 箱の更新
+	// 箱の描画
 	for (auto& bounceBox : m_bounceBoxes)
 	{
 		bounceBox->Draw(context, debugFont);
 	}
 
-	// 的の更新
+	// 的の描画
 	for (auto& targetBox : m_targetBoxes)
 	{
 		targetBox->Draw(context);
 	}
 
-	// エリアの更新
+	// エリアの描画
 	for (auto& area : m_areas)
 	{
 		area->Draw(context, debugFont);
 	}
 
-	// ゴールの更新
+	// 柵の描画
+	for (auto& fences : m_fences)
+	{
+		fences->Draw(context);
+	}
+
+	// ゴールの描画
 	if(m_goal) m_goal->Draw(context, debugFont);
 }
 
@@ -240,6 +263,12 @@ void StageManager::Finalize()
 	for (auto& area : m_areas)
 	{
 		area->Finalize();
+	}
+
+	// 柵の終了
+	for (auto& fences : m_fences)
+	{
+		fences->Finalize();
 	}
 
 	// ゴールの終了

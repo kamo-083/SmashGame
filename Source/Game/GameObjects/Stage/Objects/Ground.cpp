@@ -55,9 +55,13 @@ void Ground::Initialize(CollisionManager* pCollisionManager,
 	m_halfLength = halfLength;
 	m_angle = angle;
 
+	// 当たり判定の作成
 	m_collider.SetCenter(m_position);
-	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(m_angle.y, m_angle.x, m_angle.z));
 	m_collider.SetHalfLength(m_halfLength);
+	float rotX = DirectX::XMConvertToRadians(m_angle.x);
+	float rotY = DirectX::XMConvertToRadians(m_angle.y);
+	float rotZ = DirectX::XMConvertToRadians(m_angle.z);
+	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotY, rotX, rotZ));
 
 	// コリジョンマネージャーに登録
 	CollisionManager::Desc desc{};

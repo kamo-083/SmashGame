@@ -275,6 +275,9 @@
     <ClInclude Include="Source\Game\UI\ClearConditionsUI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Fence.h">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -431,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\ClearConditionsUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Fence.cpp">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
