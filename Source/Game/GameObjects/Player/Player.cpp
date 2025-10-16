@@ -183,6 +183,9 @@ void Player::Initialize(ResourceManager* pRM,
 			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
 			m_physics->GetExternalForce().Add(force);
 
+			// SEの再生
+			m_pScene->PlaySE("attackSE");
+
 			// 跳ね返り状態に遷移
 			m_isBounce = true;
 			m_trajectory->SetSpawn(true);
@@ -317,14 +320,20 @@ void Player::ChangeState(IState* newState)
 void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	if (!(*m_pKeyMode)) return;
-	
+
 	if (pKbTracker->pressed.L)
 	{
 		++m_weaponType;
+
+		// SEの再生
+		m_pScene->PlaySE("cursorSE");
 	}
 	else if (pKbTracker->pressed.J)
 	{
 		--m_weaponType;
+
+		// SEの再生
+		m_pScene->PlaySE("cursorSE");
 	}
 
 	m_pWeaponUI->ChangeWeapon(m_weaponType);
@@ -347,15 +356,21 @@ void Player::Attack()
 	switch (m_weaponType)
 	{
 	case WeaponType::BASIC:
+		// 攻撃判定の連続ヒットの無効化
 		SetAttackCollisionMultiHit(false);
+		// 状態の変更
 		ChangeState(m_basicAttackingState.get());
 		break;
 	case WeaponType::ROLLING:
+		// 攻撃判定の連続ヒットの有効化
 		SetAttackCollisionMultiHit(true);
+		// 状態の変更
 		ChangeState(m_rollingAttackingState.get());
 		break;
 	case WeaponType::HEAVY:
+		// 攻撃判定の連続ヒットの無効化
 		SetAttackCollisionMultiHit(false);
+		// 状態の変更
 		ChangeState(m_heavyAttackingState.get());
 		break;
 	default:

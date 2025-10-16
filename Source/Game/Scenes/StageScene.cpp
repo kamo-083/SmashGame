@@ -148,6 +148,7 @@ void StageScene::Initialize()
 	pAM->LoadMP3("startSE", "Resources/Sounds/SE/fue.mp3");
 	pAM->LoadMP3("canGoalSE", "Resources/Sounds/SE/bell.mp3");
 	pAM->LoadMP3("clearSE", "Resources/Sounds/SE/one08.mp3");
+	pAM->LoadMP3("attackSE", "Resources/Sounds/SE/hit01.mp3");
 
 	// BGMの再生
 	pAM->Play("stageBGM", true);
@@ -191,6 +192,9 @@ void StageScene::Update(float elapsedTime)
 		// UI切り替え
 		m_cameraUI->Active(!m_cameraUI->IsActive());
 		m_weaponUI->SwitchUIMode();
+
+		// SEの再生
+		PlaySE("cursorSE");
 	}
 
 	// プレイヤーの更新
