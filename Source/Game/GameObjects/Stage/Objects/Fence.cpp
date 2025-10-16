@@ -145,11 +145,11 @@ void Fence::Draw(RenderContext& context)
 		m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 	}
 	
-	// 当たり判定のデバッグ描画
-	trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
-	scale = DirectX::SimpleMath::Matrix::CreateScale(m_collider.GetHalfLength() * 2.0f);
-	world = scale * rot * trans;
-	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Orange, nullptr, true);
+	//// 当たり判定のデバッグ描画
+	//trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
+	//scale = DirectX::SimpleMath::Matrix::CreateScale(m_collider.GetHalfLength() * 2.0f);
+	//world = scale * rot * trans;
+	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Orange, nullptr, true);
 }
 
 

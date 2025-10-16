@@ -97,6 +97,7 @@ void StageSelectScene::Initialize()
 	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
 	pAM->LoadMP3("title_selectBGM", "Resources/Sounds/BGM/iwashiro_hitoiki_coffee.mp3");
+	pAM->LoadMP3("cursorSE", "Resources/Sounds/SE/button68.mp3");
 
 	// BGMの再生
 	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
@@ -118,17 +119,25 @@ void StageSelectScene::Update(float elapsedTime)
 	// ステージ切り替え
 	if (kb->pressed.D)
 	{
+		// 前に選択していたステージのパネルをリセット
 		PanelReset(m_selectNum);
 
 		m_selectNum++;
 		if (m_selectNum == STAGES) m_selectNum = 0;
+
+		// SEの再生
+		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
 	else if (kb->pressed.A)
 	{
+		// 前に選択していたステージのパネルをリセット
 		PanelReset(m_selectNum);
 
 		m_selectNum--;
 		if (m_selectNum < 0) m_selectNum = STAGES - 1;
+
+		// SEの再生
+		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
 
 	// ステージパネルの更新

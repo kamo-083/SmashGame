@@ -84,7 +84,13 @@ void TitleScene::Initialize()
 	};
 	start->Initialize(
 		m_textures->start, data, DirectX::SimpleMath::Vector2(400.0f, 67.0f),
-		[this]() {ChangeScene("StageSelectScene"); }	// シーン切り替え
+		[this]() {
+			// SEの再生
+			m_userResources->GetAudioManager()->Play("cursorSE", false);
+
+			// シーン切り替え
+			ChangeScene("StageSelectScene"); 
+		}	
 	);
 	m_buttons.push_back(std::move(start));
 
@@ -113,6 +119,7 @@ void TitleScene::Initialize()
 	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
 	pAM->LoadMP3("title_selectBGM", "Resources/Sounds/BGM/iwashiro_hitoiki_coffee.mp3");
+	pAM->LoadMP3("cursorSE", "Resources/Sounds/SE/button68.mp3");
 
 	// BGMの再生
 	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
@@ -137,12 +144,18 @@ void TitleScene::Update(float elapsedTime)
 		ButtonReset(m_selectButton);
 		m_selectButton++;
 		if (m_selectButton == BUTTONS) m_selectButton = 0;
+
+		// SEの再生
+		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
 	else if (kb->pressed.W)
 	{
 		ButtonReset(m_selectButton);
 		m_selectButton--;
 		if (m_selectButton < 0) m_selectButton = BUTTONS - 1;
+
+		// SEの再生
+		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
 
 	// ボタンの操作

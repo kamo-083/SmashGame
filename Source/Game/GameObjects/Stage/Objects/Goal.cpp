@@ -10,6 +10,7 @@
 #include "pch.h"
 #include "Goal.h"
 #include "Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Scenes/StageScene.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -18,12 +19,13 @@
  *
  * @param[in] なし
  */
-Goal::Goal(ID3D11DeviceContext* context)
+Goal::Goal(ID3D11DeviceContext* context, StageScene* pScene)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
 	, m_collider{}
 	, m_collisionHandle{ 0 }
 	, m_isGoal{ false }
 	, m_canGoal{ false }
+	, m_pScene{ pScene }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -47,7 +49,7 @@ Goal::~Goal()
  *
  * @return なし
  */
-void Goal::Initialize(CollisionManager* pCollisionManager, DirectX::SimpleMath::Vector3 position)
+void Goal::Initialize(CollisionManager* pCM, DirectX::SimpleMath::Vector3 position)
 {
 	m_position = position;
 
@@ -64,14 +66,14 @@ void Goal::Initialize(CollisionManager* pCollisionManager, DirectX::SimpleMath::
 	desc.position = nullptr;
 	desc.velocity = nullptr;
 	desc.isTrigger = true;
-	desc.callback.onEnter = 
-		[this, pCollisionManager](uint32_t, uint32_t other)
+	desc.callback.onEnter =
+		[this, pCM](uint32_t, uint32_t other)
 		{
-			if (!m_canGoal || pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::PlayerBody) return;
+			if (!m_canGoal || pCM->GetDesc(other)->layer != CollisionManager::Layer::PlayerBody) return;
 
 			m_isGoal = true;
 		};
-	m_collisionHandle = pCollisionManager->Add(desc);
+	m_collisionHandle = pCM->Add(desc);
 
 	m_canGoal = false;
 	m_isGoal = false;
@@ -126,6 +128,7 @@ void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
  */
 void Goal::Finalize()
 {
+	m_pScene = nullptr;
 	m_geometricPrimitive.reset();
 }
 
@@ -158,4 +161,14 @@ bool Goal::DetectCollisionToPlayer(SphereCollider player)
 OBBCollider Goal::GetCollider()
 {
 	return m_collider;
+}
+
+
+void Goal::CanGoal(bool canGoal)
+{
+	// SEの再生
+	if (!m_canGoal && canGoal)	m_pScene->PlaySE("canGoalSE");
+
+	// ゴール可能フラグを更新
+	m_canGoal = canGoal;
 }

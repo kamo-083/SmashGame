@@ -9,17 +9,23 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player.h"
+#include "Source/Game/Scenes/StageScene.h"
 
 
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param[in] pUserResources	ユーザーリソースのポインタ
+ * @param[in] pEffectManager	エフェクトマネージャーのポインタ
+ * @param[in] pScene			シーンへのポインタ
  */
-Player::Player(UserResources* pUserResources,
-			   EffectManager* pEffectManager)
-	: m_rotY{ 0.0f }
+Player::Player(
+	UserResources* pUserResources,
+	EffectManager* pEffectManager,
+	StageScene* pScene)
+	: m_pScene{ pScene }
+	, m_rotY{ 0.0f }
 	, m_onGround{ false }
 	, m_isBounce{ false }
 	, m_model{ nullptr }
@@ -36,6 +42,7 @@ Player::Player(UserResources* pUserResources,
 	, m_handleBody{ 0 }
 	, m_handleAttack{ 0 }
 {
+	// 当たり判定のデバッグ描画用球
 	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
 
 	// 軌跡エフェクトの作成

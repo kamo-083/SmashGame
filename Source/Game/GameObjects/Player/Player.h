@@ -34,6 +34,7 @@
 
 
 // クラスの宣言 ===============================================================
+class StageScene;
 class Player_Idle;
 class Player_Walk;
 class Player_AttackBasic;
@@ -70,6 +71,9 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// シーンへのポインタ
+	StageScene* m_pScene;
+
 	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
 
@@ -153,8 +157,10 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Player(UserResources* pUserResources,
-		   EffectManager* pEffectManager);
+	Player(
+		UserResources* pUserResources,
+		EffectManager* pEffectManager,
+		StageScene* pScene);
 
 	// デストラクタ
 	~Player();

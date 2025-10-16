@@ -21,6 +21,7 @@
 
 
 // クラスの宣言	===============================================================
+class StageScene;
 class Ground;
 class BounceBox;
 class TargetBox;
@@ -41,6 +42,9 @@ public:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// シーンへのポインタ
+	StageScene* m_pScene;
+
 	//地面
 	std::vector<std::unique_ptr<Ground>> m_grounds;
 
@@ -64,7 +68,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	StageManager();
+	StageManager(StageScene* pScene);
 
 	// デストラクタ
 	~StageManager();
@@ -93,6 +97,7 @@ public:
 public:
 	// ゴールしているか
 	bool IsGoal();
+	bool IsCanGoal();
 
 // 内部実装
 private:

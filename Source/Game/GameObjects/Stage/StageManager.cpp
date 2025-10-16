@@ -9,6 +9,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "StageManager.h"
+#include "Source/Game/Scenes/StageScene.h"
 #include "Source/Game/GameObjects/Stage/Objects/Ground.h"
 #include "Source/Game/GameObjects/Stage/Objects/BounceBox.h"
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
@@ -23,7 +24,8 @@
  *
  * @param[in] なし
  */
-StageManager::StageManager()
+StageManager::StageManager(StageScene* pScene)
+	:m_pScene{ pScene }
 {
 
 }
@@ -82,7 +84,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 			break;
 		}
 		// 的の箱
-		case StageLoader::ObjectType::TargetBox:	// とりあえずgoal.getしてるけど順番によっては例外出ると思うので要対策
+		case StageLoader::ObjectType::TargetBox:
 		{
 			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(context)));
 			m_targetBoxes.back()->Initialize(pCM, pEM, m_goal.get(), data.position, data.scale);
@@ -118,7 +120,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		// ゴール
 		case StageLoader::ObjectType::Goal:
 		{
-			m_goal = std::make_unique<Goal>(context);
+			m_goal = std::make_unique<Goal>(context, m_pScene);
 			m_goal->Initialize(pCM, data.position);
 			break;
 		}
@@ -311,4 +313,9 @@ void StageManager::CreateOperate(std::function<void()>& outOperate, StageLoader:
 bool StageManager::IsGoal()
 {
 	return m_goal->IsGoal();
+}
+
+bool StageManager::IsCanGoal()
+{
+	return m_goal->IsCanGoal();
 }

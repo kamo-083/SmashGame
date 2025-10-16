@@ -20,6 +20,7 @@
 
 // クラスの定義 ===============================================================
 class CollisionManager;
+class StageScene;
 
 
 // クラスの定義 ===============================================================
@@ -36,6 +37,8 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	StageScene* m_pScene;
+
 	DirectX::SimpleMath::Vector3 m_position;
 
 	OBBCollider m_collider;
@@ -47,11 +50,12 @@ private:
 	bool m_canGoal;
 	bool m_isGoal;
 
+
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Goal(ID3D11DeviceContext* context);
+	Goal(ID3D11DeviceContext* context, StageScene* pScene);
 
 	// デストラクタ
 	~Goal();
@@ -60,7 +64,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(CollisionManager* pCollisionManager, DirectX::SimpleMath::Vector3 position);
+	void Initialize(CollisionManager* pCM, DirectX::SimpleMath::Vector3 position);
 
 	// 更新処理
 	void Update();
@@ -78,7 +82,8 @@ public:
 public:
 	OBBCollider GetCollider();
 	bool IsGoal() { return m_isGoal; }
-	void CanGoal(bool canGoal = true) { m_canGoal = canGoal; }
+	bool IsCanGoal() { return m_canGoal; }
+	void CanGoal(bool canGoal = true);
 
 
 // 内部実装
