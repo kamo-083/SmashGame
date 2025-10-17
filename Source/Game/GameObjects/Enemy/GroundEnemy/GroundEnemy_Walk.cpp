@@ -2,8 +2,6 @@
  * @file   GroundEnemy_Walk.cpp
  *
  * @brief  GroundEnemy_Walkに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -16,7 +14,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] groundEnemy 敵のポインタ
+ * @param groundEnemy 敵のポインタ
  */
 GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy)
 	: m_pGroundEnemy{ groundEnemy }
@@ -38,7 +36,7 @@ GroundEnemy_Walk::~GroundEnemy_Walk()
 /**
  * @brief 初期化処理
  *
- * @param[in] pRM  リソースマネージャーのポインタ
+ * @param pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
@@ -58,7 +56,7 @@ void GroundEnemy_Walk::Initialize(ResourceManager* pRM)
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -107,7 +105,7 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -126,7 +124,7 @@ void GroundEnemy_Walk::Render(RenderContext& context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

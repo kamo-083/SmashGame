@@ -2,8 +2,6 @@
  * @file   NumberRenderer3D.cpp
  *
  * @brief  NumberRenderer3Dに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -25,7 +23,7 @@ const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 NumberRenderer3D::NumberRenderer3D(
 	DirectX::SimpleMath::Vector2 spriteSize,
@@ -95,7 +93,7 @@ NumberRenderer3D::~NumberRenderer3D()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -109,7 +107,7 @@ void NumberRenderer3D::Initialize(const int& number)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -220,7 +218,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

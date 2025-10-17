@@ -1,7 +1,13 @@
-﻿#include "pch.h"
+﻿/**
+ * @file   Collision.cpp
+ *
+ * @brief  球・OBBの当たり判定に関するソースファイル
+ */
+
+ // ヘッダファイルの読み込み ===================================================
+#include "pch.h"
 #include "Collision.h"
 
-using namespace DirectX;
 
 ////球のコライダー /////////////////////////////////////////
 /**
@@ -16,114 +22,57 @@ SphereCollider::SphereCollider()
 /**
  * @brief コンストラクタ
  *
- * @param[in] center 球の中心座標
- * @param[in] radius 球の半径
+ * @param center 球の中心座標
+ * @param radius 球の半径
  */
-SphereCollider::SphereCollider(SimpleMath::Vector3 center, float radius)
+SphereCollider::SphereCollider(DirectX::SimpleMath::Vector3 center, float radius)
 	: m_center{ center }
 	, m_radius{ radius }
 {
 }
 
-/**
- * @brief デストラクタ
- */
-SphereCollider::~SphereCollider()
-{
-}
-
-/**
- * @brief 球の中心座標の取得
- *
- * @param[in] なし 
- *
- * @return 球の中心座標
- */
-SimpleMath::Vector3 SphereCollider::GetCenter() const
-{
-	return m_center;
-}
-
-/**
- * @brief 球の半径の取得
- *
- * @param[in] なし
- *
- * @return 半径
- */
-float SphereCollider::GetRadius() const
-{
-	return m_radius;
-}
-
-/**
- * @brief 球の中心座標の設定
- *
- * @param[in] center 球の中心座標
- *
- * @return なし
- */
-void SphereCollider::SetCenter(SimpleMath::Vector3 center)
-{
-	m_center = center;
-}
-
-/**
- * @brief 球の半径の設定
- *
- * @param[in] radius 球の半径
- *
- * @return なし
- */
-void SphereCollider::SetRadius(float radius)
-{
-	m_radius = radius;
-}
 
 
-////直方体のコライダー /////////////////////////////////////////
+////OBBのコライダー /////////////////////////////////////////
 /**
  * @brief コンストラクタ
  */
 OBBCollider::OBBCollider()
 {
-	m_obb.center = SimpleMath::Vector3::Zero;
-	m_obb.rotation = SimpleMath::Quaternion::Identity;
-	m_obb.halfLength = SimpleMath::Vector3::Zero;
+	m_obb.center = DirectX::SimpleMath::Vector3::Zero;
+	m_obb.rotation = DirectX::SimpleMath::Quaternion::Identity;
+	m_obb.halfLength = DirectX::SimpleMath::Vector3::Zero;
 
-	m_mtv.direction = SimpleMath::Vector3::Zero;
+	m_mtv.direction = DirectX::SimpleMath::Vector3::Zero;
 	m_mtv.distance = 0.0f;
 }
 
 /**
  * @brief コンストラクタ
  *
- * @param[in] center	 直方体の中心座標
- * @param[in] direction	 直方体の方向ベクトル
- * @param[in] halfLength 直方体の中心座標から面までの長さ
+ * @param center	 OBBの中心座標
+ * @param direction	 OBBの方向ベクトル
+ * @param halfLength OBBの中心座標から面までの長さ
  */
-OBBCollider::OBBCollider(SimpleMath::Vector3 center, DirectX::SimpleMath::Quaternion rotation, SimpleMath::Vector3 halfLength)
+OBBCollider::OBBCollider(
+	DirectX::SimpleMath::Vector3 center,
+	DirectX::SimpleMath::Quaternion rotation,
+	DirectX::SimpleMath::Vector3 halfLength)
 {
 	m_obb.center = center;
 	m_obb.halfLength = halfLength;
 	m_obb.rotation = rotation;
 	AxisFromQuaternion(m_obb.rotation, m_obb.axis);
 
-	m_mtv.direction = SimpleMath::Vector3::Zero;
+	m_mtv.direction = DirectX::SimpleMath::Vector3::Zero;
 	m_mtv.distance = 0.0f;
 }
 
-/**
- * @brief デストラクタ
- */
-OBBCollider::~OBBCollider()
-{
-}
 
 /**
- * @brief 直方体の中心座標の取得
+ * @brief OBBの中心座標の取得
  *
- * @param[in] 取得したい軸の番号 (x=0, y=1, z=2)
+ * @param 取得したい軸の番号 (x=0, y=1, z=2)
  *
  * @return 中心座標
  */
@@ -139,9 +88,9 @@ float OBBCollider::GetCenter(int n) const
 }
 
 /**
- * @brief 直方体の中心座標から面までの長さの取得
+ * @brief OBBの中心座標から面までの長さの取得
  *
- * @param[in] 取得したい軸の番号 (x=0, y=1, z=2)
+ * @param n 取得したい軸の番号(x=0, y=1, z=2)
  *
  * @return 中心座標から面までの長さ
  */
@@ -167,11 +116,11 @@ void OBBCollider::SetRotation(DirectX::SimpleMath::Quaternion rotation)
 /**
  * @brief 球と球の当たり判定
  *
- * @param[in] sphereA 判定対象の球A
- * @param[in] sphereB 判定対象の球B
+ * @param sphereA 判定対象の球A
+ * @param sphereB 判定対象の球B
  *
- * @retval true  衝突している場合
- * @retval false 衝突していない場合
+ * @retval true  衝突している
+ * @retval false 衝突していない
  */
 bool IsHit(const SphereCollider& sphereA, const SphereCollider& sphereB)
 {
@@ -191,30 +140,32 @@ bool IsHit(const SphereCollider& sphereA, const SphereCollider& sphereB)
 /**
  * @brief OBBの当たり判定
  *
- * @param[in] sphereA 判定対象の直方体A
- * @param[in] sphereB 判定対象の直方体B
+ * @param sphereA 判定対象のOBB A
+ * @param sphereB 判定対象のOBB B
  *
- * @retval true  衝突している場合
- * @retval false 衝突していない場合
+ * @retval true  衝突している
+ * @retval false 衝突していない
  */
 bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB)
 {
 	//OBBの軸とサイズを取得 (方向ベクトルは正規化されていること)
-	SimpleMath::Vector3 axisA[3], axisB[3];
+	DirectX::SimpleMath::Vector3 axisA[3], axisB[3];
 	for (int i = 0; i < 3; i++)
 	{
 		axisA[i] = obbA.GetAxis(i);
 		axisB[i] = obbB.GetAxis(i);
 	}
 
-	SimpleMath::Vector3 extentA[3] =
+	// OBB Aの各ローカル軸ベクトルを計算
+	DirectX::SimpleMath::Vector3 extentA[3] =
 	{
 		axisA[0] * obbA.GetHalfLength().x,
 		axisA[1] * obbA.GetHalfLength().y,
 		axisA[2] * obbA.GetHalfLength().z
 	};
 
-	SimpleMath::Vector3 extentB[3] =
+	// OBB Bの各ローカル軸ベクトルを計算
+	DirectX::SimpleMath::Vector3 extentB[3] =
 	{
 		axisB[0] * obbB.GetHalfLength().x,
 		axisB[1] * obbB.GetHalfLength().y,
@@ -222,11 +173,11 @@ bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB)
 	};
 
 	//中心座標の距離
-	SimpleMath::Vector3 centerInterval = obbB.GetCenter() - obbA.GetCenter();
+	DirectX::SimpleMath::Vector3 centerInterval = obbB.GetCenter() - obbA.GetCenter();
 
 	// 関数に渡す用のダミー
 	float dummyOverlap = FLT_MAX;
-	SimpleMath::Vector3 dummyAxis;
+	DirectX::SimpleMath::Vector3 dummyAxis;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -242,27 +193,27 @@ bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			SimpleMath::Vector3 cross = axisA[i].Cross(axisB[j]);
+			DirectX::SimpleMath::Vector3 cross = axisA[i].Cross(axisB[j]);
 			if (!TryAxis(cross, centerInterval, extentA, extentB, false, dummyOverlap, dummyAxis))return false;
 		}
 	}
 
-	return true;		//衝突している (分離平面が存在しない)}
+	return true;		//衝突している (分離平面が存在しない)
 }
 
 /**
  * @brief OBBと球の当たり判定
  *
- * @param[in] obb	 判定対象の直方体
- * @param[in] sphere 判定対象の球
+ * @param obb	 判定対象のOBB
+ * @param sphere 判定対象の球
  *
- * @retval true  衝突している場合
- * @retval false 衝突していない場合
+ * @retval true  衝突している
+ * @retval false 衝突していない
  */
 bool IsHit(const OBBCollider& obb, const SphereCollider& sphere)
 {
-	SimpleMath::Vector3 vec{ 0.0f,0.0f,0.0f };
-	SimpleMath::Vector3 delta = sphere.GetCenter() - obb.GetCenter();
+	DirectX::SimpleMath::Vector3 vec{ 0.0f,0.0f,0.0f };
+	DirectX::SimpleMath::Vector3 delta = sphere.GetCenter() - obb.GetCenter();
 
 	//各軸についてはみ出た部分のベクトルを算出
 	for (int i = 0; i < 3; i++)
@@ -295,12 +246,12 @@ bool IsHit(const OBBCollider& obb, const SphereCollider& sphere)
 
 
 /**
- * @brief 球と球の距離の算出
+ * @brief 球と球の最短距離を計算
  *
- * @param[in] sphereA 判定対象の球A
- * @param[in] sphereB 判定対象の球B
+ * @param sphereA 判定対象の球A
+ * @param sphereB 判定対象の球B
  *
- * @return 球と球の距離
+ * @return 球と球の最短距離
  */
 float Distance(const SphereCollider& sphereA, const SphereCollider& sphereB)
 {
@@ -311,11 +262,20 @@ float Distance(const SphereCollider& sphereA, const SphereCollider& sphereB)
 	return sqrtf(x * x + y * y + z * z);
 }
 
+
+/**
+ * @brief 球と球の最小押し出しベクトル(MTV)を計算
+ *
+ * @param obbA 判定対象の球A
+ * @param obbB 判定対象の球B
+ *
+ * @return 衝突を解消するための最小押し出しベクトル(MTV)
+ */
 MTV CalculateMTV(const SphereCollider& sphereA, const SphereCollider& sphereB)
 {
 	MTV mtv;
 
-	SimpleMath::Vector3 direction = sphereB.GetCenter() - sphereA.GetCenter();
+	DirectX::SimpleMath::Vector3 direction = sphereB.GetCenter() - sphereA.GetCenter();
 	mtv.direction = direction;
 
 	float centerDistance = mtv.direction.Length();
@@ -327,12 +287,12 @@ MTV CalculateMTV(const SphereCollider& sphereA, const SphereCollider& sphereB)
 
 
 /**
- * @brief OBBとOBBの最短距離の算出
+ * @brief OBBとOBBの最小押し出しベクトル(MTV)を計算
  *
- * @param[in] obbA 判定対象の直方体A
- * @param[in] obbB 判定対象の直方体B
+ * @param obbA 判定対象のOBB A
+ * @param obbB 判定対象のOBB B
  *
- * @return OBBとOBBの最短距離
+ * @return 衝突を解消するための最小押し出しベクトル(MTV)
  */
 MTV CalculateMTV(const OBBCollider& obbA, const OBBCollider& obbB)
 {
@@ -340,21 +300,21 @@ MTV CalculateMTV(const OBBCollider& obbA, const OBBCollider& obbB)
 	mtv.distance = FLT_MAX;
 
 	//OBBの軸とサイズを取得 (方向ベクトルは正規化されていること)
-	SimpleMath::Vector3 axisA[3], axisB[3];
+	DirectX::SimpleMath::Vector3 axisA[3], axisB[3];
 	for (int i = 0; i < 3; i++)
 	{
 		axisA[i] = obbA.GetAxis(i);
 		axisB[i] = obbB.GetAxis(i);
 	}
 
-	SimpleMath::Vector3 extentA[3] =
+	DirectX::SimpleMath::Vector3 extentA[3] =
 	{
 		axisA[0] * obbA.GetHalfLength().x,
 		axisA[1] * obbA.GetHalfLength().y,
 		axisA[2] * obbA.GetHalfLength().z
 	};
 
-	SimpleMath::Vector3 extentB[3] =
+	DirectX::SimpleMath::Vector3 extentB[3] =
 	{
 		axisB[0] * obbB.GetHalfLength().x,
 		axisB[1] * obbB.GetHalfLength().y,
@@ -362,7 +322,7 @@ MTV CalculateMTV(const OBBCollider& obbA, const OBBCollider& obbB)
 	};
 
 	//中心座標の距離
-	SimpleMath::Vector3 centerInterval = obbB.GetCenter() - obbA.GetCenter();
+	DirectX::SimpleMath::Vector3 centerInterval = obbB.GetCenter() - obbA.GetCenter();
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -378,7 +338,7 @@ MTV CalculateMTV(const OBBCollider& obbA, const OBBCollider& obbB)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			SimpleMath::Vector3 cross = axisA[i].Cross(axisB[j]);
+			DirectX::SimpleMath::Vector3 cross = axisA[i].Cross(axisB[j]);
 			TryAxis(cross, centerInterval, extentA, extentB, true, mtv.distance, mtv.direction);
 		}
 	}
@@ -388,20 +348,20 @@ MTV CalculateMTV(const OBBCollider& obbA, const OBBCollider& obbB)
 
 
 /**
- * @brief OBBと球の最短距離
+ * @brief OBBと球の最小押し出しベクトル(MTV)を計算
  *
- * @param[in] obb	 判定対象の直方体
- * @param[in] sphere 判定対象の球
+ * @param obb     判定対象のOBB
+ * @param sphere  判定対象の球
  *
- * @return OBBと球の最短距離
+ * @return 衝突を解消するための最小押し出しベクトル(MTV)
  */
 MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere)
 {
-	MTV mtv = { SimpleMath::Vector3::Zero ,FLT_MAX };
+	MTV mtv = { DirectX::SimpleMath::Vector3::Zero ,FLT_MAX };
 
 	//球の中心からOBB上の最近傍点を求める
-	SimpleMath::Vector3 delta = sphere.GetCenter() - obb.GetCenter();
-	SimpleMath::Vector3 closest = obb.GetCenter();
+	DirectX::SimpleMath::Vector3 delta = sphere.GetCenter() - obb.GetCenter();
+	DirectX::SimpleMath::Vector3 closest = obb.GetCenter();
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -411,7 +371,7 @@ MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere)
 	}
 
 	//最近傍点と球の中心との距離を求める
-	SimpleMath::Vector3 displacement = sphere.GetCenter() - closest;
+	DirectX::SimpleMath::Vector3 displacement = sphere.GetCenter() - closest;
 	float distance = displacement.Length();
 	float penetration = sphere.GetRadius() - distance;
 
@@ -439,7 +399,7 @@ MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere)
 		obb.GetHalfLength(1) - std::fabs(proj[1]),
 		obb.GetHalfLength(2) - std::fabs(proj[2])
 	};
-	
+
 	// 最小移動量と向きを求める
 	int minAxis = 0;
 	float minMove = gap[0] + sphere.GetRadius();
@@ -453,14 +413,22 @@ MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere)
 		}
 	}
 
-	SimpleMath::Vector3 dir = (proj[minAxis] >= 0.0f ? obb.GetAxis(minAxis) : -obb.GetAxis(minAxis));
+	DirectX::SimpleMath::Vector3 dir = (proj[minAxis] >= 0.0f ? obb.GetAxis(minAxis) : -obb.GetAxis(minAxis));
 	mtv.direction = dir;
 	mtv.distance = minMove;
 
 	return mtv;
 }
 
-//平面と球の距離の算出
+
+/**
+ * @brief 平面と球の中心との距離の算出
+ *
+ * @param plane	 平面
+ * @param center 球の中心座標
+ *
+ * @return 球の中心から平面までの最短距離
+ */
 float Distance(const DirectX::SimpleMath::Plane& plane,
 			   const DirectX::SimpleMath::Vector3& center)
 {
@@ -487,6 +455,20 @@ float Distance(const DirectX::SimpleMath::Plane& plane,
 }
 
 
+/**
+ * @brief 指定された軸で分離軸を判定
+ *
+ * @param axisRaw			判定に使用する軸ベクトル（正規化前）
+ * @param centerInterval	2つのOBBの中心間ベクトル
+ * @param extentA			OBB Aの各ローカル軸ベクトル（正規化済み×半径）
+ * @param extentB			OBB Bの各ローカル軸ベクトル（正規化済み×半径）
+ * @param useMTV			MTVを更新するか
+ * @param minOverlap		MTVに渡す最小重なり量
+ * @param bestAxis			MTVに渡す方向
+ *
+ * @retval true  分離している
+ * @retval false 分離していない
+ */
 bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
 			 const DirectX::SimpleMath::Vector3& centerInterval,
 			 const DirectX::SimpleMath::Vector3 extentA[3],
@@ -498,7 +480,7 @@ bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
 	// 無効な値はスキップ
 	if (axisRaw.LengthSquared() < 0.00001)	return true;
 
-	SimpleMath::Vector3 axis = axisRaw;
+	DirectX::SimpleMath::Vector3 axis = axisRaw;
 	axis.Normalize();
 
 	float rA = fabs(axis.Dot(extentA[0])) + fabs(axis.Dot(extentA[1])) + fabs(axis.Dot(extentA[2]));
@@ -518,6 +500,15 @@ bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
 }
 
 
+/**
+ * @brief 指定された軸上での2つのOBBの投影半径を計算
+ *
+ * @param axisA   判定に使用する軸ベクトル（正規化前でも可）
+ * @param extentA OBB Aの各軸方向のスケール（半径ベクトル）
+ * @param extentB OBB Bの各ローカル軸ベクトル（正規化済み×半径）
+ *
+ * @return 2つのOBBを指定軸に投影した際の合計半径
+ */
 float CalculateProjectionRadius(DirectX::SimpleMath::Vector3 axisA, 
 								DirectX::SimpleMath::Vector3 extentA, 
 								DirectX::SimpleMath::Vector3 extentB[3])
@@ -529,11 +520,21 @@ float CalculateProjectionRadius(DirectX::SimpleMath::Vector3 axisA,
 }
 
 
-// 分離軸に投影された軸成分から投影線分長を算出
-float LenSegOnSeparateAxis(SimpleMath::Vector3* sep, 
-						   SimpleMath::Vector3* e1,
-						   SimpleMath::Vector3* e2,
-						   SimpleMath::Vector3* e3)
+/**
+ * @brief 分離軸に対するOBBの投影半径を算出
+ *
+ * @param sep 分離軸（標準化済みの単位ベクトル）
+ * @param e1  OBBの第1軸ベクトル（正規化済み×半径）
+ * @param e2  OBBの第2軸ベクトル（正規化済み×半径）
+ * @param e3  OBBの第3軸ベクトル（正規化済み×半径）※nullptr可
+ *
+ * @return 分離軸上でのOBBの投影半径（線分長の半分）
+ */
+float LenSegOnSeparateAxis(
+	DirectX::SimpleMath::Vector3* sep,
+	DirectX::SimpleMath::Vector3* e1,
+	DirectX::SimpleMath::Vector3* e2,
+	DirectX::SimpleMath::Vector3* e3)
 {
 	//3つの内積の絶対値の和で投影線分長を計算
 	//分離軸Sepは標準化されていること
@@ -544,30 +545,57 @@ float LenSegOnSeparateAxis(SimpleMath::Vector3* sep,
 	return r1 + r2 + r3;
 }
 
-//法線ベクトルの算出
-DirectX::SimpleMath::Plane CalculatePlane(const DirectX::SimpleMath::Vector3& p1,
-										  const DirectX::SimpleMath::Vector3& p2, 
-										  const DirectX::SimpleMath::Vector3& p3)
+
+/**
+ * @brief 3点から平面を算出する
+ *
+ * @param p1 平面上の1点目
+ * @param p2 平面上の2点目
+ * @param p3 平面上の3点目
+ * 
+ * @return 3点を通る平面
+ */
+DirectX::SimpleMath::Plane CalculatePlane(
+	const DirectX::SimpleMath::Vector3& p1,
+	const DirectX::SimpleMath::Vector3& p2,
+	const DirectX::SimpleMath::Vector3& p3)
 {
-	SimpleMath::Vector3 v1 = p2 - p1;
-	SimpleMath::Vector3 v2 = p3 - p1;
-	SimpleMath::Vector3 normal = v1.Cross(v2);	//外積を求める
+	DirectX::SimpleMath::Vector3 v1 = p2 - p1;
+	DirectX::SimpleMath::Vector3 v2 = p3 - p1;
+	DirectX::SimpleMath::Vector3 normal = v1.Cross(v2);	//外積を求める
 	normal.Normalize();							//正規化
 
 	float D = -(normal.Dot(p1));
 
-	return SimpleMath::Plane(normal.x, normal.y, normal.z, D);
+	return DirectX::SimpleMath::Plane(normal.x, normal.y, normal.z, D);
 }
 
+
+/**
+ * @brief クォータニオンから各軸ベクトルを算出
+ *
+ * @param rotation 回転を表すクォータニオン
+ * @param axis     回転後の各軸ベクトルを格納する配列(axis[0]=X軸, axis[1]=Y軸, axis[2]=Z軸)
+ * 
+ * @return なし
+ */
 void AxisFromQuaternion(const DirectX::SimpleMath::Quaternion& rotation, DirectX::SimpleMath::Vector3* axis)
 {
-	SimpleMath::Matrix rotMatrix = SimpleMath::Matrix::CreateFromQuaternion(rotation);
+	DirectX::SimpleMath::Matrix rotMatrix = DirectX::SimpleMath::Matrix::CreateFromQuaternion(rotation);
 
-	axis[0] = SimpleMath::Vector3(rotMatrix._11, rotMatrix._12, rotMatrix._13);	// X軸
-	axis[1] = SimpleMath::Vector3(rotMatrix._21, rotMatrix._22, rotMatrix._23);	// Y軸
-	axis[2] = SimpleMath::Vector3(rotMatrix._31, rotMatrix._32, rotMatrix._33);	// Z軸
+	axis[0] = DirectX::SimpleMath::Vector3(rotMatrix._11, rotMatrix._12, rotMatrix._13);	// X軸
+	axis[1] = DirectX::SimpleMath::Vector3(rotMatrix._21, rotMatrix._22, rotMatrix._23);	// Y軸
+	axis[2] = DirectX::SimpleMath::Vector3(rotMatrix._31, rotMatrix._32, rotMatrix._33);	// Z軸
 }
 
+
+/**
+ * @brief 衝突面の法線から衝突面の種類を判定
+ *
+ * @param normal 衝突面の法線ベクトル（正規化済み想定）
+ * 
+ * @return 判定された衝突面の種類（OBBCollider::CollisionType）
+ */
 OBBCollider::CollisionType DetermineCollisionType(const DirectX::SimpleMath::Vector3& normal)
 {
 	if (normal.y > 0.9f)

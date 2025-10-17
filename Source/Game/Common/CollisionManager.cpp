@@ -1,9 +1,7 @@
 /**
  * @file   CollisionManager.cpp
  *
- * @brief  CollisionManagerに関するソースファイル
- *
- * @author 清水まこと
+ * @brief  コリジョンマネージャーに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 CollisionManager::CollisionManager()
 	:m_next{ 1 }
@@ -24,20 +22,10 @@ CollisionManager::CollisionManager()
 }
 
 
-
-/**
- * @brief デストラクタ
- */
-CollisionManager::~CollisionManager()
-{
-
-}
-
-
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -83,7 +71,7 @@ void CollisionManager::Update(float elapsedTime)
 			{
 				bool hit = false;
 
-				// トリガーの衝突判定
+				// トリガーの当たり判定
 				if (A.desc.type == Type::Sphere && B.desc.type == Type::Sphere)		// 球同士
 				{
 					// 登録されていたら判定する
@@ -182,6 +170,13 @@ void CollisionManager::Update(float elapsedTime)
 }
 
 
+/**
+ * @brief 管理する当たり判定の追加
+ *
+ * @param desc 追加する当たり判定の情報
+ *
+ * @return 当たり判定の管理ハンドル
+ */
 uint32_t CollisionManager::Add(const Desc& desc)
 {
 	const uint32_t h = m_next++;
@@ -205,6 +200,13 @@ uint32_t CollisionManager::Add(const Desc& desc)
 }
 
 
+/**
+ * @brief 管理している当たり判定の除外
+ *
+ * @param handle 除外する当たり判定のハンドル
+ *
+ * @return なし
+ */
 void CollisionManager::Remove(uint32_t handle)
 {
 	auto it = m_nodes.find(handle);
@@ -214,6 +216,16 @@ void CollisionManager::Remove(uint32_t handle)
 	}
 }
 
+
+
+/**
+ * @brief 指定した当たり判定の有効/無効化を設定
+ *
+ * @param handle  設定する当たり判定のハンドル
+ * @param enabled 有効/無効
+ *
+ * @return なし
+ */
 void CollisionManager::SetEnabled(uint32_t handle, bool enabled)
 {
 	auto it = m_nodes.find(handle);
@@ -223,6 +235,15 @@ void CollisionManager::SetEnabled(uint32_t handle, bool enabled)
 	}
 }
 
+
+/**
+ * @brief 指定した当たり判定の有効/無効を取得
+ *
+ * @param handle  取得する当たり判定のハンドル
+ *
+ * @retval true  有効
+ * @retval false 無効
+ */
 bool CollisionManager::IsEnabled(uint32_t handle)
 {
 	auto it = m_nodes.find(handle);
@@ -232,6 +253,15 @@ bool CollisionManager::IsEnabled(uint32_t handle)
 	}
 }
 
+
+/**
+ * @brief 指定した当たり判定の連続ヒットの有効/無効を設定
+ *
+ * @param handle	取得する当たり判定のハンドル
+ * @param multiHit  有効/無効
+ *
+ * @return なし
+ */
 void CollisionManager::SetMultiHit(uint32_t handle, bool multiHit)
 {
 	auto it = m_nodes.find(handle);
@@ -242,6 +272,13 @@ void CollisionManager::SetMultiHit(uint32_t handle, bool multiHit)
 }
 
 
+/**
+ * @brief 指定した当たり判定の情報のポインタを取得
+ *
+ * @param handle	取得する対象のハンドル
+ *
+ * @return 情報のポインタ
+ */
 const CollisionManager::Desc* CollisionManager::GetDesc(uint32_t handle) const
 {
 	auto it = m_nodes.find(handle);
@@ -249,8 +286,17 @@ const CollisionManager::Desc* CollisionManager::GetDesc(uint32_t handle) const
 }
 
 
-void CollisionManager::SlideVelocity(DirectX::SimpleMath::Vector3* velocity, 
-									 const DirectX::SimpleMath::Vector3& normal)
+/**
+ * @brief 法線方向の速度成分を除去し、スライド移動に変換
+ *
+ * @param velocity 移動速度ベクトル
+ * @param normal   衝突面の法線ベクトル
+ *
+ * @return なし
+ */
+void CollisionManager::SlideVelocity(
+	DirectX::SimpleMath::Vector3* velocity,
+	const DirectX::SimpleMath::Vector3& normal)
 {
 	if (!velocity) return;
 
@@ -258,9 +304,18 @@ void CollisionManager::SlideVelocity(DirectX::SimpleMath::Vector3* velocity,
 	if (vn < 0.0f) *velocity -= normal * vn;
 }
 
+
+/**
+ * @brief 球とOBBの衝突を解決する
+ *
+ * @param a 球コライダを保持するノード
+ * @param b OBBコライダを保持するノード
+ *
+ * @return なし
+ */
 void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 {
-	// 当たり判定を取得
+	// 衝突判定を取得
 	const SphereCollider* sphere = a.desc.sphere;
 	const OBBCollider* obb = b.desc.obb;
 	if (!obb || !sphere) return;
@@ -351,9 +406,17 @@ void CollisionManager::ResolveSphereVsOBB(Node& a, Node& b)
 }
 
 
+/**
+ * @brief 球と球の衝突を解決する
+ *
+ * @param a 球コライダを保持するノード
+ * @param b 球コライダを保持するノード
+ *
+ * @return なし
+ */
 void CollisionManager::ResolveSphereVsSphere(Node& a, Node& b)
 {
-	// 当たり判定を取得
+	// 衝突判定を取得
 	const SphereCollider* sphereA = a.desc.sphere;
 	const SphereCollider* sphereB = b.desc.sphere;
 	if (!sphereA || !sphereB) return;
@@ -435,9 +498,17 @@ void CollisionManager::ResolveSphereVsSphere(Node& a, Node& b)
 }
 
 
+/**
+ * @brief OBBとOBBの衝突を解決する
+ *
+ * @param a OBBコライダを保持するノード
+ * @param b OBBコライダを保持するノード
+ *
+ * @return なし
+ */
 void CollisionManager::ResolveOBBVsOBB(Node& a, Node& b)
 {
-	// 当たり判定を取得
+	// 衝突判定を取得
 	const OBBCollider* obbA = a.desc.obb;
 	const OBBCollider* obbB = b.desc.obb;
 	if (!obbA || !obbB) return;

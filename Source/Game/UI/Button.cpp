@@ -2,8 +2,6 @@
  * @file   Button.cpp
  *
  * @brief  Buttonに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 Button::Button()
 {
@@ -37,7 +35,7 @@ Button::~Button()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -57,7 +55,7 @@ void Button::Initialize(ID3D11ShaderResourceView* texture,
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -71,7 +69,7 @@ void Button::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -85,7 +83,7 @@ void Button::Draw(RenderContext context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

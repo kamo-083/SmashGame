@@ -2,8 +2,6 @@
  * @file   Player_AttackBasic.h
  *
  * @brief  Player_AttackBasicに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================

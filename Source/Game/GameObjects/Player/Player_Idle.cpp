@@ -2,8 +2,6 @@
  * @file   Player_Idle.cpp
  *
  * @brief  Player_Idleに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -15,8 +13,8 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] player	プレイヤーのポインタ
- * @param[in] kbTracker キーボードトラッカーのポインタ
+ * @param player	プレイヤーのポインタ
+ * @param kbTracker キーボードトラッカーのポインタ
  */
 Player_Idle::Player_Idle(Player* player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ player }
@@ -39,7 +37,7 @@ Player_Idle::~Player_Idle()
 /**
  * @brief 初期化処理
  *
- * @param[in] pRM  リソースマネージャーのポインタ
+ * @param pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
@@ -60,7 +58,7 @@ void Player_Idle::Initialize(ResourceManager* pRM)
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -110,7 +108,7 @@ void Player_Idle::Update(const float& elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -129,7 +127,7 @@ void Player_Idle::Render(RenderContext& context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

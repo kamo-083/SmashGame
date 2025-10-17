@@ -2,8 +2,6 @@
  * @file   EnemyManager.cpp
  *
  * @brief  EnemyManagerに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -16,9 +14,9 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] pUserResources	ユーザーリソースのポインタ
- * @param[in] pCollisionManager コリジョンマネージャーのポインタ
- * @param[in] pEffectManager エフェクトマネージャーのポインタ
+ * @param pUserResources	ユーザーリソースのポインタ
+ * @param pCollisionManager コリジョンマネージャーのポインタ
+ * @param pEffectManager エフェクトマネージャーのポインタ
  */
 EnemyManager::EnemyManager(UserResources* pUserResources,
 						   CollisionManager* pCollisionManager,
@@ -45,7 +43,7 @@ EnemyManager::~EnemyManager()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -59,7 +57,7 @@ void EnemyManager::Initialize()
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -93,7 +91,7 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -109,7 +107,7 @@ void EnemyManager::Draw(RenderContext& context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -126,7 +124,7 @@ void EnemyManager::Finalize()
 /**
  * @brief 敵を出現させる
  *
- * @param[in] spawnData 出現させる敵の情報
+ * @param spawnData 出現させる敵の情報
  *
  * @return 出現した敵の情報
  */
@@ -159,7 +157,7 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 /**
  * @brief IDから敵を取得
  *
- * @param[in] id 敵ID
+ * @param id 敵ID
  *
  * @return 敵のポインタ
  */
@@ -178,7 +176,7 @@ IEnemy* EnemyManager::GetEnemyByID(uint32_t id) const
 /**
  * @brief 敵を生成
  *
- * @param[in] type 敵の種類
+ * @param type 敵の種類
  *
  * @return 敵のユニークポインタ
  */

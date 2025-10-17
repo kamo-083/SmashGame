@@ -2,8 +2,6 @@
  * @file   StageManager.cpp
  *
  * @brief  StageManagerに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -22,7 +20,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 StageManager::StageManager(StageScene* pScene)
 	:m_pScene{ pScene }
@@ -45,10 +43,10 @@ StageManager::~StageManager()
 /**
  * @brief ステージ生成
  *
- * @param[in] pUR  ユーザーリソースのポインタ
- * @param[in] pCM  コリジョンマネージャーのポインタ
- * @param[in] pEM  エネミーマネージャーのポインタ
- * @param[in] path ステージのパスファイル
+ * @param pUR  ユーザーリソースのポインタ
+ * @param pCM  コリジョンマネージャーのポインタ
+ * @param pEM  エネミーマネージャーのポインタ
+ * @param path ステージのパスファイル
  *
  * @return なし
  */
@@ -146,7 +144,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -191,8 +189,8 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
- * @param[in] debugFont デバッグ用フォント
+ * @param context	描画用構造体
+ * @param debugFont デバッグ用フォント
  *
  * @return なし
  */
@@ -237,7 +235,7 @@ void StageManager::Draw(RenderContext context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -283,8 +281,8 @@ void StageManager::Finalize()
 /**
  * @brief ギミック処理生成
  *
- * @param[in] outOperate 処理出力用
- * @param[in] desc		 ギミック情報
+ * @param outOperate 処理出力用
+ * @param desc		 ギミック情報
  *
  * @return なし
  */
@@ -306,7 +304,7 @@ void StageManager::CreateOperate(std::function<void()>& outOperate, StageLoader:
 /**
  * @brief ゴールしているかを返す
  *
- * @param[in] なし
+ * @param なし
  *
  * @return ゴールしているか
  */

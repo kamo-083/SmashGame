@@ -2,8 +2,6 @@
  * @file   GroundEnemy_Attack.cpp
  *
  * @brief  GroundEnemy_Attackに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] groundEnemy 敵のポインタ
+ * @param groundEnemy 敵のポインタ
  */
 GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info)
 	: m_pGroundEnemy{ groundEnemy }
@@ -41,7 +39,7 @@ GroundEnemy_Attack::~GroundEnemy_Attack()
 /**
  * @brief 初期化処理
  *
- * @param[in] pRM  リソースマネージャーのポインタ
+ * @param pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
@@ -60,7 +58,7 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 
 	m_pGroundEnemy->SetAttackForce(ATTACK_FORCE);
 
-	float rot = m_pGroundEnemy->GetRotY() - XM_PIDIV2;	//モデルの向きの関係で調整
+	float rot = m_pGroundEnemy->GetRotY() - DirectX::XM_PIDIV2;	//モデルの向きの関係で調整
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(rot), 0.0f, cosf(rot));
 	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * 0.5f));
 	m_pGroundEnemy->GetAttackCollider()->SetRadius(ATTACK_SIZE);
@@ -70,7 +68,7 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -86,7 +84,7 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 	m_pGroundEnemy->GetCollider()->SetCenter(m_pGroundEnemy->GetPosition());
 
 	// 攻撃判定の更新
-	float rot = m_pGroundEnemy->GetRotY() - XM_PIDIV2;	//モデルの向きの関係で調整
+	float rot = m_pGroundEnemy->GetRotY() - DirectX::XM_PIDIV2;	//モデルの向きの関係で調整
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(rot), 0.0f, cosf(rot));
 	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * 0.5f));
 
@@ -108,7 +106,7 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -136,7 +134,7 @@ void GroundEnemy_Attack::Render(RenderContext& context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

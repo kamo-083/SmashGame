@@ -2,8 +2,6 @@
  * @file   Camera.cpp
  *
  * @brief  カメラに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 Camera::Camera()
 	: m_eye{ CAMERA_DEFAULT_EYE }
@@ -43,7 +41,7 @@ Camera::~Camera()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -70,7 +68,7 @@ void Camera::Initialize(DirectX::SimpleMath::Vector3* followTargetPos)
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

@@ -2,8 +2,6 @@
  * @file   ClearConditionsUI.cpp
  *
  * @brief  ClearConditionsUIに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 ClearConditionsUI::ClearConditionsUI(ConditionsType clearCondition)
 	:CONDITIONS_TYPE{ clearCondition }
@@ -38,7 +36,7 @@ ClearConditionsUI::~ClearConditionsUI()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -76,7 +74,7 @@ void ClearConditionsUI::Initialize(
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -90,7 +88,7 @@ void ClearConditionsUI::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -125,7 +123,7 @@ void ClearConditionsUI::Draw(RenderContext context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

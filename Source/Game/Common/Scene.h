@@ -2,8 +2,6 @@
  * @file   Scene.h
  *
  * @brief  シーンの基底クラスのヘッダファイル
- *
- * @author 清水まこと
  */
 
 // 多重インクルードの防止 =====================================================
@@ -31,14 +29,11 @@ class Scene
 private:
 
 protected:
-	// シーンマネージャ
+	// シーンマネージャのポインタ
 	SceneManager* m_sceneManager;
 
-	// ユーザーリソース
+	// ユーザーリソースのポインタ
 	UserResources* m_userResources;
-
-	//シーンが有効かどうか
-	bool m_isSceneActive;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -67,7 +62,7 @@ public:
 
 // 取得
 public:
-	bool IsSceneActive();
+
 
 // 内部実装
 protected:

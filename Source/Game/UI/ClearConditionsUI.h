@@ -2,8 +2,6 @@
  * @file   ClearConditionsUI.h
  *
  * @brief  ClearConditionsUIに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================

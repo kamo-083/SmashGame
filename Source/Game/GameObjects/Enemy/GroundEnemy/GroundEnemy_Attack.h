@@ -2,8 +2,6 @@
  * @file   GroundEnemy_Attack.h
  *
  * @brief  GroundEnemy_Attackに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================

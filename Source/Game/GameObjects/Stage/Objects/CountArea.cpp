@@ -2,8 +2,6 @@
  * @file   CountArea.cpp
  *
  * @brief  CountAreaに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -21,7 +19,7 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> CountArea::INPUT_LAYOUT =
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 CountArea::CountArea(UserResources* ur)
 	: m_mode(TriggerMode::ReachCount)
@@ -69,7 +67,7 @@ CountArea::~CountArea()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -179,7 +177,7 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -198,7 +196,7 @@ void CountArea::Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMa
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -230,7 +228,7 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -247,8 +245,8 @@ void CountArea::Finalize()
 /**
  * @brief シェーダーの読み込み
  *
- * @param[in] shaderManager シェーダーマネージャー
- * @param[in] device デバイスのポインタ
+ * @param shaderManager シェーダーマネージャー
+ * @param device デバイスのポインタ
  *
  * @return なし
  */

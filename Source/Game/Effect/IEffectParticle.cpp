@@ -2,8 +2,6 @@
  * @file   IEffectParticle.cpp
  *
  * @brief  IEffectParticleに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 IEffectParticle::IEffectParticle()
 	: m_pDR(nullptr)

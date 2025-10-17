@@ -2,8 +2,6 @@
  * @file   IEnemy.h
  *
  * @brief  敵に関するヘッダファイル
- *
- * @author 清水まこと
  */
 
 // 多重インクルードの防止 =====================================================
@@ -130,10 +128,10 @@ public:
 	PlayerRelationData GetPlayerRelativeData() { return m_playerRelationData; }
 	SphereCollider* GetAttackCollider() { return &m_attackCollider; }
 	float GetRotY() { return m_rotY; }
-	void SetRotY(float rot) { m_rotY = rot + XM_PIDIV2; }	//モデルの向きの関係で少し調整
+	void SetRotY(float rot) { m_rotY = rot + DirectX::XM_PIDIV2; }	//モデルの向きの関係で少し調整
 	float GetRadius() { return RADIUS; }
 
-	Model* GetModel() { return m_model; }
+	DirectX::Model* GetModel() { return m_model; }
 	Animations* GetAnimation() { return m_animations.get(); }
 
 	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }

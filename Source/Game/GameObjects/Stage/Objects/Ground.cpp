@@ -2,8 +2,6 @@
  * @file   Ground.cpp
  *
  * @brief  地面に関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 Ground::Ground(ID3D11DeviceContext* context)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
@@ -42,7 +40,7 @@ Ground::~Ground()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -79,7 +77,7 @@ void Ground::Initialize(CollisionManager* pCollisionManager,
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -93,7 +91,7 @@ void Ground::Update()
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -118,7 +116,7 @@ void Ground::Draw(RenderContext& context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -132,7 +130,7 @@ void Ground::Finalize()
 /**
  * @brief コライダーの取得
  *
- * @param[in] なし
+ * @param なし
  *
  * @return OBBのコライダー
  */

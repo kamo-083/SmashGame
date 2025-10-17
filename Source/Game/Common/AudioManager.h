@@ -2,25 +2,19 @@
  * @file   AudioManager.h
  *
  * @brief  音声の読込/操作に関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================
 #pragma once
 
 
-
-
 // ヘッダファイルの読み込み ===================================================
 #include <iostream>
 #include <fstream>
-
 //XAudio2関連
 #include <xaudio2.h>
 #include <mmreg.h> 
 #pragma comment(lib,"xaudio2.lib")
-
 //MediaFoundation関連
 #include <mfapi.h>
 #include <mfidl.h>
@@ -63,18 +57,13 @@ private:
 		std::vector<BYTE> data;							//音声データ
 		WAVEFORMATEX format;							//WAVのフォーマット情報
 		XAUDIO2_BUFFER buffer;							//XAudio2で再生するためのバッファ
-			
-			
-			
-			
-			;							//XAudio2で再生するためのバッファ
 		IXAudio2SourceVoice* pSourceVoice = nullptr;	//再生用のソースボイス
 	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
 	IXAudio2* m_pXAudio2;						//XAudio2エンジンのポインタ
-	IXAudio2MasteringVoice* m_pMasteringVoice;	//マスターボイス
+	IXAudio2MasteringVoice* m_pMasteringVoice;	//マスタリングボイス
 
 	std::unordered_map<std::string, AudioData> m_sounds;
 
@@ -102,7 +91,7 @@ public:
 	//音声の停止
 	void Stop(const std::string& key);
 
-	//音声の状態を取得
+	//音声が再生されているかを取得
 	bool IsPlaying(const std::string& key);
 
 // 内部実装

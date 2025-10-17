@@ -2,8 +2,6 @@
  * @file   UIWidget.cpp
  *
  * @brief  UIWidgetに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 UIWidget::UIWidget()
 	: m_texture{ nullptr }
@@ -38,7 +36,7 @@ UIWidget::~UIWidget()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -61,7 +59,7 @@ void UIWidget::Initialize(ID3D11ShaderResourceView* texture,
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -75,7 +73,7 @@ void UIWidget::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -98,12 +96,12 @@ void UIWidget::Draw(RenderContext context)
 /**
  * @brief 描画処理 (SpriteBatchのBegin/End無し)(設定画像以外を表示したい場合)
  *
- * @param[in] spriteBatch スプライトバッチのポインタ
- * @param[in] texture	  テクスチャのポインタ
- * @param[in] pos		  座標
- * @param[in] rect		  切り取り範囲
- * @param[in] rot		  回転
- * @param[in] size		  画像サイズ
+ * @param spriteBatch スプライトバッチのポインタ
+ * @param texture	  テクスチャのポインタ
+ * @param pos		  座標
+ * @param rect		  切り取り範囲
+ * @param rot		  回転
+ * @param size		  画像サイズ
  *
  * @return なし
  */
@@ -148,7 +146,7 @@ void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch,
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

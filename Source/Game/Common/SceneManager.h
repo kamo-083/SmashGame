@@ -2,13 +2,10 @@
  * @file   SceneManager.h
  *
  * @brief  シーンの管理クラスのヘッダファイル
- *
- * @author 清水まこと
  */
 
 // 多重インクルードの防止 =====================================================
 #pragma once
-
 
 
 
@@ -27,31 +24,31 @@
 class Scene;
 
 
-
-
 // クラスの定義 ===============================================================
 /**
  * @brief シーン管理
  */
 class SceneManager
 {
-// エイリアス宣言 ---------------------------------------------------
+// 定数の宣言 ---------------------------------------------------
 private:
+	// シーン配列
 	using SceneCollection = std::unordered_map<std::string, std::unique_ptr<Scene>>;
-	using SharedData      = std::unordered_map<std::string, std::string>;
-
 
 
 // データメンバの宣言 -----------------------------------------------
 private:
-	SceneCollection m_scenes;    ///< シーン群
+	// シーン群
+	SceneCollection m_scenes;    
 
-	Scene* m_pCurrentScene;      ///< 現在のシーン
-	Scene* m_pRequestedScene;    ///< 変更要求のあったシーン
+	// 現在のシーン
+	Scene* m_pCurrentScene;      
 
-	SharedData m_sharedData;    ///< 共有データ
+	// 変更要求のあったシーン
+	Scene* m_pRequestedScene;    
 
-	UserResources* m_userResources;
+	// ユーザーリソースのポインタ
+	UserResources* m_userResources;	
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -84,6 +81,7 @@ public:
 
 // 取得/設定
 public:
+	// ユーザーリソースのポインタの取得
 	UserResources* GetUserResources() { return m_userResources; }
 
 // 内部実装

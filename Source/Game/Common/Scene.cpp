@@ -1,9 +1,7 @@
 /**
- * @file   SceneManager.cpp
+ * @file   Scene.cpp
  *
- * @brief  シーンの管理クラスのソースファイル
- *
- * @author 清水まこと	
+ * @brief  シーンの基底クラスのソースファイル	
  */
 
 // ヘッダファイルの読み込み ===================================================
@@ -18,12 +16,12 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param pSceneManager  シーンマネージャーのポインタ
+ * @param pUserResources ユーザーリソースのポインタ
  */
 Scene::Scene(SceneManager* pSceneManager, UserResources* pUserResources)
 	: m_sceneManager{ pSceneManager }
 	, m_userResources{ pUserResources }
-	, m_isSceneActive{ false }
 {
 
 }
@@ -43,17 +41,11 @@ Scene::~Scene()
 /**
  * @brief シーンの変更
  *
- * @param[in] nextSceneName 変更先のシーン名
+ * @param nextSceneName 変更先のシーン名
  *
  * @return なし
  */
 void Scene::ChangeScene(const std::string& nextSceneName)
 {
 	m_sceneManager->RequestSceneChange(nextSceneName);
-}
-
-
-bool Scene::IsSceneActive()
-{
-	return m_isSceneActive;
 }

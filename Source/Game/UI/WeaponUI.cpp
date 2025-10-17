@@ -2,8 +2,6 @@
  * @file   WeaponUI.cpp
  *
  * @brief  WeaponUIに関するソースファイル
- *
- * @author 清水まこと
  */
 
 #include "pch.h"

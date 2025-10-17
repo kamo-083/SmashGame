@@ -1,9 +1,7 @@
 /**
  * @file   ModelAnimator.cpp
  *
- * @brief  ModelAnimatorに関するソースファイル
- *
- * @author 清水まこと
+ * @brief  モデルアニメーターに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,8 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param model		モデルのポインタ
+ * @param animation アニメーションのポインタ
  */
 ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animation)
 	: m_model{ model }
@@ -29,7 +28,6 @@ ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animat
 }
 
 
-
 /**
  * @brief デストラクタ
  */
@@ -40,11 +38,11 @@ ModelAnimator::~ModelAnimator()
 }
 
 
-
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param endTime アニメーションの終了時間
+ * @param loop	  アニメーションをループさせるか
  *
  * @return なし
  */
@@ -70,11 +68,10 @@ void ModelAnimator::Initialize(float endTime, bool loop)
 }
 
 
-
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -96,11 +93,11 @@ void ModelAnimator::Update(float elapsedTime)
 }
 
 
-
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param context	 描画用構造体
+ * @param world		 ワールド行列
  *
  * @return なし
  */
@@ -124,11 +121,10 @@ void ModelAnimator::Draw(RenderContext context, const DirectX::SimpleMath::Matri
 }
 
 
-
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

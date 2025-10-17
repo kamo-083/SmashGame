@@ -1,12 +1,11 @@
-//--------------------------------------------------------------------------------------
-// File: UserResources.h
-//
-// シーンへ渡すユーザーリソースクラス（サンプル）
-//
-// Date: 2025.7.31
-//--------------------------------------------------------------------------------------
+/**
+ * @file   UserResources.h
+ *
+ * @brief  ユーザーリソースのヘッダファイル
+ */
 #pragma once
 
+// ヘッダファイルのインクルード
 #include "pch.h"
 #include "StepTimer.h"
 #include "DeviceResources.h"
@@ -15,7 +14,7 @@
 #include "Source/Game/Common/AudioManager.h"
 #include "Source/Game/Common/ShaderManager.h"
 
-// 各シーンに渡す共通リソースを記述してください
+// 各シーンに渡す共通リソース
 class UserResources
 {
 private:

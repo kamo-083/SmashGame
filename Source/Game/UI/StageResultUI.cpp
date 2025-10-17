@@ -2,8 +2,6 @@
  * @file   StageResultUI.cpp
  *
  * @brief  StageResultUIに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 StageResultUI::StageResultUI()
 {
@@ -37,7 +35,7 @@ StageResultUI::~StageResultUI()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -69,7 +67,7 @@ void StageResultUI::Initialize(
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -83,7 +81,7 @@ void StageResultUI::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -97,7 +95,7 @@ void StageResultUI::Draw(RenderContext context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

@@ -2,8 +2,6 @@
  * @file   Player_AttackBasic.cpp
  *
  * @brief  Player_AttackBasicに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -15,8 +13,8 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] player	プレイヤーのポインタ
- * @param[in] kbTracker キーボードトラッカーのポインタ
+ * @param player	プレイヤーのポインタ
+ * @param kbTracker キーボードトラッカーのポインタ
  */
 Player_AttackBasic::Player_AttackBasic(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ Player }
@@ -40,7 +38,7 @@ Player_AttackBasic::~Player_AttackBasic()
 /**
  * @brief 初期化処理
  *
- * @param[in] pRM  リソースマネージャーのポインタ
+ * @param pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
@@ -72,7 +70,7 @@ void Player_AttackBasic::Initialize(ResourceManager* pRM)
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -110,7 +108,7 @@ void Player_AttackBasic::Update(const float& elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -130,7 +128,7 @@ void Player_AttackBasic::Render(RenderContext& context)
 		scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
 		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetAttackCollider()->GetCenter());
 		world = scale * trans;
-		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, Colors::Blue, nullptr, true);
+		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, DirectX::Colors::Blue, nullptr, true);
 	}
 }
 
@@ -138,7 +136,7 @@ void Player_AttackBasic::Render(RenderContext& context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

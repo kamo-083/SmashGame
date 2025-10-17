@@ -2,8 +2,6 @@
  * @file   BounceBox.cpp
  *
  * @brief  BounceBoxに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 BounceBox::BounceBox(ID3D11DeviceContext* context)
 	: m_onGround{ false }
@@ -39,7 +37,7 @@ BounceBox::~BounceBox()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -51,7 +49,7 @@ void BounceBox::Initialize(CollisionManager* pCollisionManager,
 	m_position = position;
 	m_halfLength = halfLength;
 	m_angle = angle;
-	m_velocity = SimpleMath::Vector3::Zero;
+	m_velocity = DirectX::SimpleMath::Vector3::Zero;
 	m_onGround = true;
 
 	// 当たり判定の作成
@@ -95,7 +93,7 @@ void BounceBox::Initialize(CollisionManager* pCollisionManager,
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -113,7 +111,7 @@ void BounceBox::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -142,7 +140,7 @@ void BounceBox::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

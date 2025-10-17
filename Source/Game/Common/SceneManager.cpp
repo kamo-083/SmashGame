@@ -2,8 +2,6 @@
  * @file   SceneManager.cpp
  *
  * @brief  シーンの管理クラスのソースファイル
- *
- * @author 清水まこと
  */
 
 // ヘッダファイルの読み込み ===================================================
@@ -16,17 +14,15 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param pUserResources ユーザーリソースのポインタ
  */
 SceneManager::SceneManager(UserResources* pUserResources)
 	: m_scenes{}
 	, m_pCurrentScene{ nullptr }
 	, m_pRequestedScene{ nullptr }
-	, m_sharedData{}
 	, m_userResources{ pUserResources }
 {
 }
-
 
 
 /**
@@ -43,12 +39,11 @@ SceneManager::~SceneManager()
 }
 
 
-
 /**
  * @brief シーンの登録
  *
- * @param[in] sceneName シーンの登録名
- * @param[in] scene     登録シーン
+ * @param sceneName シーンの登録名
+ * @param scene     登録シーン
  *
  * @return なし
  */
@@ -58,12 +53,11 @@ void SceneManager::Register(const std::string& sceneName, std::unique_ptr<Scene>
 }
 
 
-
 /**
  * @brief 更新処理
  *
- * @param[in] inputDevice 入力デバイス
- * @param[in] elapsedTime フレーム経過時間
+ * @param inputDevice 入力デバイス
+ * @param elapsedTime フレーム経過時間
  *
  * @return なし
  */
@@ -84,11 +78,10 @@ void SceneManager::Update(float elapsedTime)
 }
 
 
-
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -104,12 +97,11 @@ void SceneManager::Render(RenderContext context)
 	m_userResources->GetDebugFont()->AddString(0, 0, DirectX::Colors::White, L"SceneManager");
 }
 
-
 	
 /**
  * @brief 開始シーンの設定
  *
- * @param[in] startSceneName 開始シーン名
+ * @param startSceneName 開始シーン名
  *
  * @return なし
  */
@@ -117,22 +109,14 @@ void SceneManager::SetStartScene(const std::string& startSceneName)
 {
 	RequestSceneChange(startSceneName);
 
-	//if (m_scenes.count(startSceneName) == 0)
-	//{
-	//	GameLib::ShowErrorMessage("%sシーンは登録されていません。", startSceneName.c_str());
-	//	return;
-	//}
-
 	m_pCurrentScene = m_scenes[startSceneName].get();
-	//m_pCurrentScene->Initialize();
 }
-
 
 
 /**
  * @brief シーン変更の要求
  *
- * @param[in] requestSceneName 変更予定のシーン名
+ * @param requestSceneName 変更予定のシーン名
  *
  * @return なし
  */
@@ -147,11 +131,10 @@ void SceneManager::RequestSceneChange(const std::string& requestSceneName)
 }
 
 
-
 /**
  * @brief シーンの変更
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -164,12 +147,13 @@ void SceneManager::ChangeScene()
 
 	if (m_pCurrentScene)
 	{
+		// 現在のシーンを終了
 		m_pCurrentScene->Finalize();
 	}
 
+	// 次のシーンを設定
 	m_pCurrentScene = m_pRequestedScene;
 	m_pCurrentScene->Initialize();
 
 	m_pRequestedScene = nullptr;
 }
-

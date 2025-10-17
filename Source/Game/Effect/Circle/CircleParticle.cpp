@@ -2,8 +2,6 @@
  * @file   CircleParticle.cpp
  *
  * @brief  CircleParticleに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -16,7 +14,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 CircleParticle::CircleParticle()
 	: IEffectParticle{}
@@ -39,7 +37,7 @@ CircleParticle::~CircleParticle()
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -66,11 +64,11 @@ void CircleParticle::Update(float elapsedTime)
 /**
  * @brief エフェクトを出現
  *
- * @param[in] pos		   出現位置
- * @param[in] range		   円の半径
- * @param[in] isRandom	   位置のランダム性
- * @param[in] isHorizontal 円の向き
- * @param[in] num		   1度に出現する数
+ * @param pos		   出現位置
+ * @param range		   円の半径
+ * @param isRandom	   位置のランダム性
+ * @param isHorizontal 円の向き
+ * @param num		   1度に出現する数
  *
  * @return なし
  */

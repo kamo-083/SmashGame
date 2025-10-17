@@ -2,8 +2,6 @@
  * @file   Player_AttackHeavy.h
  *
  * @brief  Player_AttackHeavyに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================

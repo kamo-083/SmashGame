@@ -2,8 +2,6 @@
  * @file   Player_AttackRolling.cpp
  *
  * @brief  Player_AttackRollingに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -15,16 +13,16 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] player	プレイヤーのポインタ
- * @param[in] camera	カメラのポインタ
- * @param[in] kbTracker キーボードトラッカーのポインタ
+ * @param player	プレイヤーのポインタ
+ * @param camera	カメラのポインタ
+ * @param kbTracker キーボードトラッカーのポインタ
  */
 Player_AttackRolling::Player_AttackRolling(Player* Player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
 	: m_pPlayer{ Player }
 	, m_pKbTracker{ kbTracker }
 	, m_pCamera{ camera }
 	, m_attackTime{ 0.0f }
-	, m_force{ SimpleMath::Vector3::Zero }
+	, m_force{ DirectX::SimpleMath::Vector3::Zero }
 	, m_stateType{ StateType::Attack }
 {
 
@@ -43,7 +41,7 @@ Player_AttackRolling::~Player_AttackRolling()
 /**
  * @brief 初期化処理
  *
- * @param[in] pRM  リソースマネージャーのポインタ
+ * @param pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
@@ -78,7 +76,7 @@ void Player_AttackRolling::Initialize(ResourceManager* pRM)
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -127,7 +125,7 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -147,7 +145,7 @@ void Player_AttackRolling::Render(RenderContext& context)
 		scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
 		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetAttackCollider()->GetCenter());
 		world = scale * trans;
-		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, Colors::Green, nullptr, true);
+		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, DirectX::Colors::Green, nullptr, true);
 	}
 }
 
@@ -155,7 +153,7 @@ void Player_AttackRolling::Render(RenderContext& context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

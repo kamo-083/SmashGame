@@ -2,8 +2,6 @@
  * @file   GroundEnemy.cpp
  *
  * @brief  敵に関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -15,9 +13,9 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] info				敵の情報
- * @param[in] pUserResources	ユーザーリソースのポインタ
- * @param[in] pEffectManager エフェクトマネージャーのポインタ
+ * @param info				敵の情報
+ * @param pUserResources	ユーザーリソースのポインタ
+ * @param pEffectManager エフェクトマネージャーのポインタ
  */
 GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* pUserResources, EffectManager* pEffectManager)
 	: IEnemy{ info }
@@ -64,10 +62,10 @@ GroundEnemy::~GroundEnemy()
 /**
  * @brief 初期化処理
  *
- * @param[in] pRM  リソースマネージャーのポインタ
- * @param[in] pCollisionManager コリジョンマネージャーのポインタ
- * @param[in] position			初期位置
- * @param[in] id				ID
+ * @param pRM  リソースマネージャーのポインタ
+ * @param pCollisionManager コリジョンマネージャーのポインタ
+ * @param position			初期位置
+ * @param id				ID
  *
  * @return なし
  */
@@ -126,7 +124,7 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 	bodyDesc.callback.onResolved =
 		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
 		{
-			const float groundCos = std::cos(XMConvertToRadians(30.0f));
+			const float groundCos = std::cos(DirectX::XMConvertToRadians(30.0f));
 			if (n.y >= groundCos) m_onGround = true;
 
 			// 地面・壁との反射
@@ -183,7 +181,7 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -196,8 +194,8 @@ void GroundEnemy::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
- * @param[in] debugFont デバッグ用フォント
+ * @param context	描画用構造体
+ * @param debugFont デバッグ用フォント
  *
  * @return なし
  */
@@ -217,7 +215,7 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param[in] pCollisionManager コリジョンマネージャーのポインタ
+ * @param pCollisionManager コリジョンマネージャーのポインタ
  *
  * @return なし
  */
@@ -259,7 +257,7 @@ void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 /**
  * @brief 状態の切り替え
  *
- * @param[in] newState 次の状態へのポインタ
+ * @param newState 次の状態へのポインタ
  *
  * @return なし
  */
@@ -276,7 +274,7 @@ void GroundEnemy::ChangeState(IState* newState)
 /**
  * @brief 移動速度の制限
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -291,8 +289,8 @@ void GroundEnemy::LimitVelocity()
 /**
  * @brief プレイヤーとの位置関係を計算
  *
- * @param[in] pos	 プレイヤーの位置
- * @param[in] radius プレイヤーの半径
+ * @param pos	 プレイヤーの位置
+ * @param radius プレイヤーの半径
  *
  * @return なし
  */
@@ -311,8 +309,8 @@ void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, 
 /**
  * @brief 攻撃を受けた時の処理
  *
- * @param[in] collider 相手のコライダー
- * @param[in] power	   攻撃力
+ * @param collider 相手のコライダー
+ * @param power	   攻撃力
  *
  * @return 攻撃が
  */
@@ -335,7 +333,7 @@ void GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
 /**
  * @brief 地面や壁との反射
  *
- * @param[in] normal 法線ベクトル
+ * @param normal 法線ベクトル
  *
  * @return なし
  */

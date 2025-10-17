@@ -2,8 +2,6 @@
  * @file   GroundEnemy_Idle.cpp
  *
  * @brief  GroundEnemy_Idleに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] groundEnemy 敵のポインタ
+ * @param groundEnemy 敵のポインタ
  */
 GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
 	: m_pGroundEnemy{ groundEnemy }
@@ -37,7 +35,7 @@ GroundEnemy_Idle::~GroundEnemy_Idle()
 /**
  * @brief 初期化処理
  *
- * @param[in] pRM  リソースマネージャーのポインタ
+ * @param pRM  リソースマネージャーのポインタ
  *
  * @return なし
  */
@@ -57,7 +55,7 @@ void GroundEnemy_Idle::Initialize(ResourceManager* pRM)
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -86,7 +84,7 @@ void GroundEnemy_Idle::Update(const float& elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -105,7 +103,7 @@ void GroundEnemy_Idle::Render(RenderContext& context)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

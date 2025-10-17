@@ -2,8 +2,6 @@
  * @file   OperationUI.cpp
  *
  * @brief  操作方法UIに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 OperationUI::OperationUI()
 	: m_active{ false }
@@ -38,7 +36,7 @@ OperationUI::~OperationUI()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -105,7 +103,7 @@ void OperationUI::Initialize(const Textures& textures,
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -122,7 +120,7 @@ void OperationUI::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -175,7 +173,7 @@ void OperationUI::Draw(RenderContext context, bool batchBeginEnd)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

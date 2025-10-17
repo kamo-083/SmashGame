@@ -1,9 +1,7 @@
 /**
  * @file   CollisionManager.h
  *
- * @brief  CollisionManagerに関するヘッダファイル
- *
- * @author 清水まこと
+ * @brief  コリジョンマネージャーに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -29,13 +27,14 @@ public:
 	// 判定の分類
 	enum class Layer
 	{
-		PlayerBody,
-		PlayerAttack,
-		EnemyBody,
-		EnemyAttack,
-		Stage,
-		Trigger,
-		COUNT
+		NONE = -1,
+		PlayerBody,		// プレイヤーの本体
+		PlayerAttack,	// プレイヤーの攻撃
+		EnemyBody,		// 敵の本体
+		EnemyAttack,	// 敵の攻撃
+		Stage,			// ステージオブジェクト
+		Trigger,		// トリガー
+		COUNT			// 分類の数
 	};
 
 	// 衝突判定フィルター
@@ -49,6 +48,7 @@ public:
 		}
 	};
 
+	// コールバック
 	struct Callbacks
 	{
 		// イベント
@@ -60,50 +60,56 @@ public:
 			uint32_t, const DirectX::SimpleMath::Vector3& normal, float depth)> onResolved;
 	};
 
-	// 衝突判定の形状
+	// 当たり判定の形状
 	enum class Type :uint8_t
 	{
+		NONE = -1,
 		Sphere,
-		OBB
+		OBB	
 	};
 
-	// 情報
+	// 当たり判定の情報
 	struct Desc
 	{
-		Type type;
-		Layer layer;
+		Type type = Type::NONE;		// 当たり判定の種類
+		Layer layer = Layer::NONE;	// 衝突レイヤー
 		bool isTrigger = false;		// イベントだけ→true
 		bool isMultiHit = false;	// 連続ヒット有→true
-		uint32_t userId = 0;
-		SphereCollider* sphere = nullptr;
-		OBBCollider* obb = nullptr;
-		DirectX::SimpleMath::Vector3* position = nullptr;
-		DirectX::SimpleMath::Vector3* velocity = nullptr;
-		Callbacks callback;
+		uint32_t userId = 0;		// 個別ID(敵などの識別用)
+		SphereCollider* sphere = nullptr;	// 球の当たり判定のポインタ
+		OBBCollider* obb = nullptr;			// OBBの当たり判定のポインタ
+		DirectX::SimpleMath::Vector3* position = nullptr;	// 座標のポインタ
+		DirectX::SimpleMath::Vector3* velocity = nullptr;	// 速度のポインタ
+		Callbacks callback;			// コールバック
 		float mass = 0.0f;			// 質量(静的オブジェクトなら0にしておく)
 		float invMass = 0.0f;		// 質量の逆数
 		float restitution = 0.8f;	// 反発係数
 		float* userData = nullptr;	// 攻撃力などの個別データ
 	};
 
+	// 当たり判定のノード
 	struct Node
 	{
-		uint32_t handle;
-		Desc desc;
-		std::unordered_set<uint32_t> overlapsPrev;
-		std::unordered_set<uint32_t> overlapsNow;
-		bool alive = true;
-		bool enabled = true;
+		uint32_t handle = 0;	// 登録時のハンドル
+		Desc desc;				// 設定情報
+		std::unordered_set<uint32_t> overlapsPrev;	// 前フレームに重なっていた相手のハンドル一覧
+		std::unordered_set<uint32_t> overlapsNow;	// 現在重なっている相手のハンドル一覧
+		bool alive = true;		// 生存フラグ
+		bool enabled = true;	// 有効フラグ
 	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 次のハンドル
 	uint32_t m_next;
 
+	// 当たり判定の配列
 	std::unordered_map<uint32_t, Node> m_nodes;
 
+	// ハンドルの配列
 	std::vector<uint32_t> m_order;
 
+	// 衝突判定フィルター
 	LayerMatrix m_matrix;
 
 
@@ -114,7 +120,7 @@ public:
 	CollisionManager();
 
 	// デストラクタ
-	~CollisionManager();
+	~CollisionManager() = default;
 
 
 // 操作
@@ -140,20 +146,24 @@ public:
 
 // 取得/設定
 public:
+	// 当たり判定情報の取得
 	const Desc* GetDesc(uint32_t handle) const;
-	LayerMatrix& Matrix() { return m_matrix; }
+
+	// 衝突判定フィルターの取得
+	LayerMatrix& GetLayerMatrix() { return m_matrix; }
 
 
 // 内部実装
 private:
+	// 速度をスライド
 	void SlideVelocity(DirectX::SimpleMath::Vector3* velocity,
 					   const DirectX::SimpleMath::Vector3& normal);
 
-	// 衝突判定
-	// 球vsOBB　球のみ押し出し
+	// 衝突判定の解決
+	// 球vsOBB
 	void ResolveSphereVsOBB(Node& a, Node& b);	
-	// 球vs球　両方押し出し
+	// 球vs球
 	void ResolveSphereVsSphere(Node& a, Node& b);
-	// OBBvsOBB　A側のみ押し出し
+	// OBBvsOBB
 	void ResolveOBBVsOBB(Node& a, Node& b);
 };

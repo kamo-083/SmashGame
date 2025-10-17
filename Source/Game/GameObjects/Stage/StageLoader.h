@@ -2,8 +2,6 @@
  * @file   StageLoader.h
  *
  * @brief  StageLoaderに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================
@@ -84,9 +82,9 @@ public:
 	/**
 	 * @brief ファイル読み込み
 	 *
-	 * @param[in] path			ファイルパス
-	 * @param[in] outputObjects オブジェクト情報出力用
-	 * @param[in] outputEnemies エネミー情報出力用
+	 * @param path			ファイルパス
+	 * @param outputObjects オブジェクト情報出力用
+	 * @param outputEnemies エネミー情報出力用
 	 *
 	 * @return 読み込みに成功/失敗
 	 */
@@ -126,7 +124,7 @@ public:
 			// 座標
 			if (element.contains("pos") && element["pos"].is_array() && element["pos"].size() >= 3)
 			{
-				data.position = SimpleMath::Vector3
+				data.position = DirectX::SimpleMath::Vector3
 				{
 					element["pos"][0].get<float>(),
 					element["pos"][1].get<float>(),
@@ -137,7 +135,7 @@ public:
 			// 大きさ
 			if (element.contains("scale") && element["scale"].is_array() && element["scale"].size() >= 3)
 			{
-				data.scale = SimpleMath::Vector3
+				data.scale = DirectX::SimpleMath::Vector3
 				{
 					element["scale"][0].get<float>(),
 					element["scale"][1].get<float>(),
@@ -157,7 +155,7 @@ public:
 			if (data.type == ObjectType::Fence)
 			{
 				// 回転
-				data.angle = SimpleMath::Vector3
+				data.angle = DirectX::SimpleMath::Vector3
 				{
 					element["angle"][0].get<float>(),
 					element["angle"][1].get<float>(),
@@ -188,7 +186,7 @@ public:
 			// 座標
 			if (element.contains("pos") && element["pos"].is_array() && element["pos"].size() >= 3)
 			{
-				data.position = SimpleMath::Vector3
+				data.position = DirectX::SimpleMath::Vector3
 				{
 					element["pos"][0].get<float>(),
 					element["pos"][1].get<float>(),

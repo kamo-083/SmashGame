@@ -2,8 +2,6 @@
  * @file   Player.cpp
  *
  * @brief  Playerに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -16,9 +14,9 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] pUserResources	ユーザーリソースのポインタ
- * @param[in] pEffectManager	エフェクトマネージャーのポインタ
- * @param[in] pScene			シーンへのポインタ
+ * @param pUserResources	ユーザーリソースのポインタ
+ * @param pEffectManager	エフェクトマネージャーのポインタ
+ * @param pScene			シーンへのポインタ
  */
 Player::Player(
 	UserResources* pUserResources,
@@ -50,7 +48,7 @@ Player::Player(
 		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.5f,
 		2.0f,
-		SimpleMath::Color(1, 1, 1, 1),
+		DirectX::SimpleMath::Color(1, 1, 1, 1),
 		&m_position,
 		false
 	);
@@ -60,7 +58,7 @@ Player::Player(
 		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.75f,
 		1.0f,
-		SimpleMath::Color(1, 1, 1, 1),
+		DirectX::SimpleMath::Color(1, 1, 1, 1),
 		&m_position,
 		1.0f,
 		12,
@@ -84,12 +82,12 @@ Player::~Player()
 /**
  * @brief 初期化処理
  *
- * @param[in] pRM  リソースマネージャーのポインタ
- * @param[in] pCollisionManager コリジョンマネージャーのポインタ
- * @param[in] pKbTracker		キーボードトラッカーのポインタ
- * @param[in] pCamera			カメラのポインタ
- * @param[in] pWeaponUI			武器UIのポインタ
- * @param[in] pKeyMode			キー入力モードのポインタ
+ * @param pRM  リソースマネージャーのポインタ
+ * @param pCollisionManager コリジョンマネージャーのポインタ
+ * @param pKbTracker		キーボードトラッカーのポインタ
+ * @param pCamera			カメラのポインタ
+ * @param pWeaponUI			武器UIのポインタ
+ * @param pKeyMode			キー入力モードのポインタ
  *
  * @return なし
  */
@@ -104,7 +102,7 @@ void Player::Initialize(ResourceManager* pRM,
 	m_position = START_POS;
 
 	// 速度の初期化
-	m_velocity = SimpleMath::Vector3::Zero;
+	m_velocity = DirectX::SimpleMath::Vector3::Zero;
 
 	// 向きの初期化
 	m_rotY = 0.0f;
@@ -161,9 +159,9 @@ void Player::Initialize(ResourceManager* pRM,
 	bodyDesc.velocity = &m_velocity;
 	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
-		[this](uint32_t, const SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		[this](uint32_t, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
 		{
-			const float groundCos = std::cos(XMConvertToRadians(30.0f));
+			const float groundCos = std::cos(DirectX::XMConvertToRadians(30.0f));
 			if (n.y >= groundCos) m_onGround = true;
 		};
 	bodyDesc.callback.onEnter =
@@ -226,7 +224,7 @@ void Player::Initialize(ResourceManager* pRM,
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -240,8 +238,8 @@ void Player::Update(const float& elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
- * @param[in] debugFont デバッグ用フォント
+ * @param context	描画用構造体
+ * @param debugFont デバッグ用フォント
  *
  * @return なし
  */
@@ -261,7 +259,7 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -294,7 +292,7 @@ void Player::Finalize()
 /**
  * @brief 状態の切り替え
  *
- * @param[in] newState 次の状態へのポインタ
+ * @param newState 次の状態へのポインタ
  *
  * @return なし
  */
@@ -313,7 +311,7 @@ void Player::ChangeState(IState* newState)
 /**
  * @brief 武器の切り替え
  *
- * @param[in] pKbTracker キーボードトラッカーのポインタ
+ * @param pKbTracker キーボードトラッカーのポインタ
  *
  * @return なし
  */
@@ -344,7 +342,7 @@ void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 /**
  * @brief 攻撃処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -382,7 +380,7 @@ void Player::Attack()
 /**
  * @brief リスポーン
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -392,7 +390,7 @@ void Player::Respawn()
 	m_position = START_POS;
 
 	// 速度の初期化
-	m_velocity = SimpleMath::Vector3::Zero;
+	m_velocity = DirectX::SimpleMath::Vector3::Zero;
 
 	// 向きの初期化
 	m_rotY = 0.0f;
@@ -415,8 +413,8 @@ void Player::Respawn()
 /**
  * @brief 移動方向を計算
  *
- * @param[in] kbTracker キーボードトラッカーのポインタ
- * @param[in] camera	カメラのポインタ
+ * @param kbTracker キーボードトラッカーのポインタ
+ * @param camera	カメラのポインタ
  *
  * @return 移動方向
  */
@@ -465,8 +463,8 @@ DirectX::SimpleMath::Vector3 Player::MoveDirection(DirectX::Keyboard::KeyboardSt
 /**
  * @brief 移動速度の制限
  *
- * @param[in] velocity	現在の移動速度
- * @param[in] max		速度上限
+ * @param velocity	現在の移動速度
+ * @param max		速度上限
  *
  * @return なし
  */
@@ -482,7 +480,7 @@ void Player::LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max)
 /**
  * @brief 攻撃判定の有効/無効化
  *
- * @param[in] enabled 有効/無効
+ * @param enabled 有効/無効
  *
  * @return なし
  */
@@ -496,7 +494,7 @@ void Player::SetAttackCollisionEnabled(bool enabled)
 /**
  * @brief 攻撃判定の連続ヒットの有効/無効化
  *
- * @param[in] multiHit 有効/無効
+ * @param multiHit 有効/無効
  *
  * @return なし
  */

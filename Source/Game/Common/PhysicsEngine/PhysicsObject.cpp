@@ -1,8 +1,17 @@
+/**
+ * @file   PhysicsObject.cpp
+ *
+ * @brief  物理演算に関するソースファイル
+ */
+
+
+// ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "PhysicsObject.h"
 
-using namespace DirectX;
-
+/**
+ * @brief コンストラクタ
+ */
 PhysicsObject::PhysicsObject()
 	: m_gravity{}
 	, m_externalForce{}
@@ -10,16 +19,26 @@ PhysicsObject::PhysicsObject()
 {
 }
 
-PhysicsObject::~PhysicsObject()
-{
-}
 
-void PhysicsObject::CalculateForce(DirectX::SimpleMath::Vector3& velocity, 
-								   float mass,
-								   float elapsedTime,
-								   bool onGround)
+/**
+ * @brief 速度に加える力の計算
+ * 
+ * 外力、摩擦力、重力を加える
+ *
+ * @param velocity		対象の速度
+ * @param mass			対象の質量
+ * @param elapsedTime	経過時間
+ * @param onGround		対象が地面と接しているか
+ *
+ * @return なし
+ */
+void PhysicsObject::CalculateForce(
+	DirectX::SimpleMath::Vector3& velocity,
+	float mass,
+	float elapsedTime,
+	bool onGround)
 {
-	SimpleMath::Vector3 totalForce = SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 totalForce = DirectX::SimpleMath::Vector3::Zero;
 
 	//外力
 	m_externalForce.Calculate(totalForce);
@@ -35,7 +54,7 @@ void PhysicsObject::CalculateForce(DirectX::SimpleMath::Vector3& velocity,
 	m_gravity.Calculate(totalForce, mass);
 
 	//加速度の計算
-	SimpleMath::Vector3 acceleration = totalForce / mass;
+	DirectX::SimpleMath::Vector3 acceleration = totalForce / mass;
 
 	//加速度の反映
 	velocity += acceleration * elapsedTime;
@@ -45,29 +64,61 @@ void PhysicsObject::CalculateForce(DirectX::SimpleMath::Vector3& velocity,
 }
 
 
-void PhysicsObject::Reflection(DirectX::SimpleMath::Vector3& velocity,
-							   DirectX::SimpleMath::Vector3& normal, 
-							   float restitution)
+/**
+ * @brief 跳ね返り処理
+ *
+ * @param velocity		対象の速度
+ * @param normal		跳ね返る面の法線
+ * @param restitution	反発係数
+ *
+ * @return なし
+ */
+void PhysicsObject::Reflection(
+	DirectX::SimpleMath::Vector3& velocity,
+	DirectX::SimpleMath::Vector3& normal,
+	float restitution)
 {
 	DirectX::SimpleMath::Vector3 v = velocity;
 	DirectX::SimpleMath::Vector3 n = normal;
 	DirectX::SimpleMath::Vector3 reflectionVector = CalculateReflectionVector(v, n);
-	velocity = reflectionVector * restitution; 
+	velocity = reflectionVector * restitution;
 }
 
-void PhysicsObject::RollDown(DirectX::SimpleMath::Vector3& velocity, 
-							 DirectX::SimpleMath::Vector3& normal, 
-							 float mass,
-							 float radius,
-							 float elapsedTime)
+
+/**
+ * @brief 転がり処理
+ *
+ * @param velocity		対象の速度
+ * @param normal		転がる面の法線
+ * @param mass			対象の質量
+ * @param radius		対象の半径
+ * @param elapsedTime	経過時間
+ *
+ * @return なし
+ */
+void PhysicsObject::RollDown(
+	DirectX::SimpleMath::Vector3& velocity,
+	DirectX::SimpleMath::Vector3& normal,
+	float mass,
+	float radius,
+	float elapsedTime)
 {
-	SimpleMath::Vector3 gravity = { 0.0f,-m_gravity.Get(),0.0f };
-	SimpleMath::Vector3 gTangent = gravity - normal * gravity.Dot(normal);
-	SimpleMath::Vector3 acceleration = (5.0f / 7.0f) * gTangent;
+	DirectX::SimpleMath::Vector3 gravity = { 0.0f,-m_gravity.Get(),0.0f };
+	DirectX::SimpleMath::Vector3 gTangent = gravity - normal * gravity.Dot(normal);
+	DirectX::SimpleMath::Vector3 acceleration = (5.0f / 7.0f) * gTangent;
 
 	velocity += acceleration * elapsedTime;
 }
 
+
+/**
+ * @brief 表示するデバッグ情報の追加
+ *
+ * @param debugFont	デバッグフォントのポインタ
+ * @param y			表示するY座標
+ *
+ * @return なし
+ */
 void PhysicsObject::DrawDebugFont(Imase::DebugFont* debugFont, float y)
 {
 	y += 25;
@@ -78,8 +129,18 @@ void PhysicsObject::DrawDebugFont(Imase::DebugFont* debugFont, float y)
 	debugFont->AddString(0, y, DirectX::Colors::White, L"externalForce = %f,%f,%f", m_externalForce.Get().x, m_externalForce.Get().y, m_externalForce.Get().z);
 }
 
-DirectX::SimpleMath::Vector3 PhysicsObject::CalculateReflectionVector(DirectX::SimpleMath::Vector3 velocity,
-																      DirectX::SimpleMath::Vector3 normal)
+
+/**
+ * @brief 反射ベクトルの計算
+ *
+ * @param velocity		対象の速度
+ * @param normal		転がる面の法線
+ *
+ * @return なし
+ */
+DirectX::SimpleMath::Vector3 PhysicsObject::CalculateReflectionVector(
+	DirectX::SimpleMath::Vector3 velocity,
+	DirectX::SimpleMath::Vector3 normal)
 {
 	return velocity - 2.0f * (velocity * normal) * normal;
 }

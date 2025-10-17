@@ -2,8 +2,6 @@
  * @file   TrajectoryParticle.h
  *
  * @brief  TrajectoryParticleに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================

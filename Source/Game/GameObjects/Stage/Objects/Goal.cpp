@@ -2,8 +2,6 @@
  * @file   Goal.cpp
  *
  * @brief  地面に関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -17,7 +15,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 Goal::Goal(ID3D11DeviceContext* context, StageScene* pScene)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
@@ -45,7 +43,7 @@ Goal::~Goal()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -84,7 +82,7 @@ void Goal::Initialize(CollisionManager* pCM, DirectX::SimpleMath::Vector3 positi
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -98,7 +96,7 @@ void Goal::Update()
 /**
  * @brief 描画処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -122,7 +120,7 @@ void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -153,7 +151,7 @@ bool Goal::DetectCollisionToPlayer(SphereCollider player)
 /**
  * @brief コライダーの取得
  *
- * @param[in] なし
+ * @param なし
  *
  * @return OBBのコライダー
  */

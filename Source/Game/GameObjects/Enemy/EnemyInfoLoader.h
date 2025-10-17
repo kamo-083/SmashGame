@@ -2,8 +2,6 @@
  * @file   EnemyInfoLoader.h
  *
  * @brief  EnemyInfoLoaderに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================
@@ -87,15 +85,13 @@ public:
 	/**
 	 * @brief ファイル読み込み
 	 *
-	 * @param[in] path		 ファイルパス
-	 * @param[in] outputInfo 情報出力用
+	 * @param path		 ファイルパス
+	 * @param outputInfo 情報出力用
 	 *
 	 * @return 読み込みに成功/失敗
 	 */
 	bool LoadData(const std::string& path, std::vector<EnemyInfo>& outputInfo)
 	{
-		using namespace DirectX;
-
 		// ファイルを開く
 		std::ifstream stream(path);
 

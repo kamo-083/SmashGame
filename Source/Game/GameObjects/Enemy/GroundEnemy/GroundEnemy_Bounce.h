@@ -2,8 +2,6 @@
  * @file   GroundEnemy_Bounce.h
  *
  * @brief  GroundEnemy_Bounceに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================

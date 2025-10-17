@@ -2,8 +2,6 @@
  * @file   AudioManager.cpp
  *
  * @brief  音声の読込/操作に関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -11,13 +9,11 @@
 #include "AudioManager.h"
 
 
-
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 AudioManager::AudioManager()
 	:m_pXAudio2{nullptr}
@@ -53,7 +49,7 @@ AudioManager::AudioManager()
 	result = m_pXAudio2->CreateMasteringVoice(&m_pMasteringVoice);
 	if (FAILED(result))
 	{
-		std::cerr << "マスターボイスの初期化に失敗しました。" << std::endl;
+		std::cerr << "マスタリングボイスの初期化に失敗しました。" << std::endl;
 		return;
 	}
 }
@@ -77,6 +73,16 @@ AudioManager::~AudioManager()
 	CoUninitialize();
 }
 
+
+/**
+ * @brief WAVファイルの読み込み
+ *
+ * @param key		配列に登録するキー
+ * @param filename	音声ファイルへのパス
+ *
+ * @retval true  読み込み成功
+ * @retval false 読み込み失敗
+ */
 bool AudioManager::LoadWAV(const std::string& key, const std::string& filename)
 {
 	//ファイルを開く
@@ -108,7 +114,6 @@ bool AudioManager::LoadWAV(const std::string& key, const std::string& filename)
 		std::vector<BYTE> convertedData(header.data_size * 2);
 		for (size_t i = 0; i < header.data_size; ++i) 
 		{
-			//8ビットPCMのデータは 0〜255 なので、16ビットに拡張
 			convertedData[i * 2] = (header.data[i] - 128) * 256;		  //下位バイト
 			convertedData[i * 2 + 1] = (header.data[i] - 128) * 256 >> 8; //上位バイト
 		}
@@ -149,10 +154,19 @@ bool AudioManager::LoadWAV(const std::string& key, const std::string& filename)
 	//データを保存
 	m_sounds[key] = std::move(audio);
 
-	//読込が上手くいっていないため、関数の最後まで通っても再生ができません
 	return true;
 }
 
+
+/**
+ * @brief MP3ファイルの読み込み
+ *
+ * @param key		配列に登録するキー
+ * @param filename	音声ファイルへのパス
+ *
+ * @retval true  読み込み成功
+ * @retval false 読み込み失敗
+ */
 bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 {
 	HRESULT hr;
@@ -272,10 +286,20 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 	return true;
 }
 
+
+/**
+ * @brief 音声ファイルの再生
+ *
+ * @param key	配列に登録しているキー
+ * @param loop	音声をループさせるか
+ * 
+ * @return なし
+ */
 void AudioManager::Play(const std::string& key, bool loop)
 {
 	HRESULT hr;
 
+	// キーが無かったらここで終了
 	auto it = m_sounds.find(key);
 	if (it == m_sounds.end())
 	{
@@ -302,10 +326,19 @@ void AudioManager::Play(const std::string& key, bool loop)
 	std::cout << "再生中: " << key << std::endl;
 }
 
+
+/**
+ * @brief 音声ファイルの再生停止
+ *
+ * @param key	配列に登録しているキー
+ *
+ * @return なし
+ */
 void AudioManager::Stop(const std::string& key)
 {
 	HRESULT hr;
 
+	// キーが無かったらここで終了
 	auto it = m_sounds.find(key);
 	if (it == m_sounds.end())
 	{
@@ -324,8 +357,19 @@ void AudioManager::Stop(const std::string& key)
 	std::cout << "停止: " << key << std::endl;
 }
 
+
+
+/**
+ * @brief 音声ファイルの再生が再生されているか
+ *
+ * @param key	配列に登録しているキー
+ *
+ * @retval true  再生されている
+ * @retval false 再生されていない
+ */
 bool AudioManager::IsPlaying(const std::string& key)
 {
+	// キーが無かったらfalse
 	auto it = m_sounds.find(key);
 	if (it == m_sounds.end())
 	{

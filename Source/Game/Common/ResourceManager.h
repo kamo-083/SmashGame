@@ -2,8 +2,6 @@
  * @file   ResourceManager.h
  *
  * @brief  リソースマネージャに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================
@@ -94,6 +92,7 @@ public:
 
 // 内部実装
 private:
+	// string型をwchar_t型へ変換
 	std::wstring StringToWchar(std::string str);
 
 };

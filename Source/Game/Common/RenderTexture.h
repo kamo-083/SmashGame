@@ -1,9 +1,7 @@
 /**
  * @file   RenderTexture.h
  *
- * @brief  RenderTextureに関するヘッダファイル
- *
- * @author 清水まこと
+ * @brief  レンダーテクスチャに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -73,10 +71,13 @@ public:
 	// 終了処理
 	void Finalize();
 
+	// レンダーテクスチャのRTVをレンダーターゲットに設定
 	void SetRTVTexture(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthStencilView);
 
+	// 通常のRTVをレンダーターゲットに設定
 	void SetRTVDefault(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthStencilView);
 
+	// レンダーターゲットのクリア
 	void Clear(ID3D11DeviceContext* context, const float color[4]);
 
 
@@ -86,8 +87,8 @@ public:
 	ID3D11ShaderResourceView* GetSRV() { return m_shaderResourceView.Get(); }
 
 	// サイズを取得
-	int GetWidth() const { return m_width; }
-	int GetHeight() const { return m_height; }
+	int GetWidth() const { return m_width; }	// 幅
+	int GetHeight() const { return m_height; }	// 高さ
 
 // 内部実装
 private:

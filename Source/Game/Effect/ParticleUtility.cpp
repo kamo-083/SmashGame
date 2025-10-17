@@ -2,8 +2,6 @@
  * @file   ParticleUtility.cpp
  *
  * @brief  ParticleUtilityに関するソースファイル
- *
- * @author 清水まこと
  */
 
 #include "pch.h"
@@ -25,10 +23,10 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] position  出現位置
- * @param[in] scale		大きさ
- * @param[in] life		寿命
- * @param[in] color		色
+ * @param position  出現位置
+ * @param scale		大きさ
+ * @param life		寿命
+ * @param color		色
  */
 ParticleUtility::ParticleUtility(
 	DirectX::SimpleMath::Vector3 position,
@@ -54,7 +52,7 @@ ParticleUtility::~ParticleUtility()
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */

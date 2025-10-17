@@ -1,9 +1,7 @@
 /**
  * @file   ShaderManager.cpp
  *
- * @brief  ShaderManagerに関するソースファイル
- *
- * @author 清水まこと
+ * @brief  シェーダーマネージャーに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -17,14 +15,13 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param device	デバイスのポインタ
  */
 ShaderManager::ShaderManager(ID3D11Device1* device)
 	: m_pDevice{ device }
 {
 
 }
-
 
 
 /**
@@ -37,7 +34,20 @@ ShaderManager::~ShaderManager()
 	m_geometryShaders.clear();
 }
 
-bool ShaderManager::CreateVS(const std::string& name, const wchar_t* filePath, const std::vector<D3D11_INPUT_ELEMENT_DESC>& inputLayoutDesc)
+
+/**
+ * @brief 頂点シェーダーの作成
+ *
+ * @param name				配列に登録するキー
+ * @param filePath			シェーダーファイルへのパス
+ * @param inputLayoutDesc	インプットレイアウト
+ *
+ * @retval true  作成に成功
+ * @retval false 作成に失敗
+ */
+bool ShaderManager::CreateVS(
+	const std::string& name, const wchar_t* filePath, 
+	const std::vector<D3D11_INPUT_ELEMENT_DESC>& inputLayoutDesc)
 {
 	// 名前が重複していないか確認
 	if (m_vertexShaders.find(name) != m_vertexShaders.end())
@@ -76,6 +86,16 @@ bool ShaderManager::CreateVS(const std::string& name, const wchar_t* filePath, c
 	return true;
 }
 
+
+/**
+ * @brief ピクセルシェーダーの作成
+ *
+ * @param name		配列に登録するキー
+ * @param filePath	シェーダーファイルへのパス
+ *
+ * @retval true  作成に成功
+ * @retval false 作成に失敗
+ */
 bool ShaderManager::CreatePS(const std::string& name, const wchar_t* filePath)
 {
 	// 名前が重複していないか確認
@@ -100,6 +120,16 @@ bool ShaderManager::CreatePS(const std::string& name, const wchar_t* filePath)
 	return true;
 }
 
+
+/**
+ * @brief ジオメトリシェーダーの作成
+ *
+ * @param name		配列に登録するキー
+ * @param filePath	シェーダーファイルへのパス
+ *
+ * @retval true  作成に成功
+ * @retval false 作成に失敗
+ */
 bool ShaderManager::CreateGS(const std::string& name, const wchar_t* filePath)
 {
 	// 名前が重複していないか確認
@@ -124,6 +154,14 @@ bool ShaderManager::CreateGS(const std::string& name, const wchar_t* filePath)
 	return true;
 }
 
+
+/**
+ * @brief 頂点シェーダーの取得
+ *
+ * @param name		取得したい頂点シェーダーのキー
+ *
+ * @return	頂点シェーダーの情報のポインタ
+ */
 ShaderManager::VertexShaderEntry* ShaderManager::GetVS(const std::string& name)
 {
 	auto it = m_vertexShaders.find(name);
@@ -137,6 +175,14 @@ ShaderManager::VertexShaderEntry* ShaderManager::GetVS(const std::string& name)
 	return &it->second;
 }
 
+
+/**
+ * @brief ピクセルシェーダーの取得
+ *
+ * @param name		取得したいピクセルシェーダーのキー
+ *
+ * @return	ピクセルシェーダーの情報のポインタ
+ */
 ShaderManager::PixelShaderEntry* ShaderManager::GetPS(const std::string& name)
 {
 	auto it = m_pixelShaders.find(name);
@@ -150,6 +196,14 @@ ShaderManager::PixelShaderEntry* ShaderManager::GetPS(const std::string& name)
 	return &it->second;
 }
 
+
+/**
+ * @brief ジオメトリシェーダーの取得
+ *
+ * @param name		取得したいジオメトリシェーダーのキー
+ *
+ * @return	ジオメトリシェーダーの情報のポインタ
+ */
 ShaderManager::GeometryShaderEntry* ShaderManager::GetGS(const std::string& name)
 {
 	auto it = m_geometryShaders.find(name);
@@ -163,6 +217,16 @@ ShaderManager::GeometryShaderEntry* ShaderManager::GetGS(const std::string& name
 	return &it->second;
 }
 
+
+/**
+ * @brief ファイルの読み込み
+ *
+ * @param filePath	読み込むファイルのパス
+ * @param out		出力データ
+ *
+ * @retval true  読み込み成功
+ * @retval false 読み込み失敗
+ */
 bool ShaderManager::LoadFile(const wchar_t* filePath, std::vector<uint8_t>& out)
 {
 	std::ifstream ifs;

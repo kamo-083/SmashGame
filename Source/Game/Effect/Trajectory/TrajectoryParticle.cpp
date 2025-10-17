@@ -2,8 +2,6 @@
  * @file   TrajectoryParticle.cpp
  *
  * @brief  TrajectoryParticleに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -16,7 +14,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 TrajectoryParticle::TrajectoryParticle()
 	: IEffectParticle{}
@@ -39,7 +37,7 @@ TrajectoryParticle::~TrajectoryParticle()
 /**
  * @brief 更新処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

@@ -2,8 +2,6 @@
  * @file   Player_AttackRolling.h
  *
  * @brief  Player_AttackRollingに関するヘッダファイル
- *
- * @author 清水まこと
  */
 
  // 多重インクルードの防止 =====================================================

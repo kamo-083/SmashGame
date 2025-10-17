@@ -1,9 +1,7 @@
 /**
  * @file   RenderTexture.cpp
  *
- * @brief  RenderTextureに関するソースファイル
- *
- * @author 清水まこと
+ * @brief  レンダーテクスチャに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] なし
+ * @param なし
  */
 RenderTexture::RenderTexture()
 	: m_width(0)
@@ -25,7 +23,6 @@ RenderTexture::RenderTexture()
 {
 
 }
-
 
 
 /**
@@ -38,13 +35,17 @@ RenderTexture::~RenderTexture()
 }
 
 
-
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param device	デバイスのポインタ
+ * @param width		レンダーテクスチャの幅
+ * @param height	レンダーテクスチャの高さ
+ * @param rtv		通常のレンダーターゲットビューのポインタ
+ * @param sdv		通常の深度ステンシルビューのポインタ
  *
- * @return なし
+ * @retval true  作成に成功
+ * @retval false 作成に失敗
  */
 bool RenderTexture::Initialize(
 	ID3D11Device* device,
@@ -105,11 +106,10 @@ bool RenderTexture::Initialize(
 }
 
 
-
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -119,6 +119,14 @@ void RenderTexture::Finalize()
 }
 
 
+/**
+ * @brief レンダーテクスチャのRTVをレンダーターゲットに設定
+ *
+ * @param context			デバイスコンテキスト
+ * @param depthStencilView  深度ステンシルビュー
+ *
+ * @return なし
+ */
 void RenderTexture::SetRTVTexture(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthStencilView)
 {
 	ID3D11RenderTargetView* rtv = m_renderTargetView.Get();
@@ -126,6 +134,15 @@ void RenderTexture::SetRTVTexture(ID3D11DeviceContext* context, ID3D11DepthStenc
 	context->OMSetRenderTargets(1, &rtv, depthStencilView);
 }
 
+
+/**
+ * @brief 通常のRTVをレンダーターゲットに設定
+ *
+ * @param context			デバイスコンテキスト
+ * @param depthStencilView  深度ステンシルビュー
+ *
+ * @return なし
+ */
 void RenderTexture::SetRTVDefault(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthStencilView)
 {
 	ID3D11RenderTargetView* rtv = m_defaultRTV;
@@ -135,6 +152,14 @@ void RenderTexture::SetRTVDefault(ID3D11DeviceContext* context, ID3D11DepthStenc
 }
 
 
+/**
+ * @brief レンダーターゲットのクリア
+ *
+ * @param context	デバイスコンテキスト
+ * @param color		色
+ *
+ * @return なし
+ */
 void RenderTexture::Clear(ID3D11DeviceContext* context, const float color[4])
 {
 	context->ClearRenderTargetView(m_renderTargetView.Get(), color);

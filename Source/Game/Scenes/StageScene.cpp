@@ -2,8 +2,6 @@
  * @file   StageScene.cpp
  *
  * @brief  ステージシーンに関するソースファイル
- *
- * @author 清水まこと
  */
 
 // ヘッダファイルの読み込み ===================================================
@@ -19,8 +17,8 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] sceneManager    シーンを管理しているマネージャ
- * @param[in] resourceManager リソースを管理しているマネージャ
+ * @param sceneManager    シーンを管理しているマネージャ
+ * @param resourceManager リソースを管理しているマネージャ
  */
 StageScene::StageScene(
 	SceneManager* pSceneManager, UserResources* pUserResources,
@@ -49,7 +47,7 @@ StageScene::~StageScene()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @para なし
  *
  * @return なし
  */
@@ -59,7 +57,7 @@ void StageScene::Initialize()
 	m_collisionManager = std::make_unique<CollisionManager>();
 
 	// レイヤーフィルターの登録
-	auto& M = m_collisionManager->Matrix();
+	auto& M = m_collisionManager->GetLayerMatrix();
 	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyBody] = true;		// プレイヤーと敵
 	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyBody] = true;		// 敵同士
 	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyAttack] = true;	// プレイヤーと敵の攻撃
@@ -162,7 +160,7 @@ void StageScene::Initialize()
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -239,14 +237,14 @@ void StageScene::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
- * @param[in] debugFont デバッグ用フォント
+ * @param context	描画用構造体
+ * @param debugFont デバッグ用フォント
  *
  * @return なし
  */
 void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
-	debugFont->AddString(0, 30, Colors::White, L"StageScene");
+	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");
 
 	context.view = m_camera->GetView();
 
@@ -284,7 +282,7 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -326,7 +324,7 @@ void StageScene::Finalize()
 /**
  * @brief SEの再生
  *
- * @param[in] seName 再生するSEの名前
+ * @param seName 再生するSEの名前
  *
  * @return なし
  */

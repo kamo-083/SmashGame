@@ -2,8 +2,6 @@
  * @file   TitleScene.cpp
  *
  * @brief  タイトルシーンに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,8 +13,8 @@
 /**
  * @brief コンストラクタ
  *
- * @param[in] sceneManager    シーンを管理しているマネージャ
- * @param[in] resourceManager リソースを管理しているマネージャ
+ * @param sceneManager    シーンを管理しているマネージャ
+ * @param resourceManager リソースを管理しているマネージャ
  */
 TitleScene::TitleScene(SceneManager* pSceneManager, UserResources* pUserResources)
 	: Scene{ pSceneManager,pUserResources }
@@ -40,7 +38,7 @@ TitleScene::~TitleScene()
 /**
  * @brief 初期化処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -130,7 +128,7 @@ void TitleScene::Initialize()
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -179,8 +177,8 @@ void TitleScene::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] context	描画用構造体
- * @param[in] debugFont デバッグ用フォント
+ * @param context	描画用構造体
+ * @param debugFont デバッグ用フォント
  *
  * @return なし
  */
@@ -206,7 +204,7 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */

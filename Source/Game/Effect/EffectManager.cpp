@@ -2,8 +2,6 @@
  * @file   EffectManager.cpp
  *
  * @brief  エフェクトマネージャーに関するソースファイル
- *
- * @author 清水まこと
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -23,8 +21,8 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> EffectManager::INPUT_LAYOUT =
 /**
  * @brief コンストラクタ
  *
- * @param[in] deviceResources デバイスリソースのポインタ
- * @param[in] states		  共通ステートのポインタ
+ * @param deviceResources デバイスリソースのポインタ
+ * @param states		  共通ステートのポインタ
  */
 EffectManager::EffectManager(DX::DeviceResources* deviceResources, DirectX::CommonStates* states)
 	: m_pDeviceResources{ deviceResources }
@@ -69,7 +67,7 @@ EffectManager::~EffectManager()
 /**
  * @brief シェーダーの読み込み
  *
- * @param[in] shaderManager シェーダーマネージャー
+ * @param shaderManager シェーダーマネージャー
  *
  * @return なし
  */
@@ -102,7 +100,7 @@ void EffectManager::LoadShaders(ShaderManager* shaderManager)
 /**
  * @brief 更新処理
  *
- * @param[in] elapsedTime 経過時間
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -141,7 +139,7 @@ void EffectManager::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param[in] proj 射影行列
+ * @param proj 射影行列
  *
  * @return なし
  */
@@ -164,7 +162,7 @@ void EffectManager::Draw(DirectX::SimpleMath::Matrix proj)
 /**
  * @brief 終了処理
  *
- * @param[in] なし
+ * @param なし
  *
  * @return なし
  */
@@ -189,12 +187,12 @@ void EffectManager::Finalize()
 /**
  * @brief 軌跡エフェクトの生成
  *
- * @param[in] texture	テクスチャのポインタ
- * @param[in] scale		大きさ
- * @param[in] life		寿命
- * @param[in] color		色
- * @param[in] position	出現座標のポインタ
- * @param[in] random	出現位置のランダム性
+ * @param texture	テクスチャのポインタ
+ * @param scale		大きさ
+ * @param life		寿命
+ * @param color		色
+ * @param position	出現座標のポインタ
+ * @param random	出現位置のランダム性
  *
  * @return 軌跡エフェクトのポインタ
  */
@@ -237,15 +235,15 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 /**
  * @brief 円形エフェクトの生成
  *
- * @param[in] texture	 テクスチャのポインタ
- * @param[in] scale		 大きさ
- * @param[in] life		 寿命
- * @param[in] color		 色
- * @param[in] position   出現座標のポインタ
- * @param[in] range		 円の半径
- * @param[in] num		 1度に出現する数
- * @param[in] random	 出現位置のランダム性
- * @param[in] horizontal 円の向き
+ * @param texture	 テクスチャのポインタ
+ * @param scale		 大きさ
+ * @param life		 寿命
+ * @param color		 色
+ * @param position   出現座標のポインタ
+ * @param range		 円の半径
+ * @param num		 1度に出現する数
+ * @param random	 出現位置のランダム性
+ * @param horizontal 円の向き
  *
  * @return 円形エフェクトのポインタ
  */
