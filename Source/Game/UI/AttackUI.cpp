@@ -1,38 +1,38 @@
 /**
- * @file   WeaponUI.cpp
+ * @file   AttackUI.cpp
  *
- * @brief  WeaponUIに関するソースファイル
+ * @brief  AttackUIに関するソースファイル
  */
 
 #include "pch.h"
-#include "WeaponUI.h"
+#include "AttackUI.h"
 
 
-WeaponUI::WeaponUI(float windowWidth, float windowHeight)
+AttackUI::AttackUI(float windowWidth, float windowHeight)
 	: m_windowSize(windowWidth, windowHeight)
 	, m_lastDirection{ Direction::NONE }
 {
-	m_weaponList.resize(static_cast<int>(WeaponType::TYPE_NUM));
-	m_textures.resize(static_cast<int>(WeaponType::TYPE_NUM));
+	m_attackList.resize(static_cast<int>(AttackType::TYPE_NUM));
+	m_textures.resize(static_cast<int>(AttackType::TYPE_NUM));
 }
 
-WeaponUI::~WeaponUI()
+AttackUI::~AttackUI()
 {
 	m_textures.clear();
 }
 
-void WeaponUI::Initialize(ResourceManager* resourceManager, float texWidth, float texHeight)
+void AttackUI::Initialize(ResourceManager* resourceManager, float texWidth, float texHeight)
 {
 	// 武器の設定
-	for (int i = 0; i < static_cast<int>(WeaponType::TYPE_NUM); i++)
+	for (int i = 0; i < static_cast<int>(AttackType::TYPE_NUM); i++)
 	{
-		m_weaponList[i] = static_cast<WeaponType>(i);
+		m_attackList[i] = static_cast<AttackType>(i);
 	}
 
 	// テクスチャの読み込み
-	m_textures[static_cast<int>(WeaponType::BASIC)] = resourceManager->RequestPNG("weapon_basic", L"Resources/Textures/UI/basicAtk.png");
-	m_textures[static_cast<int>(WeaponType::ROLLING)] = resourceManager->RequestPNG("weapon_rolling", L"Resources/Textures/UI/rollingAtk.png");
-	m_textures[static_cast<int>(WeaponType::HEAVY)] = resourceManager->RequestPNG("weapon_heavy", L"Resources/Textures/UI/heavyAtk.png");
+	m_textures[static_cast<int>(AttackType::BASIC)] = resourceManager->RequestPNG("attack_basic", L"Resources/Textures/UI/basicAtk.png");
+	m_textures[static_cast<int>(AttackType::ROLLING)] = resourceManager->RequestPNG("attack_rolling", L"Resources/Textures/UI/rollingAtk.png");
+	m_textures[static_cast<int>(AttackType::HEAVY)] = resourceManager->RequestPNG("attack_heavy", L"Resources/Textures/UI/heavyAtk.png");
 
 	// 画像サイズの設定
 	m_textureSize = DirectX::SimpleMath::Vector2(texWidth, texHeight);
@@ -65,7 +65,7 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float texWidth, floa
 		widget->Initialize(m_textures[i], data, m_textureSize, false);
 		m_widgets.push_back(std::move(widget));
 	}
-	BindWeaponSlots();
+	BindAttackSlots();
 
 	// 操作方法UIの画像読み込み
 	OperationUI::Textures uiTextures;
@@ -83,7 +83,7 @@ void WeaponUI::Initialize(ResourceManager* resourceManager, float texWidth, floa
 		DirectX::SimpleMath::Vector2(200.f, 135.f));
 }
 
-void WeaponUI::Update(float elapsedTime)
+void AttackUI::Update(float elapsedTime)
 {
 	bool anyPlaying = false;
 	for (auto& widget : m_widgets)
@@ -94,7 +94,7 @@ void WeaponUI::Update(float elapsedTime)
 
 	if (!anyPlaying && m_lastDirection != Direction::NONE)
 	{
-		BindWeaponSlots();
+		BindAttackSlots();
 
 		m_lastDirection = Direction::NONE;
 	}
@@ -102,7 +102,7 @@ void WeaponUI::Update(float elapsedTime)
 	m_operationUI->Update(elapsedTime);
 }
 
-void WeaponUI::Draw(RenderContext context)
+void AttackUI::Draw(RenderContext context)
 {
 	context.spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
@@ -122,7 +122,7 @@ void WeaponUI::Draw(RenderContext context)
 	context.spriteBatch->End();
 }
 
-void WeaponUI::Finalize()
+void AttackUI::Finalize()
 {
 	m_layoutList.clear();
 
@@ -138,12 +138,12 @@ void WeaponUI::Finalize()
 	m_operationUI.reset();
 }
 
-void WeaponUI::ChangeWeapon(WeaponType type)
+void AttackUI::ChangeAttack(AttackType type)
 {
-	if (m_weaponList[0] == type) return;
+	if (m_attackList[0] == type) return;
 
-	int typeNum = static_cast<int>(WeaponType::TYPE_NUM);
-	int current = static_cast<int>(m_weaponList[0]);
+	int typeNum = static_cast<int>(AttackType::TYPE_NUM);
+	int current = static_cast<int>(m_attackList[0]);
 	int target = static_cast<int>(type);
 
 	// スライド距離を計算
@@ -157,19 +157,19 @@ void WeaponUI::ChangeWeapon(WeaponType type)
 	Slide(dir);
 
 	// 実データの回転
-	for (WeaponType& l : m_weaponList)
+	for (AttackType& l : m_attackList)
 	{
 		if (dir == Direction::LEFT) ++l;
 		else						--l;
 	}
 }
 
-void WeaponUI::SwitchUIMode()
+void AttackUI::SwitchUIMode()
 {
 	m_operationUI->Active(!m_operationUI->IsActive());
 }
 
-void WeaponUI::Slide(Direction dir)
+void AttackUI::Slide(Direction dir)
 {
 	// 最後にスライドした方向を記録
 	if (m_lastDirection != dir)
@@ -198,7 +198,7 @@ void WeaponUI::Slide(Direction dir)
 	}
 }
 
-void WeaponUI::MakeParam(UIWidget& widget, const LayoutData& to)
+void AttackUI::MakeParam(UIWidget& widget, const LayoutData& to)
 {
 	Tween::UIParams from = widget.GetParam();
 
@@ -212,10 +212,10 @@ void WeaponUI::MakeParam(UIWidget& widget, const LayoutData& to)
 	widget.SetParam(from, delta);
 }
 
-void WeaponUI::BindWeaponSlots()
+void AttackUI::BindAttackSlots()
 {
-	int N = static_cast<int>(WeaponType::TYPE_NUM);
-	int center = static_cast<int>(m_weaponList[0]);
+	int N = static_cast<int>(AttackType::TYPE_NUM);
+	int center = static_cast<int>(m_attackList[0]);
 	int left = (center - 1 + N) % N;
 	int right = (center + 1) % N;
 

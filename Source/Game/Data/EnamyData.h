@@ -1,8 +1,9 @@
 #pragma once
 
+// “G‚Ìí—Ş
 enum class EnemyType
 {
-	Basic,
-	Heavy,
-	Light,
+	Basic,	// ’Êí
+	Heavy,	// d—Ê
+	Light,	// Œy—Ê
 };

@@ -200,7 +200,7 @@
     <ClInclude Include="Source\Game\Common\StepTimer.h" />
     <ClInclude Include="Source\Game\Common\UserResources.h" />
     <ClInclude Include="Source\Game\Data\EnamyData.h" />
-    <ClInclude Include="Source\Game\Data\WeaponData.h" />
+    <ClInclude Include="Source\Game\Data\AttackData.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h" />
     <ClInclude Include="Source\Game\Effect\EffectManager.h" />
     <ClInclude Include="Source\Game\Effect\IEffectParticle.h" />
@@ -245,7 +245,7 @@
     <ClInclude Include="Source\Game\UI\Tween.h" />
     <ClInclude Include="Source\Game\UI\UIElement.h" />
     <ClInclude Include="Source\Game\UI\UIWidget.h" />
-    <ClInclude Include="Source\Game\UI\WeaponUI.h" />
+    <ClInclude Include="Source\Game\UI\AttackUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImaseLib\DebugFont.cpp" />
@@ -306,7 +306,7 @@
     <ClCompile Include="Source\Game\UI\StageResultUI.cpp" />
     <ClCompile Include="Source\Game\UI\Tween.cpp" />
     <ClCompile Include="Source\Game\UI\UIWidget.cpp" />
-    <ClCompile Include="Source\Game\UI\WeaponUI.cpp" />
+    <ClCompile Include="Source\Game\UI\AttackUI.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>

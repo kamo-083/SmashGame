@@ -134,7 +134,7 @@
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.h">
       <Filter>Game\GameObjects\Enemy\GroundEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Data\WeaponData.h">
+    <ClInclude Include="Source\Game\Data\AttackData.h">
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Interface\IState.h">
@@ -146,7 +146,7 @@
     <ClInclude Include="Source\Game\GameObjects\Camera.h">
       <Filter>Game\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\WeaponUI.h">
+    <ClInclude Include="Source\Game\UI\AttackUI.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Player\Player_Walk.h">
@@ -324,7 +324,7 @@
     <ClCompile Include="Source\Game\GameObjects\Camera.cpp">
       <Filter>Game\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\WeaponUI.cpp">
+    <ClCompile Include="Source\Game\UI\AttackUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackBasic.cpp">

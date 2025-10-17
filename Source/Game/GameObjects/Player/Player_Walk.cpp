@@ -85,7 +85,7 @@ void Player_Walk::Update(const float& elapsedTime)
 	m_pPlayer->SetOnGround(false);
 
 	// 武器の切り替え
-	m_pPlayer->ChangeWeapon(m_pKbTracker);
+	m_pPlayer->ChangeAttack(m_pKbTracker);
 
 	// アニメーションの更新
 	m_modelAnimator->Update(elapsedTime);

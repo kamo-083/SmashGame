@@ -19,11 +19,11 @@
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
-#include"Source/Game/Data/WeaponData.h"
+#include"Source/Game/Data/AttackData.h"
 #include"Source/Game/Scenes/StageScene.h"
 #include"ImaseLib/DebugFont.h"
 #include"Source/Game/GameObjects/Camera.h"
-#include"Source/Game/UI/WeaponUI.h"
+#include"Source/Game/UI/AttackUI.h"
 #include"Source/Game/GameObjects/Player/Player_Idle.h"
 #include"Source/Game/GameObjects/Player/Player_Walk.h"
 #include"Source/Game/GameObjects/Player/Player_AttackBasic.h"
@@ -38,7 +38,7 @@ class Player_Walk;
 class Player_AttackBasic;
 class Player_AttackRolling;
 class Player_AttackHeavy;
-class WeaponUI;
+class AttackUI;
 
 
 // クラスの定義 ===============================================================
@@ -106,10 +106,10 @@ private:
 	float m_attackForce;
 	bool m_isAttack;
 	SphereCollider m_attackCollider;
-	WeaponType m_weaponType;
+	AttackType m_attackType;
 
 	// 武器UIのポインタ
-	WeaponUI* m_pWeaponUI;
+	AttackUI* m_pAttackUI;
 
 	// 現在の状態
 	IState* m_currentState;
@@ -171,7 +171,7 @@ public:
 					CollisionManager* pCollisionManager,
 					DirectX::Keyboard::KeyboardStateTracker* pKbTracker, 
 					Camera* pCamera, 
-					WeaponUI* pWeaponUI,
+					AttackUI* pAttackUI,
 					bool* pKeyMode);
 
 	// 更新処理
@@ -187,7 +187,7 @@ public:
 	void ChangeState(IState* newState);
 
 	// 武器変更
-	void ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker);
+	void ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker);
 
 	// 攻撃
 	void Attack();
@@ -227,7 +227,7 @@ public:
 	void SetAttackForce(float attackForce) { m_attackForce = attackForce; }
 	bool GetIsAttack() { return m_isAttack; }
 	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
-	WeaponType GetWeaponType() { return m_weaponType; }
+	AttackType GetAttackType() { return m_attackType; }
 	bool GetIsBounce() { return m_isBounce; }
 	void SetIsBounce(bool isBounce) { m_isBounce = isBounce; }
 	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }

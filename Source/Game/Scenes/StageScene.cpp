@@ -87,9 +87,9 @@ void StageScene::Initialize()
 	ResourceManager* pRM = m_userResources->GetResourceManager();
 
 	// 武器UIの作成
-	m_weaponUI = std::make_unique<WeaponUI>(m_userResources->GetDeviceResources()->GetOutputSize().right,
+	m_attackUI = std::make_unique<AttackUI>(m_userResources->GetDeviceResources()->GetOutputSize().right,
 											m_userResources->GetDeviceResources()->GetOutputSize().bottom);
-	m_weaponUI->Initialize(pRM);
+	m_attackUI->Initialize(pRM);
 
 	// リザルトUIの作成
 	m_resultUI = std::make_unique<StageResultUI>();
@@ -115,7 +115,7 @@ void StageScene::Initialize()
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this);
 	m_player->Initialize(pRM, m_collisionManager.get(),
-						 m_userResources->GetKeyboardTracker(), m_camera.get(), m_weaponUI.get(), &m_keyMode);
+						 m_userResources->GetKeyboardTracker(), m_camera.get(), m_attackUI.get(), &m_keyMode);
 
 	// エネミーマネージャーの作成
 	m_enemyManager = std::make_unique<EnemyManager>(m_userResources, m_collisionManager.get(), m_effectManager.get());
@@ -189,7 +189,7 @@ void StageScene::Update(float elapsedTime)
 
 		// UI切り替え
 		m_cameraUI->Active(!m_cameraUI->IsActive());
-		m_weaponUI->SwitchUIMode();
+		m_attackUI->SwitchUIMode();
 
 		// SEの再生
 		PlaySE("cursorSE");
@@ -213,7 +213,7 @@ void StageScene::Update(float elapsedTime)
 
 	// UIの更新
 	m_conditionsUI->Update(elapsedTime);	// クリア条件
-	m_weaponUI->Update(elapsedTime);		// 武器
+	m_attackUI->Update(elapsedTime);		// 武器
 	m_cameraUI->Update(elapsedTime);		// カメラ
 
 	// 当たり判定の更新
@@ -268,7 +268,7 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	// UIの描画
 	m_conditionsUI->Draw(context);	// クリア条件
-	m_weaponUI->Draw(context);	  	// 武器
+	m_attackUI->Draw(context);	  	// 武器
 	m_cameraUI->Draw(context);	  	// カメラ
 
 	if (m_overlayMode == Overlay::RESULT)
@@ -294,8 +294,8 @@ void StageScene::Finalize()
 	if (m_conditionsUI) m_conditionsUI->Finalize();
 	m_conditionsUI.reset();
 
-	if (m_weaponUI) m_weaponUI->Finalize();
-	m_weaponUI.reset();
+	if (m_attackUI) m_attackUI->Finalize();
+	m_attackUI.reset();
 
 	if (m_resultUI) m_resultUI->Finalize();
 	m_resultUI.reset();

@@ -32,8 +32,8 @@ Player::Player(
 	, m_attackForce{ 0.0f }
 	, m_isAttack{ false }
 	, m_attackCollider{}
-	, m_weaponType{}
-	, m_pWeaponUI{ nullptr }
+	, m_attackType{}
+	, m_pAttackUI{ nullptr }
 	, m_currentState{ nullptr }
 	, m_pKeyMode{ nullptr }
 	, m_pCollisionManager{ nullptr }
@@ -86,7 +86,7 @@ Player::~Player()
  * @param pCollisionManager コリジョンマネージャーのポインタ
  * @param pKbTracker		キーボードトラッカーのポインタ
  * @param pCamera			カメラのポインタ
- * @param pWeaponUI			武器UIのポインタ
+ * @param pAttackUI			武器UIのポインタ
  * @param pKeyMode			キー入力モードのポインタ
  *
  * @return なし
@@ -95,7 +95,7 @@ void Player::Initialize(ResourceManager* pRM,
 						CollisionManager* pCollisionManager,
 						DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 						Camera* pCamera, 
-						WeaponUI* pWeaponUI,
+						AttackUI* pAttackUI,
 						bool* pKeyMode)
 {
 	// 座標の初期化
@@ -114,10 +114,10 @@ void Player::Initialize(ResourceManager* pRM,
 	m_isBounce = false;
 
 	// 武器の設定
-	m_weaponType = WeaponType::BASIC;
+	m_attackType = AttackType::BASIC;
 
 	// 武器UIの設定
-	m_pWeaponUI = pWeaponUI;
+	m_pAttackUI = pAttackUI;
 
 	// リソースマネージャの設定
 	m_pResourceManager = pRM;
@@ -251,7 +251,7 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	// デバッグ情報の描画
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
-	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"weapon = %d", static_cast<int>(m_weaponType));
+	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"attack = %d", static_cast<int>(m_attackType));
 	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"bounce = %d", static_cast<int>(m_isBounce));
 }
 
@@ -315,26 +315,26 @@ void Player::ChangeState(IState* newState)
  *
  * @return なし
  */
-void Player::ChangeWeapon(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
+void Player::ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	if (!(*m_pKeyMode)) return;
 
 	if (pKbTracker->pressed.L)
 	{
-		++m_weaponType;
+		++m_attackType;
 
 		// SEの再生
 		m_pScene->PlaySE("cursorSE");
 	}
 	else if (pKbTracker->pressed.J)
 	{
-		--m_weaponType;
+		--m_attackType;
 
 		// SEの再生
 		m_pScene->PlaySE("cursorSE");
 	}
 
-	m_pWeaponUI->ChangeWeapon(m_weaponType);
+	m_pAttackUI->ChangeAttack(m_attackType);
 }
 
 
@@ -351,21 +351,21 @@ void Player::Attack()
 	m_isAttack = true;
 	SetAttackCollisionEnabled(true);
 
-	switch (m_weaponType)
+	switch (m_attackType)
 	{
-	case WeaponType::BASIC:
+	case AttackType::BASIC:
 		// 攻撃判定の連続ヒットの無効化
 		SetAttackCollisionMultiHit(false);
 		// 状態の変更
 		ChangeState(m_basicAttackingState.get());
 		break;
-	case WeaponType::ROLLING:
+	case AttackType::ROLLING:
 		// 攻撃判定の連続ヒットの有効化
 		SetAttackCollisionMultiHit(true);
 		// 状態の変更
 		ChangeState(m_rollingAttackingState.get());
 		break;
-	case WeaponType::HEAVY:
+	case AttackType::HEAVY:
 		// 攻撃判定の連続ヒットの無効化
 		SetAttackCollisionMultiHit(false);
 		// 状態の変更

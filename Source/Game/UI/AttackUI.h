@@ -1,11 +1,11 @@
 #pragma once
-#include"Source/Game/Data/WeaponData.h"
+#include"Source/Game/Data/AttackData.h"
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/UIWidget.h"
 #include"Source/Game/UI/OperationUI.h"
 
-class WeaponUI
+class AttackUI
 {
 public:
 	// スライド方向
@@ -43,7 +43,7 @@ public:
 
 private:
 	// 武器一覧
-	std::vector<WeaponType> m_weaponList;
+	std::vector<AttackType> m_attackList;
 
 	// レイアウト
 	std::vector<LayoutData> m_layoutList;
@@ -69,8 +69,8 @@ private:
 
 public:
 	// コンストラクタ・デストラクタ
-	WeaponUI(float windowWidth, float windowHeight);
-	~WeaponUI();
+	AttackUI(float windowWidth, float windowHeight);
+	~AttackUI();
 
 	// 初期化
 	void Initialize(ResourceManager* resourceManager, float texWidth = DEFAULT_TEX_SIZE.x, float texHeight = DEFAULT_TEX_SIZE.y);
@@ -85,7 +85,7 @@ public:
 	void Finalize();
 
 	// 選択中の武器を設定
-	void ChangeWeapon(WeaponType type);
+	void ChangeAttack(AttackType type);
 
 	// 操作方法UIの状態を切り替え
 	void SwitchUIMode();
@@ -93,6 +93,6 @@ public:
 private:
 	void Slide(Direction dir);
 	void MakeParam(UIWidget& widget, const LayoutData& to);
-	void BindWeaponSlots();
+	void BindAttackSlots();
 };
 

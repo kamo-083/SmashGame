@@ -75,7 +75,7 @@ void Player_Idle::Update(const float& elapsedTime)
 	m_pPlayer->SetOnGround(false);
 
 	// •Ší‚ÌØ‚è‘Ö‚¦
-	m_pPlayer->ChangeWeapon(m_pKbTracker);
+	m_pPlayer->ChangeAttack(m_pKbTracker);
 
 	// ‚Á”ò‚Î‚³‚êó‘Ô
 	if (m_pPlayer->GetIsBounce())

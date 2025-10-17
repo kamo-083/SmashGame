@@ -20,7 +20,7 @@
 #include "Source/Game/GameObjects/Stage/StageManager.h"
 #include "Source/Game/GameObjects/Sky.h"
 #include "Source/Game/UI/UIWidget.h"
-#include "Source/Game/UI/WeaponUI.h"
+#include "Source/Game/UI/AttackUI.h"
 #include "Source/Game/UI/StageResultUI.h"
 #include "Source/Game/UI/ClearConditionsUI.h"
 #include "Source/Game/UI/OperationUI.h"
@@ -31,7 +31,7 @@
 // クラスの宣言 ===============================================================
 class Camera;
 class Player;
-class WeaponUI;
+class AttackUI;
 
 
 // クラスの定義 ===============================================================
@@ -83,7 +83,7 @@ private:
 	std::unique_ptr<StageManager> m_stageManager;
 
 	// 武器UI
-	std::unique_ptr<WeaponUI> m_weaponUI;
+	std::unique_ptr<AttackUI> m_attackUI;
 
 	// リザルトUI
 	std::unique_ptr<StageResultUI> m_resultUI;
