@@ -83,6 +83,7 @@ public:
 
 	// 描画処理
 	void Draw(RenderContext context, Imase::DebugFont* debugFont);
+	void DrawTranslucent(RenderContext context, Imase::DebugFont* debugFont);	// 半透明オブジェクト用
 
 	// 終了処理
 	void Finalize();

@@ -24,7 +24,7 @@ class EffectManager
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	// 軌跡エフェクト
+	// 軌跡エフェクトのデータ
 	struct TrajectoryParticleData
 	{
 		std::unique_ptr<TrajectoryParticle> effect;		// エフェクト
@@ -33,10 +33,11 @@ public:
 		bool random;									// 出現座標にランダム性を持たせるか
 
 		// コンストラクタ
-		TrajectoryParticleData(std::unique_ptr<TrajectoryParticle> inEffect, 
-							   DirectX::SimpleMath::Vector3* inPosition,
-							   bool inSpawn,
-							   bool inRandom)
+		TrajectoryParticleData(
+			std::unique_ptr<TrajectoryParticle> inEffect,
+			DirectX::SimpleMath::Vector3* inPosition,
+			bool inSpawn,
+			bool inRandom)
 			: effect(std::move(inEffect))
 			, position(inPosition)
 			, spawn(inSpawn)
@@ -47,7 +48,7 @@ public:
 		void SetSpawn(bool inSpawn) { spawn = inSpawn; }
 	};
 
-	// 円形エフェクト
+	// 円形エフェクトのデータ
 	struct CircleParticleData
 	{
 		std::unique_ptr<CircleParticle> effect;		// エフェクト
@@ -58,12 +59,13 @@ public:
 		bool horizontal;							// 出現座標を縦または横にする
 
 		// コンストラクタ
-		CircleParticleData(std::unique_ptr<CircleParticle> inEffect, 
-						   DirectX::SimpleMath::Vector3* inPosition,
-						   float inRange,
-						   int inNum,
-						   bool inRandom,
-						   bool inHorizontal)
+		CircleParticleData(
+			std::unique_ptr<CircleParticle> inEffect,
+			DirectX::SimpleMath::Vector3* inPosition,
+			float inRange,
+			int inNum,
+			bool inRandom,
+			bool inHorizontal)
 			: effect(std::move(inEffect))
 			, position(inPosition)
 			, range(inRange)
@@ -85,14 +87,16 @@ public:
 		}
 	};
 
+	// インプットレイアウト
 	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
 
+	// シェーダーに渡す定数バッファ
 	struct ConstBuffer
 	{
-		DirectX::SimpleMath::Matrix	 matWorld;
-		DirectX::SimpleMath::Matrix	 matView;
-		DirectX::SimpleMath::Matrix	 matProj;
-		DirectX::SimpleMath::Vector4 Diffuse;
+		DirectX::SimpleMath::Matrix	 matWorld;	// ワールド行列
+		DirectX::SimpleMath::Matrix	 matView;	// ビュー行列
+		DirectX::SimpleMath::Matrix	 matProj;	// 射影行列
+		DirectX::SimpleMath::Vector4 Diffuse;	// 基本色
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -104,18 +108,21 @@ private:
 	Camera* m_pCamera;
 
 	// エフェクトの配列
-	std::vector<std::unique_ptr<TrajectoryParticleData>> m_trajectory;
-	std::vector<std::unique_ptr<CircleParticleData>> m_circle;
+	std::vector<std::unique_ptr<TrajectoryParticleData>> m_trajectory;	// 軌跡
+	std::vector<std::unique_ptr<CircleParticleData>> m_circle;			// 円形
 
+	// バッファ
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_CBuffer;
 
+	// プリミティブバッチ
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_batch;
+	// 共通ステート
 	DirectX::CommonStates* m_states;
 
-	//シェーダー
-	ShaderManager::VertexShaderEntry* m_vs;
-	ShaderManager::PixelShaderEntry* m_ps;
-	ShaderManager::GeometryShaderEntry* m_gs;
+	// シェーダーの情報
+	ShaderManager::VertexShaderEntry* m_vs;		// 頂点シェーダー
+	ShaderManager::PixelShaderEntry* m_ps;		// ピクセルシェーダー
+	ShaderManager::GeometryShaderEntry* m_gs;	// ジオメトリシェーダー
 
 
 	// メンバ関数の宣言 -------------------------------------------------

@@ -214,12 +214,6 @@ void StageManager::Draw(RenderContext context, Imase::DebugFont* debugFont)
 		targetBox->Draw(context);
 	}
 
-	// エリアの描画
-	for (auto& area : m_areas)
-	{
-		area->Draw(context, debugFont);
-	}
-
 	// 柵の描画
 	for (auto& fences : m_fences)
 	{
@@ -228,6 +222,25 @@ void StageManager::Draw(RenderContext context, Imase::DebugFont* debugFont)
 
 	// ゴールの描画
 	if(m_goal) m_goal->Draw(context, debugFont);
+}
+
+
+
+/**
+ * @brief 描画処理(半透明オブジェクト)
+ *
+ * @param context	描画用構造体
+ * @param debugFont デバッグ用フォント
+ *
+ * @return なし
+ */
+void StageManager::DrawTranslucent(RenderContext context, Imase::DebugFont* debugFont)
+{
+	// エリアの描画
+	for (auto& area : m_areas)
+	{
+		area->Draw(context, debugFont);
+	}
 }
 
 

@@ -348,8 +348,8 @@ void GroundEnemy::ReflectOnCollision(DirectX::SimpleMath::Vector3 normal)
 		m_circle->Spawn();
 		break;
 	case OBBCollider::CollisionType::Wall:
-		m_physics->Reflection(m_velocity, normal, 0.8);
-
+		// 反射
+		m_physics->Reflection(m_velocity, normal, RESTITUTION);
 		// 円形エフェクトを発生
 		m_circle->Spawn();
 		break;

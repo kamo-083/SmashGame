@@ -42,7 +42,9 @@ public:
 		DX::AnimationSDKMESH* attack;
 	};
 
-	static constexpr float DitectionRange = 2.5f;
+	static constexpr float DITECTION_RANGE = 2.5f;	// プレイヤー感知範囲
+
+	static constexpr float RESTITUTION = 0.9f;	// 反発係数
 
 
 // データメンバの宣言 -----------------------------------------------

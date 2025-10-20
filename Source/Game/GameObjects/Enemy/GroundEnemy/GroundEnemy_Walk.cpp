@@ -95,7 +95,7 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 	}
 
 	// ‘Ò‹@ó‘Ô‚ÉØ‚è‘Ö‚¦
-	if (playerData.distance > GroundEnemy::DitectionRange)
+	if (playerData.distance > GroundEnemy::DITECTION_RANGE)
 	{
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Idle());
 	}

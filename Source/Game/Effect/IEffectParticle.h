@@ -1,7 +1,7 @@
 /**
  * @file   IEffectParticle.h
  *
- * @brief  IEffectParticleに関するヘッダファイル
+ * @brief  パーティクルの基底クラスに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -32,51 +32,69 @@ class IEffectParticle
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// シェーダーに渡す定数バッファ
 	struct ConstBuffer
 	{
-		DirectX::SimpleMath::Matrix	 matWorld;
-		DirectX::SimpleMath::Matrix	 matView;
-		DirectX::SimpleMath::Matrix	 matProj;
-		DirectX::SimpleMath::Vector4 Diffuse;
+		DirectX::SimpleMath::Matrix	 matWorld;	// ワールド行列
+		DirectX::SimpleMath::Matrix	 matView;	// ビュー行列
+		DirectX::SimpleMath::Matrix	 matProj;	// 射影行列
+		DirectX::SimpleMath::Vector4 Diffuse;	// 基本色
 	};
 
 
 	// データメンバの宣言 -----------------------------------------------
 protected:
+	// デバイスリソースのポインタ
 	DX::DeviceResources* m_pDR;
 
+	// 累計経過時間
 	float m_timer;
 
+	// バッファのポインタ
 	ID3D11Buffer* m_CBuffer;
+	// インプットレイアウトのポインタ
 	ID3D11InputLayout* m_inputLayout;
 
+	// プリミティブバッチのポインタ
 	DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>* m_batch;
+	// 共通ステートのポインタ
 	DirectX::CommonStates* m_states;
+	// テクスチャのポインタ
 	std::vector<ID3D11ShaderResourceView*> m_texture;
+	// 頂点の配列
 	std::vector<DirectX::VertexPositionColorTexture> m_vertices;
 
 	//カメラに関する情報
-	DirectX::SimpleMath::Vector3 m_cameraPosition;
-	DirectX::SimpleMath::Vector3 m_cameraTarget;
+	DirectX::SimpleMath::Vector3 m_cameraPosition;	// カメラの座標
+	DirectX::SimpleMath::Vector3 m_cameraTarget;	// カメラのターゲットの座標
 
 	//シェーダー
-	ID3D11VertexShader* m_vertexShader;
-	ID3D11PixelShader* m_pixelShader;
-	ID3D11GeometryShader* m_geometryShader;
+	ID3D11VertexShader* m_vertexShader;		// 頂点シェーダー
+	ID3D11PixelShader* m_pixelShader;		// ピクセルシェーダー
+	ID3D11GeometryShader* m_geometryShader;	// ジオメトリシェーダー
 
+	// パーティクルユーティリティのリスト
 	std::list<ParticleUtility> m_particleUtility;
 
+	// ワールド行列
 	DirectX::SimpleMath::Matrix m_world;
+	// ビュー行列
 	DirectX::SimpleMath::Matrix m_view;
+	// 射影行列
 	DirectX::SimpleMath::Matrix m_proj;
 
+	// ビルボード行列
 	DirectX::SimpleMath::Matrix m_billboard;
-
+	
+	// 大きさ
 	float m_scale;
+	// 寿命
 	float m_life;
+	// 色
 	DirectX::SimpleMath::Color m_color;
 
-	bool m_isActive;	// 有効か
+	// 有効フラグ
+	bool m_isActive;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -93,7 +111,7 @@ public:
 public:
 	// エフェクトを作成
 	void Create(
-		DX::DeviceResources* DR,
+		DX::DeviceResources* pDR,
 		ID3D11Buffer* CBuffer,
 		ID3D11InputLayout* inputLayout,
 		DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>* batch,

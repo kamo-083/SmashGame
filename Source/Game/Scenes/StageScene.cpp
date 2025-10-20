@@ -205,7 +205,7 @@ void StageScene::Update(float elapsedTime)
 	if (!m_keyMode) m_camera->Rotation(m_userResources->GetKeyboardTracker());
 	m_camera->Update(m_userResources->GetKeyboardTracker(), elapsedTime);
 
-	// ステージマネージャーの更新
+	// ステージの更新
 	m_stageManager->Update(elapsedTime, m_camera->GetEye(), m_camera->GetUp());
 
 	// エフェクトの更新
@@ -223,12 +223,21 @@ void StageScene::Update(float elapsedTime)
 	if (m_player->GetPosition().y <= m_player->GetKillHeight()) m_player->Respawn();
 
 	// リザルトの表示　
-	if (m_stageManager->IsGoal() || m_userResources->GetKeyboardTracker()->pressed.P)
+	if (m_stageManager->IsGoal())
 	{
 		// SEの再生
 		PlaySE("clearSE");
 
 		m_overlayMode = Overlay::RESULT;
+	}
+
+	// ステージ選択へ戻る
+	if (m_userResources->GetKeyboardTracker()->pressed.P)
+	{
+		// BGMの停止
+		m_userResources->GetAudioManager()->Stop("stageBGM");
+
+		ChangeScene("StageSelectScene");
 	}
 }
 
@@ -257,11 +266,14 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	// 敵の描画
 	m_enemyManager->Draw(context);
 
-	// ステージマネージャーの描画
+	// ステージの描画
 	m_stageManager->Draw(context, debugFont);
 
 	// エフェクトの描画
 	m_effectManager->Draw(context.proj);
+
+	// ステージの描画(半透明オブジェクト)
+	m_stageManager->DrawTranslucent(context, debugFont);
 
 	// カメラの描画(デバッグフォント)
 	m_camera->Draw(debugFont);

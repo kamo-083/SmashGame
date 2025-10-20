@@ -74,7 +74,7 @@ void GroundEnemy_Idle::Update(const float& elapsedTime)
 	m_modelAnimator->Update(elapsedTime);
 
 	// •à‚«ó‘Ô‚ÉØ‚è‘Ö‚¦
-	if (m_pGroundEnemy->GetPlayerRelativeData().distance <= GroundEnemy::DitectionRange)
+	if (m_pGroundEnemy->GetPlayerRelativeData().distance <= GroundEnemy::DITECTION_RANGE)
 	{
 		m_pGroundEnemy->ChangeState(m_pGroundEnemy->GetState_Walk());
 	}

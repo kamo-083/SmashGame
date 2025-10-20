@@ -1,7 +1,7 @@
 /**
  * @file   IEffectParticle.cpp
  *
- * @brief  IEffectParticleに関するソースファイル
+ * @brief  パーティクルの基底クラスに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -35,12 +35,26 @@ IEffectParticle::IEffectParticle()
 }
 
 
-
 /**
  * @brief エフェクトの作成
+ * 
+ * @param pDR				デバイスリソースのポインタ
+ * @param CBuffer			バッファのポインタ
+ * @param inputLayout		インプットレイアウトのポインタ
+ * @param batch				プリミティブバッチのポインタ
+ * @param states			共通ステートのポインタ
+ * @param texture			テクスチャのポインタ
+ * @param vertexShader		頂点シェーダーのポインタ
+ * @param pixelShader		ピクセルシェーダーのポインタ
+ * @param geometryShader	ジオメトリシェーダーのポインタ
+ * @param scale				大きさ
+ * @param life				寿命
+ * @param color				色
+ *
+ * @return なし
  */
 void IEffectParticle::Create(
-	DX::DeviceResources* DR, 
+	DX::DeviceResources* pDR, 
 	ID3D11Buffer* CBuffer, 
 	ID3D11InputLayout* inputLayout, 
 	DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>* batch,
@@ -52,7 +66,7 @@ void IEffectParticle::Create(
 	float scale, float life, DirectX::SimpleMath::Color color)
 {
 	{
-		m_pDR = DR;
+		m_pDR = pDR;
 
 		m_CBuffer = CBuffer;
 		m_inputLayout = inputLayout;
@@ -75,6 +89,17 @@ void IEffectParticle::Create(
 	};
 }
 
+
+/**
+ * @brief ビルボードの作成
+ *
+ * @param position	パーティクルの座標
+ * @param target	カメラのターゲットの座標
+ * @param eye		カメラの座標
+ * @param up		カメラの上ベクトル
+ *
+ * @return なし
+ */
 void IEffectParticle::CreateBillboard(
 	DirectX::SimpleMath::Vector3 position,
 	DirectX::SimpleMath::Vector3 target,
@@ -100,6 +125,11 @@ void IEffectParticle::CreateBillboard(
 
 /**
  * @brief 描画処理
+ *
+ * @param view	ビュー行列
+ * @param proj	射影行列
+ *
+ * @return なし
  */
 void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {
@@ -115,6 +145,7 @@ void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath
 			return cameraDir.Dot(lhs.GetPosition() - m_cameraPosition) > cameraDir.Dot(rhs.GetPosition() - m_cameraPosition);
 		});
 
+	// 頂点の作成
 	m_vertices.clear();
 	for (ParticleUtility& li : m_particleUtility)
 	{

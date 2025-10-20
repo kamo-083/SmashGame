@@ -325,13 +325,6 @@ void CountArea::DrawArea(
 	//	”Âƒ|ƒŠƒSƒ“‚ð•`‰æ
 	m_batch->Begin();
 
-	// Žè‘O
-	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
-	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[2]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
-	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
-
 	// ‰œ
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[0]);
 	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
@@ -350,6 +343,13 @@ void CountArea::DrawArea(
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
 	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[0]);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
+
+	// Žè‘O
+	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[2]);
 	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
