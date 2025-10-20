@@ -9,29 +9,24 @@
 
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-#include "Source/Game/Common/CollisionManager.h"
-#include "Source/Game/Effect/EffectManager.h"
-#include "Source/Game/GameObjects/Camera.h"
-#include "Source/Game/GameObjects/Player/Player.h"
-#include "Source/Game/GameObjects/Enemy/EnemyManager.h"
-#include "Source/Game/GameObjects/Stage/StageManager.h"
-#include "Source/Game/GameObjects/Sky.h"
-#include "Source/Game/UI/UIWidget.h"
-#include "Source/Game/UI/AttackUI.h"
-#include "Source/Game/UI/StageResultUI.h"
 #include "Source/Game/UI/ClearConditionsUI.h"
-#include "Source/Game/UI/OperationUI.h"
 
-#include "Source/Game/UI/NumberRenderer/NumberRenderer3D.h"
 
 
 // クラスの宣言 ===============================================================
 class Camera;
 class Player;
+class EnemyManager;
+class StageManager;
+class EffectManager;
+class CollisionManager;
+class Sky;
+class UIWidget;
 class AttackUI;
+class StageResultUI;
+class OperationUI;
 
 
 // クラスの定義 ===============================================================
@@ -46,11 +41,11 @@ public:
 	enum class Overlay
 	{
 		NONE = -1,
-		GAMEPLAY,
-		RESULT,
+		GAMEPLAY,	// ゲーム
+		RESULT,		// リザルト
 	};
 
-	const ClearConditionsUI::ConditionsType CLEAR_CONDITIONS;
+	const ClearConditionsUI::ConditionsType CLEAR_CONDITIONS;	// クリア条件
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -76,7 +71,7 @@ private:
 	// プレイヤー
 	std::unique_ptr<Player> m_player;
 
-	// 敵
+	// 敵マネージャー
 	std::unique_ptr<EnemyManager> m_enemyManager;
 
 	// ステージマネージャー

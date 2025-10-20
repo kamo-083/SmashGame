@@ -25,9 +25,9 @@ public:
 	// クリア条件の種類
 	enum class ConditionsType
 	{
-		SMASH,
-		PUSH_OUT,
-		GATHER
+		SMASH,		// ぶつける
+		PUSH_OUT,	// 追い出す
+		GATHER		// 集める
 	};
 
 	// 画像テキストの1列分の大きさ

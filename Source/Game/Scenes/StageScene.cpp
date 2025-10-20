@@ -9,8 +9,17 @@
 #include "StageScene.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/RenderContext.h"
-
-#include"Source/Game/Common/RenderTexture.h"
+#include "Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Effect/EffectManager.h"
+#include "Source/Game/GameObjects/Camera.h"
+#include "Source/Game/GameObjects/Player/Player.h"
+#include "Source/Game/GameObjects/Enemy/EnemyManager.h"
+#include "Source/Game/GameObjects/Stage/StageManager.h"
+#include "Source/Game/GameObjects/Sky.h"
+#include "Source/Game/UI/UIWidget.h"
+#include "Source/Game/UI/AttackUI.h"
+#include "Source/Game/UI/StageResultUI.h"
+#include "Source/Game/UI/OperationUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -19,6 +28,8 @@
  *
  * @param sceneManager    シーンを管理しているマネージャ
  * @param resourceManager リソースを管理しているマネージャ
+ * @param path			  ステージデータのファイルパス
+ * @param clearCondition  クリア条件
  */
 StageScene::StageScene(
 	SceneManager* pSceneManager, UserResources* pUserResources,
@@ -166,6 +177,7 @@ void StageScene::Initialize()
  */
 void StageScene::Update(float elapsedTime)
 {
+	// リザルト表示中
 	if (m_overlayMode == Overlay::RESULT)
 	{
 		m_resultUI->Update(elapsedTime);
@@ -283,6 +295,7 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	m_attackUI->Draw(context);	  	// 攻撃
 	m_cameraUI->Draw(context);	  	// カメラ
 
+	// リザルトの描画
 	if (m_overlayMode == Overlay::RESULT)
 	{
 		m_resultUI->Draw(context);
