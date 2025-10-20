@@ -26,15 +26,15 @@
 /**
  * @brief コンストラクタ
  *
- * @param sceneManager    シーンを管理しているマネージャ
- * @param resourceManager リソースを管理しているマネージャ
+ * @param pSM			  シーンを管理しているマネージャ
+ * @param pUR			  リソースを管理しているマネージャ
  * @param path			  ステージデータのファイルパス
  * @param clearCondition  クリア条件
  */
 StageScene::StageScene(
-	SceneManager* pSceneManager, UserResources* pUserResources,
+	SceneManager* pSM, UserResources* pUR,
 	std::string path, ClearConditionsUI::ConditionsType clearCondition)
-	: Scene{ pSceneManager,pUserResources }
+	: Scene{ pSM,pUR }
 	, m_keyMode{ false }
 	, m_stageFilePath{ path }
 	, m_overlayMode{ Overlay::NONE }

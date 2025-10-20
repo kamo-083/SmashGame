@@ -1,27 +1,26 @@
 /**
  * @file   TitleScene.h
  *
- * @brief  テストシーンに関するヘッダファイル
+ * @brief  タイトルシーンに関するヘッダファイル
  **/
 
  // 多重インクルードの防止 =====================================================
 #pragma once
 
 
-
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-#include "Source/Game/UI/UIWidget.h"
-#include "Source/Game/UI/Button.h"
+
 
 
 // クラスの宣言 ===============================================================
+class UIWidget;
+class Button;
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief テストシーン
+ * @brief タイトルシーン
  */
 class TitleScene : public Scene
 {
@@ -36,7 +35,7 @@ public:
 		ID3D11ShaderResourceView* background;	// 背景
 	};
 
-	static constexpr int BUTTONS = 2;
+	static constexpr int BUTTONS = 2;	// ボタン数
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -44,11 +43,13 @@ private:
 	// システム関連
 
 
-
 	// オブジェクト関連
+	// テクスチャ群
 	std::unique_ptr<Textures> m_textures;
 
+	// タイトルロゴ
 	std::unique_ptr<UIWidget> m_titleLogo;
+	// ボタン
 	std::vector<std::unique_ptr<Button>> m_buttons;
 
 	// 選択中のボタン
@@ -59,7 +60,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	TitleScene(SceneManager* pSceneManager, UserResources* pUserResources);
+	TitleScene(SceneManager* pSM, UserResources* pUR);
 
 	// デストラクタ
 	~TitleScene();
@@ -86,6 +87,7 @@ public:
 
 	// 内部実装
 private:
+	// 指定したボタンのリセット
 	void ButtonReset(int buttonNum);
 
 };

@@ -7,17 +7,20 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "StageSelectScene.h"
+#include "Source/Game/UI/Button.h"
+#include "Source/Game/UI/NumberRenderer/NumberRenderer2D.h"
 
 
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param sceneManager    シーンを管理しているマネージャ
- * @param resourceManager リソースを管理しているマネージャ
+ * @param pSM		シーンを管理しているマネージャ
+ * @param pUR		リソースを管理しているマネージャ
+ * @param stages	ステージ数
  */
-StageSelectScene::StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources, int stages)
-	: Scene{ pSceneManager,pUserResources }
+StageSelectScene::StageSelectScene(SceneManager* pSM, UserResources* pUR, int stages)
+	: Scene{ pSM,pUR }
 	, STAGES{ stages }
 	, m_selectNum{ 0 }
 {
@@ -214,6 +217,15 @@ void StageSelectScene::Finalize()
 	m_stagePanels.clear();
 }
 
+
+
+/**
+ * @brief 指定したステージパネルのアニメーションをリセット
+ *
+ * @param panelNum	パネル番号
+ *
+ * @return なし
+ */
 void StageSelectScene::PanelReset(int panelNum)
 {
 	m_stagePanels[panelNum]->Reset();

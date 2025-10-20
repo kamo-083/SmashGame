@@ -101,7 +101,7 @@ private:
 public:
 	// コンストラクタ
 	StageScene(
-		SceneManager* pSceneManager, UserResources* pUserResources,
+		SceneManager* pSM, UserResources* pUR,
 		std::string path, ClearConditionsUI::ConditionsType clearCondition);
 
 	// デストラクタ

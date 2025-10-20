@@ -7,17 +7,19 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "TitleScene.h"
+#include "Source/Game/UI/UIWidget.h"
+#include "Source/Game/UI/Button.h"
 
 
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param sceneManager    シーンを管理しているマネージャ
- * @param resourceManager リソースを管理しているマネージャ
+ * @param pSM    シーンを管理しているマネージャ
+ * @param pUR	 リソースを管理しているマネージャ
  */
-TitleScene::TitleScene(SceneManager* pSceneManager, UserResources* pUserResources)
-	: Scene{ pSceneManager,pUserResources }
+TitleScene::TitleScene(SceneManager* pSM, UserResources* pUR)
+	: Scene{ pSM,pUR }
 	, m_selectButton{ 0 }
 {
 
@@ -222,6 +224,15 @@ void TitleScene::Finalize()
 	m_textures.reset();
 }
 
+
+
+/**
+ * @brief 指定したボタンのアニメーションをリセット
+ *
+ * @param buttonNum	ボタン番号
+ *
+ * @return なし
+ */
 void TitleScene::ButtonReset(int buttonNum)
 {
 	m_buttons[buttonNum]->Reset();

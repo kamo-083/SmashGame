@@ -12,12 +12,11 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-#include "Source/Game/UI/Button.h"
-#include "Source/Game/UI/NumberRenderer/NumberRenderer2D.h"
 
 
 // クラスの宣言 ===============================================================
-
+class Button;
+class NumberRenderer2D;
 
 
 // クラスの定義 ===============================================================
@@ -32,7 +31,7 @@ public:
 
 	struct Textures
 	{
-		ID3D11ShaderResourceView* background;
+		ID3D11ShaderResourceView* background;	// 背景
 	};
 
 
@@ -47,6 +46,7 @@ private:
 
 	int m_selectNum;	// 選択中のステージ番号
 
+	// ステージパネル
 	std::vector<std::unique_ptr<Button>> m_stagePanels;
 
 
@@ -54,7 +54,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	StageSelectScene(SceneManager* pSceneManager, UserResources* pUserResources, int stages);
+	StageSelectScene(SceneManager* pSM, UserResources* pUR, int stages);
 
 	// デストラクタ
 	~StageSelectScene();
@@ -81,6 +81,7 @@ public:
 
 	// 内部実装
 private:
+	// 指定したステージパネルをリセット
 	void PanelReset(int panelNum);
 
 
