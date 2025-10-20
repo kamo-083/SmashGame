@@ -1,7 +1,7 @@
 /**
  * @file   TargetBox.h
  *
- * @brief  TargetBoxに関するヘッダファイル
+ * @brief  的に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -22,22 +22,20 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief TargetBox
+ * @brief 的
  */
 class TargetBox
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
+	// 各辺の長さの半分
 	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 0.5f,0.5f,0.5f };
-	static constexpr float MASS = 10.0f;
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
-
-	// 速度
-	DirectX::SimpleMath::Vector3 m_velocity;
 
 	// 傾き
 	DirectX::SimpleMath::Vector3 m_angle;
@@ -47,12 +45,6 @@ private:
 
 	// 当たり判定
 	OBBCollider m_collider;
-
-	// 物理
-	PhysicsObject m_physics;
-
-	// 地面との接触
-	bool m_onGround;
 
 	// ゴールのポインタ
 	Goal* m_pGoal;
@@ -77,12 +69,13 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(CollisionManager* pCollisionManager,
-					EnemyManager* pEnemyManager,
-					Goal* goal,
-					DirectX::SimpleMath::Vector3 position,
-					DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
-					DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero);
+	void Initialize(
+		CollisionManager* pCollisionManager,
+		EnemyManager* pEnemyManager,
+		Goal* goal,
+		DirectX::SimpleMath::Vector3 position,
+		DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
+		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero);
 
 	// 更新処理
 	void Update(float elapsedTime);
@@ -93,11 +86,10 @@ public:
 	// 終了処理
 	void Finalize();
 
-	// 球との当たり判定
-	bool DetectCollisionToEnemy(SphereCollider enemy, StateType state);
 
 // 取得/設定
 public:
+	// 当たり判定の取得
 	OBBCollider GetCollider() { return m_collider; }
 
 // 内部実装

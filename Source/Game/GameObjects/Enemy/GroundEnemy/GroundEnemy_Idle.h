@@ -1,7 +1,7 @@
 /**
  * @file   GroundEnemy_Idle.h
  *
- * @brief  GroundEnemy_Idleに関するヘッダファイル
+ * @brief  地上の敵の待機状態に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -24,7 +24,7 @@ class GroundEnemy;
 
 // クラスの定義 ===============================================================
 /**
- * @brief GroundEnemy_Idle
+ * @brief 地上の敵の待機状態
  */
 class GroundEnemy_Idle :public IState
 {
@@ -33,6 +33,7 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 敵本体へのポインタ
 	GroundEnemy* m_pGroundEnemy;
 
 	// モデルアニメーター
@@ -49,7 +50,7 @@ public:
 	GroundEnemy_Idle(GroundEnemy* groundEnemy);
 
 	// デストラクタ
-	~GroundEnemy_Idle();
+	~GroundEnemy_Idle() = default;
 
 
 // 操作

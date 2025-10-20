@@ -223,7 +223,6 @@
     <ClInclude Include="Source\Game\GameObjects\Player\Player_Idle.h" />
     <ClInclude Include="Source\Game\GameObjects\Player\Player_Walk.h" />
     <ClInclude Include="Source\Game\GameObjects\Sky.h" />
-    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\BounceBox.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\CountArea.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Fence.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Goal.h" />
@@ -288,7 +287,6 @@
     <ClCompile Include="Source\Game\GameObjects\Player\Player_Idle.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Player\Player_Walk.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Sky.cpp" />
-    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\BounceBox.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\CountArea.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Fence.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Goal.cpp" />

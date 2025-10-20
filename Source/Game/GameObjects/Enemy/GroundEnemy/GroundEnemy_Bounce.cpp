@@ -1,7 +1,7 @@
 /**
  * @file   GroundEnemy_Bounce.cpp
  *
- * @brief  GroundEnemy_Bounceに関するソースファイル
+ * @brief  地上の敵の跳ね返り状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -21,14 +21,6 @@ GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
 {
 }
 
-
-/**
- * @brief デストラクタ
- */
-GroundEnemy_Bounce::~GroundEnemy_Bounce()
-{
-
-}
 
 
 /**
@@ -52,6 +44,7 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
 	m_pGroundEnemy->SetIsAttack(false);
 	m_pGroundEnemy->SetAttackCollisionEnabled(false);
 
+	// 軌跡エフェクトの出現をオンにする
 	m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(true);
 }
 
@@ -115,5 +108,6 @@ void GroundEnemy_Bounce::Render(RenderContext& context)
  */
 void GroundEnemy_Bounce::Finalize()
 {
-
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
 }

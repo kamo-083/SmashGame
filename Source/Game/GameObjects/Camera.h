@@ -44,6 +44,7 @@ private:
 	// 角度
 	DirectX::SimpleMath::Vector3 m_angle;
 
+	// 前方向ベクトル
 	DirectX::SimpleMath::Vector3 m_forward;
 
 	// 追従対象の座標
@@ -87,26 +88,28 @@ public:
 // 取得/設定
 public:
 	// ビュー行列を取得
-	DirectX::SimpleMath::Matrix GetView();
+	DirectX::SimpleMath::Matrix GetView() { return m_view; }
 
 	// カメラの位置を取得
-	DirectX::SimpleMath::Vector3 GetEye();
+	DirectX::SimpleMath::Vector3 GetEye() { return m_eye; }
 
 	// カメラの注視点を取得
-	DirectX::SimpleMath::Vector3 GetTarget();
+	DirectX::SimpleMath::Vector3 GetTarget() { return m_target; }
 
 	// カメラの上方向を取得
-	DirectX::SimpleMath::Vector3 GetUp();
+	DirectX::SimpleMath::Vector3 GetUp() { return CAMERA_DEFAULT_UP; }
 
 	// 前方向ベクトルを取得
 	DirectX::SimpleMath::Vector3 GetForward();
 
 	// 追従対象の座標を設定
-	void SetFollowTargetPos(DirectX::SimpleMath::Vector3* pos);
+	void SetFollowTargetPos(DirectX::SimpleMath::Vector3* pos){ m_followTargetPos = pos; }
 
 // 内部実装
 private:
+	// 指定座標を中心にカメラ位置を回転
 	DirectX::SimpleMath::Vector3 RotateEyeAroundPoint(DirectX::SimpleMath::Vector3 angle, DirectX::SimpleMath::Vector3 point);
 
+	// 角度の正規化
 	float NormalizeAngle(float angle);
 };

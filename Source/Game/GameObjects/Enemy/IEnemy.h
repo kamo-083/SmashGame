@@ -1,7 +1,7 @@
 /**
  * @file   IEnemy.h
  *
- * @brief  敵に関するヘッダファイル
+ * @brief  敵の基底クラスに関するヘッダファイル
  */
 
 // 多重インクルードの防止 =====================================================
@@ -24,7 +24,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief 敵
+ * @brief 敵の基底クラス
  */
 class IEnemy
 {
@@ -83,7 +83,7 @@ protected:
 	// リソースマネージャ
 	ResourceManager* m_pResourceManager;
 
-	// コリジョンマネージャー
+	// 当たり判定マネージャー
 	CollisionManager* m_pCollisionManager;
 
 	// 衝突判定のハンドル(本体)
@@ -109,23 +109,26 @@ public:
 		, m_onGround{ false }
 		, m_isAttack{ false }
 		, m_attackForce{ 0.0f }
+		, m_model{ nullptr }
 		, m_pCollisionManager{ nullptr }
 		, m_pResourceManager{ nullptr }
+		, m_handleBody{ 0 }
+		, m_handleAttack{ 0 }
 	{}
 
 	// デストラクタ
-	~IEnemy()
-	{}
+	~IEnemy() = default;
 
 
 // 操作
 public:
 	// 初期化処理
-	virtual void Initialize(ResourceManager* pRM,
-							CollisionManager* pCollisionManager,
-							const DirectX::SimpleMath::Vector3& position,
-							const EnemyInfoLoader::EnemyInfo& info,
-							uint32_t id) = 0;
+	virtual void Initialize(
+		ResourceManager* pRM,
+		CollisionManager* pCollisionManager,
+		const DirectX::SimpleMath::Vector3& position,
+		const EnemyInfoLoader::EnemyInfo& info,
+		uint32_t id) = 0;
 
 	// 更新処理
 	virtual void Update(float elapsedTime) = 0;
@@ -145,22 +148,22 @@ public:
 
 // 取得/設定
 public:
-	StateType GetStateType() { return m_currentState->GetStateType(); }
-	IState* GetNowState() { return m_currentState; }
-	DirectX::SimpleMath::Vector3 GetPosition() { return m_position; }
-	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }
-	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }
-	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }
-	SphereCollider* GetCollider() { return &m_collider; }
-	PhysicsObject* GetPhysics() { return m_physics.get(); }
-	float GetMass() { return MASS; }
-	bool GetOnGround() { return m_onGround; }
-	void SetOnGround(bool onGround) { m_onGround = onGround; }
-	bool GetIsAttack() { return m_isAttack; }
-	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
-	float GetAttackForce() { return m_attackForce; }
-	void SetAttackForce(float force) { m_attackForce = force; }
-	float  GetScale() { return SCALE; }
+	StateType GetStateType() { return m_currentState->GetStateType(); }			// 現在のステートの種類を取得
+	IState* GetNowState() { return m_currentState; }							// 現在のステートへのポインタを取得
+	DirectX::SimpleMath::Vector3 GetPosition() { return m_position; }			// 座標を取得
+	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }	// 座標を設定
+	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }			// 移動速度を取得
+	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }	// 移動速度を設定
+	SphereCollider* GetCollider() { return &m_collider; }						// 当たり判定を取得
+	PhysicsObject* GetPhysics() { return m_physics.get(); }						// 物理演算オブジェクトを取得 
+	float GetMass() { return MASS; }											// 質量を取得
+	bool GetOnGround() { return m_onGround; }									// 接地フラグを取得
+	void SetOnGround(bool onGround) { m_onGround = onGround; }					// 接地フラグを設定
+	bool GetIsAttack() { return m_isAttack; }									// 攻撃中フラグを取得
+	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }					// 攻撃中フラグを設定
+	float GetAttackForce() { return m_attackForce; }							// 攻撃力を取得
+	void SetAttackForce(float force) { m_attackForce = force; }					// 攻撃力を設定
+	float  GetScale() { return SCALE; }											// 大きさを取得
 
 // 内部実装
 private:

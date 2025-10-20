@@ -188,9 +188,6 @@
     <ClInclude Include="Source\Game\Effect\EffectManager.h">
       <Filter>Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\BounceBox.h">
-      <Filter>Game\GameObjects\Stage\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\CountArea.h">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
     </ClInclude>
@@ -362,9 +359,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Effect\EffectManager.cpp">
       <Filter>Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\BounceBox.cpp">
-      <Filter>Game\GameObjects\Stage\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\CountArea.cpp">
       <Filter>Game\GameObjects\Stage\Objects</Filter>

@@ -1,7 +1,7 @@
 /**
  * @file   CircleParticle.h
  *
- * @brief  CircleParticleに関するヘッダファイル
+ * @brief  円形エフェクトパーティクルに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -16,7 +16,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief CircleParticle
+ * @brief 円形エフェクトパーティクル
  */
 class CircleParticle	:public IEffectParticle
 {
@@ -37,7 +37,7 @@ public:
 	CircleParticle();
 
 	// デストラクタ
-	~CircleParticle();
+	~CircleParticle() = default;
 
 
 // 操作
@@ -45,7 +45,7 @@ public:
 	// 更新処理
 	void Update(float elapsedTime);
 
-	// エフェクトの発生
+	// エフェクトを出現させる
 	void SpawnParticleEffect(
 		DirectX::SimpleMath::Vector3 pos,
 		float range,

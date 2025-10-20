@@ -1,7 +1,7 @@
 /**
  * @file   GroundEnemy_Walk.h
  *
- * @brief  GroundEnemy_Walkに関するヘッダファイル
+ * @brief  地上の敵の移動状態に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -24,7 +24,7 @@ class GroundEnemy;
 
 // クラスの定義 ===============================================================
 /**
- * @brief GroundEnemy_Walk
+ * @brief 地上の敵の移動状態
  */
 class GroundEnemy_Walk :public IState
 {
@@ -35,6 +35,7 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 敵本体へのポインタ
 	GroundEnemy* m_pGroundEnemy;
 
 	// モデルアニメーター
@@ -51,7 +52,7 @@ public:
 	GroundEnemy_Walk(GroundEnemy* groundEnemy);
 
 	// デストラクタ
-	~GroundEnemy_Walk();
+	~GroundEnemy_Walk() = default;
 
 
 // 操作

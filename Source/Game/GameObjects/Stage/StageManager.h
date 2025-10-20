@@ -1,7 +1,7 @@
 /**
  * @file   StageManager.h
  *
- * @brief  StageManagerに関するヘッダファイル
+ * @brief  ステージマネージャーに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -21,7 +21,6 @@
 // クラスの宣言	===============================================================
 class StageScene;
 class Ground;
-class BounceBox;
 class TargetBox;
 class Goal;
 class CountArea;
@@ -30,7 +29,7 @@ class Fence;
 
 // クラスの定義 ===============================================================
 /**
- * @brief StageManager
+ * @brief ステージマネージャー
  */
 class StageManager
 {
@@ -45,9 +44,6 @@ private:
 
 	//地面
 	std::vector<std::unique_ptr<Ground>> m_grounds;
-
-	//箱
-	std::vector<std::unique_ptr<BounceBox>> m_bounceBoxes;
 
 	//的
 	std::vector<std::unique_ptr<TargetBox>> m_targetBoxes;
@@ -75,8 +71,9 @@ public:
 // 操作
 public:
 	// ステージを生成
-	void CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyManager* pEM,
-					 const std::string& path);
+	void CreateStage(
+		UserResources* pUR, CollisionManager* pCM, EnemyManager* pEM,
+		const std::string& path);
 
 	// 更新処理
 	void Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);
@@ -96,6 +93,7 @@ public:
 public:
 	// ゴールしているか
 	bool IsGoal();
+	// ゴールできるか
 	bool IsCanGoal();
 
 // 内部実装

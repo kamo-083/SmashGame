@@ -1,14 +1,11 @@
 /**
  * @file   ParticleUtility.cpp
  *
- * @brief  ParticleUtilityに関するソースファイル
+ * @brief  パーティクルユーティリティに関するソースファイル
  */
 
 #include "pch.h"
 #include "ParticleUtility.h"
-
-#include "Source/Game/Common/StepTimer.h"
-#include "Source/Game/Common/DeviceResources.h"
 #include <SimpleMath.h>
 #include <Effects.h>
 #include <PrimitiveBatch.h>
@@ -16,7 +13,6 @@
 #include <WICTextureLoader.h>
 #include <CommonStates.h>
 #include <vector>
-#include "ParticleUtility.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -40,13 +36,6 @@ ParticleUtility::ParticleUtility(
 	m_color = color;
 }
 
-
-/**
- * @brief デストラクタ
- */
-ParticleUtility::~ParticleUtility()
-{
-}
 
 
 /**

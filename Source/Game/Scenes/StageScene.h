@@ -56,10 +56,10 @@ public:
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
-	// 切り替え操作のモード true:武器 false:カメラ
+	// 切り替え操作のモード true:攻撃 false:カメラ
 	bool m_keyMode;
 
-	// コリジョンマネージャー
+	// 当たり判定マネージャー
 	std::unique_ptr<CollisionManager> m_collisionManager;
 
 	// エフェクトマネージャー
@@ -82,7 +82,7 @@ private:
 	// ステージマネージャー
 	std::unique_ptr<StageManager> m_stageManager;
 
-	// 武器UI
+	// 攻撃UI
 	std::unique_ptr<AttackUI> m_attackUI;
 
 	// リザルトUI

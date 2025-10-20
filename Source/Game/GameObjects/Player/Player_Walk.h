@@ -1,7 +1,7 @@
 /**
  * @file   Player_Walk.h
  *
- * @brief  Player_Walkに関するヘッダファイル
+ * @brief  プレイヤーの移動状態に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -25,18 +25,19 @@ class Player;
 
 // クラスの定義 ===============================================================
 /**
- * @brief Player_Walk
+ * @brief プレイヤーの移動状態
  */
 class Player_Walk :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float GROUND_SPEED = 3.0f;		//移動速度(地面)
-	static constexpr float AIR_SPEED = 0.5f;		//移動速度(空中)
+	static constexpr float GROUND_SPEED = 3.0f;		// 移動速度(地面)
+	static constexpr float AIR_SPEED = 0.5f;		// 移動速度(空中)
 
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
 
 	// キーボードトラッカーのポインタ
@@ -59,7 +60,7 @@ public:
 	Player_Walk(Player* player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker);
 
 	// デストラクタ
-	~Player_Walk();
+	~Player_Walk() = default;
 
 
 // 操作

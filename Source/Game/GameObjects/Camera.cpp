@@ -41,7 +41,7 @@ Camera::~Camera()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param followTargetPos	追従対象の座標のポインタ
  *
  * @return なし
  */
@@ -68,7 +68,8 @@ void Camera::Initialize(DirectX::SimpleMath::Vector3* followTargetPos)
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param keyboard		キーボードトラッカーのポインタ
+ * @param elapsedTime	経過時間
  *
  * @return なし
  */
@@ -89,6 +90,15 @@ void Camera::Update(DirectX::Keyboard::KeyboardStateTracker* keyboard, float ela
 	m_view = DirectX::SimpleMath::Matrix::CreateLookAt(m_eye, m_target, CAMERA_DEFAULT_UP);
 }
 
+
+
+/**
+ * @brief 描画処理
+ *
+ * @param debugFont	デバッグ用フォント
+ *
+ * @return なし
+ */
 void Camera::Draw(Imase::DebugFont* debugFont)
 {
 	// デバッグ情報の描画
@@ -98,6 +108,15 @@ void Camera::Draw(Imase::DebugFont* debugFont)
 	debugFont->AddString(820, 75, DirectX::Colors::White, L"forward = %f,%f,%f", m_forward.x, m_forward.y, m_forward.z);
 }
 
+
+
+/**
+ * @brief 回転操作
+ *
+ * @param keyboard		キーボードトラッカーのポインタ
+ *
+ * @return なし
+ */
 void Camera::Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard)
 {
 	// 指定した場所を中心に回転
@@ -111,6 +130,15 @@ void Camera::Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard)
 	m_isRotation = true;
 }
 
+
+
+/**
+ * @brief 回転の補間
+ *
+ * @param elapsedTime	経過時間
+ *
+ * @return なし
+ */
 void Camera::SmoothCameraRotation(float elapsedTime)
 {
 	// カメラの回転(線形補間)
@@ -128,26 +156,15 @@ void Camera::SmoothCameraRotation(float elapsedTime)
 	}
 }
 
-DirectX::SimpleMath::Matrix Camera::GetView()
-{
-	return m_view;
-}
 
-DirectX::SimpleMath::Vector3 Camera::GetEye()
-{
-	return m_eye;
-}
 
-DirectX::SimpleMath::Vector3 Camera::GetTarget()
-{
-	return m_target;
-}
-
-DirectX::SimpleMath::Vector3 Camera::GetUp()
-{
-	return CAMERA_DEFAULT_UP;
-}
-
+/**
+ * @brief カメラの前方向ベクトルの取得
+ *
+ * @param なし
+ *
+ * @return 前方向ベクトル
+ */
 DirectX::SimpleMath::Vector3 Camera::GetForward()
 {
 	m_forward = m_target - m_eye;
@@ -157,11 +174,16 @@ DirectX::SimpleMath::Vector3 Camera::GetForward()
 	return m_forward;
 }
 
-void Camera::SetFollowTargetPos(DirectX::SimpleMath::Vector3* pos)
-{
-	m_followTargetPos = pos;
-}
 
+
+/**
+ * @brief 指定座標を中心にカメラ位置を回転
+ *
+ * @param angle	回転角度
+ * @param point	中心座標
+ *
+ * @return 回転後のカメラ位置
+ */
 DirectX::SimpleMath::Vector3 Camera::RotateEyeAroundPoint(DirectX::SimpleMath::Vector3 angle, DirectX::SimpleMath::Vector3 point)
 {
 	DirectX::SimpleMath::Vector3 rotatedEye = { 0.0f,0.0f,0.0f };
@@ -184,6 +206,15 @@ DirectX::SimpleMath::Vector3 Camera::RotateEyeAroundPoint(DirectX::SimpleMath::V
 	return rotatedEye;
 }
 
+
+
+/**
+ * @brief 角度の正規化
+ *
+ * @param angle	角度
+ *
+ * @return 正規化後の角度
+ */
 float Camera::NormalizeAngle(float angle)
 {
 	return std::min(std::max(angle, 0.0f), 360.0f);

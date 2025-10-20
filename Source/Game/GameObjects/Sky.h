@@ -1,7 +1,7 @@
 /**
  * @file   Sky.h
  *
- * @brief  Skyに関するヘッダファイル
+ * @brief  スカイドームに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -16,7 +16,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief Sky
+ * @brief スカイドーム
  */
 class Sky
 {
@@ -27,7 +27,7 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// スカイドーム
+	// スカイドームモデル
 	DirectX::Model* m_skyDome;
 
 	// 中心座標のポインタ
@@ -47,7 +47,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(UserResources* pUserResources);
+	void Initialize(UserResources* pUR);
 
 	// 更新処理
 	void Update(float elapsedTime);

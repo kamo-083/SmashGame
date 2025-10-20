@@ -1,7 +1,7 @@
 /**
  * @file   Player.h
  *
- * @brief  Playerに関するヘッダファイル
+ * @brief  プレイヤーに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -20,10 +20,8 @@
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/Data/AttackData.h"
-#include"Source/Game/Scenes/StageScene.h"
 #include"ImaseLib/DebugFont.h"
 #include"Source/Game/GameObjects/Camera.h"
-#include"Source/Game/UI/AttackUI.h"
 #include"Source/Game/GameObjects/Player/Player_Idle.h"
 #include"Source/Game/GameObjects/Player/Player_Walk.h"
 #include"Source/Game/GameObjects/Player/Player_AttackBasic.h"
@@ -43,7 +41,7 @@ class AttackUI;
 
 // クラスの定義 ===============================================================
 /**
- * @brief Player
+ * @brief プレイヤー
  */
 class Player
 {
@@ -56,15 +54,15 @@ private:
 	static constexpr float DYNAMIC_FRICTION_FORCE = 0.5f;	//動摩擦力
 	static constexpr float STATIC_FRICTION_FORCE = 1.0f;	//静止摩擦力
 	static constexpr float KILL_HEIGHT = -5.0f;				//落下判定をされる高さ
-	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,0.0f,2.0f };
+	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,0.0f,2.0f };	// 初期位置
 
 	struct Animations
 	{
-		DX::AnimationSDKMESH* idle;
-		DX::AnimationSDKMESH* walk;
-		DX::AnimationSDKMESH* atk_basic;
-		DX::AnimationSDKMESH* atk_rolling;
-		DX::AnimationSDKMESH* atk_heavy;
+		DX::AnimationSDKMESH* idle;			// 待機
+		DX::AnimationSDKMESH* walk;			// 移動
+		DX::AnimationSDKMESH* atk_basic;	// 通常攻撃
+		DX::AnimationSDKMESH* atk_rolling;	// 転がり攻撃
+		DX::AnimationSDKMESH* atk_heavy;	// 強攻撃
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -102,13 +100,13 @@ private:
 	// 物理
 	std::unique_ptr<PhysicsObject> m_physics;
 
-	// 攻撃
-	float m_attackForce;
-	bool m_isAttack;
-	SphereCollider m_attackCollider;
-	AttackType m_attackType;
+	// 攻撃関連
+	float m_attackForce;				// 攻撃力
+	bool m_isAttack;					// 攻撃中か
+	SphereCollider m_attackCollider;	// 攻撃判定
+	AttackType m_attackType;			// 攻撃の種類
 
-	// 武器UIのポインタ
+	// 攻撃UIのポインタ
 	AttackUI* m_pAttackUI;
 
 	// 現在の状態
@@ -135,7 +133,7 @@ private:
 	// キー操作のモードのポインタ
 	bool* m_pKeyMode;
 
-	// コリジョンマネージャー
+	// 当たり判定マネージャー
 	CollisionManager* m_pCollisionManager;
 
 	// 衝突判定のハンドル(本体)
@@ -167,12 +165,13 @@ public:
 	// 操作
 public:
 	// 初期化処理
-	void Initialize(ResourceManager* pRM,
-					CollisionManager* pCollisionManager,
-					DirectX::Keyboard::KeyboardStateTracker* pKbTracker, 
-					Camera* pCamera, 
-					AttackUI* pAttackUI,
-					bool* pKeyMode);
+	void Initialize(
+		ResourceManager* pRM,
+		CollisionManager* pCollisionManager,
+		DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
+		Camera* pCamera,
+		AttackUI* pAttackUI,
+		bool* pKeyMode);
 
 	// 更新処理
 	void Update(const float& elapsedTime);
@@ -186,7 +185,7 @@ public:
 	// 状態遷移
 	void ChangeState(IState* newState);
 
-	// 武器変更
+	// 攻撃変更
 	void ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker);
 
 	// 攻撃
@@ -210,38 +209,38 @@ public:
 
 	// 取得/設定
 public:
-	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }
-	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }
-	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }
-	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }
-	float GetRadius() { return RADIUS; }
-	float GetMass() { return MASS; }
-	float GetRotY() { return m_rotY; }
-	void SetRotY(float rotY) { m_rotY = rotY; }
-	bool GetOnGround() { return m_onGround; }
-	void SetOnGround(bool onGround) { m_onGround = onGround; }
-	PhysicsObject* GetPhysics() { return m_physics.get(); }
-	SphereCollider* GetCollider() { return &m_collider; };
-	SphereCollider* GetAttackCollider() { return &m_attackCollider; }
-	float GetAttackForce() { return m_attackForce; }
-	void SetAttackForce(float attackForce) { m_attackForce = attackForce; }
-	bool GetIsAttack() { return m_isAttack; }
-	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
-	AttackType GetAttackType() { return m_attackType; }
-	bool GetIsBounce() { return m_isBounce; }
-	void SetIsBounce(bool isBounce) { m_isBounce = isBounce; }
-	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
-	float GetScale() { return SCALE; }
-	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }
-	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }
-	Animations* GetAnimation() { return m_animations.get(); }
-	float GetKillHeight() { return KILL_HEIGHT; }
+	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }				// 座標の取得
+	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }		// 座標の設定
+	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				// 移動速度の取得
+	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }		// 移動速度の設定
+	float GetRadius() { return RADIUS; }											// 半径サイズの取得
+	float GetMass() { return MASS; }												// 質量の取得
+	float GetRotY() { return m_rotY; }												// 向きの取得
+	void SetRotY(float rotY) { m_rotY = rotY; }										// 向きの設定
+	bool GetOnGround() { return m_onGround; }										// 接地フラグの取得
+	void SetOnGround(bool onGround) { m_onGround = onGround; }						// 接地フラグの設定
+	PhysicsObject* GetPhysics() { return m_physics.get(); }							// 物理演算オブジェクトの取得
+	SphereCollider* GetCollider() { return &m_collider; };							// 当たり判定の取得
+	SphereCollider* GetAttackCollider() { return &m_attackCollider; }				// 攻撃判定の取得
+	float GetAttackForce() { return m_attackForce; }								// 攻撃力の取得
+	void SetAttackForce(float attackForce) { m_attackForce = attackForce; }			// 攻撃力の設定
+	bool GetIsAttack() { return m_isAttack; }										// 攻撃中フラグの取得
+	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }						// 攻撃中フラグの設定
+	AttackType GetAttackType() { return m_attackType; }								// 攻撃種類の取得
+	bool GetIsBounce() { return m_isBounce; }										// 跳ね返りフラグの取得
+	void SetIsBounce(bool isBounce) { m_isBounce = isBounce; }						// 跳ね返りフラグの設定
+	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }	// デバッグ用球の取得
+	float GetScale() { return SCALE; }												// スケールの取得
+	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }	// 軌跡エフェクトの取得
+	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }				// 円形エフェクトの取得
+	Animations* GetAnimation() { return m_animations.get(); }	// アニメーション群の取得
+	float GetKillHeight() { return KILL_HEIGHT; }				// 落下判定高度の取得
 
-	Player_Idle* GetState_Idle() { return m_idlingState.get(); }
-	Player_Walk* GetState_Walk() { return m_walkingState.get(); }
-	Player_AttackBasic* GetState_AttackBasic() { return m_basicAttackingState.get(); }
-	Player_AttackRolling* GetState_AttackRolling() { return m_rollingAttackingState.get(); }
-	Player_AttackHeavy* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }
+	Player_Idle* GetState_Idle() { return m_idlingState.get(); }								// 待機状態の取得
+	Player_Walk* GetState_Walk() { return m_walkingState.get(); }								// 移動状態の取得
+	Player_AttackBasic* GetState_AttackBasic() { return m_basicAttackingState.get(); }			// 通常攻撃状態の取得
+	Player_AttackRolling* GetState_AttackRolling() { return m_rollingAttackingState.get(); }	// 転がり攻撃状態の取得
+	Player_AttackHeavy* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }			// 強攻撃状態の取得
 
 	// 内部実装
 private:

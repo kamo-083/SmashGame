@@ -53,7 +53,7 @@ StageScene::~StageScene()
  */
 void StageScene::Initialize()
 {
-	// コリジョンマネージャーの作成
+	// 当たり判定マネージャーの作成
 	m_collisionManager = std::make_unique<CollisionManager>();
 
 	// レイヤーフィルターの登録
@@ -86,7 +86,7 @@ void StageScene::Initialize()
 	// リソースマネージャーのポインタを取得
 	ResourceManager* pRM = m_userResources->GetResourceManager();
 
-	// 武器UIの作成
+	// 攻撃UIの作成
 	m_attackUI = std::make_unique<AttackUI>(m_userResources->GetDeviceResources()->GetOutputSize().right,
 											m_userResources->GetDeviceResources()->GetOutputSize().bottom);
 	m_attackUI->Initialize(pRM);
@@ -117,7 +117,7 @@ void StageScene::Initialize()
 	m_player->Initialize(pRM, m_collisionManager.get(),
 						 m_userResources->GetKeyboardTracker(), m_camera.get(), m_attackUI.get(), &m_keyMode);
 
-	// エネミーマネージャーの作成
+	// 敵マネージャーの作成
 	m_enemyManager = std::make_unique<EnemyManager>(m_userResources, m_collisionManager.get(), m_effectManager.get());
 	m_enemyManager->Initialize();
 
@@ -213,7 +213,7 @@ void StageScene::Update(float elapsedTime)
 
 	// UIの更新
 	m_conditionsUI->Update(elapsedTime);	// クリア条件
-	m_attackUI->Update(elapsedTime);		// 武器
+	m_attackUI->Update(elapsedTime);		// 攻撃
 	m_cameraUI->Update(elapsedTime);		// カメラ
 
 	// 当たり判定の更新
@@ -280,7 +280,7 @@ void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 
 	// UIの描画
 	m_conditionsUI->Draw(context);	// クリア条件
-	m_attackUI->Draw(context);	  	// 武器
+	m_attackUI->Draw(context);	  	// 攻撃
 	m_cameraUI->Draw(context);	  	// カメラ
 
 	if (m_overlayMode == Overlay::RESULT)

@@ -1,7 +1,7 @@
 /**
  * @file   TrajectoryParticle.cpp
  *
- * @brief  TrajectoryParticleに関するソースファイル
+ * @brief  軌跡エフェクトパーティクルに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -25,19 +25,12 @@ TrajectoryParticle::TrajectoryParticle()
 
 
 /**
- * @brief デストラクタ
- */
-TrajectoryParticle::~TrajectoryParticle()
-{
-
-}
-
-
-
-/**
  * @brief 更新処理
  *
- * @param なし
+ * @param elapsedTime	経過時間
+ * @param pos			座標
+ * @param spawn			出現させるか
+ * @param isRandom		出現位置にランダム性を持たせるか
  *
  * @return なし
  */

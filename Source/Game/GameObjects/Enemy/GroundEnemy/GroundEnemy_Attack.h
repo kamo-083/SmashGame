@@ -1,7 +1,7 @@
 /**
  * @file   GroundEnemy_Attack.h
  *
- * @brief  GroundEnemy_Attackに関するヘッダファイル
+ * @brief  地上の敵の攻撃状態に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -24,19 +24,20 @@ class GroundEnemy;
 
 // クラスの定義 ===============================================================
 /**
- * @brief GroundEnemy_Attack
+ * @brief 地上の敵の攻撃状態
  */
 class GroundEnemy_Attack :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	const float ATTACK_FORCE;
-	const float ATTACK_TIME;
-	const float ATTACK_SIZE;
+	const float ATTACK_FORCE;	// 攻撃力
+	const float ATTACK_TIME;	// 攻撃持続時間
+	const float ATTACK_SIZE;	// 攻撃判定サイズ
 
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 敵本体へのポインタ
 	GroundEnemy* m_pGroundEnemy;
 
 	// モデルアニメーター
@@ -56,7 +57,7 @@ public:
 	GroundEnemy_Attack(GroundEnemy* groundEnemy,const EnemyInfoLoader::EnemyInfo& info);
 
 	// デストラクタ
-	~GroundEnemy_Attack();
+	~GroundEnemy_Attack() = default;
 
 
 // 操作

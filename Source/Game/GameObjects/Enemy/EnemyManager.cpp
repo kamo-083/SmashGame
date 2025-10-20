@@ -1,7 +1,7 @@
 /**
  * @file   EnemyManager.cpp
  *
- * @brief  EnemyManagerに関するソースファイル
+ * @brief  敵マネージャーに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -15,16 +15,17 @@
  * @brief コンストラクタ
  *
  * @param pUserResources	ユーザーリソースのポインタ
- * @param pCollisionManager コリジョンマネージャーのポインタ
- * @param pEffectManager エフェクトマネージャーのポインタ
+ * @param pCollisionManager 当たり判定マネージャーのポインタ
+ * @param pEffectManager	エフェクトマネージャーのポインタ
  */
-EnemyManager::EnemyManager(UserResources* pUserResources,
-						   CollisionManager* pCollisionManager,
-						   EffectManager* pEffectManager)
-	:m_pUserResources{pUserResources}
-	,m_pCollisionManager{pCollisionManager}
-	,m_pEffectManager{pEffectManager}
-	,m_nextID{0}
+EnemyManager::EnemyManager(
+	UserResources* pUserResources,
+	CollisionManager* pCollisionManager,
+	EffectManager* pEffectManager)
+	:m_pUserResources{ pUserResources }
+	, m_pCollisionManager{ pCollisionManager }
+	, m_pEffectManager{ pEffectManager }
+	, m_nextID{ 0 }
 {
 
 }
@@ -58,11 +59,13 @@ void EnemyManager::Initialize()
  * @brief 更新処理
  *
  * @param elapsedTime 経過時間
+ * @param pPlayer	  プレイヤーのポインタ
  *
  * @return なし
  */
 void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 {
+	// 各敵の更新
 	for (auto& e : m_enemies)
 	{
 		e->enemy->Update(elapsedTime);

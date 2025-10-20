@@ -1,7 +1,7 @@
 /**
  * @file   Player_AttackHeavy.cpp
  *
- * @brief  Player_AttackHeavyに関するソースファイル
+ * @brief  プレイヤーの強攻撃状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -25,14 +25,6 @@ Player_AttackHeavy::Player_AttackHeavy(Player* Player, DirectX::Keyboard::Keyboa
 
 }
 
-
-/**
- * @brief デストラクタ
- */
-Player_AttackHeavy::~Player_AttackHeavy()
-{
-
-}
 
 
 /**
@@ -144,5 +136,6 @@ void Player_AttackHeavy::Render(RenderContext& context)
  */
 void Player_AttackHeavy::Finalize()
 {
+	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
 }

@@ -1,7 +1,7 @@
 /**
  * @file   Player_AttackBasic.h
  *
- * @brief  Player_AttackBasicに関するヘッダファイル
+ * @brief  プレイヤーの通常攻撃状態に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -24,18 +24,19 @@ class Player;
 
 // クラスの定義 ===============================================================
 /**
- * @brief Player_AttackBasic
+ * @brief プレイヤーの通常攻撃状態
  */
 class Player_AttackBasic :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float ATTACK_FORCE = 3000.0f;
-	static constexpr float ATTACK_TIME = 1.0f;
-	static constexpr float ATTACK_SIZE = 2.0f;
+	static constexpr float ATTACK_FORCE = 3000.0f;	// 攻撃力
+	static constexpr float ATTACK_TIME = 1.0f;		// 攻撃持続時間
+	static constexpr float ATTACK_SIZE = 2.0f;		// 攻撃判定サイズ
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
 
 	// キーボードトラッカーのポインタ
@@ -58,7 +59,7 @@ public:
 	Player_AttackBasic(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker);
 
 	// デストラクタ
-	~Player_AttackBasic();
+	~Player_AttackBasic() = default;
 
 
 // 操作

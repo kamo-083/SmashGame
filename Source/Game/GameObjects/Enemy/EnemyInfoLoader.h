@@ -1,7 +1,7 @@
 /**
  * @file   EnemyInfoLoader.h
  *
- * @brief  EnemyInfoLoaderに関するヘッダファイル
+ * @brief  敵情報ファイル用ローダーに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -20,48 +20,52 @@ using json = nlohmann::json;
 
 // クラスの定義 ===============================================================
 /**
- * @brief EnemyInfoLoader
+ * @brief 敵情報ファイル用ローダー
  */
 class EnemyInfoLoader
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// 敵の種類
 	enum class EnemyType
 	{
-		Basic,
-		Heavy,
-		Light,
+		Basic,	// 通常
+		Heavy,	// 重量
+		Light,	// 軽量
 	};
 
+	// アニメーションの種類
 	enum class AnimType
 	{
-		Idle,
-		Walk,
-		Attack,
+		Idle,	// 待機
+		Walk,	// 移動
+		Attack,	// 攻撃
 	};
 
+	// 攻撃の情報
 	struct AttackDesc
 	{
-		float time;
-		float size;
-		float force;
+		float time;		// 攻撃時間
+		float size;		// 判定サイズ
+		float force;	// 攻撃力
 	};
 
+	// 敵の情報
 	struct EnemyInfo
 	{
-		EnemyType type;
-		float radius = 0.0f;
-		float mass = 0.0f;
-		float speed = 0.0f;
-		float max_speed = 0.0f;
-		float static_friction = 0.0f;
-		float dynamic_friction = 0.0f;
-		AttackDesc attack;
+		EnemyType type;					// 種類
+		float radius = 0.0f;			// 半径サイズ
+		float mass = 0.0f;				// 質量
+		float speed = 0.0f;				// 移動速度
+		float max_speed = 0.0f;			// 最高移動速度
+		float static_friction = 0.0f;	// 静止摩擦係数
+		float dynamic_friction = 0.0f;	// 動摩擦係数
+		AttackDesc attack;				// 攻撃情報
 
-		std::string modelPath;
-		std::string idleAnimPath;
-		std::string walkAnimPath;
-		std::string attackAnimPath;
+		std::string modelPath;		// モデルのファイルパス
+		std::string idleAnimPath;	// 待機アニメーションのファイルパス
+		std::string walkAnimPath;	// 移動アニメーションのファイルパス
+		std::string attackAnimPath;	// 攻撃アニメーションのファイルパス
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -76,8 +80,7 @@ public:
 	{}
 
 	// デストラクタ
-	~EnemyInfoLoader()
-	{}
+	~EnemyInfoLoader() = default;
 
 
 // 操作

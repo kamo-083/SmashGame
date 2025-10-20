@@ -1,7 +1,7 @@
 /**
  * @file   EnemyManager.h
  *
- * @brief  EnemyManagerに関するヘッダファイル
+ * @brief  敵マネージャーに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -25,24 +25,25 @@ class Player;
 
 // クラスの定義 ===============================================================
 /**
- * @brief EnemyManager
+ * @brief 敵マネージャー
  */
 class EnemyManager
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// 出現時の設定データ
 	struct SpawnData
 	{
-		EnemyType type;
-		DirectX::SimpleMath::Vector3 position;
+		EnemyType type;							// 種類
+		DirectX::SimpleMath::Vector3 position;	// 座標
 	};
 
 	struct EnemyData
 	{
-		uint32_t id;
-		EnemyType type;
-		bool alive;
-		std::unique_ptr<IEnemy> enemy;
+		uint32_t id;					// 管理ID
+		EnemyType type;					// 種類
+		bool alive;						// 生存フラグ
+		std::unique_ptr<IEnemy> enemy;	// 敵のポインタ
 
 		EnemyData(uint32_t inId, EnemyType inType, std::unique_ptr<IEnemy> inEnemy)
 			:id(inId)
@@ -53,14 +54,14 @@ public:
 		}
 	};
 
-	static constexpr float KILL_HEIGHT = -50.0f;
+	static constexpr float KILL_HEIGHT = -50.0f;	// 落下判定する高さ
 
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// ユーザーリソースのポインタ
 	UserResources* m_pUserResources;
 
-	// コリジョンマネージャーのポインタ
+	// 当たり判定マネージャーのポインタ
 	CollisionManager* m_pCollisionManager;
 
 	// エフェクトマネージャーのポインタ
@@ -69,7 +70,7 @@ private:
 	// ID
 	uint32_t m_nextID;
 
-	// 敵
+	// 敵の配列
 	std::vector<std::unique_ptr<EnemyData>> m_enemies;
 
 	// 種類ごとの情報
@@ -80,9 +81,10 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	EnemyManager(UserResources* pUserResources, 
-				 CollisionManager* pCollisionManager,
-				 EffectManager* pEffectManager);
+	EnemyManager(
+		UserResources* pUserResources,
+		CollisionManager* pCollisionManager,
+		EffectManager* pEffectManager);
 
 	// デストラクタ
 	~EnemyManager();
@@ -114,6 +116,7 @@ public:
 
 // 内部実装
 private:
+	// 敵の生成
 	std::unique_ptr<IEnemy> Create(EnemyType type);
 
 };

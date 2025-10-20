@@ -1,7 +1,7 @@
 /**
  * @file   TrajectoryParticle.h
  *
- * @brief  TrajectoryParticleに関するヘッダファイル
+ * @brief  軌跡エフェクトパーティクルに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -16,7 +16,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief TrajectoryParticle
+ * @brief 軌跡エフェクトパーティクル
  */
 class TrajectoryParticle :public IEffectParticle
 {
@@ -37,7 +37,7 @@ public:
 	TrajectoryParticle();
 
 	// デストラクタ
-	~TrajectoryParticle();
+	~TrajectoryParticle() = default;
 
 
 // 操作

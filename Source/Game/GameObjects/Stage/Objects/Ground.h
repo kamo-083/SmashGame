@@ -24,16 +24,20 @@ class Ground
 {
 // クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr DirectX::SimpleMath::Vector3 CENTER_POS = { 0.0f,-0.5f,0.0f };
-	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 5.0f,0.5f,5.0f };
-	static constexpr DirectX::SimpleMath::Vector3 ANGLE = { 0.0f,0.0f,0.0f };
+	static constexpr DirectX::SimpleMath::Vector3 CENTER_POS = { 0.0f,-0.5f,0.0f };	// デフォルト座標
+	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 5.0f,0.5f,5.0f };	// デフォルトサイズ
+	static constexpr DirectX::SimpleMath::Vector3 ANGLE = { 0.0f,0.0f,0.0f };		// デフォルト角度
 
 // データメンバの宣言 -----------------------------------------------
 private:
+	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
+	// 大きさ(各辺の長さの半分)
 	DirectX::SimpleMath::Vector3 m_halfLength;
+	// 角度
 	DirectX::SimpleMath::Vector3 m_angle;
 
+	// 当たり判定
 	OBBCollider m_collider;
 
 	// 衝突判定のハンドル
@@ -55,10 +59,11 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(CollisionManager* pCollisionManager,
-					DirectX::SimpleMath::Vector3 position = CENTER_POS,
-					DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
-					DirectX::SimpleMath::Vector3 angle = ANGLE);
+	void Initialize(
+		CollisionManager* pCM,
+		DirectX::SimpleMath::Vector3 position = CENTER_POS,
+		DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
+		DirectX::SimpleMath::Vector3 angle = ANGLE);
 
 	// 更新処理
 	void Update();
@@ -72,7 +77,8 @@ public:
 
 // 取得/設定
 public:
-	OBBCollider GetCollider();
+	// 当たり判定の取得
+	OBBCollider GetCollider(){ return m_collider; }
 
 
 // 内部実装

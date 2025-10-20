@@ -1,13 +1,14 @@
 /**
  * @file   Player.cpp
  *
- * @brief  Playerに関するソースファイル
+ * @brief  プレイヤーに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player.h"
 #include "Source/Game/Scenes/StageScene.h"
+#include"Source/Game/UI/AttackUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -68,6 +69,7 @@ Player::Player(
 }
 
 
+
 /**
  * @brief デストラクタ
  */
@@ -78,25 +80,25 @@ Player::~Player()
 
 
 
-
 /**
  * @brief 初期化処理
  *
- * @param pRM  リソースマネージャーのポインタ
- * @param pCollisionManager コリジョンマネージャーのポインタ
+ * @param pRM				リソースマネージャーのポインタ
+ * @param pCollisionManager 当たり判定マネージャーのポインタ
  * @param pKbTracker		キーボードトラッカーのポインタ
  * @param pCamera			カメラのポインタ
- * @param pAttackUI			武器UIのポインタ
+ * @param pAttackUI			攻撃UIのポインタ
  * @param pKeyMode			キー入力モードのポインタ
  *
  * @return なし
  */
-void Player::Initialize(ResourceManager* pRM,
-						CollisionManager* pCollisionManager,
-						DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
-						Camera* pCamera, 
-						AttackUI* pAttackUI,
-						bool* pKeyMode)
+void Player::Initialize(
+	ResourceManager* pRM,
+	CollisionManager* pCollisionManager,
+	DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
+	Camera* pCamera,
+	AttackUI* pAttackUI,
+	bool* pKeyMode)
 {
 	// 座標の初期化
 	m_position = START_POS;
@@ -113,10 +115,10 @@ void Player::Initialize(ResourceManager* pRM,
 	// 吹っ飛ばされ状態
 	m_isBounce = false;
 
-	// 武器の設定
+	// 攻撃の設定
 	m_attackType = AttackType::BASIC;
 
-	// 武器UIの設定
+	// 攻撃UIの設定
 	m_pAttackUI = pAttackUI;
 
 	// リソースマネージャの設定
@@ -147,7 +149,7 @@ void Player::Initialize(ResourceManager* pRM,
 	m_physics->GetFriction().SetDynamicFriction(DYNAMIC_FRICTION_FORCE);
 	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION_FORCE);
 
-	// コリジョンマネージャーの登録
+	// 当たり判定マネージャーの登録
 	m_pCollisionManager = pCollisionManager;
 
 	// 本体
@@ -211,7 +213,7 @@ void Player::Initialize(ResourceManager* pRM,
 
 	// 転がり攻撃状態を生成
 	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(this, pCamera, pKbTracker);
-	
+
 	// 転がり攻撃状態を生成
 	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, pKbTracker);
 
@@ -266,18 +268,19 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 void Player::Finalize()
 {
 	// 状態をリセットする
+	// 待機状態
 	if (m_idlingState) m_idlingState->Finalize();
 	m_idlingState.reset();
-
+	// 移動状態
 	if (m_walkingState) m_walkingState->Finalize();
 	m_walkingState.reset();
-
+	// 通常攻撃状態
 	if (m_basicAttackingState) m_basicAttackingState->Finalize();
 	m_basicAttackingState.reset();
-
+	// 転がり攻撃状態
 	if (m_rollingAttackingState) m_rollingAttackingState->Finalize();
 	m_rollingAttackingState.reset();
-
+	// 強攻撃状態
 	if (m_heavyAttackingState) m_heavyAttackingState->Finalize();
 	m_heavyAttackingState.reset();
 
@@ -309,7 +312,7 @@ void Player::ChangeState(IState* newState)
 
 
 /**
- * @brief 武器の切り替え
+ * @brief 攻撃の切り替え
  *
  * @param pKbTracker キーボードトラッカーのポインタ
  *

@@ -1,13 +1,14 @@
 /**
  * @file   GroundEnemy_Walk.cpp
  *
- * @brief  GroundEnemy_Walkに関するソースファイル
+ * @brief  地上の敵の移動状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "GroundEnemy_Walk.h"
 #include "Source/Game/GameObjects/Enemy/IEnemy.h"
+#include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -23,14 +24,6 @@ GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy)
 
 }
 
-
-/**
- * @brief デストラクタ
- */
-GroundEnemy_Walk::~GroundEnemy_Walk()
-{
-
-}
 
 
 /**
@@ -130,5 +123,6 @@ void GroundEnemy_Walk::Render(RenderContext& context)
  */
 void GroundEnemy_Walk::Finalize()
 {
-
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
 }

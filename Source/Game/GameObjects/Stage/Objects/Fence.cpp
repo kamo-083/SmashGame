@@ -13,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param context	デバイスコンテキストのポインタ
  */
 Fence::Fence(ID3D11DeviceContext* context)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
@@ -21,6 +21,8 @@ Fence::Fence(ID3D11DeviceContext* context)
 	, m_angle{ DirectX::SimpleMath::Vector3::Zero }
 	, m_collider{}
 	, m_collisionHandle{ 0 }
+	, m_model{ nullptr }
+	, m_num{ 0 }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -40,7 +42,11 @@ Fence::~Fence()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param pRM		リソースマネージャーのポインタ
+ * @param pCM		当たり判定マネージャーのポインタ
+ * @param position	座標
+ * @param scale		スケール
+ * @param angle		角度
  *
  * @return なし
  */
@@ -72,7 +78,7 @@ void Fence::Initialize(
 	float rotZ = DirectX::XMConvertToRadians(m_angle.z);
 	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotY, rotX, rotZ));
 
-	// コリジョンマネージャーに登録
+	// 当たり判定マネージャーに登録
 	CollisionManager::Desc desc{};
 	desc.type = CollisionManager::Type::OBB;
 	desc.layer = CollisionManager::Layer::Stage;
@@ -163,19 +169,4 @@ void Fence::Finalize()
 {
 	m_model = nullptr;
 	m_geometricPrimitive.reset();
-}
-
-
-
-/**
- * @brief コライダーの取得
- *
- * @param なし
- *
- * @return OBBのコライダー
- */
-
-OBBCollider Fence::GetCollider()
-{
-	return m_collider;
 }

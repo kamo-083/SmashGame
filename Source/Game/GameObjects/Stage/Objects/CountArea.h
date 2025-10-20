@@ -1,7 +1,7 @@
 /**
  * @file   CountArea.h
  *
- * @brief  CountAreaに関するヘッダファイル
+ * @brief  エリアに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -22,13 +22,13 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief CountArea
+ * @brief エリア
  */
 class CountArea
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	static constexpr float AREA_HALF_HEIGHT = 1.0f;
+	static constexpr float AREA_HALF_HEIGHT = 1.0f;	// エリアの高さ(半分)
 
 	// 条件
 	enum class TriggerMode
@@ -37,16 +37,17 @@ public:
 		AllOut		// 全部外に出す
 	};
 
-	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
+	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;	// インプットレイアウト
 
+	// コンストバッファ
 	struct ConstBuffer
 	{
-		DirectX::SimpleMath::Matrix	 matWorld;
-		DirectX::SimpleMath::Matrix	 matView;
-		DirectX::SimpleMath::Matrix	 matProj;
-		DirectX::SimpleMath::Vector4 Diffuse;
-		float Height;
-		DirectX::SimpleMath::Vector3 Dummy;
+		DirectX::SimpleMath::Matrix	 matWorld;	// ワールド行列
+		DirectX::SimpleMath::Matrix	 matView;	// ビュー行列
+		DirectX::SimpleMath::Matrix	 matProj;	// 射影行列
+		DirectX::SimpleMath::Vector4 Diffuse;	// 基本色
+		float Height;							// 高さ
+		DirectX::SimpleMath::Vector3 Dummy;		// ダミーデータ
 	};
 
 
@@ -85,20 +86,20 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_CBuffer;
 
 	// シェーダー
-	ShaderManager::VertexShaderEntry* m_vs;
-	ShaderManager::PixelShaderEntry* m_ps;
-	ShaderManager::GeometryShaderEntry* m_gs;
+	ShaderManager::VertexShaderEntry* m_vs;		// 頂点シェーダー
+	ShaderManager::PixelShaderEntry* m_ps;		// ピクセルシェーダー
+	ShaderManager::GeometryShaderEntry* m_gs;	// ジオメトリシェーダー
 
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
-	std::unique_ptr<NumberRenderer3D> m_numberBorad;
+	std::unique_ptr<NumberRenderer3D> m_numberBorad;	// 内部の敵数描画
 
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	CountArea(UserResources* ur);
+	CountArea(UserResources* pUR);
 
 	// デストラクタ
 	~CountArea();
@@ -107,9 +108,10 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(CollisionManager* pCollisionManager,
-					DirectX::SimpleMath::Vector3 position, float x, float z,
-					std::function<void()> operation, TriggerMode mode, int targetNum = 0);
+	void Initialize(
+		CollisionManager* pCM,
+		DirectX::SimpleMath::Vector3 position, float x, float z,
+		std::function<void()> operation, TriggerMode mode, int targetNum = 0);
 
 	// 更新処理
 	void Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);

@@ -1,7 +1,7 @@
 /**
  * @file   TargetBox.cpp
  *
- * @brief  TargetBoxに関するソースファイル
+ * @brief  的に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -16,8 +16,7 @@
  * @param なし
  */
 TargetBox::TargetBox(ID3D11DeviceContext* context)
-	: m_onGround{ false }
-	, m_pGoal{ nullptr }
+	: m_pGoal{ nullptr }
 	, m_collisionHandle{ 0 }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
@@ -52,11 +51,9 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 	m_position = position;
 	m_halfLength = halfLength;
 	m_angle = angle;
-	m_velocity = DirectX::SimpleMath::Vector3::Zero;
 
+	// ゴールのポインタを設定
 	m_pGoal = goal;
-
-	m_onGround = true;
 
 	// 当たり判定の作成
 	m_collider.SetCenter(m_position);
@@ -66,7 +63,7 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 	float rotZ = DirectX::XMConvertToRadians(m_angle.z);
 	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotY, rotX, rotZ));
 
-	// コリジョンマネージャーに登録
+	// 当たり判定マネージャーに登録
 	CollisionManager::Desc desc{};
 	desc.type = CollisionManager::Type::OBB;
 	desc.layer = CollisionManager::Layer::Stage;
@@ -97,7 +94,7 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param elapsedTime	経過時間
  *
  * @return なし
  */
@@ -111,7 +108,7 @@ void TargetBox::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -142,17 +139,5 @@ void TargetBox::Draw(RenderContext& context)
  */
 void TargetBox::Finalize()
 {
-	m_geometricPrimitive.reset();
-}
-
-bool TargetBox::DetectCollisionToEnemy(SphereCollider enemy, StateType state)
-{
-	bool hit = IsHit(m_collider, enemy);
-
-	if (hit)
-	{
-		if (state == StateType::Bounce) m_pGoal->CanGoal();
-	}
-
-	return hit;
+	
 }

@@ -1,7 +1,7 @@
 /**
  * @file   Player_Idle.h
  *
- * @brief  Player_Idleに関するヘッダファイル
+ * @brief  プレイヤーの待機状態に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -24,7 +24,7 @@ class Player;
 
 // クラスの定義 ===============================================================
 /**
- * @brief Player_Idle
+ * @brief プレイヤーの待機状態
  */
 class Player_Idle :public IState
 {
@@ -33,6 +33,7 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
 
 	// キーボードトラッカーのポインタ
@@ -52,7 +53,7 @@ public:
 	Player_Idle(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker);
 
 	// デストラクタ
-	~Player_Idle();
+	~Player_Idle() = default;
 
 
 // 操作

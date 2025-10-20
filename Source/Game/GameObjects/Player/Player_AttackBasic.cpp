@@ -1,7 +1,7 @@
 /**
  * @file   Player_AttackBasic.cpp
  *
- * @brief  Player_AttackBasicに関するソースファイル
+ * @brief  プレイヤーの通常攻撃状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -25,14 +25,6 @@ Player_AttackBasic::Player_AttackBasic(Player* Player, DirectX::Keyboard::Keyboa
 
 }
 
-
-/**
- * @brief デストラクタ
- */
-Player_AttackBasic::~Player_AttackBasic()
-{
-
-}
 
 
 /**
@@ -142,5 +134,6 @@ void Player_AttackBasic::Render(RenderContext& context)
  */
 void Player_AttackBasic::Finalize()
 {
+	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
 }

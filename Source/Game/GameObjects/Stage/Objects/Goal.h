@@ -73,14 +73,14 @@ public:
 	// 終了処理
 	void Finalize();
 
-	// 当たり判定
-	bool DetectCollisionToPlayer(SphereCollider player);
 
 // 取得/設定
 public:
-	OBBCollider GetCollider();
-	bool IsGoal() { return m_isGoal; }
-	bool IsCanGoal() { return m_canGoal; }
+	OBBCollider GetCollider(){ return m_collider; }		// 当たり判定の取得
+	bool IsGoal() { return m_isGoal; }					// ゴールフラグの取得
+	bool IsCanGoal() { return m_canGoal; }				// ゴール可能フラグの取得
+
+	// ゴール可能/不可能の設定
 	void CanGoal(bool canGoal = true);
 
 

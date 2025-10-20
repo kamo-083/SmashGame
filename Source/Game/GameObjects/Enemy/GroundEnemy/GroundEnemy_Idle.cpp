@@ -1,7 +1,7 @@
 /**
  * @file   GroundEnemy_Idle.cpp
  *
- * @brief  GroundEnemy_Idleに関するソースファイル
+ * @brief  地上の敵の待機状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -22,14 +22,6 @@ GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
 
 }
 
-
-/**
- * @brief デストラクタ
- */
-GroundEnemy_Idle::~GroundEnemy_Idle()
-{
-
-}
 
 
 /**
@@ -109,5 +101,6 @@ void GroundEnemy_Idle::Render(RenderContext& context)
  */
 void GroundEnemy_Idle::Finalize()
 {
-
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
 }

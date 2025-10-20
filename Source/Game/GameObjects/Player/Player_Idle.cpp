@@ -1,7 +1,7 @@
 /**
  * @file   Player_Idle.cpp
  *
- * @brief  Player_Idleに関するソースファイル
+ * @brief  プレイヤーの待機状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -24,14 +24,6 @@ Player_Idle::Player_Idle(Player* player, DirectX::Keyboard::KeyboardStateTracker
 
 }
 
-
-/**
- * @brief デストラクタ
- */
-Player_Idle::~Player_Idle()
-{
-
-}
 
 
 /**
@@ -74,7 +66,7 @@ void Player_Idle::Update(const float& elapsedTime)
 
 	m_pPlayer->SetOnGround(false);
 
-	// 武器の切り替え
+	// 攻撃の切り替え
 	m_pPlayer->ChangeAttack(m_pKbTracker);
 
 	// 吹っ飛ばされ状態
@@ -133,5 +125,6 @@ void Player_Idle::Render(RenderContext& context)
  */
 void Player_Idle::Finalize()
 {
+	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
 }

@@ -42,7 +42,7 @@ public:
 
 
 private:
-	// 武器一覧
+	// 攻撃一覧
 	std::vector<AttackType> m_attackList;
 
 	// レイアウト
@@ -84,7 +84,7 @@ public:
 	// 終了
 	void Finalize();
 
-	// 選択中の武器を設定
+	// 選択中の攻撃を設定
 	void ChangeAttack(AttackType type);
 
 	// 操作方法UIの状態を切り替え

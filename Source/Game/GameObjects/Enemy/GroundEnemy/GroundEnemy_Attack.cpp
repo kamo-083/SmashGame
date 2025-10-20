@@ -1,7 +1,7 @@
 /**
  * @file   GroundEnemy_Attack.cpp
  *
- * @brief  GroundEnemy_Attackに関するソースファイル
+ * @brief  地上の敵の攻撃状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -14,6 +14,7 @@
  * @brief コンストラクタ
  *
  * @param groundEnemy 敵のポインタ
+ * @param info		  敵の情報(攻撃関連情報取得のため)
  */
 GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info)
 	: m_pGroundEnemy{ groundEnemy }
@@ -26,14 +27,6 @@ GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfo
 
 }
 
-
-/**
- * @brief デストラクタ
- */
-GroundEnemy_Attack::~GroundEnemy_Attack()
-{
-
-}
 
 
 /**
@@ -140,5 +133,6 @@ void GroundEnemy_Attack::Render(RenderContext& context)
  */
 void GroundEnemy_Attack::Finalize()
 {
-
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
 }

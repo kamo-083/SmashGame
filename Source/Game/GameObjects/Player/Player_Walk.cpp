@@ -1,7 +1,7 @@
 /**
  * @file   Player_Walk.cpp
  *
- * @brief  Player_Walkに関するソースファイル
+ * @brief  プレイヤーの移動状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -26,14 +26,6 @@ Player_Walk::Player_Walk(Player* player, Camera* camera, DirectX::Keyboard::Keyb
 
 }
 
-
-/**
- * @brief デストラクタ
- */
-Player_Walk::~Player_Walk()
-{
-
-}
 
 
 /**
@@ -84,7 +76,7 @@ void Player_Walk::Update(const float& elapsedTime)
 
 	m_pPlayer->SetOnGround(false);
 
-	// 武器の切り替え
+	// 攻撃の切り替え
 	m_pPlayer->ChangeAttack(m_pKbTracker);
 
 	// アニメーションの更新
@@ -132,5 +124,6 @@ void Player_Walk::Render(RenderContext& context)
  */
 void Player_Walk::Finalize()
 {
+	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
 }

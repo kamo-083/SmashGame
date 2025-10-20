@@ -1,7 +1,7 @@
 /**
  * @file   GroundEnemy_Bounce.h
  *
- * @brief  GroundEnemy_Bounceに関するヘッダファイル
+ * @brief  地上の敵の跳ね返り状態に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -25,7 +25,7 @@ class GroundEnemy;
 
 // クラスの定義 ===============================================================
 /**
- * @brief GroundEnemy_Bounce
+ * @brief 地上の敵の跳ね返り状態
  */
 class GroundEnemy_Bounce :public IState
 {
@@ -34,6 +34,7 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 敵本体へのポインタ
 	GroundEnemy* m_pGroundEnemy;
 
 	// モデルアニメーター
@@ -50,7 +51,7 @@ public:
 	GroundEnemy_Bounce(GroundEnemy* groundEnemy);
 
 	// デストラクタ
-	~GroundEnemy_Bounce();
+	~GroundEnemy_Bounce() = default;
 
 
 // 操作

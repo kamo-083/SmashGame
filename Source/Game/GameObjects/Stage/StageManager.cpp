@@ -1,17 +1,16 @@
 /**
  * @file   StageManager.cpp
  *
- * @brief  StageManagerに関するソースファイル
+ * @brief  ステージマネージャーに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "StageManager.h"
 #include "Source/Game/Scenes/StageScene.h"
-#include "Source/Game/GameObjects/Stage/Objects/Ground.h"
-#include "Source/Game/GameObjects/Stage/Objects/BounceBox.h"
-#include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
+#include "Source/Game/GameObjects/Stage/Objects/Ground.h"
+#include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Objects/CountArea.h"
 #include "Source/Game/GameObjects/Stage/Objects/Fence.h"
 
@@ -20,7 +19,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param pScene	シーンのポインタ
  */
 StageManager::StageManager(StageScene* pScene)
 	:m_pScene{ pScene }
@@ -35,7 +34,12 @@ StageManager::StageManager(StageScene* pScene)
  */
 StageManager::~StageManager()
 {
-
+	m_grounds.clear();
+	m_targetBoxes.clear();
+	m_areas.clear();
+	m_fences.clear();
+	m_goal.reset();
+	m_pScene = nullptr;
 }
 
 
@@ -44,9 +48,9 @@ StageManager::~StageManager()
  * @brief ステージ生成
  *
  * @param pUR  ユーザーリソースのポインタ
- * @param pCM  コリジョンマネージャーのポインタ
- * @param pEM  エネミーマネージャーのポインタ
- * @param path ステージのパスファイル
+ * @param pCM  当たり判定マネージャーのポインタ
+ * @param pEM  敵マネージャーのポインタ
+ * @param path ステージのファイルパス
  *
  * @return なし
  */
@@ -72,13 +76,6 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		{
 			m_grounds.push_back(std::move(std::make_unique<Ground>(context)));
 			m_grounds.back()->Initialize(pCM, data.position, data.scale);
-			break;
-		}
-		// 吹っ飛ぶ箱
-		case StageLoader::ObjectType::BounceBox:
-		{
-			m_bounceBoxes.push_back(std::move(std::make_unique<BounceBox>(context)));
-			m_bounceBoxes.back()->Initialize(pCM, data.position, data.scale);
 			break;
 		}
 		// 的の箱
@@ -144,7 +141,9 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 /**
  * @brief 更新処理
  *
- * @param elapsedTime 経過時間
+ * @param elapsedTime	経過時間
+ * @param cameraPos		カメラ位置
+ * @param cameraUp		カメラ上ベクトル
  *
  * @return なし
  */
@@ -154,12 +153,6 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
 	for (auto& ground : m_grounds)
 	{
 		ground->Update();
-	}
-
-	// 箱の更新
-	for (auto& bounceBox : m_bounceBoxes)
-	{
-		bounceBox->Update(elapsedTime);
 	}
 
 	// 的の更新
@@ -200,12 +193,6 @@ void StageManager::Draw(RenderContext context, Imase::DebugFont* debugFont)
 	for (auto& ground : m_grounds)
 	{
 		ground->Draw(context);
-	}
-
-	// 箱の描画
-	for (auto& bounceBox : m_bounceBoxes)
-	{
-		bounceBox->Draw(context, debugFont);
 	}
 
 	// 的の描画
@@ -260,12 +247,6 @@ void StageManager::Finalize()
 		ground->Finalize();
 	}
 
-	// 箱の終了
-	for (auto& bounceBox : m_bounceBoxes)
-	{
-		bounceBox->Finalize();
-	}
-
 	// 的の終了
 	for (auto& targetBox : m_targetBoxes)
 	{
@@ -286,7 +267,6 @@ void StageManager::Finalize()
 
 	// ゴールの終了
 	if(m_goal) m_goal->Finalize();
-
 }
 
 
@@ -315,17 +295,28 @@ void StageManager::CreateOperate(std::function<void()>& outOperate, StageLoader:
 
 
 /**
- * @brief ゴールしているかを返す
+ * @brief ゴールしているか
  *
  * @param なし
  *
- * @return ゴールしているか
+ * @retval true  ゴールしている
+ * @retval false ゴールしていない
  */
 bool StageManager::IsGoal()
 {
 	return m_goal->IsGoal();
 }
 
+
+
+/**
+ * @brief ゴールできるか
+ *
+ * @param なし
+ *
+ * @retval true  ゴールできる
+ * @retval false ゴールできない
+ */
 bool StageManager::IsCanGoal()
 {
 	return m_goal->IsCanGoal();

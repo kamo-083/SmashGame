@@ -26,39 +26,42 @@ class StageLoader
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// ステージオブジェクトの種類
 	enum class ObjectType
 	{
 		None = -1,
-		Goal,
-		Ground,
-		BounceBox,
-		TargetBox,
-		Area,
-		Fence
+		Goal,		// ゴール
+		Ground,		// 地面
+		TargetBox,	// 的
+		Area,		// エリア
+		Fence		// 柵
 	};
 
+	// エリア設定情報
 	struct AreaActionDesc
 	{
-		std::string mode;
-		std::string command;
-		int target = 0;
+		std::string mode;		// 条件
+		std::string command;	// 条件達成時の処理
+		int target = 0;			// 目標値(条件に必要な時は入力)
 	};
 
+	// ステージオブジェクトの情報
 	struct ObjectData
 	{
-		ObjectType type = ObjectType::None;
-		DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3::Zero;
-		DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3::One;
-		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero;
-		bool active = true;
-		AreaActionDesc areaAction;
-		int fenceNum = 0;
+		ObjectType type = ObjectType::None;		// 種類
+		DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3::Zero;	// 座標
+		DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3::One;		// 大きさ
+		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero;	// 角度
+		bool active = true;			// 有効化フラグ
+		AreaActionDesc areaAction;	// エリア設定(CountAreaの時)
+		int fenceNum = 0;			// 柵を並べる数(Fenceの時)
 	};
 	
+	// 敵の情報
 	struct EnemyData
 	{
-		std::string type;
-		DirectX::SimpleMath::Vector3 position;
+		std::string type;						// 種類
+		DirectX::SimpleMath::Vector3 position;	// 座標
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -84,7 +87,7 @@ public:
 	 *
 	 * @param path			ファイルパス
 	 * @param outputObjects オブジェクト情報出力用
-	 * @param outputEnemies エネミー情報出力用
+	 * @param outputEnemies 敵情報出力用
 	 *
 	 * @return 読み込みに成功/失敗
 	 */
@@ -115,7 +118,6 @@ public:
 			// 種類
 			std::string typeStr = element.value("type", "Ground");
 			if (typeStr == "Ground") data.type = ObjectType::Ground;
-			else if (typeStr == "BounceBox") data.type = ObjectType::BounceBox;
 			else if (typeStr == "TargetBox") data.type = ObjectType::TargetBox;
 			else if (typeStr == "Area") data.type = ObjectType::Area;
 			else if (typeStr == "Goal") data.type = ObjectType::Goal;

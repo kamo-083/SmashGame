@@ -13,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param context	デバイスコンテキストのポインタ
  */
 Ground::Ground(ID3D11DeviceContext* context)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
@@ -40,14 +40,18 @@ Ground::~Ground()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param pCM			当たり判定マネージャーのポインタ
+ * @param position		座標
+ * @param halfLength	大きさ(各辺の長さの半分)
+ * @param angle			角度
  *
  * @return なし
  */
-void Ground::Initialize(CollisionManager* pCollisionManager,
-						DirectX::SimpleMath::Vector3 position,
-						DirectX::SimpleMath::Vector3 halfLength,
-						DirectX::SimpleMath::Vector3 angle)
+void Ground::Initialize(
+	CollisionManager* pCM,
+	DirectX::SimpleMath::Vector3 position,
+	DirectX::SimpleMath::Vector3 halfLength,
+	DirectX::SimpleMath::Vector3 angle)
 {
 	m_position = position;
 	m_halfLength = halfLength;
@@ -61,7 +65,7 @@ void Ground::Initialize(CollisionManager* pCollisionManager,
 	float rotZ = DirectX::XMConvertToRadians(m_angle.z);
 	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotY, rotX, rotZ));
 
-	// コリジョンマネージャーに登録
+	// 当たり判定マネージャーに登録
 	CollisionManager::Desc desc{};
 	desc.type = CollisionManager::Type::OBB;
 	desc.layer = CollisionManager::Layer::Stage;
@@ -69,7 +73,7 @@ void Ground::Initialize(CollisionManager* pCollisionManager,
 	desc.position = nullptr;
 	desc.velocity = nullptr;
 	desc.restitution = 0.0f;
-	m_collisionHandle = pCollisionManager->Add(desc);
+	m_collisionHandle = pCM->Add(desc);
 }
 
 
@@ -91,7 +95,7 @@ void Ground::Update()
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -122,20 +126,5 @@ void Ground::Draw(RenderContext& context)
  */
 void Ground::Finalize()
 {
-	m_geometricPrimitive.reset();
-}
 
-
-
-/**
- * @brief コライダーの取得
- *
- * @param なし
- *
- * @return OBBのコライダー
- */
-
-OBBCollider Ground::GetCollider()
-{
-	return m_collider;
 }

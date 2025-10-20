@@ -56,7 +56,7 @@ void Goal::Initialize(CollisionManager* pCM, DirectX::SimpleMath::Vector3 positi
 	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
 	m_collider.SetHalfLength(DirectX::SimpleMath::Vector3(HALF_LENGTH, HALF_LENGTH, HALF_LENGTH));
 
-	// コリジョンマネージャーに登録
+	// 当たり判定マネージャーに登録
 	CollisionManager::Desc desc{};
 	desc.type = CollisionManager::Type::OBB;
 	desc.layer = CollisionManager::Layer::Trigger;
@@ -131,37 +131,14 @@ void Goal::Finalize()
 }
 
 
-bool Goal::DetectCollisionToPlayer(SphereCollider player)
-{
-	if (!m_canGoal) return false;
-
-	bool hit = IsHit(m_collider, player);
-	if (hit)
-	{
-		// ゴールの判定処理
-		DirectX::SimpleMath::Vector3 distance = m_position - player.GetCenter();
-		if (distance.Length() <= HALF_LENGTH) m_isGoal = true;
-	}
-
-	return hit;
-}
-
-
 
 /**
- * @brief コライダーの取得
+ * @brief ゴール可能/不可能の設定
  *
- * @param なし
+ * @param canGoal	ゴール可/不可
  *
- * @return OBBのコライダー
+ * @return なし
  */
-
-OBBCollider Goal::GetCollider()
-{
-	return m_collider;
-}
-
-
 void Goal::CanGoal(bool canGoal)
 {
 	// SEの再生

@@ -1,7 +1,7 @@
 /**
  * @file   CountArea.cpp
  *
- * @brief  CountAreaに関するソースファイル
+ * @brief  エリアに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -19,9 +19,9 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> CountArea::INPUT_LAYOUT =
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param pUR	ユーザーリソースのポインタ
  */
-CountArea::CountArea(UserResources* ur)
+CountArea::CountArea(UserResources* pUR)
 	: m_mode(TriggerMode::ReachCount)
 	, m_targetNum(0)
 	, m_isTrigger(false)
@@ -29,8 +29,8 @@ CountArea::CountArea(UserResources* ur)
 	, m_insideList()
 	, m_collisionHandle{ 0 }
 {
-	DX::DeviceResources* dr = ur->GetDeviceResources();
-	ResourceManager*	 rm = ur->GetResourceManager();
+	DX::DeviceResources* dr = pUR->GetDeviceResources();
+	ResourceManager*	 rm = pUR->GetResourceManager();
 
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(dr->GetD3DDeviceContext(), { 1.0f, 1.0f, 1.0f }, true);
 
@@ -45,7 +45,7 @@ CountArea::CountArea(UserResources* ur)
 	);
 
 	// シェーダーの読み込み
-	LoadShaders(ur->GetShaderManager(), dr->GetD3DDevice());
+	LoadShaders(pUR->GetShaderManager(), dr->GetD3DDevice());
 }
 
 
@@ -67,19 +67,26 @@ CountArea::~CountArea()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param pCM		当たり判定マネージャーのポインタ
+ * @param position	座標
+ * @param x			X方向の長さ
+ * @param z			Z方向の長さ
+ * @param operation	条件達成時の処理
+ * @param mode		条件
+ * @param targetNum	目標数
  *
  * @return なし
  */
-void CountArea::Initialize(CollisionManager* pCollisionManager,
-						   DirectX::SimpleMath::Vector3 position, float x, float z,
-						   std::function<void()> operation,TriggerMode mode, int targetNum)
+void CountArea::Initialize(
+	CollisionManager* pCM,
+	DirectX::SimpleMath::Vector3 position, float x, float z,
+	std::function<void()> operation, TriggerMode mode, int targetNum)
 {
 	DirectX::SimpleMath::Vector3 pos = { position.x,position.y + AREA_HALF_HEIGHT,position.z };
 	m_position = pos;
 
 	m_operation = operation;
-	
+
 	m_mode = mode;
 
 	m_targetNum = targetNum;
@@ -97,7 +104,7 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 	m_collider.SetHalfLength(DirectX::SimpleMath::Vector3(x, AREA_HALF_HEIGHT, z));
 	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
 
-	// コリジョンマネージャーに登録
+	// 当たり判定マネージャーに登録
 	CollisionManager::Desc desc{};
 	desc.type = CollisionManager::Type::OBB;
 	desc.layer = CollisionManager::Layer::Trigger;
@@ -106,12 +113,12 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 	desc.velocity = nullptr;
 	desc.isTrigger = true;
 	desc.callback.onEnter =
-		[this,pCollisionManager](uint32_t, uint32_t handle)
+		[this, pCM](uint32_t, uint32_t handle)
 		{
-			if (pCollisionManager->GetDesc(handle)->layer != CollisionManager::Layer::EnemyBody) return;
-			
+			if (pCM->GetDesc(handle)->layer != CollisionManager::Layer::EnemyBody) return;
+
 			// debug --------------------------------
-			const auto* d = pCollisionManager->GetDesc(handle);
+			const auto* d = pCM->GetDesc(handle);
 			auto epos = d->sphere->GetCenter();     // 敵の中心
 			auto apos = m_collider.GetCenter();     // エリア中心
 			auto ahl = m_collider.GetHalfLength();  // エリア半径
@@ -122,7 +129,7 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 			// --------------------------------------
 
 			// IDを取得
-			uint32_t id = pCollisionManager->GetDesc(handle)->userId;
+			uint32_t id = pCM->GetDesc(handle)->userId;
 			if (id == 0) return;
 
 			// リストに追加
@@ -141,12 +148,12 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 			m_numberBorad->SetNumber(m_insideList.size());
 		};
 	desc.callback.onExit =
-		[this,pCollisionManager](uint32_t, uint32_t handle)
+		[this, pCM](uint32_t, uint32_t handle)
 		{
-			if (pCollisionManager->GetDesc(handle)->layer != CollisionManager::Layer::EnemyBody) return;
+			if (pCM->GetDesc(handle)->layer != CollisionManager::Layer::EnemyBody) return;
 
 			// debug --------------------------------
-			const auto* d = pCollisionManager->GetDesc(handle);
+			const auto* d = pCM->GetDesc(handle);
 			char buf[256];
 			sprintf_s(buf,
 				"EXIT : handle=%u layer=%d userId=%u  enemyCount(before)=%zu\n",
@@ -155,7 +162,7 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 			// --------------------------------------
 
 			// IDを取得
-			uint32_t id = pCollisionManager->GetDesc(handle)->userId;
+			uint32_t id = pCM->GetDesc(handle)->userId;
 
 			// リストから削除
 			m_insideList.erase(std::remove(m_insideList.begin(), m_insideList.end(), id), m_insideList.end());
@@ -169,7 +176,7 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 			// 表示する数字の更新
 			m_numberBorad->SetNumber(m_insideList.size());
 		};
-	m_collisionHandle = pCollisionManager->Add(desc);
+	m_collisionHandle = pCM->Add(desc);
 }
 
 
@@ -177,7 +184,8 @@ void CountArea::Initialize(CollisionManager* pCollisionManager,
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param cameraPos	カメラ位置
+ * @param cameraUp	カメラ上ベクトル
  *
  * @return なし
  */
@@ -196,7 +204,8 @@ void CountArea::Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMa
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context	描画用構造体
+ * @param debugFont	デバッグ用フォント
  *
  * @return なし
  */
@@ -274,6 +283,17 @@ void CountArea::LoadShaders(ShaderManager* shaderManager, ID3D11Device* device)
 	device->CreateBuffer(&bd, nullptr, &m_CBuffer);
 }
 
+
+
+/**
+ * @brief エリアのびょうが
+ *
+ * @param context	描画用構造体
+ * @param world		ワールド行列
+ * @param areaSize	エリアの大きさ
+ *
+ * @return なし
+ */
 void CountArea::DrawArea(
 	RenderContext& context,
 	DirectX::SimpleMath::Matrix& world,

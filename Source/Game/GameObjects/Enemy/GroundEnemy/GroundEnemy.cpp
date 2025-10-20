@@ -1,7 +1,7 @@
 /**
  * @file   GroundEnemy.cpp
  *
- * @brief  敵に関するソースファイル
+ * @brief  地上の敵に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -9,13 +9,14 @@
 #include "GroundEnemy.h"
 
 
+
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param info				敵の情報
+ * @param info				出現する敵の情報
  * @param pUserResources	ユーザーリソースのポインタ
- * @param pEffectManager エフェクトマネージャーのポインタ
+ * @param pEffectManager	エフェクトマネージャーのポインタ
  */
 GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* pUserResources, EffectManager* pEffectManager)
 	: IEnemy{ info }
@@ -63,8 +64,9 @@ GroundEnemy::~GroundEnemy()
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
- * @param pCollisionManager コリジョンマネージャーのポインタ
+ * @param pCollisionManager 当たり判定マネージャーのポインタ
  * @param position			初期位置
+ * @param info				出現する敵の情報
  * @param id				ID
  *
  * @return なし
@@ -109,7 +111,7 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION);
 	m_physics->GetFriction().SetDynamicFriction(DYNAMIC_FRICTION);
 
-	// コリジョンマネージャーの登録
+	// 当たり判定マネージャーの登録
 	m_pCollisionManager = pCollisionManager;
 
 	// 本体
@@ -215,21 +217,30 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param pCollisionManager コリジョンマネージャーのポインタ
+ * @param pCollisionManager 当たり判定マネージャーのポインタ
  *
  * @return なし
  */
 void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 {
 	// ステートのリセット
+	// 待機状態
+	if (m_idlingState) m_idlingState->Finalize();
 	m_idlingState.reset();
+	// 移動状態
+	if (m_walkingState) m_walkingState->Finalize();
 	m_walkingState.reset();
+	// 攻撃状態
+	if (m_attackingState) m_attackingState->Finalize();
 	m_attackingState.reset();
+	// 跳ね返り状態
+	if (m_bouncingState) m_bouncingState->Finalize();
 	m_bouncingState.reset();
 
 	m_model = nullptr;
 	m_animations.reset();
 
+	// 当たり判定の削除
 	if (m_handleBody) 
 	{
 		pCollisionManager->Remove(m_handleBody);
@@ -241,6 +252,7 @@ void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 		m_handleAttack = 0;
 	}
 
+	// エフェクトの無効化
 	if (m_circle)
 	{
 		m_circle->effect->Deactivate();

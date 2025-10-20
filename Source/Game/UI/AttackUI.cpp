@@ -23,7 +23,7 @@ AttackUI::~AttackUI()
 
 void AttackUI::Initialize(ResourceManager* resourceManager, float texWidth, float texHeight)
 {
-	// 武器の設定
+	// 攻撃の設定
 	for (int i = 0; i < static_cast<int>(AttackType::TYPE_NUM); i++)
 	{
 		m_attackList[i] = static_cast<AttackType>(i);
@@ -110,7 +110,7 @@ void AttackUI::Draw(RenderContext context)
 		context.states->LinearClamp()
 	);
 
-	// 各武器アイコンの描画
+	// 各攻撃アイコンの描画
 	for (auto& widget : m_widgets)
 	{
 		widget->Draw(context.spriteBatch);

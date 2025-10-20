@@ -1,7 +1,7 @@
 /**
  * @file   Sky.cpp
  *
- * @brief  Skyに関するソースファイル
+ * @brief  スカイドームに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -37,14 +37,14 @@ Sky::~Sky()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param pUR	ユーザーリソースのポインタ
  *
  * @return なし
  */
-void Sky::Initialize(UserResources* pUserResources)
+void Sky::Initialize(UserResources* pUR)
 {
 	// スカイドームの読み込み
-	m_skyDome = pUserResources->GetResourceManager()->RequestSDKMESH("skyDome", L"Resources\\Models\\skyDome.sdkmesh");
+	m_skyDome = pUR->GetResourceManager()->RequestSDKMESH("skyDome", L"Resources\\Models\\skyDome.sdkmesh");
 }
 
 
@@ -52,7 +52,7 @@ void Sky::Initialize(UserResources* pUserResources)
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param elepsedTime	経過時間
  *
  * @return なし
  */
@@ -66,13 +66,15 @@ void Sky::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context	描画用構造体
  *
  * @return なし
  */
 void Sky::Draw(const RenderContext& context)
 {
 	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+
+	// 中心座標のポインタが設定されていた場合は反映
 	if (m_pPosition) world *= DirectX::SimpleMath::Matrix::CreateTranslation(*m_pPosition);
 
 	m_skyDome->Draw(context.deviceContext, *context.states, world, context.view, context.proj);

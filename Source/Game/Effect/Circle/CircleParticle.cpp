@@ -1,7 +1,7 @@
 /**
  * @file   CircleParticle.cpp
  *
- * @brief  CircleParticleに関するソースファイル
+ * @brief  円形エフェクトパーティクルに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -18,16 +18,6 @@
  */
 CircleParticle::CircleParticle()
 	: IEffectParticle{}
-{
-
-}
-
-
-
-/**
- * @brief デストラクタ
- */
-CircleParticle::~CircleParticle()
 {
 
 }
@@ -62,7 +52,7 @@ void CircleParticle::Update(float elapsedTime)
 }
 
 /**
- * @brief エフェクトを出現
+ * @brief エフェクトを出現させる
  *
  * @param pos		   出現位置
  * @param range		   円の半径
@@ -83,8 +73,8 @@ void CircleParticle::SpawnParticleEffect(
 
 	for (int i = 0; i < num; i++)
 	{
-		float angle = 0.0f;
-		float scale = m_scale;
+		float angle = 0.0f;		// 角度
+		float scale = m_scale;	// 大きさ
 		if (isRandom)
 		{
 			//乱数生成器
@@ -102,6 +92,7 @@ void CircleParticle::SpawnParticleEffect(
 		}
 
 		DirectX::SimpleMath::Vector3 transPos = pos;
+		// 向き
 		if (isHorizontal)
 		{
 			float x = cosf(angle) * range;

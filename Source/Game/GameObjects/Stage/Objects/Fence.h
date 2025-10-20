@@ -32,10 +32,14 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
+	// スケール
 	DirectX::SimpleMath::Vector3 m_scale;
+	// 角度
 	DirectX::SimpleMath::Vector3 m_angle;
 
+	// 当たり判定
 	OBBCollider m_collider;
 
 	// 衝突判定のハンドル
@@ -83,7 +87,7 @@ public:
 
 // 取得/設定
 public:
-	OBBCollider GetCollider();
+	OBBCollider GetCollider(){ return m_collider; }	// 当たり判定の取得
 
 
 // 内部実装

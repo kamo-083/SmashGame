@@ -1,7 +1,7 @@
 /**
  * @file   Player_AttackRolling.h
  *
- * @brief  Player_AttackRollingに関するヘッダファイル
+ * @brief  プレイヤーの転がり攻撃状態に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -25,22 +25,23 @@ class Player;
 
 // クラスの定義 ===============================================================
 /**
- * @brief Player_AttackRolling
+ * @brief プレイヤーの転がり攻撃状態
  */
 class Player_AttackRolling :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float ATTACK_FORCE = 300.0f;
-	static constexpr float ATTACK_TIME = 5.0f;
-	static constexpr float ATTACK_SIZE = 3.0f;
-	static constexpr float GROUND_SPEED = 7.0f;
-	static constexpr float AIR_SPEED = 0.75f;
-	static constexpr float MAX_SPEED = 10.0f;
-	static constexpr float ANIM_TIME = 1.5f;
+	static constexpr float ATTACK_FORCE = 300.0f;	// 攻撃力
+	static constexpr float ATTACK_TIME = 5.0f;		// 攻撃持続時間
+	static constexpr float ATTACK_SIZE = 3.0f;		// 攻撃判定サイズ
+	static constexpr float GROUND_SPEED = 7.0f;		// 移動速度(地面)
+	static constexpr float AIR_SPEED = 0.75f;		// 移動速度(空中)
+	static constexpr float MAX_SPEED = 10.0f;		// 最高速度
+	static constexpr float ANIM_TIME = 1.5f;		// アニメーション1ループの時間
 	
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
 
 	// キーボードトラッカーのポインタ
@@ -69,7 +70,7 @@ public:
 	Player_AttackRolling(Player* Player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker);
 
 	// デストラクタ
-	~Player_AttackRolling();
+	~Player_AttackRolling() = default;
 
 
 // 操作

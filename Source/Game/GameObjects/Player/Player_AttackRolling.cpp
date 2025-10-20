@@ -1,7 +1,7 @@
 /**
  * @file   Player_AttackRolling.cpp
  *
- * @brief  Player_AttackRollingに関するソースファイル
+ * @brief  プレイヤーの転がり攻撃状態に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ==================================================
@@ -28,14 +28,6 @@ Player_AttackRolling::Player_AttackRolling(Player* Player, Camera* camera, Direc
 
 }
 
-
-/**
- * @brief デストラクタ
- */
-Player_AttackRolling::~Player_AttackRolling()
-{
-
-}
 
 
 /**
@@ -159,5 +151,6 @@ void Player_AttackRolling::Render(RenderContext& context)
  */
 void Player_AttackRolling::Finalize()
 {
+	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
 }
