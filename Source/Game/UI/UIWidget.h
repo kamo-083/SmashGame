@@ -1,7 +1,7 @@
 /**
  * @file   UIWidget.h
  *
- * @brief  UIWidgetに関するヘッダファイル
+ * @brief  UIウィジェット(アニメーション付きUIのベース)に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -16,7 +16,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief UIWidget
+ * @brief UIウィジェット(アニメーション付きUIのベース)
  */
 class UIWidget
 {
@@ -36,6 +36,7 @@ private:
 	// 画像サイズ
 	DirectX::SimpleMath::Vector2 m_texSize;
 
+	// トゥイーン
 	std::unique_ptr<Tween> m_tween;
 
 
@@ -71,16 +72,16 @@ public:
 	// 終了処理
 	void Finalize();
 
-	// Tweenをリセット
+	// トゥイーンをリセット
 	void TweenReset(bool play = true);
 
 
 // 取得/設定
 public:
-	Tween* GetTween() { return m_tween.get(); }
-	Tween::UIParams GetParam () const { return m_params; }
-	Tween::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }
-	void SetTexture(ID3D11ShaderResourceView* texture) { m_texture = texture; }
+	Tween* GetTween() { return m_tween.get(); }				// トゥイーンの取得
+	Tween::UIParams GetParam () const { return m_params; }	// 現在のパラメータの取得
+	Tween::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }	// 変化後のパラメータ
+	void SetTexture(ID3D11ShaderResourceView* texture) { m_texture = texture; }	// テクスチャの取得
 
 	// 新しいパラメータをセット
 	void SetParam(Tween::UIParams start, Tween::UIParams delta);

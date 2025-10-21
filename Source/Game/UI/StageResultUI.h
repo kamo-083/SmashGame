@@ -1,7 +1,7 @@
 /**
  * @file   StageResultUI.h
  *
- * @brief  StageResultUIに関するヘッダファイル
+ * @brief  リザルトUIに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -15,7 +15,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief StageResultUI
+ * @brief リザルトUI
  */
 class StageResultUI :public UIElement
 {

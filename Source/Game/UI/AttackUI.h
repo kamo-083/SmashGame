@@ -1,10 +1,28 @@
-#pragma once
-#include"Source/Game/Data/AttackData.h"
-#include"Source/Game/Common/ResourceManager.h"
-#include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/UI/UIWidget.h"
-#include"Source/Game/UI/OperationUI.h"
+/**
+ * @file   AttackUI.h
+ *
+ * @brief  攻撃方法UIに関するヘッダファイル
+ */
 
+// 多重インクルードの防止 =====================================================
+#pragma once
+
+
+// ヘッダファイルの読み込み ===================================================
+#include"Source/Game/Data/AttackData.h"
+#include"Source/Game/Common/RenderContext.h"
+
+
+// クラスの宣言 ===============================================================
+class UIWidget;
+class OperationUI;
+class ResourceManager;
+
+
+// クラスの定義 ===============================================================
+/**
+ * @brief 攻撃方法UI
+ */
 class AttackUI
 {
 public:
@@ -12,16 +30,16 @@ public:
 	enum class Direction
 	{
 		NONE = -1,
-		RIGHT,
-		LEFT
+		RIGHT,		// 右
+		LEFT		// 左
 	};
 
 	// 表示レイアウト
 	enum class Layout
 	{
-		LEFT,
-		CENTER,
-		RIGHT,
+		LEFT,	// 左
+		CENTER,	// 中央
+		RIGHT,	// 右
 
 		DisplayNum	// 表示数
 	};
@@ -42,7 +60,7 @@ public:
 
 
 private:
-	// 攻撃一覧
+	// 攻撃方法リスト
 	std::vector<AttackType> m_attackList;
 
 	// レイアウト
@@ -73,7 +91,7 @@ public:
 	~AttackUI();
 
 	// 初期化
-	void Initialize(ResourceManager* resourceManager, float texWidth = DEFAULT_TEX_SIZE.x, float texHeight = DEFAULT_TEX_SIZE.y);
+	void Initialize(ResourceManager* pRM, float texWidth = DEFAULT_TEX_SIZE.x, float texHeight = DEFAULT_TEX_SIZE.y);
 
 	// 更新
 	void Update(float elapsedTime);
@@ -91,8 +109,11 @@ public:
 	void SwitchUIMode();
 
 private:
+	// スライド処理
 	void Slide(Direction dir);
+	// パラメータの作成
 	void MakeParam(UIWidget& widget, const LayoutData& to);
+	// 攻撃リストとUI画像を一致させる
 	void BindAttackSlots();
 };
 

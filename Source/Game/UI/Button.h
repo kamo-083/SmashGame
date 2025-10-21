@@ -1,7 +1,7 @@
 /**
  * @file   Button.h
  *
- * @brief  Buttonに関するヘッダファイル
+ * @brief  ボタンUIに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -15,7 +15,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief Button
+ * @brief ボタンUI
  */
 class Button :public UIElement
 {
@@ -26,6 +26,7 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 押された時に実行する処理
 	std::function<void()> m_operate;
 
 
@@ -42,7 +43,8 @@ public:
 	// 操作
 public:
 	// 初期化処理
-	void Initialize(ID3D11ShaderResourceView* texture,
+	void Initialize(
+		ID3D11ShaderResourceView* texture,
 		const Tween::TweenData data,
 		DirectX::SimpleMath::Vector2 size,
 		std::function<void()> operate = nullptr);
@@ -56,10 +58,10 @@ public:
 	// 終了処理
 	void Finalize() override;
 
-	// 押した
+	// 押した時の処理
 	void Press();
 
-	// リセット
+	// トゥイーンのリセット
 	void Reset();
 
 

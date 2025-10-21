@@ -1,7 +1,7 @@
 /**
  * @file   NumberRenderer3D.h
  *
- * @brief  NumberRenderer3Dに関するヘッダファイル
+ * @brief  3Dのスプライト数字に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -17,12 +17,13 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief NumberRenderer3D
+ * @brief 3Dのスプライト数字
  */
 class NumberRenderer3D :public INumberRenderer
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// 頂点の配列
 	const static DirectX::VertexPositionTexture VERTECES[4];
 
 	// 表示する数値全体の幅
@@ -64,7 +65,7 @@ public:
 		DirectX::SimpleMath::Vector2 spriteSize,
 		ID3D11ShaderResourceView* texture,
 		int digit,
-		DX::DeviceResources* deviceResources,
+		DX::DeviceResources* pDR,
 		float boardScale = 1.f);
 
 	// デストラクタ

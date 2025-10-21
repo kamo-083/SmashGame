@@ -1,7 +1,7 @@
 /**
  * @file   ClearConditionsUI.h
  *
- * @brief  ClearConditionsUIに関するヘッダファイル
+ * @brief  クリア条件UIに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -16,7 +16,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief ClearConditionsUI
+ * @brief クリア条件UI
  */
 class ClearConditionsUI :public UIElement
 {

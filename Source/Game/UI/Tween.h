@@ -1,7 +1,7 @@
 /**
  * @file   Tween.h
  *
- * @brief  Tweenに関するヘッダファイル
+ * @brief  トゥイーンに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -15,12 +15,13 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief Tween
+ * @brief トゥイーン
  */
 class Tween
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// イージングの種類
 	enum class Ease
 	{
 		Liner,
@@ -32,14 +33,16 @@ public:
 		OutBounce,
 	};
 
+	// 再生方法
 	enum class PlaybackMode
 	{
-		Once,
-		Once_Reverse,
-		Repeat,
-		PingPong,
+		Once,			// 一回だけ
+		Once_Reverse,	// 一回だけ(反転)
+		Repeat,			// 繰り返す
+		PingPong,		// 繰り返す(往復)
 	};
 
+	// アニメーションのパラメータ
 	struct UIParams
 	{
 		DirectX::SimpleMath::Vector2 pos;	// 位置
@@ -48,6 +51,7 @@ public:
 		float opacity;						// 不透明度
 	};
 
+	// トゥイーンに必要なデータ
 	struct TweenData
 	{
 		UIParams start;			// 初期値
@@ -62,7 +66,7 @@ private:
 	// Tween用の情報
 	TweenData m_data;
 
-	// 経過時間
+	// 累計経過時間
 	float m_elapsedTime;
 
 	// 再生フラグ
@@ -71,7 +75,7 @@ private:
 	// 終了フラグ
 	bool m_finished;
 
-	// 反転
+	// 反転フラグ
 	bool m_reverse;
 
 
@@ -102,22 +106,21 @@ public:
 	// リセット
 	void ResetTime();
 
-	// Tweenのパラメータを反転する
-	void ReverseUIParam();
-	void ReverseDeltaParam();
 
 // 取得/設定
 public:
-	// 終了しているか
+	// 終了しているかを取得
 	bool Finished() const { return m_finished; }
+
+	// 開始時のパラメータを取得
 	UIParams GetStartParams() const { return m_data.start; }
 
-	TweenData GetTweenData() const { return m_data; }
-	void SetTweenData(TweenData data) { m_data = data; }
+	TweenData GetTweenData() const { return m_data; }		// トゥイーン情報を取得
+	void SetTweenData(TweenData data) { m_data = data; }	// トゥイーン情報を設定
 
 
 // 内部実装
 private:
-	float EaseValue(Ease ease, float t);
-	float ShortestAngle(float delta);
+	float EaseValue(Ease ease, float t);	// イージングの計算
+	float ShortestAngle(float delta);		// 最短回転角度を求める
 };

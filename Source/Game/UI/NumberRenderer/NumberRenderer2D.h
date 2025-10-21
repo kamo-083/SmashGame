@@ -1,7 +1,7 @@
 /**
  * @file   NumberRenderer2D.h
  *
- * @brief  NumberRenderer2Dに関するヘッダファイル
+ * @brief  2Dのスプライト数字に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -15,7 +15,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief NumberRenderer2D
+ * @brief 2Dのスプライト数字
  */
 class NumberRenderer2D :public INumberRenderer
 {
@@ -26,6 +26,7 @@ public:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 表示位置
 	DirectX::SimpleMath::Vector2 m_position;
 
 
@@ -55,7 +56,7 @@ public:
 
 	// 取得/設定
 public:
-	// 座標を設定
+	// 表示位置を設定
 	void SetPosition(DirectX::SimpleMath::Vector2 pos) { m_position = pos; }
 
 	// 内部実装

@@ -1,13 +1,24 @@
 /**
  * @file   AttackUI.cpp
  *
- * @brief  AttackUIに関するソースファイル
+ * @brief  攻撃方法UIに関するソースファイル
  */
 
+ // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "AttackUI.h"
+#include"Source/Game/Common/ResourceManager.h"
+#include"Source/Game/UI/UIWidget.h"
+#include"Source/Game/UI/OperationUI.h"
 
 
+// メンバ関数の定義 ===========================================================
+/**
+ * @brief コンストラクタ
+ *
+ * @param windowWidth	ウィンドウの幅
+ * @param windowHeight	ウィンドウの高さ
+ */
 AttackUI::AttackUI(float windowWidth, float windowHeight)
 	: m_windowSize(windowWidth, windowHeight)
 	, m_lastDirection{ Direction::NONE }
@@ -16,12 +27,28 @@ AttackUI::AttackUI(float windowWidth, float windowHeight)
 	m_textures.resize(static_cast<int>(AttackType::TYPE_NUM));
 }
 
+
+
+/**
+ * @brief デストラクタ
+ */
 AttackUI::~AttackUI()
 {
 	m_textures.clear();
 }
 
-void AttackUI::Initialize(ResourceManager* resourceManager, float texWidth, float texHeight)
+
+
+/**
+ * @brief 初期化処理
+ *
+ * @param pRM		リソースマネージャーのポインタ
+ * @param texWidth	画像の幅
+ * @param texHeight	画像の高さ
+ *
+ * @return なし
+ */
+void AttackUI::Initialize(ResourceManager* pRM, float texWidth, float texHeight)
 {
 	// 攻撃の設定
 	for (int i = 0; i < static_cast<int>(AttackType::TYPE_NUM); i++)
@@ -30,9 +57,9 @@ void AttackUI::Initialize(ResourceManager* resourceManager, float texWidth, floa
 	}
 
 	// テクスチャの読み込み
-	m_textures[static_cast<int>(AttackType::BASIC)] = resourceManager->RequestPNG("attack_basic", L"Resources/Textures/UI/basicAtk.png");
-	m_textures[static_cast<int>(AttackType::ROLLING)] = resourceManager->RequestPNG("attack_rolling", L"Resources/Textures/UI/rollingAtk.png");
-	m_textures[static_cast<int>(AttackType::HEAVY)] = resourceManager->RequestPNG("attack_heavy", L"Resources/Textures/UI/heavyAtk.png");
+	m_textures[static_cast<int>(AttackType::BASIC)] = pRM->RequestPNG("attack_basic", L"Resources/Textures/UI/basicAtk.png");
+	m_textures[static_cast<int>(AttackType::ROLLING)] = pRM->RequestPNG("attack_rolling", L"Resources/Textures/UI/rollingAtk.png");
+	m_textures[static_cast<int>(AttackType::HEAVY)] = pRM->RequestPNG("attack_heavy", L"Resources/Textures/UI/heavyAtk.png");
 
 	// 画像サイズの設定
 	m_textureSize = DirectX::SimpleMath::Vector2(texWidth, texHeight);
@@ -69,9 +96,9 @@ void AttackUI::Initialize(ResourceManager* resourceManager, float texWidth, floa
 
 	// 操作方法UIの画像読み込み
 	OperationUI::Textures uiTextures;
-	uiTextures.nomalArrow = resourceManager->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
-	uiTextures.rotateArrow = resourceManager->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
-	uiTextures.keyText = resourceManager->RequestPNG("box", L"Resources/Textures/text/operationText.png");
+	uiTextures.nomalArrow = pRM->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
+	uiTextures.rotateArrow = pRM->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
+	uiTextures.keyText = pRM->RequestPNG("box", L"Resources/Textures/text/operationText.png");
 
 	// 操作方法UIの作成
 	m_operationUI = std::make_unique<OperationUI>();
@@ -83,9 +110,20 @@ void AttackUI::Initialize(ResourceManager* resourceManager, float texWidth, floa
 		DirectX::SimpleMath::Vector2(200.f, 135.f));
 }
 
+
+
+/**
+ * @brief 更新処理
+ *
+ * @param elapsedTime	経過時間
+ *
+ * @return なし
+ */
 void AttackUI::Update(float elapsedTime)
 {
 	bool anyPlaying = false;
+
+	// ウィジェットの更新
 	for (auto& widget : m_widgets)
 	{
 		widget->Update(elapsedTime);
@@ -99,9 +137,19 @@ void AttackUI::Update(float elapsedTime)
 		m_lastDirection = Direction::NONE;
 	}
 
+	// 操作方法UIの更新
 	m_operationUI->Update(elapsedTime);
 }
 
+
+
+/**
+ * @brief 描画処理
+ *
+ * @param context		描画用構造体
+ *
+ * @return なし
+ */
 void AttackUI::Draw(RenderContext context)
 {
 	context.spriteBatch->Begin(
@@ -122,6 +170,15 @@ void AttackUI::Draw(RenderContext context)
 	context.spriteBatch->End();
 }
 
+
+
+/**
+ * @brief 終了処理
+ *
+ * @param なし
+ *
+ * @return なし
+ */
 void AttackUI::Finalize()
 {
 	m_layoutList.clear();
@@ -138,6 +195,15 @@ void AttackUI::Finalize()
 	m_operationUI.reset();
 }
 
+
+
+/**
+ * @brief 攻撃方法の変更
+ *
+ * @param type 変更先の攻撃方法
+ *
+ * @return なし
+ */
 void AttackUI::ChangeAttack(AttackType type)
 {
 	if (m_attackList[0] == type) return;
@@ -214,15 +280,21 @@ void AttackUI::MakeParam(UIWidget& widget, const LayoutData& to)
 
 void AttackUI::BindAttackSlots()
 {
+	// 攻撃種類数
 	int N = static_cast<int>(AttackType::TYPE_NUM);
+
+	// リストの先頭の攻撃方法を中央のスロットに設定
 	int center = static_cast<int>(m_attackList[0]);
+	// 中央の攻撃方法を元に左右も設定
 	int left = (center - 1 + N) % N;
 	int right = (center + 1) % N;
 
+	// 攻撃の種類に合ったアイコンを設定
 	m_widgets[static_cast<int>(Layout::LEFT)]->SetTexture(m_textures[left]);
 	m_widgets[static_cast<int>(Layout::CENTER)]->SetTexture(m_textures[center]);
 	m_widgets[static_cast<int>(Layout::RIGHT)]->SetTexture(m_textures[right]);
 
+	// 各ウィジェットのパラメータをリセット
 	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); ++i)
 	{
 		Tween::UIParams start{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity };

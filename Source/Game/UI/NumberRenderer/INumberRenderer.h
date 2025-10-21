@@ -1,7 +1,7 @@
 /**
  * @file   INumberRenderer.h
  *
- * @brief  INumberRendererに関するヘッダファイル
+ * @brief  スプライトを使用した数字描画に関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -15,7 +15,7 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief INumberRenderer
+ * @brief スプライトを使用した数字描画
  */
 class INumberRenderer
 {
@@ -62,7 +62,13 @@ public:
 	// 終了処理
 	virtual void Finalize() = 0;
 
-	// 数値を設定
+	/**
+	 * @brief 表示する数字を設定
+	 *
+	 * @param number	表示数字
+	 * 
+	 * @return	なし
+	 */
 	void SetNumber(const int& number)
 	{
 		m_number = number; 

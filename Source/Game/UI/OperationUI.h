@@ -22,23 +22,26 @@ class OperationUI
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// テクスチャ群
 	struct Textures
 	{
-		ID3D11ShaderResourceView* nomalArrow = nullptr;
-		ID3D11ShaderResourceView* rotateArrow = nullptr;
-		ID3D11ShaderResourceView* keyText = nullptr;
-		ID3D11ShaderResourceView* icon = nullptr;
+		ID3D11ShaderResourceView* nomalArrow = nullptr;		// 通常矢印
+		ID3D11ShaderResourceView* rotateArrow = nullptr;	// 回転矢印
+		ID3D11ShaderResourceView* keyText = nullptr;		// 操作キー
+		ID3D11ShaderResourceView* icon = nullptr;			// アイコン(必要なら)
 	};
 
+	// 表示レイアウト
 	enum class Layout
 	{
-		CENTER,
-		LEFT,
-		RIGHT,
-
-		DisplayNum
+		CENTER,	// 中央 (無効状態で表示)
+		LEFT,	// 左	(有効状態で表示)
+		RIGHT,	// 右	(有効状態で表示)
+		
+		DisplayNum	// 表示数
 	};
 
+	// トゥイーン再生時間
 	static constexpr float TWEEN_TIME = 0.25f;
 
 	// テキスト画像を切り取る時の左端
@@ -47,15 +50,23 @@ public:
 	// テキスト画像の1文字の大きさ
 	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 50.0f,100.0f };
 
+	// 矢印画像の大きさ
+	static constexpr DirectX::SimpleMath::Vector2 ARROW_SIZE_DEFAULT = { 200.0f,100.0f };	// 通常
+	static constexpr DirectX::SimpleMath::Vector2 ARROW_SIZE_ROTATE = { 200.0f,200.0f };	// 回転
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// ウィジェット
 	std::vector<std::unique_ptr<UIWidget>> m_widgets;
 
+	// テクスチャ群
 	std::unique_ptr<Textures> m_textures;
 
+	// 有効フラグ
 	bool m_active;
 
+	// アイコン表示位置
 	DirectX::SimpleMath::Vector2 m_iconPos;
 
 
@@ -100,5 +111,6 @@ public:
 
 	// 内部実装
 private:
+	// パラメータの切り替え
 	void SwitchParam(bool active, UIWidget& widget);
 };

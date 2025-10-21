@@ -1,7 +1,7 @@
 /**
  * @file   ClearConditionsUI.cpp
  *
- * @brief  ClearConditionsUIに関するソースファイル
+ * @brief  クリア条件UIに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -13,10 +13,11 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param clearCondition	クリア条件
  */
 ClearConditionsUI::ClearConditionsUI(ConditionsType clearCondition)
-	:CONDITIONS_TYPE{ clearCondition }
+	: UIElement()
+	, CONDITIONS_TYPE{ clearCondition }
 {
 
 }
@@ -36,7 +37,8 @@ ClearConditionsUI::~ClearConditionsUI()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param windowSize	ウィンドウサイズ
+ * @param pRM			リソースマネージャーのポインタ
  *
  * @return なし
  */
@@ -44,18 +46,22 @@ void ClearConditionsUI::Initialize(
 	DirectX::SimpleMath::Vector2 windowSize,
 	ResourceManager* pRM)
 {
+	// 開始位置の計算
 	DirectX::SimpleMath::Vector2 startPos = DirectX::SimpleMath::Vector2
 	{
 		-TEXT_SIZE.x,
 		windowSize.y * 0.25f
 	};
+	// 終了位置の計算
 	DirectX::SimpleMath::Vector2 endPos = DirectX::SimpleMath::Vector2
 	{
 		windowSize.x + TEXT_SIZE.x * 2.0f,
 		0.0f
 	};
 
+	// ウィジェットの作成
 	m_widget = std::make_unique<UIWidget>();
+	// トゥイーンパラメータの作成
 	Tween::TweenData data =
 	{
 		Tween::UIParams{startPos,DirectX::SimpleMath::Vector2::One,0.0f,1.0f},
@@ -74,12 +80,13 @@ void ClearConditionsUI::Initialize(
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param elapsedTime	経過時間
  *
  * @return なし
  */
 void ClearConditionsUI::Update(float elapsedTime)
 {
+	// ウィジェットの更新
 	m_widget->Update(elapsedTime);
 }
 
@@ -88,7 +95,7 @@ void ClearConditionsUI::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context	描画用構造体
  *
  * @return なし
  */

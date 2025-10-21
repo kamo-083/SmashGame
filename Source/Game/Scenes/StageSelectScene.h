@@ -1,7 +1,7 @@
 /**
  * @file   StageSelectScene.h
  *
- * @brief  テストシーンに関するヘッダファイル
+ * @brief  ステージ選択シーンに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -21,7 +21,7 @@ class NumberRenderer2D;
 
 // クラスの定義 ===============================================================
 /**
- * @brief テストシーン
+ * @brief ステージ選択シーン
  */
 class StageSelectScene : public Scene
 {
@@ -44,7 +44,8 @@ private:
 	// オブジェクト関連
 	std::unique_ptr<Textures> m_textures;
 
-	int m_selectNum;	// 選択中のステージ番号
+	// 選択中のステージ番号
+	int m_selectNum;	
 
 	// ステージパネル
 	std::vector<std::unique_ptr<Button>> m_stagePanels;

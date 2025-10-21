@@ -1,7 +1,7 @@
 /**
  * @file   StageResultUI.cpp
  *
- * @brief  StageResultUIに関するソースファイル
+ * @brief  リザルトUIに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -16,6 +16,7 @@
  * @param なし
  */
 StageResultUI::StageResultUI()
+	: UIElement()
 {
 
 }
@@ -35,7 +36,9 @@ StageResultUI::~StageResultUI()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param texture		テクスチャのポインタ
+ * @param texSize		テクスチャのサイズ
+ * @param windowSize	ウィンドウのサイズ
  *
  * @return なし
  */
@@ -44,16 +47,19 @@ void StageResultUI::Initialize(
 	DirectX::SimpleMath::Vector2 texSize,
 	DirectX::SimpleMath::Vector2 windowSize)
 {
-	DirectX::SimpleMath::Vector2 startPos = DirectX::SimpleMath::Vector2
+	// 表示位置の計算
+	DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2
 	{
 		windowSize.x * 0.5f,
 		windowSize.y * 0.5f
 	};
 
+	// ウィジェットの作成
 	m_widget = std::make_unique<UIWidget>();
+	// トゥイーンパラメータの作成
 	Tween::TweenData data =
 	{
-		Tween::UIParams{startPos,DirectX::SimpleMath::Vector2(1.0f,0.0f),0.0f,1.0f},
+		Tween::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,0.0f),0.0f,1.0f},
 		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.0f,1.0f),0.0f,0.0f},
 		0.25f,
 		Tween::Ease::OutBack,
@@ -67,12 +73,13 @@ void StageResultUI::Initialize(
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param elapsedTime	経過時間
  *
  * @return なし
  */
 void StageResultUI::Update(float elapsedTime)
 {
+	// ウィジェットの更新
 	m_widget->Update(elapsedTime);
 }
 
@@ -81,12 +88,13 @@ void StageResultUI::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context	描画用構造体
  *
  * @return なし
  */
 void StageResultUI::Draw(RenderContext context)
 {
+	// ウィジェットの描画
 	m_widget->Draw(context);
 }
 

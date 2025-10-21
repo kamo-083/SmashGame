@@ -1,7 +1,7 @@
 /**
  * @file   Tween.cpp
  *
- * @brief  Tweenに関するソースファイル
+ * @brief  トゥイーンに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -13,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param data	トゥイーン情報
  */
 Tween::Tween(TweenData data)
 	: m_data{ data }
@@ -41,7 +41,8 @@ Tween::~Tween()
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param deltaTime	経過時間
+ * @param params	変化させるパラメータ
  *
  * @return なし
  */
@@ -104,6 +105,14 @@ void Tween::Finalize()
 }
 
 
+
+/**
+ * @brief 再生
+ *
+ * @param なし
+ *
+ * @return なし
+ */
 void Tween::Play()
 {
 	m_playing = true;
@@ -111,11 +120,28 @@ void Tween::Play()
 }
 
 
+
+/**
+ * @brief 停止
+ *
+ * @param なし
+ *
+ * @return なし
+ */
 void Tween::Stop()
 {
 	m_playing = false;
 }
 
+
+
+/**
+ * @brief 再生時間のリセット
+ *
+ * @param なし
+ *
+ * @return なし
+ */
 void Tween::ResetTime()
 {
 	m_elapsedTime = 0.0f;
@@ -125,32 +151,15 @@ void Tween::ResetTime()
 }
 
 
-void Tween::ReverseUIParam()
-{
-	Tween::TweenData d = m_data;
 
-	d.start.pos += d.delta.pos;
-	d.start.scale += d.delta.scale;
-	d.start.rotation += d.delta.rotation;
-	d.start.opacity += d.delta.opacity;
-	
-	ReverseDeltaParam();
-
-	m_data = d;
-}
-
-void Tween::ReverseDeltaParam()
-{
-	Tween::TweenData d = m_data;
-
-	d.delta.pos *= -1;
-	d.delta.scale *= -1;
-	d.delta.rotation *= -1;
-	d.delta.opacity *= -1;
-
-	m_data = d;
-}
-
+/**
+ * @brief イージングの計算
+ *
+ * @param ease	イージングの種類
+ * @param t		アニメーションの進行度
+ *
+ * @return なし
+ */
 float Tween::EaseValue(Ease ease, float t)
 {
 
@@ -211,9 +220,16 @@ float Tween::EaseValue(Ease ease, float t)
 }
 
 
+
+/**
+ * @brief 最短回転角度の計算
+ *
+ * @param delta	回転角度
+ *
+ * @return なし
+ */
 float Tween::ShortestAngle(float delta)
 {
-
 	if (delta > DirectX::XM_PI)  delta -= DirectX::XM_2PI;
 	if (delta < -DirectX::XM_PI) delta += DirectX::XM_2PI;
 	return delta;

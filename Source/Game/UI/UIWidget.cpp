@@ -1,7 +1,7 @@
 /**
  * @file   UIWidget.cpp
  *
- * @brief  UIWidgetに関するソースファイル
+ * @brief  UIウィジェット(アニメーション付きUIのベース)に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -36,7 +36,10 @@ UIWidget::~UIWidget()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param texture	テクスチャのポインタ
+ * @param data		トゥイーン情報
+ * @param size		テクスチャのサイズ
+ * @param play		再生するか
  *
  * @return なし
  */
@@ -51,6 +54,7 @@ void UIWidget::Initialize(ID3D11ShaderResourceView* texture,
 
 	m_tween = std::make_unique<Tween>(data);
 
+	// トゥイーンの再生
 	if (play) m_tween->Play();
 }
 
@@ -59,12 +63,13 @@ void UIWidget::Initialize(ID3D11ShaderResourceView* texture,
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param elapsedTime	経過時間
  *
  * @return なし
  */
 void UIWidget::Update(float elapsedTime)
 {
+	// パラメータの更新
 	m_tween->Update(elapsedTime, m_params);
 }
 
@@ -73,14 +78,14 @@ void UIWidget::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context	描画用構造体
  *
  * @return なし
  */
 void UIWidget::Draw(RenderContext context)
 {
 	DirectX::SimpleMath::Color color = { 1, 1, 1, m_params.opacity };
-	DirectX::SimpleMath::Vector2 size = { m_texSize.x * 0.5f,m_texSize.y * 0.5f };
+	DirectX::SimpleMath::Vector2 size = { m_texSize.x * 0.5f, m_texSize.y * 0.5f };
 
 	context.spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
@@ -133,8 +138,6 @@ void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch,
 
 	// 中心
 	DirectX::SimpleMath::Vector2 origin = srcSize * 0.5f;
-	//if (size == DirectX::SimpleMath::Vector2::Zero) origin = m_texSize * 0.5f;
-	//else								   origin = size * 0.5f;
 
 	// 透明度
 	DirectX::SimpleMath::Color color = { 1, 1, 1, m_params.opacity };
@@ -158,6 +161,14 @@ void UIWidget::Finalize()
 	m_tween.reset();
 }
 
+
+/**
+ * @brief トゥイーンのリセット
+ *
+ * @param なし
+ *
+ * @return なし
+ */
 void UIWidget::TweenReset(bool play)
 {
 	m_params = m_tween->GetStartParams();
@@ -166,6 +177,15 @@ void UIWidget::TweenReset(bool play)
 	if (play) m_tween->Play();
 }
 
+
+/**
+ * @brief 新しいパラメータの設定
+ *
+ * @param start	開始時のパラメータ
+ * @param delta	パラメータの変化量
+ *
+ * @return なし
+ */
 void UIWidget::SetParam(Tween::UIParams start, Tween::UIParams delta)
 {
 	m_params = start;

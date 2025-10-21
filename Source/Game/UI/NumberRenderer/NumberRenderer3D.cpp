@@ -1,7 +1,7 @@
 /**
  * @file   NumberRenderer3D.cpp
  *
- * @brief  NumberRenderer3Dに関するソースファイル
+ * @brief  3Dのスプライト数字に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -23,13 +23,17 @@ const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param spriteSize	スプライトのサイズ
+ * @param texture		テクスチャのポインタ
+ * @param digit			表示桁数
+ * @param pDR			デバイスリソースのポインタ
+ * @param boardScale	スケール
  */
 NumberRenderer3D::NumberRenderer3D(
 	DirectX::SimpleMath::Vector2 spriteSize,
 	ID3D11ShaderResourceView* texture,
 	int digit,
-	DX::DeviceResources* deviceResources,
+	DX::DeviceResources* pDR,
 	float boardScale)
 	: INumberRenderer(spriteSize, texture, digit)
 	, DIGITS_WIDTH{ spriteSize.x * digit }
@@ -38,8 +42,8 @@ NumberRenderer3D::NumberRenderer3D(
 	, m_isBillboard{ false }
 	, m_billboard{ DirectX::SimpleMath::Matrix::Identity }
 {
-	ID3D11Device1* device = deviceResources->GetD3DDevice();
-	ID3D11DeviceContext* context = deviceResources->GetD3DDeviceContext();
+	ID3D11Device1* device = pDR->GetD3DDevice();
+	ID3D11DeviceContext* context = pDR->GetD3DDeviceContext();
 
 	//エフェクトの作成
 	m_batchEffect = std::make_unique<DirectX::AlphaTestEffect>(device);
@@ -62,11 +66,11 @@ NumberRenderer3D::NumberRenderer3D(
 	// レンダーテクスチャの作成
 	m_renderTexture = std::make_unique<RenderTexture>();
 	m_renderTexture->Initialize(
-		deviceResources->GetD3DDevice(),
+		pDR->GetD3DDevice(),
 		//100, 200,
 		DIGITS_WIDTH * SCALE, spriteSize.y * SCALE,
-		deviceResources->GetRenderTargetView(),
-		deviceResources->GetDepthStencilView()
+		pDR->GetRenderTargetView(),
+		pDR->GetDepthStencilView()
 	);
 
 	// 深度ステンシルステートの作成
@@ -93,7 +97,7 @@ NumberRenderer3D::~NumberRenderer3D()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param number	表示数字
  *
  * @return なし
  */
@@ -107,7 +111,7 @@ void NumberRenderer3D::Initialize(const int& number)
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param renderContext	描画用構造体
  *
  * @return なし
  */
@@ -126,6 +130,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 
 	renderContext.spriteBatch->Begin();
 
+	// 1の位から順に描画
 	for (int i = 0; i < NUM_DIGIT; i++)
 	{
 		int number = data % 10;
@@ -229,6 +234,14 @@ void NumberRenderer3D::Finalize()
 
 
 
+/**
+ * @brief ビルボードの作成
+ *
+ * @param eye	カメラ位置
+ * @param up	カメラ上ベクトル
+ *
+ * @return なし
+ */
 void NumberRenderer3D::CreateBillboard(
 	DirectX::SimpleMath::Vector3 eye,
 	DirectX::SimpleMath::Vector3 up)
