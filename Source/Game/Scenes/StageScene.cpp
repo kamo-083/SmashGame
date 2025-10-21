@@ -121,7 +121,6 @@ void StageScene::Initialize()
 
 	// カメラ操作UIの作成
 	m_cameraUI = std::make_unique<OperationUI>();
-	m_cameraUI->Initialize(uiTextures, DirectX::SimpleMath::Vector2(250.f, 600.f), 350.f, false, DirectX::SimpleMath::Vector2(200.f, 135.f));
 
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this);
