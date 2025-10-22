@@ -9,7 +9,6 @@
 #include "AttackUI.h"
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/UI/UIWidget.h"
-#include"Source/Game/UI/OperationUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -42,13 +41,12 @@ AttackUI::~AttackUI()
 /**
  * @brief 初期化処理
  *
- * @param pRM		リソースマネージャーのポインタ
- * @param texWidth	画像の幅
- * @param texHeight	画像の高さ
+ * @param attackDesc	攻撃方法UIの入力情報
+ * @param operationDesc	操作方法UIの入力情報
  *
  * @return なし
  */
-void AttackUI::Initialize(ResourceManager* pRM, float texWidth, float texHeight)
+void AttackUI::Initialize(const AttackUIDesc& attackDesc, const OperationUI::OperationUIDesc& operationDesc)
 {
 	// 攻撃の設定
 	for (int i = 0; i < static_cast<int>(AttackType::TYPE_NUM); i++)
@@ -57,12 +55,12 @@ void AttackUI::Initialize(ResourceManager* pRM, float texWidth, float texHeight)
 	}
 
 	// テクスチャの読み込み
-	m_textures[static_cast<int>(AttackType::BASIC)] = pRM->RequestPNG("attack_basic", L"Resources/Textures/UI/basicAtk.png");
-	m_textures[static_cast<int>(AttackType::ROLLING)] = pRM->RequestPNG("attack_rolling", L"Resources/Textures/UI/rollingAtk.png");
-	m_textures[static_cast<int>(AttackType::HEAVY)] = pRM->RequestPNG("attack_heavy", L"Resources/Textures/UI/heavyAtk.png");
+	m_textures[static_cast<int>(AttackType::BASIC)] = attackDesc.basicAtkTex;
+	m_textures[static_cast<int>(AttackType::ROLLING)] = attackDesc.rollingAtkTex;
+	m_textures[static_cast<int>(AttackType::HEAVY)] = attackDesc.heavyAtkTex;
 
 	// 画像サイズの設定
-	m_textureSize = DirectX::SimpleMath::Vector2(texWidth, texHeight);
+	m_textureSize = DirectX::SimpleMath::Vector2(attackDesc.texWidth, attackDesc.texHeight);
 
 	// スライド処理方向の初期化
 	m_lastDirection = Direction::NONE;
@@ -70,8 +68,10 @@ void AttackUI::Initialize(ResourceManager* pRM, float texWidth, float texHeight)
 	// 表示レイアウトの設定
 	m_layoutList.resize(static_cast<int>(Layout::DisplayNum));
 
-	DirectX::SimpleMath::Vector2 center = { m_windowSize.x - m_textureSize.x * 1.5f, m_windowSize.y - m_textureSize.y * 0.6f };
-	float  offsetX = m_textureSize.x * 1.1f;
+	DirectX::SimpleMath::Vector2 center = {
+		m_windowSize.x - m_textureSize.x * UI_POS_ADJUST_SCALE.x,
+		m_windowSize.y - m_textureSize.y * UI_POS_ADJUST_SCALE.y };
+	float  offsetX = m_textureSize.x * OFFSET_X_ADJUST_SCALE;
 
 	m_layoutList[static_cast<int>(Layout::LEFT)] = { center + DirectX::SimpleMath::Vector2(-offsetX, 0), {0.8f,0.8f}, 0.6f };
 	m_layoutList[static_cast<int>(Layout::CENTER)] = { center, {1.2f,1.2f}, 1.0f };
@@ -84,7 +84,7 @@ void AttackUI::Initialize(ResourceManager* pRM, float texWidth, float texHeight)
 		Tween::TweenData data{
 			{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity },
 			{ {},{},0,0 },
-			0.1f,
+			TWEEN_ANIM_TIME,
 			Tween::Ease::OutQuart,
 			Tween::PlaybackMode::Once
 		};
@@ -94,20 +94,14 @@ void AttackUI::Initialize(ResourceManager* pRM, float texWidth, float texHeight)
 	}
 	BindAttackSlots();
 
-	// 操作方法UIの画像読み込み
-	OperationUI::Textures uiTextures;
-	uiTextures.nomalArrow = pRM->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
-	uiTextures.rotateArrow = pRM->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
-	uiTextures.keyText = pRM->RequestPNG("box", L"Resources/Textures/text/operationText.png");
-
 	// 操作方法UIの作成
 	m_operationUI = std::make_unique<OperationUI>();
 	m_operationUI->Initialize(
-		uiTextures,
-		DirectX::SimpleMath::Vector2(center.x, center.y - m_textureSize.y * 0.6f),
+		operationDesc,
+		DirectX::SimpleMath::Vector2(center.x, center.y - m_textureSize.y * UI_POS_ADJUST_SCALE.y),
 		offsetX * 2.0f,
-		true,
-		DirectX::SimpleMath::Vector2(200.f, 135.f));
+		true
+	);
 }
 
 
@@ -189,6 +183,10 @@ void AttackUI::Finalize()
 	}
 	m_widgets.clear();
 
+	for (auto& tex : m_textures)
+	{
+		tex = nullptr;
+	}
 	m_textures.clear();
 
 	m_operationUI->Finalize();

@@ -37,6 +37,23 @@ public:
 
 	static constexpr int BUTTONS = 2;	// ボタン数
 
+	// タイトルロゴの表示位置
+	static constexpr float LOGO_POS_Y = 230.0f;
+	// 選択肢テキストの表示位置
+	static constexpr float TEXT_POS_Y = 500.0f;
+	// 選択肢テキストの表示間隔
+	static constexpr float TEXT_INTERVAL = 100.0f;
+
+	// タイトルロゴの画像サイズ
+	static constexpr DirectX::SimpleMath::Vector2 LOGO_SIZE = { 640.0f,360.0f };
+	// 選択肢テキストの画像サイズ
+	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 400.0f,67.0f };
+
+	// トゥイーンアニメーション関連
+	// スケール変化量
+	static constexpr float TWEEN_DELTA_SCALE = 0.1f;
+	// アニメーション時間
+	static constexpr float TWEEN_ANIM_TIME = 0.5f;
 
 	// データメンバの宣言 -----------------------------------------------
 private:

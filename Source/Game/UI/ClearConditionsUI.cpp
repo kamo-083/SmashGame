@@ -38,24 +38,28 @@ ClearConditionsUI::~ClearConditionsUI()
  * @brief 初期化処理
  *
  * @param windowSize	ウィンドウサイズ
- * @param pRM			リソースマネージャーのポインタ
+ * @param textTex		テキストの画像
+ * @param textSize		テキストの画像の大きさ(1行分)
  *
  * @return なし
  */
 void ClearConditionsUI::Initialize(
 	DirectX::SimpleMath::Vector2 windowSize,
-	ResourceManager* pRM)
+	ID3D11ShaderResourceView* textTex,
+	DirectX::SimpleMath::Vector2 textSize)
 {
+	m_textSize = textSize;
+
 	// 開始位置の計算
 	DirectX::SimpleMath::Vector2 startPos = DirectX::SimpleMath::Vector2
 	{
-		-TEXT_SIZE.x,
+		-m_textSize.x,
 		windowSize.y * 0.25f
 	};
 	// 終了位置の計算
 	DirectX::SimpleMath::Vector2 endPos = DirectX::SimpleMath::Vector2
 	{
-		windowSize.x + TEXT_SIZE.x * 2.0f,
+		windowSize.x + m_textSize.x * 2.0f,
 		0.0f
 	};
 
@@ -66,13 +70,11 @@ void ClearConditionsUI::Initialize(
 	{
 		Tween::UIParams{startPos,DirectX::SimpleMath::Vector2::One,0.0f,1.0f},
 		Tween::UIParams{endPos,DirectX::SimpleMath::Vector2::Zero,0.0f,0.0f},
-		2.0f,
+		TWEEN_ANIM_TIME,
 		Tween::Ease::OutInQuart,
 		Tween::PlaybackMode::Once
 	};
-	m_widget->Initialize(
-		pRM->RequestPNG("conditionsText", L"Resources/Textures/Text/conditionsText.png"),
-		data, TEXT_SIZE);
+	m_widget->Initialize(textTex, data, m_textSize);		
 }
 
 
@@ -102,13 +104,13 @@ void ClearConditionsUI::Update(float elapsedTime)
 void ClearConditionsUI::Draw(RenderContext context)
 {
 	// 画像の切り取り範囲を設定
-	float height = TEXT_SIZE.y * static_cast<float>(CONDITIONS_TYPE);
+	float height = m_textSize.y * static_cast<float>(CONDITIONS_TYPE);
 	RECT rect =
 	{
 		0.0f,
 		height,
-		TEXT_SIZE.x,
-		height + TEXT_SIZE.y,
+		m_textSize.x,
+		height + m_textSize.y,
 	};
 
 	// 画像の描画

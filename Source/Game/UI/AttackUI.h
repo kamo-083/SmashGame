@@ -11,11 +11,11 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Data/AttackData.h"
 #include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/UI/OperationUI.h"
 
 
 // クラスの宣言 ===============================================================
 class UIWidget;
-class OperationUI;
 class ResourceManager;
 
 
@@ -26,6 +26,16 @@ class ResourceManager;
 class AttackUI
 {
 public:
+	// 引数用構造体
+	struct AttackUIDesc
+	{
+		ID3D11ShaderResourceView* basicAtkTex;		// 通常攻撃画像
+		ID3D11ShaderResourceView* rollingAtkTex;	// 転がり攻撃画像
+		ID3D11ShaderResourceView* heavyAtkTex;		// 強攻撃画像
+		float texWidth;								// 画像の幅
+		float texHeight;							// 画像の高さ
+	};
+
 	// スライド方向
 	enum class Direction
 	{
@@ -52,11 +62,14 @@ public:
 		float opacity = 1.0f;					// 透明度
 	};
 
-	// スライド距離
-	static constexpr float SLIDE_DISTANCE = 2.0f;
+	// デフォルトの画像サイズ
+	static constexpr DirectX::SimpleMath::Vector2 DEFAULT_TEX_SIZE = { 100.f,100.f };
 
-	// 基本の画像サイズ
-	static constexpr DirectX::SimpleMath::Vector2 DEFAULT_TEX_SIZE = { 200.f,200.f };
+	static constexpr float TWEEN_ANIM_TIME = 0.1f;	// トゥイーンアニメーションの時間
+
+	// 調整用倍率
+	static constexpr DirectX::SimpleMath::Vector2 UI_POS_ADJUST_SCALE = { 1.5f,0.6f };	// 中心位置の調整
+	static constexpr float OFFSET_X_ADJUST_SCALE = 1.1f;	// 中心位置の調整
 
 
 private:
@@ -91,7 +104,7 @@ public:
 	~AttackUI();
 
 	// 初期化
-	void Initialize(ResourceManager* pRM, float texWidth = DEFAULT_TEX_SIZE.x, float texHeight = DEFAULT_TEX_SIZE.y);
+	void Initialize(const AttackUIDesc& attackDesc, const OperationUI::OperationUIDesc& operationDesc);
 
 	// 更新
 	void Update(float elapsedTime);

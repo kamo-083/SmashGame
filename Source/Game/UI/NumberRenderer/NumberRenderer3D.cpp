@@ -67,7 +67,6 @@ NumberRenderer3D::NumberRenderer3D(
 	m_renderTexture = std::make_unique<RenderTexture>();
 	m_renderTexture->Initialize(
 		pDR->GetD3DDevice(),
-		//100, 200,
 		DIGITS_WIDTH * SCALE, spriteSize.y * SCALE,
 		pDR->GetRenderTargetView(),
 		pDR->GetDepthStencilView()

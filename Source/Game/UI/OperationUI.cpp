@@ -36,30 +36,35 @@ OperationUI::~OperationUI()
 /**
  * @brief 初期化処理
  *
- * @param textures		テクスチャ群
+ * @param desc			テクスチャ・サイズ等の情報
  * @param centerPos		中心座標
  * @param arrowInterval	矢印の間隔
  * @param active		有効フラグ
- * @param iconSize		アイコンのサイズ
  *
  * @return なし
  */
 void OperationUI::Initialize(
-	const Textures& textures,
+	const OperationUIDesc& desc,
 	DirectX::SimpleMath::Vector2 centerPos,
 	float arrowInterval,
-	bool active,
-	DirectX::SimpleMath::Vector2 iconSize)
+	bool active)
 {
+	// 各サイズの設定
+	m_arrowSizeDefault = desc.arrowSizeDefault;	// 通常矢印
+	m_arrowSizeRotate = desc.arrowSizeRotate;	// 回転矢印
+	m_textUVLeft = desc.textUVLeft;				// テキスト画像の左端
+	m_textSize = desc.textSize;					// テキストの1文字分
+	m_iconSize = desc.iconSize;					// アイコン
+
 	// 有効・無効の設定
 	m_active = active;
 
 	// 画像の登録
 	m_textures = std::make_unique<Textures>();
-	m_textures->nomalArrow = textures.nomalArrow;
-	m_textures->rotateArrow = textures.rotateArrow;
-	m_textures->keyText = textures.keyText;
-	m_textures->icon = textures.icon;
+	m_textures->nomalArrow = desc.textures.nomalArrow;
+	m_textures->rotateArrow = desc.textures.rotateArrow;
+	m_textures->keyText = desc.textures.keyText;
+	m_textures->icon = desc.textures.icon;
 
 	// ウィジェットの作成
 	m_widgets.resize(static_cast<int>(Layout::DisplayNum));
@@ -74,7 +79,7 @@ void OperationUI::Initialize(
 		Tween::Ease::Liner,
 		Tween::PlaybackMode::Once
 	};
-	widget->Initialize(m_textures->rotateArrow, data, ARROW_SIZE_ROTATE, false);
+	widget->Initialize(m_textures->rotateArrow, data, m_arrowSizeRotate, false);
 	SwitchParam(!m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::CENTER)] = std::move(widget);
 
@@ -84,7 +89,7 @@ void OperationUI::Initialize(
 	DirectX::SimpleMath::Vector2 leftPos = DirectX::SimpleMath::Vector2(centerPos.x - arrowInterval * 0.5f, centerPos.y);
 	data.start.pos = leftPos;
 	data.start.rotation = DirectX::XM_PI;
-	widget->Initialize(m_textures->nomalArrow, data, ARROW_SIZE_DEFAULT, false);
+	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeDefault, false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::LEFT)] = std::move(widget);
 
@@ -93,14 +98,14 @@ void OperationUI::Initialize(
 	DirectX::SimpleMath::Vector2 rightPos = DirectX::SimpleMath::Vector2(centerPos.x + arrowInterval * 0.5f, centerPos.y);
 	data.start.pos = rightPos;
 	data.start.rotation = 0.0f;
-	widget->Initialize(m_textures->nomalArrow, data, ARROW_SIZE_DEFAULT, false);
+	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeDefault, false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
 
 	// アイコン座標の設定
 	if (m_textures->icon)
 	{
-		m_iconPos = m_widgets[static_cast<int>(Layout::CENTER)]->GetTween()->GetStartParams().pos - iconSize * 0.5f;
+		m_iconPos = m_widgets[static_cast<int>(Layout::CENTER)]->GetTween()->GetStartParams().pos - desc.iconSize * 0.5f;
 	}
 }
 
@@ -158,8 +163,8 @@ void OperationUI::Draw(RenderContext context, bool batchBeginEnd)
 	int loopTime = 0;
 	for (auto& widget : m_widgets)
 	{
-		float uvLeft = TEXT_UV_LEFT + TEXT_SIZE.x * loopTime;
-		RECT rect = { uvLeft, 0.0f, uvLeft + TEXT_SIZE.x, TEXT_SIZE.y };
+		float uvLeft = m_textUVLeft + m_textSize.x * loopTime;
+		RECT rect = { uvLeft, 0.0f, uvLeft + m_textSize.x, m_textSize.y };
 
 		widget->Draw(
 			context.spriteBatch,

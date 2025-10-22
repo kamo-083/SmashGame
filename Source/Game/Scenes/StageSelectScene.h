@@ -34,6 +34,23 @@ public:
 		ID3D11ShaderResourceView* background;	// 背景
 	};
 
+	// スプライト数字の1文字分のサイズ
+	static constexpr DirectX::SimpleMath::Vector2 NUMBER_SIZE = { 48.0f,72.0f };
+
+	// パネルの間隔調整
+	static constexpr float PANEL_ADJUST_INTERVAL = 210.0f;
+	// ステージ番号の間隔調整
+	static constexpr float NUMBER_ADJUST_INTERVAL = 230.0f;
+
+	// パネル画像サイズ
+	static constexpr DirectX::SimpleMath::Vector2 PANEL_TEX_SIZE = { 350.0f,400.0f };
+
+	// パネルのトゥイーン関連
+	// アニメーションの時間
+	static constexpr float PANEL_ANIM_TIME = 0.5f;
+	// スケールの変化量
+	static constexpr float PANEL_DELTA_SCALE = 0.05f;
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:

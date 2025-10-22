@@ -63,49 +63,47 @@ void TitleScene::Initialize()
 	Tween::TweenData data =
 	{
 		Tween::UIParams{DirectX::SimpleMath::Vector2(halfWidth, 0.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 230.0f),DirectX::SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, LOGO_POS_Y),DirectX::SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		1.0f,
 		Tween::Ease::OutBounce,
 		Tween::PlaybackMode::Once
 	};
-	m_titleLogo->Initialize(m_textures->logo, data, DirectX::SimpleMath::Vector2(640.0f, 360.0f));
+	m_titleLogo->Initialize(m_textures->logo, data, LOGO_SIZE);
 
 	// ボタンを作成
 	m_buttons.reserve(BUTTONS);
 	// ゲーム開始のボタン
+	// トゥイーンアニメーションのパラメータ作成
 	std::unique_ptr<Button> start = std::make_unique<Button>();
 	data =
 	{
-		Tween::UIParams{DirectX::SimpleMath::Vector2(halfWidth, 500.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
-		0.5f,
+		Tween::UIParams{DirectX::SimpleMath::Vector2(halfWidth, TEXT_POS_Y),
+						DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
+		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
+						DirectX::SimpleMath::Vector2(TWEEN_DELTA_SCALE, TWEEN_DELTA_SCALE),
+						0.0f, 0.0f},
+		TWEEN_ANIM_TIME,
 		Tween::Ease::OutQuart,
 		Tween::PlaybackMode::PingPong
 	};
 	start->Initialize(
-		m_textures->start, data, DirectX::SimpleMath::Vector2(400.0f, 67.0f),
+		m_textures->start, data, TEXT_SIZE,
 		[this]() {
 			// SEの再生
 			m_userResources->GetAudioManager()->Play("cursorSE", false);
 
 			// シーン切り替え
-			ChangeScene("StageSelectScene"); 
-		}	
+			ChangeScene("StageSelectScene");
+		}
 	);
 	m_buttons.push_back(std::move(start));
 
 	// ゲーム終了のボタン
 	std::unique_ptr<Button> exit = std::make_unique<Button>();
-	data =
-	{
-		Tween::UIParams{DirectX::SimpleMath::Vector2(halfWidth, 600.0f),DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.1f,0.1f),0.0f,0.0f},
-		0.5f,
-		Tween::Ease::OutQuart,
-		Tween::PlaybackMode::PingPong
-	};
+	// パラメータの表示位置を変更
+	data.start.pos = DirectX::SimpleMath::Vector2(halfWidth, TEXT_POS_Y + TEXT_INTERVAL);
 	exit->Initialize(
-		m_textures->exit, data, DirectX::SimpleMath::Vector2(400.0f, 67.0f),
+		m_textures->exit, data, TEXT_SIZE,
 		[this]() {
 			if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
 			PostQuitMessage(0);
@@ -186,6 +184,7 @@ void TitleScene::Update(float elapsedTime)
  */
 void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
+	// デバッグ用情報追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"TitleScene");
 
 	// 背景の描画
@@ -193,8 +192,10 @@ void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
 	context.spriteBatch->End();
 
+	// タイトルロゴの描画
 	m_titleLogo->Draw(context);
 
+	// 選択肢ボタンの描画
 	for (auto& button : m_buttons)
 	{
 		button->Draw(context);

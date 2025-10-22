@@ -30,15 +30,17 @@ public:
 		GATHER		// 集める
 	};
 
-	// 画像テキストの1列分の大きさ
-	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 300.f,90.f };
-
 	// 設定されているクリア条件の種類
 	const ConditionsType CONDITIONS_TYPE;
+
+	// トゥイーンアニメーションの時間
+	static constexpr float TWEEN_ANIM_TIME = 2.0f;
 
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 画像テキストの1列分の大きさ
+	DirectX::SimpleMath::Vector2 m_textSize;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -56,7 +58,8 @@ public:
 	// 初期化処理
 	void Initialize(
 		DirectX::SimpleMath::Vector2 windowSize,
-		ResourceManager* pRM);
+		ID3D11ShaderResourceView* textTex,
+		DirectX::SimpleMath::Vector2 textSize);
 
 	// 更新処理
 	void Update(float elapsedTime) override;

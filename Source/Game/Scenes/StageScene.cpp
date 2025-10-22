@@ -97,30 +97,56 @@ void StageScene::Initialize()
 	// リソースマネージャーのポインタを取得
 	ResourceManager* pRM = m_userResources->GetResourceManager();
 
+	// 操作方法UIの画像読み込み
+	OperationUI::Textures opTextures;
+	opTextures.nomalArrow = pRM->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
+	opTextures.rotateArrow = pRM->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
+	opTextures.keyText = pRM->RequestPNG("box", L"Resources/Textures/text/operationText.png");
+
+	// 操作方法UIの引数用構造体作成
+	OperationUI::OperationUIDesc opUIDesc =
+	{
+		opTextures,
+		ARROW_SIZE_DEFAULT,
+		ARROW_SIZE_ROTATE,
+		TEXT_UV_LEFT,
+		TEXT_SIZE,
+		CAMERA_ICON_SIZE
+	};
+
+	// 攻撃変更UIの画像読み込み・引数用構造体作成
+	AttackUI::AttackUIDesc atkUIDesc =
+	{
+		pRM->RequestPNG("attack_basic", L"Resources/Textures/UI/basicAtk.png"),
+		pRM->RequestPNG("attack_rolling", L"Resources/Textures/UI/rollingAtk.png"),
+		pRM->RequestPNG("attack_heavy", L"Resources/Textures/UI/heavyAtk.png"),
+		ATTACK_ICON_SIZE.x, ATTACK_ICON_SIZE.y
+	};
+
 	// 攻撃UIの作成
 	m_attackUI = std::make_unique<AttackUI>(m_userResources->GetDeviceResources()->GetOutputSize().right,
 											m_userResources->GetDeviceResources()->GetOutputSize().bottom);
-	m_attackUI->Initialize(pRM);
+	m_attackUI->Initialize(atkUIDesc,opUIDesc);
+
+	// カメラ操作UIの作成
+	opTextures.icon = pRM->RequestPNG("camera", L"Resources/Textures/UI/camera.png");	// アイコン画像追加
+	opUIDesc.textures = opTextures;														// 再設定
+	m_cameraUI = std::make_unique<OperationUI>();
+	m_cameraUI->Initialize(opUIDesc, CAMERA_UI_POS, CAMERA_UI_ARROW_INTERVAL, false);
 
 	// リザルトUIの作成
 	m_resultUI = std::make_unique<StageResultUI>();
 	m_resultUI->Initialize(
 		pRM->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
-		DirectX::SimpleMath::Vector2(350.f, 400.f), windowSize);
+		RESULT_WINDOW_SIZE, windowSize);
 
 	// ステージクリア条件UIの作成
 	m_conditionsUI = std::make_unique<ClearConditionsUI>(CLEAR_CONDITIONS);
-	m_conditionsUI->Initialize(windowSize, pRM);
-
-	// 操作方法UIの画像読み込み
-	OperationUI::Textures uiTextures;
-	uiTextures.nomalArrow = pRM->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
-	uiTextures.rotateArrow = pRM->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
-	uiTextures.keyText = pRM->RequestPNG("box", L"Resources/Textures/text/operationText.png");
-	uiTextures.icon = pRM->RequestPNG("camera", L"Resources/Textures/UI/camera.png");
-
-	// カメラ操作UIの作成
-	m_cameraUI = std::make_unique<OperationUI>();
+	m_conditionsUI->Initialize(
+		windowSize,
+		pRM->RequestPNG("conditionsText", L"Resources/Textures/Text/conditionsText.png"),
+		CONDITIONS_TEXT_SIZE
+	);
 
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this);
@@ -264,8 +290,10 @@ void StageScene::Update(float elapsedTime)
  */
 void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
+	// デバッグ用シーン名
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");
 
+	// ビュー行列の反映
 	context.view = m_camera->GetView();
 
 	// スカイドームの描画

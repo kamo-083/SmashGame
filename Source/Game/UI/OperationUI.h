@@ -41,18 +41,19 @@ public:
 		DisplayNum	// 表示数
 	};
 
+	// 引数用構造体
+	struct OperationUIDesc
+	{
+		Textures textures;								// テクスチャ群
+		DirectX::SimpleMath::Vector2 arrowSizeDefault;	// 通常矢印の画像サイズ
+		DirectX::SimpleMath::Vector2 arrowSizeRotate;	// 回転矢印の画像サイズ
+		float textUVLeft;								// テキスト画像の使用箇所の左端
+		DirectX::SimpleMath::Vector2 textSize;			// テキスト画像の1文字分の大きさ
+		DirectX::SimpleMath::Vector2 iconSize;			// アイコン画像のサイズ(アイコン使用時)
+	};
+
 	// トゥイーン再生時間
 	static constexpr float TWEEN_TIME = 0.25f;
-
-	// テキスト画像を切り取る時の左端
-	static constexpr float TEXT_UV_LEFT = 430.0f;
-
-	// テキスト画像の1文字の大きさ
-	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 50.0f,100.0f };
-
-	// 矢印画像の大きさ
-	static constexpr DirectX::SimpleMath::Vector2 ARROW_SIZE_DEFAULT = { 200.0f,100.0f };	// 通常
-	static constexpr DirectX::SimpleMath::Vector2 ARROW_SIZE_ROTATE = { 200.0f,200.0f };	// 回転
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -66,8 +67,20 @@ private:
 	// 有効フラグ
 	bool m_active;
 
+	// 通常矢印画像の大きさ
+	DirectX::SimpleMath::Vector2 m_arrowSizeDefault;
+	// 回転矢印画像の大きさ
+	DirectX::SimpleMath::Vector2 m_arrowSizeRotate;
+
+	// テキスト画像を切り取る時の左端
+	float m_textUVLeft;
+	// テキスト画像の1文字の大きさ
+	DirectX::SimpleMath::Vector2 m_textSize;
+
 	// アイコン表示位置
 	DirectX::SimpleMath::Vector2 m_iconPos;
+	// アイコン画像サイズ
+	DirectX::SimpleMath::Vector2 m_iconSize;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -84,11 +97,10 @@ public:
 public:
 	// 初期化処理
 	void Initialize(
-		const Textures& textures,
+		const OperationUIDesc& desc,
 		DirectX::SimpleMath::Vector2 centerPos,
 		float arrowInterval,
-		bool active,
-		DirectX::SimpleMath::Vector2 iconSize = DirectX::SimpleMath::Vector2::Zero
+		bool active
 	);
 
 	// 更新処理

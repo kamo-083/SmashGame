@@ -58,22 +58,24 @@ void StageSelectScene::Initialize()
 	for (int i = 0; i < STAGES; i++)
 	{
 		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(
-			windowSize.x / static_cast<float>(STAGES) * i + 350.0f * 0.6f,
+			windowSize.x / static_cast<float>(STAGES) * i + PANEL_ADJUST_INTERVAL,
 			windowSize.y * 0.5f
 		);
 
 		Tween::TweenData data =
 		{
 			Tween::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-			Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.05f,0.05f),0.0f,0.0f},
-			0.5f,
+			Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
+							DirectX::SimpleMath::Vector2(PANEL_DELTA_SCALE,PANEL_DELTA_SCALE),
+							0.0f,0.0f},
+			PANEL_ANIM_TIME,
 			Tween::Ease::OutQuart,
 			Tween::PlaybackMode::PingPong
 		};
 
 		std::unique_ptr<Button> panel = std::make_unique<Button>();
 		panel->Initialize(m_userResources->GetResourceManager()->RequestPNG("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
-			data, DirectX::SimpleMath::Vector2(350.f, 400.f),
+			data, PANEL_TEX_SIZE,
 			[this, i]() {
 				// BGMの停止
 				if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
@@ -86,7 +88,7 @@ void StageSelectScene::Initialize()
 	}
 
 	m_numberBoard = std::make_unique<NumberRenderer2D>(
-		DirectX::SimpleMath::Vector2(48.f, 72.f),
+		NUMBER_SIZE,
 		m_userResources->GetResourceManager()->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1);
 
@@ -167,6 +169,7 @@ void StageSelectScene::Update(float elapsedTime)
  */
 void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
+	// デバッグ用情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageSelectScene");
 	debugFont->AddString(0, 60, DirectX::Colors::Yellow, L"Select:%d",m_selectNum);
 
@@ -175,6 +178,7 @@ void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont
 	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
 	context.spriteBatch->End();
 
+	// パネルの描画
 	for (auto& panel : m_stagePanels)
 	{
 		panel->Draw(context);
@@ -190,7 +194,7 @@ void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont
 	for (int i = 0; i < STAGES; i++)
 	{
 		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(
-			windowSize.x / static_cast<float>(STAGES) * i + 380.0f * 0.6f,
+			windowSize.x / static_cast<float>(STAGES) * i + NUMBER_ADJUST_INTERVAL,
 			windowSize.y * 0.25f
 		);
 		m_numberBoard->SetNumber(i + 1);
