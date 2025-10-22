@@ -68,7 +68,7 @@ CountArea::~CountArea()
  * @brief 初期化処理
  *
  * @param pCM		当たり判定マネージャーのポインタ
- * @param position	座標
+ * @param position	位置
  * @param x			X方向の長さ
  * @param z			Z方向の長さ
  * @param operation	条件達成時の処理

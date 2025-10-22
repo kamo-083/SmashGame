@@ -69,7 +69,7 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 {
 	m_attackTime -= elapsedTime;
 
-	// 座標の更新
+	// 位置の更新
 	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime, m_pGroundEnemy->GetOnGround());
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
 

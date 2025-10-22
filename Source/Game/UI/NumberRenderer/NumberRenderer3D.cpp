@@ -9,7 +9,7 @@
 #include "NumberRenderer3D.h"
 
 
-// 頂点座標・各頂点のUV座標
+// 頂点位置・各頂点のUV座標
 const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
 {
 	DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3(0.5f,  0.5f, 0.0f),  DirectX::SimpleMath::Vector2(1.0f, 0.0f)),   // 0:左上
@@ -161,7 +161,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	{
 		vertex[j] = VERTECES[j];
 
-		// 座標の設定
+		// 位置の設定
 		vertex[j].position.x = vertex[j].position.x * (1.f + width / height);
 		vertex[j].position.y = vertex[j].position.y * (1.f + height / width);
 	}

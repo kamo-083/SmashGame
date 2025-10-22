@@ -70,7 +70,7 @@ private:
 	// シーンへのポインタ
 	StageScene* m_pScene;
 
-	// 座標
+	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
 
 	// 速度
@@ -209,8 +209,8 @@ public:
 
 	// 取得/設定
 public:
-	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }				// 座標の取得
-	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }		// 座標の設定
+	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }				// 位置の取得
+	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }		// 位置の設定
 	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				// 移動速度の取得
 	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }		// 移動速度の設定
 	float GetRadius() { return RADIUS; }											// 半径サイズの取得

@@ -55,7 +55,7 @@ void TrajectoryParticle::Update(float elapsedTime, DirectX::SimpleMath::Vector3 
 			pos += DirectX::SimpleMath::Vector3(x, 0.0f, z);
 		}
 
-		//À•W‚Ìİ’è
+		//ˆÊ’u‚Ìİ’è
 		ParticleUtility particleUtility{
 			pos,
 			DirectX::SimpleMath::Vector3(m_scale,m_scale,m_scale),

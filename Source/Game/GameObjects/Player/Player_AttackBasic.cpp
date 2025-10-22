@@ -70,7 +70,7 @@ void Player_AttackBasic::Update(const float& elapsedTime)
 {
 	m_attackTime -= elapsedTime;
 
-	// 座標の更新
+	// 位置の更新
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);

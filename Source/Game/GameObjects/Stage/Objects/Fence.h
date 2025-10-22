@@ -25,14 +25,14 @@ class Fence
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr DirectX::SimpleMath::Vector3 CENTER_POS = { 0.0f,0.0f,0.0f };		// 基本の中心座標
+	static constexpr DirectX::SimpleMath::Vector3 CENTER_POS = { 0.0f,0.0f,0.0f };		// 基本の中心位置
 	static constexpr DirectX::SimpleMath::Vector3 DEFAULT_SCALE = { 1.0f,1.0f,1.0f };	// 基本の大きさ
 	static constexpr DirectX::SimpleMath::Vector3 ANGLE = { 0.0f,0.0f,0.0f };			// 基本の回転角度
 	static constexpr DirectX::SimpleMath::Vector3 FENCE_SIZE = { 0.25f,1.0f,1.0f };		// 柵1つ分の大きさ(x=厚さ、y=高さ、z=幅)
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// 座標
+	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
 	// スケール
 	DirectX::SimpleMath::Vector3 m_scale;

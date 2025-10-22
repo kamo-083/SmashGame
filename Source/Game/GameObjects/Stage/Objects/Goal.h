@@ -18,6 +18,7 @@
 
 // クラスの定義 ===============================================================
 class CollisionManager;
+class ResourceManager;
 class StageScene;
 
 
@@ -29,24 +30,38 @@ class Goal
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float HALF_LENGTH = 1.0f;
-	static constexpr DirectX::SimpleMath::Vector3 ANGLE = { 0.0f,0.0f,0.0f };
+	static constexpr float GOAL_HALF_LENGTH = 1.25f;
+	static constexpr float TABLE_HALF_LENGTH = 0.75f;
 
+	struct Models
+	{
+		DirectX::Model* fishOnTable;
+		DirectX::Model* cageLid;
+	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// シーンへのポインタ
 	StageScene* m_pScene;
 
+	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
 
-	OBBCollider m_collider;
+	// 当たり判定
+	OBBCollider m_goalCollider;		// ゴール判定用
+	OBBCollider m_tableCollider;	// テーブル用
 
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
+	// 当たり判定のハンドル
 	uint32_t m_collisionHandle;
 
-	bool m_canGoal;
-	bool m_isGoal;
+	// フラグ系
+	bool m_canGoal;	// ゴール可能か
+	bool m_isGoal;	// ゴールしているか
+
+	// モデル群
+	std::unique_ptr<Models> m_models;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -62,7 +77,10 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(CollisionManager* pCM, DirectX::SimpleMath::Vector3 position);
+	void Initialize(
+		ResourceManager* pRM,
+		CollisionManager* pCM, 
+		DirectX::SimpleMath::Vector3 position);
 
 	// 更新処理
 	void Update();
@@ -76,7 +94,7 @@ public:
 
 // 取得/設定
 public:
-	OBBCollider GetCollider(){ return m_collider; }		// 当たり判定の取得
+	OBBCollider GetCollider(){ return m_goalCollider; }		// 当たり判定の取得
 	bool IsGoal() { return m_isGoal; }					// ゴールフラグの取得
 	bool IsCanGoal() { return m_canGoal; }				// ゴール可能フラグの取得
 

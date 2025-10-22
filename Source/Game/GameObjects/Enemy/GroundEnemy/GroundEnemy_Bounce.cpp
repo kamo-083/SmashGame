@@ -58,7 +58,7 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
  */
 void GroundEnemy_Bounce::Update(const float& elapsedTime)
 {
-	// 座標の更新
+	// 位置の更新
 	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime, m_pGroundEnemy->GetOnGround());
 	m_pGroundEnemy->LimitVelocity();
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);

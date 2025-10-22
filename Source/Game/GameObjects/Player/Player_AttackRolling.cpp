@@ -86,7 +86,7 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 
 	if (inputVelocity.LengthSquared() != 0.0f) m_force = inputVelocity;
 
-	// 座標の更新
+	// 位置の更新
 	m_pPlayer->SetVelocity(m_force);
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), MAX_SPEED);

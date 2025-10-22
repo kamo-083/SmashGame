@@ -106,7 +106,7 @@ void CircleParticle::SpawnParticleEffect(
 			transPos += DirectX::SimpleMath::Vector3(x, y, 0.0f);
 		}
 
-		//À•W‚Ìİ’è
+		//ˆÊ’u‚Ìİ’è
 		ParticleUtility particleUtility{
 			transPos,
 			DirectX::SimpleMath::Vector3(scale,scale,scale),

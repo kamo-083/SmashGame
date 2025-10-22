@@ -33,7 +33,7 @@ public:
 	float GetRadius() const { return m_radius; }						//半径の取得
 
 	//設定
-	void SetCenter(DirectX::SimpleMath::Vector3 center) { m_center = center; }	//中心座標の設定
+	void SetCenter(DirectX::SimpleMath::Vector3 center) { m_center = center; }	//中心位置の設定
 	void SetRadius(float radius) { m_radius = radius; }							//半径の設定
 };
 
@@ -80,7 +80,7 @@ public:
 	DirectX::SimpleMath::Quaternion GetRotation() const { return m_obb.rotation; }	//回転の取得
 
 	//設定
-	void SetCenter(DirectX::SimpleMath::Vector3 center) { m_obb.center = center; }					//中心座標の設定
+	void SetCenter(DirectX::SimpleMath::Vector3 center) { m_obb.center = center; }					//中心位置の設定
 	void SetHalfLength(DirectX::SimpleMath::Vector3 halfLength) { m_obb.halfLength = halfLength; }  //中心座標から面までの長さの設定
 	void SetRotation(DirectX::SimpleMath::Quaternion rotation);										//回転の設定
 };

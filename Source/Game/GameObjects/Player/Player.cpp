@@ -100,7 +100,7 @@ void Player::Initialize(
 	AttackUI* pAttackUI,
 	bool* pKeyMode)
 {
-	// 座標の初期化
+	// 位置の初期化
 	m_position = START_POS;
 
 	// 速度の初期化
@@ -389,7 +389,7 @@ void Player::Attack()
  */
 void Player::Respawn()
 {
-	// 座標の初期化
+	// 位置の初期化
 	m_position = START_POS;
 
 	// 速度の初期化

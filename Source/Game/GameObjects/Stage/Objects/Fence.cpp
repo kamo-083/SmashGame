@@ -44,7 +44,7 @@ Fence::~Fence()
  *
  * @param pRM		リソースマネージャーのポインタ
  * @param pCM		当たり判定マネージャーのポインタ
- * @param position	座標
+ * @param position	位置
  * @param scale		スケール
  * @param angle		角度
  *

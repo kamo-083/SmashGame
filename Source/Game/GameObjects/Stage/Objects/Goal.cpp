@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "Goal.h"
 #include "Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Scenes/StageScene.h"
 
 
@@ -19,7 +20,7 @@
  */
 Goal::Goal(ID3D11DeviceContext* context, StageScene* pScene)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
-	, m_collider{}
+	, m_goalCollider{}
 	, m_collisionHandle{ 0 }
 	, m_isGoal{ false }
 	, m_canGoal{ false }
@@ -43,26 +44,48 @@ Goal::~Goal()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param pRM		リソースマネージャーのポインタ
+ * @param pCM		当たり判定マネージャーのポインタ
+ * @param position	位置
  *
  * @return なし
  */
-void Goal::Initialize(CollisionManager* pCM, DirectX::SimpleMath::Vector3 position)
+void Goal::Initialize(
+	ResourceManager* pRM,
+	CollisionManager* pCM, 
+	DirectX::SimpleMath::Vector3 position)
 {
+	// 位置の設定
 	m_position = position;
 
+	// モデルの取得
+	m_models = std::make_unique<Models>();
+	m_models->fishOnTable = pRM->RequestSDKMESH("fishTable", L"Resources/Models/fish.sdkmesh");
+	m_models->cageLid = pRM->RequestSDKMESH("cageLid", L"Resources/Models/lid.sdkmesh");
+
 	// 当たり判定の作成
-	m_collider.SetCenter(m_position);
-	m_collider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
-	m_collider.SetHalfLength(DirectX::SimpleMath::Vector3(HALF_LENGTH, HALF_LENGTH, HALF_LENGTH));
+	// テーブル
+	m_tableCollider.SetCenter(m_position);
+	m_tableCollider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
+	m_tableCollider.SetHalfLength(DirectX::SimpleMath::Vector3(TABLE_HALF_LENGTH));
 
 	// 当たり判定マネージャーに登録
 	CollisionManager::Desc desc{};
 	desc.type = CollisionManager::Type::OBB;
-	desc.layer = CollisionManager::Layer::Trigger;
-	desc.obb = &m_collider;
+	desc.layer = CollisionManager::Layer::Stage;
+	desc.obb = &m_tableCollider;
 	desc.position = nullptr;
 	desc.velocity = nullptr;
+	m_collisionHandle = pCM->Add(desc);
+
+	// ゴール
+	m_goalCollider.SetCenter(m_position);
+	m_goalCollider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
+	m_goalCollider.SetHalfLength(DirectX::SimpleMath::Vector3(GOAL_HALF_LENGTH));
+
+	// 当たり判定マネージャーに登録
+	desc.layer = CollisionManager::Layer::Trigger;
+	desc.obb = &m_goalCollider;
 	desc.isTrigger = true;
 	desc.callback.onEnter =
 		[this, pCM](uint32_t, uint32_t other)
@@ -73,6 +96,7 @@ void Goal::Initialize(CollisionManager* pCM, DirectX::SimpleMath::Vector3 positi
 		};
 	m_collisionHandle = pCM->Add(desc);
 
+	// フラグの初期化
 	m_canGoal = false;
 	m_isGoal = false;
 }
@@ -96,19 +120,25 @@ void Goal::Update()
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context	描画用構造体
+ * @param debugFont	デバッグ用フォント
  *
  * @return なし
  */
 void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
-	DirectX::SimpleMath::Matrix world;
+	// モデルの描画
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
-	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(HALF_LENGTH * 2.0f);
-	world = scale * trans;
+	DirectX::SimpleMath::Matrix world = trans;
+	// サカナ
+	m_models->fishOnTable->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+	// フタ
+	if (!m_canGoal)	m_models->cageLid->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 
 	// 当たり判定のデバッグ描画
-	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
+	//DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(GOAL_HALF_LENGTH * 2.0f);
+	//world = scale * trans;
+	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
 
 	// デバッグ情報の追加
 	debugFont->AddString(0, 140, DirectX::Colors::Yellow, L" can = %d", m_canGoal);
@@ -128,6 +158,7 @@ void Goal::Finalize()
 {
 	m_pScene = nullptr;
 	m_geometricPrimitive.reset();
+	m_models.reset();
 }
 
 

@@ -64,6 +64,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 	// データの読み込み
 	loader.LoadData(path, objectData, enemyData);
 
+	ResourceManager* pRM = pUR->GetResourceManager();
 	ID3D11DeviceContext* context = pUR->GetDeviceResources()->GetD3DDeviceContext();
 
 	// ステージオブジェクトの生成
@@ -78,7 +79,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 			m_grounds.back()->Initialize(pCM, data.position, data.scale);
 			break;
 		}
-		// 的の箱
+		// 的
 		case StageLoader::ObjectType::TargetBox:
 		{
 			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(context)));
@@ -108,7 +109,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		{
 			m_fences.push_back(std::move(std::make_unique<Fence>(context)));
 			m_fences.back()->Initialize(
-				pUR->GetResourceManager(), pCM, data.fenceNum,
+				pRM, pCM, data.fenceNum,
 				data.position, data.scale, data.angle);
 			break;
 		}
@@ -116,7 +117,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		case StageLoader::ObjectType::Goal:
 		{
 			m_goal = std::make_unique<Goal>(context, m_pScene);
-			m_goal->Initialize(pCM, data.position);
+			m_goal->Initialize(pRM, pCM, data.position);
 			break;
 		}
 

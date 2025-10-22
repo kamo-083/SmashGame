@@ -37,7 +37,7 @@ OperationUI::~OperationUI()
  * @brief 初期化処理
  *
  * @param desc			テクスチャ・サイズ等の情報
- * @param centerPos		中心座標
+ * @param centerPos		中心位置
  * @param arrowInterval	矢印の間隔
  * @param active		有効フラグ
  *
@@ -102,7 +102,7 @@ void OperationUI::Initialize(
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
 
-	// アイコン座標の設定
+	// アイコン位置の設定
 	if (m_textures->icon)
 	{
 		m_iconPos = m_widgets[static_cast<int>(Layout::CENTER)]->GetTween()->GetStartParams().pos - desc.iconSize * 0.5f;

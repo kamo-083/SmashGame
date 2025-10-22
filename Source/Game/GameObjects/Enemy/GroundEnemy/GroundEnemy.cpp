@@ -77,7 +77,7 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 							 const EnemyInfoLoader::EnemyInfo& info,
 							 uint32_t id)
 { 
-	// À•W‚Ì‰Šú‰»
+	// ˆÊ’u‚Ì‰Šú‰»
 	m_position = DirectX::SimpleMath::Vector3(position);
 
 	// ‘¬“x‚Ì‰Šú‰»
