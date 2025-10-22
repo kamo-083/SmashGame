@@ -10,55 +10,35 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-
+#include"Source/Game/UI/TweenBase.h"
 
 
 // クラスの定義 ===============================================================
 /**
  * @brief トゥイーン
  */
-class Tween
+template<typename TVec, typename TRot>
+class Tween: public TweenBase
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	// イージングの種類
-	enum class Ease
-	{
-		Liner,
-		InQuart,
-		OutQuart,
-		OutInQuart,
-		OutBack,
-		OutElastic,
-		OutBounce,
-	};
-
-	// 再生方法
-	enum class PlaybackMode
-	{
-		Once,			// 一回だけ
-		Once_Reverse,	// 一回だけ(反転)
-		Repeat,			// 繰り返す
-		PingPong,		// 繰り返す(往復)
-	};
-
 	// アニメーションのパラメータ
 	struct UIParams
 	{
-		DirectX::SimpleMath::Vector2 pos;	// 位置
-		DirectX::SimpleMath::Vector2 scale;	// 大きさ
-		float rotation;						// 回転(ラジアン)
-		float opacity;						// 不透明度
+		TVec pos;		// 位置(Vector2/Vector3)
+		TVec scale;		// 大きさ(Vector2/Vector3)
+		TRot rotation;	// 回転(float/Quaternion)
+		float opacity;	// 不透明度
 	};
 
 	// トゥイーンに必要なデータ
 	struct TweenData
 	{
-		UIParams start;			// 初期値
-		UIParams delta;			// 全体の変化量
-		float duration;			// 再生時間
-		Ease ease;				// 処理
-		PlaybackMode loop;		// 再生方法
+		UIParams start;		// 初期値
+		UIParams delta;		// 全体の変化量
+		float duration;		// 再生時間
+		Ease ease;			// 処理
+		PlaybackMode loop;	// 再生方法
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -121,6 +101,12 @@ public:
 
 // 内部実装
 private:
-	float EaseValue(Ease ease, float t);	// イージングの計算
-	float ShortestAngle(float delta);		// 最短回転角度を求める
+
 };
+
+// 関数内部を分離したファイルのインクルード
+#include"Source/Game/UI/Tween.inl"
+
+// 別名
+using Tween2D = Tween<DirectX::SimpleMath::Vector2, float>;
+using Tween3D = Tween<DirectX::SimpleMath::Vector3, DirectX::SimpleMath::Quaternion>;

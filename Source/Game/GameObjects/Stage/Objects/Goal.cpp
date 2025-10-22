@@ -1,7 +1,7 @@
 /**
  * @file   Goal.cpp
  *
- * @brief  地面に関するソースファイル
+ * @brief  ゴールに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -16,7 +16,8 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param context	デバイスコンテキストのポインタ
+ * @param pScene	シーンのポインタ
  */
 Goal::Goal(ID3D11DeviceContext* context, StageScene* pScene)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
@@ -25,6 +26,7 @@ Goal::Goal(ID3D11DeviceContext* context, StageScene* pScene)
 	, m_isGoal{ false }
 	, m_canGoal{ false }
 	, m_pScene{ pScene }
+	, m_tweenParam{}
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }

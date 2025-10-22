@@ -45,7 +45,7 @@ Button::~Button()
  */
 void Button::Initialize(
 	ID3D11ShaderResourceView* texture,
-	const Tween::TweenData data,
+	const Tween2D::TweenData data,
 	DirectX::SimpleMath::Vector2 size,
 	std::function<void()> operate)
 {

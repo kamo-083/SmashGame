@@ -57,13 +57,13 @@ void StageResultUI::Initialize(
 	// ウィジェットの作成
 	m_widget = std::make_unique<UIWidget>();
 	// トゥイーンパラメータの作成
-	Tween::TweenData data =
+	Tween2D::TweenData data =
 	{
-		Tween::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,0.0f),0.0f,1.0f},
-		Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.0f,1.0f),0.0f,0.0f},
+		Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,0.0f),0.0f,1.0f},
+		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.0f,1.0f),0.0f,0.0f},
 		0.25f,
-		Tween::Ease::OutBack,
-		Tween::PlaybackMode::Once
+		Tween2D::Ease::OutBack,
+		Tween2D::PlaybackMode::Once
 	};
 	m_widget->Initialize(texture, data, texSize);
 }

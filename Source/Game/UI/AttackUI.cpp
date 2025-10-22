@@ -81,12 +81,12 @@ void AttackUI::Initialize(const AttackUIDesc& attackDesc, const OperationUI::Ope
 	m_widgets.clear();
 	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); i++)
 	{
-		Tween::TweenData data{
+		Tween2D::TweenData data{
 			{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity },
 			{ {},{},0,0 },
 			TWEEN_ANIM_TIME,
-			Tween::Ease::OutQuart,
-			Tween::PlaybackMode::Once
+			Tween2D::Ease::OutQuart,
+			Tween2D::PlaybackMode::Once
 		};
 		std::unique_ptr<UIWidget> widget = std::make_unique<UIWidget>();
 		widget->Initialize(m_textures[i], data, m_textureSize, false);
@@ -264,9 +264,9 @@ void AttackUI::Slide(Direction dir)
 
 void AttackUI::MakeParam(UIWidget& widget, const LayoutData& to)
 {
-	Tween::UIParams from = widget.GetParam();
+	Tween2D::UIParams from = widget.GetParam();
 
-	Tween::UIParams delta = {
+	Tween2D::UIParams delta = {
 		to.pos - from.pos,
 		to.scale - from.scale,
 		from.rotation,
@@ -295,8 +295,8 @@ void AttackUI::BindAttackSlots()
 	// 各ウィジェットのパラメータをリセット
 	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); ++i)
 	{
-		Tween::UIParams start{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity };
-		Tween::UIParams delta{ {},{},0,0 };
+		Tween2D::UIParams start{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity };
+		Tween2D::UIParams delta{ {},{},0,0 };
 		m_widgets[i]->SetParam(start, delta);
 		m_widgets[i]->GetTween()->ResetTime();
 	}

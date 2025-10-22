@@ -62,15 +62,15 @@ void StageSelectScene::Initialize()
 			windowSize.y * 0.5f
 		);
 
-		Tween::TweenData data =
+		Tween2D::TweenData data =
 		{
-			Tween::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-			Tween::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
+			Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+			Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
 							DirectX::SimpleMath::Vector2(PANEL_DELTA_SCALE,PANEL_DELTA_SCALE),
 							0.0f,0.0f},
 			PANEL_ANIM_TIME,
-			Tween::Ease::OutQuart,
-			Tween::PlaybackMode::PingPong
+			Tween2D::Ease::OutQuart,
+			Tween2D::PlaybackMode::PingPong
 		};
 
 		std::unique_ptr<Button> panel = std::make_unique<Button>();

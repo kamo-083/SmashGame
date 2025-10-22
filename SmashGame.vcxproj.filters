@@ -77,6 +77,9 @@
     <Filter Include="Shader\Area">
       <UniqueIdentifier>{5673818c-9d0d-48ff-8e40-d4631e6c4782}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Tween">
+      <UniqueIdentifier>{abf8bb37-cbe5-4da9-ac4d-0a7f59006bc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -209,9 +212,6 @@
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\Tween.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\UI\UIWidget.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -274,6 +274,12 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Fence.h">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Tween.h">
+      <Filter>UI\Tween</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\TweenBase.h">
+      <Filter>UI\Tween</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -378,9 +384,6 @@
     <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\Tween.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\UI\UIWidget.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -431,6 +434,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Fence.cpp">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Tween.inl">
+      <Filter>UI\Tween</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\TweenBase.cpp">
+      <Filter>UI\Tween</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

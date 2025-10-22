@@ -44,7 +44,7 @@ UIWidget::~UIWidget()
  * @return ‚È‚µ
  */
 void UIWidget::Initialize(ID3D11ShaderResourceView* texture,
-						  const Tween::TweenData data, 
+						  const Tween2D::TweenData data,
 						  DirectX::SimpleMath::Vector2 size,
 						  bool play)
 {
@@ -52,7 +52,7 @@ void UIWidget::Initialize(ID3D11ShaderResourceView* texture,
 	m_params = data.start;
 	m_texSize = size;
 
-	m_tween = std::make_unique<Tween>(data);
+	m_tween = std::make_unique<Tween2D>(data);
 
 	// ƒgƒDƒC[ƒ“‚ÌÄ¶
 	if (play) m_tween->Play();
@@ -186,11 +186,11 @@ void UIWidget::TweenReset(bool play)
  *
  * @return ‚È‚µ
  */
-void UIWidget::SetParam(Tween::UIParams start, Tween::UIParams delta)
+void UIWidget::SetParam(Tween2D::UIParams start, Tween2D::UIParams delta)
 {
 	m_params = start;
 
-	Tween::TweenData data = m_tween->GetTweenData();
+	Tween2D::TweenData data = m_tween->GetTweenData();
 	data.start = start;
 	data.delta = delta;
 	m_tween->SetTweenData(data);

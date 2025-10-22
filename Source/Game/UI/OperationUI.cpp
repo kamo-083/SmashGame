@@ -71,13 +71,13 @@ void OperationUI::Initialize(
 
 	// ’†‰›(–³Œøó‘Ô‚Ì‚É•\¦‚·‚é)
 	std::unique_ptr<UIWidget> widget = std::make_unique<UIWidget>();
-	Tween::TweenData data =
+	Tween2D::TweenData data =
 	{
 		{centerPos,DirectX::SimpleMath::Vector2::Zero,0.0f,1.0f},
 		{DirectX::SimpleMath::Vector2::Zero,DirectX::SimpleMath::Vector2::Zero,0.0f,0.0f},
 		TWEEN_TIME,
-		Tween::Ease::Liner,
-		Tween::PlaybackMode::Once
+		Tween2D::Ease::Liner,
+		Tween2D::PlaybackMode::Once
 	};
 	widget->Initialize(m_textures->rotateArrow, data, m_arrowSizeRotate, false);
 	SwitchParam(!m_active, *widget.get());
@@ -233,8 +233,8 @@ void OperationUI::Active(bool active)
  */
 void OperationUI::SwitchParam(bool active, UIWidget& widget)
 {
-	Tween::TweenData nowData = widget.GetTween()->GetTweenData();
-	Tween::TweenData newData = nowData;
+	Tween2D::TweenData nowData = widget.GetTween()->GetTweenData();
+	Tween2D::TweenData newData = nowData;
 
 	if (active)
 	{
@@ -242,7 +242,7 @@ void OperationUI::SwitchParam(bool active, UIWidget& widget)
 		newData.start.opacity = 0.0f;
 		newData.delta.scale = DirectX::SimpleMath::Vector2(1.0f,1.0f);
 		newData.delta.opacity = 1.0f;
-		newData.ease = Tween::Ease::OutBack;
+		newData.ease = Tween2D::Ease::OutBack;
 	}
 	else
 	{
@@ -250,7 +250,7 @@ void OperationUI::SwitchParam(bool active, UIWidget& widget)
 		newData.start.opacity = 1.0f;
 		newData.delta.scale = DirectX::SimpleMath::Vector2(-1.0f, -1.0f);
 		newData.delta.opacity = -1.0f;
-		newData.ease = Tween::Ease::OutQuart;
+		newData.ease = Tween2D::Ease::OutQuart;
 	}
 
 	widget.GetTween()->SetTweenData(newData);

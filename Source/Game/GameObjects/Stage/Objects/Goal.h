@@ -1,7 +1,7 @@
 /**
  * @file   Goal.h
  *
- * @brief  地面に関するヘッダファイル
+ * @brief  ゴールに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -14,6 +14,7 @@
 #include"ImaseLib/DebugFont.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
+#include "Source/Game/UI/Tween.h"
 
 
 // クラスの定義 ===============================================================
@@ -24,19 +25,21 @@ class StageScene;
 
 // クラスの定義 ===============================================================
 /**
- * @brief 地面
+ * @brief ゴール
  */
 class Goal
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float GOAL_HALF_LENGTH = 1.25f;
-	static constexpr float TABLE_HALF_LENGTH = 0.75f;
+	// 当たり判定のサイズ
+	static constexpr float GOAL_HALF_LENGTH = 1.0f;		// ゴール判定
+	static constexpr float TABLE_HALF_LENGTH = 0.75f;	// テーブル本体
 
+	// モデル群
 	struct Models
 	{
-		DirectX::Model* fishOnTable;
-		DirectX::Model* cageLid;
+		DirectX::Model* fishOnTable;	// テーブルとサカナ
+		DirectX::Model* cageLid;		// 檻状のフタ
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -51,6 +54,7 @@ private:
 	OBBCollider m_goalCollider;		// ゴール判定用
 	OBBCollider m_tableCollider;	// テーブル用
 
+	// デバッグ用
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
 	// 当たり判定のハンドル
@@ -62,6 +66,10 @@ private:
 
 	// モデル群
 	std::unique_ptr<Models> m_models;
+
+	// トゥイーン
+	std::unique_ptr<Tween3D> m_tweenAnim;
+	Tween3D::UIParams m_tweenParam;
 
 
 	// メンバ関数の宣言 -------------------------------------------------

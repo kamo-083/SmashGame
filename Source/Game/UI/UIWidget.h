@@ -31,13 +31,13 @@ private:
 	ID3D11ShaderResourceView* m_texture;
 
 	// UIのパラメータ
-	Tween::UIParams m_params;
+	Tween2D::UIParams m_params;
 
 	// 画像サイズ
 	DirectX::SimpleMath::Vector2 m_texSize;
 
 	// トゥイーン
-	std::unique_ptr<Tween> m_tween;
+	std::unique_ptr<Tween2D> m_tween;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -54,7 +54,7 @@ public:
 public:
 	// 初期化処理
 	void Initialize(ID3D11ShaderResourceView* texture,
-					const Tween::TweenData data,
+					const Tween2D::TweenData data,
 					DirectX::SimpleMath::Vector2 size,
 					bool play = true);
 
@@ -78,13 +78,13 @@ public:
 
 // 取得/設定
 public:
-	Tween* GetTween() { return m_tween.get(); }				// トゥイーンの取得
-	Tween::UIParams GetParam () const { return m_params; }	// 現在のパラメータの取得
-	Tween::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }	// 変化後のパラメータ
+	Tween2D* GetTween() { return m_tween.get(); }				// トゥイーンの取得
+	Tween2D::UIParams GetParam () const { return m_params; }	// 現在のパラメータの取得
+	Tween2D::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }	// 変化後のパラメータ
 	void SetTexture(ID3D11ShaderResourceView* texture) { m_texture = texture; }	// テクスチャの取得
 
 	// 新しいパラメータをセット
-	void SetParam(Tween::UIParams start, Tween::UIParams delta);
+	void SetParam(Tween2D::UIParams start, Tween2D::UIParams delta);
 
 // 内部実装
 private:
