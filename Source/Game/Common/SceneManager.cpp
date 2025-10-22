@@ -93,7 +93,7 @@ void SceneManager::Render(RenderContext context)
 		m_pCurrentScene->Render(context, m_userResources->GetDebugFont());
 	}
 
-	// デバッグ情報の描画
+	// デバッグ情報の追加
 	m_userResources->GetDebugFont()->AddString(0, 0, DirectX::Colors::White, L"SceneManager");
 }
 

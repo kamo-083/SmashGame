@@ -110,7 +110,7 @@ void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	// 当たり判定のデバッグ描画
 	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
 
-	// デバッグ情報の描画
+	// デバッグ情報の追加
 	debugFont->AddString(0, 140, DirectX::Colors::Yellow, L" can = %d", m_canGoal);
 	debugFont->AddString(100, 140, DirectX::Colors::Yellow, L"goal = %d", m_isGoal);
 }

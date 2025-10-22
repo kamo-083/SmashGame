@@ -220,7 +220,7 @@ void StageScene::Update(float elapsedTime)
 	}
 
 	// キー操作のモード切り替え
-	if (m_userResources->GetKeyboardTracker()->pressed.K)
+	if (m_userResources->GetKeyboardTracker()->pressed.X)
 	{
 		m_keyMode = !m_keyMode;
 
@@ -269,7 +269,7 @@ void StageScene::Update(float elapsedTime)
 	}
 
 	// ステージ選択へ戻る
-	if (m_userResources->GetKeyboardTracker()->pressed.P)
+	if (m_userResources->GetKeyboardTracker()->pressed.Q)
 	{
 		// BGMの停止
 		m_userResources->GetAudioManager()->Stop("stageBGM");
@@ -290,7 +290,7 @@ void StageScene::Update(float elapsedTime)
  */
 void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
 {
-	// デバッグ用シーン名
+	// デバッグ情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");
 
 	// ビュー行列の反映

@@ -120,7 +120,7 @@ void StageSelectScene::Update(float elapsedTime)
 	DirectX::Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
 
 	// ステージ切り替え
-	if (kb->pressed.D)
+	if (kb->pressed.Right)
 	{
 		// 前に選択していたステージのパネルをリセット
 		PanelReset(m_selectNum);
@@ -131,7 +131,7 @@ void StageSelectScene::Update(float elapsedTime)
 		// SEの再生
 		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
-	else if (kb->pressed.A)
+	else if (kb->pressed.Left)
 	{
 		// 前に選択していたステージのパネルをリセット
 		PanelReset(m_selectNum);

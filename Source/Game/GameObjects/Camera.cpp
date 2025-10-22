@@ -101,7 +101,7 @@ void Camera::Update(DirectX::Keyboard::KeyboardStateTracker* keyboard, float ela
  */
 void Camera::Draw(Imase::DebugFont* debugFont)
 {
-	// デバッグ情報の描画
+	// デバッグ情報の追加
 	debugFont->AddString(820, 0, DirectX::Colors::White, L"eye = %f,%f,%f", m_eye.x, m_eye.y, m_eye.z);
 	debugFont->AddString(820, 25, DirectX::Colors::White, L"target = %f,%f,%f", m_target.x, m_target.y, m_target.z);
 	debugFont->AddString(820, 50, DirectX::Colors::White, L"angle = %f,%f,%f", m_angle.x, m_angle.y, m_angle.z);
@@ -121,8 +121,8 @@ void Camera::Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard)
 {
 	// 指定した場所を中心に回転
 	// X方向
-	if (keyboard->pressed.L)		m_endAngle.x += CAMERA_ROTATE_ANGLE;
-	else if (keyboard->pressed.J)	m_endAngle.x -= CAMERA_ROTATE_ANGLE;
+	if (keyboard->pressed.C)		m_endAngle.x += CAMERA_ROTATE_ANGLE;
+	else if (keyboard->pressed.Z)	m_endAngle.x -= CAMERA_ROTATE_ANGLE;
 
 	m_startAngle = m_angle;
 

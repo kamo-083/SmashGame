@@ -250,7 +250,7 @@ void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	// 現在の状態を描画する
 	m_currentState->Render(context);
 
-	// デバッグ情報の描画
+	// デバッグ情報の追加
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
 	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"attack = %d", static_cast<int>(m_attackType));
@@ -322,14 +322,14 @@ void Player::ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	if (!(*m_pKeyMode)) return;
 
-	if (pKbTracker->pressed.L)
+	if (pKbTracker->pressed.C)
 	{
 		++m_attackType;
 
 		// SEの再生
 		m_pScene->PlaySE("cursorSE");
 	}
-	else if (pKbTracker->pressed.J)
+	else if (pKbTracker->pressed.Z)
 	{
 		--m_attackType;
 
@@ -429,19 +429,19 @@ DirectX::SimpleMath::Vector3 Player::MoveDirection(DirectX::Keyboard::KeyboardSt
 	DirectX::SimpleMath::Vector3 direction = DirectX::SimpleMath::Vector3::Zero;
 
 	//移動
-	if (kbTracker->GetLastState().S)
+	if (kbTracker->GetLastState().Down)	// 後ろ
 	{
 		direction += -forward;
 	}
-	else if (kbTracker->GetLastState().W)
+	else if (kbTracker->GetLastState().Up)	// 前
 	{
 		direction -= -forward;
 	}
-	if (kbTracker->GetLastState().D)
+	if (kbTracker->GetLastState().Right)	// 右
 	{
 		direction += right;
 	}
-	else if (kbTracker->GetLastState().A)
+	else if (kbTracker->GetLastState().Left)	// 左
 	{
 		direction -= right;
 	}

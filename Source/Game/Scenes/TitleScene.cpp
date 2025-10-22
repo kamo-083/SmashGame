@@ -137,7 +137,7 @@ void TitleScene::Update(float elapsedTime)
 	DirectX::Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
 
 	// ƒ{ƒ^ƒ“Ø‚è‘Ö‚¦
-	if (kb->pressed.S)
+	if (kb->pressed.Down)
 	{
 		ButtonReset(m_selectButton);
 		m_selectButton++;
@@ -146,7 +146,7 @@ void TitleScene::Update(float elapsedTime)
 		// SE‚ÌÄ¶
 		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
-	else if (kb->pressed.W)
+	else if (kb->pressed.Up)
 	{
 		ButtonReset(m_selectButton);
 		m_selectButton--;

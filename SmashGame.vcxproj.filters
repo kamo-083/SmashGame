@@ -448,9 +448,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\Json\test.json">
-      <Filter>Json</Filter>
-    </None>
     <None Include="Resources\Json\stage1.json">
       <Filter>Json</Filter>
     </None>

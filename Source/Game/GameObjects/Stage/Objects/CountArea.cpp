@@ -226,7 +226,7 @@ void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 	// 当たり判定のデバッグ描画
 	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Magenta, nullptr, true);
 
-	// デバッグ情報の描画
+	// デバッグ情報の追加
 	//debugFont->AddString(0, 170, Colors::Magenta, L" areaPos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 170, DirectX::Colors::Magenta, L"enter = %d", m_insideList.size());
 	debugFont->AddString(110, 170, DirectX::Colors::Magenta, L"trigger = %d", m_isTrigger);

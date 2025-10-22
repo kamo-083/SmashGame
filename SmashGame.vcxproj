@@ -322,7 +322,6 @@
     <None Include="Resources\Json\stage1.json" />
     <None Include="Resources\Json\stage2.json" />
     <None Include="Resources\Json\stage3.json" />
-    <None Include="Resources\Json\test.json" />
     <None Include="Resources\Shaders\Area\Area.hlsli" />
     <None Include="Resources\Shaders\Particle\Particle.hlsli" />
   </ItemGroup>
