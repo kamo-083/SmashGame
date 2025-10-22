@@ -15,13 +15,13 @@
 /**
  * @brief コンストラクタ
  *
- * @param pUserResources	ユーザーリソースのポインタ
- * @param pEffectManager	エフェクトマネージャーのポインタ
- * @param pScene			シーンへのポインタ
+ * @param pUR		ユーザーリソースのポインタ
+ * @param pEM		エフェクトマネージャーのポインタ
+ * @param pScene	シーンへのポインタ
  */
 Player::Player(
-	UserResources* pUserResources,
-	EffectManager* pEffectManager,
+	UserResources* pUR,
+	EffectManager* pEM,
 	StageScene* pScene)
 	: m_pScene{ pScene }
 	, m_rotY{ 0.0f }
@@ -42,11 +42,11 @@ Player::Player(
 	, m_handleAttack{ 0 }
 {
 	// 当たり判定のデバッグ描画用球
-	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
+	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUR->GetDeviceResources()->GetD3DDeviceContext());
 
 	// 軌跡エフェクトの作成
-	m_trajectory = pEffectManager->CreateTrajectory(
-		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
+	m_trajectory = pEM->CreateTrajectory(
+		pUR->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.5f,
 		2.0f,
 		DirectX::SimpleMath::Color(1, 1, 1, 1),
@@ -55,8 +55,8 @@ Player::Player(
 	);
 
 	// 円形エフェクトの作成
-	m_circle = pEffectManager->CreateCircle(
-		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
+	m_circle = pEM->CreateCircle(
+		pUR->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.75f,
 		1.0f,
 		DirectX::SimpleMath::Color(1, 1, 1, 1),
@@ -83,18 +83,18 @@ Player::~Player()
 /**
  * @brief 初期化処理
  *
- * @param pRM				リソースマネージャーのポインタ
- * @param pCollisionManager 当たり判定マネージャーのポインタ
- * @param pKbTracker		キーボードトラッカーのポインタ
- * @param pCamera			カメラのポインタ
- * @param pAttackUI			攻撃UIのポインタ
- * @param pKeyMode			キー入力モードのポインタ
+ * @param pRM			リソースマネージャーのポインタ
+ * @param pCM			当たり判定マネージャーのポインタ
+ * @param pKbTracker	キーボードトラッカーのポインタ
+ * @param pCamera		カメラのポインタ
+ * @param pAttackUI		攻撃UIのポインタ
+ * @param pKeyMode		キー入力モードのポインタ
  *
  * @return なし
  */
 void Player::Initialize(
 	ResourceManager* pRM,
-	CollisionManager* pCollisionManager,
+	CollisionManager* pCM,
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 	Camera* pCamera,
 	AttackUI* pAttackUI,
@@ -150,7 +150,7 @@ void Player::Initialize(
 	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION_FORCE);
 
 	// 当たり判定マネージャーの登録
-	m_pCollisionManager = pCollisionManager;
+	m_pCollisionManager = pCM;
 
 	// 本体
 	CollisionManager::Desc bodyDesc{};
@@ -285,8 +285,17 @@ void Player::Finalize()
 	m_heavyAttackingState.reset();
 
 	m_model = nullptr;
+
+	// エフェクトの後処理
+	m_circle->effect->Deactivate();
 	m_circle = nullptr;
+	m_trajectory->effect->Deactivate();
 	m_trajectory = nullptr;
+
+	// 当たり判定の後処理
+	m_pCollisionManager->Remove(m_handleBody);
+	m_pCollisionManager->Remove(m_handleAttack);
+	m_pCollisionManager = nullptr;
 }
 
 

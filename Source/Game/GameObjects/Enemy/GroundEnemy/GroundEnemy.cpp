@@ -14,21 +14,21 @@
 /**
  * @brief コンストラクタ
  *
- * @param info				出現する敵の情報
- * @param pUserResources	ユーザーリソースのポインタ
- * @param pEffectManager	エフェクトマネージャーのポインタ
+ * @param info	出現する敵の情報
+ * @param pUR	ユーザーリソースのポインタ
+ * @param pEM	エフェクトマネージャーのポインタ
  */
-GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* pUserResources, EffectManager* pEffectManager)
+GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* pUR, EffectManager* pEM)
 	: IEnemy{ info }
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
 	, m_circle{ nullptr }
 {
-	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUserResources->GetDeviceResources()->GetD3DDeviceContext());
+	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUR->GetDeviceResources()->GetD3DDeviceContext());
 
 	// 軌跡エフェクトの作成
-	m_trajectory = pEffectManager->CreateTrajectory(
-		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
+	m_trajectory = pEM->CreateTrajectory(
+		pUR->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.5f,
 		2.0f,
 		DirectX::SimpleMath::Color(1, 1, 1, 1),
@@ -37,8 +37,8 @@ GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* 
 	);
 
 	// 円形エフェクトの作成
-	m_circle = pEffectManager->CreateCircle(
-		pUserResources->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
+	m_circle = pEM->CreateCircle(
+		pUR->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
 		0.75f,
 		1.0f,
 		DirectX::SimpleMath::Color(1, 1, 1, 1),
@@ -63,16 +63,16 @@ GroundEnemy::~GroundEnemy()
 /**
  * @brief 初期化処理
  *
- * @param pRM  リソースマネージャーのポインタ
- * @param pCollisionManager 当たり判定マネージャーのポインタ
- * @param position			初期位置
- * @param info				出現する敵の情報
- * @param id				ID
+ * @param pRM		リソースマネージャーのポインタ
+ * @param pCM		当たり判定マネージャーのポインタ
+ * @param position	初期位置
+ * @param info		出現する敵の情報
+ * @param id		ID
  *
  * @return なし
  */
 void GroundEnemy::Initialize(ResourceManager* pRM,
-							 CollisionManager* pCollisionManager,
+							 CollisionManager* pCM,
 							 const DirectX::SimpleMath::Vector3& position,
 							 const EnemyInfoLoader::EnemyInfo& info,
 							 uint32_t id)
@@ -112,7 +112,7 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 	m_physics->GetFriction().SetDynamicFriction(DYNAMIC_FRICTION);
 
 	// 当たり判定マネージャーの登録
-	m_pCollisionManager = pCollisionManager;
+	m_pCollisionManager = pCM;
 
 	// 本体
 	CollisionManager::Desc bodyDesc{};
@@ -217,11 +217,11 @@ void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 /**
  * @brief 終了処理
  *
- * @param pCollisionManager 当たり判定マネージャーのポインタ
+ * @param なし
  *
  * @return なし
  */
-void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
+void GroundEnemy::Finalize()
 {
 	// ステートのリセット
 	// 待機状態
@@ -243,14 +243,15 @@ void GroundEnemy::Finalize(CollisionManager* pCollisionManager)
 	// 当たり判定の削除
 	if (m_handleBody) 
 	{
-		pCollisionManager->Remove(m_handleBody);
+		m_pCollisionManager->Remove(m_handleBody);
 		m_handleBody = 0;
 	}
-	if (m_handleAttack) 
+	if (m_handleAttack)
 	{
-		pCollisionManager->Remove(m_handleAttack);
+		m_pCollisionManager->Remove(m_handleAttack);
 		m_handleAttack = 0;
 	}
+	m_pCollisionManager = nullptr;
 
 	// エフェクトの無効化
 	if (m_circle)

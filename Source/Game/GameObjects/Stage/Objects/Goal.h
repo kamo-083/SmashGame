@@ -14,7 +14,7 @@
 #include"ImaseLib/DebugFont.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
-#include "Source/Game/UI/Tween.h"
+#include "Source/Game/UI/Tween/Tween.h"
 
 
 // クラスの定義 ===============================================================
@@ -31,16 +31,21 @@ class Goal
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	// 当たり判定のサイズ
-	static constexpr float GOAL_HALF_LENGTH = 1.0f;		// ゴール判定
-	static constexpr float TABLE_HALF_LENGTH = 0.75f;	// テーブル本体
-
 	// モデル群
 	struct Models
 	{
 		DirectX::Model* fishOnTable;	// テーブルとサカナ
 		DirectX::Model* cageLid;		// 檻状のフタ
 	};
+
+	// 当たり判定のサイズ
+	static constexpr float GOAL_HALF_LENGTH = 1.0f;		// ゴール判定
+	static constexpr float TABLE_HALF_LENGTH = 0.75f;	// テーブル本体
+
+	// トゥイーンアニメーション関連
+	static constexpr float LID_MOVE_Y = 5.0f;		// フタのモデルが飛ぶ距離
+	static constexpr float TWEEN_ANIM_TIME = 1.25f;	// アニメーションの時間
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -67,7 +72,7 @@ private:
 	// モデル群
 	std::unique_ptr<Models> m_models;
 
-	// トゥイーン
+	// トゥイーン関連
 	std::unique_ptr<Tween3D> m_tweenAnim;
 	Tween3D::UIParams m_tweenParam;
 
@@ -91,7 +96,7 @@ public:
 		DirectX::SimpleMath::Vector3 position);
 
 	// 更新処理
-	void Update();
+	void Update(float elapsedTime);
 
 	// 描画処理
 	void Draw(RenderContext& context, Imase::DebugFont* debugFont);

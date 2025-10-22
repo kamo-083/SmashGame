@@ -82,9 +82,9 @@ private:
 public:
 	// コンストラクタ
 	EnemyManager(
-		UserResources* pUserResources,
-		CollisionManager* pCollisionManager,
-		EffectManager* pEffectManager);
+		UserResources* pUR,
+		CollisionManager* pCM,
+		EffectManager* pEM);
 
 	// デストラクタ
 	~EnemyManager();

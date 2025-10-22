@@ -94,9 +94,26 @@ void Goal::Initialize(
 		{
 			if (!m_canGoal || pCM->GetDesc(other)->layer != CollisionManager::Layer::PlayerBody) return;
 
-			m_isGoal = true;
+			m_isGoal = true;	// ゴールした
 		};
 	m_collisionHandle = pCM->Add(desc);
+
+	// トゥイーンアニメーションの設定
+	m_tweenParam = {
+		m_position,
+		DirectX::SimpleMath::Vector3(GOAL_HALF_LENGTH),
+		DirectX::SimpleMath::Quaternion::Identity,
+		1.0f
+	};
+	Tween3D::TweenData data = {
+		m_tweenParam,
+		{DirectX::SimpleMath::Vector3(0.0f, LID_MOVE_Y, 0.0f), DirectX::SimpleMath::Vector3::Zero,
+		 DirectX::SimpleMath::Quaternion::Identity, -1.0f},
+		 TWEEN_ANIM_TIME,
+		 Tween3D::Ease::InQuart,
+		 Tween3D::PlaybackMode::Once
+	};
+	m_tweenAnim = std::make_unique<Tween3D>(data);
 
 	// フラグの初期化
 	m_canGoal = false;
@@ -108,13 +125,14 @@ void Goal::Initialize(
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param elapsedTime	経過時間
  *
  * @return なし
  */
-void Goal::Update()
+void Goal::Update(float elapsedTime)
 {
-
+	// トゥイーンアニメーションの更新
+	if (m_canGoal) m_tweenAnim->Update(elapsedTime, m_tweenParam);
 }
 
 
@@ -130,12 +148,18 @@ void Goal::Update()
 void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
 {
 	// モデルの描画
+	// サカナのテーブル
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 	DirectX::SimpleMath::Matrix world = trans;
-	// サカナ
 	m_models->fishOnTable->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+	
 	// フタ
-	if (!m_canGoal)	m_models->cageLid->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+	if (!m_tweenAnim->Finished())
+	{
+		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_tweenParam.pos);
+		world = trans;
+		m_models->cageLid->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+	}
 
 	// 当たり判定のデバッグ描画
 	//DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(GOAL_HALF_LENGTH * 2.0f);
@@ -174,8 +198,13 @@ void Goal::Finalize()
  */
 void Goal::CanGoal(bool canGoal)
 {
-	// SEの再生
-	if (!m_canGoal && canGoal)	m_pScene->PlaySE("canGoalSE");
+	if (!m_canGoal && canGoal)
+	{
+		// SEの再生
+		m_pScene->PlaySE("canGoalSE");
+		// トゥイーンアニメーションの再生
+		m_tweenAnim->Play();
+	}
 
 	// ゴール可能フラグを更新
 	m_canGoal = canGoal;

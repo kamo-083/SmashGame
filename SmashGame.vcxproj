@@ -241,8 +241,8 @@
     <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.h" />
     <ClInclude Include="Source\Game\UI\OperationUI.h" />
     <ClInclude Include="Source\Game\UI\StageResultUI.h" />
-    <ClInclude Include="Source\Game\UI\Tween.h" />
-    <ClInclude Include="Source\Game\UI\TweenBase.h" />
+    <ClInclude Include="Source\Game\UI\Tween\Tween.h" />
+    <ClInclude Include="Source\Game\UI\Tween\TweenBase.h" />
     <ClInclude Include="Source\Game\UI\UIElement.h" />
     <ClInclude Include="Source\Game\UI\UIWidget.h" />
     <ClInclude Include="Source\Game\UI\AttackUI.h" />
@@ -303,11 +303,7 @@
     <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.cpp" />
     <ClCompile Include="Source\Game\UI\OperationUI.cpp" />
     <ClCompile Include="Source\Game\UI\StageResultUI.cpp" />
-    <ClCompile Include="Source\Game\UI\Tween.inl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\TweenBase.cpp" />
+    <ClCompile Include="Source\Game\UI\Tween\TweenBase.cpp" />
     <ClCompile Include="Source\Game\UI\UIWidget.cpp" />
     <ClCompile Include="Source\Game\UI\AttackUI.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -329,6 +325,10 @@
     <None Include="Resources\Json\stage3.json" />
     <None Include="Resources\Shaders\Area\Area.hlsli" />
     <None Include="Resources\Shaders\Particle\Particle.hlsli" />
+    <None Include="Source\Game\UI\Tween\Tween.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Area\AreaGS.hlsl">

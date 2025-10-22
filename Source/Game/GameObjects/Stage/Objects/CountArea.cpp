@@ -9,11 +9,13 @@
 #include "CountArea.h"
 
 
+// インプットレイアウトの設定
 const std::vector<D3D11_INPUT_ELEMENT_DESC> CountArea::INPUT_LAYOUT =
 {
 	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0,							 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
+
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -286,7 +288,7 @@ void CountArea::LoadShaders(ShaderManager* shaderManager, ID3D11Device* device)
 
 
 /**
- * @brief エリアのびょうが
+ * @brief エリアの描画
  *
  * @param context	描画用構造体
  * @param world		ワールド行列

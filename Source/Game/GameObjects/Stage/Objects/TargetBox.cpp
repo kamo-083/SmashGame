@@ -13,7 +13,7 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param context	デバイスコンテキストのポインタ
  */
 TargetBox::TargetBox(ID3D11DeviceContext* context)
 	: m_pGoal{ nullptr }
@@ -37,12 +37,17 @@ TargetBox::~TargetBox()
 /**
  * @brief 初期化処理
  *
- * @param なし
+ * @param pCM			当たり判定マネージャーのポインタ
+ * @param pEM			敵マネージャーのポインタ
+ * @param goal			ゴールのポインタ
+ * @param position		位置
+ * @param halfLength	大きさの半分
+ * @param angle			回転角度
  *
  * @return なし
  */
-void TargetBox::Initialize(CollisionManager* pCollisionManager,
-						   EnemyManager* pEnemyManager,
+void TargetBox::Initialize(CollisionManager* pCM,
+						   EnemyManager* pEM,
 						   Goal* goal,
 						   DirectX::SimpleMath::Vector3 position,
 						   DirectX::SimpleMath::Vector3 halfLength,
@@ -72,13 +77,13 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 	desc.velocity = nullptr;
 	desc.restitution = 0.0f;
 	desc.callback.onEnter =
-		[this, pCollisionManager, pEnemyManager](uint32_t, uint32_t other)
+		[this, pCM, pEM](uint32_t, uint32_t other)
 		{
 			// 当たったのが敵本体なら通す
-			if (pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyBody) return;
+			if (pCM->GetDesc(other)->layer != CollisionManager::Layer::EnemyBody) return;
 
 			//IDから敵を取得
-			IEnemy* enemy = pEnemyManager->GetEnemyByID(pCollisionManager->GetDesc(other)->userId);
+			IEnemy* enemy = pEM->GetEnemyByID(pCM->GetDesc(other)->userId);
 
 			// 当たった敵が跳ね返り状態ならゴール可能にする
 			if (enemy->GetStateType() == StateType::Bounce)
@@ -86,7 +91,7 @@ void TargetBox::Initialize(CollisionManager* pCollisionManager,
 				m_pGoal->CanGoal();
 			}
 		};
-	m_collisionHandle = pCollisionManager->Add(desc);
+	m_collisionHandle = pCM->Add(desc);
 }
 
 

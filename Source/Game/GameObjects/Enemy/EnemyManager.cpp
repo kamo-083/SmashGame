@@ -14,17 +14,17 @@
 /**
  * @brief コンストラクタ
  *
- * @param pUserResources	ユーザーリソースのポインタ
- * @param pCollisionManager 当たり判定マネージャーのポインタ
- * @param pEffectManager	エフェクトマネージャーのポインタ
+ * @param pUR	ユーザーリソースのポインタ
+ * @param pCM	当たり判定マネージャーのポインタ
+ * @param pEM	エフェクトマネージャーのポインタ
  */
 EnemyManager::EnemyManager(
-	UserResources* pUserResources,
-	CollisionManager* pCollisionManager,
-	EffectManager* pEffectManager)
-	:m_pUserResources{ pUserResources }
-	, m_pCollisionManager{ pCollisionManager }
-	, m_pEffectManager{ pEffectManager }
+	UserResources* pUR,
+	CollisionManager* pCM,
+	EffectManager* pEM)
+	:m_pUserResources{ pUR }
+	, m_pCollisionManager{ pCM }
+	, m_pEffectManager{ pEM }
 	, m_nextID{ 0 }
 {
 
@@ -82,7 +82,7 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 		{
 			if (!e->alive)
 			{
-				e->enemy->Finalize(m_pCollisionManager);
+				e->enemy->Finalize();
 				return true;
 			}
 			return false;
@@ -118,7 +118,7 @@ void EnemyManager::Finalize()
 {
 	for (auto& e : m_enemies)
 	{
-		e->enemy->Finalize(m_pCollisionManager);
+		e->enemy->Finalize();
 	}
 	m_enemies.clear();
 }

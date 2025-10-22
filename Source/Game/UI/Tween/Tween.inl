@@ -70,9 +70,9 @@ void Tween<TVec, TRot>::Update(float deltaTime, UIParams& params)
 	params.scale = m_data.start.scale + m_data.delta.scale * n;
 
 	// ‰ñ“]‚ð•âŠÔ
-	float endAngle = m_data.start.rotation + m_data.delta.rotation;
-	float deltaAngle = ShortestAngle(endAngle - m_data.start.rotation);
-	params.rotation = m_data.start.rotation + deltaAngle * n;
+	//float endAngle = m_data.start.rotation + m_data.delta.rotation;
+	//float deltaAngle = ShortestAngle(endAngle - m_data.start.rotation);
+	//params.rotation = m_data.start.rotation + deltaAngle * n;
 	
 	// •s“§–¾“x‚ð•âŠÔ
 	params.opacity = m_data.start.opacity + m_data.delta.opacity * n;

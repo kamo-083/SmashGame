@@ -70,8 +70,8 @@ public:
 public:
 	// ‰Šú‰»ˆ—
 	void Initialize(
-		CollisionManager* pCollisionManager,
-		EnemyManager* pEnemyManager,
+		CollisionManager* pCM,
+		EnemyManager* pEM,
 		Goal* goal,
 		DirectX::SimpleMath::Vector3 position,
 		DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,

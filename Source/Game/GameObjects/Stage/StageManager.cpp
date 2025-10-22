@@ -175,7 +175,7 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
 	}
 
 	// ƒS[ƒ‹‚ÌXV
-	if(m_goal) m_goal->Update();
+	if(m_goal) m_goal->Update(elapsedTime);
 }
 
 

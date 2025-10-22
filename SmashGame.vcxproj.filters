@@ -275,10 +275,10 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Fence.h">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\Tween.h">
+    <ClInclude Include="Source\Game\UI\Tween\Tween.h">
       <Filter>UI\Tween</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\TweenBase.h">
+    <ClInclude Include="Source\Game\UI\Tween\TweenBase.h">
       <Filter>UI\Tween</Filter>
     </ClInclude>
   </ItemGroup>
@@ -435,10 +435,7 @@
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Fence.cpp">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\Tween.inl">
-      <Filter>UI\Tween</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\TweenBase.cpp">
+    <ClCompile Include="Source\Game\UI\Tween\TweenBase.cpp">
       <Filter>UI\Tween</Filter>
     </ClCompile>
   </ItemGroup>
@@ -474,6 +471,9 @@
     </None>
     <None Include="Resources\Shaders\Area\Area.hlsli">
       <Filter>Shader\Area</Filter>
+    </None>
+    <None Include="Source\Game\UI\Tween\Tween.inl">
+      <Filter>UI\Tween</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

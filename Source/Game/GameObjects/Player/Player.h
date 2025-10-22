@@ -154,8 +154,8 @@ private:
 public:
 	// コンストラクタ
 	Player(
-		UserResources* pUserResources,
-		EffectManager* pEffectManager,
+		UserResources* pUR,
+		EffectManager* pEM,
 		StageScene* pScene);
 
 	// デストラクタ
@@ -167,7 +167,7 @@ public:
 	// 初期化処理
 	void Initialize(
 		ResourceManager* pRM,
-		CollisionManager* pCollisionManager,
+		CollisionManager* pCM,
 		DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 		Camera* pCamera,
 		AttackUI* pAttackUI,

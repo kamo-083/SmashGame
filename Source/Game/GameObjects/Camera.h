@@ -23,12 +23,15 @@ class Camera
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_EYE    = { 0.0f,4.0f,8.0f };
-	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_TARGET = { 0.0f,0.0f,0.0f };
-	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_UP     = { 0.0f,1.0f,0.0f };
-	static constexpr float CAMERA_MOVE_SPEED = 5.0f;
-	static constexpr float CAMERA_ROTATE_ANGLE = 45.0f;
-	static constexpr float CAMERA_ROTATE_SPEED = 0.025f;
+	// カメラのデフォルト設定
+	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_EYE    = { 0.0f,4.0f,8.0f };	// 位置
+	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_TARGET = { 0.0f,0.0f,0.0f };	// 注視点
+	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_UP     = { 0.0f,1.0f,0.0f };	// 上方向ベクトル
+
+	// カメラの回転関連
+	static constexpr float CAMERA_ROTATE_ANGLE = 45.0f;		// キー1回分の回転角度
+	static constexpr float CAMERA_ROTATE_SPEED = 0.025f;	// 回転速度
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:

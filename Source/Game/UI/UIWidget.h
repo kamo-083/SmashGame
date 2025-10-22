@@ -11,7 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/UI/Tween.h"
+#include"Source/Game/UI/Tween/Tween.h"
 
 
 // クラスの定義 ===============================================================

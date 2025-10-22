@@ -137,7 +137,7 @@ public:
 	virtual void Draw(RenderContext& context, Imase::DebugFont* debugFont) = 0;
 
 	// 終了処理
-	virtual void Finalize(CollisionManager* pCollisionManager) = 0;
+	virtual void Finalize() = 0;
 
 	// プレイヤーとの距離を計算
 	virtual void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius) = 0;

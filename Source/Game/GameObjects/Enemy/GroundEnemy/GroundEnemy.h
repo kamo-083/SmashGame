@@ -85,8 +85,8 @@ public:
 	// コンストラクタ
 	GroundEnemy(
 		const EnemyInfoLoader::EnemyInfo& info,
-		UserResources* pUserResources,
-		EffectManager* pEffectManager);
+		UserResources* pUR,
+		EffectManager* pEM);
 
 	// デストラクタ
 	~GroundEnemy();
@@ -97,7 +97,7 @@ public:
 	// 初期化処理
 	void Initialize(
 		ResourceManager* pRM,
-		CollisionManager* pCollisionManager,
+		CollisionManager* pCM,
 		const DirectX::SimpleMath::Vector3& position,
 		const EnemyInfoLoader::EnemyInfo& info,
 		uint32_t id) override;
@@ -109,7 +109,7 @@ public:
 	void Draw(RenderContext& context, Imase::DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize(CollisionManager* pCollisionManager) override;
+	void Finalize() override;
 
 	// 状態遷移
 	void ChangeState(IState* newState);
