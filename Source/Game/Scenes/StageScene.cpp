@@ -90,8 +90,8 @@ void StageScene::Initialize()
 
 	// ウィンドウサイズの取得
 	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
-		m_userResources->GetDeviceResources()->GetOutputSize().right,
-		m_userResources->GetDeviceResources()->GetOutputSize().bottom
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
 	// リソースマネージャーのポインタを取得
@@ -124,8 +124,8 @@ void StageScene::Initialize()
 	};
 
 	// 攻撃UIの作成
-	m_attackUI = std::make_unique<AttackUI>(m_userResources->GetDeviceResources()->GetOutputSize().right,
-											m_userResources->GetDeviceResources()->GetOutputSize().bottom);
+	m_attackUI = std::make_unique<AttackUI>(
+		windowSize.x, windowSize.y);
 	m_attackUI->Initialize(atkUIDesc,opUIDesc);
 
 	// カメラ操作UIの作成
@@ -240,7 +240,7 @@ void StageScene::Update(float elapsedTime)
 
 	// カメラの更新
 	if (!m_keyMode) m_camera->Rotation(m_userResources->GetKeyboardTracker());
-	m_camera->Update(m_userResources->GetKeyboardTracker(), elapsedTime);
+	m_camera->Update(elapsedTime);
 
 	// ステージの更新
 	m_stageManager->Update(elapsedTime, m_camera->GetEye(), m_camera->GetUp());
@@ -254,7 +254,7 @@ void StageScene::Update(float elapsedTime)
 	m_cameraUI->Update(elapsedTime);		// カメラ
 
 	// 当たり判定の更新
-	m_collisionManager->Update(elapsedTime);
+	m_collisionManager->Update();
 
 	// 落下時のリスポーン
 	if (m_player->GetPosition().y <= m_player->GetKillHeight()) m_player->Respawn();
@@ -288,7 +288,7 @@ void StageScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void StageScene::Render(RenderContext context, Imase::DebugFont* debugFont)
+void StageScene::Render(RenderContext context, DebugFont* debugFont)
 {
 	// デバッグ情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");

@@ -95,20 +95,6 @@ void Fence::Initialize(
 
 
 /**
- * @brief XVˆ—
- *
- * @param ‚È‚µ
- *
- * @return ‚È‚µ
- */
-void Fence::Update()
-{
-
-}
-
-
-
-/**
  * @brief •`‰æˆ—
  *
  * @param ‚È‚µ

@@ -14,13 +14,15 @@
 #include"Source/Game/Common/PhysicsEngine/ExternalForce.h"
 #include"Source/Game/Common/PhysicsEngine/Friction.h"
 
-#include"ImaseLib/DebugFont.h"
+#include"Source/Debug/DebugFont.h"
 
 
 class PhysicsObject
 {
 private:
 	static constexpr float RESTITUTION_COEFFICIENT = 1.0f;	// 反発係数のデフォルト値
+
+	static constexpr int DEBUG_FONT_INTERVAL = 25;	// デバッグ用フォントの表示間隔
 
 	// 重力
 	Gravity m_gravity;
@@ -53,8 +55,6 @@ public:
 	void RollDown(
 		DirectX::SimpleMath::Vector3& velocity,
 		DirectX::SimpleMath::Vector3& normal,
-		float mass,
-		float radius,
 		float elapsedTime);
 
 	// 取得
@@ -63,7 +63,7 @@ public:
 	Friction& GetFriction() { return m_friction; }					// 摩擦力
 
 	// デバッグフォントの描画
-	void DrawDebugFont(Imase::DebugFont* debugFont, float y);
+	void DrawDebugFont(DebugFont* debugFont, int y);
 
 private:
 	// 反射ベクトルの計算

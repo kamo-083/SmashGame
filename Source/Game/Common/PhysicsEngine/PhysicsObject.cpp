@@ -90,8 +90,6 @@ void PhysicsObject::Reflection(
  *
  * @param velocity		‘ÎÛ‚Ì‘¬“x
  * @param normal		“]‚ª‚é–Ê‚Ì–@ü
- * @param mass			‘ÎÛ‚ÌŽ¿—Ê
- * @param radius		‘ÎÛ‚Ì”¼Œa
  * @param elapsedTime	Œo‰ßŽžŠÔ
  *
  * @return ‚È‚µ
@@ -99,8 +97,6 @@ void PhysicsObject::Reflection(
 void PhysicsObject::RollDown(
 	DirectX::SimpleMath::Vector3& velocity,
 	DirectX::SimpleMath::Vector3& normal,
-	float mass,
-	float radius,
 	float elapsedTime)
 {
 	DirectX::SimpleMath::Vector3 gravity = { 0.0f,-m_gravity.Get(),0.0f };
@@ -119,13 +115,13 @@ void PhysicsObject::RollDown(
  *
  * @return ‚È‚µ
  */
-void PhysicsObject::DrawDebugFont(Imase::DebugFont* debugFont, float y)
+void PhysicsObject::DrawDebugFont(DebugFont* debugFont, int y)
 {
-	y += 25;
+	y += DEBUG_FONT_INTERVAL;
 	debugFont->AddString(0, y, DirectX::Colors::White, L"gravity = %f", m_gravity.Get());
-	y += 25;
+	y += DEBUG_FONT_INTERVAL;
 	debugFont->AddString(0, y, DirectX::Colors::White, L"friction = %f", m_friction.Get());
-	y += 25;
+	y += DEBUG_FONT_INTERVAL;
 	debugFont->AddString(0, y, DirectX::Colors::White, L"externalForce = %f,%f,%f", m_externalForce.Get().x, m_externalForce.Get().y, m_externalForce.Get().z);
 }
 

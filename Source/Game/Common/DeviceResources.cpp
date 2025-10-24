@@ -81,6 +81,30 @@ DeviceResources::DeviceResources(
 {
 }
 
+DeviceResources::~DeviceResources()
+{
+    m_d3dDepthStencilView.Reset();
+    m_d3dRenderTargetView.Reset();
+    m_renderTarget.Reset();
+    m_depthStencil.Reset();
+    m_swapChain.Reset();
+    m_d3dContext.Reset();
+    m_d3dAnnotation.Reset();
+
+#ifdef _DEBUG
+    {
+        ComPtr<ID3D11Debug> d3dDebug;
+        if (SUCCEEDED(m_d3dDevice.As(&d3dDebug)))
+        {
+            d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL | D3D11_RLDO_IGNORE_INTERNAL);
+        }
+    }
+#endif
+
+    m_d3dDevice.Reset();
+    m_dxgiFactory.Reset();
+}
+
 // Configures the Direct3D device, and stores handles to it and the device context.
 void DeviceResources::CreateDeviceResources()
 {

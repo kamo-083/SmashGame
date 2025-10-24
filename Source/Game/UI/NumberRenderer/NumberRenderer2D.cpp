@@ -75,9 +75,11 @@ void NumberRenderer2D::Draw(RenderContext& renderContext)
 	for (int i = 0; i < NUM_DIGIT; i++)
 	{
 		int num = data % 10;
-		int sourceX = num * SPRITE_SIZE.x;
+		int sourceX = num * static_cast<int>(SPRITE_SIZE.x);
 		DirectX::SimpleMath::Vector2 pos = { x,y };
-		RECT rect = { sourceX,0,sourceX + SPRITE_SIZE.x,SPRITE_SIZE.y };
+		RECT rect = {
+			sourceX, 0,
+			sourceX + static_cast<LONG>(SPRITE_SIZE.x), static_cast<LONG>(SPRITE_SIZE.y) };
 		DirectX::FXMVECTOR color = DirectX::Colors::White;
 
 		renderContext.spriteBatch->Draw(m_texture, pos, &rect,

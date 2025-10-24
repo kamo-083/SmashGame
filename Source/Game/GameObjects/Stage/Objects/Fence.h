@@ -75,9 +75,6 @@ public:
 		DirectX::SimpleMath::Vector3 scale = DEFAULT_SCALE,
 		DirectX::SimpleMath::Vector3 angle = ANGLE);
 
-	// XVˆ—
-	void Update();
-
 	// •`‰æˆ—
 	void Draw(RenderContext& context);
 

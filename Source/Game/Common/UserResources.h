@@ -9,7 +9,7 @@
 #include "pch.h"
 #include "StepTimer.h"
 #include "DeviceResources.h"
-#include "ImaseLib/DebugFont.h"
+#include "Source/Debug/DebugFont.h"
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Common/AudioManager.h"
 #include "Source/Game/Common/ShaderManager.h"
@@ -32,7 +32,7 @@ private:
 	DirectX::Mouse::ButtonStateTracker* m_mouseTracker;
 
 	// デバッグ用文字列表示へのポインタ
-	Imase::DebugFont* m_debugFont;
+	DebugFont* m_debugFont;
 
 	// 共通ステート
 	DirectX::CommonStates* m_states;
@@ -117,10 +117,10 @@ public:
 	// ------------------------------------------ //
 
 	// デバッグフォントを設定する関数
-	void SetDebugFont(Imase::DebugFont* debugFont) { m_debugFont = debugFont; }
+	void SetDebugFont(DebugFont* debugFont) { m_debugFont = debugFont; }
 
 	// デバッグフォントを取得する関数
-	Imase::DebugFont* GetDebugFont() { return m_debugFont; }
+	DebugFont* GetDebugFont() { return m_debugFont; }
 	
 	// ------------------------------------------ //
 	// 共通ステート	

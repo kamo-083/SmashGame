@@ -79,20 +79,6 @@ void Ground::Initialize(
 
 
 /**
- * @brief 更新処理
- *
- * @param なし
- *
- * @return なし
- */
-void Ground::Update()
-{
-
-}
-
-
-
-/**
  * @brief 描画処理
  *
  * @param context	描画用構造体

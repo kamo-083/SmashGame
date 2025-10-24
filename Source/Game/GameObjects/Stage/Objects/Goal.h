@@ -11,7 +11,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"ImaseLib/DebugFont.h"
+#include"Source/Debug/DebugFont.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
 #include "Source/Game/UI/Tween/Tween.h"
@@ -99,7 +99,7 @@ public:
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(RenderContext& context, Imase::DebugFont* debugFont);
+	void Draw(RenderContext& context, DebugFont* debugFont);
 
 	// 終了処理
 	void Finalize();

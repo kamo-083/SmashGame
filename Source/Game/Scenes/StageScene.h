@@ -53,7 +53,7 @@ public:
 
 	// 操作方法UI共通
 	// テキスト画像を切り取る時の左端
-	static constexpr float TEXT_UV_LEFT = 430.0f;
+	static constexpr float TEXT_UV_LEFT = 370.0f;
 	// テキスト画像の1文字の大きさ
 	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 50.0f,100.0f };
 	// 矢印画像サイズ
@@ -145,7 +145,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// 描画処理
-	void Render(RenderContext context, Imase::DebugFont* debugFont) override;
+	void Render(RenderContext context, DebugFont* debugFont) override;
 
 	// 終了処理
 	void Finalize() override;

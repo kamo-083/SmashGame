@@ -102,6 +102,7 @@ float OBBCollider::GetHalfLength(int n) const
 	case 1:	 return m_obb.halfLength.y;
 	case 2:   return m_obb.halfLength.z;
 	}
+	return 0.0f;
 }
 
 void OBBCollider::SetRotation(DirectX::SimpleMath::Quaternion rotation)

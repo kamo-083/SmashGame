@@ -41,6 +41,7 @@ public:
 		DirectX::SimpleMath::Vector4 Diffuse;	// 基本色
 	};
 
+	static constexpr float RANDOM_RANGE = 1.0f;	// 乱数の幅
 
 	// データメンバの宣言 -----------------------------------------------
 protected:

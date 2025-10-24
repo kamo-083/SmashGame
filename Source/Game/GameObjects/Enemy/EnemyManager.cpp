@@ -188,6 +188,4 @@ std::unique_ptr<IEnemy> EnemyManager::Create(EnemyType type)
 	return std::make_unique<GroundEnemy>(
 		m_enemyInfo[static_cast<int>(type)],
 		m_pUserResources, m_pEffectManager);
-
-	return nullptr;
 }

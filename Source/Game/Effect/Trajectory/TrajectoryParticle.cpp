@@ -44,8 +44,8 @@ void TrajectoryParticle::Update(float elapsedTime, DirectX::SimpleMath::Vector3 
 		{
 			std::random_device seed;
 			std::mt19937 mt(seed());
-			std::uniform_real_distribution<> random(0.0f, DirectX::XM_2PI);
-			std::uniform_real_distribution<> random2(-1.0f, 1.0f);
+			std::uniform_real_distribution<float> random(0.0f, DirectX::XM_2PI);
+			std::uniform_real_distribution<float> random2(-RANDOM_RANGE, RANDOM_RANGE);
 
 			float angle = random(mt);
 			float range = random2(mt);

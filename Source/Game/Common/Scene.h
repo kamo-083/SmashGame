@@ -12,7 +12,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/UserResources.h"
-#include"ImaseLib/DebugFont.h"
+#include"Source/Debug/DebugFont.h"
 
 
 // クラスの宣言 ===============================================================
@@ -55,7 +55,7 @@ public:
 	virtual void Update(float elapsedTime) = 0;
 
 	// 描画処理
-	virtual void Render(RenderContext context, Imase::DebugFont* debugFont) = 0;
+	virtual void Render(RenderContext context, DebugFont* debugFont) = 0;
 
 	// 終了処理
 	virtual void Finalize() = 0;

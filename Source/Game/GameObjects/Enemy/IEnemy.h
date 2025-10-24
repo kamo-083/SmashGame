@@ -20,7 +20,7 @@
 #include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/GameObjects/Enemy/EnemyInfoLoader.h"
 
-#include"ImaseLib/DebugFont.h"
+#include"Source/Debug/DebugFont.h"
 
 // クラスの定義 ===============================================================
 /**
@@ -117,7 +117,7 @@ public:
 	{}
 
 	// デストラクタ
-	~IEnemy() = default;
+	virtual ~IEnemy() = default;
 
 
 // 操作
@@ -134,7 +134,7 @@ public:
 	virtual void Update(float elapsedTime) = 0;
 
 	// 描画処理
-	virtual void Draw(RenderContext& context, Imase::DebugFont* debugFont) = 0;
+	virtual void Draw(RenderContext& context, DebugFont* debugFont) = 0;
 
 	// 終了処理
 	virtual void Finalize() = 0;

@@ -34,7 +34,7 @@ public:
 	// 出現時の設定データ
 	struct SpawnData
 	{
-		EnemyType type;							// 種類
+		EnemyType type = EnemyType::Basic;		// 種類
 		DirectX::SimpleMath::Vector3 position;	// 座標
 	};
 

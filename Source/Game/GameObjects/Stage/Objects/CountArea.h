@@ -11,7 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
-#include"ImaseLib/DebugFont.h"
+#include"Source/Debug/DebugFont.h"
 #include"Source/Game/Common/UserResources.h"
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/CollisionManager.h"
@@ -46,9 +46,12 @@ public:
 		DirectX::SimpleMath::Matrix	 matView;	// ビュー行列
 		DirectX::SimpleMath::Matrix	 matProj;	// 射影行列
 		DirectX::SimpleMath::Vector4 Diffuse;	// 基本色
-		float Height;							// 高さ
+		float Height = 0.0f;					// 高さ
 		DirectX::SimpleMath::Vector3 Dummy;		// ダミーデータ
 	};
+
+	// スプライト数字の1文字分のサイズ
+	static constexpr DirectX::SimpleMath::Vector2 NUMBER_SIZE = { 48.0f,72.0f };
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -117,7 +120,7 @@ public:
 	void Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);
 
 	// 描画処理
-	void Draw(RenderContext& context, Imase::DebugFont* debugFont);
+	void Draw(RenderContext& context, DebugFont* debugFont);
 
 	// 終了処理
 	void Finalize();

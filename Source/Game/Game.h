@@ -12,7 +12,7 @@
 #include "Source/Game/Common/ShaderManager.h"
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Common/UserResources.h"
-#include "ImaseLib/DebugFont.h"
+#include "Source/Debug/DebugFont.h"
 
 
 // A basic game implementation that creates a D3D11 device and
@@ -95,7 +95,7 @@ private:
     std::unique_ptr<UserResources> m_userResources;
 
     // デバッグフォント
-    std::unique_ptr <Imase::DebugFont> m_debugFont;
+    std::unique_ptr <DebugFont> m_debugFont;
 
     // キーボードトラッカー
     std::unique_ptr<DirectX::Keyboard::KeyboardStateTracker> m_kbTracker;

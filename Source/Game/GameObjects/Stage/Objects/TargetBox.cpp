@@ -97,20 +97,6 @@ void TargetBox::Initialize(CollisionManager* pCM,
 
 
 /**
- * @brief 更新処理
- *
- * @param elapsedTime	経過時間
- *
- * @return なし
- */
-void TargetBox::Update(float elapsedTime)
-{
-	
-}
-
-
-
-/**
  * @brief 描画処理
  *
  * @param context	描画用構造体

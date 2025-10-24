@@ -11,7 +11,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"ImaseLib/DebugFont.h"
+#include"Source/Debug/DebugFont.h"
 
 
 
@@ -77,10 +77,10 @@ public:
 	void Initialize(DirectX::SimpleMath::Vector3* followTargetPos);
 
 	// 更新処理
-	void Update(DirectX::Keyboard::KeyboardStateTracker* keyboard, float elapsedTime);
+	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(Imase::DebugFont* debugFont);
+	void Draw(DebugFont* debugFont);
 
 	// 回転操作
 	void Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard);

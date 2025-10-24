@@ -32,6 +32,9 @@ GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
  */
 void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
 {
+	// Œp³‚µ‚Ä–¢g—p‚Ìˆø”
+	UNREFERENCED_PARAMETER(pRM);
+
 	if (!m_modelAnimator)
 	{
 		m_modelAnimator = std::make_unique<ModelAnimator>(

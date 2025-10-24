@@ -29,7 +29,7 @@ namespace DX
                         UINT backBufferCount = 2,
                         D3D_FEATURE_LEVEL minFeatureLevel = D3D_FEATURE_LEVEL_10_0,
                         unsigned int flags = c_FlipPresent) noexcept;
-        ~DeviceResources() = default;
+        ~DeviceResources();// = default;
 
         DeviceResources(DeviceResources&&) = default;
         DeviceResources& operator= (DeviceResources&&) = default;

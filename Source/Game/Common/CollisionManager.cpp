@@ -25,11 +25,11 @@ CollisionManager::CollisionManager()
 /**
  * @brief 更新処理
  *
- * @param elapsedTime 経過時間
+ * @param なし
  *
  * @return なし
  */
-void CollisionManager::Update(float elapsedTime)
+void CollisionManager::Update()
 {
 	// 重なり具合の集合をクリア
 	for (uint32_t handle : m_order)
@@ -251,6 +251,7 @@ bool CollisionManager::IsEnabled(uint32_t handle)
 	{
 		return it->second.enabled;
 	}
+	return false;
 }
 
 

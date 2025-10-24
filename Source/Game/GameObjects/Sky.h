@@ -49,9 +49,6 @@ public:
 	// ‰Šú‰»ˆ—
 	void Initialize(UserResources* pUR);
 
-	// XVˆ—
-	void Update(float elapsedTime);
-
 	// •`‰æˆ—
 	void Draw(const RenderContext& context);
 

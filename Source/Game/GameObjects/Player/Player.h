@@ -20,7 +20,7 @@
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/Data/AttackData.h"
-#include"ImaseLib/DebugFont.h"
+#include"Source/Debug/DebugFont.h"
 #include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/GameObjects/Player/Player_Idle.h"
 #include"Source/Game/GameObjects/Player/Player_Walk.h"
@@ -177,7 +177,7 @@ public:
 	void Update(const float& elapsedTime);
 
 	// ï`âÊèàóù
-	void Draw(RenderContext& context, Imase::DebugFont* debugFont);
+	void Draw(RenderContext& context, DebugFont* debugFont);
 
 	// èIóπèàóù
 	void Finalize();

@@ -67,7 +67,7 @@ NumberRenderer3D::NumberRenderer3D(
 	m_renderTexture = std::make_unique<RenderTexture>();
 	m_renderTexture->Initialize(
 		pDR->GetD3DDevice(),
-		DIGITS_WIDTH * SCALE, spriteSize.y * SCALE,
+		static_cast<int>(DIGITS_WIDTH * SCALE), static_cast<int>(spriteSize.y * SCALE),
 		pDR->GetRenderTargetView(),
 		pDR->GetDepthStencilView()
 	);
@@ -75,7 +75,7 @@ NumberRenderer3D::NumberRenderer3D(
 	// 深度ステンシルステートの作成
 	D3D11_DEPTH_STENCIL_DESC depthDesc = {};
 	depthDesc.DepthEnable = false;
-	ID3D11DepthStencilState* m_depthDisable = nullptr;
+	m_depthDisable = nullptr;
 	device->CreateDepthStencilState(&depthDesc, &m_depthDisable);
 }
 
@@ -133,9 +133,11 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	for (int i = 0; i < NUM_DIGIT; i++)
 	{
 		int number = data % 10;
-		int sourceX = number * SPRITE_SIZE.x;
+		int sourceX = number * static_cast<int>(SPRITE_SIZE.x);
 		DirectX::SimpleMath::Vector2 pos = { x, y };
-		RECT rect = { sourceX, 0 , sourceX + SPRITE_SIZE.x, SPRITE_SIZE.y };
+		RECT rect = {
+			sourceX, 0,
+			sourceX + static_cast<int>(SPRITE_SIZE.x), static_cast<int>(SPRITE_SIZE.y) };
 		DirectX::FXMVECTOR color = DirectX::Colors::White;
 
 		renderContext.spriteBatch->Draw(m_texture, pos, &rect,

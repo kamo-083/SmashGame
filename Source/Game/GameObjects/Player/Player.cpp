@@ -245,7 +245,7 @@ void Player::Update(const float& elapsedTime)
  *
  * @return ‚È‚µ
  */
-void Player::Draw(RenderContext& context, Imase::DebugFont* debugFont)
+void Player::Draw(RenderContext& context, DebugFont* debugFont)
 {
 	// Œ»Ý‚Ìó‘Ô‚ð•`‰æ‚·‚é
 	m_currentState->Render(context);

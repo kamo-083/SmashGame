@@ -17,10 +17,10 @@
  */
 OperationUI::OperationUI()
 	: m_active{ false }
+	, m_textUVLeft{ 0.0f }
 {
 
-}
-
+};
 
 
 /**
@@ -163,8 +163,10 @@ void OperationUI::Draw(RenderContext context, bool batchBeginEnd)
 	int loopTime = 0;
 	for (auto& widget : m_widgets)
 	{
-		float uvLeft = m_textUVLeft + m_textSize.x * loopTime;
-		RECT rect = { uvLeft, 0.0f, uvLeft + m_textSize.x, m_textSize.y };
+		LONG uvLeft = static_cast<LONG>(m_textUVLeft) + static_cast<LONG>(m_textSize.x) * loopTime;
+		RECT rect = {
+			uvLeft, 0, 
+			uvLeft + static_cast<LONG>(m_textSize.x), static_cast<LONG>(m_textSize.y) };
 
 		widget->Draw(
 			context.spriteBatch,

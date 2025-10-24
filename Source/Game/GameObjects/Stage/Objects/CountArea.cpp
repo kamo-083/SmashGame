@@ -39,7 +39,7 @@ CountArea::CountArea(UserResources* pUR)
 	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(dr->GetD3DDeviceContext());
 
 	m_numberBorad = std::make_unique<NumberRenderer3D>(
-		DirectX::SimpleMath::Vector2(48.f, 72.f),
+		NUMBER_SIZE,
 		rm->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1,
 		dr,
@@ -96,7 +96,7 @@ void CountArea::Initialize(
 	m_isTrigger = false;
 
 	// 数字UIの作成
-	m_numberBorad->Initialize(m_insideList.size());
+	m_numberBorad->Initialize(static_cast<int>(m_insideList.size()));
 
 	DirectX::SimpleMath::Vector3 boradPos = { m_position.x, m_position.y + AREA_HALF_HEIGHT * 0.5f, m_position.z };
 	m_numberBorad->SetPosition(boradPos);
@@ -147,7 +147,7 @@ void CountArea::Initialize(
 			}
 
 			// 表示する数字の更新
-			m_numberBorad->SetNumber(m_insideList.size());
+			m_numberBorad->SetNumber(static_cast<int>(m_insideList.size()));
 		};
 	desc.callback.onExit =
 		[this, pCM](uint32_t, uint32_t handle)
@@ -176,7 +176,7 @@ void CountArea::Initialize(
 			}
 
 			// 表示する数字の更新
-			m_numberBorad->SetNumber(m_insideList.size());
+			m_numberBorad->SetNumber(static_cast<int>(m_insideList.size()));
 		};
 	m_collisionHandle = pCM->Add(desc);
 }
@@ -211,7 +211,7 @@ void CountArea::Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMa
  *
  * @return なし
  */
-void CountArea::Draw(RenderContext& context, Imase::DebugFont* debugFont)
+void CountArea::Draw(RenderContext& context, DebugFont* debugFont)
 {
 	DirectX::SimpleMath::Vector3 size = m_collider.GetHalfLength();
 	DirectX::SimpleMath::Matrix world;

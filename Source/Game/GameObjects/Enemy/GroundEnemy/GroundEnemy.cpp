@@ -201,7 +201,7 @@ void GroundEnemy::Update(float elapsedTime)
  *
  * @return ‚È‚µ
  */
-void GroundEnemy::Draw(RenderContext& context, Imase::DebugFont* debugFont)
+void GroundEnemy::Draw(RenderContext& context, DebugFont* debugFont)
 {
 	m_currentState->Render(context);
 

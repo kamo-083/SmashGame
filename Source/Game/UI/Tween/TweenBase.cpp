@@ -43,9 +43,8 @@ float TweenBase::EaseValue(Ease ease, float t)
 		}
 		else {
 			// å„îºÅFIn
-			return 0.5f + 0.5f * EaseValue(Ease::OutQuart, t * 2.f - 1.f);
+			return 0.5f + 0.5f * EaseValue(Ease::InQuart, t * 2.f - 1.f);
 		}
-		return 1.f - std::pow(1.f - t, 4.f);
 	}
 	case TweenBase::Ease::OutBack:
 	{

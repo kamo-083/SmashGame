@@ -45,22 +45,22 @@ public:
 	// 攻撃の情報
 	struct AttackDesc
 	{
-		float time;		// 攻撃時間
-		float size;		// 判定サイズ
-		float force;	// 攻撃力
+		float time = 0.0f;		// 攻撃時間
+		float size = 0.0f;		// 判定サイズ
+		float force = 0.0f;		// 攻撃力
 	};
 
 	// 敵の情報
 	struct EnemyInfo
 	{
-		EnemyType type;					// 種類
-		float radius = 0.0f;			// 半径サイズ
-		float mass = 0.0f;				// 質量
-		float speed = 0.0f;				// 移動速度
-		float max_speed = 0.0f;			// 最高移動速度
-		float static_friction = 0.0f;	// 静止摩擦係数
-		float dynamic_friction = 0.0f;	// 動摩擦係数
-		AttackDesc attack;				// 攻撃情報
+		EnemyType type = EnemyType::Basic;	// 種類
+		float radius = 0.0f;				// 半径サイズ
+		float mass = 0.0f;					// 質量
+		float speed = 0.0f;					// 移動速度
+		float max_speed = 0.0f;				// 最高移動速度
+		float static_friction = 0.0f;		// 静止摩擦係数
+		float dynamic_friction = 0.0f;		// 動摩擦係数
+		AttackDesc attack{};				// 攻撃情報
 
 		std::string modelPath;		// モデルのファイルパス
 		std::string idleAnimPath;	// 待機アニメーションのファイルパス

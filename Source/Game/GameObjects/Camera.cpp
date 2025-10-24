@@ -68,12 +68,11 @@ void Camera::Initialize(DirectX::SimpleMath::Vector3* followTargetPos)
 /**
  * @brief 更新処理
  *
- * @param keyboard		キーボードトラッカーのポインタ
  * @param elapsedTime	経過時間
  *
  * @return なし
  */
-void Camera::Update(DirectX::Keyboard::KeyboardStateTracker* keyboard, float elapsedTime)
+void Camera::Update(float elapsedTime)
 {
 	// 回転の補間
 	if (m_isRotation) SmoothCameraRotation(elapsedTime);
@@ -99,7 +98,7 @@ void Camera::Update(DirectX::Keyboard::KeyboardStateTracker* keyboard, float ela
  *
  * @return なし
  */
-void Camera::Draw(Imase::DebugFont* debugFont)
+void Camera::Draw(DebugFont* debugFont)
 {
 	// デバッグ情報の追加
 	debugFont->AddString(820, 0, DirectX::Colors::White, L"eye = %f,%f,%f", m_eye.x, m_eye.y, m_eye.z);

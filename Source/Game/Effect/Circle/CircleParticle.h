@@ -23,6 +23,7 @@ class CircleParticle	:public IEffectParticle
 	// クラス定数の宣言 -------------------------------------------------
 private:
 	static constexpr float SPAWN_INTERVAL = 0.15f;	// 最小生成間隔
+	static constexpr float RANDOM_RANGE = 0.5f;		// 乱数の幅
 
 
 	// データメンバの宣言 -----------------------------------------------

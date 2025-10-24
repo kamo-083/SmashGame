@@ -104,13 +104,13 @@ void ClearConditionsUI::Update(float elapsedTime)
 void ClearConditionsUI::Draw(RenderContext context)
 {
 	// ‰æ‘œ‚ÌØ‚èæ‚è”ÍˆÍ‚ğİ’è
-	float height = m_textSize.y * static_cast<float>(CONDITIONS_TYPE);
+	LONG height = static_cast<LONG>(m_textSize.y) * static_cast<LONG>(CONDITIONS_TYPE);
 	RECT rect =
 	{
-		0.0f,
+		0,
 		height,
-		m_textSize.x,
-		height + m_textSize.y,
+		static_cast<LONG>(m_textSize.x),
+		height + static_cast<LONG>(m_textSize.y),
 	};
 
 	// ‰æ‘œ‚Ì•`‰æ

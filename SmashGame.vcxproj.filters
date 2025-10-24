@@ -20,9 +20,6 @@
     <Filter Include="Common\Physics">
       <UniqueIdentifier>{488ad2c3-4759-4b53-83d0-e5a5474459c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImaseLib">
-      <UniqueIdentifier>{7bb54706-1730-4196-b130-e11437d29adb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\GameObjects\Enemy">
       <UniqueIdentifier>{461bd76b-e444-443e-b78b-23fd3e00a09f}</UniqueIdentifier>
     </Filter>
@@ -80,6 +77,9 @@
     <Filter Include="UI\Tween">
       <UniqueIdentifier>{abf8bb37-cbe5-4da9-ac4d-0a7f59006bc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{8c0c3a8a-3e8f-4989-a448-bc8971047d8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -121,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Common\DeviceResources.h">
       <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="ImaseLib\DebugFont.h">
-      <Filter>ImaseLib</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Scenes\StageScene.h">
       <Filter>Game\Scene</Filter>
@@ -281,6 +278,9 @@
     <ClInclude Include="Source\Game\UI\Tween\TweenBase.h">
       <Filter>UI\Tween</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Debug\DebugFont.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -308,9 +308,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp">
       <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="ImaseLib\DebugFont.cpp">
-      <Filter>ImaseLib</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Scenes\StageScene.cpp">
       <Filter>Game\Scene</Filter>
@@ -437,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\Tween\TweenBase.cpp">
       <Filter>UI\Tween</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Debug\DebugFont.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

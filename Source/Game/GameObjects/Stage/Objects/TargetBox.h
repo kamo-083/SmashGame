@@ -77,9 +77,6 @@ public:
 		DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
 		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero);
 
-	// XVˆ—
-	void Update(float elapsedTime);
-
 	// •`‰æˆ—
 	void Draw(RenderContext& context);
 

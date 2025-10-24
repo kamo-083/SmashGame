@@ -150,30 +150,12 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
  */
 void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp)
 {
-	// 地面の更新
-	for (auto& ground : m_grounds)
-	{
-		ground->Update();
-	}
-
-	// 的の更新
-	for (auto& targetBox : m_targetBoxes)
-	{
-		targetBox->Update(elapsedTime);
-	}
-
 	// エリアの更新
 	for (auto& area : m_areas)
 	{
 		area->Update(cameraPos, cameraUp);
 	}
 	
-	// 柵の更新
-	for (auto& fences : m_fences)
-	{
-		fences->Update();
-	}
-
 	// ゴールの更新
 	if(m_goal) m_goal->Update(elapsedTime);
 }
@@ -188,7 +170,7 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
  *
  * @return なし
  */
-void StageManager::Draw(RenderContext context, Imase::DebugFont* debugFont)
+void StageManager::Draw(RenderContext context, DebugFont* debugFont)
 {
 	// 地面の描画
 	for (auto& ground : m_grounds)
@@ -222,7 +204,7 @@ void StageManager::Draw(RenderContext context, Imase::DebugFont* debugFont)
  *
  * @return なし
  */
-void StageManager::DrawTranslucent(RenderContext context, Imase::DebugFont* debugFont)
+void StageManager::DrawTranslucent(RenderContext context, DebugFont* debugFont)
 {
 	// エリアの描画
 	for (auto& area : m_areas)

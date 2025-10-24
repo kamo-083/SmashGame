@@ -17,7 +17,7 @@
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Common/UserResources.h"
 
-#include "ImaseLib/DebugFont.h"
+#include "Source/Debug/DebugFont.h"
 
 
 // ƒNƒ‰ƒX‚ÌéŒ¾ ===============================================================

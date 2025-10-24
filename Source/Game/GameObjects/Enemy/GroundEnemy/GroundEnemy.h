@@ -106,7 +106,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
-	void Draw(RenderContext& context, Imase::DebugFont* debugFont) override;
+	void Draw(RenderContext& context, DebugFont* debugFont) override;
 
 	// I—¹ˆ—
 	void Finalize() override;

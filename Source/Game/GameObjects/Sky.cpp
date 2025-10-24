@@ -50,20 +50,6 @@ void Sky::Initialize(UserResources* pUR)
 
 
 /**
- * @brief 更新処理
- *
- * @param elepsedTime	経過時間
- *
- * @return なし
- */
-void Sky::Update(float elapsedTime)
-{
-
-}
-
-
-
-/**
  * @brief 描画処理
  *
  * @param context	描画用構造体

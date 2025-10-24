@@ -184,7 +184,7 @@ void TitleScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void TitleScene::Render(RenderContext context, Imase::DebugFont* debugFont)
+void TitleScene::Render(RenderContext context, DebugFont* debugFont)
 {
 	// デバッグ用情報追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"TitleScene");

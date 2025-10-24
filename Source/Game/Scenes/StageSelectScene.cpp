@@ -50,8 +50,8 @@ void StageSelectScene::Initialize()
 {
 	// ウィンドウサイズの取得
 	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
-		m_userResources->GetDeviceResources()->GetOutputSize().right,
-		m_userResources->GetDeviceResources()->GetOutputSize().bottom
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
 	// ステージ選択パネルの作成
@@ -167,7 +167,7 @@ void StageSelectScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont)
+void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 {
 	// デバッグ用情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageSelectScene");
@@ -186,8 +186,8 @@ void StageSelectScene::Render(RenderContext context, Imase::DebugFont* debugFont
 
 	// ウィンドウサイズの取得
 	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
-		m_userResources->GetDeviceResources()->GetOutputSize().right,
-		m_userResources->GetDeviceResources()->GetOutputSize().bottom
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
 	// ステージ番号の描画

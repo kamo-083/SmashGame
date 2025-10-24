@@ -145,7 +145,7 @@ void Goal::Update(float elapsedTime)
  *
  * @return なし
  */
-void Goal::Draw(RenderContext& context, Imase::DebugFont* debugFont)
+void Goal::Draw(RenderContext& context, DebugFont* debugFont)
 {
 	// モデルの描画
 	// サカナのテーブル

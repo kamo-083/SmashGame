@@ -63,7 +63,7 @@ public:
 	// “–‚½‚è”»’è‚ÌŒ`ó
 	enum class Type :uint8_t
 	{
-		NONE = -1,
+		NONE,
 		Sphere,
 		OBB	
 	};
@@ -126,7 +126,7 @@ public:
 // ‘€ì
 public:
 	// XVˆ—
-	void Update(float elapsedTime);
+	void Update();
 
 	// ’Ç‰Á
 	uint32_t Add(const Desc& desc);

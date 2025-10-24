@@ -42,7 +42,6 @@ void Game::Initialize(HWND window, int width, int height)
     m_timer.SetTargetElapsedSeconds(1.0 / 60);
     */
 
-    auto device = m_deviceResources->GetD3DDevice();
     auto context = m_deviceResources->GetD3DDeviceContext();
 
     // スプライトバッチの作成
@@ -284,7 +283,7 @@ void Game::CreateDeviceDependentResources()
     m_shaderManager = std::make_unique<ShaderManager>(device);
 
     // デバッグフォントの作成
-    m_debugFont = std::make_unique<Imase::DebugFont>(device, context, L"Resources/Font/SegoeUI_18.spritefont");
+    m_debugFont = std::make_unique<DebugFont>(device, context, L"Resources/Font/SegoeUI_18.spritefont");
 
     // ユーザーリソースの作成
     m_userResources = std::make_unique<UserResources>();

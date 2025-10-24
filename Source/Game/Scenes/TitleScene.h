@@ -92,7 +92,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
-	void Render(RenderContext context, Imase::DebugFont* debugFont) override;
+	void Render(RenderContext context, DebugFont* debugFont) override;
 
 	// I—¹ˆ—
 	void Finalize() override;

@@ -80,8 +80,8 @@ void CircleParticle::SpawnParticleEffect(
 			//óêêîê∂ê¨äÌ
 			std::random_device seed;
 			std::mt19937 mt(seed());
-			std::uniform_real_distribution<> random(0.0f, DirectX::XM_2PI);
-			std::uniform_real_distribution<> random2(-0.5f, 0.5f);
+			std::uniform_real_distribution<float> random(0.0f, DirectX::XM_2PI);
+			std::uniform_real_distribution<float> random2(-RANDOM_RANGE, RANDOM_RANGE);
 
 			angle = random(mt);
 			scale += random2(mt);

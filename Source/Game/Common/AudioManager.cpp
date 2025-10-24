@@ -114,8 +114,8 @@ bool AudioManager::LoadWAV(const std::string& key, const std::string& filename)
 		std::vector<BYTE> convertedData(header.data_size * 2);
 		for (size_t i = 0; i < header.data_size; ++i) 
 		{
-			convertedData[i * 2] = (header.data[i] - 128) * 256;		  //下位バイト
-			convertedData[i * 2 + 1] = (header.data[i] - 128) * 256 >> 8; //上位バイト
+			convertedData[i * 2] = static_cast<BYTE>((header.data[i] - 128) * 256);				//下位バイト
+			convertedData[i * 2 + 1] = static_cast<BYTE>((header.data[i] - 128) * 256 >> 8);	//上位バイト
 		}
 
 		//16ビットPCMとしてWAVEFORMATEXを更新
@@ -202,7 +202,7 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 	}
 	pMediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
 	pMediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
-	hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, nullptr, pMediaType);
+	hr = pSourceReader->SetCurrentMediaType(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), nullptr, pMediaType);
 	pMediaType->Release();
 
 	if (FAILED(hr)) 
@@ -214,7 +214,7 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 
 	//フォーマット情報の取得
 	IMFMediaType* pOutputType = nullptr;
-	hr = pSourceReader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, &pOutputType);
+	hr = pSourceReader->GetCurrentMediaType(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), &pOutputType);
 	if (FAILED(hr))
 	{
 		std::cerr << "フォーマット情報の取得に失敗しました。" << std::endl;
@@ -235,7 +235,7 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 		IMFSample* pSample = nullptr;
 		DWORD flags = 0;
 
-		hr = pSourceReader->ReadSample(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, nullptr, &flags, nullptr, &pSample);
+		hr = pSourceReader->ReadSample(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), 0, nullptr, &flags, nullptr, &pSample);
 		if (FAILED(hr) || (flags & MF_SOURCE_READERF_ENDOFSTREAM))
 		{
 			break;  //終了

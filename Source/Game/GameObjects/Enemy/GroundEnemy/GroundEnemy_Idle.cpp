@@ -33,6 +33,9 @@ GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
  */
 void GroundEnemy_Idle::Initialize(ResourceManager* pRM)
 {
+	// Œp³‚µ‚Ä–¢g—p‚Ìˆø”
+	UNREFERENCED_PARAMETER(pRM);
+
 	if (!m_modelAnimator)
 	{
 		m_modelAnimator = std::make_unique<ModelAnimator>(
