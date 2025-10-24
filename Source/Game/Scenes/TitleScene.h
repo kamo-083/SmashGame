@@ -55,6 +55,9 @@ public:
 	// アニメーション時間
 	static constexpr float TWEEN_ANIM_TIME = 0.5f;
 
+	// BGMの音量
+	static constexpr float BGM_VOLUME = 0.5f;
+
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連

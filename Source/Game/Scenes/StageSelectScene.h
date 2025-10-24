@@ -17,6 +17,7 @@
 // クラスの宣言 ===============================================================
 class Button;
 class NumberRenderer2D;
+class RenderTexture;
 
 
 // クラスの定義 ===============================================================
@@ -31,7 +32,8 @@ public:
 
 	struct Textures
 	{
-		ID3D11ShaderResourceView* background;	// 背景
+		ID3D11ShaderResourceView* background;						// 背景
+		std::vector <std::unique_ptr<RenderTexture>> stagePanels;	// ステージパネル
 	};
 
 	// スプライト数字の1文字分のサイズ
@@ -51,6 +53,9 @@ public:
 	// スケールの変化量
 	static constexpr float PANEL_DELTA_SCALE = 0.05f;
 
+	// BGMの音量
+	static constexpr float BGM_VOLUME = 0.5f;
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -59,6 +64,7 @@ private:
 
 
 	// オブジェクト関連
+	// テクスチャ群
 	std::unique_ptr<Textures> m_textures;
 
 	// 選択中のステージ番号
@@ -102,5 +108,6 @@ private:
 	// 指定したステージパネルをリセット
 	void PanelReset(int panelNum);
 
-
+	// 画像と数字の合成
+	void TextureNumSynthesis(const int num, RenderTexture* pRT);
 };

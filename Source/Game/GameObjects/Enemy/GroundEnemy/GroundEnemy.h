@@ -46,7 +46,7 @@ public:
 
 	static constexpr float DITECTION_RANGE = 2.5f;	// プレイヤー感知範囲
 
-	static constexpr float RESTITUTION = 0.9f;	// 反発係数
+	static constexpr float RESTITUTION = 0.95f;	// 反発係数
 
 
 // データメンバの宣言 -----------------------------------------------
@@ -120,7 +120,7 @@ public:
 	// プレイヤーの距離・向きの計算
 	void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos,float radius);
 
-	// 攻撃の当たり判定
+	// 攻撃を受けた時の処理
 	void DetectCollisionToAttack(SphereCollider collider, float power);
 
 

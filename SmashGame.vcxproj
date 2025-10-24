@@ -180,7 +180,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Source\Debug\DebugFont.h" />
+    <ClInclude Include="Source\Debug\DebugFont.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Source\Game\Common\Animation.h" />
     <ClInclude Include="Source\Game\Common\AudioManager.h" />
     <ClInclude Include="Source\Game\Common\Collision.h" />

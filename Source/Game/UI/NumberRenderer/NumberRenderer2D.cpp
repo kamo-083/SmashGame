@@ -23,6 +23,7 @@ NumberRenderer2D::NumberRenderer2D(
 	int digit)
 	: INumberRenderer(spriteSize, texture, digit)
 	, m_position{ DirectX::SimpleMath::Vector2::Zero }
+	, m_useBeginEnd{ true }
 {
 
 }
@@ -69,7 +70,7 @@ void NumberRenderer2D::Draw(RenderContext& renderContext)
 	float x = m_position.x + NUM_DIGIT * SPRITE_SIZE.x;
 	float y = m_position.y;
 
-	renderContext.spriteBatch->Begin();
+	if(m_useBeginEnd) renderContext.spriteBatch->Begin();
 
 	// 1‚ÌˆÊ‚©‚ç‡‚É•`‰æ
 	for (int i = 0; i < NUM_DIGIT; i++)
@@ -90,7 +91,7 @@ void NumberRenderer2D::Draw(RenderContext& renderContext)
 		x -= SPRITE_SIZE.x;
 	}
 
-	renderContext.spriteBatch->End();
+	if (m_useBeginEnd) renderContext.spriteBatch->End();
 }
 
 

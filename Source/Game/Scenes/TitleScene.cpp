@@ -121,6 +121,9 @@ void TitleScene::Initialize()
 	pAM->LoadMP3("title_selectBGM", "Resources/Sounds/BGM/iwashiro_hitoiki_coffee.mp3");
 	pAM->LoadMP3("cursorSE", "Resources/Sounds/SE/button68.mp3");
 
+	// BGMESE‚Ì‰¹—Ê•ÏX
+	pAM->SetVolume("title_selectBGM", BGM_VOLUME);
+
 	// BGM‚ÌÄ¶
 	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
 }

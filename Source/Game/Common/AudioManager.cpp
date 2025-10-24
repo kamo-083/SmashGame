@@ -382,3 +382,32 @@ bool AudioManager::IsPlaying(const std::string& key)
 
 	return state.BuffersQueued > 0;
 }
+
+
+
+/**
+ * @brief 音量の設定
+ *
+ * @param key		配列に登録しているキー
+ * @param volume	設定する音量
+ *
+ * @return なし
+ */
+void AudioManager::SetVolume(const std::string& key, const float volume)
+{
+	HRESULT hr;
+
+	// キーが無かったらここで終了
+	auto it = m_sounds.find(key);
+	if (it == m_sounds.end())
+	{
+		std::cerr << "指定されたキーの音声が見つかりません: " << key << std::endl;
+		return;
+	}
+
+	// 音量変更
+	AudioData& audio = it->second;
+	audio.pSourceVoice->SetVolume(volume);
+
+	audio.pSourceVoice->FlushSourceBuffers();
+}

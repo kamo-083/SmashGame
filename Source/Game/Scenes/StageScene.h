@@ -75,6 +75,9 @@ public:
 	// リザルトUI
 	static constexpr DirectX::SimpleMath::Vector2 RESULT_WINDOW_SIZE = { 350.0f,400.0f };
 
+	// BGMの音量
+	static constexpr float BGM_VOLUME = 0.5f;
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:

@@ -48,7 +48,7 @@ public:
 	{}
 
 	// デストラクタ
-	~INumberRenderer()
+	virtual ~INumberRenderer()
 	{
 	}
 

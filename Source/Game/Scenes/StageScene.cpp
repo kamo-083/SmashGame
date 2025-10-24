@@ -184,6 +184,9 @@ void StageScene::Initialize()
 	pAM->LoadMP3("clearSE", "Resources/Sounds/SE/one08.mp3");
 	pAM->LoadMP3("attackSE", "Resources/Sounds/SE/hit01.mp3");
 
+	// BGM・SEの音量変更
+	pAM->SetVolume("stageBGM", BGM_VOLUME);
+
 	// BGMの再生
 	pAM->Play("stageBGM", true);
 

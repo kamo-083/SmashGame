@@ -9,6 +9,7 @@
 #include "StageSelectScene.h"
 #include "Source/Game/UI/Button.h"
 #include "Source/Game/UI/NumberRenderer/NumberRenderer2D.h"
+#include "Source/Game/Common/RenderTexture.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -64,17 +65,18 @@ void StageSelectScene::Initialize()
 
 		Tween2D::TweenData data =
 		{
-			Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
+			Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
 			Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
-							DirectX::SimpleMath::Vector2(PANEL_DELTA_SCALE,PANEL_DELTA_SCALE),
-							0.0f,0.0f},
+							  DirectX::SimpleMath::Vector2(PANEL_DELTA_SCALE, PANEL_DELTA_SCALE),
+							  0.0f, 0.0f},
 			PANEL_ANIM_TIME,
 			Tween2D::Ease::OutQuart,
 			Tween2D::PlaybackMode::PingPong
 		};
 
 		std::unique_ptr<Button> panel = std::make_unique<Button>();
-		panel->Initialize(m_userResources->GetResourceManager()->RequestPNG("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
+		panel->Initialize(
+			m_userResources->GetResourceManager()->RequestPNG("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
 			data, PANEL_TEX_SIZE,
 			[this, i]() {
 				// BGMの停止
@@ -101,6 +103,9 @@ void StageSelectScene::Initialize()
 	AudioManager* pAM = m_userResources->GetAudioManager();
 	pAM->LoadMP3("title_selectBGM", "Resources/Sounds/BGM/iwashiro_hitoiki_coffee.mp3");
 	pAM->LoadMP3("cursorSE", "Resources/Sounds/SE/button68.mp3");
+
+	// BGM・SEの音量変更
+	pAM->SetVolume("title_selectBGM", BGM_VOLUME);
 
 	// BGMの再生
 	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
@@ -234,4 +239,18 @@ void StageSelectScene::PanelReset(int panelNum)
 {
 	m_stagePanels[panelNum]->Reset();
 	m_stagePanels[panelNum]->Update(0.0f);
+}
+
+
+
+/**
+ * @brief 画像と数字の合成
+ *
+ * @param 
+ *
+ * @return なし
+ */
+void StageSelectScene::TextureNumSynthesis(const int num, RenderTexture* pRT)
+{
+	//pRT->SetRTVTexture();
 }
