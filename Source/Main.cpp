@@ -109,6 +109,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     // •Ð•t‚¯
     if (g_game)g_game->Shutdown();
 
+
+#ifdef _DEBUG
     if (HMODULE hDxgiDebug = LoadLibraryExW(L"dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32))
     {
         using GetDebug = HRESULT(WINAPI*)(REFIID, void**);
@@ -126,6 +128,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         }
         FreeLibrary(hDxgiDebug);
     }
+#endif
 
     g_game.reset();
 

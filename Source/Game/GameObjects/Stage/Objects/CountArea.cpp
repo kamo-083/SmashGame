@@ -119,7 +119,8 @@ void CountArea::Initialize(
 		{
 			if (pCM->GetDesc(handle)->layer != CollisionManager::Layer::EnemyBody) return;
 
-			// debug --------------------------------
+#ifdef _DEBUG
+			// デバッグ情報
 			const auto* d = pCM->GetDesc(handle);
 			auto epos = d->sphere->GetCenter();     // 敵の中心
 			auto apos = m_collider.GetCenter();     // エリア中心
@@ -128,8 +129,7 @@ void CountArea::Initialize(
 			sprintf_s(buf, "ENTER id=%u  enemy=(%.2f,%.2f,%.2f)  areaC=(%.2f,%.2f,%.2f)  areaHL=(%.2f,%.2f,%.2f)\n",
 				d->userId, epos.x, epos.y, epos.z, apos.x, apos.y, apos.z, ahl.x, ahl.y, ahl.z);
 			OutputDebugStringA(buf);
-			// --------------------------------------
-
+#endif
 			// IDを取得
 			uint32_t id = pCM->GetDesc(handle)->userId;
 			if (id == 0) return;
@@ -154,14 +154,15 @@ void CountArea::Initialize(
 		{
 			if (pCM->GetDesc(handle)->layer != CollisionManager::Layer::EnemyBody) return;
 
-			// debug --------------------------------
+#ifdef _DEBUG
+			// デバッグ情報
 			const auto* d = pCM->GetDesc(handle);
 			char buf[256];
 			sprintf_s(buf,
 				"EXIT : handle=%u layer=%d userId=%u  enemyCount(before)=%zu\n",
 				handle, (int)d->layer, d->userId, m_insideList.size());
 			OutputDebugStringA(buf);
-			// --------------------------------------
+#endif
 
 			// IDを取得
 			uint32_t id = pCM->GetDesc(handle)->userId;

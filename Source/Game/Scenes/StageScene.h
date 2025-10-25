@@ -48,7 +48,8 @@ public:
 	// テクスチャ群
 	struct Textures
 	{
-		ID3D11ShaderResourceView* shadow;
+		ID3D11ShaderResourceView* shadow;	// 丸影
+		ID3D11ShaderResourceView* key;		// 操作テキスト
 	};
 
 	const ClearConditionsUI::ConditionsType CLEAR_CONDITIONS;	// クリア条件

@@ -101,6 +101,7 @@ void StageSelectScene::Initialize()
 	// ƒeƒNƒXƒ`ƒƒ‚Ì“Ç‚İ‚İ
 	m_textures = std::make_unique<Textures>();
 	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
+	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
 
 	// BGMESE‚Ì“Ç‚İ‚İ
 	AudioManager* pAM = m_userResources->GetAudioManager();
@@ -181,9 +182,18 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageSelectScene");
 	debugFont->AddString(0, 60, DirectX::Colors::Yellow, L"Select:%d",m_selectNum);
 
-	// ”wŒi‚Ì•`‰æ
 	context.spriteBatch->Begin();
+
+	// ”wŒi‚Ì•`‰æ
 	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
+
+	// ‘€ì•û–@‚Ì•`‰æ
+	context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero, &KEY_RECT);
+	// 2s–Ú
+	DirectX::SimpleMath::Vector2 keyPos = { static_cast<float>(KEY_RECT.right),0.0f };
+	RECT keyRect = { 0,KEY_RECT.bottom,KEY_RECT.right,KEY_RECT.bottom + KEY_HEIGHT };
+	context.spriteBatch->Draw(m_textures->key, keyPos, &keyRect);
+
 	context.spriteBatch->End();
 
 	// ƒpƒlƒ‹‚Ì•`‰æ

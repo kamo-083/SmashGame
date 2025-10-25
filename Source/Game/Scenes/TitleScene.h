@@ -32,6 +32,7 @@ public:
 		ID3D11ShaderResourceView* logo;			// ロゴ
 		ID3D11ShaderResourceView* start;		// ゲーム開始テキスト
 		ID3D11ShaderResourceView* exit;			// 終了テキスト
+		ID3D11ShaderResourceView* key;			// 操作テキスト
 		ID3D11ShaderResourceView* background;	// 背景
 	};
 
@@ -43,6 +44,8 @@ public:
 	static constexpr float TEXT_POS_Y = 500.0f;
 	// 選択肢テキストの表示間隔
 	static constexpr float TEXT_INTERVAL = 100.0f;
+	// 操作テキストの切り取り範囲
+	static constexpr RECT KEY_RECT = { 0,0,290,110 };
 
 	// タイトルロゴの画像サイズ
 	static constexpr DirectX::SimpleMath::Vector2 LOGO_SIZE = { 640.0f,360.0f };
@@ -57,6 +60,7 @@ public:
 
 	// BGMの音量
 	static constexpr float BGM_VOLUME = 0.5f;
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:

@@ -50,9 +50,10 @@ void TitleScene::Initialize()
 	ResourceManager* pRM = m_userResources->GetResourceManager();
 	m_textures = std::make_unique<Textures>();
 	m_textures->logo = pRM->RequestPNG("titleLogo", "Text/titleLogo.png");
-	m_textures->start = pRM->RequestPNG("startText", "Resources/Textures/Text/startText.png");
-	m_textures->exit = pRM->RequestPNG("exitText", "Resources/Textures/Text/exitText.png");
-	m_textures->background = pRM->RequestPNG("background2D", "Resources/Textures/Others/background.png");
+	m_textures->start = pRM->RequestPNG("startText", "Text/startText.png");
+	m_textures->exit = pRM->RequestPNG("exitText", "Text/exitText.png");
+	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
+	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
 
 	// ウィンドウサイズの取得
 	RECT windowSize = m_userResources->GetDeviceResources()->GetOutputSize();
@@ -192,9 +193,14 @@ void TitleScene::Render(RenderContext context, DebugFont* debugFont)
 	// デバッグ用情報追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"TitleScene");
 
-	// 背景の描画
 	context.spriteBatch->Begin();
+
+	// 背景の描画
 	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
+
+	// 操作方法の描画
+	context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero, &KEY_RECT);
+
 	context.spriteBatch->End();
 
 	// タイトルロゴの描画

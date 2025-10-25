@@ -129,8 +129,10 @@ void Game::Render()
     // シーンマネージャの描画
     m_sceneManager->Render(renderContext);
 
+#ifdef _DEBUG
     // デバッグフォントの描画
     m_debugFont->Render(m_states.get());
+#endif
 
     renderContext.Reset();
 
@@ -232,19 +234,6 @@ void Game::Shutdown()
     context->OMSetRenderTargets(0, nullptr, nullptr);
     context->ClearState();
     context->Flush();
-
-#if _DEBUG
-    // D3D11
-    if (auto device = m_deviceResources->GetD3DDevice())
-    {
-        Microsoft::WRL::ComPtr<ID3D11Debug> dbg;
-        if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&dbg))))
-        {
-            dbg->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-        }
-    }
-    // --------------------------------------------
-#endif
 
     m_deviceResources.reset();
 

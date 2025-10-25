@@ -32,7 +32,8 @@ public:
 
 	struct Textures
 	{
-		ID3D11ShaderResourceView* background;						// 背景
+		ID3D11ShaderResourceView* background;	// 背景
+		ID3D11ShaderResourceView* key;			// 操作テキスト
 		std::vector <std::unique_ptr<RenderTexture>> stagePanels;	// ステージパネル
 	};
 
@@ -43,6 +44,11 @@ public:
 	static constexpr float PANEL_ADJUST_INTERVAL = 210.0f;
 	// ステージ番号の間隔調整
 	static constexpr float NUMBER_ADJUST_INTERVAL = 230.0f;
+
+	// 操作テキストの切り取り範囲
+	static constexpr RECT KEY_RECT = { 0,0,290,110 };
+	// 操作テキストの切り取り高さ
+	static constexpr LONG KEY_HEIGHT = 90;
 
 	// パネル画像サイズ
 	static constexpr DirectX::SimpleMath::Vector2 PANEL_TEX_SIZE = { 350.0f,400.0f };

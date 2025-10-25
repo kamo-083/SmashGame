@@ -201,11 +201,12 @@ void StageScene::Initialize()
 	m_keyMode = true;
 
 	// 表示状態の初期化
-	m_overlayMode = Overlay::NONE;
+	m_overlayMode = Overlay::GAMEPLAY;
 
 	// テクスチャの読み込み
 	m_textures = std::make_unique<Textures>();
 	m_textures->shadow = pRM->RequestDDS("shadow", "Others/shadow.dds");
+	m_textures->key = pRM->RequestPNG("stageKey", "Text/stageKeyText.png");
 
 	// BGM・SEの読み込み
 	pAM->LoadMP3("stageBGM", "BGM/iwashiro_orange_hill.mp3");
@@ -382,10 +383,18 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 	m_attackUI->Draw(context);	  	// 攻撃
 	m_cameraUI->Draw(context);	  	// カメラ
 
-	// リザルトの描画
-	if (m_overlayMode == Overlay::RESULT)
+	switch (m_overlayMode)
 	{
+	case StageScene::Overlay::GAMEPLAY:
+		// 操作方法の描画
+		context.spriteBatch->Begin();
+		context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero);
+		context.spriteBatch->End();
+		break;
+	case StageScene::Overlay::RESULT:
+		// リザルトの描画
 		m_resultUI->Draw(context);
+		break;
 	}
 }
 
