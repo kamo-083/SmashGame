@@ -83,7 +83,7 @@ void Player_Walk::Update(const float& elapsedTime)
 	m_modelAnimator->Update(elapsedTime);
 
 	// ‘Ò‹@ó‘Ô‚ÉØ‚è‘Ö‚¦
-	if (!m_pKbTracker->GetLastState().W && !m_pKbTracker->GetLastState().S && !m_pKbTracker->GetLastState().A && !m_pKbTracker->GetLastState().D)
+	if (!m_pPlayer->PressMoveKey(m_pKbTracker))
 	{
 		m_pPlayer->ChangeState(m_pPlayer->GetState_Idle());
 	}

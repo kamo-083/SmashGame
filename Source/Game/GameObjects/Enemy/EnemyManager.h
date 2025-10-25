@@ -114,7 +114,7 @@ public:
 	IEnemy* GetEnemyByID(uint32_t id) const;
 
 	// “G‚Ì”‚ğæ“¾
-	int GetEnemyNum() const { return m_enemies.size(); }
+	int GetEnemyNum() const { return static_cast<int>(m_enemies.size()); }
 
 
 // “à•”À‘•

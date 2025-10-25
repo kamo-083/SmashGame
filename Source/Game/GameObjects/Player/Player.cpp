@@ -514,3 +514,21 @@ void Player::SetAttackCollisionMultiHit(bool multiHit)
 {
 	m_pCollisionManager->SetMultiHit(m_handleAttack, multiHit);
 }
+
+
+
+
+/**
+ * @brief 移動キーが押されているか
+ *
+ * @param pKbTracker キーボードトラッカーのポインタ
+ *
+ * @return なし
+ */
+bool Player::PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
+{
+	return pKbTracker->GetLastState().Up   || 
+		   pKbTracker->GetLastState().Down || 
+		   pKbTracker->GetLastState().Left ||
+		   pKbTracker->GetLastState().Right;
+}

@@ -242,6 +242,9 @@ public:
 	Player_AttackRolling* GetState_AttackRolling() { return m_rollingAttackingState.get(); }	// “]‚ª‚èUŒ‚ó‘Ô‚Ìæ“¾
 	Player_AttackHeavy* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }			// ‹­UŒ‚ó‘Ô‚Ìæ“¾
 
+	// ˆÚ“®ƒL[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©
+	bool PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* kb);
+
 	// “à•”À‘•
 private:
 
