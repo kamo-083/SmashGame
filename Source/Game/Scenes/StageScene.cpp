@@ -323,9 +323,6 @@ void StageScene::Update(float elapsedTime)
  */
 void StageScene::Render(RenderContext context, DebugFont* debugFont)
 {
-	// 深度ステンシルビューのリセット
-	ClearDSV();
-
 	// デバッグ情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");
 
@@ -576,28 +573,4 @@ std::array<DirectX::VertexPositionTexture, StageScene::SHADOW_VERTEX_NUM> StageS
 	vertexes[3].position = DirectX::SimpleMath::Vector3(radius, SHADOW_HEIGHT_ADJUST, radius) + position;
 
 	return vertexes;
-}
-
-
-
-/**
- * @brief 深度ステンシルビューのリセット
- *
- * @param なし
- * 
- * @return なし
- */
-void StageScene::ClearDSV()
-{
-	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();
-
-	ID3D11DeviceContext* context = pDR->GetD3DDeviceContext();
-	ID3D11DepthStencilView* dsv = pDR->GetDepthStencilView();
-
-	context->ClearDepthStencilView(
-		dsv,
-		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
-		1.0f,
-		0   
-	);
 }

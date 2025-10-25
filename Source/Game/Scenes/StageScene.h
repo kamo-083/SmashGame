@@ -205,6 +205,4 @@ private:
 	// ‰e—p‚Ì’¸“_‚ğì¬
 	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> CreateVertexes(
 		const DirectX::SimpleMath::Vector3 position, const float radius);
-
-	void ClearDSV();
 };
