@@ -19,8 +19,12 @@
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/GameObjects/Enemy/EnemyInfoLoader.h"
-
 #include"Source/Debug/DebugFont.h"
+
+
+// クラスの宣言 ===============================================================
+class StageScene;
+
 
 // クラスの定義 ===============================================================
 /**
@@ -50,6 +54,9 @@ protected:
 
 // データメンバの宣言 -----------------------------------------------
 protected:
+	// シーンへのポインタ
+	StageScene* m_pScene;
+
 	// 現在の状態へのポインタ
 	IState* m_currentState;
 
@@ -97,13 +104,14 @@ protected:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	IEnemy(EnemyInfoLoader::EnemyInfo info)
+	IEnemy(EnemyInfoLoader::EnemyInfo info, StageScene* pScene)
 		: RADIUS{ info.radius }
 		, SPEED{ info.speed }
 		, MASS{ info.mass }
 		, MAX_SPEED{ info.max_speed }
 		, STATIC_FRICTION{ info.static_friction }
 		, DYNAMIC_FRICTION{ info.dynamic_friction }
+		, m_pScene{ pScene }
 		, m_currentState{ nullptr }
 		, m_rotY{ 0.0f }
 		, m_onGround{ false }

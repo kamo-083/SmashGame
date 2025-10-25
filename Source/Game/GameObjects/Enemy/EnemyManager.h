@@ -21,6 +21,7 @@
 
 // クラスの定義 ===============================================================
 class Player;
+class StageScene;
 
 
 // クラスの定義 ===============================================================
@@ -58,6 +59,9 @@ public:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// シーンへのポインタ
+	StageScene* m_pScene;
+
 	// ユーザーリソースのポインタ
 	UserResources* m_pUserResources;
 
@@ -84,7 +88,8 @@ public:
 	EnemyManager(
 		UserResources* pUR,
 		CollisionManager* pCM,
-		EffectManager* pEM);
+		EffectManager* pEM,
+		StageScene* pScene);
 
 	// デストラクタ
 	~EnemyManager();

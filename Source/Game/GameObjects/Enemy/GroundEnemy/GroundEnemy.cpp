@@ -7,21 +7,23 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "GroundEnemy.h"
-
+#include "Source/Game/Scenes/StageScene.h"
 
 
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param info					出現する敵の情報
- * @param pUR					ユーザーリソースのポインタ
- * @param pEM					エフェクトマネージャーのポインタ
+ * @param info		出現する敵の情報
+ * @param pUR		ユーザーリソースのポインタ
+ * @param pEM		エフェクトマネージャーのポインタ
+ * @param pScene	シーンのポインタ
  */
 GroundEnemy::GroundEnemy(
 	const EnemyInfoLoader::EnemyInfo& info,
-	UserResources* pUR, EffectManager* pEM)
-	: IEnemy{ info }
+	UserResources* pUR, EffectManager* pEM,
+	StageScene* pScene)
+	: IEnemy{ info,pScene }
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
 	, m_circle{ nullptr }
@@ -141,6 +143,9 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack) return;
 
 			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
+
+			// SEの再生
+			m_pScene->PlaySE("attackSE");
 		};
 	bodyDesc.callback.onStay =
 		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)

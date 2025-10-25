@@ -86,7 +86,8 @@ public:
 	GroundEnemy(
 		const EnemyInfoLoader::EnemyInfo& info,
 		UserResources* pUR,
-		EffectManager* pEM);
+		EffectManager* pEM,
+		StageScene* pScene);
 
 	// デストラクタ
 	~GroundEnemy();

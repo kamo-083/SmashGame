@@ -8,21 +8,25 @@
 #include "pch.h"
 #include "EnemyManager.h"
 #include "Source/Game/GameObjects/Player/Player.h"
+#include "Source/Game/Scenes/StageScene.h"
 
 
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param pUR					ユーザーリソースのポインタ
- * @param pCM					当たり判定マネージャーのポインタ
- * @param pEM					エフェクトマネージャーのポインタ
+ * @param pUR		ユーザーリソースのポインタ
+ * @param pCM		当たり判定マネージャーのポインタ
+ * @param pEM		エフェクトマネージャーのポインタ
+ * @param pScene	シーンのポインタ
  */
 EnemyManager::EnemyManager(
 	UserResources* pUR,
 	CollisionManager* pCM,
-	EffectManager* pEM)
-	:m_pUserResources{ pUR }
+	EffectManager* pEM,
+	StageScene* pScene)
+	: m_pScene{ pScene }
+	, m_pUserResources{ pUR }
 	, m_pCollisionManager{ pCM }
 	, m_pEffectManager{ pEM }
 	, m_nextID{ 0 }
@@ -187,5 +191,6 @@ std::unique_ptr<IEnemy> EnemyManager::Create(EnemyType type)
 {
 	return std::make_unique<GroundEnemy>(
 		m_enemyInfo[static_cast<int>(type)],
-		m_pUserResources, m_pEffectManager);
+		m_pUserResources, m_pEffectManager,
+		m_pScene);
 }
