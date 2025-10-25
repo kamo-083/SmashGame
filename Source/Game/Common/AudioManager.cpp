@@ -395,8 +395,6 @@ bool AudioManager::IsPlaying(const std::string& key)
  */
 void AudioManager::SetVolume(const std::string& key, const float volume)
 {
-	HRESULT hr;
-
 	// キーが無かったらここで終了
 	auto it = m_sounds.find(key);
 	if (it == m_sounds.end())

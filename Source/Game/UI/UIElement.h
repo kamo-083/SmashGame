@@ -55,6 +55,8 @@ public:
 
 // Žæ“¾/Ý’è
 public:
+	// Œ»Ý‚Ìƒpƒ‰ƒ[ƒ^‚ÌŽæ“¾
+	Tween2D::UIParams GetParam() const { return m_widget->GetParam(); }
 
 // “à•”ŽÀ‘•
 private:

@@ -29,6 +29,9 @@ private:
 	// 表示位置
 	DirectX::SimpleMath::Vector2 m_position;
 
+	// スケール
+	float m_scale;
+
 	// 描画時にスプライトバッチのBegin/Endをするか
 	bool m_useBeginEnd;
 
@@ -60,7 +63,10 @@ public:
 	// 取得/設定
 public:
 	// 表示位置を設定
-	void SetPosition(DirectX::SimpleMath::Vector2 pos) { m_position = pos; }
+	void SetPosition(const DirectX::SimpleMath::Vector2 pos) { m_position = pos; }
+
+	// スケールを設定
+	void SetScale(const float scale) { m_scale = scale; }
 
 	// スプライトバッチのBegin/Endをするかの設定
 	void SetUseBeginEnd(bool use = true) { m_useBeginEnd = use; }

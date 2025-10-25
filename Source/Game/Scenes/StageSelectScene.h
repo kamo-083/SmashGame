@@ -107,7 +107,4 @@ public:
 private:
 	// 指定したステージパネルをリセット
 	void PanelReset(int panelNum);
-
-	// 画像と数字の合成
-	void TextureNumSynthesis(const int num, RenderTexture* pRT);
 };

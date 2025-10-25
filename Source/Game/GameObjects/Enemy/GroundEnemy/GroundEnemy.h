@@ -135,7 +135,6 @@ public:
 	SphereCollider* GetAttackCollider() { return &m_attackCollider; }			// 攻撃の当たり判定を取得
 	float GetRotY() { return m_rotY; }								// 向きの取得
 	void SetRotY(float rot) { m_rotY = rot + DirectX::XM_PIDIV2; }	// 向きの設定
-	float GetRadius() { return RADIUS; }							// 半径サイズの取得
 
 	DirectX::Model* GetModel() { return m_model; }				// モデルのポインタの取得
 	Animations* GetAnimation() { return m_animations.get(); }	// アニメーションのポインタ群の取得

@@ -107,12 +107,15 @@ public:
 	// oŒ»
 	EnemyData* Spawn(const SpawnData& spawnData);
 
+
+// æ“¾/İ’è
+public:	
 	// ID‚©‚ç“G‚ğæ“¾
 	IEnemy* GetEnemyByID(uint32_t id) const;
 
+	// “G‚Ì”‚ğæ“¾
+	int GetEnemyNum() const { return m_enemies.size(); }
 
-// æ“¾/İ’è
-public:
 
 // “à•”À‘•
 private:

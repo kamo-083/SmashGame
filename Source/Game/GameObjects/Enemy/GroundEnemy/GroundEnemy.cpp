@@ -14,11 +14,13 @@
 /**
  * @brief コンストラクタ
  *
- * @param info	出現する敵の情報
- * @param pUR	ユーザーリソースのポインタ
- * @param pEM	エフェクトマネージャーのポインタ
+ * @param info					出現する敵の情報
+ * @param pUR					ユーザーリソースのポインタ
+ * @param pEM					エフェクトマネージャーのポインタ
  */
-GroundEnemy::GroundEnemy(const EnemyInfoLoader::EnemyInfo& info, UserResources* pUR, EffectManager* pEM)
+GroundEnemy::GroundEnemy(
+	const EnemyInfoLoader::EnemyInfo& info,
+	UserResources* pUR, EffectManager* pEM)
 	: IEnemy{ info }
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }

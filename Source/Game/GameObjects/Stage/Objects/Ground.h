@@ -45,12 +45,15 @@ private:
 
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
+	// 深度ステンシルステート
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState;
+
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Ground(ID3D11DeviceContext* context);
+	Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS);
 
 	// デストラクタ
 	~Ground();
@@ -77,6 +80,8 @@ public:
 	// 当たり判定の取得
 	OBBCollider GetCollider(){ return m_collider; }
 
+	// 地面の位置と高さを取得
+	DirectX::SimpleMath::Vector3 GetHeight();
 
 // 内部実装
 private:

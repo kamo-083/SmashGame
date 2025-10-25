@@ -52,7 +52,7 @@ void TitleScene::Initialize()
 	m_textures->logo = pRM->RequestPNG("titleLogo", L"Resources/Textures/Text/titleLogo.png");
 	m_textures->start = pRM->RequestPNG("startText", L"Resources/Textures/Text/startText.png");
 	m_textures->exit = pRM->RequestPNG("exitText", L"Resources/Textures/Text/exitText.png");
-	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/background.png");
+	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/Others/background.png");
 
 	// ウィンドウサイズの取得
 	RECT windowSize = m_userResources->GetDeviceResources()->GetOutputSize();

@@ -45,6 +45,12 @@ public:
 		RESULT,		// リザルト
 	};
 
+	// テクスチャ群
+	struct Textures
+	{
+		ID3D11ShaderResourceView* shadow;
+	};
+
 	const ClearConditionsUI::ConditionsType CLEAR_CONDITIONS;	// クリア条件
 
 	// クリア条件UI
@@ -78,6 +84,11 @@ public:
 	// BGMの音量
 	static constexpr float BGM_VOLUME = 0.5f;
 
+	// 影用の頂点数
+	static constexpr int SHADOW_VERTEX_NUM = 4;
+	// 影用の高さ調整
+	static constexpr float SHADOW_HEIGHT_ADJUST = 0.01f;
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -93,6 +104,22 @@ private:
 
 	// オーバーレイ
 	Overlay m_overlayMode;
+
+	// 影関連
+	// プリミティブバッチ
+	std::unique_ptr<DirectX::DX11::PrimitiveBatch<DirectX::VertexPositionTexture>> m_primitiveBatch;
+
+	// 入力レイアウト
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+
+	// ベーシックエフェクト
+	std::unique_ptr<DirectX::BasicEffect> m_basicEffect;
+
+	// 深度ステンシルステート
+	// ステージオブジェクト用
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState_stage;
+	// キャラクター用
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState_shadow;
 
 
 	// オブジェクト関連
@@ -125,6 +152,9 @@ private:
 
 	// ステージファイルへのパス
 	std::string m_stageFilePath;
+
+	// テクスチャ群
+	std::unique_ptr<Textures> m_textures;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -163,6 +193,18 @@ public:
 
 // 内部実装
 private:
+	// 深度ステンシルステートの作成
+	void CreateDepthStencilState(ID3D11Device* device);
 
+	// 影の設定
+	void SettingShadow(RenderContext context);
 
+	// 影の描画
+	void DrawShadow(const DirectX::SimpleMath::Vector3 position, const float radius);
+
+	// 影用の頂点を作成
+	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> CreateVertexes(
+		const DirectX::SimpleMath::Vector3 position, const float radius);
+
+	void ClearDSV();
 };

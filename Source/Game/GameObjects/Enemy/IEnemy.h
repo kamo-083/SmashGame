@@ -164,6 +164,7 @@ public:
 	float GetAttackForce() { return m_attackForce; }							// UŒ‚—Í‚ğæ“¾
 	void SetAttackForce(float force) { m_attackForce = force; }					// UŒ‚—Í‚ğİ’è
 	float  GetScale() { return SCALE; }											// ‘å‚«‚³‚ğæ“¾
+	float GetRadius() { return RADIUS; }										// ”¼ŒaƒTƒCƒY‚Ìæ“¾
 
 // “à•”À‘•
 private:

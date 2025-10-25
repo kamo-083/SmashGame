@@ -42,6 +42,9 @@ private:
 	// シーンへのポインタ
 	StageScene* m_pScene;
 
+	// 深度ステンシルステート(各ステージオブジェクトに渡すため保持)
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState;
+
 	//地面
 	std::vector<std::unique_ptr<Ground>> m_grounds;
 
@@ -62,7 +65,9 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	StageManager(StageScene* pScene);
+	StageManager(
+		StageScene* pScene,
+		ID3D11DepthStencilState* pDepthStencilState);
 
 	// デストラクタ
 	~StageManager();
@@ -95,6 +100,9 @@ public:
 	bool IsGoal();
 	// ゴールできるか
 	bool IsCanGoal();
+
+	// 指定した地面の取得
+	Ground* GetGround(const int groundNum) { return m_grounds[groundNum].get(); }
 
 // 内部実装
 private:

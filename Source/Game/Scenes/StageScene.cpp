@@ -15,6 +15,7 @@
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/GameObjects/Stage/StageManager.h"
+#include "Source/Game/GameObjects/Stage/Objects/Ground.h"
 #include "Source/Game/GameObjects/Sky.h"
 #include "Source/Game/UI/UIWidget.h"
 #include "Source/Game/UI/AttackUI.h"
@@ -40,7 +41,26 @@ StageScene::StageScene(
 	, m_overlayMode{ Overlay::NONE }
 	, CLEAR_CONDITIONS{ clearCondition }
 {
+	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();
 
+	// プリミティブバッチの作成
+	ID3D11DeviceContext* context = pDR->GetD3DDeviceContext();
+	m_primitiveBatch = std::make_unique<DirectX::DX11::PrimitiveBatch<DirectX::VertexPositionTexture>>(context);
+
+	// ベーシックエフェクトの作成
+	ID3D11Device* device = pDR->GetD3DDevice();
+	m_basicEffect = std::make_unique<DirectX::BasicEffect>(device); 
+	m_basicEffect->SetLightingEnabled(false);
+	m_basicEffect->SetVertexColorEnabled(false);
+	m_basicEffect->SetTextureEnabled(true);
+
+	// 入力レイアウトの作成
+	DX::ThrowIfFailed(
+		DirectX::CreateInputLayoutFromEffect<DirectX::VertexPositionTexture>(
+			device,
+			m_basicEffect.get(),
+			m_inputLayout.ReleaseAndGetAddressOf())
+	);
 }
 
 
@@ -50,7 +70,8 @@ StageScene::StageScene(
  */
 StageScene::~StageScene()
 {
-
+	m_primitiveBatch.reset();
+	m_basicEffect.reset();
 }
 
 
@@ -64,6 +85,11 @@ StageScene::~StageScene()
  */
 void StageScene::Initialize()
 {
+	// よく使うポインタを取得
+	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();	// デバイスリソース
+	ResourceManager* pRM = m_userResources->GetResourceManager();		// リソースマネージャー
+	AudioManager* pAM = m_userResources->GetAudioManager();				// オーディオマネージャー
+
 	// 当たり判定マネージャーの作成
 	m_collisionManager = std::make_unique<CollisionManager>();
 
@@ -84,18 +110,15 @@ void StageScene::Initialize()
 	m_camera = std::make_unique<Camera>();
 
 	// エフェクトマネージャーの作成
-	m_effectManager = std::make_unique<EffectManager>(m_userResources->GetDeviceResources(),m_userResources->GetStates());
+	m_effectManager = std::make_unique<EffectManager>(pDR, m_userResources->GetStates());
 	m_effectManager->LoadShaders(m_userResources->GetShaderManager());
 	m_effectManager->SetCamera(m_camera.get());
 
 	// ウィンドウサイズの取得
 	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
-		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
-		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
+		static_cast<float>(pDR->GetOutputSize().right),
+		static_cast<float>(pDR->GetOutputSize().bottom)
 	);
-
-	// リソースマネージャーのポインタを取得
-	ResourceManager* pRM = m_userResources->GetResourceManager();
 
 	// 操作方法UIの画像読み込み
 	OperationUI::Textures opTextures;
@@ -126,7 +149,7 @@ void StageScene::Initialize()
 	// 攻撃UIの作成
 	m_attackUI = std::make_unique<AttackUI>(
 		windowSize.x, windowSize.y);
-	m_attackUI->Initialize(atkUIDesc,opUIDesc);
+	m_attackUI->Initialize(atkUIDesc, opUIDesc);
 
 	// カメラ操作UIの作成
 	opTextures.icon = pRM->RequestPNG("camera", L"Resources/Textures/UI/camera.png");	// アイコン画像追加
@@ -148,17 +171,21 @@ void StageScene::Initialize()
 		CONDITIONS_TEXT_SIZE
 	);
 
+	// 深度ステンシルステートの作成
+	CreateDepthStencilState(pDR->GetD3DDevice());
+
 	// プレイヤーの作成
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this);
 	m_player->Initialize(pRM, m_collisionManager.get(),
-						 m_userResources->GetKeyboardTracker(), m_camera.get(), m_attackUI.get(), &m_keyMode);
+		m_userResources->GetKeyboardTracker(), m_camera.get(), m_attackUI.get(), &m_keyMode);
 
 	// 敵マネージャーの作成
-	m_enemyManager = std::make_unique<EnemyManager>(m_userResources, m_collisionManager.get(), m_effectManager.get());
+	m_enemyManager = std::make_unique<EnemyManager>(
+		m_userResources, m_collisionManager.get(), m_effectManager.get());
 	m_enemyManager->Initialize();
 
 	// ステージマネージャーの作成
-	m_stageManager = std::make_unique<StageManager>(this);
+	m_stageManager = std::make_unique<StageManager>(this, m_depthStencilState_stage.Get());
 	m_stageManager->CreateStage(m_userResources, m_collisionManager.get(), m_enemyManager.get(),
 								m_stageFilePath);
 
@@ -176,8 +203,11 @@ void StageScene::Initialize()
 	// 表示状態の初期化
 	m_overlayMode = Overlay::NONE;
 
+	// テクスチャの読み込み
+	m_textures = std::make_unique<Textures>();
+	m_textures->shadow = pRM->RequestDDS("shadow", L"Resources/Textures/Others/shadow.dds");
+
 	// BGM・SEの読み込み
-	AudioManager* pAM = m_userResources->GetAudioManager();
 	pAM->LoadMP3("stageBGM", "Resources/Sounds/BGM/iwashiro_orange_hill.mp3");
 	pAM->LoadMP3("startSE", "Resources/Sounds/SE/fue.mp3");
 	pAM->LoadMP3("canGoalSE", "Resources/Sounds/SE/bell.mp3");
@@ -293,6 +323,9 @@ void StageScene::Update(float elapsedTime)
  */
 void StageScene::Render(RenderContext context, DebugFont* debugFont)
 {
+	// 深度ステンシルビューのリセット
+	ClearDSV();
+
 	// デバッグ情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");
 
@@ -310,6 +343,33 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 
 	// ステージの描画
 	m_stageManager->Draw(context, debugFont);
+
+	// 影の描画
+	SettingShadow(context);
+	float groundHeight = m_stageManager->GetGround(0)->GetHeight().y;
+	m_primitiveBatch->Begin();
+
+	// プレイヤー
+	DrawShadow(
+		DirectX::SimpleMath::Vector3(m_player->GetPosition().x, groundHeight, m_player->GetPosition().z),
+		m_player->GetRadius());
+	
+	// 敵
+	for (int i = 1; i <= m_enemyManager->GetEnemyNum(); i++)
+	{
+		// 対象が存在しなかったら飛ばす
+		if (!m_enemyManager->GetEnemyByID(i)) continue;
+
+		// 座標を取得
+		DirectX::SimpleMath::Vector3 enemyPos = m_enemyManager->GetEnemyByID(i)->GetPosition();
+		enemyPos.y = groundHeight;
+		// 半径を取得
+		float enemyRadius = m_enemyManager->GetEnemyByID(i)->GetRadius();
+		// 影を描画
+		DrawShadow(enemyPos, enemyRadius);
+	}
+
+	m_primitiveBatch->End();
 
 	// エフェクトの描画
 	m_effectManager->Draw(context.proj);
@@ -386,4 +446,158 @@ void StageScene::Finalize()
 void StageScene::PlaySE(std::string seName)
 {
 	m_userResources->GetAudioManager()->Play(seName, false);
+}
+
+
+
+/**
+ * @brief 深度ステンシルステートの作成
+ *
+ * @param device	デバイスのポインタ
+ *
+ * @return なし
+ */
+void StageScene::CreateDepthStencilState(ID3D11Device* device)
+{
+	// 深度ステンシルステートの作成
+	D3D11_DEPTH_STENCIL_DESC desc = {};	// デフォルトで初期化
+
+	// ステージ用
+	// 深度テスト
+	desc.DepthEnable = TRUE;									// 深度テストをする
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;			// 深度バッファに書き込みをする
+	desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;				// 深度値以下なら更新する
+	// ステンシルテスト
+	desc.StencilEnable = TRUE;									// ステンシルテストをする 
+	desc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;		// 初期値(0xff)
+	desc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;	// 初期値(0xff)
+	// 表面
+	desc.FrontFace.StencilFunc = D3D11_COMPARISON_EQUAL;		// テスト結果が0ならば
+	desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_INCR_SAT;	// 1にする(表示する)
+	desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;		// そのまま
+	desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;	// そのまま
+	// 裏面
+	desc.BackFace = desc.FrontFace;								// 裏面も表面と同じ
+	// 深度ステンシルステートの作成
+	device->CreateDepthStencilState(&desc, m_depthStencilState_stage.ReleaseAndGetAddressOf());
+
+	// キャラクターの影用
+	// 深度テスト
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;			// 深度バッファに書き込みしない
+	// 表面
+	desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;		// 1にする(表示する)
+	// 裏面
+	desc.BackFace = desc.FrontFace;								// 裏面も表面と同じ
+	// 深度ステンシルステートの作成
+	device->CreateDepthStencilState(&desc, m_depthStencilState_shadow.ReleaseAndGetAddressOf());
+}
+
+
+
+/**
+ * @brief 影の設定
+ *
+ * @param context 描画用構造体
+ *
+ * @return なし
+ */
+void StageScene::SettingShadow(RenderContext context)
+{
+	// エフェクトの設定・適応
+	m_basicEffect->SetWorld(DirectX::SimpleMath::Matrix::Identity);
+	m_basicEffect->SetView(context.view);
+	m_basicEffect->SetProjection(context.proj);
+	m_basicEffect->SetTexture(m_textures->shadow);
+	m_basicEffect->Apply(context.deviceContext);
+
+	// 入力レイアウト
+	context.deviceContext->IASetInputLayout(m_inputLayout.Get());
+
+	// テクスチャサンプラー
+	ID3D11SamplerState* sampler[] = { context.states->LinearClamp() };
+	context.deviceContext->PSSetSamplers(0, 1, sampler);
+
+	// アルファブレンド
+	context.deviceContext->OMSetBlendState(context.states->AlphaBlend(), nullptr, 0XFFFFFFFF);
+
+	// 深度バッファ
+	context.deviceContext->OMSetDepthStencilState(m_depthStencilState_shadow.Get(), 1);
+}
+
+
+
+/**
+ * @brief 影の描画
+ *
+ * @param position	表示位置
+ * @param radius	半径
+ *
+ * @return なし
+ */
+void StageScene::DrawShadow(const DirectX::SimpleMath::Vector3 position, const float radius)
+{
+	// 頂点の設定
+	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> vertexes = CreateVertexes(position, radius);
+	uint16_t indexes[] = { 2,3,1,2,1,0 };
+
+	// 影の描画
+	m_primitiveBatch->DrawIndexed(
+		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+		indexes, _countof(indexes),
+		vertexes.data(), vertexes.size()
+	);
+}
+
+
+
+/**
+ * @brief 影用の頂点の作成
+ *
+ * @param position	表示位置
+ * @param radius	半径
+ *
+ * @return 頂点
+ */
+std::array<DirectX::VertexPositionTexture, StageScene::SHADOW_VERTEX_NUM> StageScene::CreateVertexes(
+	const DirectX::SimpleMath::Vector3 position, const float radius)
+{
+	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> vertexes =
+	{
+		DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3::Zero,DirectX::SimpleMath::Vector2(0.0f,0.0f)),
+		DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3::Zero,DirectX::SimpleMath::Vector2(1.0f,0.0f)),
+		DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3::Zero,DirectX::SimpleMath::Vector2(0.0f,1.0f)),
+		DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3::Zero,DirectX::SimpleMath::Vector2(1.0f,1.0f))
+	};
+
+	// 位置と半径を反映
+	vertexes[0].position = DirectX::SimpleMath::Vector3(-radius, SHADOW_HEIGHT_ADJUST, -radius) + position;
+	vertexes[1].position = DirectX::SimpleMath::Vector3(radius, SHADOW_HEIGHT_ADJUST, -radius) + position;
+	vertexes[2].position = DirectX::SimpleMath::Vector3(-radius, SHADOW_HEIGHT_ADJUST, radius) + position;
+	vertexes[3].position = DirectX::SimpleMath::Vector3(radius, SHADOW_HEIGHT_ADJUST, radius) + position;
+
+	return vertexes;
+}
+
+
+
+/**
+ * @brief 深度ステンシルビューのリセット
+ *
+ * @param なし
+ * 
+ * @return なし
+ */
+void StageScene::ClearDSV()
+{
+	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();
+
+	ID3D11DeviceContext* context = pDR->GetD3DDeviceContext();
+	ID3D11DepthStencilView* dsv = pDR->GetDepthStencilView();
+
+	context->ClearDepthStencilView(
+		dsv,
+		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
+		1.0f,
+		0   
+	);
 }

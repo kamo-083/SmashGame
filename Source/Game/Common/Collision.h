@@ -11,7 +11,7 @@
 struct MTV
 {
 	DirectX::SimpleMath::Vector3 direction;	// •ûŒü
-	float distance;							// ‹——£
+	float distance = 0.0f;					// ‹——£
 };
 
 

@@ -14,13 +14,15 @@
  * @brief コンストラクタ
  *
  * @param context	デバイスコンテキストのポインタ
+ * @param pDSS		深度ステンシルステートのポインタ
  */
-Ground::Ground(ID3D11DeviceContext* context)
+Ground::Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
 	, m_halfLength{ DirectX::SimpleMath::Vector3::Zero }
 	, m_angle{ DirectX::SimpleMath::Vector3::Zero }
 	, m_collider{}
 	, m_collisionHandle{ 0 }
+	, m_depthStencilState{ pDSS }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -98,7 +100,14 @@ void Ground::Draw(RenderContext& context)
 		DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::GreenYellow);
+	m_geometricPrimitive->Draw(
+		world, context.view, context.proj, DirectX::Colors::GreenYellow,
+		nullptr, false,
+		[&]() 
+		{
+			// 深度ステンシルステートの設定
+			context.deviceContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
+		});	
 }
 
 
@@ -113,4 +122,20 @@ void Ground::Draw(RenderContext& context)
 void Ground::Finalize()
 {
 
+}
+
+
+
+/**
+ * @brief 高さを考慮した位置を返す
+ *
+ * @param なし
+ *
+ * @return 地面の位置
+ */
+DirectX::SimpleMath::Vector3 Ground::GetHeight()
+{
+	DirectX::SimpleMath::Vector3 pos = m_position;
+	pos.y += HALF_LENGTH.y * 2.0f;
+	return pos;
 }

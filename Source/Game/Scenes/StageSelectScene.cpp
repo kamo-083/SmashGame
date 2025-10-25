@@ -55,6 +55,8 @@ void StageSelectScene::Initialize()
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
+	ResourceManager* pRM = m_userResources->GetResourceManager();
+
 	// ステージ選択パネルの作成
 	for (int i = 0; i < STAGES; i++)
 	{
@@ -76,7 +78,7 @@ void StageSelectScene::Initialize()
 
 		std::unique_ptr<Button> panel = std::make_unique<Button>();
 		panel->Initialize(
-			m_userResources->GetResourceManager()->RequestPNG("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
+			pRM->RequestPNG("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
 			data, PANEL_TEX_SIZE,
 			[this, i]() {
 				// BGMの停止
@@ -89,15 +91,16 @@ void StageSelectScene::Initialize()
 		m_stagePanels.push_back(std::move(panel));
 	}
 
+	// ステージ番号表示オブジェクトの作成
 	m_numberBoard = std::make_unique<NumberRenderer2D>(
 		NUMBER_SIZE,
-		m_userResources->GetResourceManager()->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
+		pRM->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
 		1);
+	m_numberBoard->SetUseBeginEnd(false);
 
 	// テクスチャの読み込み
-	ResourceManager* pRM = m_userResources->GetResourceManager();
 	m_textures = std::make_unique<Textures>();
-	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/background.png");
+	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/Others/background.png");
 
 	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
@@ -195,6 +198,8 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
+	context.spriteBatch->Begin();
+
 	// ステージ番号の描画
 	for (int i = 0; i < STAGES; i++)
 	{
@@ -204,8 +209,11 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 		);
 		m_numberBoard->SetNumber(i + 1);
 		m_numberBoard->SetPosition(pos);
+		m_numberBoard->SetScale(m_stagePanels[i]->GetParam().scale.x);
 		m_numberBoard->Draw(context);
 	}
+
+	context.spriteBatch->End();
 }
 
 
@@ -239,18 +247,4 @@ void StageSelectScene::PanelReset(int panelNum)
 {
 	m_stagePanels[panelNum]->Reset();
 	m_stagePanels[panelNum]->Update(0.0f);
-}
-
-
-
-/**
- * @brief 画像と数字の合成
- *
- * @param 
- *
- * @return なし
- */
-void StageSelectScene::TextureNumSynthesis(const int num, RenderTexture* pRT)
-{
-	//pRT->SetRTVTexture();
 }

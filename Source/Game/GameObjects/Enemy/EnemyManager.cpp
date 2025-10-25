@@ -14,9 +14,9 @@
 /**
  * @brief コンストラクタ
  *
- * @param pUR	ユーザーリソースのポインタ
- * @param pCM	当たり判定マネージャーのポインタ
- * @param pEM	エフェクトマネージャーのポインタ
+ * @param pUR					ユーザーリソースのポインタ
+ * @param pCM					当たり判定マネージャーのポインタ
+ * @param pEM					エフェクトマネージャーのポインタ
  */
 EnemyManager::EnemyManager(
 	UserResources* pUR,

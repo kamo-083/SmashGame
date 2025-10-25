@@ -24,6 +24,7 @@ NumberRenderer2D::NumberRenderer2D(
 	: INumberRenderer(spriteSize, texture, digit)
 	, m_position{ DirectX::SimpleMath::Vector2::Zero }
 	, m_useBeginEnd{ true }
+	, m_scale{ 1.0f }
 {
 
 }
@@ -77,15 +78,19 @@ void NumberRenderer2D::Draw(RenderContext& renderContext)
 	{
 		int num = data % 10;
 		int sourceX = num * static_cast<int>(SPRITE_SIZE.x);
-		DirectX::SimpleMath::Vector2 pos = { x,y };
+		// スプライトサイズの半分
+		DirectX::SimpleMath::Vector2 halfSize = SPRITE_SIZE * 0.5f;
+		// 表示位置
+		DirectX::SimpleMath::Vector2 pos = { x + halfSize.x, y + halfSize.y };
+		// 切り取り範囲
 		RECT rect = {
 			sourceX, 0,
 			sourceX + static_cast<LONG>(SPRITE_SIZE.x), static_cast<LONG>(SPRITE_SIZE.y) };
 		DirectX::FXMVECTOR color = DirectX::Colors::White;
 
 		renderContext.spriteBatch->Draw(m_texture, pos, &rect,
-			color, 0.0f, DirectX::XMFLOAT2(0, 0),
-			1.0f, DirectX::SpriteEffects_None, 0.0f);
+			color, 0.0f, halfSize,
+			m_scale, DirectX::SpriteEffects_None, 0.0f);
 
 		data /= 10;
 		x -= SPRITE_SIZE.x;

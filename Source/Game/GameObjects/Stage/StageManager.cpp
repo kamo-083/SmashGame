@@ -19,12 +19,15 @@
 /**
  * @brief コンストラクタ
  *
- * @param pScene	シーンのポインタ
+ * @param pScene				シーンのポインタ
+ * @param pDepthStencilState	深度ステンシルステートのポインタ
  */
-StageManager::StageManager(StageScene* pScene)
-	:m_pScene{ pScene }
+StageManager::StageManager(
+	StageScene* pScene,
+	ID3D11DepthStencilState* pDepthStencilState)
+	: m_pScene{ pScene }
+	, m_depthStencilState{ pDepthStencilState }
 {
-
 }
 
 
@@ -75,7 +78,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		// 地面
 		case StageLoader::ObjectType::Ground:
 		{
-			m_grounds.push_back(std::move(std::make_unique<Ground>(context)));
+			m_grounds.push_back(std::move(std::make_unique<Ground>(context, m_depthStencilState.Get())));
 			m_grounds.back()->Initialize(pCM, data.position, data.scale);
 			break;
 		}
