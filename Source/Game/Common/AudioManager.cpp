@@ -85,11 +85,14 @@ AudioManager::~AudioManager()
  */
 bool AudioManager::LoadWAV(const std::string& key, const std::string& filename)
 {
+	// ファイルパスを作成
+	std::string filePath = ResolveFilePath(filename);
+
 	//ファイルを開く
-	std::ifstream file(filename, std::ios::binary);
+	std::ifstream file(filePath, std::ios::binary);
 	if (!file)
 	{
-		std::cerr << "WAVファイルを開けません: " << filename << std::endl;
+		std::cerr << "WAVファイルを開けません: " << filePath << std::endl;
 		return false;
 	}
 
@@ -179,10 +182,13 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 		return false;
 	}
 
+	// ファイルパスを作成
+	std::string filePath = ResolveFilePath(filename);
+
 	//ソースリーダーの作成
 	//MP3ファイルの読み込み
 	IMFSourceReader* pSourceReader = nullptr;
-	hr = MFCreateSourceReaderFromURL(std::wstring(filename.begin(), filename.end()).c_str(), nullptr, &pSourceReader);
+	hr = MFCreateSourceReaderFromURL(std::wstring(filePath.begin(), filePath.end()).c_str(), nullptr, &pSourceReader);
 	if (FAILED(hr)) 
 	{
 		std::cerr << "MP3ファイルの読み込みに失敗しました。" << std::endl;
@@ -197,7 +203,6 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 	{
 		std::cerr << "メディアタイプの作成に失敗しました。" << std::endl;
 		pSourceReader->Release();
-		MFShutdown();
 		return false;
 	}
 	pMediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
@@ -219,7 +224,6 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 	{
 		std::cerr << "フォーマット情報の取得に失敗しました。" << std::endl;
 		pSourceReader->Release();
-		MFShutdown();
 		return false;
 	}
 
@@ -268,7 +272,6 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 	{
 		std::cerr << "ソースボイスの作成に失敗しました。" << std::endl;
 		pSourceReader->Release();
-		MFShutdown();
 		return false;
 	}
 
@@ -408,4 +411,28 @@ void AudioManager::SetVolume(const std::string& key, const float volume)
 	audio.pSourceVoice->SetVolume(volume);
 
 	audio.pSourceVoice->FlushSourceBuffers();
+}
+
+
+
+/**
+ * @brief ファイルパスの作成
+ *
+ * @param filename 外部から渡されたファイル名
+ *
+ * @return 作成したファイルパス
+ */
+std::string AudioManager::ResolveFilePath(const std::string& filename)
+{
+	std::string filePath = filename;
+
+	// 音声ファイル共通部分
+	const std::string pathBase = "Resources/Sounds/";
+
+	// 無かったら書き加える
+	if (filename.substr(0, pathBase.size()) != pathBase)
+	{
+		filePath = pathBase + filename;
+	}
+	return filePath;
 }

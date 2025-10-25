@@ -49,7 +49,7 @@ ResourceManager::~ResourceManager()
  * @retval true  読み込みに成功
  * @retval false 読み込みに失敗
  */
-bool ResourceManager::LoadPNG(const std::string& key, const wchar_t* filename)
+bool ResourceManager::LoadPNG(const std::string& key, const std::string& filename)
 {
 	HRESULT hr;
 
@@ -61,10 +61,13 @@ bool ResourceManager::LoadPNG(const std::string& key, const wchar_t* filename)
 		return false;
 	}
 
+	// ファイルパスの作成
+	std::string filePath = ResolveFilePath_Tex(filename);
+
 	//PNGファイルの読み込み
 	hr = DirectX::CreateWICTextureFromFile(
 		m_pDevice,
-		filename,
+		StringToWchar(filePath).c_str(),
 		nullptr,
 		m_textures[key].ReleaseAndGetAddressOf()
 	);
@@ -87,7 +90,7 @@ bool ResourceManager::LoadPNG(const std::string& key, const wchar_t* filename)
  * @retval true  読み込みに成功
  * @retval false 読み込みに失敗
  */
-bool ResourceManager::LoadDDS(const std::string& key, const wchar_t* filename)
+bool ResourceManager::LoadDDS(const std::string& key, const std::string& filename)
 {
 	HRESULT hr;
 
@@ -99,10 +102,13 @@ bool ResourceManager::LoadDDS(const std::string& key, const wchar_t* filename)
 		return false;
 	}
 
+	// ファイルパスの作成
+	std::string filePath = ResolveFilePath_Tex(filename);
+
 	//DDSファイルの読み込み
 	hr = DirectX::CreateDDSTextureFromFile(
 		m_pDevice,
-		filename,
+		StringToWchar(filePath).c_str(),
 		nullptr,
 		m_textures[key].ReleaseAndGetAddressOf()
 	);
@@ -126,7 +132,7 @@ bool ResourceManager::LoadDDS(const std::string& key, const wchar_t* filename)
  *
  * @return テクスチャのポインタ
  */
-ID3D11ShaderResourceView* ResourceManager::RequestPNG(const std::string& key, const wchar_t* filename)
+ID3D11ShaderResourceView* ResourceManager::RequestPNG(const std::string& key, const std::string& filename)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_textures.find(key);
@@ -151,7 +157,7 @@ ID3D11ShaderResourceView* ResourceManager::RequestPNG(const std::string& key, co
  *
  * @return テクスチャのポインタ
  */
-ID3D11ShaderResourceView* ResourceManager::RequestDDS(const std::string& key, const wchar_t* filename)
+ID3D11ShaderResourceView* ResourceManager::RequestDDS(const std::string& key, const std::string& filename)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_textures.find(key);
@@ -198,7 +204,7 @@ ID3D11ShaderResourceView* ResourceManager::GetTexture(const std::string& key)
  * @retval true  読み込みに成功
  * @retval false 読み込みに失敗
  */
-bool ResourceManager::LoadSDKMESH(const std::string& key, const wchar_t* filename, bool anim)
+bool ResourceManager::LoadSDKMESH(const std::string& key, const std::string& filename, bool anim)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_models.find(key);
@@ -209,12 +215,15 @@ bool ResourceManager::LoadSDKMESH(const std::string& key, const wchar_t* filenam
 	}
 
 	DirectX::EffectFactory fx(m_pDevice);
-	fx.SetDirectory(L"Resources\\Models");
+	fx.SetDirectory(L"Resources/Models");
+
+	// ファイルパスの作成
+	std::string filePath = ResolveFilePath_Model(filename);
 
 	DirectX::ModelLoaderFlags flags = DirectX::ModelLoaderFlags::ModelLoader_Clockwise;
 	if (anim) flags = DirectX::ModelLoaderFlags::ModelLoader_IncludeBones;
 
-	m_models[key] = DirectX::Model::CreateFromSDKMESH(m_pDevice, filename, fx, flags);
+	m_models[key] = DirectX::Model::CreateFromSDKMESH(m_pDevice, StringToWchar(filePath).c_str(), fx, flags);
 
 	return true;
 }
@@ -242,6 +251,7 @@ DirectX::Model* ResourceManager::GetModel(const std::string& key)
 }
 
 
+
 /**
  * @brief モデルの取得
  *
@@ -252,7 +262,7 @@ DirectX::Model* ResourceManager::GetModel(const std::string& key)
  *
  * @return モデルのポインタ
  */
-DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const wchar_t* filename, bool anim)
+DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const std::string& filename, bool anim)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_models.find(key);
@@ -268,24 +278,6 @@ DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const wc
 
 
 /**
- * @brief モデルの取得
- *
- * キーが配列にあったら渡す、無かったらファイルを読み込んでから渡す
- * ファイルパスをstringからwchar_tに変換
- *
- * @param key		取得したいモデルのキー
- * @param filename	モデルファイルへのパス
- *
- * @return モデルのポインタ
- */
-DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const std::string& filename, bool anim)
-{
-	// ファイルパスを変換してから読み込み
-	return RequestSDKMESH(key, StringToWchar(filename).c_str(), anim);
-}
-
-
-/**
  * @brief アニメーションファイルの読み込み
  *
  * @param key		配列に登録するキー
@@ -294,7 +286,7 @@ DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const st
  * @retval true  読み込みに成功
  * @retval false 読み込みに失敗
  */
-bool ResourceManager::LoadAnimation(const std::string& key, const wchar_t* filename)
+bool ResourceManager::LoadAnimation(const std::string& key, const std::string& filename)
 {
 	auto it = m_animations.find(key);
 	if (it != m_animations.end())
@@ -302,9 +294,12 @@ bool ResourceManager::LoadAnimation(const std::string& key, const wchar_t* filen
 		std::cerr << "そのキーは既に使用されています: " << key << std::endl;
 		return false;
 	}
-	
+
+	// ファイルパスの作成
+	std::string filePath = ResolveFilePath_Anim(filename);
+
 	std::unique_ptr<DX::AnimationSDKMESH> anim = std::make_unique<DX::AnimationSDKMESH>();
-	anim->Load(filename);
+	anim->Load(StringToWchar(filePath).c_str());
 	m_animations[key] = std::move(anim);
 
 	return true;
@@ -333,6 +328,7 @@ DX::AnimationSDKMESH* ResourceManager::GetAnimation(const std::string& key)
 }
 
 
+
 /**
  * @brief アニメーションの取得
  *
@@ -343,7 +339,7 @@ DX::AnimationSDKMESH* ResourceManager::GetAnimation(const std::string& key)
  *
  * @return アニメーションのポインタ
  */
-DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, const wchar_t* filename)
+DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, const std::string& filename)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_animations.find(key);
@@ -359,24 +355,6 @@ DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, 
 
 
 /**
- * @brief アニメーションの取得
- *
- * キーが配列にあったら渡す、無かったらファイルを読み込んでから渡す
- * ファイルパスをstringからwchar_tに変換
- *
- * @param key		取得したいアニメーションのキー
- * @param filename	アニメーションファイルへのパス
- *
- * @return アニメーションのポインタ
- */
-DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, const std::string& filename)
-{
-	// ファイルパスを変換してから読み込み
-	return RequestAnimation(key, StringToWchar(filename).c_str());
-}
-
-
-/**
  * @brief string型をwchar_t型へ変換
  *
  * @param str	変換したい文字列
@@ -386,4 +364,76 @@ DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, 
 std::wstring ResourceManager::StringToWchar(std::string str)
 {
 	return std::wstring(str.begin(), str.end());
+}
+
+
+
+/**
+ * @brief ファイルパスの作成(テクスチャ用)
+ *
+ * @param filename 外部から渡されたファイル名
+ *
+ * @return 作成したファイルパス
+ */
+std::string ResourceManager::ResolveFilePath_Tex(const std::string& filename)
+{
+	std::string filePath = filename;
+
+	// ファイル共通部分
+	const std::string texPath = "Resources/Textures/";
+
+	// 無かったら書き加える
+	if (filename.substr(0, texPath.size()) != texPath)
+	{
+		filePath = texPath + filename;
+	}
+	return filePath;
+}
+
+
+
+/**
+ * @brief ファイルパスの作成(モデル用)
+ *
+ * @param filename 外部から渡されたファイル名
+ *
+ * @return 作成したファイルパス
+ */
+std::string ResourceManager::ResolveFilePath_Model(const std::string& filename)
+{
+	std::string filePath = filename;
+
+	// ファイル共通部分
+	const std::string modelPath = "Resources/Models/";
+
+	// 無かったら書き加える
+	if (filename.substr(0, modelPath.size()) != modelPath)
+	{
+		filePath = modelPath + filename;
+	}
+	return filePath;
+}
+
+
+
+/**
+ * @brief ファイルパスの作成(アニメーション用)
+ *
+ * @param filename 外部から渡されたファイル名
+ *
+ * @return 作成したファイルパス
+ */
+std::string ResourceManager::ResolveFilePath_Anim(const std::string& filename)
+{
+	std::string filePath = filename;
+
+	// ファイル共通部分
+	const std::string animPath = "Resources/Animations/";
+
+	// 無かったら書き加える
+	if (filename.substr(0, animPath.size()) != animPath)
+	{
+		filePath = animPath + filename;
+	}
+	return filePath;
 }

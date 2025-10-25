@@ -49,10 +49,10 @@ void TitleScene::Initialize()
 	// テクスチャの読み込み
 	ResourceManager* pRM = m_userResources->GetResourceManager();
 	m_textures = std::make_unique<Textures>();
-	m_textures->logo = pRM->RequestPNG("titleLogo", L"Resources/Textures/Text/titleLogo.png");
-	m_textures->start = pRM->RequestPNG("startText", L"Resources/Textures/Text/startText.png");
-	m_textures->exit = pRM->RequestPNG("exitText", L"Resources/Textures/Text/exitText.png");
-	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/Others/background.png");
+	m_textures->logo = pRM->RequestPNG("titleLogo", "Text/titleLogo.png");
+	m_textures->start = pRM->RequestPNG("startText", "Resources/Textures/Text/startText.png");
+	m_textures->exit = pRM->RequestPNG("exitText", "Resources/Textures/Text/exitText.png");
+	m_textures->background = pRM->RequestPNG("background2D", "Resources/Textures/Others/background.png");
 
 	// ウィンドウサイズの取得
 	RECT windowSize = m_userResources->GetDeviceResources()->GetOutputSize();
@@ -118,8 +118,8 @@ void TitleScene::Initialize()
 
 	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
-	pAM->LoadMP3("title_selectBGM", "Resources/Sounds/BGM/iwashiro_hitoiki_coffee.mp3");
-	pAM->LoadMP3("cursorSE", "Resources/Sounds/SE/button68.mp3");
+	pAM->LoadMP3("title_selectBGM", "BGM/iwashiro_hitoiki_coffee.mp3");
+	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
 
 	// BGM・SEの音量変更
 	pAM->SetVolume("title_selectBGM", BGM_VOLUME);

@@ -78,7 +78,7 @@ void StageSelectScene::Initialize()
 
 		std::unique_ptr<Button> panel = std::make_unique<Button>();
 		panel->Initialize(
-			pRM->RequestPNG("stagePanel", L"Resources/Textures/UI/stagePanel.png"),
+			pRM->RequestPNG("stagePanel", "UI/stagePanel.png"),
 			data, PANEL_TEX_SIZE,
 			[this, i]() {
 				// BGMの停止
@@ -94,18 +94,18 @@ void StageSelectScene::Initialize()
 	// ステージ番号表示オブジェクトの作成
 	m_numberBoard = std::make_unique<NumberRenderer2D>(
 		NUMBER_SIZE,
-		pRM->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
+		pRM->RequestPNG("number", "Text/number_48.png"),
 		1);
 	m_numberBoard->SetUseBeginEnd(false);
 
 	// テクスチャの読み込み
 	m_textures = std::make_unique<Textures>();
-	m_textures->background = pRM->RequestPNG("background2D", L"Resources/Textures/Others/background.png");
+	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
 
 	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
-	pAM->LoadMP3("title_selectBGM", "Resources/Sounds/BGM/iwashiro_hitoiki_coffee.mp3");
-	pAM->LoadMP3("cursorSE", "Resources/Sounds/SE/button68.mp3");
+	pAM->LoadMP3("title_selectBGM", "BGM/iwashiro_hitoiki_coffee.mp3");
+	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
 
 	// BGM・SEの音量変更
 	pAM->SetVolume("title_selectBGM", BGM_VOLUME);

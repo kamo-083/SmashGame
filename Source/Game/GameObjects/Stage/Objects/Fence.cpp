@@ -89,7 +89,7 @@ void Fence::Initialize(
 	m_collisionHandle = pCM->Add(desc);
 
 	// ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
-	m_model = pRM->RequestSDKMESH("fence", L"Resources/Models/fence.sdkmesh");
+	m_model = pRM->RequestSDKMESH("fence", "fence.sdkmesh");
 }
 
 

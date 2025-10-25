@@ -46,7 +46,7 @@ Player::Player(
 
 	// 軌跡エフェクトの作成
 	m_trajectory = pEM->CreateTrajectory(
-		pUR->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
+		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
 		0.5f,
 		2.0f,
 		DirectX::SimpleMath::Color(1, 1, 1, 1),
@@ -56,7 +56,7 @@ Player::Player(
 
 	// 円形エフェクトの作成
 	m_circle = pEM->CreateCircle(
-		pUR->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
+		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
 		0.75f,
 		1.0f,
 		DirectX::SimpleMath::Color(1, 1, 1, 1),
@@ -125,15 +125,15 @@ void Player::Initialize(
 	m_pResourceManager = pRM;
 
 	// モデルの読み込み
-	m_model = pRM->RequestSDKMESH("player", L"Resources\\Models\\playerCat.sdkmesh", true);
+	m_model = pRM->RequestSDKMESH("player", "playerCat.sdkmesh", true);
 
 	// アニメーションの読み込み
 	m_animations = std::make_unique<Animations>();
-	m_animations->idle = pRM->RequestAnimation("playerIdle", L"Resources\\Animations\\playerCat_idle.sdkmesh_anim");
-	m_animations->walk = pRM->RequestAnimation("playerWalk", L"Resources\\Animations\\playerCat_walk.sdkmesh_anim");
-	m_animations->atk_basic = pRM->RequestAnimation("playerAtkB", L"Resources\\Animations\\playerCat_atkBasic.sdkmesh_anim");
-	m_animations->atk_rolling = pRM->RequestAnimation("playerAtkR", L"Resources\\Animations\\playerCat_atkRoll.sdkmesh_anim");
-	m_animations->atk_heavy = pRM->RequestAnimation("playerAtkH", L"Resources\\Animations\\playerCat_atkHeavy.sdkmesh_anim");
+	m_animations->idle = pRM->RequestAnimation("playerIdle","playerCat_idle.sdkmesh_anim");
+	m_animations->walk = pRM->RequestAnimation("playerWalk","playerCat_walk.sdkmesh_anim");
+	m_animations->atk_basic = pRM->RequestAnimation("playerAtkB","playerCat_atkBasic.sdkmesh_anim");
+	m_animations->atk_rolling = pRM->RequestAnimation("playerAtkR","playerCat_atkRoll.sdkmesh_anim");
+	m_animations->atk_heavy = pRM->RequestAnimation("playerAtkH","playerCat_atkHeavy.sdkmesh_anim");
 
 	// コライダーの設定
 	m_collider = SphereCollider(m_position, RADIUS);

@@ -44,7 +44,7 @@ Sky::~Sky()
 void Sky::Initialize(UserResources* pUR)
 {
 	// スカイドームの読み込み
-	m_skyDome = pUR->GetResourceManager()->RequestSDKMESH("skyDome", L"Resources\\Models\\skyDome.sdkmesh");
+	m_skyDome = pUR->GetResourceManager()->RequestSDKMESH("skyDome", "skyDome.sdkmesh");
 }
 
 

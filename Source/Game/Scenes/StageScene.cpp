@@ -122,9 +122,9 @@ void StageScene::Initialize()
 
 	// 操作方法UIの画像読み込み
 	OperationUI::Textures opTextures;
-	opTextures.nomalArrow = pRM->RequestPNG("arrow", L"Resources/Textures/UI/arrow_triangle.png");
-	opTextures.rotateArrow = pRM->RequestPNG("rotate", L"Resources/Textures/UI/arrow_rotate.png");
-	opTextures.keyText = pRM->RequestPNG("box", L"Resources/Textures/text/operationText.png");
+	opTextures.nomalArrow = pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png");
+	opTextures.rotateArrow = pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png");
+	opTextures.keyText = pRM->RequestPNG("box", "Resources/Textures/text/operationText.png");
 
 	// 操作方法UIの引数用構造体作成
 	OperationUI::OperationUIDesc opUIDesc =
@@ -140,9 +140,9 @@ void StageScene::Initialize()
 	// 攻撃変更UIの画像読み込み・引数用構造体作成
 	AttackUI::AttackUIDesc atkUIDesc =
 	{
-		pRM->RequestPNG("attack_basic", L"Resources/Textures/UI/basicAtk.png"),
-		pRM->RequestPNG("attack_rolling", L"Resources/Textures/UI/rollingAtk.png"),
-		pRM->RequestPNG("attack_heavy", L"Resources/Textures/UI/heavyAtk.png"),
+		pRM->RequestPNG("attack_basic", "UI/basicAtk.png"),
+		pRM->RequestPNG("attack_rolling", "UI/rollingAtk.png"),
+		pRM->RequestPNG("attack_heavy", "UI/heavyAtk.png"),
 		ATTACK_ICON_SIZE.x, ATTACK_ICON_SIZE.y
 	};
 
@@ -152,7 +152,7 @@ void StageScene::Initialize()
 	m_attackUI->Initialize(atkUIDesc, opUIDesc);
 
 	// カメラ操作UIの作成
-	opTextures.icon = pRM->RequestPNG("camera", L"Resources/Textures/UI/camera.png");	// アイコン画像追加
+	opTextures.icon = pRM->RequestPNG("camera", "UI/camera.png");	// アイコン画像追加
 	opUIDesc.textures = opTextures;														// 再設定
 	m_cameraUI = std::make_unique<OperationUI>();
 	m_cameraUI->Initialize(opUIDesc, CAMERA_UI_POS, CAMERA_UI_ARROW_INTERVAL, false);
@@ -160,14 +160,14 @@ void StageScene::Initialize()
 	// リザルトUIの作成
 	m_resultUI = std::make_unique<StageResultUI>();
 	m_resultUI->Initialize(
-		pRM->RequestPNG("resultPanel", L"Resources/Textures/UI/resultPanel.png"),
+		pRM->RequestPNG("resultPanel", "UI/resultPanel.png"),
 		RESULT_WINDOW_SIZE, windowSize);
 
 	// ステージクリア条件UIの作成
 	m_conditionsUI = std::make_unique<ClearConditionsUI>(CLEAR_CONDITIONS);
 	m_conditionsUI->Initialize(
 		windowSize,
-		pRM->RequestPNG("conditionsText", L"Resources/Textures/Text/conditionsText.png"),
+		pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
 		CONDITIONS_TEXT_SIZE
 	);
 
@@ -205,14 +205,14 @@ void StageScene::Initialize()
 
 	// テクスチャの読み込み
 	m_textures = std::make_unique<Textures>();
-	m_textures->shadow = pRM->RequestDDS("shadow", L"Resources/Textures/Others/shadow.dds");
+	m_textures->shadow = pRM->RequestDDS("shadow", "Others/shadow.dds");
 
 	// BGM・SEの読み込み
-	pAM->LoadMP3("stageBGM", "Resources/Sounds/BGM/iwashiro_orange_hill.mp3");
-	pAM->LoadMP3("startSE", "Resources/Sounds/SE/fue.mp3");
-	pAM->LoadMP3("canGoalSE", "Resources/Sounds/SE/bell.mp3");
-	pAM->LoadMP3("clearSE", "Resources/Sounds/SE/one08.mp3");
-	pAM->LoadMP3("attackSE", "Resources/Sounds/SE/hit01.mp3");
+	pAM->LoadMP3("stageBGM", "BGM/iwashiro_orange_hill.mp3");
+	pAM->LoadMP3("startSE", "SE/fue.mp3");
+	pAM->LoadMP3("canGoalSE", "SE/bell.mp3");
+	pAM->LoadMP3("clearSE", "SE/one08.mp3");
+	pAM->LoadMP3("attackSE", "SE/hit01.mp3");
 
 	// BGM・SEの音量変更
 	pAM->SetVolume("stageBGM", BGM_VOLUME);

@@ -62,8 +62,8 @@ void Goal::Initialize(
 
 	// モデルの取得
 	m_models = std::make_unique<Models>();
-	m_models->fishOnTable = pRM->RequestSDKMESH("fishTable", L"Resources/Models/fish.sdkmesh");
-	m_models->cageLid = pRM->RequestSDKMESH("cageLid", L"Resources/Models/lid.sdkmesh");
+	m_models->fishOnTable = pRM->RequestSDKMESH("fishTable", "fish.sdkmesh");
+	m_models->cageLid = pRM->RequestSDKMESH("cageLid", "lid.sdkmesh");
 
 	// 当たり判定の作成
 	// テーブル

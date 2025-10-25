@@ -30,7 +30,7 @@ GroundEnemy::GroundEnemy(
 
 	// 軌跡エフェクトの作成
 	m_trajectory = pEM->CreateTrajectory(
-		pUR->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
+		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
 		0.5f,
 		2.0f,
 		DirectX::SimpleMath::Color(1, 1, 1, 1),
@@ -40,7 +40,7 @@ GroundEnemy::GroundEnemy(
 
 	// 円形エフェクトの作成
 	m_circle = pEM->CreateCircle(
-		pUR->GetResourceManager()->RequestPNG("smoke", L"Resources/Textures/Effect/smoke.png"),
+		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
 		0.75f,
 		1.0f,
 		DirectX::SimpleMath::Color(1, 1, 1, 1),

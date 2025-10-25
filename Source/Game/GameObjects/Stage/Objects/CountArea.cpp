@@ -40,7 +40,7 @@ CountArea::CountArea(UserResources* pUR)
 
 	m_numberBorad = std::make_unique<NumberRenderer3D>(
 		NUMBER_SIZE,
-		rm->RequestPNG("number", L"Resources/Textures/Text/number_48.png"),
+		rm->RequestPNG("number", "Text/number_48.png"),
 		1,
 		dr,
 		0.5f

@@ -60,6 +60,7 @@ private:
 		IXAudio2SourceVoice* pSourceVoice = nullptr;	//再生用のソースボイス
 	};
 
+
 	// データメンバの宣言 -----------------------------------------------
 private:
 	IXAudio2* m_pXAudio2;						//XAudio2エンジンのポインタ
@@ -100,6 +101,7 @@ public:
 
 // 内部実装
 private:
-
+	// ファイルパスの作成
+	std::string ResolveFilePath(const std::string& filename);
 
 };
