@@ -141,14 +141,14 @@ void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath
 
 	// í∏ì_ÇÃçÏê¨
 	m_vertices.clear();
-	for (ParticleUtility& li : m_particleUtility)
+	for (ParticleUtility& particle : m_particleUtility)
 	{
-		if (cameraDir.Dot(li.GetPosition() - m_cameraPosition) < 0.0f) 	continue;
+		if (cameraDir.Dot(particle.GetPosition() - m_cameraPosition) < 0.0f) 	continue;
 
 		DirectX::VertexPositionColorTexture vPCT;
-		vPCT.position = DirectX::XMFLOAT3(li.GetPosition());
-		vPCT.color = DirectX::XMFLOAT4(li.GetColor());
-		vPCT.textureCoordinate = DirectX::XMFLOAT2(li.GetScale().x, li.GetScale().y);
+		vPCT.position = DirectX::XMFLOAT3(particle.GetPosition());
+		vPCT.color = DirectX::XMFLOAT4(particle.GetColor());
+		vPCT.textureCoordinate = DirectX::XMFLOAT2(particle.GetScale().x, particle.GetScale().y);
 
 		m_vertices.push_back(vPCT);
 	}

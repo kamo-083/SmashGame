@@ -56,6 +56,13 @@ private:
 	static constexpr float KILL_HEIGHT = -5.0f;				//落下判定をされる高さ
 	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,0.0f,2.0f };	// 初期位置
 
+	// エフェクト関連
+	static constexpr float TRAJECTORY_SCALE = 0.5f;	// 軌跡エフェクトのスケール
+	static constexpr float TRAJECTORY_LIFE = 2.0f;	// 軌跡エフェクトの寿命
+	static constexpr float CIRCLE_SCALE = 0.75f;	// 円形エフェクトのスケール
+	static constexpr float CIRCLE_LIFE = 1.0f;		// 円形エフェクトの寿命
+
+	// アニメーション群
 	struct Animations
 	{
 		DX::AnimationSDKMESH* idle;			// 待機
@@ -64,6 +71,7 @@ private:
 		DX::AnimationSDKMESH* atk_rolling;	// 転がり攻撃
 		DX::AnimationSDKMESH* atk_heavy;	// 強攻撃
 	};
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:

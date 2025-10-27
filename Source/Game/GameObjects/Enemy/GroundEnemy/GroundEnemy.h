@@ -48,6 +48,12 @@ public:
 
 	static constexpr float RESTITUTION = 0.95f;	// 反発係数
 
+	// エフェクト関連
+	static constexpr float TRAJECTORY_SCALE = 0.5f;	// 軌跡エフェクトのスケール
+	static constexpr float TRAJECTORY_LIFE = 2.0f;	// 軌跡エフェクトの寿命
+	static constexpr float CIRCLE_SCALE = 0.75f;	// 円形エフェクトのスケール
+	static constexpr float CIRCLE_LIFE = 1.0f;		// 円形エフェクトの寿命
+
 
 // データメンバの宣言 -----------------------------------------------
 private:

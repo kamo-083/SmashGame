@@ -34,16 +34,16 @@ GroundEnemy::GroundEnemy(
 	// 軌跡
 	ParticleUtility::ParticleData t_data =
 	{
-		{DirectX::SimpleMath::Vector3(0.5f),DirectX::SimpleMath::Color(1,1,1,1)},
+		{DirectX::SimpleMath::Vector3(TRAJECTORY_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
 		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
-		2.0f
+		TRAJECTORY_LIFE
 	};
 	// 円形
 	ParticleUtility::ParticleData c_data =
 	{
-		{DirectX::SimpleMath::Vector3(0.75f),DirectX::SimpleMath::Color(1,1,1,1)},
+		{DirectX::SimpleMath::Vector3(CIRCLE_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
 		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
-		1.0f
+		CIRCLE_LIFE
 	};
 
 	// エフェクトの作成
