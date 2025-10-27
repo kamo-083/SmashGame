@@ -55,12 +55,10 @@ void TrajectoryParticle::Update(float elapsedTime, DirectX::SimpleMath::Vector3 
 			pos += DirectX::SimpleMath::Vector3(x, 0.0f, z);
 		}
 
-		//位置の設定
+		//設定
 		ParticleUtility particleUtility{
 			pos,
-			DirectX::SimpleMath::Vector3(m_scale,m_scale,m_scale),
-			m_life,
-			m_color
+			m_particleData
 		};
 		m_particleUtility.push_back(particleUtility);	//ビルボードしたい
 

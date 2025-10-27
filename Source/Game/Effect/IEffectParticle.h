@@ -87,15 +87,11 @@ protected:
 	// ビルボード行列
 	DirectX::SimpleMath::Matrix m_billboard;
 	
-	// 大きさ
-	float m_scale;
-	// 寿命
-	float m_life;
-	// 色
-	DirectX::SimpleMath::Color m_color;
-
 	// 有効フラグ
 	bool m_isActive;
+
+	// パーティクルのパラメータ
+	ParticleUtility::ParticleData m_particleData;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -121,7 +117,7 @@ public:
 		ID3D11VertexShader* vertexShader,
 		ID3D11PixelShader* pixelShader,
 		ID3D11GeometryShader* geometryShader,
-		float scale, float life, DirectX::SimpleMath::Color color);
+		ParticleUtility::ParticleData data);
 
 	// ビルボードを作成
 	void CreateBillboard(

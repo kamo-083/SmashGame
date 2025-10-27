@@ -74,7 +74,7 @@ void CircleParticle::SpawnParticleEffect(
 	for (int i = 0; i < num; i++)
 	{
 		float angle = 0.0f;		// 角度
-		float scale = m_scale;	// 大きさ
+		float scale = m_particleData.start.scale.Length();	// 大きさ
 		if (isRandom)
 		{
 			//乱数生成器
@@ -106,12 +106,20 @@ void CircleParticle::SpawnParticleEffect(
 			transPos += DirectX::SimpleMath::Vector3(x, y, 0.0f);
 		}
 
+		// パラメータの作成
+		ParticleUtility::ParticleData data =
+		{
+			{DirectX::SimpleMath::Vector3(scale), m_particleData.start.color},
+			{m_particleData.end.scale, m_particleData.end.color},
+			m_particleData.life
+		};
+
+		data.start.scale = m_particleData.start.scale;
+
 		//位置の設定
 		ParticleUtility particleUtility{
 			transPos,
-			DirectX::SimpleMath::Vector3(scale,scale,scale),
-			m_life,
-			m_color
+			data
 		};
 		m_particleUtility.push_back(particleUtility);
 	}

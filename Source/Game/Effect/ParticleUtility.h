@@ -11,27 +11,41 @@
 
 class ParticleUtility
 {
+public:
+	struct EffectParam
+	{
+		DirectX::SimpleMath::Vector3 scale;
+		DirectX::SimpleMath::Color color;
+	};
+
+	struct ParticleData
+	{
+		EffectParam start;
+		EffectParam end;
+		float life;
+	};
+
 private:
 	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
 
-	// 大きさ
-	DirectX::SimpleMath::Vector3 m_startScale;	// 初期
-	DirectX::SimpleMath::Vector3 m_nowScale;	// 現在
-
 	// 寿命
 	float m_life;
+
+	// 大きさ
+	DirectX::SimpleMath::Vector3 m_scale;
 
 	// 色
 	DirectX::SimpleMath::Color m_color;
 
+	// パラメータ一覧
+	ParticleData m_params;
+
 public:
 	// コンストラクタ
 	ParticleUtility(
-		DirectX::SimpleMath::Vector3 startPosition,
-		DirectX::SimpleMath::Vector3 scale,
-		float life,
-		DirectX::SimpleMath::Color color);
+		DirectX::SimpleMath::Vector3 position,
+		ParticleData params);
 
 	// デストラクタ
 	~ParticleUtility() = default;
@@ -41,11 +55,10 @@ public:
 
 	// 座標の取得
 	const DirectX::SimpleMath::Vector3 GetPosition() { return m_position; }
-	// 大きさの取得
-	const DirectX::SimpleMath::Vector3 GetScale() { return m_nowScale; }
 	// 寿命の取得
 	const float GetLife() { return m_life; }
+	// 大きさの取得
+	const DirectX::SimpleMath::Vector3 GetScale() { return m_scale; }
 	// 色の取得
 	const DirectX::SimpleMath::Color GetColor() { return m_color; }
-
 };

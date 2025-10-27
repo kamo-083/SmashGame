@@ -27,8 +27,6 @@ IEffectParticle::IEffectParticle()
 	, m_pixelShader(nullptr)
 	, m_geometryShader(nullptr)
 	, m_timer(0.0f)
-	, m_scale(0.0f)
-	, m_life(0.0f)
 	, m_isActive(false)
 {
 
@@ -47,9 +45,7 @@ IEffectParticle::IEffectParticle()
  * @param vertexShader		頂点シェーダーのポインタ
  * @param pixelShader		ピクセルシェーダーのポインタ
  * @param geometryShader	ジオメトリシェーダーのポインタ
- * @param scale				大きさ
- * @param life				寿命
- * @param color				色
+ * @param data				パーティクルのパラメータ
  *
  * @return なし
  */
@@ -62,8 +58,8 @@ void IEffectParticle::Create(
 	ID3D11ShaderResourceView* texture,
 	ID3D11VertexShader* vertexShader,
 	ID3D11PixelShader* pixelShader, 
-	ID3D11GeometryShader* geometryShader, 
-	float scale, float life, DirectX::SimpleMath::Color color)
+	ID3D11GeometryShader* geometryShader,
+	ParticleUtility::ParticleData data)
 {
 	{
 		m_pDR = pDR;
@@ -81,11 +77,9 @@ void IEffectParticle::Create(
 		m_vertexShader = vertexShader;
 		m_geometryShader = geometryShader;
 
-		m_scale = scale;
-		m_life = life;
-		m_color = color;
-
 		m_isActive = true;
+
+		m_particleData = data;
 	};
 }
 

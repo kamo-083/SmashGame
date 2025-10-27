@@ -188,17 +188,15 @@ void EffectManager::Finalize()
 /**
  * @brief 軌跡エフェクトの生成
  *
- * @param texture	テクスチャのポインタ
- * @param scale		大きさ
- * @param life		寿命
- * @param color		色
- * @param position	出現座標のポインタ
- * @param random	出現位置のランダム性
+ * @param texture		テクスチャのポインタ
+ * @param particleData	パーティクルのパラメータ一覧
+ * @param position		出現座標のポインタ
+ * @param random		出現位置のランダム性
  *
  * @return 軌跡エフェクトのポインタ
  */
 EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
-	ID3D11ShaderResourceView* texture, float scale, float life, DirectX::SimpleMath::Color color,
+	ID3D11ShaderResourceView* texture, ParticleUtility::ParticleData particleData,
 	DirectX::SimpleMath::Vector3* position, bool random)
 {
 	// 軌跡エフェクトの作成
@@ -213,7 +211,7 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 		m_vs->vs.Get(),
 		m_ps->ps.Get(),
 		m_gs->gs.Get(),
-		scale, life, color
+		particleData
 	);
 
 	// パーティクルデータ構造体の作成
@@ -236,20 +234,18 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 /**
  * @brief 円形エフェクトの生成
  *
- * @param texture	 テクスチャのポインタ
- * @param scale		 大きさ
- * @param life		 寿命
- * @param color		 色
- * @param position   出現座標のポインタ
- * @param range		 円の半径
- * @param num		 1度に出現する数
- * @param random	 出現位置のランダム性
- * @param horizontal 円の向き
+ * @param texture		テクスチャのポインタ
+ * @param particleData	パーティクルのパラメータ一覧
+ * @param position		出現座標のポインタ
+ * @param range			円の半径
+ * @param num			1度に出現する数
+ * @param random		出現位置のランダム性
+ * @param horizontal	円の向き
  *
  * @return 円形エフェクトのポインタ
  */
 EffectManager::CircleParticleData* EffectManager::CreateCircle(
-	ID3D11ShaderResourceView* texture, float scale, float life, DirectX::SimpleMath::Color color, 
+	ID3D11ShaderResourceView* texture, ParticleUtility::ParticleData particleData,
 	DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal)
 {
 	// 円形エフェクトの作成
@@ -264,7 +260,7 @@ EffectManager::CircleParticleData* EffectManager::CreateCircle(
 		m_vs->vs.Get(),
 		m_ps->ps.Get(),
 		m_gs->gs.Get(),
-		scale, life, color
+		particleData
 	);
 
 	// パーティクルデータ構造体の作成

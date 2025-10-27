@@ -20,20 +20,17 @@
  * @brief コンストラクタ
  *
  * @param position  出現位置
- * @param scale		大きさ
- * @param life		寿命
- * @param color		色
+ * @param params		パラメータ一覧
  */
 ParticleUtility::ParticleUtility(
 	DirectX::SimpleMath::Vector3 position,
-	DirectX::SimpleMath::Vector3 scale,
-	float life,
-	DirectX::SimpleMath::Color color)
+	ParticleData params)
 {
 	m_position = position;
-	m_nowScale = m_startScale = scale;
-	m_life = life;
-	m_color = color;
+	m_scale = params.start.scale;
+	m_life = params.life;
+	m_color = params.start.color;
+	m_params = params;
 }
 
 
@@ -47,12 +44,15 @@ ParticleUtility::ParticleUtility(
  */
 bool ParticleUtility::Update(float elapsedTime)
 {
-	//大きさの更新
-	m_nowScale = DirectX::SimpleMath::Vector3::Lerp(DirectX::SimpleMath::Vector3::Zero, m_startScale, m_life);
-	
-	//寿命の更新
+	// 大きさの更新
+	m_scale = DirectX::SimpleMath::Vector3::Lerp(m_params.end.scale, m_params.start.scale, m_life);
+
+	// 色の更新
+	m_color = DirectX::SimpleMath::Color::Lerp(m_params.end.color, m_params.start.color, m_life);
+
+	// 寿命の更新
 	m_life -= elapsedTime;
-	if (m_life < 0.0f)
+	if (m_life <= 0.0f)
 	{
 		return false;
 	}

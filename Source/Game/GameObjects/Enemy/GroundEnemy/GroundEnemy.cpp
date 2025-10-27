@@ -30,22 +30,34 @@ GroundEnemy::GroundEnemy(
 {
 	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUR->GetDeviceResources()->GetD3DDeviceContext());
 
-	// 軌跡エフェクトの作成
+	// エフェクトのパラメータを設定
+	// 軌跡
+	ParticleUtility::ParticleData t_data =
+	{
+		{DirectX::SimpleMath::Vector3(0.5f),DirectX::SimpleMath::Color(1,1,1,1)},
+		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
+		2.0f
+	};
+	// 円形
+	ParticleUtility::ParticleData c_data =
+	{
+		{DirectX::SimpleMath::Vector3(0.75f),DirectX::SimpleMath::Color(1,1,1,1)},
+		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
+		1.0f
+	};
+
+	// エフェクトの作成
+	// 軌跡
 	m_trajectory = pEM->CreateTrajectory(
 		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
-		0.5f,
-		2.0f,
-		DirectX::SimpleMath::Color(1, 1, 1, 1),
+		t_data,
 		&m_position,
 		false
 	);
-
-	// 円形エフェクトの作成
+	// 円形
 	m_circle = pEM->CreateCircle(
 		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
-		0.75f,
-		1.0f,
-		DirectX::SimpleMath::Color(1, 1, 1, 1),
+		c_data,
 		&m_position,
 		RADIUS * 1.5f,
 		12,
