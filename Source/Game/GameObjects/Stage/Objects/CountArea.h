@@ -47,7 +47,8 @@ public:
 		DirectX::SimpleMath::Matrix	 matProj;	// 射影行列
 		DirectX::SimpleMath::Vector4 Diffuse;	// 基本色
 		float Height = 0.0f;					// 高さ
-		DirectX::SimpleMath::Vector3 Dummy;		// ダミーデータ
+		float Time = 0.0f;						// 時間
+		DirectX::SimpleMath::Vector2 Dummy;		// ダミーデータ
 	};
 
 	// スプライト数字の1文字分のサイズ
@@ -83,6 +84,9 @@ private:
 	// 衝突判定のハンドル
 	uint32_t m_collisionHandle;
 
+	// 累計経過時間
+	float m_timer;
+
 	// バッチ
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_batch;
 
@@ -96,6 +100,9 @@ private:
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
 	std::unique_ptr<NumberRenderer3D> m_numberBorad;	// 内部の敵数描画
+
+	// エリアの表示色
+	DirectX::SimpleMath::Color m_color;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -117,7 +124,7 @@ public:
 		std::function<void()> operation, TriggerMode mode, int targetNum = 0);
 
 	// 更新処理
-	void Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);
+	void Update(float elapsedTime,DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);
 
 	// 描画処理
 	void Draw(RenderContext& context, DebugFont* debugFont);
@@ -140,4 +147,7 @@ private:
 		DirectX::SimpleMath::Matrix& world,
 		DirectX::SimpleMath::Vector3& areaSize
 		);
+
+	// トリガーを起動
+	void TriggerOn();
 };

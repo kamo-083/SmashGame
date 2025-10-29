@@ -38,7 +38,7 @@ public:
 	{}
 
 	// デストラクタ
-	~UIElement()
+	virtual ~UIElement()
 	{}
 
 

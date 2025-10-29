@@ -29,7 +29,8 @@ CountArea::CountArea(UserResources* pUR)
 	, m_isTrigger(false)
 	, m_armed(false)
 	, m_insideList()
-	, m_collisionHandle{ 0 }
+	, m_collisionHandle(0)
+	, m_timer(0.0f)
 {
 	DX::DeviceResources* dr = pUR->GetDeviceResources();
 	ResourceManager*	 rm = pUR->GetResourceManager();
@@ -84,16 +85,27 @@ void CountArea::Initialize(
 	DirectX::SimpleMath::Vector3 position, float x, float z,
 	std::function<void()> operation, TriggerMode mode, int targetNum)
 {
+	// 位置を設定
 	DirectX::SimpleMath::Vector3 pos = { position.x,position.y + AREA_HALF_HEIGHT,position.z };
 	m_position = pos;
 
+	// 条件達成時の処理を設定
 	m_operation = operation;
 
+	// 条件のモードを設定
 	m_mode = mode;
 
+	// 目標数を設定
 	m_targetNum = targetNum;
 
+	// トリガーをリセット
 	m_isTrigger = false;
+
+	// タイマーをリセット
+	m_timer = 0.0f;
+
+	// 色を設定
+	m_color = DirectX::Colors::Red;
 
 	// 数字UIの作成
 	m_numberBorad->Initialize(static_cast<int>(m_insideList.size()));
@@ -140,10 +152,10 @@ void CountArea::Initialize(
 
 			m_armed = true;
 
-			// 条件を満たしているか
+			// 条件を満たしているか(目標数以上入れる場合)
 			if (m_mode == TriggerMode::ReachCount)
 			{
-				if (m_insideList.size() >= m_targetNum) m_isTrigger = true;
+				if (m_insideList.size() >= m_targetNum)	TriggerOn();
 			}
 
 			// 表示する数字の更新
@@ -170,10 +182,10 @@ void CountArea::Initialize(
 			// リストから削除
 			m_insideList.erase(std::remove(m_insideList.begin(), m_insideList.end(), id), m_insideList.end());
 
-			// 条件を満たしているか
+			// 条件を満たしているか(内部の敵を全て出す場合)
 			if (m_mode == TriggerMode::AllOut)
 			{
-				if (m_insideList.size() == 0 && m_armed) m_isTrigger = true;
+				if (m_insideList.size() == 0 && m_armed) TriggerOn();
 			}
 
 			// 表示する数字の更新
@@ -192,8 +204,11 @@ void CountArea::Initialize(
  *
  * @return なし
  */
-void CountArea::Update(DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp)
+void CountArea::Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp)
 {
+	// 経過時間の加算
+	m_timer += elapsedTime;
+
 	if (m_isTrigger)
 	{
 		m_operation();
@@ -308,6 +323,7 @@ void CountArea::DrawArea(
 	cbuff.matWorld = world.Transpose();
 	cbuff.Diffuse = DirectX::SimpleMath::Vector4(1, 1, 1, 1);
 	cbuff.Height = AREA_HALF_HEIGHT * 2.0f;
+	cbuff.Time = m_timer;
 	ID3D11Buffer* cb[1] = { m_CBuffer.Get() };
 
 	context.deviceContext->UpdateSubresource(m_CBuffer.Get(), 0, NULL, &cbuff, 0, 0);
@@ -316,24 +332,24 @@ void CountArea::DrawArea(
 	context.deviceContext->PSSetConstantBuffers(0, 1, cb);
 	context.deviceContext->GSSetConstantBuffers(0, 1, cb);
 
-	//	半透明描画指定
+	// 半透明描画指定
 	ID3D11BlendState* blendstate = context.states->NonPremultiplied();
 
-	//	透明判定処理
+	// 透明判定処理
 	context.deviceContext->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
 
-	//	深度バッファに書き込み参照する
-	context.deviceContext->OMSetDepthStencilState(context.states->DepthDefault(), 0);
+	// 深度バッファは読み取り専用
+	context.deviceContext->OMSetDepthStencilState(context.states->DepthRead(), 0);
 
-	//	カリングはなし
+	// カリングはなし
 	context.deviceContext->RSSetState(context.states->CullNone());
 
-	//	シェーダをセットする
+	// シェーダをセットする
 	context.deviceContext->VSSetShader(m_vs->vs.Get(), nullptr, 0);
 	context.deviceContext->PSSetShader(m_ps->ps.Get(), nullptr, 0);
 	context.deviceContext->GSSetShader(m_gs->gs.Get(), nullptr, 0);
 
-	//	インプットレイアウトの登録
+	// インプットレイアウトの登録
 	context.deviceContext->IASetInputLayout(m_vs->inputLayout.Get());
 
 	float vertexes[4];
@@ -345,41 +361,50 @@ void CountArea::DrawArea(
 	DirectX::VertexPositionColor v[2];
 	float yPos = m_position.y - AREA_HALF_HEIGHT;
 
-	//	板ポリゴンを描画
+	// 板ポリゴンを描画
 	m_batch->Begin();
 
 	// 奥
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[0]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(m_color);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[0]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(m_color);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
 	// 右
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[2]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(m_color);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[0]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(m_color);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
 	// 左
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(m_color);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[0]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(m_color);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
 	// 手前
 	v[0].position = DirectX::SimpleMath::Vector3(vertexes[3], yPos, vertexes[2]);
-	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[0].color = static_cast<DirectX::SimpleMath::Vector4>(m_color);
 	v[1].position = DirectX::SimpleMath::Vector3(vertexes[1], yPos, vertexes[2]);
-	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(DirectX::Colors::Red);
+	v[1].color = static_cast<DirectX::SimpleMath::Vector4>(m_color);
 	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, v, 2);
 
 	m_batch->End();
 
-	//	シェーダの登録を解除
+	// シェーダの登録を解除
 	context.deviceContext->VSSetShader(nullptr, nullptr, 0);
 	context.deviceContext->PSSetShader(nullptr, nullptr, 0);
 	context.deviceContext->GSSetShader(nullptr, nullptr, 0);
+}
+
+void CountArea::TriggerOn()
+{
+	// トリガーをオン
+	m_isTrigger = true;
+
+	// 色を変更
+	m_color = DirectX::Colors::Blue;
 }

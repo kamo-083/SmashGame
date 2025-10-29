@@ -156,7 +156,7 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
 	// エリアの更新
 	for (auto& area : m_areas)
 	{
-		area->Update(cameraPos, cameraUp);
+		area->Update(elapsedTime, cameraPos, cameraUp);
 	}
 	
 	// ゴールの更新
