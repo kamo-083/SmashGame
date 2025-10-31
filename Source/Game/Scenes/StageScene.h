@@ -206,4 +206,42 @@ private:
 	// 影用の頂点を作成
 	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> CreateVertexes(
 		const DirectX::SimpleMath::Vector3 position, const float radius);
+
+	// オブジェクトの影を描画
+	void DrawObjectsShadow(RenderContext context);
+
+	// リザルト中の更新
+	void UpdateResult(float elapsedTime);
+
+	// キー操作モードの切り替え
+	void ChangeKeyMode();
+
+
+// 初期設定関連
+	// 当たり判定のレイヤーフィルターの設定
+	void SetupCollitionLayer();
+
+	// エフェクトマネージャーの設定
+	void SetupEffects(DX::DeviceResources* pDR);
+
+	// プレイヤーの設定
+	void SetupPlayer(ResourceManager* pRM);
+
+	// 敵の設定
+	void SetupEnemy();
+
+	// ステージの設定
+	void SetupStage();
+
+	// スカイドームの設定
+	void SetupSkydome();
+
+	// UIの設定
+	void SetupUI(DirectX::SimpleMath::Vector2 windowSize, ResourceManager* pRM);
+
+	// テクスチャの設定
+	void SetupTextures(ResourceManager* pRM);
+
+	// 音声の設定
+	void SetupSounds(AudioManager* pAM);
 };

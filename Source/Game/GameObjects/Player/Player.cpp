@@ -48,40 +48,8 @@ Player::Player(
 	// 当たり判定のデバッグ描画用球
 	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUR->GetDeviceResources()->GetD3DDeviceContext());
 
-	// エフェクトのパラメータを設定
-	// 軌跡
-	ParticleUtility::ParticleData t_data =
-	{
-		{DirectX::SimpleMath::Vector3(TRAJECTORY_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
-		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
-		TRAJECTORY_LIFE
-	};
-	// 円形
-	ParticleUtility::ParticleData c_data =
-	{
-		{DirectX::SimpleMath::Vector3(CIRCLE_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
-		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
-		CIRCLE_LIFE
-	};
-
-	// エフェクトの作成
-	// 軌跡
-	m_trajectory = pEM->CreateTrajectory(
-		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
-		t_data,
-		&m_position,
-		false
-	);
-	// 円形
-	m_circle = pEM->CreateCircle(
-		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
-		c_data,
-		&m_position,
-		RADIUS * 1.5f,
-		12,
-		false,
-		true
-	);
+	// エフェクトの設定
+	SetupEffects(pEM, pUR->GetResourceManager());
 }
 
 
@@ -136,25 +104,8 @@ void Player::Initialize(PlayerParams param)
 	// リソースマネージャの設定
 	m_pResourceManager = param.pRM;
 
-	// モデルの読み込み
-	m_model = param.pRM->RequestSDKMESH("player", param.info.modelPath, true);
-
-	// アニメーションの読み込み
-	m_animations = std::make_unique<Animations>();
-	m_animations->idle = param.pRM->RequestAnimation("playerIdle", param.info.idleAnimPath);
-	m_animations->walk = param.pRM->RequestAnimation("playerWalk", param.info.walkAnimPath);
-	m_animations->atk_basic = param.pRM->RequestAnimation("playerAtkB",
-		param.info.attackAnimPath[static_cast<int>(AttackType::BASIC)]);
-	m_animations->atk_rolling = param.pRM->RequestAnimation("playerAtkR", 
-		param.info.attackAnimPath[static_cast<int>(AttackType::ROLLING)]);
-	m_animations->atk_heavy = param.pRM->RequestAnimation("playerAtkH",
-		param.info.attackAnimPath[static_cast<int>(AttackType::HEAVY)]);
-
-	// コライダーの設定
-	m_collider = SphereCollider(m_position, RADIUS);
-
-	// 攻撃判定の設定
-	m_attackCollider = SphereCollider(m_position, RADIUS);
+	// モデル・アニメーションの取得
+	SetupModels(param.pRM, param.info);
 
 	// キー操作のモードのポインタの設定
 	m_pKeyMode = param.pKeyMode;
@@ -164,78 +115,13 @@ void Player::Initialize(PlayerParams param)
 	m_physics->GetFriction().SetDynamicFriction(DYNAMIC_FRICTION_FORCE);
 	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION_FORCE);
 
-	// 当たり判定マネージャーの登録
-	m_pCollisionManager = param.pCM;
+	// 当たり判定の設定
+	SetupCollision(param.pCM);
 
-	// 本体
-	CollisionManager::Desc bodyDesc{};
-	bodyDesc.type = CollisionManager::Type::Sphere;
-	bodyDesc.layer = CollisionManager::Layer::PlayerBody;
-	bodyDesc.sphere = &m_collider;
-	bodyDesc.position = &m_position;
-	bodyDesc.velocity = &m_velocity;
-	bodyDesc.mass = MASS;
-	bodyDesc.callback.onResolved =
-		[this](uint32_t, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
-		{
-			const float groundCos = std::cos(DirectX::XMConvertToRadians(30.0f));
-			if (n.y >= groundCos) m_onGround = true;
-		};
-	bodyDesc.callback.onEnter =
-		[this](uint32_t, uint32_t other)		// 敵の攻撃で吹っ飛ぶ
-		{
-			if (m_pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyAttack) return;
-
-			MTV mtv = CalculateMTV(*m_pCollisionManager->GetDesc(other)->sphere, m_collider);
-
-			// 吹っ飛ぶ方向の設定
-			DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
-			knockbackDir.Normalize();
-
-			// 吹っ飛ぶ力の設定
-			float knockbackForce = *m_pCollisionManager->GetDesc(other)->userData;
-
-			DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
-			m_physics->GetExternalForce().Add(force);
-
-			// SEの再生
-			m_pScene->PlaySE("attackSE");
-
-			// 跳ね返り状態に遷移
-			m_isBounce = true;
-			m_trajectory->SetSpawn(true);
-			ChangeState(m_idlingState.get());
-		};
-	m_handleBody = m_pCollisionManager->Add(bodyDesc);
-	// 攻撃
-	CollisionManager::Desc atkDesc{};
-	atkDesc.type = CollisionManager::Type::Sphere;
-	atkDesc.layer = CollisionManager::Layer::PlayerAttack;
-	atkDesc.isTrigger = true;
-	atkDesc.sphere = &m_attackCollider;
-	atkDesc.userData = &m_attackForce;
-	m_handleAttack = m_pCollisionManager->Add(atkDesc);
-	m_pCollisionManager->SetEnabled(m_handleAttack, false);
-
-	// 待機状態を生成
-	m_idlingState = std::make_unique<Player_Idle>(this, param.pKbTracker);
-
-	// 歩き状態を生成
-	m_walkingState = std::make_unique<Player_Walk>(this, param.pCamera, param.pKbTracker);
-
-	// 通常攻撃状態を生成
-	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, param.pKbTracker);
-
-	// 転がり攻撃状態を生成
-	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(this, param.pCamera, param.pKbTracker);
-
-	// 転がり攻撃状態を生成
-	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, param.pKbTracker);
-
-	// 初期状態を設定する
-	m_currentState = m_idlingState.get();
-	m_currentState->Initialize(m_pResourceManager);
+	// 状態の設定
+	SetupState(param.pKbTracker, param.pCamera);
 }
+
 
 
 /**
@@ -250,6 +136,7 @@ void Player::Update(const float& elapsedTime)
 	// 現在の状態を更新する
 	m_currentState->Update(elapsedTime);
 }
+
 
 
 /**
@@ -271,6 +158,7 @@ void Player::Draw(RenderContext& context, DebugFont* debugFont)
 	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"attack = %d", static_cast<int>(m_attackType));
 	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"bounce = %d", static_cast<int>(m_isBounce));
 }
+
 
 
 /**
@@ -315,7 +203,6 @@ void Player::Finalize()
 
 
 
-
 /**
  * @brief 状態の切り替え
  *
@@ -331,7 +218,6 @@ void Player::ChangeState(IState* newState)
 	// 状態を初期化
 	m_currentState->Initialize(m_pResourceManager);
 }
-
 
 
 
@@ -445,8 +331,9 @@ void Player::Respawn()
  *
  * @return 移動方向
  */
-DirectX::SimpleMath::Vector3 Player::MoveDirection(DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-												   Camera* camera)
+DirectX::SimpleMath::Vector3 Player::MoveDirection(
+	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+	Camera* camera)
 {
 	DirectX::SimpleMath::Vector3 forward = camera->GetForward();
 	DirectX::SimpleMath::Vector3 right = forward.Cross(camera->GetUp());
@@ -532,7 +419,6 @@ void Player::SetAttackCollisionMultiHit(bool multiHit)
 
 
 
-
 /**
  * @brief 移動キーが押されているか
  *
@@ -546,4 +432,196 @@ bool Player::PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 		   pKbTracker->GetLastState().Down || 
 		   pKbTracker->GetLastState().Left ||
 		   pKbTracker->GetLastState().Right;
+}
+
+
+
+/**
+ * @brief 敵の攻撃で吹っ飛ぶ
+ *
+ * @param handle	攻撃判定のハンドル
+ *
+ * @return なし
+ */
+void Player::SmashEnemyAttack(const uint32_t& handle)
+{
+	MTV mtv = CalculateMTV(*m_pCollisionManager->GetDesc(handle)->sphere, m_collider);
+
+	// 吹っ飛ぶ方向の設定
+	DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
+	knockbackDir.Normalize();
+
+	// 吹っ飛ぶ力の設定
+	float knockbackForce = *m_pCollisionManager->GetDesc(handle)->userData;
+
+	DirectX::SimpleMath::Vector3 force = knockbackDir * knockbackForce;
+	m_physics->GetExternalForce().Add(force);
+
+	// SEの再生
+	m_pScene->PlaySE("attackSE");
+
+	// 跳ね返り状態に遷移
+	m_isBounce = true;
+	m_trajectory->SetSpawn(true);
+	ChangeState(m_idlingState.get());
+}
+
+
+
+/**
+ * @brief エフェクトの設定
+ *
+ * @param pEM	エフェクトマネージャーのポインタ
+ * @param pRM	リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
+void Player::SetupEffects(EffectManager* pEM, ResourceManager* pRM)
+{
+	// エフェクトのパラメータを設定
+// 軌跡
+	ParticleUtility::ParticleData t_data =
+	{
+		{DirectX::SimpleMath::Vector3(TRAJECTORY_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
+		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
+		TRAJECTORY_LIFE
+	};
+	// 円形
+	ParticleUtility::ParticleData c_data =
+	{
+		{DirectX::SimpleMath::Vector3(CIRCLE_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
+		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
+		CIRCLE_LIFE
+	};
+
+	// エフェクトの作成
+	// 軌跡
+	m_trajectory = pEM->CreateTrajectory(
+		pRM->RequestPNG("smoke", "Effect/smoke.png"),
+		t_data,
+		&m_position,
+		false
+	);
+	// 円形
+	m_circle = pEM->CreateCircle(
+		pRM->RequestPNG("smoke", "Effect/smoke.png"),
+		c_data,
+		&m_position,
+		RADIUS * 1.5f,
+		12,
+		false,
+		true
+	);
+}
+
+
+
+/**
+ * @brief 当たり判定の設定
+ *
+ * @param pCM	当たり判定マネージャーのポインタ
+ *
+ * @return なし
+ */
+void Player::SetupCollision(CollisionManager* pCM)
+{
+	// 当たり判定マネージャーの登録
+	m_pCollisionManager = pCM;
+
+	// コライダーの設定
+	m_collider = SphereCollider(m_position, RADIUS);
+
+	// 攻撃判定の設定
+	m_attackCollider = SphereCollider(m_position, RADIUS);
+
+	// 本体
+	CollisionManager::Desc bodyDesc{};
+	bodyDesc.type = CollisionManager::Type::Sphere;
+	bodyDesc.layer = CollisionManager::Layer::PlayerBody;
+	bodyDesc.sphere = &m_collider;
+	bodyDesc.position = &m_position;
+	bodyDesc.velocity = &m_velocity;
+	bodyDesc.mass = MASS;
+	bodyDesc.callback.onResolved =
+		[this](uint32_t, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		{
+			const float groundCos = std::cos(DirectX::XMConvertToRadians(30.0f));
+			if (n.y >= groundCos) m_onGround = true;
+		};
+	bodyDesc.callback.onEnter =
+		[this](uint32_t, uint32_t other)		// 敵の攻撃で吹っ飛ぶ
+		{
+			if (m_pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyAttack) return;
+
+			SmashEnemyAttack(other);
+		};
+	m_handleBody = m_pCollisionManager->Add(bodyDesc);
+	// 攻撃
+	CollisionManager::Desc atkDesc{};
+	atkDesc.type = CollisionManager::Type::Sphere;
+	atkDesc.layer = CollisionManager::Layer::PlayerAttack;
+	atkDesc.isTrigger = true;
+	atkDesc.sphere = &m_attackCollider;
+	atkDesc.userData = &m_attackForce;
+	m_handleAttack = m_pCollisionManager->Add(atkDesc);
+	m_pCollisionManager->SetEnabled(m_handleAttack, false);
+}
+
+
+
+/**
+ * @brief 状態の設定
+ *
+ * @param pKeyboard	キーボードトラッカーのポインタ
+ * @param pCamera	カメラのポインタ
+ *
+ * @return なし
+ */
+void Player::SetupState(DirectX::Keyboard::KeyboardStateTracker* pKeyboard, Camera* pCamera)
+{
+	// 待機状態を生成
+	m_idlingState = std::make_unique<Player_Idle>(this, pKeyboard);
+
+	// 歩き状態を生成
+	m_walkingState = std::make_unique<Player_Walk>(this, pCamera, pKeyboard);
+
+	// 通常攻撃状態を生成
+	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, pKeyboard);
+
+	// 転がり攻撃状態を生成
+	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(this, pCamera, pKeyboard);
+
+	// 転がり攻撃状態を生成
+	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, pKeyboard);
+
+	// 初期状態を設定する
+	m_currentState = m_idlingState.get();
+	m_currentState->Initialize(m_pResourceManager);
+}
+
+
+
+/**
+ * @brief モデル・アニメーションの設定
+ *
+ * @param pRM	リソースマネージャーのポインタ
+ * @param info	プレイヤー情報
+ *
+ * @return なし
+ */
+void Player::SetupModels(ResourceManager* pRM, const PlayerInfoLoader::PlayerInfo& info)
+{
+	// モデルの読み込み
+	m_model = pRM->RequestSDKMESH("player", info.modelPath, true);
+
+	// アニメーションの読み込み
+	m_animations = std::make_unique<Animations>();
+	m_animations->idle = pRM->RequestAnimation("playerIdle", info.idleAnimPath);
+	m_animations->walk = pRM->RequestAnimation("playerWalk", info.walkAnimPath);
+	m_animations->atk_basic = pRM->RequestAnimation("playerAtkB",
+		info.attackAnimPath[static_cast<int>(AttackType::BASIC)]);
+	m_animations->atk_rolling = pRM->RequestAnimation("playerAtkR",
+		info.attackAnimPath[static_cast<int>(AttackType::ROLLING)]);
+	m_animations->atk_heavy = pRM->RequestAnimation("playerAtkH",
+		info.attackAnimPath[static_cast<int>(AttackType::HEAVY)]);
 }

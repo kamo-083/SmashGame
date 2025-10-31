@@ -263,5 +263,18 @@ public:
 
 	// 内部実装
 private:
+	// 敵の攻撃で吹っ飛ぶ
+	void SmashEnemyAttack(const uint32_t& handle);
 
+	// エフェクトの設定
+	void SetupEffects(EffectManager* pEM, ResourceManager* pRM);
+
+	// 当たり判定の設定
+	void SetupCollision(CollisionManager* pCM);
+
+	// モデル・アニメーションの設定
+	void SetupModels(ResourceManager* pRM, const PlayerInfoLoader::PlayerInfo& info);
+
+	// 状態の設定
+	void SetupState(DirectX::Keyboard::KeyboardStateTracker* pKeyboard, Camera* pCamera);
 };

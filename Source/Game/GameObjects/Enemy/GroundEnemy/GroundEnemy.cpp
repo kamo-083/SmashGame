@@ -30,40 +30,8 @@ GroundEnemy::GroundEnemy(
 {
 	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUR->GetDeviceResources()->GetD3DDeviceContext());
 
-	// エフェクトのパラメータを設定
-	// 軌跡
-	ParticleUtility::ParticleData t_data =
-	{
-		{DirectX::SimpleMath::Vector3(TRAJECTORY_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
-		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
-		TRAJECTORY_LIFE
-	};
-	// 円形
-	ParticleUtility::ParticleData c_data =
-	{
-		{DirectX::SimpleMath::Vector3(CIRCLE_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
-		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
-		CIRCLE_LIFE
-	};
-
-	// エフェクトの作成
-	// 軌跡
-	m_trajectory = pEM->CreateTrajectory(
-		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
-		t_data,
-		&m_position,
-		false
-	);
-	// 円形
-	m_circle = pEM->CreateCircle(
-		pUR->GetResourceManager()->RequestPNG("smoke", "Effect/smoke.png"),
-		c_data,
-		&m_position,
-		RADIUS * 1.5f,
-		12,
-		false,
-		true
-	);
+	// エフェクトの設定
+	SetupEffects(pEM, pUR->GetResourceManager());
 }
 
 
@@ -106,96 +74,25 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 	m_isAttack = false;
 	m_attackForce = 0.0f;
 
-	// モデルの読み込み		(キーがとりあえずパスになっているので変える)
-	m_model = pRM->RequestSDKMESH(info.modelPath, info.modelPath, true);
-
-	// アニメーションの読み込み
-	m_animations = std::make_unique<Animations>();
-	m_animations->idle = pRM->RequestAnimation(info.idleAnimPath, info.idleAnimPath);
-	m_animations->walk = pRM->RequestAnimation(info.walkAnimPath, info.walkAnimPath);
-	m_animations->attack = pRM->RequestAnimation(info.attackAnimPath, info.attackAnimPath);
+	// モデル・アニメーションの設定
+	SetupModels(pRM, info);
 
 	// リソースマネージャの設定
 	m_pResourceManager = pRM;
-
-	// 当たり判定の設定
-	m_collider.SetCenter(m_position);
-	m_collider.SetRadius(RADIUS);
 
 	// 物理演算の設定
 	m_physics = std::make_unique<PhysicsObject>();
 	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION);
 	m_physics->GetFriction().SetDynamicFriction(DYNAMIC_FRICTION);
 
-	// 当たり判定マネージャーの登録
-	m_pCollisionManager = pCM;
-
-	// 本体
-	CollisionManager::Desc bodyDesc{};
-	bodyDesc.type = CollisionManager::Type::Sphere;
-	bodyDesc.layer = CollisionManager::Layer::EnemyBody;
-	bodyDesc.userId = id;
-	bodyDesc.sphere = &m_collider;
-	bodyDesc.position = &m_position;
-	bodyDesc.velocity = &m_velocity;
-	bodyDesc.mass = MASS;
-	bodyDesc.callback.onResolved =
-		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
-		{
-			const float groundCos = std::cos(DirectX::XMConvertToRadians(30.0f));
-			if (n.y >= groundCos) m_onGround = true;
-
-			// 地面・壁との反射
-			if (m_pCollisionManager->GetDesc(other)->layer == CollisionManager::Layer::Stage) ReflectOnCollision(n);
-		};
-	bodyDesc.callback.onEnter =
-		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ
-		{
-			auto otherDesc = m_pCollisionManager->GetDesc(other);
-			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack) return;
-
-			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
-
-			// SEの再生
-			m_pScene->PlaySE("attackSE");
-		};
-	bodyDesc.callback.onStay =
-		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)
-		{			
-			auto otherDesc = m_pCollisionManager->GetDesc(other);
-			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack && !otherDesc->isMultiHit) return;
-
-			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
-		};
-	m_handleBody = m_pCollisionManager->Add(bodyDesc);
-	// 攻撃
-	CollisionManager::Desc atkDesc{};
-	atkDesc.type = CollisionManager::Type::Sphere;
-	atkDesc.layer = CollisionManager::Layer::EnemyAttack;
-	atkDesc.isTrigger = true;
-	atkDesc.sphere = &m_attackCollider;
-	atkDesc.userData = &m_attackForce;
-	m_handleAttack = m_pCollisionManager->Add(atkDesc);
-
-	// 状態の作成
-	// 待機状態
-	m_idlingState = std::make_unique<GroundEnemy_Idle>(this);
-	m_idlingState->Initialize(pRM);
-	// 歩き状態
-	m_walkingState = std::make_unique<GroundEnemy_Walk>(this);
-	m_walkingState->Initialize(pRM);
-	// 跳ね返り状態
-	m_bouncingState = std::make_unique<GroundEnemy_Bounce>(this);
-	m_bouncingState->Initialize(pRM);
-	// 攻撃状態
-	m_attackingState = std::make_unique<GroundEnemy_Attack>(this, info);
-	m_attackingState->Initialize(pRM);
+	// 当たり判定の設定
+	SetupCollision(pCM, id);
 
 	// エフェクトを出現をオフ
 	m_trajectory->SetSpawn(false);
 
-	// 初期状態の設定
-	m_currentState = m_idlingState.get();
+	// 状態の設定
+	SetupState(pRM, info);
 }
 
 
@@ -388,3 +285,169 @@ void GroundEnemy::ReflectOnCollision(DirectX::SimpleMath::Vector3 normal)
 	}
 }
 
+
+
+/**
+ * @brief エフェクトの設定
+ *
+ * @param pEM	エフェクトマネージャーのポインタ
+ * @param pRM	リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
+void GroundEnemy::SetupEffects(EffectManager* pEM, ResourceManager* pRM)
+{
+	// エフェクトのパラメータを設定
+// 軌跡
+	ParticleUtility::ParticleData t_data =
+	{
+		{DirectX::SimpleMath::Vector3(TRAJECTORY_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
+		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
+		TRAJECTORY_LIFE
+	};
+	// 円形
+	ParticleUtility::ParticleData c_data =
+	{
+		{DirectX::SimpleMath::Vector3(CIRCLE_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},
+		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
+		CIRCLE_LIFE
+	};
+
+	// エフェクトの作成
+	// 軌跡
+	m_trajectory = pEM->CreateTrajectory(
+		pRM->RequestPNG("smoke", "Effect/smoke.png"),
+		t_data,
+		&m_position,
+		false
+	);
+	// 円形
+	m_circle = pEM->CreateCircle(
+		pRM->RequestPNG("smoke", "Effect/smoke.png"),
+		c_data,
+		&m_position,
+		RADIUS * 1.5f,
+		12,
+		false,
+		true
+	);
+}
+
+
+
+/**
+ * @brief モデル・アニメーションの設定
+ *
+ * @param pRM	リソースマネージャーのポインタ
+ * @param info	敵情報
+ *
+ * @return なし
+ */
+void GroundEnemy::SetupModels(ResourceManager* pRM, const EnemyInfoLoader::EnemyInfo& info)
+{
+	// モデルの読み込み		(キーがとりあえずパスになっているので変える)
+	m_model = pRM->RequestSDKMESH(info.modelPath, info.modelPath, true);
+
+	// アニメーションの読み込み
+	m_animations = std::make_unique<Animations>();
+	m_animations->idle = pRM->RequestAnimation(info.idleAnimPath, info.idleAnimPath);
+	m_animations->walk = pRM->RequestAnimation(info.walkAnimPath, info.walkAnimPath);
+	m_animations->attack = pRM->RequestAnimation(info.attackAnimPath, info.attackAnimPath);
+}
+
+
+
+/**
+ * @brief 当たり判定の設定
+ *
+ * @param pCM	当たり判定マネージャーのポインタ
+ * @param id	個別ID
+ *
+ * @return なし
+ */
+void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
+{
+	// 当たり判定マネージャーの登録
+	m_pCollisionManager = pCM;
+
+	// 当たり判定の設定
+	m_collider.SetCenter(m_position);
+	m_collider.SetRadius(RADIUS);
+
+	// 本体
+	CollisionManager::Desc bodyDesc{};
+	bodyDesc.type = CollisionManager::Type::Sphere;
+	bodyDesc.layer = CollisionManager::Layer::EnemyBody;
+	bodyDesc.userId = id;
+	bodyDesc.sphere = &m_collider;
+	bodyDesc.position = &m_position;
+	bodyDesc.velocity = &m_velocity;
+	bodyDesc.mass = MASS;
+	bodyDesc.callback.onResolved =
+		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		{
+			const float groundCos = std::cos(DirectX::XMConvertToRadians(30.0f));
+			if (n.y >= groundCos) m_onGround = true;
+
+			// 地面・壁との反射
+			if (m_pCollisionManager->GetDesc(other)->layer == CollisionManager::Layer::Stage) ReflectOnCollision(n);
+		};
+	bodyDesc.callback.onEnter =
+		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ
+		{
+			auto otherDesc = m_pCollisionManager->GetDesc(other);
+			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack) return;
+
+			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
+
+			// SEの再生
+			m_pScene->PlaySE("attackSE");
+		};
+	bodyDesc.callback.onStay =
+		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)
+		{
+			auto otherDesc = m_pCollisionManager->GetDesc(other);
+			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack && !otherDesc->isMultiHit) return;
+
+			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
+		};
+	m_handleBody = m_pCollisionManager->Add(bodyDesc);
+	// 攻撃
+	CollisionManager::Desc atkDesc{};
+	atkDesc.type = CollisionManager::Type::Sphere;
+	atkDesc.layer = CollisionManager::Layer::EnemyAttack;
+	atkDesc.isTrigger = true;
+	atkDesc.sphere = &m_attackCollider;
+	atkDesc.userData = &m_attackForce;
+	m_handleAttack = m_pCollisionManager->Add(atkDesc);
+}
+
+
+
+/**
+ * @brief 状態の設定
+ *
+ * @param pRM	リソースマネージャーのポインタ
+ * @param info	敵情報
+ *
+ * @return なし
+ */
+void GroundEnemy::SetupState(ResourceManager* pRM, const EnemyInfoLoader::EnemyInfo& info)
+{
+	// 状態の作成
+// 待機状態
+	m_idlingState = std::make_unique<GroundEnemy_Idle>(this);
+	m_idlingState->Initialize(pRM);
+	// 歩き状態
+	m_walkingState = std::make_unique<GroundEnemy_Walk>(this);
+	m_walkingState->Initialize(pRM);
+	// 跳ね返り状態
+	m_bouncingState = std::make_unique<GroundEnemy_Bounce>(this);
+	m_bouncingState->Initialize(pRM);
+	// 攻撃状態
+	m_attackingState = std::make_unique<GroundEnemy_Attack>(this, info);
+	m_attackingState->Initialize(pRM);
+
+	// 初期状態の設定
+	m_currentState = m_idlingState.get();
+}

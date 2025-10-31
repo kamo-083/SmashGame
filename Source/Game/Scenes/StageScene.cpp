@@ -95,120 +95,38 @@ void StageScene::Initialize()
 	m_collisionManager = std::make_unique<CollisionManager>();
 
 	// レイヤーフィルターの登録
-	auto& M = m_collisionManager->GetLayerMatrix();
-	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyBody] = true;		// プレイヤーと敵
-	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyBody] = true;		// 敵同士
-	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyAttack] = true;	// プレイヤーと敵の攻撃
-	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::PlayerAttack] = false;	// プレイヤーとプレイヤーの攻撃
-	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::PlayerAttack] = true;	// 敵とプレイヤーの攻撃
-	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyAttack] = false;	// 敵と敵の攻撃
-	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Stage] = true;			// プレイヤーとステージ
-	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Stage] = true;			// 敵とステージ
-	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Trigger] = true;		// プレイヤーとトリガー
-	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Trigger] = true;		// 敵とトリガー
+	SetupCollitionLayer();
 
 	// カメラの作成
 	m_camera = std::make_unique<Camera>();
 
 	// エフェクトマネージャーの作成
-	m_effectManager = std::make_unique<EffectManager>(pDR, m_userResources->GetStates());
-	m_effectManager->LoadShaders(m_userResources->GetShaderManager());
-	m_effectManager->SetCamera(m_camera.get());
+	SetupEffects(pDR);
 
 	// ウィンドウサイズの取得
 	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
-		static_cast<float>(pDR->GetOutputSize().right),
-		static_cast<float>(pDR->GetOutputSize().bottom)
-	);
+		static_cast<float>(pDR->GetOutputSize().right), static_cast<float>(pDR->GetOutputSize().bottom));
 
-	// 操作方法UIの画像読み込み
-	OperationUI::Textures opTextures;
-	opTextures.nomalArrow = pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png");
-	opTextures.rotateArrow = pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png");
-	opTextures.keyText = pRM->RequestPNG("box", "Resources/Textures/text/operationText.png");
-
-	// 操作方法UIの引数用構造体作成
-	OperationUI::OperationUIDesc opUIDesc =
-	{
-		opTextures,
-		ARROW_SIZE_DEFAULT,
-		ARROW_SIZE_ROTATE,
-		TEXT_UV_LEFT,
-		TEXT_SIZE,
-		CAMERA_ICON_SIZE
-	};
-
-	// 攻撃変更UIの画像読み込み・引数用構造体作成
-	AttackUI::AttackUIDesc atkUIDesc =
-	{
-		pRM->RequestPNG("attack_basic", "UI/basicAtk.png"),
-		pRM->RequestPNG("attack_rolling", "UI/rollingAtk.png"),
-		pRM->RequestPNG("attack_heavy", "UI/heavyAtk.png"),
-		ATTACK_ICON_SIZE.x, ATTACK_ICON_SIZE.y
-	};
-
-	// 攻撃UIの作成
-	m_attackUI = std::make_unique<AttackUI>(
-		windowSize.x, windowSize.y);
-	m_attackUI->Initialize(atkUIDesc, opUIDesc);
-
-	// カメラ操作UIの作成
-	opTextures.icon = pRM->RequestPNG("camera", "UI/camera.png");	// アイコン画像追加
-	opUIDesc.textures = opTextures;														// 再設定
-	m_cameraUI = std::make_unique<OperationUI>();
-	m_cameraUI->Initialize(opUIDesc, CAMERA_UI_POS, CAMERA_UI_ARROW_INTERVAL, false);
-
-	// リザルトUIの作成
-	m_resultUI = std::make_unique<StageResultUI>();
-	m_resultUI->Initialize(
-		pRM->RequestPNG("resultPanel", "UI/resultPanel.png"),
-		RESULT_WINDOW_SIZE, windowSize);
-
-	// ステージクリア条件UIの作成
-	m_conditionsUI = std::make_unique<ClearConditionsUI>(CLEAR_CONDITIONS);
-	m_conditionsUI->Initialize(
-		windowSize,
-		pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
-		CONDITIONS_TEXT_SIZE
-	);
+	// UIの設定
+	SetupUI(windowSize, pRM);
 
 	// 深度ステンシルステートの作成
 	CreateDepthStencilState(pDR->GetD3DDevice());
 
 	// プレイヤーの作成
-	PlayerInfoLoader loader;
-	PlayerInfoLoader::PlayerInfo info;
-	loader.LoadData("Resources/Json/playerInfo.json", info);
-	Player::PlayerParams pParam = 
-	{
-			pRM,
-			m_collisionManager.get(),
-			m_userResources->GetKeyboardTracker(),
-			m_camera.get(),
-			m_attackUI.get(),
-			&m_keyMode,
-			info
-	};
-	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this, info);
-	m_player->Initialize(pParam);
+	SetupPlayer(pRM);
 
 	// 敵マネージャーの作成
-	m_enemyManager = std::make_unique<EnemyManager>(
-		m_userResources, m_collisionManager.get(), m_effectManager.get(), this);
-	m_enemyManager->Initialize();
+	SetupEnemy();
 
 	// ステージマネージャーの作成
-	m_stageManager = std::make_unique<StageManager>(this, m_depthStencilState_stage.Get());
-	m_stageManager->CreateStage(m_userResources, m_collisionManager.get(), m_enemyManager.get(),
-								m_stageFilePath);
+	SetupStage();
 
 	// カメラの初期化
 	m_camera->Initialize(&m_player->GetPosition());
 
 	// スカイドームの作成
-	m_sky = std::make_unique<Sky>();
-	m_sky->Initialize(m_userResources);
-	m_sky->SetPosition(&m_player->GetPosition());
+	SetupSkydome();
 
 	// キー操作のモードの初期化
 	m_keyMode = true;
@@ -216,26 +134,11 @@ void StageScene::Initialize()
 	// 表示状態の初期化
 	m_overlayMode = Overlay::GAMEPLAY;
 
-	// テクスチャの読み込み
-	m_textures = std::make_unique<Textures>();
-	m_textures->shadow = pRM->RequestDDS("shadow", "Others/shadow.dds");
-	m_textures->key = pRM->RequestPNG("stageKey", "Text/stageKeyText.png");
+	// テクスチャの設定
+	SetupTextures(pRM);
 
-	// BGM・SEの読み込み
-	pAM->LoadMP3("stageBGM", "BGM/iwashiro_orange_hill.mp3");
-	pAM->LoadMP3("startSE", "SE/fue.mp3");
-	pAM->LoadMP3("canGoalSE", "SE/bell.mp3");
-	pAM->LoadMP3("clearSE", "SE/one08.mp3");
-	pAM->LoadMP3("attackSE", "SE/hit01.mp3");
-
-	// BGM・SEの音量変更
-	pAM->SetVolume("stageBGM", BGM_VOLUME);
-
-	// BGMの再生
-	pAM->Play("stageBGM", true);
-
-	// スタートSEの再生
-	PlaySE("startSE");
+	// 音声の設定
+	SetupSounds(pAM);
 }
 
 
@@ -252,31 +155,14 @@ void StageScene::Update(float elapsedTime)
 	// リザルト表示中
 	if (m_overlayMode == Overlay::RESULT)
 	{
-		m_resultUI->Update(elapsedTime);
-
-		// シーンの切り替え
-		if (m_userResources->GetKeyboardTracker()->pressed.Space)
-		{
-			// BGMの停止
-			m_userResources->GetAudioManager()->Stop("stageBGM");
-
-			ChangeScene("StageSelectScene");
-		}
-
+		UpdateResult(elapsedTime);
 		return;
 	}
 
 	// キー操作のモード切り替え
 	if (m_userResources->GetKeyboardTracker()->pressed.X)
 	{
-		m_keyMode = !m_keyMode;
-
-		// UI切り替え
-		m_cameraUI->Active(!m_cameraUI->IsActive());
-		m_attackUI->SwitchUIMode();
-
-		// SEの再生
-		PlaySE("cursorSE");
+		ChangeKeyMode();
 	}
 
 	// プレイヤーの更新
@@ -356,31 +242,7 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 	m_stageManager->Draw(context, debugFont);
 
 	// 影の描画
-	SettingShadow(context);
-	float groundHeight = m_stageManager->GetGround(0)->GetHeight().y;
-	m_primitiveBatch->Begin();
-
-	// プレイヤー
-	DrawShadow(
-		DirectX::SimpleMath::Vector3(m_player->GetPosition().x, groundHeight, m_player->GetPosition().z),
-		m_player->GetRadius());
-	
-	// 敵
-	for (int i = 1; i <= m_enemyManager->GetEnemyNum(); i++)
-	{
-		// 対象が存在しなかったら飛ばす
-		if (!m_enemyManager->GetEnemyByID(i)) continue;
-
-		// 座標を取得
-		DirectX::SimpleMath::Vector3 enemyPos = m_enemyManager->GetEnemyByID(i)->GetPosition();
-		enemyPos.y = groundHeight;
-		// 半径を取得
-		float enemyRadius = m_enemyManager->GetEnemyByID(i)->GetRadius();
-		// 影を描画
-		DrawShadow(enemyPos, enemyRadius);
-	}
-
-	m_primitiveBatch->End();
+	DrawObjectsShadow(context);
 
 	// エフェクトの描画
 	m_effectManager->Draw(context.proj);
@@ -595,4 +457,312 @@ std::array<DirectX::VertexPositionTexture, StageScene::SHADOW_VERTEX_NUM> StageS
 	vertexes[3].position = DirectX::SimpleMath::Vector3(radius, SHADOW_HEIGHT_ADJUST, radius) + position;
 
 	return vertexes;
+}
+
+
+
+/**
+ * @brief オブジェクトの影を描画
+ *
+ * @param context	描画用構造体
+ *
+ * @return なし
+ */
+void StageScene::DrawObjectsShadow(RenderContext context)
+{
+	SettingShadow(context);
+	float groundHeight = m_stageManager->GetGround(0)->GetHeight().y;
+	m_primitiveBatch->Begin();
+
+	// プレイヤー
+	DrawShadow(
+		DirectX::SimpleMath::Vector3(m_player->GetPosition().x, groundHeight, m_player->GetPosition().z),
+		m_player->GetRadius());
+
+	// 敵
+	for (int i = 1; i <= m_enemyManager->GetEnemyNum(); i++)
+	{
+		// 対象が存在しなかったら飛ばす
+		if (!m_enemyManager->GetEnemyByID(i)) continue;
+
+		// 座標を取得
+		DirectX::SimpleMath::Vector3 enemyPos = m_enemyManager->GetEnemyByID(i)->GetPosition();
+		enemyPos.y = groundHeight;
+		// 半径を取得
+		float enemyRadius = m_enemyManager->GetEnemyByID(i)->GetRadius();
+		// 影を描画
+		DrawShadow(enemyPos, enemyRadius);
+	}
+
+	m_primitiveBatch->End();
+}
+
+
+
+/**
+ * @brief リザルト中の更新
+ *
+ * @param elapsedTime	経過時間
+ *
+ * @return なし
+ */
+void StageScene::UpdateResult(float elapsedTime)
+{
+	m_resultUI->Update(elapsedTime);
+
+	// シーンの切り替え
+	if (m_userResources->GetKeyboardTracker()->pressed.Space)
+	{
+		// BGMの停止
+		m_userResources->GetAudioManager()->Stop("stageBGM");
+
+		ChangeScene("StageSelectScene");
+	}
+}
+
+
+
+/**
+ * @brief キー操作モードの切り替え
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageScene::ChangeKeyMode()
+{
+	m_keyMode = !m_keyMode;
+
+	// UI切り替え
+	m_cameraUI->Active(!m_cameraUI->IsActive());
+	m_attackUI->SwitchUIMode();
+
+	// SEの再生
+	PlaySE("cursorSE");
+}
+
+
+
+/**
+ * @brief 当たり判定のレイヤーフィルターの設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageScene::SetupCollitionLayer()
+{
+	auto& M = m_collisionManager->GetLayerMatrix();
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyBody] = true;		// プレイヤーと敵
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyBody] = true;		// 敵同士
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyAttack] = true;	// プレイヤーと敵の攻撃
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::PlayerAttack] = false;	// プレイヤーとプレイヤーの攻撃
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::PlayerAttack] = true;	// 敵とプレイヤーの攻撃
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyAttack] = false;	// 敵と敵の攻撃
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Stage] = true;			// プレイヤーとステージ
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Stage] = true;			// 敵とステージ
+	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::Trigger] = true;		// プレイヤーとトリガー
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Trigger] = true;		// 敵とトリガー
+}
+
+
+
+/**
+ * @brief エフェクトマネージャーの設定
+ *
+ * @param pDR	デバイスリソースのポインタ
+ *
+ * @return なし
+ */
+void StageScene::SetupEffects(DX::DeviceResources* pDR)
+{
+	m_effectManager = std::make_unique<EffectManager>(pDR, m_userResources->GetStates());
+	m_effectManager->LoadShaders(m_userResources->GetShaderManager());
+	m_effectManager->SetCamera(m_camera.get());
+}
+
+
+
+/**
+ * @brief プレイヤーの設定
+ *
+ * @param pRM	リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
+void StageScene::SetupPlayer(ResourceManager* pRM)
+{
+	PlayerInfoLoader loader;
+	PlayerInfoLoader::PlayerInfo info;
+	loader.LoadData("Resources/Json/playerInfo.json", info);
+	Player::PlayerParams param =
+	{
+			pRM,
+			m_collisionManager.get(),
+			m_userResources->GetKeyboardTracker(),
+			m_camera.get(),
+			m_attackUI.get(),
+			&m_keyMode,
+			info
+	};
+	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this, info);
+	m_player->Initialize(param);
+}
+
+
+
+/**
+ * @brief 敵の設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageScene::SetupEnemy()
+{
+	m_enemyManager = std::make_unique<EnemyManager>(
+		m_userResources, m_collisionManager.get(), m_effectManager.get(), this);
+	m_enemyManager->Initialize();
+}
+
+
+
+/**
+ * @brief ステージの設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageScene::SetupStage()
+{
+	m_stageManager = std::make_unique<StageManager>(this, m_depthStencilState_stage.Get());
+	m_stageManager->CreateStage(
+		m_userResources, m_collisionManager.get(), m_enemyManager.get(),
+		m_stageFilePath);
+}
+
+
+
+/**
+ * @brief スカイドームの設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageScene::SetupSkydome()
+{
+	m_sky = std::make_unique<Sky>();
+	m_sky->Initialize(m_userResources);
+	m_sky->SetPosition(&m_player->GetPosition());
+}
+
+
+
+/**
+ * @brief UIの設定
+ *
+ * @param windowSize	ウィンドウサイズ
+ * @param pRM			リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
+void StageScene::SetupUI(DirectX::SimpleMath::Vector2 windowSize, ResourceManager* pRM)
+{
+	// 操作方法UIの画像読み込み
+	OperationUI::Textures opTextures;
+	opTextures.nomalArrow = pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png");
+	opTextures.rotateArrow = pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png");
+	opTextures.keyText = pRM->RequestPNG("box", "Resources/Textures/text/operationText.png");
+
+	// 操作方法UIの引数用構造体作成
+	OperationUI::OperationUIDesc opUIDesc =
+	{
+		opTextures,
+		ARROW_SIZE_DEFAULT,
+		ARROW_SIZE_ROTATE,
+		TEXT_UV_LEFT,
+		TEXT_SIZE,
+		CAMERA_ICON_SIZE
+	};
+
+	// 攻撃変更UIの画像読み込み・引数用構造体作成
+	AttackUI::AttackUIDesc atkUIDesc =
+	{
+		pRM->RequestPNG("attack_basic", "UI/basicAtk.png"),
+		pRM->RequestPNG("attack_rolling", "UI/rollingAtk.png"),
+		pRM->RequestPNG("attack_heavy", "UI/heavyAtk.png"),
+		ATTACK_ICON_SIZE.x, ATTACK_ICON_SIZE.y
+	};
+
+	// 攻撃UIの作成
+	m_attackUI = std::make_unique<AttackUI>(
+		windowSize.x, windowSize.y);
+	m_attackUI->Initialize(atkUIDesc, opUIDesc);
+
+	// カメラ操作UIの作成
+	opTextures.icon = pRM->RequestPNG("camera", "UI/camera.png");	// アイコン画像追加
+	opUIDesc.textures = opTextures;														// 再設定
+	m_cameraUI = std::make_unique<OperationUI>();
+	m_cameraUI->Initialize(opUIDesc, CAMERA_UI_POS, CAMERA_UI_ARROW_INTERVAL, false);
+
+	// リザルトUIの作成
+	m_resultUI = std::make_unique<StageResultUI>();
+	m_resultUI->Initialize(
+		pRM->RequestPNG("resultPanel", "UI/resultPanel.png"),
+		RESULT_WINDOW_SIZE, windowSize);
+
+	// ステージクリア条件UIの作成
+	m_conditionsUI = std::make_unique<ClearConditionsUI>(CLEAR_CONDITIONS);
+	m_conditionsUI->Initialize(
+		windowSize,
+		pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
+		CONDITIONS_TEXT_SIZE
+	);
+}
+
+
+
+/**
+ * @brief テクスチャの設定
+ *
+ * @param pRM	リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
+void StageScene::SetupTextures(ResourceManager* pRM)
+{
+	// テクスチャの読み込み
+	m_textures = std::make_unique<Textures>();
+	m_textures->shadow = pRM->RequestDDS("shadow", "Others/shadow.dds");
+	m_textures->key = pRM->RequestPNG("stageKey", "Text/stageKeyText.png");
+}
+
+
+
+/**
+ * @brief 音声の設定
+ *
+ * @param pAM	オーディオマネージャーのポインタ
+ *
+ * @return なし
+ */
+void StageScene::SetupSounds(AudioManager* pAM)
+{
+	// BGM・SEの読み込み
+	pAM->LoadMP3("stageBGM", "BGM/iwashiro_orange_hill.mp3");
+	pAM->LoadMP3("startSE", "SE/fue.mp3");
+	pAM->LoadMP3("canGoalSE", "SE/bell.mp3");
+	pAM->LoadMP3("clearSE", "SE/one08.mp3");
+	pAM->LoadMP3("attackSE", "SE/hit01.mp3");
+
+	// BGM・SEの音量変更
+	pAM->SetVolume("stageBGM", BGM_VOLUME);
+
+	// BGMの再生
+	pAM->Play("stageBGM", true);
+
+	// スタートSEの再生
+	PlaySE("startSE");
 }

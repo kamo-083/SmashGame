@@ -127,9 +127,6 @@ public:
 	// プレイヤーの距離・向きの計算
 	void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos,float radius);
 
-	// 攻撃を受けた時の処理
-	void DetectCollisionToAttack(SphereCollider collider, float power);
-
 
 // 取得/設定
 public:
@@ -153,6 +150,21 @@ public:
 
 // 内部実装
 private:
+	// 攻撃を受けた時の処理
+	void DetectCollisionToAttack(SphereCollider collider, float power);
+
 	// 地面・壁との反射
 	void ReflectOnCollision(DirectX::SimpleMath::Vector3 normal);
+
+	// エフェクトの設定
+	void SetupEffects(EffectManager* pEM, ResourceManager* pRM);
+
+	// モデル・アニメーションの設定
+	void SetupModels(ResourceManager* pRM, const EnemyInfoLoader::EnemyInfo& info);
+
+	// 当たり判定の設定
+	void SetupCollision(CollisionManager* pCM, const uint32_t& id);
+
+	// 状態の設定
+	void SetupState(ResourceManager* pRM, const EnemyInfoLoader::EnemyInfo& info);
 };
