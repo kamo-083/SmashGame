@@ -11,6 +11,7 @@
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
+#include "Source/Game/Data/PlayerInfoLoader.h"
 #include "Source/Game/GameObjects/Camera.h"
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
@@ -175,9 +176,21 @@ void StageScene::Initialize()
 	CreateDepthStencilState(pDR->GetD3DDevice());
 
 	// プレイヤーの作成
-	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this);
-	m_player->Initialize(pRM, m_collisionManager.get(),
-		m_userResources->GetKeyboardTracker(), m_camera.get(), m_attackUI.get(), &m_keyMode);
+	PlayerInfoLoader loader;
+	PlayerInfoLoader::PlayerInfo info;
+	loader.LoadData("Resources/Json/playerInfo.json", info);
+	Player::PlayerParams pParam = 
+	{
+			pRM,
+			m_collisionManager.get(),
+			m_userResources->GetKeyboardTracker(),
+			m_camera.get(),
+			m_attackUI.get(),
+			&m_keyMode,
+			info
+	};
+	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this, info);
+	m_player->Initialize(pParam);
 
 	// 敵マネージャーの作成
 	m_enemyManager = std::make_unique<EnemyManager>(

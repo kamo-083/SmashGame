@@ -13,8 +13,8 @@
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
-#include "Source/Game/Data/EnamyData.h"
-#include "Source/Game/GameObjects/Enemy/EnemyInfoLoader.h"
+#include "Source/Game/Data/EnemyData.h"
+#include "Source/Game/Data/EnemyInfoLoader.h"
 #include "Source/Game/GameObjects/Enemy/IEnemy.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 

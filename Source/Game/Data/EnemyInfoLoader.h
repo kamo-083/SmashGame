@@ -14,6 +14,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include "Source/Game/Data/EnemyData.h"
 
 using json = nlohmann::json;
 
@@ -26,14 +27,6 @@ class EnemyInfoLoader
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	// 敵の種類
-	enum class EnemyType
-	{
-		Basic,	// 通常
-		Heavy,	// 重量
-		Light,	// 軽量
-	};
-
 	// アニメーションの種類
 	enum class AnimType
 	{
@@ -67,9 +60,6 @@ public:
 		std::string walkAnimPath;	// 移動アニメーションのファイルパス
 		std::string attackAnimPath;	// 攻撃アニメーションのファイルパス
 	};
-
-	// データメンバの宣言 -----------------------------------------------
-private:
 
 
 	// メンバ関数の宣言 -------------------------------------------------

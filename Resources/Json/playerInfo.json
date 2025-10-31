@@ -1,0 +1,43 @@
+{
+    "info": [
+        {
+            "radius": 0.5,
+            "mass": 15.0,
+            "speed": 0.0,
+            "max_speed": 7.0,
+            "static_friction": 0.15,
+            "dynamic_friction": 0.15,
+            "attack": [
+                {
+                    "atkType": "Basic",
+                    "atkParam": [ 1.0, 2.0, 3000.0 ]
+                },
+                {
+                    "atkType": "Heavy",
+                    "atkParam": [ 1.0, 2.0, 5000.0 ]
+                },
+                {
+                    "atkType": "Rolling",
+                    "atkParam": [ 5.0, 3.0, 300.0 ]
+                }
+            ],
+            "modelPath": "playerCat.sdkmesh",
+            "idleAnimPath": "playerCat_idle.sdkmesh_anim",
+            "walkAnimPath": "playerCat_walk.sdkmesh_anim",
+            "attackAnimPath": [
+                {
+                    "atkType": "Basic",
+                    "atkAnim": "playerCat_atkBasic.sdkmesh_anim"
+                },
+                {
+                    "atkType": "Heavy",
+                    "atkAnim": "playerCat_atkHeavy.sdkmesh_anim"
+                },
+                {
+                    "atkType": "Rolling",
+                    "atkAnim": "playerCat_atkRolling.sdkmesh_anim"
+                }
+            ]
+        }
+    ]
+}

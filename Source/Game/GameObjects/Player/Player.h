@@ -20,6 +20,7 @@
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/Data/AttackData.h"
+#include"Source/Game/Data/PlayerInfoLoader.h"
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/GameObjects/Player/Player_Idle.h"
@@ -47,13 +48,13 @@ class Player
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float RADIUS = 0.5f;					//半径の大きさ
-	static constexpr float MAX_SPEED = 7.0f;				//最高速度
-	static constexpr float MASS = 8.0f;						//質量
-	static constexpr float SCALE = 0.02f;					//スケール
-	static constexpr float DYNAMIC_FRICTION_FORCE = 0.5f;	//動摩擦力
-	static constexpr float STATIC_FRICTION_FORCE = 1.0f;	//静止摩擦力
-	static constexpr float KILL_HEIGHT = -5.0f;				//落下判定をされる高さ
+	const float RADIUS;					//半径の大きさ
+	const float MAX_SPEED;				//最高速度
+	const float MASS;					//質量
+	const float DYNAMIC_FRICTION_FORCE;	//動摩擦力
+	const float STATIC_FRICTION_FORCE;	//静止摩擦力
+	static constexpr float SCALE = 0.02f;		//スケール
+	static constexpr float KILL_HEIGHT = -5.0f;	//落下判定をされる高さ
 	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,0.0f,2.0f };	// 初期位置
 
 	// エフェクト関連
@@ -70,6 +71,19 @@ private:
 		DX::AnimationSDKMESH* atk_basic;	// 通常攻撃
 		DX::AnimationSDKMESH* atk_rolling;	// 転がり攻撃
 		DX::AnimationSDKMESH* atk_heavy;	// 強攻撃
+	};
+
+public:
+	// 初期化時の引数
+	struct PlayerParams
+	{
+		ResourceManager* pRM;
+		CollisionManager* pCM;
+		DirectX::Keyboard::KeyboardStateTracker* pKbTracker;
+		Camera* pCamera;
+		AttackUI* pAttackUI;
+		bool* pKeyMode;
+		const PlayerInfoLoader::PlayerInfo& info;
 	};
 
 
@@ -162,9 +176,8 @@ private:
 public:
 	// コンストラクタ
 	Player(
-		UserResources* pUR,
-		EffectManager* pEM,
-		StageScene* pScene);
+		UserResources* pUR,	EffectManager* pEM,
+		StageScene* pScene, const PlayerInfoLoader::PlayerInfo& info);
 
 	// デストラクタ
 	~Player();
@@ -173,13 +186,7 @@ public:
 	// 操作
 public:
 	// 初期化処理
-	void Initialize(
-		ResourceManager* pRM,
-		CollisionManager* pCM,
-		DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
-		Camera* pCamera,
-		AttackUI* pAttackUI,
-		bool* pKeyMode);
+	void Initialize(PlayerParams param);
 
 	// 更新処理
 	void Update(const float& elapsedTime);
@@ -207,7 +214,7 @@ public:
 											   Camera* camera);
 
 	// 移動速度の制限
-	void LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max = MAX_SPEED);
+	void LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max);
 
 	// 攻撃の当たり判定の有効設定
 	void SetAttackCollisionEnabled(bool enabled);
@@ -223,6 +230,7 @@ public:
 	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }		// 移動速度の設定
 	float GetRadius() { return RADIUS; }											// 半径サイズの取得
 	float GetMass() { return MASS; }												// 質量の取得
+	float GetMaxSpeed() { return MAX_SPEED; }										// 最高移動速度の取得
 	float GetRotY() { return m_rotY; }												// 向きの取得
 	void SetRotY(float rotY) { m_rotY = rotY; }										// 向きの設定
 	bool GetOnGround() { return m_onGround; }										// 接地フラグの取得

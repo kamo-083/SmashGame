@@ -82,7 +82,7 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 	inputVelocity = m_pPlayer->MoveDirection(m_pKbTracker, m_pCamera);
 	if (m_pPlayer->GetOnGround())	inputVelocity *= GROUND_SPEED;
 	else							inputVelocity *= AIR_SPEED;
-	m_pPlayer->LimitVelocity(inputVelocity);
+	m_pPlayer->LimitVelocity(inputVelocity, m_pPlayer->GetMaxSpeed());
 
 	if (inputVelocity.LengthSquared() != 0.0f) m_force = inputVelocity;
 

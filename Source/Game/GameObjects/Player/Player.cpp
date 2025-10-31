@@ -8,7 +8,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "Source/Game/Scenes/StageScene.h"
-#include"Source/Game/UI/AttackUI.h"
+#include "Source/Game/UI/AttackUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -20,10 +20,14 @@
  * @param pScene	シーンへのポインタ
  */
 Player::Player(
-	UserResources* pUR,
-	EffectManager* pEM,
-	StageScene* pScene)
-	: m_pScene{ pScene }
+	UserResources* pUR, EffectManager* pEM,
+	StageScene* pScene, const PlayerInfoLoader::PlayerInfo& info)
+	: RADIUS{ info.radius }
+	, MASS{ info.mass }
+	, MAX_SPEED{ info.max_speed }
+	, DYNAMIC_FRICTION_FORCE{ info.dynamic_friction }
+	, STATIC_FRICTION_FORCE{ info.static_friction }
+	, m_pScene{ pScene }
 	, m_rotY{ 0.0f }
 	, m_onGround{ false }
 	, m_isBounce{ false }
@@ -95,22 +99,18 @@ Player::~Player()
 /**
  * @brief 初期化処理
  *
- * @param pRM			リソースマネージャーのポインタ
- * @param pCM			当たり判定マネージャーのポインタ
- * @param pKbTracker	キーボードトラッカーのポインタ
- * @param pCamera		カメラのポインタ
- * @param pAttackUI		攻撃UIのポインタ
- * @param pKeyMode		キー入力モードのポインタ
+ * @param param 引数群
+ * 
+ * pRM			リソースマネージャーのポインタ
+ * pCM			当たり判定マネージャーのポインタ
+ * pKbTracker	キーボードトラッカーのポインタ
+ * pCamera		カメラのポインタ
+ * pAttackUI		攻撃UIのポインタ
+ * pKeyMode		キー入力モードのポインタ
  *
  * @return なし
  */
-void Player::Initialize(
-	ResourceManager* pRM,
-	CollisionManager* pCM,
-	DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
-	Camera* pCamera,
-	AttackUI* pAttackUI,
-	bool* pKeyMode)
+void Player::Initialize(PlayerParams param)
 {
 	// 位置の初期化
 	m_position = START_POS;
@@ -131,21 +131,24 @@ void Player::Initialize(
 	m_attackType = AttackType::BASIC;
 
 	// 攻撃UIの設定
-	m_pAttackUI = pAttackUI;
+	m_pAttackUI = param.pAttackUI;
 
 	// リソースマネージャの設定
-	m_pResourceManager = pRM;
+	m_pResourceManager = param.pRM;
 
 	// モデルの読み込み
-	m_model = pRM->RequestSDKMESH("player", "playerCat.sdkmesh", true);
+	m_model = param.pRM->RequestSDKMESH("player", param.info.modelPath, true);
 
 	// アニメーションの読み込み
 	m_animations = std::make_unique<Animations>();
-	m_animations->idle = pRM->RequestAnimation("playerIdle","playerCat_idle.sdkmesh_anim");
-	m_animations->walk = pRM->RequestAnimation("playerWalk","playerCat_walk.sdkmesh_anim");
-	m_animations->atk_basic = pRM->RequestAnimation("playerAtkB","playerCat_atkBasic.sdkmesh_anim");
-	m_animations->atk_rolling = pRM->RequestAnimation("playerAtkR","playerCat_atkRoll.sdkmesh_anim");
-	m_animations->atk_heavy = pRM->RequestAnimation("playerAtkH","playerCat_atkHeavy.sdkmesh_anim");
+	m_animations->idle = param.pRM->RequestAnimation("playerIdle", param.info.idleAnimPath);
+	m_animations->walk = param.pRM->RequestAnimation("playerWalk", param.info.walkAnimPath);
+	m_animations->atk_basic = param.pRM->RequestAnimation("playerAtkB",
+		param.info.attackAnimPath[static_cast<int>(AttackType::BASIC)]);
+	m_animations->atk_rolling = param.pRM->RequestAnimation("playerAtkR", 
+		param.info.attackAnimPath[static_cast<int>(AttackType::ROLLING)]);
+	m_animations->atk_heavy = param.pRM->RequestAnimation("playerAtkH",
+		param.info.attackAnimPath[static_cast<int>(AttackType::HEAVY)]);
 
 	// コライダーの設定
 	m_collider = SphereCollider(m_position, RADIUS);
@@ -154,7 +157,7 @@ void Player::Initialize(
 	m_attackCollider = SphereCollider(m_position, RADIUS);
 
 	// キー操作のモードのポインタの設定
-	m_pKeyMode = pKeyMode;
+	m_pKeyMode = param.pKeyMode;
 
 	// 物理演算の設定
 	m_physics = std::make_unique<PhysicsObject>();
@@ -162,7 +165,7 @@ void Player::Initialize(
 	m_physics->GetFriction().SetStaticFriction(STATIC_FRICTION_FORCE);
 
 	// 当たり判定マネージャーの登録
-	m_pCollisionManager = pCM;
+	m_pCollisionManager = param.pCM;
 
 	// 本体
 	CollisionManager::Desc bodyDesc{};
@@ -215,19 +218,19 @@ void Player::Initialize(
 	m_pCollisionManager->SetEnabled(m_handleAttack, false);
 
 	// 待機状態を生成
-	m_idlingState = std::make_unique<Player_Idle>(this, pKbTracker);
+	m_idlingState = std::make_unique<Player_Idle>(this, param.pKbTracker);
 
 	// 歩き状態を生成
-	m_walkingState = std::make_unique<Player_Walk>(this, pCamera, pKbTracker);
+	m_walkingState = std::make_unique<Player_Walk>(this, param.pCamera, param.pKbTracker);
 
 	// 通常攻撃状態を生成
-	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, pKbTracker);
+	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, param.pKbTracker);
 
 	// 転がり攻撃状態を生成
-	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(this, pCamera, pKbTracker);
+	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(this, param.pCamera, param.pKbTracker);
 
 	// 転がり攻撃状態を生成
-	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, pKbTracker);
+	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, param.pKbTracker);
 
 	// 初期状態を設定する
 	m_currentState = m_idlingState.get();

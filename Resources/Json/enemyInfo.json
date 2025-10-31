@@ -9,10 +9,10 @@
             "static_friction": 0.15,
             "dynamic_friction": 0.15,
             "attack": [ 1.0, 0.5, 15000.0 ],
-            "modelPath": "Resources/Models/enemyBasic.sdkmesh",
-            "idleAnimPath": "Resources/Animations/enemyBasic_idle.sdkmesh_anim",
-            "walkAnimPath": "Resources/Animations/enemyBasic_walk.sdkmesh_anim",
-            "attackAnimPath": "Resources/Animations/enemyBasic_atk.sdkmesh_anim"
+            "modelPath": "enemyBasic.sdkmesh",
+            "idleAnimPath": "enemyBasic_idle.sdkmesh_anim",
+            "walkAnimPath": "enemyBasic_walk.sdkmesh_anim",
+            "attackAnimPath": "enemyBasic_atk.sdkmesh_anim"
         },
         {
             "type": "Heavy",
@@ -23,10 +23,10 @@
             "static_friction": 0.5,
             "dynamic_friction": 0.5,
             "attack": [ 1.0, 0.5, 25000.0 ],
-            "modelPath": "Resources/Models/enemyHeavy.sdkmesh",
-            "idleAnimPath": "Resources/Animations/enemyHeavy_idle.sdkmesh_anim",
-            "walkAnimPath": "Resources/Animations/enemyHeavy_walk.sdkmesh_anim",
-            "attackAnimPath": "Resources/Animations/enemyHeavy_atk.sdkmesh_anim"
+            "modelPath": "enemyHeavy.sdkmesh",
+            "idleAnimPath": "enemyHeavy_idle.sdkmesh_anim",
+            "walkAnimPath": "enemyHeavy_walk.sdkmesh_anim",
+            "attackAnimPath": "enemyHeavy_atk.sdkmesh_anim"
         },
         {
             "type": "Light",
@@ -37,10 +37,10 @@
             "static_friction": 0.15,
             "dynamic_friction": 0.15,
             "attack": [ 1.0, 0.5, 10000.0 ],
-            "modelPath": "Resources/Models/enemyLight.sdkmesh",
-            "idleAnimPath": "Resources/Animations/enemyLight_idle.sdkmesh_anim",
-            "walkAnimPath": "Resources/Animations/enemyLight_walk.sdkmesh_anim",
-            "attackAnimPath": "Resources/Animations/enemyLight_atk.sdkmesh_anim"
+            "modelPath": "enemyLight.sdkmesh",
+            "idleAnimPath": "enemyLight_idle.sdkmesh_anim",
+            "walkAnimPath": "enemyLight_walk.sdkmesh_anim",
+            "attackAnimPath": "enemyLight_atk.sdkmesh_anim"
         }
     ]
 }

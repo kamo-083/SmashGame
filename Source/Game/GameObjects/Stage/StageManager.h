@@ -15,7 +15,7 @@
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
-#include "Source/Game/GameObjects/Stage/StageLoader.h"
+#include "Source/Game/Data/StageLoader.h"
 
 
 // ƒNƒ‰ƒX‚ÌéŒ¾	===============================================================

@@ -203,9 +203,6 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\StageManager.h">
       <Filter>Game\GameObjects\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Stage\StageLoader.h">
-      <Filter>Game\GameObjects\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
@@ -218,7 +215,7 @@
     <ClInclude Include="Source\Game\Common\ModelAnimator.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Data\EnamyData.h">
+    <ClInclude Include="Source\Game\Data\EnemyData.h">
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\UI\Button.h">
@@ -226,9 +223,6 @@
     </ClInclude>
     <ClInclude Include="Source\Game\UI\StageResultUI.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyInfoLoader.h">
-      <Filter>Game\GameObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Sky.h">
       <Filter>Game\GameObjects</Filter>
@@ -280,6 +274,15 @@
     </ClInclude>
     <ClInclude Include="Source\Debug\DebugFont.h">
       <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Data\StageLoader.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Data\EnemyInfoLoader.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Data\PlayerInfoLoader.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +477,9 @@
     </None>
     <None Include="Source\Game\UI\Tween\Tween.inl">
       <Filter>UI\Tween</Filter>
+    </None>
+    <None Include="Resources\Json\playerInfo.json">
+      <Filter>Json</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

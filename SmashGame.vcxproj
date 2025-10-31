@@ -202,8 +202,11 @@
     <ClInclude Include="Source\Game\Common\ShaderManager.h" />
     <ClInclude Include="Source\Game\Common\StepTimer.h" />
     <ClInclude Include="Source\Game\Common\UserResources.h" />
-    <ClInclude Include="Source\Game\Data\EnamyData.h" />
+    <ClInclude Include="Source\Game\Data\EnemyData.h" />
     <ClInclude Include="Source\Game\Data\AttackData.h" />
+    <ClInclude Include="Source\Game\Data\EnemyInfoLoader.h" />
+    <ClInclude Include="Source\Game\Data\PlayerInfoLoader.h" />
+    <ClInclude Include="Source\Game\Data\StageLoader.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h" />
     <ClInclude Include="Source\Game\Effect\EffectManager.h" />
     <ClInclude Include="Source\Game\Effect\IEffectParticle.h" />
@@ -212,7 +215,6 @@
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\GameObjects\Camera.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\IEnemy.h" />
-    <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyInfoLoader.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy_Attack.h" />
@@ -231,7 +233,6 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Goal.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Ground.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\TargetBox.h" />
-    <ClInclude Include="Source\Game\GameObjects\Stage\StageLoader.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\StageManager.h" />
     <ClInclude Include="Source\Game\Interface\IState.h" />
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h" />
@@ -323,6 +324,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Resources\Json\enemyInfo.json" />
+    <None Include="Resources\Json\playerInfo.json" />
     <None Include="Resources\Json\stage1.json" />
     <None Include="Resources\Json\stage2.json" />
     <None Include="Resources\Json\stage3.json" />

@@ -7,6 +7,7 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player_Walk.h"
+#include"Player.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -68,7 +69,7 @@ void Player_Walk::Update(const float& elapsedTime)
 	// 位置の更新
 	m_pPlayer->SetVelocity(m_pPlayer->GetVelocity() + inputVelocity);
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
-	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity());
+	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新

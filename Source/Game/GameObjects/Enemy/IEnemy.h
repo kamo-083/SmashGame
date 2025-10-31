@@ -18,7 +18,7 @@
 #include"Source/Game/Common/Collision.h"
 #include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
-#include"Source/Game/GameObjects/Enemy/EnemyInfoLoader.h"
+#include"Source/Game/Data/EnemyInfoLoader.h"
 #include"Source/Debug/DebugFont.h"
 
 
