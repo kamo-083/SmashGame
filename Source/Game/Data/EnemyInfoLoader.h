@@ -73,7 +73,6 @@ public:
 	~EnemyInfoLoader() = default;
 
 
-// ‘€ì
 public:
 	/**
 	 * @brief ƒtƒ@ƒCƒ‹“Ç‚İ‚İ

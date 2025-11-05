@@ -48,8 +48,8 @@ public:
 	{
 		float radius = 0.0f;				// ”¼ŒaƒTƒCƒY
 		float mass = 0.0f;					// ¿—Ê
-		float walk_speed = 0.0f;				// ˆÚ“®‘¬“x(’Êí)
-		float dash_speed = 0.0f;				// ˆÚ“®‘¬“x(UŒ‚)
+		float walk_speed = 0.0f;			// ˆÚ“®‘¬“x(’Êí)
+		float dash_speed = 0.0f;			// ˆÚ“®‘¬“x(UŒ‚)
 		float max_speed = 0.0f;				// Å‚ˆÚ“®‘¬“x
 		float static_friction = 0.0f;		// Ã~–€CŒW”
 		float dynamic_friction = 0.0f;		// “®–€CŒW”
@@ -74,7 +74,6 @@ public:
 	~PlayerInfoLoader() = default;
 
 
-// ‘€ì
 public:
 	/**
 	 * @brief ƒtƒ@ƒCƒ‹“Ç‚İ‚İ
@@ -167,9 +166,9 @@ public:
 					{
 						data.attack[type] = AttackDesc
 						{
-							atk["atkParam"][0].get<float>(),
-							atk["atkParam"][1].get<float>(),
-							atk["atkParam"][2].get<float>()
+							atk["atkParam"][0].get<float>(),	// UŒ‚ŠÔ
+							atk["atkParam"][1].get<float>(),	// ”»’èƒTƒCƒY
+							atk["atkParam"][2].get<float>()		// UŒ‚—Í
 						};
 					}
 #ifdef _DEBUG

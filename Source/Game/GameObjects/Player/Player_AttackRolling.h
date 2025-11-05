@@ -31,13 +31,24 @@ class Player_AttackRolling :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float ATTACK_FORCE = 300.0f;	// 攻撃力
-	static constexpr float ATTACK_TIME = 5.0f;		// 攻撃持続時間
-	static constexpr float ATTACK_SIZE = 3.0f;		// 攻撃判定サイズ
+	const float ATTACK_TIME;	// 攻撃持続時間
+	const float ATTACK_SIZE;	// 攻撃判定サイズ
+	const float ATTACK_FORCE;	// 攻撃力
 	const float GROUND_SPEED;	// 移動速度(地面)
 	const float AIR_SPEED;		// 移動速度(空中)
 	static constexpr float ANIM_TIME = 1.5f;		// アニメーション1ループの時間
 	
+public:
+	// 定数設定パラメータ
+	struct AttackParam
+	{
+		float time;
+		float size;
+		float force;
+		float groundSpeed;
+		float airSpeed;
+	};
+
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// プレイヤー本体へのポインタ
@@ -69,7 +80,7 @@ public:
 	Player_AttackRolling(
 		Player* Player, Camera* camera,
 		DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-		float groundSpeed, float airSpeed);
+		AttackParam param);
 
 	// デストラクタ
 	~Player_AttackRolling() = default;

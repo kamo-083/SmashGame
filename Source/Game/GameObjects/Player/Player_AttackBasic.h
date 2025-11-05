@@ -30,9 +30,18 @@ class Player_AttackBasic :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float ATTACK_FORCE = 3000.0f;	// 攻撃力
-	static constexpr float ATTACK_TIME = 1.0f;		// 攻撃持続時間
-	static constexpr float ATTACK_SIZE = 2.0f;		// 攻撃判定サイズ
+	const float ATTACK_TIME;	// 攻撃持続時間
+	const float ATTACK_SIZE;	// 攻撃判定サイズ
+	const float ATTACK_FORCE;	// 攻撃力
+
+public:
+	// 定数設定パラメータ
+	struct AttackParam
+	{
+		float time;
+		float size;
+		float force;
+	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -56,7 +65,9 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Player_AttackBasic(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker);
+	Player_AttackBasic(
+		Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+		const AttackParam& param);
 
 	// デストラクタ
 	~Player_AttackBasic() = default;

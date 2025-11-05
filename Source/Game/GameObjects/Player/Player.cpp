@@ -592,14 +592,35 @@ void Player::SetupState(
 		this, pCamera, pKeyboard, info.walk_speed, info.walk_speed * 0.5f);
 
 	// ’ÊíUŒ‚ó‘Ô‚ğ¶¬
-	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, pKeyboard);
+	Player_AttackBasic::AttackParam basicParam =
+	{
+		info.attack[static_cast<int>(AttackType::BASIC)].time,
+		info.attack[static_cast<int>(AttackType::BASIC)].size,
+		info.attack[static_cast<int>(AttackType::BASIC)].force,
+	};
+	m_basicAttackingState = std::make_unique<Player_AttackBasic>(
+		this, pKeyboard,basicParam);
 
 	// “]‚ª‚èUŒ‚ó‘Ô‚ğ¶¬
+	Player_AttackRolling::AttackParam rollingParam =
+	{
+		info.attack[static_cast<int>(AttackType::ROLLING)].time,
+		info.attack[static_cast<int>(AttackType::ROLLING)].size,
+		info.attack[static_cast<int>(AttackType::ROLLING)].force,
+		info.dash_speed, info.dash_speed * 0.5f
+	};
 	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(
-		this, pCamera, pKeyboard, info.dash_speed, info.dash_speed * 0.5f);
+		this, pCamera, pKeyboard, rollingParam);
 
 	// ‹­UŒ‚ó‘Ô‚ğ¶¬
-	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, pKeyboard);
+	Player_AttackHeavy::AttackParam heavyParam =
+	{
+		info.attack[static_cast<int>(AttackType::HEAVY)].time,
+		info.attack[static_cast<int>(AttackType::HEAVY)].size,
+		info.attack[static_cast<int>(AttackType::HEAVY)].force,
+	};
+	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(
+		this, pKeyboard, heavyParam);
 
 	// ‰Šúó‘Ô‚ğİ’è‚·‚é
 	m_currentState = m_idlingState.get();

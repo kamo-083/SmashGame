@@ -16,15 +16,17 @@
  * @param player	  プレイヤーのポインタ
  * @param camera	  カメラのポインタ
  * @param kbTracker   キーボードトラッカーのポインタ
- * @param groundSpeed 地上の移動速度
- * @param airSpeed    空中の移動速度
+ * @param param		  定数初期化用パラメータ
  */
 Player_AttackRolling::Player_AttackRolling(
 	Player* Player, Camera* camera,
 	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-	float groundSpeed, float airSpeed)
-	: GROUND_SPEED(groundSpeed)
-	, AIR_SPEED(airSpeed)
+	AttackParam param)
+	: ATTACK_TIME(param.time)
+	, ATTACK_SIZE(param.size)
+	, ATTACK_FORCE(param.force)
+	, GROUND_SPEED(param.groundSpeed)
+	, AIR_SPEED(param.airSpeed)
 	, m_pPlayer{ Player }
 	, m_pKbTracker{ kbTracker }
 	, m_pCamera{ camera }

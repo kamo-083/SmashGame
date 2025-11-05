@@ -77,7 +77,6 @@ public:
 	{}
 
 
-// ‘€ì
 public:
 	/**
 	 * @brief ƒtƒ@ƒCƒ‹“Ç‚İ‚İ
