@@ -112,5 +112,18 @@ public:
 	// 内部実装
 private:
 	// 指定したステージパネルをリセット
-	void PanelReset(int panelNum);
+	void ResetPanel(int panelNum);
+
+	// 初期設定関連
+	// ステージパネルの設定
+	void SetupPanel(DirectX::SimpleMath::Vector2 windowSize, ResourceManager* pRM);
+
+	// ステージ番号表示の設定
+	void SetupNumberBoard(ResourceManager* pRM);
+
+	// テクスチャの設定
+	void SetupTextures(ResourceManager* pRM);
+
+	// 音声の設定
+	void SetupAudios();
 };

@@ -58,61 +58,16 @@ void StageSelectScene::Initialize()
 	ResourceManager* pRM = m_userResources->GetResourceManager();
 
 	// ステージ選択パネルの作成
-	for (int i = 0; i < STAGES; i++)
-	{
-		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(
-			windowSize.x / static_cast<float>(STAGES) * i + PANEL_ADJUST_INTERVAL,
-			windowSize.y * 0.5f
-		);
-
-		Tween2D::TweenData data =
-		{
-			Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
-			Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
-							  DirectX::SimpleMath::Vector2(PANEL_DELTA_SCALE, PANEL_DELTA_SCALE),
-							  0.0f, 0.0f},
-			PANEL_ANIM_TIME,
-			Tween2D::Ease::OutQuart,
-			Tween2D::PlaybackMode::PingPong
-		};
-
-		std::unique_ptr<Button> panel = std::make_unique<Button>();
-		panel->Initialize(
-			pRM->RequestPNG("stagePanel", "UI/stagePanel.png"),
-			data, PANEL_TEX_SIZE,
-			[this, i]() {
-				// BGMの停止
-				if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
-
-				// 選択番号からシーン名を作成
-				std::string stageName = "Stage" + std::to_string(i + 1) + "Scene";
-				ChangeScene(stageName);
-			});
-		m_stagePanels.push_back(std::move(panel));
-	}
+	SetupPanel(windowSize, pRM);
 
 	// ステージ番号表示オブジェクトの作成
-	m_numberBoard = std::make_unique<NumberRenderer2D>(
-		NUMBER_SIZE,
-		pRM->RequestPNG("number", "Text/number_48.png"),
-		1);
-	m_numberBoard->SetUseBeginEnd(false);
+	SetupNumberBoard(pRM);
 
 	// テクスチャの読み込み
-	m_textures = std::make_unique<Textures>();
-	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
-	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
+	SetupTextures(pRM);
 
-	// BGM・SEの読み込み
-	AudioManager* pAM = m_userResources->GetAudioManager();
-	pAM->LoadMP3("title_selectBGM", "BGM/iwashiro_hitoiki_coffee.mp3");
-	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
-
-	// BGM・SEの音量変更
-	pAM->SetVolume("title_selectBGM", BGM_VOLUME);
-
-	// BGMの再生
-	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
+	// 音声の設定
+	SetupAudios();
 }
 
 
@@ -132,7 +87,7 @@ void StageSelectScene::Update(float elapsedTime)
 	if (kb->pressed.Right)
 	{
 		// 前に選択していたステージのパネルをリセット
-		PanelReset(m_selectNum);
+		ResetPanel(m_selectNum);
 
 		m_selectNum++;
 		if (m_selectNum == STAGES) m_selectNum = 0;
@@ -143,7 +98,7 @@ void StageSelectScene::Update(float elapsedTime)
 	else if (kb->pressed.Left)
 	{
 		// 前に選択していたステージのパネルをリセット
-		PanelReset(m_selectNum);
+		ResetPanel(m_selectNum);
 
 		m_selectNum--;
 		if (m_selectNum < 0) m_selectNum = STAGES - 1;
@@ -253,8 +208,111 @@ void StageSelectScene::Finalize()
  *
  * @return なし
  */
-void StageSelectScene::PanelReset(int panelNum)
+void StageSelectScene::ResetPanel(int panelNum)
 {
 	m_stagePanels[panelNum]->Reset();
 	m_stagePanels[panelNum]->Update(0.0f);
+}
+
+
+
+/**
+ * @brief ステージパネルの設定
+ *
+ * @param windowSize	ウィンドウサイズ
+ * @param pRM			リソースマネージャーのポインタ	
+ *
+ * @return なし
+ */
+void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize, ResourceManager* pRM)
+{
+	for (int i = 0; i < STAGES; i++)
+	{
+		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(
+			windowSize.x / static_cast<float>(STAGES) * i + PANEL_ADJUST_INTERVAL,
+			windowSize.y * 0.5f
+		);
+
+		Tween2D::TweenData data =
+		{
+			Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
+			Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
+							  DirectX::SimpleMath::Vector2(PANEL_DELTA_SCALE, PANEL_DELTA_SCALE),
+							  0.0f, 0.0f},
+			PANEL_ANIM_TIME,
+			Tween2D::Ease::OutQuart,
+			Tween2D::PlaybackMode::PingPong
+		};
+
+		std::unique_ptr<Button> panel = std::make_unique<Button>();
+		panel->Initialize(
+			pRM->RequestPNG("stagePanel", "UI/stagePanel.png"),
+			data, PANEL_TEX_SIZE,
+			[this, i]() {
+				// BGMの停止
+				if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
+
+				// 選択番号からシーン名を作成
+				std::string stageName = "Stage" + std::to_string(i + 1) + "Scene";
+				ChangeScene(stageName);
+			});
+		m_stagePanels.push_back(std::move(panel));
+	}
+}
+
+
+
+/**
+ * @brief ステージ番号表示の設定
+ *
+ * @param pRM	リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
+void StageSelectScene::SetupNumberBoard(ResourceManager* pRM)
+{
+	m_numberBoard = std::make_unique<NumberRenderer2D>(
+		NUMBER_SIZE,
+		pRM->RequestPNG("number", "Text/number_48.png"),
+		1);
+	m_numberBoard->SetUseBeginEnd(false);
+}
+
+
+
+/**
+ * @brief テクスチャの設定
+ *
+ * @param pRM	リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
+void StageSelectScene::SetupTextures(ResourceManager* pRM)
+{
+	m_textures = std::make_unique<Textures>();
+	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
+	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
+}
+
+
+
+/**
+ * @brief 音声の設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageSelectScene::SetupAudios()
+{
+	// BGM・SEの読み込み
+	AudioManager* pAM = m_userResources->GetAudioManager();
+	pAM->LoadMP3("title_selectBGM", "BGM/iwashiro_hitoiki_coffee.mp3");
+	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
+
+	// BGM・SEの音量変更
+	pAM->SetVolume("title_selectBGM", BGM_VOLUME);
+
+	// BGMの再生
+	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
 }

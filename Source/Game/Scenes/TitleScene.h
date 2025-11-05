@@ -114,4 +114,14 @@ private:
 	// 指定したボタンのリセット
 	void ButtonReset(int buttonNum);
 
+	// 選択ボタンの変更
+	void SelectButtonUp();		// 上へ
+	void SelectButtonDown();	// 下へ
+
+	// 初期設定関連
+	// テクスチャの設定
+	void SetupTexture(ResourceManager* pRM);
+
+	// 音声の設定
+	void SetupAudio(AudioManager* pAM);
 };

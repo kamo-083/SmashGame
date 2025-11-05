@@ -18,6 +18,7 @@
  * @param pUR		ユーザーリソースのポインタ
  * @param pEM		エフェクトマネージャーのポインタ
  * @param pScene	シーンへのポインタ
+ * @param info		外部ファイルからの情報
  */
 Player::Player(
 	UserResources* pUR, EffectManager* pEM,
@@ -73,8 +74,9 @@ Player::~Player()
  * pCM			当たり判定マネージャーのポインタ
  * pKbTracker	キーボードトラッカーのポインタ
  * pCamera		カメラのポインタ
- * pAttackUI		攻撃UIのポインタ
+ * pAttackUI	攻撃UIのポインタ
  * pKeyMode		キー入力モードのポインタ
+ * info			外部ファイルからの情報
  *
  * @return なし
  */
@@ -119,7 +121,7 @@ void Player::Initialize(PlayerParams param)
 	SetupCollision(param.pCM);
 
 	// 状態の設定
-	SetupState(param.pKbTracker, param.pCamera);
+	SetupState(param.pKbTracker, param.pCamera, param.info);
 }
 
 
@@ -574,24 +576,29 @@ void Player::SetupCollision(CollisionManager* pCM)
  *
  * @param pKeyboard	キーボードトラッカーのポインタ
  * @param pCamera	カメラのポインタ
+ * @param info		外部ファイルからの情報
  *
  * @return なし
  */
-void Player::SetupState(DirectX::Keyboard::KeyboardStateTracker* pKeyboard, Camera* pCamera)
+void Player::SetupState(
+	DirectX::Keyboard::KeyboardStateTracker* pKeyboard, Camera* pCamera,
+	const PlayerInfoLoader::PlayerInfo& info)
 {
 	// 待機状態を生成
 	m_idlingState = std::make_unique<Player_Idle>(this, pKeyboard);
 
 	// 歩き状態を生成
-	m_walkingState = std::make_unique<Player_Walk>(this, pCamera, pKeyboard);
+	m_walkingState = std::make_unique<Player_Walk>(
+		this, pCamera, pKeyboard, info.walk_speed, info.walk_speed * 0.5f);
 
 	// 通常攻撃状態を生成
 	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, pKeyboard);
 
 	// 転がり攻撃状態を生成
-	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(this, pCamera, pKeyboard);
+	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(
+		this, pCamera, pKeyboard, info.dash_speed, info.dash_speed * 0.5f);
 
-	// 転がり攻撃状態を生成
+	// 強攻撃状態を生成
 	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, pKeyboard);
 
 	// 初期状態を設定する

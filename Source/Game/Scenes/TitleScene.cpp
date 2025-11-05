@@ -46,15 +46,11 @@ TitleScene::~TitleScene()
  */
 void TitleScene::Initialize()
 {
-	// テクスチャの読み込み
 	ResourceManager* pRM = m_userResources->GetResourceManager();
-	m_textures = std::make_unique<Textures>();
-	m_textures->logo = pRM->RequestPNG("titleLogo", "Text/titleLogo.png");
-	m_textures->start = pRM->RequestPNG("startText", "Text/startText.png");
-	m_textures->exit = pRM->RequestPNG("exitText", "Text/exitText.png");
-	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
-	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
 
+	// テクスチャの読み込み
+	SetupTexture(pRM);
+	
 	// ウィンドウサイズの取得
 	RECT windowSize = m_userResources->GetDeviceResources()->GetOutputSize();
 	float halfWidth = windowSize.right / 2.0f;
@@ -73,7 +69,7 @@ void TitleScene::Initialize()
 	};
 	m_titleLogo->Initialize(m_textures->logo, data, LOGO_SIZE);
 
-	// ボタンを作成
+	// 選択ボタンを作成
 	m_buttons.reserve(BUTTONS);
 	// ゲーム開始のボタン
 	// トゥイーンアニメーションのパラメータ作成
@@ -117,16 +113,10 @@ void TitleScene::Initialize()
 	// 選択中のボタンを初期化
 	m_selectButton = 0;
 
-	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
-	pAM->LoadMP3("title_selectBGM", "BGM/iwashiro_hitoiki_coffee.mp3");
-	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
 
-	// BGM・SEの音量変更
-	pAM->SetVolume("title_selectBGM", BGM_VOLUME);
-
-	// BGMの再生
-	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
+	// BGM・SEの読み込み
+	SetupAudio(pAM);
 }
 
 
@@ -142,27 +132,25 @@ void TitleScene::Update(float elapsedTime)
 {
 	DirectX::Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
 
-	// ボタン切り替え
+	// 選択ボタンの切り替え
 	if (kb->pressed.Down)
 	{
-		ButtonReset(m_selectButton);
-		m_selectButton++;
-		if (m_selectButton == BUTTONS) m_selectButton = 0;
+		// 選択ボタンを下へ
+		SelectButtonDown();
 
 		// SEの再生
 		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
 	else if (kb->pressed.Up)
 	{
-		ButtonReset(m_selectButton);
-		m_selectButton--;
-		if (m_selectButton < 0) m_selectButton = BUTTONS - 1;
+		// 選択ボタンを上へ
+		SelectButtonUp();
 
 		// SEの再生
 		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
 
-	// ボタンの操作
+	// 選択ボタンの決定
 	if (m_userResources->GetKeyboardTracker()->pressed.Space)
 	{
 		m_buttons[m_selectButton]->Press();
@@ -249,4 +237,81 @@ void TitleScene::ButtonReset(int buttonNum)
 {
 	m_buttons[buttonNum]->Reset();
 	m_buttons[buttonNum]->Update(0.0f);
+}
+
+
+
+/**
+ * @brief 選択ボタンの変更(上)
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void TitleScene::SelectButtonUp()
+{
+	// 以前選択していたボタンのアニメーションをリセット
+	ButtonReset(m_selectButton);
+
+	// 選択しているボタンを変更
+	m_selectButton--;
+	if (m_selectButton < 0) m_selectButton = BUTTONS - 1;
+}
+
+
+
+/**
+ * @brief 選択ボタンの変更(下)
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void TitleScene::SelectButtonDown()
+{
+	// 以前選択していたボタンのアニメーションをリセット
+	ButtonReset(m_selectButton);
+
+	// 選択しているボタンを変更	m_selectButton++;
+	if (m_selectButton == BUTTONS) m_selectButton = 0;
+}
+
+
+
+/**
+ * @brief テクスチャの設定
+ *
+ * @param pRM リソースマネージャーのポインタ
+ *
+ * @return なし
+ */
+void TitleScene::SetupTexture(ResourceManager* pRM)
+{
+	m_textures = std::make_unique<Textures>();
+	m_textures->logo = pRM->RequestPNG("titleLogo", "Text/titleLogo.png");
+	m_textures->start = pRM->RequestPNG("startText", "Text/startText.png");
+	m_textures->exit = pRM->RequestPNG("exitText", "Text/exitText.png");
+	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
+	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
+}
+
+
+
+/**
+ * @brief 音声の設定
+ *
+ * @param pAM オーディオマネージャーのポインタ
+ *
+ * @return なし
+ */
+void TitleScene::SetupAudio(AudioManager* pAM)
+{
+	pAM->LoadMP3("title_selectBGM", "BGM/iwashiro_hitoiki_coffee.mp3");
+	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
+
+	// BGM・SEの音量変更
+	pAM->SetVolume("title_selectBGM", BGM_VOLUME);
+
+	// BGMの再生
+	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
 }

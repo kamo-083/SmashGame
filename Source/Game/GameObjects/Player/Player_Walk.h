@@ -30,8 +30,8 @@ class Player_Walk :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float GROUND_SPEED = 3.0f;		// 移動速度(地面)
-	static constexpr float AIR_SPEED = 0.5f;		// 移動速度(空中)
+	const float GROUND_SPEED;	// 移動速度(地面)
+	const float AIR_SPEED;		// 移動速度(空中)
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -56,7 +56,10 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Player_Walk(Player* player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker);
+	Player_Walk(
+		Player* player, Camera* camera,
+		DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+		float groundSpeed, float airSpeed);
 
 	// デストラクタ
 	~Player_Walk() = default;

@@ -14,12 +14,19 @@
 /**
  * @brief コンストラクタ
  *
- * @param player	プレイヤーのポインタ
- * @param camera	カメラのポインタ
- * @param kbTracker キーボードトラッカーのポインタ
+ * @param player	  プレイヤーのポインタ
+ * @param camera	  カメラのポインタ
+ * @param kbTracker	  キーボードトラッカーのポインタ
+ * @param groundSpeed 地上の移動速度
+ * @param airSpeed    空中の移動速度
  */
-Player_Walk::Player_Walk(Player* player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
-	: m_pPlayer{ player }
+Player_Walk::Player_Walk(
+	Player* player, Camera* camera,
+	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+	float groundSpeed, float airSpeed)
+	: GROUND_SPEED(groundSpeed)
+	, AIR_SPEED(airSpeed)
+	, m_pPlayer{ player }
 	, m_pKbTracker{ kbTracker }
 	, m_pCamera{ camera }
 	, m_stateType{ StateType::Walk }
@@ -66,8 +73,11 @@ void Player_Walk::Update(const float& elapsedTime)
 	if (m_pPlayer->GetOnGround())	inputVelocity *= GROUND_SPEED;
 	else							inputVelocity *= AIR_SPEED;
 
+	// 入力が無いときは以前の速度を入れる
+	if (inputVelocity.LengthSquared() == 0.0f) inputVelocity = m_pPlayer->GetVelocity();
+
 	// 位置の更新
-	m_pPlayer->SetVelocity(m_pPlayer->GetVelocity() + inputVelocity);
+	m_pPlayer->SetVelocity({ inputVelocity.x, m_pPlayer->GetVelocity().y, inputVelocity.z });
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);

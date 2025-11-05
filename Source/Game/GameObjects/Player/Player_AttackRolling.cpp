@@ -13,16 +13,23 @@
 /**
  * @brief コンストラクタ
  *
- * @param player	プレイヤーのポインタ
- * @param camera	カメラのポインタ
- * @param kbTracker キーボードトラッカーのポインタ
+ * @param player	  プレイヤーのポインタ
+ * @param camera	  カメラのポインタ
+ * @param kbTracker   キーボードトラッカーのポインタ
+ * @param groundSpeed 地上の移動速度
+ * @param airSpeed    空中の移動速度
  */
-Player_AttackRolling::Player_AttackRolling(Player* Player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
-	: m_pPlayer{ Player }
+Player_AttackRolling::Player_AttackRolling(
+	Player* Player, Camera* camera,
+	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+	float groundSpeed, float airSpeed)
+	: GROUND_SPEED(groundSpeed)
+	, AIR_SPEED(airSpeed)
+	, m_pPlayer{ Player }
 	, m_pKbTracker{ kbTracker }
 	, m_pCamera{ camera }
 	, m_attackTime{ 0.0f }
-	, m_force{ DirectX::SimpleMath::Vector3::Zero }
+	, m_moveForce{ DirectX::SimpleMath::Vector3::Zero }
 	, m_stateType{ StateType::Attack }
 {
 
@@ -61,7 +68,7 @@ void Player_AttackRolling::Initialize(ResourceManager* pRM)
 	m_pPlayer->GetAttackCollider()->SetRadius(m_pPlayer->GetRadius() * ATTACK_SIZE);
 
 	// 移動力の初期化
-	m_force = DirectX::SimpleMath::Vector3::Zero;
+	m_moveForce = DirectX::SimpleMath::Vector3::Zero;
 }
 
 
@@ -84,12 +91,12 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 	else							inputVelocity *= AIR_SPEED;
 	m_pPlayer->LimitVelocity(inputVelocity, m_pPlayer->GetMaxSpeed());
 
-	if (inputVelocity.LengthSquared() != 0.0f) m_force = inputVelocity;
+	if (inputVelocity.LengthSquared() != 0.0f) m_moveForce = inputVelocity;
 
 	// 位置の更新
-	m_pPlayer->SetVelocity(m_force);
+	m_pPlayer->SetVelocity({ m_moveForce.x, m_pPlayer->GetVelocity().y, m_moveForce.z });
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
-	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), MAX_SPEED);
+	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新

@@ -48,7 +48,8 @@ public:
 	{
 		float radius = 0.0f;				// ”¼ŒaƒTƒCƒY
 		float mass = 0.0f;					// ¿—Ê
-		float speed = 0.0f;					// ˆÚ“®‘¬“x
+		float walk_speed = 0.0f;				// ˆÚ“®‘¬“x(’Êí)
+		float dash_speed = 0.0f;				// ˆÚ“®‘¬“x(UŒ‚)
 		float max_speed = 0.0f;				// Å‚ˆÚ“®‘¬“x
 		float static_friction = 0.0f;		// Ã~–€CŒW”
 		float dynamic_friction = 0.0f;		// “®–€CŒW”
@@ -117,10 +118,16 @@ public:
 				data.mass = element["mass"];
 			}
 
-			// ˆÚ“®‘¬“x
-			if (element.contains("speed") && element["speed"].is_number())
+			// ˆÚ“®‘¬“x(’Êí)
+			if (element.contains("walk_speed") && element["walk_speed"].is_number())
 			{
-				data.speed = element["speed"];
+				data.walk_speed = element["walk_speed"];
+			}
+
+			// ˆÚ“®‘¬“x(UŒ‚)
+			if (element.contains("dash_speed") && element["dash_speed"].is_number())
+			{
+				data.dash_speed = element["dash_speed"];
 			}
 
 			// Å‚‘¬“x

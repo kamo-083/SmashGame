@@ -34,9 +34,8 @@ private:
 	static constexpr float ATTACK_FORCE = 300.0f;	// 攻撃力
 	static constexpr float ATTACK_TIME = 5.0f;		// 攻撃持続時間
 	static constexpr float ATTACK_SIZE = 3.0f;		// 攻撃判定サイズ
-	static constexpr float GROUND_SPEED = 7.0f;		// 移動速度(地面)
-	static constexpr float AIR_SPEED = 0.75f;		// 移動速度(空中)
-	static constexpr float MAX_SPEED = 10.0f;		// 最高速度
+	const float GROUND_SPEED;	// 移動速度(地面)
+	const float AIR_SPEED;		// 移動速度(空中)
 	static constexpr float ANIM_TIME = 1.5f;		// アニメーション1ループの時間
 	
 	// データメンバの宣言 -----------------------------------------------
@@ -57,7 +56,7 @@ private:
 	float m_attackTime;
 
 	// 移動にかける力
-	DirectX::SimpleMath::Vector3 m_force;
+	DirectX::SimpleMath::Vector3 m_moveForce;
 
 	// 状態の種類
 	StateType m_stateType;
@@ -67,7 +66,10 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Player_AttackRolling(Player* Player, Camera* camera, DirectX::Keyboard::KeyboardStateTracker* kbTracker);
+	Player_AttackRolling(
+		Player* Player, Camera* camera,
+		DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+		float groundSpeed, float airSpeed);
 
 	// デストラクタ
 	~Player_AttackRolling() = default;

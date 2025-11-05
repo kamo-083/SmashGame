@@ -276,5 +276,7 @@ private:
 	void SetupModels(ResourceManager* pRM, const PlayerInfoLoader::PlayerInfo& info);
 
 	// ó‘Ô‚Ìİ’è
-	void SetupState(DirectX::Keyboard::KeyboardStateTracker* pKeyboard, Camera* pCamera);
+	void SetupState(
+		DirectX::Keyboard::KeyboardStateTracker* pKeyboard, Camera* pCamera,
+		const PlayerInfoLoader::PlayerInfo& info);
 };
