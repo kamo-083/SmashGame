@@ -408,6 +408,20 @@ void Player::SetAttackCollisionEnabled(bool enabled)
 
 
 /**
+ * @brief 攻撃判定の有効/無効を取得
+ *
+ * @param なし
+ *
+ * @return 有効/無効
+ */
+bool Player::GetAttackCollisionEnabled()
+{
+	return m_pCollisionManager->IsEnabled(m_handleAttack);
+}
+
+
+
+/**
  * @brief 攻撃判定の連続ヒットの有効/無効化
  *
  * @param multiHit 有効/無効
@@ -618,6 +632,7 @@ void Player::SetupState(
 		info.attack[static_cast<int>(AttackType::HEAVY)].time,
 		info.attack[static_cast<int>(AttackType::HEAVY)].size,
 		info.attack[static_cast<int>(AttackType::HEAVY)].force,
+		0.6f
 	};
 	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(
 		this, pKeyboard, heavyParam);

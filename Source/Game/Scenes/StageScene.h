@@ -71,7 +71,7 @@ public:
 	// アイコン画像サイズ
 	static constexpr DirectX::SimpleMath::Vector2 CAMERA_ICON_SIZE = { 200.0f,135.0f };
 	// 表示位置
-	static constexpr DirectX::SimpleMath::Vector2 CAMERA_UI_POS = { 250.0f,600.0f };
+	static constexpr DirectX::SimpleMath::Vector2 CAMERA_UI_POS = { 250.0f,90.0f };
 	// 矢印間隔
 	static constexpr float CAMERA_UI_ARROW_INTERVAL = 350.0f;
 

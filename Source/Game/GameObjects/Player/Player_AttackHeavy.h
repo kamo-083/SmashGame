@@ -33,6 +33,7 @@ private:
 	const float ATTACK_TIME;	// 攻撃持続時間
 	const float ATTACK_SIZE;	// 攻撃判定サイズ
 	const float ATTACK_FORCE;	// 攻撃力
+	const float COOL_TIME;		// 反動時間
 
 public:
 	// 定数設定パラメータ
@@ -41,6 +42,7 @@ public:
 		float time;
 		float size;
 		float force;
+		float cool;
 	};
 
 	// データメンバの宣言 -----------------------------------------------

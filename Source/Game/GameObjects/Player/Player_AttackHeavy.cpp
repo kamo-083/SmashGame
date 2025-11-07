@@ -23,6 +23,7 @@ Player_AttackHeavy::Player_AttackHeavy(
 	: ATTACK_TIME(param.time)
 	, ATTACK_SIZE(param.size)
 	, ATTACK_FORCE(param.force)
+	, COOL_TIME(param.cool)
 	, m_pPlayer{ Player }
 	, m_pKbTracker{ kbTracker }
 	, m_attackTime{ 0.0f }
@@ -50,13 +51,13 @@ void Player_AttackHeavy::Initialize(ResourceManager* pRM)
 			m_pPlayer->GetAnimation()->atk_heavy
 		);
 	}
-	m_modelAnimator->Initialize(ATTACK_TIME);
+	m_modelAnimator->Initialize(ATTACK_TIME + COOL_TIME);
 
 	// —Í‚ÌÝ’è
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);
 
 	// ŽžŠÔ‚ÌÝ’è
-	m_attackTime = ATTACK_TIME;
+	m_attackTime = ATTACK_TIME + COOL_TIME;
 
 	// UŒ‚”»’è‚ÌÝ’è
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(
@@ -86,9 +87,16 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	m_pPlayer->GetCollider()->SetCenter(m_pPlayer->GetPosition());
 
 	// UŒ‚”»’è‚ÌXV
-	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(
-		sinf(m_pPlayer->GetRotY()), m_pPlayer->GetRadius(), cosf(m_pPlayer->GetRotY()));
-	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition() - forward * m_pPlayer->GetRadius());
+	if (m_attackTime > COOL_TIME)
+	{
+		DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(
+			sinf(m_pPlayer->GetRotY()), m_pPlayer->GetRadius(), cosf(m_pPlayer->GetRotY()));
+		m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition() - forward * m_pPlayer->GetRadius());
+	}
+	else
+	{
+		m_pPlayer->SetAttackCollisionEnabled(false);
+	}
 
 	m_pPlayer->SetOnGround(false);
 
@@ -99,7 +107,6 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	if (m_attackTime <= 0.0f)
 	{
 		m_pPlayer->SetIsAttack(false);
-		m_pPlayer->SetAttackCollisionEnabled(false);
 		m_pPlayer->ChangeState(m_pPlayer->GetState_Walk());
 	}
 }
@@ -123,7 +130,7 @@ void Player_AttackHeavy::Render(RenderContext& context)
 	m_modelAnimator->Draw(context, world);
 
 	// “–‚½‚è”»’è‚ÌƒfƒoƒbƒO•`‰æ
-	if (m_pPlayer->GetSpherePrimitive())
+	if (m_pPlayer->GetSpherePrimitive() && m_pPlayer->GetAttackCollisionEnabled())
 	{
 		scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetAttackCollider()->GetRadius());
 		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetAttackCollider()->GetCenter());

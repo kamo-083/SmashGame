@@ -284,6 +284,9 @@
     <ClInclude Include="Source\Game\Data\PlayerInfoLoader.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\InputGuideUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -440,6 +443,9 @@
     </ClCompile>
     <ClCompile Include="Source\Debug\DebugFont.cpp">
       <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\InputGuideUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

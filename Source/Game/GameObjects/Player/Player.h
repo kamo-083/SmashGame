@@ -216,14 +216,19 @@ public:
 	// 移動速度の制限
 	void LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max);
 
-	// 攻撃の当たり判定の有効設定
+
+	// 取得/設定
+public:
+	// 攻撃の当たり判定の有効設定・取得
 	void SetAttackCollisionEnabled(bool enabled);
+	bool GetAttackCollisionEnabled();
 
 	// 攻撃の連続ヒットの有効設定
 	void SetAttackCollisionMultiHit(bool multiHit);
 
-	// 取得/設定
-public:
+	// 移動キーが押されているか
+	bool PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* kb);
+
 	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }				// 位置の取得
 	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }		// 位置の設定
 	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				// 移動速度の取得
@@ -258,8 +263,6 @@ public:
 	Player_AttackRolling* GetState_AttackRolling() { return m_rollingAttackingState.get(); }	// 転がり攻撃状態の取得
 	Player_AttackHeavy* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }			// 強攻撃状態の取得
 
-	// 移動キーが押されているか
-	bool PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* kb);
 
 	// 内部実装
 private:
