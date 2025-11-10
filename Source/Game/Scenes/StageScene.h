@@ -20,6 +20,7 @@ class Player;
 class EnemyManager;
 class StageManager;
 class EffectManager;
+class UIManager;
 class CollisionManager;
 class Sky;
 class UIWidget;
@@ -136,18 +137,8 @@ private:
 	// ステージマネージャー
 	std::unique_ptr<StageManager> m_stageManager;
 
-	// 攻撃UI
-	std::unique_ptr<AttackUI> m_attackUI;
-
-	// リザルトUI
-	std::unique_ptr<StageResultUI> m_resultUI;
-
-	// ステージクリア条件UI
-	std::unique_ptr<ClearConditionsUI> m_conditionsUI;
-
-	// 操作方法UI
-	std::unique_ptr<OperationUI> m_cameraUI;
-	std::unique_ptr<InputGuideUI> m_guideUI;
+	// UIマネージャー
+	std::unique_ptr<UIManager> m_UIManager;
 
 	// スカイドーム
 	std::unique_ptr<Sky> m_sky;
@@ -236,9 +227,6 @@ private:
 
 	// スカイドームの設定
 	void SetupSkydome();
-
-	// UIの設定
-	void SetupUI(DirectX::SimpleMath::Vector2 windowSize, ResourceManager* pRM);
 
 	// テクスチャの設定
 	void SetupTextures(ResourceManager* pRM);

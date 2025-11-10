@@ -17,6 +17,7 @@
  */
 StageResultUI::StageResultUI()
 	: UIElement()
+	, m_enable(false)
 {
 
 }
@@ -66,6 +67,8 @@ void StageResultUI::Initialize(
 		Tween2D::PlaybackMode::Once
 	};
 	m_widget->Initialize(texture, data, texSize);
+
+	m_enable = false;
 }
 
 
@@ -79,6 +82,8 @@ void StageResultUI::Initialize(
  */
 void StageResultUI::Update(float elapsedTime)
 {
+	if (!m_enable) return;
+
 	// ウィジェットの更新
 	m_widget->Update(elapsedTime);
 }
@@ -94,6 +99,8 @@ void StageResultUI::Update(float elapsedTime)
  */
 void StageResultUI::Draw(RenderContext context)
 {
+	if (!m_enable) return;
+
 	// ウィジェットの描画
 	m_widget->Draw(context);
 }

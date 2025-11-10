@@ -135,6 +135,9 @@ void UIManager::Update(float elapsedTime)
 		ui->Update(elapsedTime);
 	}
 
+	// リザルトUIの更新
+	if (m_resultUI) m_resultUI->Update(elapsedTime);
+
 	// 攻撃方法UIの更新
 	if (m_attackUI) m_attackUI->Update(elapsedTime);
 
@@ -158,6 +161,9 @@ void UIManager::Draw(RenderContext context)
 	{
 		ui->Draw(context);
 	}
+
+	// リザルトUIの描画
+	if (m_resultUI) m_resultUI->Draw(context);
 
 	// 攻撃方法UIの描画
 	if (m_attackUI) m_attackUI->Draw(context);
@@ -184,6 +190,10 @@ void UIManager::Finalize()
 	}
 	m_elements.clear();
 
+	// リザルトUIの終了
+	if (m_resultUI) m_resultUI->Finalize();
+	m_resultUI.reset();
+
 	// 攻撃方法UIの終了
 	if (m_attackUI) m_attackUI->Finalize();
 	m_attackUI.reset();
@@ -205,15 +215,12 @@ void UIManager::Finalize()
 void UIManager::CreateResultUI()
 {
 	// UIを作成
-	std::unique_ptr<StageResultUI> resultUI = std::make_unique<StageResultUI>();
-	resultUI->Initialize(
+	m_resultUI = std::make_unique<StageResultUI>();
+	m_resultUI->Initialize(
 		m_textures->window_result.texture,
 		m_textures->window_result.size,
 		m_windowSize
 	);
-
-	// 配列に追加
-	m_elements.push_back(std::move(resultUI));
 }
 
 

@@ -18,11 +18,9 @@
 #include "Source/Game/GameObjects/Stage/StageManager.h"
 #include "Source/Game/GameObjects/Stage/Objects/Ground.h"
 #include "Source/Game/GameObjects/Sky.h"
-#include "Source/Game/UI/Elements/UIWidget.h"
+#include "Source/Game/UI/UIManager.h"
 #include "Source/Game/UI/Controls/AttackUI.h"
 #include "Source/Game/UI/Displays/StageResultUI.h"
-#include "Source/Game/UI/Controls/OperationUI.h"
-#include "Source/Game/UI/Controls/InputGuideUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -108,8 +106,9 @@ void StageScene::Initialize()
 	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
 		static_cast<float>(pDR->GetOutputSize().right), static_cast<float>(pDR->GetOutputSize().bottom));
 
-	// UIの設定
-	SetupUI(windowSize, pRM);
+	// UIマネージャーの作成
+	m_UIManager = std::make_unique<UIManager>(windowSize, pRM);
+	m_UIManager->SetupStageUI(m_userResources->GetKeyboardTracker(), CLEAR_CONDITIONS);
 
 	// 深度ステンシルステートの作成
 	CreateDepthStencilState(pDR->GetD3DDevice());
@@ -183,10 +182,7 @@ void StageScene::Update(float elapsedTime)
 	m_effectManager->Update(elapsedTime);
 
 	// UIの更新
-	m_conditionsUI->Update(elapsedTime);	// クリア条件
-	m_attackUI->Update(elapsedTime);		// 攻撃
-	m_cameraUI->Update(elapsedTime);		// カメラ
-	m_guideUI->Update(elapsedTime);			// 操作ガイド
+	m_UIManager->Update(elapsedTime);
 
 	// 当たり判定の更新
 	m_collisionManager->Update();
@@ -199,6 +195,9 @@ void StageScene::Update(float elapsedTime)
 	{
 		// SEの再生
 		PlaySE("clearSE");
+
+		// リザルトUIの有効化
+		m_UIManager->GetResultUI()->Enable();
 
 		m_overlayMode = Overlay::RESULT;
 	}
@@ -256,10 +255,7 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 	m_camera->Draw(debugFont);
 
 	// UIの描画
-	m_conditionsUI->Draw(context);	// クリア条件
-	m_attackUI->Draw(context);	  	// 攻撃
-	m_cameraUI->Draw(context);	  	// カメラ
-	m_guideUI->Draw(context);		// 操作ガイド
+	m_UIManager->Draw(context);
 
 	switch (m_overlayMode)
 	{
@@ -268,10 +264,6 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 		context.spriteBatch->Begin();
 		context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero);
 		context.spriteBatch->End();
-		break;
-	case StageScene::Overlay::RESULT:
-		// リザルトの描画
-		m_resultUI->Draw(context);
 		break;
 	}
 }
@@ -290,23 +282,11 @@ void StageScene::Finalize()
 	if (m_player) m_player->Finalize();
 	m_player.reset();
 
-	if (m_conditionsUI) m_conditionsUI->Finalize();
-	m_conditionsUI.reset();
-
-	if (m_attackUI) m_attackUI->Finalize();
-	m_attackUI.reset();
-
-	if (m_resultUI) m_resultUI->Finalize();
-	m_resultUI.reset();
-
-	if (m_cameraUI) m_cameraUI->Finalize();
-	m_cameraUI.reset();
-
-	if (m_guideUI) m_guideUI->Finalize();
-	m_guideUI.reset();
-
 	if (m_sky) m_sky->Finalize();
 	m_sky.reset();
+
+	if (m_UIManager) m_UIManager->Finalize();
+	m_UIManager.reset();
 
 	if (m_enemyManager) m_enemyManager->Finalize();
 	m_enemyManager.reset();
@@ -514,7 +494,7 @@ void StageScene::DrawObjectsShadow(RenderContext context)
  */
 void StageScene::UpdateResult(float elapsedTime)
 {
-	m_resultUI->Update(elapsedTime);
+	m_UIManager->GetResultUI()->Update(elapsedTime);
 
 	// シーンの切り替え
 	if (m_userResources->GetKeyboardTracker()->pressed.Space)
@@ -540,8 +520,8 @@ void StageScene::ChangeKeyMode()
 	m_keyMode = !m_keyMode;
 
 	// UI切り替え
-	m_cameraUI->Active(!m_cameraUI->IsActive());
-	m_attackUI->SwitchUIMode();
+	m_UIManager->GetCameraUI()->Active(!m_UIManager->GetCameraUI()->IsActive());
+	m_UIManager->GetAttackUI()->SwitchUIMode();
 
 	// SEの再生
 	PlaySE("cursorSE");
@@ -607,7 +587,7 @@ void StageScene::SetupPlayer(ResourceManager* pRM)
 			m_collisionManager.get(),
 			m_userResources->GetKeyboardTracker(),
 			m_camera.get(),
-			m_attackUI.get(),
+			m_UIManager->GetAttackUI(),
 			&m_keyMode,
 			info
 	};
@@ -662,85 +642,6 @@ void StageScene::SetupSkydome()
 	m_sky = std::make_unique<Sky>();
 	m_sky->Initialize(m_userResources);
 	m_sky->SetPosition(&m_player->GetPosition());
-}
-
-
-
-/**
- * @brief UIの設定
- *
- * @param windowSize	ウィンドウサイズ
- * @param pRM			リソースマネージャーのポインタ
- *
- * @return なし
- */
-void StageScene::SetupUI(DirectX::SimpleMath::Vector2 windowSize, ResourceManager* pRM)
-{
-	// 操作方法UIの画像読み込み
-	OperationUI::Textures opTextures;
-	opTextures.nomalArrow = pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png");
-	opTextures.rotateArrow = pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png");
-	opTextures.keyText = pRM->RequestPNG("operationText", "Resources/Textures/text/operationText.png");
-
-	// 操作方法UIの引数用構造体作成
-	OperationUI::OperationUIDesc opUIDesc =
-	{
-		opTextures,
-		ARROW_SIZE_DEFAULT,
-		ARROW_SIZE_ROTATE,
-		TEXT_UV_LEFT,
-		TEXT_SIZE,
-		CAMERA_ICON_SIZE
-	};
-
-	// 攻撃変更UIの画像読み込み・引数用構造体作成
-	AttackUI::AttackUIDesc atkUIDesc =
-	{
-		pRM->RequestPNG("attack_basic", "UI/basicAtk.png"),
-		pRM->RequestPNG("attack_rolling", "UI/rollingAtk.png"),
-		pRM->RequestPNG("attack_heavy", "UI/heavyAtk.png"),
-		ATTACK_ICON_SIZE.x, ATTACK_ICON_SIZE.y
-	};
-
-	// 攻撃UIの作成
-	m_attackUI = std::make_unique<AttackUI>(
-		windowSize.x, windowSize.y);
-	m_attackUI->Initialize(atkUIDesc, opUIDesc);
-
-	// カメラ操作UIの作成
-	opTextures.icon = pRM->RequestPNG("camera", "UI/camera.png");	// アイコン画像追加
-	opUIDesc.textures = opTextures;														// 再設定
-	m_cameraUI = std::make_unique<OperationUI>();
-	m_cameraUI->Initialize(opUIDesc, CAMERA_UI_POS, CAMERA_UI_ARROW_INTERVAL, false);
-
-	// リザルトUIの作成
-	m_resultUI = std::make_unique<StageResultUI>();
-	m_resultUI->Initialize(
-		pRM->RequestPNG("resultPanel", "UI/resultPanel.png"),
-		RESULT_WINDOW_SIZE, windowSize);
-
-	// ステージクリア条件UIの作成
-	m_conditionsUI = std::make_unique<ClearConditionsUI>(CLEAR_CONDITIONS);
-	m_conditionsUI->Initialize(
-		windowSize,
-		pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
-		CONDITIONS_TEXT_SIZE
-	);
-
-	// 操作ガイドUIの作成
-	std::vector<DirectX::Keyboard::Keys> move_keys;
-	move_keys.push_back(DirectX::Keyboard::Up);
-	move_keys.push_back(DirectX::Keyboard::Down);
-	move_keys.push_back(DirectX::Keyboard::Right);
-	move_keys.push_back(DirectX::Keyboard::Left);
-	m_guideUI = std::make_unique<InputGuideUI>();
-	m_guideUI->Initialize(
-		pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png"),
-		DirectX::SimpleMath::Vector2(100, 600),
-		ARROW_SIZE_DEFAULT,
-		move_keys,
-		m_userResources->GetKeyboardTracker()
-	);
 }
 
 

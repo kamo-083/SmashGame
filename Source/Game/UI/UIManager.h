@@ -18,6 +18,7 @@
 // クラスの宣言 ===============================================================
 class ResourceManager;
 class UIElement;
+class StageResultUI;
 class AttackUI;
 
 
@@ -71,10 +72,13 @@ private:
 	// 基本UIの配列
 	std::vector<std::unique_ptr<UIElement>> m_elements;
 
-	// 攻撃方法用UI
+	// リザルトUI
+	std::unique_ptr<StageResultUI> m_resultUI;
+
+	// 攻撃方法UI
 	std::unique_ptr<AttackUI> m_attackUI;
 
-	// カメラ回転用UI
+	// カメラ回転UI
 	std::unique_ptr<OperationUI> m_cameraUI;
 
 
@@ -112,6 +116,15 @@ public:
 public:
 	// ウィンドウサイズの設定
 	void SetWindowSize(DirectX::SimpleMath::Vector2 windowSize) { m_windowSize = windowSize; }
+
+	// リザルトUIの取得
+	StageResultUI* GetResultUI() { return m_resultUI.get(); }
+
+	// 攻撃方法UIの取得
+	AttackUI* GetAttackUI() { return m_attackUI.get(); }
+
+	// カメラ回転UIの取得
+	OperationUI* GetCameraUI() { return m_cameraUI.get(); }
 
 
 // 内部実装
