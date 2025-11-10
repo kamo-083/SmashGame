@@ -14,7 +14,6 @@
 #include "Source/Game/UI/Displays/ClearConditionsUI.h"
 
 
-
 // ƒNƒ‰ƒX‚ÌéŒ¾ ===============================================================
 class Camera;
 class Player;

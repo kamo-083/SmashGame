@@ -680,7 +680,7 @@ void StageScene::SetupUI(DirectX::SimpleMath::Vector2 windowSize, ResourceManage
 	OperationUI::Textures opTextures;
 	opTextures.nomalArrow = pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png");
 	opTextures.rotateArrow = pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png");
-	opTextures.keyText = pRM->RequestPNG("box", "Resources/Textures/text/operationText.png");
+	opTextures.keyText = pRM->RequestPNG("operationText", "Resources/Textures/text/operationText.png");
 
 	// 操作方法UIの引数用構造体作成
 	OperationUI::OperationUIDesc opUIDesc =
