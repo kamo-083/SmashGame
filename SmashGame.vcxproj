@@ -206,6 +206,7 @@
     <ClInclude Include="Source\Game\Data\EnemyData.h" />
     <ClInclude Include="Source\Game\Data\AttackData.h" />
     <ClInclude Include="Source\Game\Data\EnemyInfoLoader.h" />
+    <ClInclude Include="Source\Game\Data\InputKeyLoader.h" />
     <ClInclude Include="Source\Game\Data\PlayerInfoLoader.h" />
     <ClInclude Include="Source\Game\Data\StageLoader.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h" />
@@ -330,6 +331,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Resources\Json\enemyInfo.json" />
+    <None Include="Resources\Json\inputKeyInfo.json" />
     <None Include="Resources\Json\playerInfo.json" />
     <None Include="Resources\Json\stage1.json" />
     <None Include="Resources\Json\stage2.json" />

@@ -11,6 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
+#include "Source/Game/Data/InputKeyLoader.h"
 #include "Source/Game/UI/Controls/OperationUI.h"
 #include "Source/Game/UI/Displays/ClearConditionsUI.h"
 
@@ -99,7 +100,8 @@ public:
 	// UIの初期化(ステージ用)
 	void SetupStageUI(
 		DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
-		ClearConditionsUI::ConditionsType conditionsType
+		ClearConditionsUI::ConditionsType conditionsType,
+		const InputKeyLoader::InputKeyInfo& keyConfig
 		);
 
 	// 更新処理

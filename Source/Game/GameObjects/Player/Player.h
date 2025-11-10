@@ -21,6 +21,7 @@
 #include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/Data/AttackData.h"
 #include"Source/Game/Data/PlayerInfoLoader.h"
+#include"Source/Game/Data/InputKeyLoader.h"
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/GameObjects/Player/Player_Idle.h"
@@ -170,6 +171,9 @@ private:
 	// 円形エフェクト
 	EffectManager::CircleParticleData* m_circle;
 
+	// 操作キー設定
+	InputKeyLoader::InputKeyInfo m_keyConfig;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -186,7 +190,7 @@ public:
 	// 操作
 public:
 	// 初期化処理
-	void Initialize(PlayerParams param);
+	void Initialize(PlayerParams param, InputKeyLoader::InputKeyInfo keyConfig);
 
 	// 更新処理
 	void Update(const float& elapsedTime);
@@ -210,7 +214,7 @@ public:
 	void Respawn();
 
 	// 移動の方向と回転
-	DirectX::SimpleMath::Vector3 MoveDirection(DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+	DirectX::SimpleMath::Vector3 MoveDirection(DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 											   Camera* camera);
 
 	// 移動速度の制限

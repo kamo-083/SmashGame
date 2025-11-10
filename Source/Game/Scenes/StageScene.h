@@ -11,6 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
+#include "Source/Game/Data/InputKeyLoader.h"
 #include "Source/Game/UI/Displays/ClearConditionsUI.h"
 
 
@@ -217,7 +218,9 @@ private:
 	void SetupEffects(DX::DeviceResources* pDR);
 
 	// プレイヤーの設定
-	void SetupPlayer(ResourceManager* pRM);
+	void SetupPlayer(
+		ResourceManager* pRM,
+		const InputKeyLoader::InputKeyInfo& keyConfig);
 
 	// 敵の設定
 	void SetupEnemy();

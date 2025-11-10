@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "UIManager.h"
 #include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Common/KeyConverter.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Controls/AttackUI.h"
 #include "Source/Game/UI/Controls/InputGuideUI.h"
@@ -46,12 +47,14 @@ UIManager::~UIManager()
  *
  * @param pKbTracker	 キーボードトラッカーのポインタ
  * @param conditionsType クリア条件
+ * @param keyConfig		 操作キー設定
  *
  * @return なし
  */
 void UIManager::SetupStageUI(
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
-	ClearConditionsUI::ConditionsType conditionsType)
+	ClearConditionsUI::ConditionsType conditionsType,
+	const InputKeyLoader::InputKeyInfo& keyConfig)
 {
 	// テクスチャの取得
 	m_textures = std::make_unique<UITextures>();
@@ -94,10 +97,11 @@ void UIManager::SetupStageUI(
 	CreateClearConditionUI(conditionsType);
 	// 操作ガイド
 	std::vector<DirectX::Keyboard::Keys> move_keys;
-	move_keys.push_back(DirectX::Keyboard::Up);
-	move_keys.push_back(DirectX::Keyboard::Down);
-	move_keys.push_back(DirectX::Keyboard::Right);
-	move_keys.push_back(DirectX::Keyboard::Left);
+	move_keys.push_back(keyConfig.move_forward);
+	move_keys.push_back(keyConfig.move_backward);
+	move_keys.push_back(keyConfig.move_left);
+	move_keys.push_back(keyConfig.move_right);
+	move_keys.push_back(keyConfig.attack);
 	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(100, 600), move_keys, pKbTracker);
 	// 攻撃方法
 	OperationUI::Textures opTextures;

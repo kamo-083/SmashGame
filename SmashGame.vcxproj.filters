@@ -302,6 +302,9 @@
     <ClInclude Include="Source\Game\Common\KeyConverter.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Data\InputKeyLoader.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -507,6 +510,9 @@
     </None>
     <None Include="Source\Game\UI\Elements\Tween\Tween.inl">
       <Filter>UI\Elements\Tween</Filter>
+    </None>
+    <None Include="Resources\Json\inputKeyInfo.json">
+      <Filter>Json</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

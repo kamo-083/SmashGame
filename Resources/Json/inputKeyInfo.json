@@ -1,0 +1,7 @@
+{
+   "move_forward": "Uo",
+   "move_backward": "Down",
+   "move_left": "Left",
+   "move_right": "Right",
+   "attack": "Space"
+}

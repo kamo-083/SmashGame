@@ -77,10 +77,12 @@ Player::~Player()
  * pAttackUI	攻撃UIのポインタ
  * pKeyMode		キー入力モードのポインタ
  * info			外部ファイルからの情報
+ * 
+ * @param keyConfig	操作キー設定
  *
  * @return なし
  */
-void Player::Initialize(PlayerParams param)
+void Player::Initialize(PlayerParams param, InputKeyLoader::InputKeyInfo keyConfig)
 {
 	// 位置の初期化
 	m_position = START_POS;
@@ -111,6 +113,9 @@ void Player::Initialize(PlayerParams param)
 
 	// キー操作のモードのポインタの設定
 	m_pKeyMode = param.pKeyMode;
+
+	// 操作キー設定の保存
+	m_keyConfig = keyConfig;
 
 	// 物理演算の設定
 	m_physics = std::make_unique<PhysicsObject>();
@@ -328,33 +333,36 @@ void Player::Respawn()
 /**
  * @brief 移動方向を計算
  *
- * @param kbTracker キーボードトラッカーのポインタ
- * @param camera	カメラのポインタ
+ * @param pKbTracker キーボードトラッカーのポインタ
+ * @param camera	 カメラのポインタ
  *
  * @return 移動方向
  */
 DirectX::SimpleMath::Vector3 Player::MoveDirection(
-	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+	DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 	Camera* camera)
 {
 	DirectX::SimpleMath::Vector3 forward = camera->GetForward();
 	DirectX::SimpleMath::Vector3 right = forward.Cross(camera->GetUp());
 	DirectX::SimpleMath::Vector3 direction = DirectX::SimpleMath::Vector3::Zero;
 
+	// キーボードの状態を取得
+	DirectX::Keyboard::State keyState = pKbTracker->GetLastState();
+
 	//移動
-	if (kbTracker->GetLastState().Down)	// 後ろ
+	if (keyState.IsKeyDown(m_keyConfig.move_backward))	// 後ろ
 	{
 		direction += -forward;
 	}
-	else if (kbTracker->GetLastState().Up)	// 前
+	else if (keyState.IsKeyDown(m_keyConfig.move_forward))	// 前
 	{
 		direction -= -forward;
 	}
-	if (kbTracker->GetLastState().Right)	// 右
+	if (keyState.IsKeyDown(m_keyConfig.move_right))	// 右
 	{
 		direction += right;
 	}
-	else if (kbTracker->GetLastState().Left)	// 左
+	else if (keyState.IsKeyDown(m_keyConfig.move_left))	// 左
 	{
 		direction -= right;
 	}
@@ -444,10 +452,13 @@ void Player::SetAttackCollisionMultiHit(bool multiHit)
  */
 bool Player::PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
-	return pKbTracker->GetLastState().Up   || 
-		   pKbTracker->GetLastState().Down || 
-		   pKbTracker->GetLastState().Left ||
-		   pKbTracker->GetLastState().Right;
+	// キーボードの状態を取得
+	DirectX::Keyboard::State keyState = pKbTracker->GetLastState();
+
+	return keyState.IsKeyDown(m_keyConfig.move_forward) ||
+		   keyState.IsKeyDown(m_keyConfig.move_backward) ||
+		   keyState.IsKeyDown(m_keyConfig.move_right) ||
+		   keyState.IsKeyDown(m_keyConfig.move_left);
 }
 
 

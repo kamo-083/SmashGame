@@ -106,15 +106,19 @@ void StageScene::Initialize()
 	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
 		static_cast<float>(pDR->GetOutputSize().right), static_cast<float>(pDR->GetOutputSize().bottom));
 
+	// 操作キー設定の読み込み
+	InputKeyLoader::InputKeyInfo keyConfig;
+	InputKeyLoader::LoadData("Resources/Json/inputKeyInfo.json", keyConfig);
+
 	// UIマネージャーの作成
 	m_UIManager = std::make_unique<UIManager>(windowSize, pRM);
-	m_UIManager->SetupStageUI(m_userResources->GetKeyboardTracker(), CLEAR_CONDITIONS);
+	m_UIManager->SetupStageUI(m_userResources->GetKeyboardTracker(), CLEAR_CONDITIONS, keyConfig);
 
 	// 深度ステンシルステートの作成
 	CreateDepthStencilState(pDR->GetD3DDevice());
 
 	// プレイヤーの作成
-	SetupPlayer(pRM);
+	SetupPlayer(pRM, keyConfig);
 
 	// 敵マネージャーの作成
 	SetupEnemy();
@@ -572,11 +576,14 @@ void StageScene::SetupEffects(DX::DeviceResources* pDR)
 /**
  * @brief プレイヤーの設定
  *
- * @param pRM	リソースマネージャーのポインタ
+ * @param pRM		リソースマネージャーのポインタ
+ * @param keyConfig	操作キー設定
  *
  * @return なし
  */
-void StageScene::SetupPlayer(ResourceManager* pRM)
+void StageScene::SetupPlayer(
+	ResourceManager* pRM,
+	const InputKeyLoader::InputKeyInfo& keyConfig)
 {
 	PlayerInfoLoader loader;
 	PlayerInfoLoader::PlayerInfo info;
@@ -592,7 +599,7 @@ void StageScene::SetupPlayer(ResourceManager* pRM)
 			info
 	};
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this, info);
-	m_player->Initialize(param);
+	m_player->Initialize(param, keyConfig);
 }
 
 
