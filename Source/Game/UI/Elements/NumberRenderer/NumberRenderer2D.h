@@ -10,7 +10,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/NumberRenderer/INumberRenderer.h"
+#include"Source/Game/UI/Elements/NumberRenderer/INumberRenderer.h"
 
 
 // クラスの定義 ===============================================================

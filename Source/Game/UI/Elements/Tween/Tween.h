@@ -10,7 +10,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/Tween/TweenBase.h"
+#include"Source/Game/UI/Elements/Tween/TweenBase.h"
 
 
 // クラスの定義 ===============================================================
@@ -117,7 +117,7 @@ private:
 };
 
 // 関数内部を分離したファイルのインクルード
-#include"Source/Game/UI/Tween/Tween.inl"
+#include"Source/Game/UI/Elements/Tween/Tween.inl"
 
 // 別名
 using Tween2D = Tween<DirectX::SimpleMath::Vector2, float>;

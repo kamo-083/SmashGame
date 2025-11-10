@@ -65,20 +65,29 @@
     <Filter Include="Json">
       <UniqueIdentifier>{92f6e619-17d3-4bd9-acbd-67c4de95dd1f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\NumberRenderer">
-      <UniqueIdentifier>{af060d01-6dd9-4a00-b567-25ebf74f6f1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader\Particle">
       <UniqueIdentifier>{5790f00b-9224-4163-8eb7-076a710c82f1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shader\Area">
       <UniqueIdentifier>{5673818c-9d0d-48ff-8e40-d4631e6c4782}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Tween">
-      <UniqueIdentifier>{abf8bb37-cbe5-4da9-ac4d-0a7f59006bc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{8c0c3a8a-3e8f-4989-a448-bc8971047d8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Controls">
+      <UniqueIdentifier>{f37a1ac1-7090-4054-91ca-a1bfe0063402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Displays">
+      <UniqueIdentifier>{5427a952-8444-4167-8961-283fc8313646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Elements">
+      <UniqueIdentifier>{bc536ba4-9889-4029-aa0c-3997e695b9cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Elements\Tween">
+      <UniqueIdentifier>{abf8bb37-cbe5-4da9-ac4d-0a7f59006bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Elements\NumberRenderer">
+      <UniqueIdentifier>{af060d01-6dd9-4a00-b567-25ebf74f6f1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +155,6 @@
     <ClInclude Include="Source\Game\GameObjects\Camera.h">
       <Filter>Game\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\AttackUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Player\Player_Walk.h">
       <Filter>Game\GameObjects\Player\State</Filter>
     </ClInclude>
@@ -206,9 +212,6 @@
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\UIWidget.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Common\Animation.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -218,29 +221,8 @@
     <ClInclude Include="Source\Game\Data\EnemyData.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\Button.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\StageResultUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Sky.h">
       <Filter>Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\UIElement.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\OperationUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\NumberRenderer\INumberRenderer.h">
-      <Filter>UI\NumberRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer2D.h">
-      <Filter>UI\NumberRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.h">
-      <Filter>UI\NumberRenderer</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Common\RenderTexture.h">
       <Filter>Common</Filter>
@@ -260,17 +242,8 @@
     <ClInclude Include="Source\Game\Common\ShaderManager.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\ClearConditionsUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Fence.h">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\Tween\Tween.h">
-      <Filter>UI\Tween</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\Tween\TweenBase.h">
-      <Filter>UI\Tween</Filter>
     </ClInclude>
     <ClInclude Include="Source\Debug\DebugFont.h">
       <Filter>Debug</Filter>
@@ -284,8 +257,47 @@
     <ClInclude Include="Source\Game\Data\PlayerInfoLoader.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\InputGuideUI.h">
+    <ClInclude Include="Source\Game\UI\UIManager.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Controls\AttackUI.h">
+      <Filter>UI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Controls\InputGuideUI.h">
+      <Filter>UI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Controls\OperationUI.h">
+      <Filter>UI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Displays\Button.h">
+      <Filter>UI\Displays</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Displays\ClearConditionsUI.h">
+      <Filter>UI\Displays</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Displays\StageResultUI.h">
+      <Filter>UI\Displays</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\UIElement.h">
+      <Filter>UI\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\UIWidget.h">
+      <Filter>UI\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\Tween\Tween.h">
+      <Filter>UI\Elements\Tween</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\Tween\TweenBase.h">
+      <Filter>UI\Elements\Tween</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\INumberRenderer.h">
+      <Filter>UI\Elements\NumberRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.h">
+      <Filter>UI\Elements\NumberRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.h">
+      <Filter>UI\Elements\NumberRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,9 +341,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Camera.cpp">
       <Filter>Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\AttackUI.cpp">
-      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Player\Player_AttackBasic.cpp">
       <Filter>Game\GameObjects\Player\State</Filter>
@@ -387,32 +396,14 @@
     <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\UIWidget.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Common\Animation.cpp">
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Common\ModelAnimator.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\Button.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\StageResultUI.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Sky.cpp">
       <Filter>Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\OperationUI.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer2D.cpp">
-      <Filter>UI\NumberRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\NumberRenderer\NumberRenderer3D.cpp">
-      <Filter>UI\NumberRenderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Common\RenderTexture.cpp">
       <Filter>Common</Filter>
@@ -432,20 +423,44 @@
     <ClCompile Include="Source\Game\Common\ShaderManager.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\ClearConditionsUI.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Fence.cpp">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\UI\Tween\TweenBase.cpp">
-      <Filter>UI\Tween</Filter>
     </ClCompile>
     <ClCompile Include="Source\Debug\DebugFont.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\InputGuideUI.cpp">
+    <ClCompile Include="Source\Game\UI\UIManager.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Controls\AttackUI.cpp">
+      <Filter>UI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Controls\InputGuideUI.cpp">
+      <Filter>UI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Controls\OperationUI.cpp">
+      <Filter>UI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Displays\Button.cpp">
+      <Filter>UI\Displays</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Displays\ClearConditionsUI.cpp">
+      <Filter>UI\Displays</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Displays\StageResultUI.cpp">
+      <Filter>UI\Displays</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Elements\UIWidget.cpp">
+      <Filter>UI\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Elements\Tween\TweenBase.cpp">
+      <Filter>UI\Elements\Tween</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.cpp">
+      <Filter>UI\Elements\NumberRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.cpp">
+      <Filter>UI\Elements\NumberRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -481,11 +496,11 @@
     <None Include="Resources\Shaders\Area\Area.hlsli">
       <Filter>Shader\Area</Filter>
     </None>
-    <None Include="Source\Game\UI\Tween\Tween.inl">
-      <Filter>UI\Tween</Filter>
-    </None>
     <None Include="Resources\Json\playerInfo.json">
       <Filter>Json</Filter>
+    </None>
+    <None Include="Source\Game\UI\Elements\Tween\Tween.inl">
+      <Filter>UI\Elements\Tween</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

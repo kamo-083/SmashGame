@@ -7,8 +7,8 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "StageSelectScene.h"
-#include "Source/Game/UI/Button.h"
-#include "Source/Game/UI/NumberRenderer/NumberRenderer2D.h"
+#include "Source/Game/UI/Displays/Button.h"
+#include "Source/Game/UI/Elements/NumberRenderer/NumberRenderer2D.h"
 #include "Source/Game/Common/RenderTexture.h"
 
 

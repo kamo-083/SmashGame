@@ -7,8 +7,8 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "TitleScene.h"
-#include "Source/Game/UI/UIWidget.h"
-#include "Source/Game/UI/Button.h"
+#include "Source/Game/UI/Elements/UIWidget.h"
+#include "Source/Game/UI/Displays/Button.h"
 
 
 // メンバ関数の定義 ===========================================================

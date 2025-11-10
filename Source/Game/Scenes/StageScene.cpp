@@ -18,11 +18,11 @@
 #include "Source/Game/GameObjects/Stage/StageManager.h"
 #include "Source/Game/GameObjects/Stage/Objects/Ground.h"
 #include "Source/Game/GameObjects/Sky.h"
-#include "Source/Game/UI/UIWidget.h"
-#include "Source/Game/UI/AttackUI.h"
-#include "Source/Game/UI/StageResultUI.h"
-#include "Source/Game/UI/OperationUI.h"
-#include "Source/Game/UI/InputGuideUI.h"
+#include "Source/Game/UI/Elements/UIWidget.h"
+#include "Source/Game/UI/Controls/AttackUI.h"
+#include "Source/Game/UI/Displays/StageResultUI.h"
+#include "Source/Game/UI/Controls/OperationUI.h"
+#include "Source/Game/UI/Controls/InputGuideUI.h"
 
 
 // メンバ関数の定義 ===========================================================

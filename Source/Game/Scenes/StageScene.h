@@ -11,7 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-#include "Source/Game/UI/ClearConditionsUI.h"
+#include "Source/Game/UI/Displays/ClearConditionsUI.h"
 
 
 

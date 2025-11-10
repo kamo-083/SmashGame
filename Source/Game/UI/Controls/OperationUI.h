@@ -11,7 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/UserResources.h"
-#include"Source/Game/UI/UIWidget.h"
+#include"Source/Game/UI/Elements/UIWidget.h"
 
 
 // クラスの定義 ===============================================================

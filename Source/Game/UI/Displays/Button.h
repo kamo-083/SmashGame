@@ -1,7 +1,7 @@
 /**
- * @file   ClearConditionsUI.h
+ * @file   Button.h
  *
- * @brief  クリア条件UIに関するヘッダファイル
+ * @brief  ボタンUIに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -10,56 +10,44 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/UIElement.h"
-#include"Source/Game/Common/ResourceManager.h"
+#include"Source/Game/UI/Elements/UIElement.h"
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief クリア条件UI
+ * @brief ボタンUI
  */
-class ClearConditionsUI :public UIElement
+class Button :public UIElement
 {
 	// クラス定数の宣言 -------------------------------------------------
-public:
-	// クリア条件の種類
-	enum class ConditionsType
-	{
-		SMASH,		// ぶつける
-		PUSH_OUT,	// 追い出す
-		GATHER		// 集める
-	};
+private:
 
-	// 設定されているクリア条件の種類
-	const ConditionsType CONDITIONS_TYPE;
-
-	// トゥイーンアニメーションの時間
-	static constexpr float TWEEN_ANIM_TIME = 2.0f;
 
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// 画像テキストの1列分の大きさ
-	DirectX::SimpleMath::Vector2 m_textSize;
+	// 押された時に実行する処理
+	std::function<void()> m_operate;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	ClearConditionsUI(ConditionsType clearCondition);
+	Button();
 
 	// デストラクタ
-	~ClearConditionsUI();
+	~Button();
 
 
 	// 操作
 public:
 	// 初期化処理
 	void Initialize(
-		DirectX::SimpleMath::Vector2 windowSize,
-		ID3D11ShaderResourceView* textTex,
-		DirectX::SimpleMath::Vector2 textSize);
+		ID3D11ShaderResourceView* texture,
+		const Tween2D::TweenData data,
+		DirectX::SimpleMath::Vector2 size,
+		std::function<void()> operate = nullptr);
 
 	// 更新処理
 	void Update(float elapsedTime) override;
@@ -69,6 +57,12 @@ public:
 
 	// 終了処理
 	void Finalize() override;
+
+	// 押した時の処理
+	void Press();
+
+	// トゥイーンのリセット
+	void Reset();
 
 
 	// 取得/設定

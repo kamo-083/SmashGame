@@ -1,7 +1,7 @@
 /**
  * @file   InputGuideUI.h
  *
- * @brief  ボタン操作UIに関するヘッダファイル
+ * @brief  操作ガイドUIに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -10,12 +10,12 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/UIElement.h"
+#include"Source/Game/UI/Elements/UIElement.h"
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief 操作方法UI
+ * @brief 操作ガイドUI
  */
 class InputGuideUI :public UIElement
 {

@@ -1,7 +1,7 @@
 /**
  * @file   InputGuideUI.cpp
  *
- * @brief  ボタン操作UIに関するソースファイル
+ * @brief  操作ガイドUIに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
@@ -17,6 +17,8 @@
  */
 InputGuideUI::InputGuideUI()
 	: UIElement()
+	, m_pKbTracker(nullptr)
+	, m_pressed(false)
 {
 
 }

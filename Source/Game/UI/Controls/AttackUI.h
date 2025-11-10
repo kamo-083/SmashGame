@@ -11,7 +11,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Data/AttackData.h"
 #include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/UI/OperationUI.h"
+#include"Source/Game/UI/Controls/OperationUI.h"
 
 
 // クラスの宣言 ===============================================================
