@@ -299,6 +299,9 @@
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.h">
       <Filter>UI\Elements\NumberRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Common\KeyConverter.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -461,6 +464,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.cpp">
       <Filter>UI\Elements\NumberRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\KeyConverter.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
