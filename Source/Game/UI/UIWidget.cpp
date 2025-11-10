@@ -173,6 +173,7 @@ void UIWidget::TweenReset(bool play)
 {
 	m_params = m_tween->GetStartParams();
 	m_tween->ResetTime();
+	m_tween->ResetPlayed();
 
 	if (play) m_tween->Play();
 }

@@ -22,6 +22,7 @@
 #include "Source/Game/UI/AttackUI.h"
 #include "Source/Game/UI/StageResultUI.h"
 #include "Source/Game/UI/OperationUI.h"
+#include "Source/Game/UI/InputGuideUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -185,6 +186,7 @@ void StageScene::Update(float elapsedTime)
 	m_conditionsUI->Update(elapsedTime);	// クリア条件
 	m_attackUI->Update(elapsedTime);		// 攻撃
 	m_cameraUI->Update(elapsedTime);		// カメラ
+	m_guideUI->Update(elapsedTime);			// 操作ガイド
 
 	// 当たり判定の更新
 	m_collisionManager->Update();
@@ -257,6 +259,7 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 	m_conditionsUI->Draw(context);	// クリア条件
 	m_attackUI->Draw(context);	  	// 攻撃
 	m_cameraUI->Draw(context);	  	// カメラ
+	m_guideUI->Draw(context);		// 操作ガイド
 
 	switch (m_overlayMode)
 	{
@@ -298,6 +301,9 @@ void StageScene::Finalize()
 
 	if (m_cameraUI) m_cameraUI->Finalize();
 	m_cameraUI.reset();
+
+	if (m_guideUI) m_guideUI->Finalize();
+	m_guideUI.reset();
 
 	if (m_sky) m_sky->Finalize();
 	m_sky.reset();
@@ -719,6 +725,21 @@ void StageScene::SetupUI(DirectX::SimpleMath::Vector2 windowSize, ResourceManage
 		windowSize,
 		pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
 		CONDITIONS_TEXT_SIZE
+	);
+
+	// 操作ガイドUIの作成
+	std::vector<DirectX::Keyboard::Keys> move_keys;
+	move_keys.push_back(DirectX::Keyboard::Up);
+	move_keys.push_back(DirectX::Keyboard::Down);
+	move_keys.push_back(DirectX::Keyboard::Right);
+	move_keys.push_back(DirectX::Keyboard::Left);
+	m_guideUI = std::make_unique<InputGuideUI>();
+	m_guideUI->Initialize(
+		pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png"),
+		DirectX::SimpleMath::Vector2(100, 600),
+		ARROW_SIZE_DEFAULT,
+		move_keys,
+		m_userResources->GetKeyboardTracker()
 	);
 }
 

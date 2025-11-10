@@ -55,6 +55,9 @@ private:
 	// 終了フラグ
 	bool m_finished;
 
+	// 再生済みフラグ
+	bool m_played;
+
 	// 反転フラグ
 	bool m_reverse;
 
@@ -83,14 +86,23 @@ public:
 	// 停止
 	void Stop();
 
-	// リセット
+	// 再生時間のリセット
 	void ResetTime();
+
+	// 再生済みフラグのリセット
+	void ResetPlayed() { m_played = false; }
 
 
 // 取得/設定
 public:
+	// 再生しているかを取得
+	bool IsPlaying() const { return  m_playing; }
+
 	// 終了しているかを取得
 	bool Finished() const { return m_finished; }
+
+	// 一度でも再生したかを取得
+	bool IsPlayed() const { return m_played; }
 
 	// 開始時のパラメータを取得
 	UIParams GetStartParams() const { return m_data.start; }

@@ -24,6 +24,7 @@ Tween<TVec,TRot>::Tween(typename Tween<TVec, TRot>::TweenData data)
 	, m_elapsedTime{ 0.0f }
 	, m_playing{ false }
 	, m_finished{ false }
+	, m_played{ false }
 	, m_reverse{ false }
 {
 	if (m_data.loop == PlaybackMode::Once_Reverse)
@@ -125,6 +126,7 @@ void Tween<TVec, TRot>::Play()
 {
 	m_playing = true;
 	m_finished = false;
+	m_played = true;
 }
 
 

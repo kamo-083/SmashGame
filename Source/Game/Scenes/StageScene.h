@@ -27,6 +27,7 @@ class UIWidget;
 class AttackUI;
 class StageResultUI;
 class OperationUI;
+class InputGuideUI;
 
 
 // クラスの定義 ===============================================================
@@ -147,6 +148,7 @@ private:
 
 	// 操作方法UI
 	std::unique_ptr<OperationUI> m_cameraUI;
+	std::unique_ptr<InputGuideUI> m_guideUI;
 
 	// スカイドーム
 	std::unique_ptr<Sky> m_sky;

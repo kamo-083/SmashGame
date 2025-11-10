@@ -26,6 +26,12 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	std::vector<DirectX::Keyboard::Keys> m_keys;
+
+	DirectX::Keyboard::KeyboardStateTracker* m_pKbTracker;
+
+	bool m_pressed;
+	std::vector<bool> m_keyLastStates;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -44,7 +50,10 @@ public:
 	void Initialize(
 		ID3D11ShaderResourceView* texture,
 		DirectX::SimpleMath::Vector2 pos,
-		DirectX::SimpleMath::Vector2 size);
+		DirectX::SimpleMath::Vector2 size,
+		std::vector<DirectX::Keyboard::Keys> keys,
+		DirectX::Keyboard::KeyboardStateTracker* pKbTracker
+	);
 
 	// 更新処理
 	void Update(float elapsedTime) override;
@@ -54,12 +63,6 @@ public:
 
 	// 終了処理
 	void Finalize() override;
-
-	// 押した時の処理
-	void Press();
-
-	// トゥイーンのリセット
-	void Reset();
 
 
 	// 取得/設定
