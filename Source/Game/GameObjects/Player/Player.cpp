@@ -646,7 +646,7 @@ void Player::SetupState(
 		info.attack[static_cast<int>(AttackType::HEAVY)].time,
 		info.attack[static_cast<int>(AttackType::HEAVY)].size,
 		info.attack[static_cast<int>(AttackType::HEAVY)].force,
-		0.6f
+		info.heavy_cooldown
 	};
 	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(
 		this, pKeyboard, heavyParam);

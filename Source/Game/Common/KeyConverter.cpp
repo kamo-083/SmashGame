@@ -91,6 +91,30 @@ DirectX::Keyboard::Keys KeyConverter::ConvertToKeys(const std::string& name)
 
 
 /**
+ * @brief  Keys->文字列の変換
+ *
+ * @param key キー
+ *
+ * @return キー名
+ */
+std::string KeyConverter::ConvertToString(const DirectX::Keyboard::Keys& key)
+{
+	for (auto it = KEY_MAP.begin(); it != KEY_MAP.end(); ++it)
+	{
+		const std::string& name = it->first;
+		DirectX::Keyboard::Keys mappedKey = it->second;
+
+		// 一致していたら返す
+		if (mappedKey == key) return name;
+	}
+
+	// 無かった場合
+	return "None";
+}
+
+
+
+/**
  * @brief  文字列からキー番号を取得
  *
  * @param name キー名
@@ -104,4 +128,22 @@ int KeyConverter::GetIndex(const std::string& name)
 	if (it == KEY_INDEX.end()) return -1;	// 無かった場合
 
 	return static_cast<int>(std::distance(KEY_INDEX.begin(), it));
+}
+
+
+
+/**
+ * @brief  Keysからキー番号を取得
+ *
+ * @param key キー
+ *
+ * @return キー番号
+ */
+int KeyConverter::GetIndex(const DirectX::Keyboard::Keys& key)
+{
+	// Keys->文字列の変換
+	const std::string& name = ConvertToString(key);
+	
+	// キー番号を取得
+	return GetIndex(name);
 }

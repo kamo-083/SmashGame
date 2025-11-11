@@ -96,15 +96,15 @@ void UIManager::SetupStageUI(
 	// クリア条件
 	CreateClearConditionUI(conditionsType);
 	// 操作ガイド
+	std::vector<DirectX::Keyboard::Keys> attack_keys;
+	attack_keys.push_back(keyConfig.attack);
+	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(100, 600), attack_keys, pKbTracker);
 	std::vector<DirectX::Keyboard::Keys> move_keys;
 	move_keys.push_back(keyConfig.move_forward);
 	move_keys.push_back(keyConfig.move_backward);
 	move_keys.push_back(keyConfig.move_left);
 	move_keys.push_back(keyConfig.move_right);
-	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(100, 600), move_keys, pKbTracker);
-	std::vector<DirectX::Keyboard::Keys> attack_keys;
-	attack_keys.push_back(keyConfig.attack);
-	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(250, 600), attack_keys, pKbTracker);
+	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(250, 600), move_keys, pKbTracker);
 	// 攻撃方法
 	OperationUI::Textures opTextures;
 	opTextures.nomalArrow = m_textures->arrow_normal.texture;

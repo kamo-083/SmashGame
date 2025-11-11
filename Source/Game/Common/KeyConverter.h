@@ -48,6 +48,12 @@ public:
 	// 文字列->Keysの変換
 	static DirectX::Keyboard::Keys ConvertToKeys(const std::string& name);
 	
+	// Keys->文字列の変換
+	static std::string ConvertToString(const DirectX::Keyboard::Keys& key);
+
 	// 文字列からキー番号を取得
 	static int GetIndex(const std::string& name);
+
+	// Keysからキー番号を取得
+	static int GetIndex(const DirectX::Keyboard::Keys& key);
 };

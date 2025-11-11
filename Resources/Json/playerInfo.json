@@ -1,44 +1,41 @@
 {
-    "info": [
+    "radius": 0.5,
+    "mass": 10.0,
+    "walk_speed": 6.0,
+    "dash_speed": 7.5,
+    "max_speed": 10.0,
+    "static_friction": 0.15,
+    "dynamic_friction": 0.5,
+    "heavy_cooldown": 0.6,
+    "attack": [
         {
-            "radius": 0.5,
-            "mass": 10.0,
-            "walk_speed": 6.0,
-            "dash_speed": 7.5,
-            "max_speed": 10.0,
-            "static_friction": 0.15,
-            "dynamic_friction": 0.5,
-            "attack": [
-                {
-                    "atkType": "Basic",
-                    "atkParam": [ 1.0, 2.0, 3000.0 ]
-                },
-                {
-                    "atkType": "Heavy",
-                    "atkParam": [ 1.0, 2.0, 10000.0 ]
-                },
-                {
-                    "atkType": "Rolling",
-                    "atkParam": [ 3.0, 3.0, 300.0 ]
-                }
-            ],
-            "modelPath": "playerCat.sdkmesh",
-            "idleAnimPath": "playerCat_idle.sdkmesh_anim",
-            "walkAnimPath": "playerCat_walk.sdkmesh_anim",
-            "attackAnimPath": [
-                {
-                    "atkType": "Basic",
-                    "atkAnim": "playerCat_atkBasic.sdkmesh_anim"
-                },
-                {
-                    "atkType": "Heavy",
-                    "atkAnim": "playerCat_atkHeavy.sdkmesh_anim"
-                },
-                {
-                    "atkType": "Rolling",
-                    "atkAnim": "playerCat_atkRolling.sdkmesh_anim"
-                }
-            ]
+            "atkType": "Basic",
+            "atkParam": [ 1.0, 2.0, 3000.0 ]
+        },
+        {
+            "atkType": "Heavy",
+            "atkParam": [ 1.0, 2.0, 10000.0 ]
+        },
+        {
+            "atkType": "Rolling",
+            "atkParam": [ 3.0, 3.0, 300.0 ]
+        }
+    ],
+    "modelPath": "playerCat.sdkmesh",
+    "idleAnimPath": "playerCat_idle.sdkmesh_anim",
+    "walkAnimPath": "playerCat_walk.sdkmesh_anim",
+    "attackAnimPath": [
+        {
+            "atkType": "Basic",
+            "atkAnim": "playerCat_atkBasic.sdkmesh_anim"
+        },
+        {
+            "atkType": "Heavy",
+            "atkAnim": "playerCat_atkHeavy.sdkmesh_anim"
+        },
+        {
+            "atkType": "Rolling",
+            "atkAnim": "playerCat_atkRolling.sdkmesh_anim"
         }
     ]
 }
