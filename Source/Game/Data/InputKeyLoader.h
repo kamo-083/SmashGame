@@ -30,11 +30,15 @@ class InputKeyLoader
 public:
 	struct InputKeyInfo
 	{
-		DirectX::Keyboard::Keys move_forward;
-		DirectX::Keyboard::Keys move_backward;
-		DirectX::Keyboard::Keys move_left;
-		DirectX::Keyboard::Keys move_right;
-		DirectX::Keyboard::Keys attack;
+		DirectX::Keyboard::Keys move_forward;	// 前進
+		DirectX::Keyboard::Keys move_backward;	// 後退
+		DirectX::Keyboard::Keys move_left;		// 左移動
+		DirectX::Keyboard::Keys move_right;		// 右移動
+		DirectX::Keyboard::Keys attack;			// 攻撃
+
+		DirectX::Keyboard::Keys rotate_left;	// 攻撃・カメラの左回転
+		DirectX::Keyboard::Keys rotate_right;	// 攻撃・カメラの右回転
+		DirectX::Keyboard::Keys mode_switch;	// 攻撃・カメラのモード切替
 	};
 
 
@@ -76,7 +80,7 @@ public:
 		json j = json::parse(stream);
 
 		// データを読み込む
-		InputKeyInfo data;
+		InputKeyInfo data{};
 
 		if (j.contains("move_forward") && j["move_forward"].is_string())
 		{
@@ -101,6 +105,21 @@ public:
 		if (j.contains("attack") && j["attack"].is_string())
 		{
 			data.attack = KeyConverter::ConvertToKeys(j["attack"]);
+		}
+		
+		if (j.contains("rotate_left") && j["rotate_left"].is_string())
+		{
+			data.rotate_left = KeyConverter::ConvertToKeys(j["rotate_left"]);
+		}
+
+		if (j.contains("rotate_right") && j["rotate_right"].is_string())
+		{
+			data.rotate_right = KeyConverter::ConvertToKeys(j["rotate_right"]);
+		}
+		
+		if (j.contains("mode_switch") && j["mode_switch"].is_string())
+		{
+			data.mode_switch = KeyConverter::ConvertToKeys(j["mode_switch"]);
 		}
 
 		// 情報を登録

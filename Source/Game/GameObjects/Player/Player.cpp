@@ -239,14 +239,17 @@ void Player::ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	if (!(*m_pKeyMode)) return;
 
-	if (pKbTracker->pressed.C)
+	// キーボードの状態を取得
+	DirectX::Keyboard::State keyState = pKbTracker->GetLastState();
+
+	if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_right))
 	{
 		++m_attackType;
 
 		// SEの再生
 		m_pScene->PlaySE("cursorSE");
 	}
-	else if (pKbTracker->pressed.Z)
+	else if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_left))
 	{
 		--m_attackType;
 
@@ -448,7 +451,7 @@ void Player::SetAttackCollisionMultiHit(bool multiHit)
  *
  * @param pKbTracker キーボードトラッカーのポインタ
  *
- * @return なし
+ * @return いずれかの移動キーが押されているかどうか
  */
 bool Player::PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {

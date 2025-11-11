@@ -50,7 +50,7 @@ void InputGuideUI::Initialize(
 	ID3D11ShaderResourceView* texture,
 	DirectX::SimpleMath::Vector2 pos,
 	DirectX::SimpleMath::Vector2 size,
-	 std::vector<DirectX::Keyboard::Keys> keys,
+	std::vector<DirectX::Keyboard::Keys> keys,
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	Tween2D::TweenData data =

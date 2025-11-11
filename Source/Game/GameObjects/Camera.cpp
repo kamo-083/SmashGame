@@ -113,15 +113,18 @@ void Camera::Draw(DebugFont* debugFont)
  * @brief 回転操作
  *
  * @param keyboard		キーボードトラッカーのポインタ
+ * @param keyConfig		操作キー設定
  *
  * @return なし
  */
-void Camera::Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard)
+void Camera::Rotation(
+	DirectX::Keyboard::KeyboardStateTracker* keyboard,
+	const InputKeyLoader::InputKeyInfo& keyConfig)
 {
 	// 指定した場所を中心に回転
 	// X方向
-	if (keyboard->pressed.C)		m_endAngle.x += CAMERA_ROTATE_ANGLE;
-	else if (keyboard->pressed.Z)	m_endAngle.x -= CAMERA_ROTATE_ANGLE;
+	if (keyboard->IsKeyPressed(keyConfig.rotate_right))		m_endAngle.x += CAMERA_ROTATE_ANGLE;
+	else if (keyboard->IsKeyPressed(keyConfig.rotate_left))	m_endAngle.x -= CAMERA_ROTATE_ANGLE;
 
 	m_startAngle = m_angle;
 

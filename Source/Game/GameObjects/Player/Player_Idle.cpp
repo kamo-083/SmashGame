@@ -90,7 +90,7 @@ void Player_Idle::Update(const float& elapsedTime)
 	}
 
 	// UŒ‚ó‘Ô‚ÉØ‚è‘Ö‚¦
-	if (m_pKbTracker->pressed.Space)
+	if (m_pKbTracker->IsKeyPressed(m_pPlayer->GetKeyConfig().attack))
 	{
 		m_pPlayer->Attack();
 	}

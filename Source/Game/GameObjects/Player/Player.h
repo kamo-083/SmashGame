@@ -258,8 +258,9 @@ public:
 	float GetScale() { return SCALE; }												// スケールの取得
 	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }	// 軌跡エフェクトの取得
 	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }				// 円形エフェクトの取得
-	Animations* GetAnimation() { return m_animations.get(); }	// アニメーション群の取得
-	float GetKillHeight() { return KILL_HEIGHT; }				// 落下判定高度の取得
+	Animations* GetAnimation() { return m_animations.get(); }						// アニメーション群の取得
+	float GetKillHeight() { return KILL_HEIGHT; }									// 落下判定高度の取得
+	const InputKeyLoader::InputKeyInfo& GetKeyConfig() { return m_keyConfig; }		// 操作キー設定の取得
 
 	Player_Idle* GetState_Idle() { return m_idlingState.get(); }								// 待機状態の取得
 	Player_Walk* GetState_Walk() { return m_walkingState.get(); }								// 移動状態の取得

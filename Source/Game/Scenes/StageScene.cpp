@@ -109,6 +109,7 @@ void StageScene::Initialize()
 	// 操作キー設定の読み込み
 	InputKeyLoader::InputKeyInfo keyConfig;
 	InputKeyLoader::LoadData("Resources/Json/inputKeyInfo.json", keyConfig);
+	m_keyConfig = keyConfig;
 
 	// UIマネージャーの作成
 	m_UIManager = std::make_unique<UIManager>(windowSize, pRM);
@@ -118,7 +119,7 @@ void StageScene::Initialize()
 	CreateDepthStencilState(pDR->GetD3DDevice());
 
 	// プレイヤーの作成
-	SetupPlayer(pRM, keyConfig);
+	SetupPlayer(pRM);
 
 	// 敵マネージャーの作成
 	SetupEnemy();
@@ -164,7 +165,7 @@ void StageScene::Update(float elapsedTime)
 	}
 
 	// キー操作のモード切り替え
-	if (m_userResources->GetKeyboardTracker()->pressed.X)
+	if (m_userResources->GetKeyboardTracker()->IsKeyPressed(m_keyConfig.mode_switch))
 	{
 		ChangeKeyMode();
 	}
@@ -176,7 +177,7 @@ void StageScene::Update(float elapsedTime)
 	m_enemyManager->Update(elapsedTime, m_player.get());
 
 	// カメラの更新
-	if (!m_keyMode) m_camera->Rotation(m_userResources->GetKeyboardTracker());
+	if (!m_keyMode) m_camera->Rotation(m_userResources->GetKeyboardTracker(), m_keyConfig);
 	m_camera->Update(elapsedTime);
 
 	// ステージの更新
@@ -577,13 +578,10 @@ void StageScene::SetupEffects(DX::DeviceResources* pDR)
  * @brief プレイヤーの設定
  *
  * @param pRM		リソースマネージャーのポインタ
- * @param keyConfig	操作キー設定
  *
  * @return なし
  */
-void StageScene::SetupPlayer(
-	ResourceManager* pRM,
-	const InputKeyLoader::InputKeyInfo& keyConfig)
+void StageScene::SetupPlayer(ResourceManager* pRM)
 {
 	PlayerInfoLoader loader;
 	PlayerInfoLoader::PlayerInfo info;
@@ -599,7 +597,7 @@ void StageScene::SetupPlayer(
 			info
 	};
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this, info);
-	m_player->Initialize(param, keyConfig);
+	m_player->Initialize(param, m_keyConfig);
 }
 
 

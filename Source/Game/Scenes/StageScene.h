@@ -56,34 +56,6 @@ public:
 
 	const ClearConditionsUI::ConditionsType CLEAR_CONDITIONS;	// クリア条件
 
-	// クリア条件UI
-	// クリア条件テキストの1行分の大きさ
-	static constexpr DirectX::SimpleMath::Vector2 CONDITIONS_TEXT_SIZE = { 300.f,90.f };
-
-	// 操作方法UI共通
-	// テキスト画像を切り取る時の左端
-	static constexpr float TEXT_UV_LEFT = 370.0f;
-	// テキスト画像の1文字の大きさ
-	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 50.0f,100.0f };
-	// 矢印画像サイズ
-	static constexpr DirectX::SimpleMath::Vector2 ARROW_SIZE_DEFAULT = { 200.0f,100.0f };	// 通常
-	static constexpr DirectX::SimpleMath::Vector2 ARROW_SIZE_ROTATE = { 200.0f,200.0f };	// 回転
-	
-	// カメラ操作UI
-	// アイコン画像サイズ
-	static constexpr DirectX::SimpleMath::Vector2 CAMERA_ICON_SIZE = { 200.0f,135.0f };
-	// 表示位置
-	static constexpr DirectX::SimpleMath::Vector2 CAMERA_UI_POS = { 250.0f,90.0f };
-	// 矢印間隔
-	static constexpr float CAMERA_UI_ARROW_INTERVAL = 350.0f;
-
-	// 攻撃変更UI
-	// 攻撃アイコン画像サイズ
-	static constexpr DirectX::SimpleMath::Vector2 ATTACK_ICON_SIZE = { 200.0f,200.0f };
-
-	// リザルトUI
-	static constexpr DirectX::SimpleMath::Vector2 RESULT_WINDOW_SIZE = { 350.0f,400.0f };
-
 	// BGMの音量
 	static constexpr float BGM_VOLUME = 0.5f;
 
@@ -107,6 +79,9 @@ private:
 
 	// オーバーレイ
 	Overlay m_overlayMode;
+
+	// 操作キー設定
+	InputKeyLoader::InputKeyInfo m_keyConfig;
 
 	// 影関連
 	// プリミティブバッチ
@@ -218,9 +193,7 @@ private:
 	void SetupEffects(DX::DeviceResources* pDR);
 
 	// プレイヤーの設定
-	void SetupPlayer(
-		ResourceManager* pRM,
-		const InputKeyLoader::InputKeyInfo& keyConfig);
+	void SetupPlayer(ResourceManager* pRM);
 
 	// 敵の設定
 	void SetupEnemy();

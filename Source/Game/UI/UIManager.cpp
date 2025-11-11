@@ -101,8 +101,10 @@ void UIManager::SetupStageUI(
 	move_keys.push_back(keyConfig.move_backward);
 	move_keys.push_back(keyConfig.move_left);
 	move_keys.push_back(keyConfig.move_right);
-	move_keys.push_back(keyConfig.attack);
 	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(100, 600), move_keys, pKbTracker);
+	std::vector<DirectX::Keyboard::Keys> attack_keys;
+	attack_keys.push_back(keyConfig.attack);
+	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(250, 600), attack_keys, pKbTracker);
 	// UŒ‚•û–@
 	OperationUI::Textures opTextures;
 	opTextures.nomalArrow = m_textures->arrow_normal.texture;

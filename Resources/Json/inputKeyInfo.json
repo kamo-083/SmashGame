@@ -1,7 +1,10 @@
 {
-   "move_forward": "Uo",
-   "move_backward": "Down",
-   "move_left": "Left",
-   "move_right": "Right",
-   "attack": "Space"
+    "move_forward": "Up",
+    "move_backward": "Down",
+    "move_left": "Left",
+    "move_right": "Right",
+    "attack": "Space",
+    "rotate_left": "Z",
+    "rotate_right": "C",
+    "mode_switch": "X"
 }

@@ -12,7 +12,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Debug/DebugFont.h"
-
+#include"Source/Game/Data/InputKeyLoader.h"
 
 
 // クラスの定義 ===============================================================
@@ -83,7 +83,9 @@ public:
 	void Draw(DebugFont* debugFont);
 
 	// 回転操作
-	void Rotation(DirectX::Keyboard::KeyboardStateTracker* keyboard);
+	void Rotation(
+		DirectX::Keyboard::KeyboardStateTracker* keyboard,
+		const InputKeyLoader::InputKeyInfo& keyConfig);
 
 	// 回転の補間
 	void SmoothCameraRotation(float elapsedTime);
