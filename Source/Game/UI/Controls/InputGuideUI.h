@@ -26,12 +26,20 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// 対応キー
 	std::vector<DirectX::Keyboard::Keys> m_keys;
 
+	// キーボードトラッカーのポインタ
 	DirectX::Keyboard::KeyboardStateTracker* m_pKbTracker;
 
+	// 押下状態
 	bool m_pressed;
+
+	// 対応キー全体の以前の押下状態
 	std::vector<bool> m_keyLastStates;
+
+	// 文字テクスチャのポインタ
+	ID3D11ShaderResourceView* m_textTexture;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -48,7 +56,8 @@ public:
 public:
 	// 初期化処理
 	void Initialize(
-		ID3D11ShaderResourceView* texture,
+		ID3D11ShaderResourceView* textTexture,
+		ID3D11ShaderResourceView* baseTexture,
 		DirectX::SimpleMath::Vector2 pos,
 		DirectX::SimpleMath::Vector2 size,
 		std::vector<DirectX::Keyboard::Keys> keys,

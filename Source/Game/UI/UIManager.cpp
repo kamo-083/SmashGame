@@ -92,6 +92,11 @@ void UIManager::SetupStageUI(
 	m_textures->text_keys = {
 		m_pRM->RequestPNG("keysText", "Text/keysText.png"),
 		DirectX::SimpleMath::Vector2(60.0f, 60.0f) };
+	// その他
+	m_textures->base_key = {
+		m_pRM->RequestPNG("keyBase", "UI/key.png"),
+		DirectX::SimpleMath::Vector2(150.0f, 150.0f) };
+
 
 	// UIの作成
 	// リザルト
@@ -99,15 +104,29 @@ void UIManager::SetupStageUI(
 	// クリア条件
 	CreateClearConditionUI(conditionsType);
 	// 操作ガイド
+	// 攻撃
 	std::vector<DirectX::Keyboard::Keys> attack_keys;
 	attack_keys.push_back(keyConfig.attack);
-	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(100, 600), attack_keys, pKbTracker);
-	std::vector<DirectX::Keyboard::Keys> move_keys;
-	move_keys.push_back(keyConfig.move_forward);
-	move_keys.push_back(keyConfig.move_backward);
-	move_keys.push_back(keyConfig.move_left);
-	move_keys.push_back(keyConfig.move_right);
-	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(250, 600), move_keys, pKbTracker);
+	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(120, 600), attack_keys, pKbTracker);
+	// 移動
+	DirectX::SimpleMath::Vector2 base_pos = { 350, 600 };
+	float adjust_pos = 80;
+	// 前
+	std::vector<DirectX::Keyboard::Keys> forward_keys;
+	forward_keys.push_back(keyConfig.move_forward);
+	CreateKeyGuideUI({ base_pos.x, base_pos.y - adjust_pos }, forward_keys, pKbTracker);
+	// 後ろ
+	std::vector<DirectX::Keyboard::Keys> backward_keys;
+	backward_keys.push_back(keyConfig.move_backward);
+	CreateKeyGuideUI({ base_pos.x, base_pos.y + adjust_pos }, backward_keys, pKbTracker);
+	// 左
+	std::vector<DirectX::Keyboard::Keys> left_keys;
+	left_keys.push_back(keyConfig.move_left);
+	CreateKeyGuideUI({ base_pos.x - adjust_pos, base_pos.y }, left_keys, pKbTracker);
+	// 右
+	std::vector<DirectX::Keyboard::Keys> right_keys;
+	right_keys.push_back(keyConfig.move_right);
+	CreateKeyGuideUI({ base_pos.x + adjust_pos, base_pos.y }, right_keys, pKbTracker);
 	// 攻撃方法
 	OperationUI::Textures opTextures;
 	opTextures.nomalArrow = m_textures->arrow_normal.texture;
@@ -282,8 +301,9 @@ void UIManager::CreateKeyGuideUI(
 	std::unique_ptr<InputGuideUI> guideUI = std::make_unique<InputGuideUI>();
 	guideUI->Initialize(
 		m_textures->text_keys.texture,
+		m_textures->base_key.texture,
 		position,
-		m_textures->text_keys.size,
+		{ m_textures->base_key.size.x, m_textures->base_key.size.y },
 		keys,
 		pKbTracker
 	);

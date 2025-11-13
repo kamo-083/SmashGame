@@ -39,34 +39,37 @@ InputGuideUI::~InputGuideUI()
 /**
  * @brief 初期化処理
  *
- * @param texture	 テクスチャのポインタ
- * @param pos		 表示位置
- * @param size		 テクスチャのサイズ
- * @param key		 対応キー
- * @param pKbTracker キーボードトラッカーのポインタ
+ * @param textTexture	文字テクスチャのポインタ
+ * @param baseTexture	背景テクスチャのポインタ
+ * @param pos			表示位置
+ * @param size			テクスチャのサイズ
+ * @param key			対応キー
+ * @param pKbTracker	キーボードトラッカーのポインタ
  *
  * @return なし
  */
 void InputGuideUI::Initialize(
-	ID3D11ShaderResourceView* texture,
+	ID3D11ShaderResourceView* textTexture,
+	ID3D11ShaderResourceView* baseTexture,
 	DirectX::SimpleMath::Vector2 pos,
 	DirectX::SimpleMath::Vector2 size,
 	std::vector<DirectX::Keyboard::Keys> keys,
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
+	// トゥイーンの設定
 	Tween2D::TweenData data =
 	{
-		Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
+		Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(0.5f), 0.0f, 1.0f},
 		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f),
-						  DirectX::SimpleMath::Vector2(- 0.2f),
+						  DirectX::SimpleMath::Vector2(-0.1f),
 						  0.0f, -0.2f},
-		0.5f,
+		0.2f,
 		Tween2D::Ease::OutQuart,
 		Tween2D::PlaybackMode::Once
 	};
 	// ウィジェットの作成
 	m_widget = std::make_unique<UIWidget>();
-	m_widget->Initialize(texture, data, size, false);
+	m_widget->Initialize(baseTexture, data, size, false);
 
 	// 対応キーを登録
 	m_keys = keys;
@@ -77,6 +80,10 @@ void InputGuideUI::Initialize(
 	// 押下状態の初期化
 	m_pressed = false;
 
+	// 文字テクスチャを登録
+	m_textTexture = textTexture;
+
+	// キー押下状態記録用配列を作成
 	for (int i = 0; i < m_keys.size(); i++)
 	{
 		m_keyLastStates.push_back(false);
@@ -94,7 +101,7 @@ void InputGuideUI::Initialize(
  */
 void InputGuideUI::Update(float elapsedTime)
 {	
-	// 複数キー対応
+	// 各キーの押下状態をチェック
 	for (int i = 0; i < m_keys.size(); i++)
 	{
 		if (m_pKbTracker->IsKeyPressed(m_keys[i]))
@@ -107,6 +114,7 @@ void InputGuideUI::Update(float elapsedTime)
 		}
 	}
 
+	// 全体のキー押下状態を更新
 	int pressNum = 0;
 	for (bool keyState : m_keyLastStates)
 	{
@@ -141,6 +149,10 @@ void InputGuideUI::Update(float elapsedTime)
  */
 void InputGuideUI::Draw(RenderContext context)
 {
+	// 背景の描画
+	m_widget->Draw(context.spriteBatch);
+
+	// 文字テクスチャの切り取り範囲を計算
 	long size = 120;
 	int keyIndex = KeyConverter::GetIndex(m_keys[0]);
 	RECT rect;
@@ -150,8 +162,8 @@ void InputGuideUI::Draw(RenderContext context)
 		long height = size * (keyIndex - 30 + 3);
 		rect =
 		{
-			0,	  height,
-			size, height + size
+			0,		  height,
+			size * 3, height + size
 		};
 	}
 	else if (keyIndex >= 26)
@@ -186,8 +198,8 @@ void InputGuideUI::Draw(RenderContext context)
 		};
 	}
 
-	// ウィジェットの描画
-	m_widget->Draw(context.spriteBatch, nullptr, DirectX::SimpleMath::Vector2::Zero, &rect);
+	// 文字の描画
+	m_widget->Draw(context.spriteBatch, m_textTexture, DirectX::SimpleMath::Vector2::Zero, &rect);
 }
 
 
@@ -201,6 +213,8 @@ void InputGuideUI::Draw(RenderContext context)
  */
 void InputGuideUI::Finalize()
 {
+	m_textTexture = nullptr;
+
 	if (m_widget) m_widget->Finalize();
 	m_widget.reset();
 }

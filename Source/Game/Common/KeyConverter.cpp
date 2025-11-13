@@ -54,7 +54,8 @@ const std::vector<std::string> KeyConverter::KEY_INDEX =
 	"Q", "R", "S", "T",
 	"U", "V", "W", "X",
 	"Y", "Z",
-	"Up", "Down", "Left", "Right", "Space",
+	"Up", "Down", "Left", "Right",
+	"Space",
 };
 
 
