@@ -38,11 +38,11 @@ const std::unordered_map<std::string, DirectX::Keyboard::Keys> KeyConverter::KEY
 	{"X", DirectX::Keyboard::Keys::X},
 	{"Y", DirectX::Keyboard::Keys::Y},
 	{"Z", DirectX::Keyboard::Keys::Z},
-	{"Space", DirectX::Keyboard::Keys::Space},
 	{"Up", DirectX::Keyboard::Keys::Up},
 	{"Down", DirectX::Keyboard::Keys::Down},
 	{"Left", DirectX::Keyboard::Keys::Left},
 	{"Right", DirectX::Keyboard::Keys::Right},
+	{"Space", DirectX::Keyboard::Keys::Space},
 };
 
 const std::vector<std::string> KeyConverter::KEY_INDEX =
@@ -54,7 +54,7 @@ const std::vector<std::string> KeyConverter::KEY_INDEX =
 	"Q", "R", "S", "T",
 	"U", "V", "W", "X",
 	"Y", "Z",
-	"Space", "Up", "Down",	"Left",	"Right",
+	"Up", "Down", "Left", "Right", "Space",
 };
 
 

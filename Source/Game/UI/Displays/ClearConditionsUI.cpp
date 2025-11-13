@@ -114,17 +114,17 @@ void ClearConditionsUI::Draw(RenderContext context)
 	};
 
 	// ‰æ‘œ‚Ì•`‰æ
-	context.spriteBatch->Begin(
-		DirectX::SpriteSortMode_Deferred,
-		context.states->NonPremultiplied(),
-		context.states->LinearClamp());
+	//context.spriteBatch->Begin(
+	//	DirectX::SpriteSortMode_Deferred,
+	//	context.states->NonPremultiplied(),
+	//	context.states->LinearClamp());
 	m_widget->Draw(
 		context.spriteBatch,
 		nullptr,
 		DirectX::SimpleMath::Vector2::Zero,
 		&rect
 		);
-	context.spriteBatch->End();
+	//context.spriteBatch->End();
 }
 
 

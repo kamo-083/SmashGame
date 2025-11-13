@@ -107,7 +107,7 @@ public:
 	void Update(float elapsedTime);
 
 	// •`‰æˆ—
-	void Draw(RenderContext context, bool batchBeginEnd = true);
+	void Draw(RenderContext context);
 
 	// I—¹ˆ—
 	void Finalize();

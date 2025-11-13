@@ -132,21 +132,11 @@ void OperationUI::Update(float elapsedTime)
  * @brief 描画処理
  *
  * @param context		描画用構造体
- * @param batchBeginEnd	スプライトバッチの開始と終了をするか
  *
  * @return なし
  */
-void OperationUI::Draw(RenderContext context, bool batchBeginEnd)
+void OperationUI::Draw(RenderContext context)
 {
-	if (batchBeginEnd)
-	{
-		context.spriteBatch->Begin(
-			DirectX::SpriteSortMode_Deferred,
-			context.states->NonPremultiplied(),
-			context.states->LinearClamp()
-		);
-	}
-
 	// 矢印を描画
 	for (auto& widget : m_widgets)
 	{
@@ -178,8 +168,6 @@ void OperationUI::Draw(RenderContext context, bool batchBeginEnd)
 
 		loopTime++;
 	}
-
-	if (batchBeginEnd) context.spriteBatch->End();
 }
 
 

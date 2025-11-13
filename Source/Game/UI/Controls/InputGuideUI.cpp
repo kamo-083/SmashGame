@@ -7,6 +7,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "InputGuideUI.h"
+#include "Source/Game/Common/KeyConverter.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -140,8 +141,53 @@ void InputGuideUI::Update(float elapsedTime)
  */
 void InputGuideUI::Draw(RenderContext context)
 {
+	long size = 120;
+	int keyIndex = KeyConverter::GetIndex(m_keys[0]);
+	RECT rect;
+	if (keyIndex >= 30)
+	{
+		// 特殊キー(4列目以降)
+		long height = size * (keyIndex - 30 + 3);
+		rect =
+		{
+			0,	  height,
+			size, height + size
+		};
+	}
+	else if (keyIndex >= 26)
+	{
+		// 矢印キー(3列目)
+		long height = size * 2;
+		long width = size * (keyIndex - 26);
+		rect =
+		{
+			width,		  height,
+			width + size, height + size
+		};
+	}
+	else if (keyIndex >= 13)
+	{
+		// アルファベット2列目
+		long width = size * (keyIndex - 13);
+		rect =
+		{
+			width,		  size,
+			width + size, size * 2
+		};
+	}
+	else
+	{
+		// アルファベット1列目
+		long width = size * keyIndex;
+		rect =
+		{
+			width,		  0,
+			width + size, size
+		};
+	}
+
 	// ウィジェットの描画
-	m_widget->Draw(context);
+	m_widget->Draw(context.spriteBatch, nullptr, DirectX::SimpleMath::Vector2::Zero, &rect);
 }
 
 

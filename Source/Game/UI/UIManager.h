@@ -57,6 +57,7 @@ private:
 		// 文字
 		TextureDesc text_operation;
 		TextureDesc text_conditions;
+		TextureDesc text_keys;
 	};
 
 	// データメンバの宣言 -----------------------------------------------

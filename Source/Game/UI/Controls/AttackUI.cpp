@@ -146,11 +146,11 @@ void AttackUI::Update(float elapsedTime)
  */
 void AttackUI::Draw(RenderContext context)
 {
-	context.spriteBatch->Begin(
-		DirectX::SpriteSortMode_Deferred,
-		context.states->NonPremultiplied(),
-		context.states->LinearClamp()
-	);
+	//context.spriteBatch->Begin(
+	//	DirectX::SpriteSortMode_Deferred,
+	//	context.states->NonPremultiplied(),
+	//	context.states->LinearClamp()
+	//);
 
 	// ŠeUŒ‚ƒAƒCƒRƒ“‚Ì•`‰æ
 	for (auto& widget : m_widgets)
@@ -159,9 +159,9 @@ void AttackUI::Draw(RenderContext context)
 	}
 
 	// ‘€ì•û–@UI‚Ì•`‰æ
-	m_operationUI->Draw(context, false);
+	m_operationUI->Draw(context);
 
-	context.spriteBatch->End();
+	//context.spriteBatch->End();
 }
 
 

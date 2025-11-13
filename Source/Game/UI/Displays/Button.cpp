@@ -84,7 +84,7 @@ void Button::Update(float elapsedTime)
 void Button::Draw(RenderContext context)
 {
 	// ウィジェットの描画
-	m_widget->Draw(context);
+	m_widget->Draw(context.spriteBatch);
 }
 
 

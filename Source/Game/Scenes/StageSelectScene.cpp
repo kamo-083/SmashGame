@@ -137,7 +137,10 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageSelectScene");
 	debugFont->AddString(0, 60, DirectX::Colors::Yellow, L"Select:%d",m_selectNum);
 
-	context.spriteBatch->Begin();
+	context.spriteBatch->Begin(
+		DirectX::SpriteSortMode_Deferred,
+		context.states->NonPremultiplied(),
+		context.states->LinearClamp());
 
 	// ”wŒi‚Ì•`‰æ
 	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
@@ -148,8 +151,6 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 	DirectX::SimpleMath::Vector2 keyPos = { static_cast<float>(KEY_RECT.right),0.0f };
 	RECT keyRect = { 0,KEY_RECT.bottom,KEY_RECT.right,KEY_RECT.bottom + KEY_HEIGHT };
 	context.spriteBatch->Draw(m_textures->key, keyPos, &keyRect);
-
-	context.spriteBatch->End();
 
 	// ƒpƒlƒ‹‚Ì•`‰æ
 	for (auto& panel : m_stagePanels)
@@ -162,8 +163,6 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
-
-	context.spriteBatch->Begin();
 
 	// ƒXƒe[ƒW”Ô†‚Ì•`‰æ
 	for (int i = 0; i < STAGES; i++)

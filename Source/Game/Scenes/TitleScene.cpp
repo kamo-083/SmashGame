@@ -181,7 +181,10 @@ void TitleScene::Render(RenderContext context, DebugFont* debugFont)
 	// ƒfƒoƒbƒO—pî•ñ’Ç‰Á
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"TitleScene");
 
-	context.spriteBatch->Begin();
+	context.spriteBatch->Begin(
+		DirectX::SpriteSortMode_Deferred,
+		context.states->NonPremultiplied(),
+		context.states->LinearClamp());
 
 	// ”wŒi‚Ì•`‰æ
 	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
@@ -189,16 +192,16 @@ void TitleScene::Render(RenderContext context, DebugFont* debugFont)
 	// ‘€ì•û–@‚Ì•`‰æ
 	context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero, &KEY_RECT);
 
-	context.spriteBatch->End();
-
 	// ƒ^ƒCƒgƒ‹ƒƒS‚Ì•`‰æ
-	m_titleLogo->Draw(context);
+	m_titleLogo->Draw(context.spriteBatch);
 
 	// ‘I‘ğˆƒ{ƒ^ƒ“‚Ì•`‰æ
 	for (auto& button : m_buttons)
 	{
 		button->Draw(context);
 	}
+
+	context.spriteBatch->End();
 }
 
 

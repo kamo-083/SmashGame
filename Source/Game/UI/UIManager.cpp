@@ -89,6 +89,9 @@ void UIManager::SetupStageUI(
 	m_textures->text_conditions = {
 		m_pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
 		DirectX::SimpleMath::Vector2(300.0f, 90.0f) };
+	m_textures->text_keys = {
+		m_pRM->RequestPNG("keysText", "Text/keysText.png"),
+		DirectX::SimpleMath::Vector2(60.0f, 60.0f) };
 
 	// UI‚Ìì¬
 	// ƒŠƒUƒ‹ƒg
@@ -113,7 +116,7 @@ void UIManager::SetupStageUI(
 	OperationUI::OperationUIDesc opUIDesc =
 	{
 		opTextures,
-		 m_textures->arrow_normal.size,
+		m_textures->arrow_normal.size,
 		m_textures->arrow_rotate.size,
 		370.0f,
 		m_textures->text_operation.size,
@@ -162,6 +165,11 @@ void UIManager::Update(float elapsedTime)
  */
 void UIManager::Draw(RenderContext context)
 {
+	context.spriteBatch->Begin(
+		DirectX::SpriteSortMode_Deferred,
+		context.states->NonPremultiplied(),
+		context.states->LinearClamp());
+
 	// Šî–{UI‚Ì•`‰æ
 	for (auto& ui : m_elements)
 	{
@@ -176,6 +184,8 @@ void UIManager::Draw(RenderContext context)
 
 	// ƒJƒƒ‰‰ñ“]UI‚Ì•`‰æ
 	if (m_cameraUI) m_cameraUI->Draw(context);
+
+	context.spriteBatch->End();
 }
 
 
@@ -271,9 +281,9 @@ void UIManager::CreateKeyGuideUI(
 	// UI‚ğì¬
 	std::unique_ptr<InputGuideUI> guideUI = std::make_unique<InputGuideUI>();
 	guideUI->Initialize(
-		m_textures->arrow_normal.texture,
+		m_textures->text_keys.texture,
 		position,
-		m_textures->arrow_normal.size,
+		m_textures->text_keys.size,
 		keys,
 		pKbTracker
 	);

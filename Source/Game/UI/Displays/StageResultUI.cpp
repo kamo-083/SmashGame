@@ -102,7 +102,7 @@ void StageResultUI::Draw(RenderContext context)
 	if (!m_enable) return;
 
 	// ウィジェットの描画
-	m_widget->Draw(context);
+	m_widget->Draw(context.spriteBatch);
 }
 
 
