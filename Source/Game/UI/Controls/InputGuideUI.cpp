@@ -20,6 +20,7 @@ InputGuideUI::InputGuideUI()
 	: UIElement()
 	, m_pKbTracker(nullptr)
 	, m_pressed(false)
+	, m_textTexture(nullptr)
 {
 
 }

@@ -34,8 +34,8 @@ private:
 	// テクスチャ情報
 	struct TextureDesc
 	{
-		ID3D11ShaderResourceView* texture;	// ポインタ
-		DirectX::SimpleMath::Vector2 size;	// 画像サイズ
+		ID3D11ShaderResourceView* texture = nullptr;	// ポインタ
+		DirectX::SimpleMath::Vector2 size;				// 画像サイズ
 	};
 
 	// テクスチャ群

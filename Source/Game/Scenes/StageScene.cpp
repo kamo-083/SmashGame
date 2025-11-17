@@ -36,10 +36,11 @@ StageScene::StageScene(
 	SceneManager* pSM, UserResources* pUR,
 	std::string path, ClearConditionsUI::ConditionsType clearCondition)
 	: Scene{ pSM,pUR }
+	, CLEAR_CONDITIONS{ clearCondition }
 	, m_keyMode{ false }
 	, m_stageFilePath{ path }
 	, m_overlayMode{ Overlay::NONE }
-	, CLEAR_CONDITIONS{ clearCondition }
+	, m_keyConfig{}
 {
 	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();
 
@@ -261,16 +262,6 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 
 	// UIの描画
 	m_UIManager->Draw(context);
-
-	switch (m_overlayMode)
-	{
-	case StageScene::Overlay::GAMEPLAY:
-		// 操作方法の描画
-		context.spriteBatch->Begin();
-		context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero);
-		context.spriteBatch->End();
-		break;
-	}
 }
 
 
@@ -304,6 +295,8 @@ void StageScene::Finalize()
 
 	m_camera.reset();
 	m_collisionManager.reset();
+
+	m_textures.reset();
 }
 
 
@@ -663,7 +656,6 @@ void StageScene::SetupTextures(ResourceManager* pRM)
 	// テクスチャの読み込み
 	m_textures = std::make_unique<Textures>();
 	m_textures->shadow = pRM->RequestDDS("shadow", "Others/shadow.dds");
-	m_textures->key = pRM->RequestPNG("stageKey", "Text/stageKeyText.png");
 }
 
 

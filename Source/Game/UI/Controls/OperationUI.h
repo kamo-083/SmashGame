@@ -44,12 +44,15 @@ public:
 	// 引数用構造体
 	struct OperationUIDesc
 	{
-		Textures textures;								// テクスチャ群
-		DirectX::SimpleMath::Vector2 arrowSizeDefault;	// 通常矢印の画像サイズ
-		DirectX::SimpleMath::Vector2 arrowSizeRotate;	// 回転矢印の画像サイズ
-		float textUVLeft;								// テキスト画像の使用箇所の左端
-		DirectX::SimpleMath::Vector2 textSize;			// テキスト画像の1文字分の大きさ
-		DirectX::SimpleMath::Vector2 iconSize;			// アイコン画像のサイズ(アイコン使用時)
+		Textures textures;											 // テクスチャ群
+		DirectX::SimpleMath::Vector2 arrowNormalSize;				 // 通常矢印の画像サイズ
+		DirectX::SimpleMath::Vector2 arrowRotateSize;				 // 回転矢印の画像サイズ
+		DirectX::SimpleMath::Vector2 textSize;						 // テキスト画像の1文字分の大きさ
+		DirectX::SimpleMath::Vector2 iconSize;						 // アイコン画像のサイズ(アイコン使用時)
+		float textUVLeft;											 // テキスト画像の使用箇所の左端
+		DirectX::SimpleMath::Vector2 arrowRotateAdjustPos = { 0,0 }; // 回転矢印の位置調整
+		DirectX::SimpleMath::Vector2 iconAdjustPos = {0,0};			 // アイコン画像の位置調整
+		float UIScale = 1.0f;										 // UI全体のスケール
 	};
 
 	// トゥイーン再生時間
@@ -67,8 +70,11 @@ private:
 	// 有効フラグ
 	bool m_active;
 
+	// UI全体のスケール
+	float m_scale;
+
 	// 通常矢印画像の大きさ
-	DirectX::SimpleMath::Vector2 m_arrowSizeDefault;
+	DirectX::SimpleMath::Vector2 m_arrowSizeNormal;
 	// 回転矢印画像の大きさ
 	DirectX::SimpleMath::Vector2 m_arrowSizeRotate;
 

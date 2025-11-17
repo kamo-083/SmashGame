@@ -18,6 +18,7 @@
 OperationUI::OperationUI()
 	: m_active{ false }
 	, m_textUVLeft{ 0.0f }
+	, m_scale{ 0.0f }
 {
 
 };
@@ -50,14 +51,17 @@ void OperationUI::Initialize(
 	bool active)
 {
 	// 各サイズの設定
-	m_arrowSizeDefault = desc.arrowSizeDefault;	// 通常矢印
-	m_arrowSizeRotate = desc.arrowSizeRotate;	// 回転矢印
+	m_arrowSizeNormal = desc.arrowNormalSize;	// 通常矢印
+	m_arrowSizeRotate = desc.arrowRotateSize;	// 回転矢印
 	m_textUVLeft = desc.textUVLeft;				// テキスト画像の左端
 	m_textSize = desc.textSize;					// テキストの1文字分
 	m_iconSize = desc.iconSize;					// アイコン
 
 	// 有効・無効の設定
 	m_active = active;
+
+	// UI全体のスケールの設定
+	m_scale = desc.UIScale;
 
 	// 画像の登録
 	m_textures = std::make_unique<Textures>();
@@ -73,7 +77,7 @@ void OperationUI::Initialize(
 	std::unique_ptr<UIWidget> widget = std::make_unique<UIWidget>();
 	Tween2D::TweenData data =
 	{
-		{centerPos,DirectX::SimpleMath::Vector2::Zero,0.0f,1.0f},
+		{centerPos + desc.arrowRotateAdjustPos,DirectX::SimpleMath::Vector2::Zero,0.0f,1.0f},
 		{DirectX::SimpleMath::Vector2::Zero,DirectX::SimpleMath::Vector2::Zero,0.0f,0.0f},
 		TWEEN_TIME,
 		Tween2D::Ease::Liner,
@@ -84,28 +88,29 @@ void OperationUI::Initialize(
 	m_widgets[static_cast<int>(Layout::CENTER)] = std::move(widget);
 
 	// 左右(有効状態の時に表示する)
+	float interval = arrowInterval * 0.5f * m_scale;
 	// 左
 	widget = std::make_unique<UIWidget>();
-	DirectX::SimpleMath::Vector2 leftPos = DirectX::SimpleMath::Vector2(centerPos.x - arrowInterval * 0.5f, centerPos.y);
+	DirectX::SimpleMath::Vector2 leftPos = DirectX::SimpleMath::Vector2(centerPos.x - interval, centerPos.y);
 	data.start.pos = leftPos;
 	data.start.rotation = DirectX::XM_PI;
-	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeDefault, false);
+	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeNormal, false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::LEFT)] = std::move(widget);
 
 	// 右
 	widget = std::make_unique<UIWidget>();
-	DirectX::SimpleMath::Vector2 rightPos = DirectX::SimpleMath::Vector2(centerPos.x + arrowInterval * 0.5f, centerPos.y);
+	DirectX::SimpleMath::Vector2 rightPos = DirectX::SimpleMath::Vector2(centerPos.x + interval, centerPos.y);
 	data.start.pos = rightPos;
 	data.start.rotation = 0.0f;
-	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeDefault, false);
+	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeNormal, false);
 	SwitchParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
 
 	// アイコン位置の設定
 	if (m_textures->icon)
 	{
-		m_iconPos = m_widgets[static_cast<int>(Layout::CENTER)]->GetTween()->GetStartParams().pos - desc.iconSize * 0.5f;
+		m_iconPos = centerPos - (desc.iconSize * m_scale * 0.5f) + desc.iconAdjustPos;
 	}
 }
 
@@ -146,7 +151,14 @@ void OperationUI::Draw(RenderContext context)
 	// 画像があればアイコンを描画
 	if (m_textures->icon)
 	{
-		context.spriteBatch->Draw(m_textures->icon, m_iconPos);
+		context.spriteBatch->Draw(
+			m_textures->icon,
+			m_iconPos,
+			nullptr,
+			DirectX::Colors::White,
+			0.0f,
+			DirectX::SimpleMath::Vector2::Zero,
+			m_scale);
 	}
 
 	// 文字を描画
@@ -230,15 +242,15 @@ void OperationUI::SwitchParam(bool active, UIWidget& widget)
 	{
 		newData.start.scale = DirectX::SimpleMath::Vector2(0.0f,0.0f);
 		newData.start.opacity = 0.0f;
-		newData.delta.scale = DirectX::SimpleMath::Vector2(1.0f,1.0f);
+		newData.delta.scale = DirectX::SimpleMath::Vector2(m_scale);
 		newData.delta.opacity = 1.0f;
 		newData.ease = Tween2D::Ease::OutBack;
 	}
 	else
 	{
-		newData.start.scale = DirectX::SimpleMath::Vector2(1.0f, 1.0f);
+		newData.start.scale = DirectX::SimpleMath::Vector2(m_scale);
 		newData.start.opacity = 1.0f;
-		newData.delta.scale = DirectX::SimpleMath::Vector2(-1.0f, -1.0f);
+		newData.delta.scale = DirectX::SimpleMath::Vector2(-m_scale);
 		newData.delta.opacity = -1.0f;
 		newData.ease = Tween2D::Ease::OutQuart;
 	}

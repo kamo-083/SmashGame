@@ -137,13 +137,19 @@ void UIManager::SetupStageUI(
 		opTextures,
 		m_textures->arrow_normal.size,
 		m_textures->arrow_rotate.size,
-		370.0f,
 		m_textures->text_operation.size,
-		m_textures->icon_camera.size
+		m_textures->icon_camera.size,
+		370.0f,
 	};
+	opUIDesc.arrowRotateAdjustPos = DirectX::SimpleMath::Vector2(0.0f, -30.0f);
+	opUIDesc.UIScale = 0.8f;
 	CreateAttackUI(opUIDesc);
 	// ƒJƒƒ‰‰ñ“]
-	CreateCameraUI(opUIDesc, DirectX::SimpleMath::Vector2(250.0f, 90.0f));
+	opTextures.icon = m_textures->icon_camera.texture;
+	opUIDesc.textures = opTextures;
+	opUIDesc.arrowRotateAdjustPos = DirectX::SimpleMath::Vector2(0.0f, -70.0f);
+	opUIDesc.UIScale = 0.8f;
+	CreateCameraUI(opUIDesc, DirectX::SimpleMath::Vector2(200.0f, 130.0f));
 }
 
 
@@ -356,7 +362,7 @@ void UIManager::CreateCameraUI(
 	m_cameraUI->Initialize(
 		opUIDesc,
 		position,
-		opUIDesc.arrowSizeDefault.x * 1.75f,
+		opUIDesc.arrowNormalSize.x * 1.75f,
 		false
 	);
 }
