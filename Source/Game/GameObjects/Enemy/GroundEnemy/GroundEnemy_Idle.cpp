@@ -44,6 +44,9 @@ void GroundEnemy_Idle::Initialize(ResourceManager* pRM)
 		);
 	}
 	m_modelAnimator->Initialize();
+
+	// 軌跡エフェクトの発生を停止
+	m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(false);
 }
 
 
