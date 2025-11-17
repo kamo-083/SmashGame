@@ -86,6 +86,9 @@ public:
 	// 停止
 	void Stop();
 
+	// 再生の終了
+	void End();
+
 	// 再生時間のリセット
 	void ResetTime();
 

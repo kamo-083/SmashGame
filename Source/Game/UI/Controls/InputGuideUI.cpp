@@ -201,6 +201,15 @@ void InputGuideUI::Draw(RenderContext context)
 
 	// 文字の描画
 	m_widget->Draw(context.spriteBatch, m_textTexture, DirectX::SimpleMath::Vector2::Zero, &rect);
+
+#ifdef _DEBUG
+	// デバッグ情報
+	char buf[256];
+	sprintf_s(buf, "INPUT_UI pressed=%d pos=%.2f,%.2f scale=%.2f,%.2f \n",
+		m_pressed, m_widget->GetParam().pos.x, m_widget->GetParam().pos.y,
+		m_widget->GetParam().scale.x, m_widget->GetParam().scale.y);
+	OutputDebugStringA(buf);
+#endif
 }
 
 

@@ -10,6 +10,7 @@
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
+#include "Tween.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -141,6 +142,23 @@ void Tween<TVec, TRot>::Play()
 template<typename TVec, typename TRot>
 void Tween<TVec, TRot>::Stop()
 {
+	m_playing = false;
+}
+
+
+
+/**
+ * @brief 再生の終了
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+template<typename TVec, typename TRot>
+inline void Tween<TVec, TRot>::End()
+{
+	m_playing = false;
+	m_finished = true;
 	m_playing = false;
 }
 

@@ -164,7 +164,7 @@ void UIWidget::Finalize()
 /**
  * @brief トゥイーンのリセット
  *
- * @param なし
+ * @param play 再生するか
  *
  * @return なし
  */
@@ -175,6 +175,7 @@ void UIWidget::TweenReset(bool play)
 	m_tween->ResetPlayed();
 
 	if (play) m_tween->Play();
+	else	  m_tween->End();
 }
 
 

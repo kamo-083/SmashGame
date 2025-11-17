@@ -275,7 +275,8 @@ void TitleScene::SelectButtonDown()
 	// 以前選択していたボタンのアニメーションをリセット
 	ButtonReset(m_selectButton);
 
-	// 選択しているボタンを変更	m_selectButton++;
+	// 選択しているボタンを変更	
+	m_selectButton++;
 	if (m_selectButton == BUTTONS) m_selectButton = 0;
 }
 
