@@ -30,7 +30,7 @@ private:
 
 	// カメラの回転関連
 	static constexpr float CAMERA_ROTATE_ANGLE = 45.0f;		// キー1回分の回転角度
-	static constexpr float CAMERA_ROTATE_SPEED = 0.025f;	// 回転速度
+	static constexpr float CAMERA_ROTATE_SPEED = 200.0f;	// 回転速度
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -57,9 +57,9 @@ private:
 	bool m_isRotation;
 
 	// 補間関連
-	float m_lerpAngle;
-	DirectX::SimpleMath::Vector3 m_startAngle;
-	DirectX::SimpleMath::Vector3 m_endAngle;
+	float m_rotProgress;
+	float m_startAngle;
+	float m_endAngle;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ

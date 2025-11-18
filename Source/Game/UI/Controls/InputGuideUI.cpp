@@ -65,8 +65,8 @@ void InputGuideUI::Initialize(
 						  DirectX::SimpleMath::Vector2(-0.1f),
 						  0.0f, -0.2f},
 		0.2f,
-		Tween2D::Ease::OutQuart,
-		Tween2D::PlaybackMode::Once
+		Easing::EaseType::OutQuart,
+		Easing::PlaybackMode::Once
 	};
 	// ウィジェットの作成
 	m_widget = std::make_unique<UIWidget>();

@@ -64,8 +64,8 @@ void TitleScene::Initialize()
 		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, LOGO_POS_Y),
 						  DirectX::SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		1.0f,
-		Tween2D::Ease::OutBounce,
-		Tween2D::PlaybackMode::Once
+		Easing::EaseType::OutBounce,
+		Easing::PlaybackMode::Once
 	};
 	m_titleLogo->Initialize(m_textures->logo, data, LOGO_SIZE);
 
@@ -82,8 +82,8 @@ void TitleScene::Initialize()
 						  DirectX::SimpleMath::Vector2(TWEEN_DELTA_SCALE, TWEEN_DELTA_SCALE),
 						  0.0f, 0.0f},
 		TWEEN_ANIM_TIME,
-		Tween2D::Ease::OutQuart,
-		Tween2D::PlaybackMode::PingPong
+		Easing::EaseType::OutQuart,
+		Easing::PlaybackMode::PingPong
 	};
 	start->Initialize(
 		m_textures->start, data, TEXT_SIZE,

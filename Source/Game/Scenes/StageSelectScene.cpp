@@ -239,8 +239,8 @@ void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize, Resou
 							  DirectX::SimpleMath::Vector2(PANEL_DELTA_SCALE, PANEL_DELTA_SCALE),
 							  0.0f, 0.0f},
 			PANEL_ANIM_TIME,
-			Tween2D::Ease::OutQuart,
-			Tween2D::PlaybackMode::PingPong
+			Easing::EaseType::OutQuart,
+			Easing::PlaybackMode::PingPong
 		};
 
 		std::unique_ptr<Button> panel = std::make_unique<Button>();

@@ -250,7 +250,7 @@
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.h" />
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.h" />
     <ClInclude Include="Source\Game\UI\Elements\Tween\Tween.h" />
-    <ClInclude Include="Source\Game\UI\Elements\Tween\TweenBase.h" />
+    <ClInclude Include="Source\Game\UI\Elements\Tween\Easing.h" />
     <ClInclude Include="Source\Game\UI\Elements\UIElement.h" />
     <ClInclude Include="Source\Game\UI\Elements\UIWidget.h" />
     <ClInclude Include="Source\Game\UI\UIManager.h" />
@@ -314,7 +314,7 @@
     <ClCompile Include="Source\Game\UI\Displays\StageResultUI.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.cpp" />
-    <ClCompile Include="Source\Game\UI\Elements\Tween\TweenBase.cpp" />
+    <ClCompile Include="Source\Game\UI\Elements\Tween\Easing.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\UIWidget.cpp" />
     <ClCompile Include="Source\Game\UI\UIManager.cpp" />
     <ClCompile Include="Source\Main.cpp" />

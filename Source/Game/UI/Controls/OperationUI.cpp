@@ -80,8 +80,8 @@ void OperationUI::Initialize(
 		{centerPos + desc.arrowRotateAdjustPos,DirectX::SimpleMath::Vector2::Zero,0.0f,1.0f},
 		{DirectX::SimpleMath::Vector2::Zero,DirectX::SimpleMath::Vector2::Zero,0.0f,0.0f},
 		TWEEN_TIME,
-		Tween2D::Ease::Liner,
-		Tween2D::PlaybackMode::Once
+		Easing::EaseType::Liner,
+		Easing::PlaybackMode::Once
 	};
 	widget->Initialize(m_textures->rotateArrow, data, m_arrowSizeRotate, false);
 	SwitchParam(!m_active, *widget.get());
@@ -244,7 +244,7 @@ void OperationUI::SwitchParam(bool active, UIWidget& widget)
 		newData.start.opacity = 0.0f;
 		newData.delta.scale = DirectX::SimpleMath::Vector2(m_scale);
 		newData.delta.opacity = 1.0f;
-		newData.ease = Tween2D::Ease::OutBack;
+		newData.ease = Easing::EaseType::OutBack;
 	}
 	else
 	{
@@ -252,7 +252,7 @@ void OperationUI::SwitchParam(bool active, UIWidget& widget)
 		newData.start.opacity = 1.0f;
 		newData.delta.scale = DirectX::SimpleMath::Vector2(-m_scale);
 		newData.delta.opacity = -1.0f;
-		newData.ease = Tween2D::Ease::OutQuart;
+		newData.ease = Easing::EaseType::OutQuart;
 	}
 
 	widget.GetTween()->SetTweenData(newData);

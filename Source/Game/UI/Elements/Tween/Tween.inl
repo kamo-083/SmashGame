@@ -28,7 +28,7 @@ Tween<TVec,TRot>::Tween(typename Tween<TVec, TRot>::TweenData data)
 	, m_played{ false }
 	, m_reverse{ false }
 {
-	if (m_data.loop == PlaybackMode::Once_Reverse)
+	if (m_data.loop == Easing::PlaybackMode::Once_Reverse)
 	{
 		m_reverse = true;
 	}
@@ -63,7 +63,7 @@ void Tween<TVec, TRot>::Update(float deltaTime, UIParams& params)
 	float t = m_elapsedTime / m_data.duration;
 	if (m_reverse) t = 1.0f - t;
 
-	float n = EaseValue(m_data.ease, t);
+	float n = Easing::EaseValue(m_data.ease, t);
 
 	// à íuÇï‚ä‘
 	params.pos = m_data.start.pos + m_data.delta.pos * n;
@@ -83,15 +83,15 @@ void Tween<TVec, TRot>::Update(float deltaTime, UIParams& params)
 	{
 		switch (m_data.loop)
 		{
-		case PlaybackMode::Once:
-		case PlaybackMode::Once_Reverse:
+		case Easing::PlaybackMode::Once:
+		case Easing::PlaybackMode::Once_Reverse:
 			m_finished = true;
 			m_playing = false;
 			break;
-		case PlaybackMode::Repeat:
+		case Easing::PlaybackMode::Repeat:
 			m_elapsedTime = 0.0f;
 			break;
-		case PlaybackMode::PingPong:
+		case Easing::PlaybackMode::PingPong:
 			m_reverse = !m_reverse;
 			m_elapsedTime = 0.0f;
 			break;
@@ -176,6 +176,25 @@ void Tween<TVec, TRot>::ResetTime()
 {
 	m_elapsedTime = 0.0f;
 
-	if (m_data.loop == PlaybackMode::Once_Reverse)	m_reverse = true;
+	if (m_data.loop == Easing::PlaybackMode::Once_Reverse)	m_reverse = true;
 	else											m_reverse = false;
 }
+
+
+
+
+/**
+ * @brief ç≈íZâÒì]äpìxÇÃåvéZ
+ *
+ * @param delta	âÒì]äpìx
+ *
+ * @return Ç»Çµ
+ */
+template<typename TVec, typename TRot>
+float Tween<TVec, TRot>::ShortestAngle(float delta)
+{
+	if (delta > DirectX::XM_PI)  delta -= DirectX::XM_2PI;
+	if (delta < -DirectX::XM_PI) delta += DirectX::XM_2PI;
+	return delta;
+}
+

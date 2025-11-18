@@ -1,5 +1,5 @@
 /**
- * @file   TweenBase.h
+ * @file   Easing.h
  *
  * @brief  トゥイーンのベースに関するヘッダファイル
  */
@@ -17,12 +17,11 @@
 /**
  * @brief トゥイーンのベース
  */
-class TweenBase
+class Easing
 {
-	// クラス定数の宣言 -------------------------------------------------
 public:
 	// イージングの種類
-	enum class Ease
+	enum class EaseType
 	{
 		Liner,
 		InQuart,
@@ -42,8 +41,6 @@ public:
 		PingPong,		// 繰り返す(往復)
 	};
 
-	// 内部実装
-protected:
-	float EaseValue(Ease ease, float t);	// イージングの計算
-	float ShortestAngle(float delta);		// 最短回転角度を求める
+public:
+	float static EaseValue(EaseType ease, float t);	// イージングの計算
 };

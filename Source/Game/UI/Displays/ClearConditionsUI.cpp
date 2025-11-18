@@ -71,8 +71,8 @@ void ClearConditionsUI::Initialize(
 		Tween2D::UIParams{startPos,DirectX::SimpleMath::Vector2::One,0.0f,1.0f},
 		Tween2D::UIParams{endPos,DirectX::SimpleMath::Vector2::Zero,0.0f,0.0f},
 		TWEEN_ANIM_TIME,
-		Tween2D::Ease::OutInQuart,
-		Tween2D::PlaybackMode::Once
+		Easing::EaseType::OutInQuart,
+		Easing::PlaybackMode::Once
 	};
 	m_widget->Initialize(textTex, data, m_textSize);		
 }

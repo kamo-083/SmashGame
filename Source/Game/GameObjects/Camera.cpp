@@ -7,6 +7,7 @@
  // ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ì“Ç‚Ýž‚Ý ===================================================
 #include "pch.h"
 #include "Camera.h"
+#include "Source/Game/UI/Elements/Tween/Easing.h"
 
 
 // ƒƒ“ƒoŠÖ”‚Ì’è‹` ===========================================================
@@ -21,7 +22,9 @@ Camera::Camera()
 	, m_angle{ DirectX::SimpleMath::Vector3::Zero }
 	, m_followTargetPos{ nullptr }
 	, m_isRotation{ false }
-	, m_lerpAngle{ 0.0f }
+	, m_rotProgress{ 0.0f }
+	, m_startAngle{ 0.0f }
+	, m_endAngle{ 0.0f }
 {
 
 }
@@ -59,8 +62,7 @@ void Camera::Initialize(DirectX::SimpleMath::Vector3* followTargetPos)
 	m_forward.Normalize();
 
 	m_isRotation = false;
-	m_lerpAngle = 0.0f;
-	m_startAngle = m_endAngle = DirectX::SimpleMath::Vector3::Zero;
+	m_rotProgress= m_startAngle = m_endAngle = 0.0f;
 }
 
 
@@ -105,6 +107,8 @@ void Camera::Draw(DebugFont* debugFont)
 	debugFont->AddString(820, 25, DirectX::Colors::White, L"target = %f,%f,%f", m_target.x, m_target.y, m_target.z);
 	debugFont->AddString(820, 50, DirectX::Colors::White, L"angle = %f,%f,%f", m_angle.x, m_angle.y, m_angle.z);
 	debugFont->AddString(820, 75, DirectX::Colors::White, L"forward = %f,%f,%f", m_forward.x, m_forward.y, m_forward.z);
+	debugFont->AddString(820, 100, DirectX::Colors::White, L"rotation = %d", m_isRotation);
+	debugFont->AddString(970, 100, DirectX::Colors::White, L"leap = %f", m_rotProgress);
 }
 
 
@@ -121,15 +125,25 @@ void Camera::Rotation(
 	DirectX::Keyboard::KeyboardStateTracker* keyboard,
 	const InputKeyLoader::InputKeyInfo& keyConfig)
 {
-	// Žw’è‚µ‚½êŠ‚ð’†S‚É‰ñ“]
-	// X•ûŒü
-	if (keyboard->IsKeyPressed(keyConfig.rotate_right))		m_endAngle.x += CAMERA_ROTATE_ANGLE;
-	else if (keyboard->IsKeyPressed(keyConfig.rotate_left))	m_endAngle.x -= CAMERA_ROTATE_ANGLE;
+	if (m_isRotation || !keyboard->IsKeyPressed(keyConfig.rotate_right) && !keyboard->IsKeyPressed(keyConfig.rotate_left)) return;
 
-	m_startAngle = m_angle;
+	// Œ»Ý‚ÌŠp“x‚ð‰ñ“]ŠJŽnŠp“x‚ÉÝ’è
+	m_startAngle = m_angle.x;
+
+	// Žw’è‚µ‚½êŠ‚ð’†S‚É‰ñ“]
+	// ‰ñ“]I—¹Šp“x‚ðÝ’è
+	if (keyboard->IsKeyPressed(keyConfig.rotate_right))
+	{
+		m_endAngle = NormalizeAngle(m_endAngle) + CAMERA_ROTATE_ANGLE;
+	}
+	else if (keyboard->IsKeyPressed(keyConfig.rotate_left))
+	{
+		m_endAngle = NormalizeAngle(m_endAngle) - CAMERA_ROTATE_ANGLE;
+	}
 
 	// ‰ñ“]’†‚ÉÝ’è
 	m_isRotation = true;
+	m_rotProgress = 0.0f;
 }
 
 
@@ -143,18 +157,22 @@ void Camera::Rotation(
  */
 void Camera::SmoothCameraRotation(float elapsedTime)
 {
-	// ƒJƒƒ‰‚Ì‰ñ“](üŒ`•âŠÔ)
-	m_angle = DirectX::SimpleMath::Vector3::Lerp(m_startAngle, m_endAngle, m_lerpAngle);
-
 	// •âŠÔŒW”‚ÌŒvŽZ
-	m_lerpAngle += CAMERA_ROTATE_SPEED * elapsedTime;
-	if (m_lerpAngle >= 1.0f)
+	float delta = m_startAngle - m_endAngle;
+	m_rotProgress += CAMERA_ROTATE_SPEED / std::abs(delta) * elapsedTime;
+
+	// ƒJƒƒ‰‚Ì‰ñ“]
+	m_angle.x = m_startAngle - delta * Easing::EaseValue(Easing::EaseType::OutQuart, m_rotProgress);
+
+	if (m_rotProgress > 1.0f)
 	{
-		m_lerpAngle = 0.0f;
+		// ‰ñ“]‚ÌI—¹
+		m_angle.x = m_endAngle;
+		m_rotProgress = 0.0f;
 		m_isRotation = false;
 
-		// Šp“x‚Ì’²®
-		//m_angle.x = NormalizeAngle(m_angle.x);
+		// Šp“x‚Ì•â³
+		m_angle.x = NormalizeAngle(m_angle.x);
 	}
 }
 
@@ -219,5 +237,9 @@ DirectX::SimpleMath::Vector3 Camera::RotateEyeAroundPoint(DirectX::SimpleMath::V
  */
 float Camera::NormalizeAngle(float angle)
 {
-	return std::min(std::max(angle, 0.0f), 360.0f);
+	if (angle > 360.0f)		angle -= 360.0f;
+	else if (angle < 0.0f)  angle += 360.0f;
+	return angle;
+	
+	//return std::min(std::max(angle, 0.0f), 360.0f);
 }

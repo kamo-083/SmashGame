@@ -110,8 +110,8 @@ void Goal::Initialize(
 		{DirectX::SimpleMath::Vector3(0.0f, LID_MOVE_Y, 0.0f), DirectX::SimpleMath::Vector3::Zero,
 		 DirectX::SimpleMath::Quaternion::Identity, -1.0f},
 		 TWEEN_ANIM_TIME,
-		 Tween3D::Ease::InQuart,
-		 Tween3D::PlaybackMode::Once
+		 Easing::EaseType::InQuart,
+		 Easing::PlaybackMode::Once
 	};
 	m_tweenAnim = std::make_unique<Tween3D>(data);
 

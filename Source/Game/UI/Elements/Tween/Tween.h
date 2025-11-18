@@ -10,7 +10,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/Elements/Tween/TweenBase.h"
+#include"Source/Game/UI/Elements/Tween/Easing.h"
 
 
 // クラスの定義 ===============================================================
@@ -18,7 +18,7 @@
  * @brief トゥイーン
  */
 template<typename TVec, typename TRot>
-class Tween: public TweenBase
+class Tween
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
@@ -37,8 +37,8 @@ public:
 		UIParams start;		// 初期値
 		UIParams delta;		// 全体の変化量
 		float duration;		// 再生時間
-		Ease ease;			// 処理
-		PlaybackMode loop;	// 再生方法
+		Easing::EaseType ease;			// 処理
+		Easing::PlaybackMode loop;	// 再生方法
 	};
 
 	// データメンバの宣言 -----------------------------------------------
@@ -116,6 +116,7 @@ public:
 
 // 内部実装
 private:
+	float ShortestAngle(float delta);	// 最短回転角度を求める
 
 };
 

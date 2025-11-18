@@ -85,8 +85,8 @@ void AttackUI::Initialize(const AttackUIDesc& attackDesc, const OperationUI::Ope
 			{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity },
 			{ {},{},0,0 },
 			TWEEN_ANIM_TIME,
-			Tween2D::Ease::OutQuart,
-			Tween2D::PlaybackMode::Once
+			Easing::EaseType::OutQuart,
+			Easing::PlaybackMode::Once
 		};
 		std::unique_ptr<UIWidget> widget = std::make_unique<UIWidget>();
 		widget->Initialize(m_textures[i], data, m_textureSize, false);
