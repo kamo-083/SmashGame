@@ -115,7 +115,6 @@ void Game::Render()
     auto context = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Add your rendering code here.
-    context;
 
     RenderContext renderContext
     {
@@ -312,6 +311,7 @@ void Game::CreateWindowSizeDependentResources()
         XMConvertToRadians(45.0f)
         , static_cast<float>(rect.right) / static_cast<float>(rect.bottom)
         , 0.1f, 100.0f);
+
 }
 
 void Game::OnDeviceLost()

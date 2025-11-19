@@ -42,12 +42,13 @@ public:
 	};
 
 protected:
-	const float RADIUS;				//”¼Œa‚Ì‘å‚«‚³
-	const float SPEED;				//ˆÚ“®‘¬“x
-	const float MASS;				//¿—Ê[kg]
-	const float MAX_SPEED;			//Å‚‘¬“x
-	const float STATIC_FRICTION;	//Ã~–€CŒW”
-	const float DYNAMIC_FRICTION;	//“®–€CŒW”
+	const float RADIUS;				// ”¼Œa‚Ì‘å‚«‚³
+	const float SPEED;				// ˆÚ“®‘¬“x
+	const float MASS;				// ¿—Ê[kg]
+	const float MAX_SPEED;			// Å‚‘¬“x
+	const float STATIC_FRICTION;	// Ã~–€CŒW”
+	const float DYNAMIC_FRICTION;	// “®–€CŒW”
+	const float RESTITUTION;		// ”½”­ŒW”
 
 	static constexpr float SCALE = 0.005f;
 
@@ -111,6 +112,7 @@ public:
 		, MAX_SPEED{ info.max_speed }
 		, STATIC_FRICTION{ info.static_friction }
 		, DYNAMIC_FRICTION{ info.dynamic_friction }
+		, RESTITUTION{ info.restitution }
 		, m_pScene{ pScene }
 		, m_currentState{ nullptr }
 		, m_rotY{ 0.0f }

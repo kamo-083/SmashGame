@@ -53,6 +53,7 @@ public:
 		float max_speed = 0.0f;				// Å‚ˆÚ“®‘¬“x
 		float static_friction = 0.0f;		// Ã~–€CŒW”
 		float dynamic_friction = 0.0f;		// “®–€CŒW”
+		float restitution = 0.0f;			// ”½”­ŒW”
 		AttackDesc attack{};				// UŒ‚î•ñ
 
 		std::string modelPath;		// ƒ‚ƒfƒ‹‚Ìƒtƒ@ƒCƒ‹ƒpƒX
@@ -145,6 +146,12 @@ public:
 			if (element.contains("dynamic_friction") && element["dynamic_friction"].is_number())
 			{
 				data.dynamic_friction = element["dynamic_friction"];
+			}
+			
+			// ”½”­ŒW”
+			if (element.contains("restitution") && element["restitution"].is_number())
+			{
+				data.restitution = element["restitution"];
 			}
 
 			// UŒ‚

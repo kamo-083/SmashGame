@@ -109,10 +109,40 @@ void ModelAnimator::Draw(RenderContext context, const DirectX::SimpleMath::Matri
 	// アニメーションにモデルを適用する
 	m_animation->Apply(*m_model, nbones, m_drawBones.get());
 
+	// エフェクトの設定
+	m_model->UpdateEffects([](DirectX::IEffect* effect)
+		{
+			if (auto lights = dynamic_cast<DirectX::IEffectLights*>(effect))
+			{
+				lights->SetAmbientLightColor(DirectX::Colors::White * 0.7f);
+
+				// ライト0：前上から
+				lights->SetLightEnabled(0, true);
+				lights->SetLightDirection(0, DirectX::XMVector3Normalize(DirectX::XMVectorSet(0.2f, -1.0f, -0.3f, 0.0f)));
+				lights->SetLightDiffuseColor(0, DirectX::Colors::White * 0.45f);
+
+				// ライト1：左上から弱め
+				lights->SetLightEnabled(1, true);
+				lights->SetLightDirection(1, DirectX::XMVector3Normalize(DirectX::XMVectorSet(-1.0f, -0.5f, -0.2f, 0.0f)));
+				lights->SetLightDiffuseColor(1, DirectX::Colors::White * 0.25f);
+
+				// ライト2：右上から弱め
+				lights->SetLightEnabled(2, true);
+				lights->SetLightDirection(2, DirectX::XMVector3Normalize(DirectX::XMVectorSet(1.0f, -0.3f, -0.2f, 0.0f)));
+				lights->SetLightDiffuseColor(2, DirectX::Colors::White * 0.15f);
+
+				// テカリ抑制
+				lights->SetLightSpecularColor(0, DirectX::Colors::Black);
+				lights->SetLightSpecularColor(1, DirectX::Colors::Black);
+				lights->SetLightSpecularColor(2, DirectX::Colors::Black);
+			}
+		});
+
 	// アニメーションモデルを描画する
 	m_model->DrawSkinned(
 		context.deviceContext,
-		*context.states, nbones,
+		*context.states,
+		nbones,
 		m_drawBones.get(),
 		world,
 		context.view,
