@@ -17,9 +17,6 @@
     <Filter Include="Game\GameObjects">
       <UniqueIdentifier>{f79badea-3aec-445c-91cb-4fd3d21f0715}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Physics">
-      <UniqueIdentifier>{488ad2c3-4759-4b53-83d0-e5a5474459c5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\GameObjects\Enemy">
       <UniqueIdentifier>{461bd76b-e444-443e-b78b-23fd3e00a09f}</UniqueIdentifier>
     </Filter>
@@ -89,24 +86,15 @@
     <Filter Include="UI\Elements\NumberRenderer">
       <UniqueIdentifier>{af060d01-6dd9-4a00-b567-25ebf74f6f1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{488ad2c3-4759-4b53-83d0-e5a5474459c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h">
-      <Filter>Common\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\Friction.h">
-      <Filter>Common\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\Gravity.h">
-      <Filter>Common\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\PhysicsObject.h">
-      <Filter>Common\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Common\RenderContext.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -123,9 +111,6 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Common\AudioManager.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Common\Collision.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Common\DeviceResources.h">
@@ -187,9 +172,6 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyManager.h">
       <Filter>Game\GameObjects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Common\CollisionManager.h">
-      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Effect\EffectManager.h">
       <Filter>Effect</Filter>
@@ -305,6 +287,27 @@
     <ClInclude Include="Source\Game\Data\InputKeyLoader.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Physics\ExternalForce.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Physics\Friction.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Physics\Gravity.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Physics\PhysicsObject.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Physics\Collision.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Physics\CollisionManager.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Physics\ResolveCollision.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -312,9 +315,6 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Source\Game\Common\PhysicsEngine\PhysicsObject.cpp">
-      <Filter>Common\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -325,9 +325,6 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Common\AudioManager.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Common\Collision.cpp">
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp">
@@ -377,9 +374,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Enemy\EnemyManager.cpp">
       <Filter>Game\GameObjects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Common\CollisionManager.cpp">
-      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Effect\EffectManager.cpp">
       <Filter>Effect</Filter>
@@ -470,6 +464,18 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Common\KeyConverter.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Physics\PhysicsObject.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Physics\Collision.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Physics\CollisionManager.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Physics\ResolveCollision.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

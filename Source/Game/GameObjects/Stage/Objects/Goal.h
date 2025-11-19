@@ -12,7 +12,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Debug/DebugFont.h"
-#include"Source/Game/Common/Collision.h"
+#include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
 #include "Source/Game/UI/Elements/Tween/Tween.h"
 

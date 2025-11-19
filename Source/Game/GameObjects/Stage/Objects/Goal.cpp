@@ -7,7 +7,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Goal.h"
-#include "Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Scenes/StageScene.h"
 

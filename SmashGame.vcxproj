@@ -186,15 +186,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Common\Animation.h" />
     <ClInclude Include="Source\Game\Common\AudioManager.h" />
-    <ClInclude Include="Source\Game\Common\Collision.h" />
-    <ClInclude Include="Source\Game\Common\CollisionManager.h" />
     <ClInclude Include="Source\Game\Common\DeviceResources.h" />
     <ClInclude Include="Source\Game\Common\KeyConverter.h" />
     <ClInclude Include="Source\Game\Common\ModelAnimator.h" />
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\ExternalForce.h" />
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\Friction.h" />
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\Gravity.h" />
-    <ClInclude Include="Source\Game\Common\PhysicsEngine\PhysicsObject.h" />
     <ClInclude Include="Source\Game\Common\RenderContext.h" />
     <ClInclude Include="Source\Game\Common\RenderTexture.h" />
     <ClInclude Include="Source\Game\Common\ResourceManager.h" />
@@ -237,6 +231,13 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\TargetBox.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\StageManager.h" />
     <ClInclude Include="Source\Game\Interface\IState.h" />
+    <ClInclude Include="Source\Game\Physics\Collision.h" />
+    <ClInclude Include="Source\Game\Physics\CollisionManager.h" />
+    <ClInclude Include="Source\Game\Physics\ExternalForce.h" />
+    <ClInclude Include="Source\Game\Physics\Friction.h" />
+    <ClInclude Include="Source\Game\Physics\Gravity.h" />
+    <ClInclude Include="Source\Game\Physics\PhysicsObject.h" />
+    <ClInclude Include="Source\Game\Physics\ResolveCollision.h" />
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h" />
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\StageScene.h" />
@@ -263,12 +264,9 @@
     <ClCompile Include="Source\Debug\DebugFont.cpp" />
     <ClCompile Include="Source\Game\Common\Animation.cpp" />
     <ClCompile Include="Source\Game\Common\AudioManager.cpp" />
-    <ClCompile Include="Source\Game\Common\Collision.cpp" />
-    <ClCompile Include="Source\Game\Common\CollisionManager.cpp" />
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp" />
     <ClCompile Include="Source\Game\Common\KeyConverter.cpp" />
     <ClCompile Include="Source\Game\Common\ModelAnimator.cpp" />
-    <ClCompile Include="Source\Game\Common\PhysicsEngine\PhysicsObject.cpp" />
     <ClCompile Include="Source\Game\Common\RenderTexture.cpp" />
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
@@ -303,6 +301,10 @@
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Ground.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\TargetBox.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\StageManager.cpp" />
+    <ClCompile Include="Source\Game\Physics\Collision.cpp" />
+    <ClCompile Include="Source\Game\Physics\CollisionManager.cpp" />
+    <ClCompile Include="Source\Game\Physics\PhysicsObject.cpp" />
+    <ClCompile Include="Source\Game\Physics\ResolveCollision.cpp" />
     <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\StageScene.cpp" />

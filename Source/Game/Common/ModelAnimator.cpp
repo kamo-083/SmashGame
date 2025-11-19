@@ -109,7 +109,7 @@ void ModelAnimator::Draw(RenderContext context, const DirectX::SimpleMath::Matri
 	// アニメーションにモデルを適用する
 	m_animation->Apply(*m_model, nbones, m_drawBones.get());
 
-	// エフェクトの設定
+	// ライトの設定
 	m_model->UpdateEffects([](DirectX::IEffect* effect)
 		{
 			if (auto lights = dynamic_cast<DirectX::IEffectLights*>(effect))

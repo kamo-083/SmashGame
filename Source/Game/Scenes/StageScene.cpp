@@ -9,7 +9,7 @@
 #include "StageScene.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/RenderContext.h"
-#include "Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/Data/PlayerInfoLoader.h"
 #include "Source/Game/GameObjects/Camera.h"

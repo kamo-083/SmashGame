@@ -11,7 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/UserResources.h"
-#include "Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/Data/EnemyData.h"
 #include "Source/Game/Data/EnemyInfoLoader.h"

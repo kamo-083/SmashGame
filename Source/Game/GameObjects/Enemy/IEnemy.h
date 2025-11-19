@@ -13,10 +13,10 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"
-#include"Source/Game/Common/CollisionManager.h"
+#include"Source/Game/Physics/CollisionManager.h"
 #include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/Common/Collision.h"
-#include"Source/Game/Common/PhysicsEngine/PhysicsObject.h"
+#include"Source/Game/Physics/Collision.h"
+#include"Source/Game/Physics/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/Data/EnemyInfoLoader.h"
 #include"Source/Debug/DebugFont.h"

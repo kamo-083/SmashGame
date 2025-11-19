@@ -10,9 +10,9 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include "Source/Game/Common/PhysicsEngine/PhysicsObject.h"
-#include "Source/Game/Common/Collision.h"
-#include"Source/Game/Common/CollisionManager.h"
+#include "Source/Game/Physics/PhysicsObject.h"
+#include "Source/Game/Physics/Collision.h"
+#include"Source/Game/Physics/CollisionManager.h"
 #include"Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Interface/IState.h"

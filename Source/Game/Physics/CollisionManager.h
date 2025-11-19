@@ -13,7 +13,7 @@
 #include<unordered_map>
 #include<unordered_set>
 #include<functional>
-#include"Source/Game/Common/Collision.h"
+#include"Source/Game/Physics/Collision.h"
 
 
 // クラスの定義 ===============================================================
@@ -155,15 +155,5 @@ public:
 
 // 内部実装
 private:
-	// 速度をスライド
-	void SlideVelocity(DirectX::SimpleMath::Vector3* velocity,
-					   const DirectX::SimpleMath::Vector3& normal);
 
-	// 衝突判定の解決
-	// 球vsOBB
-	void ResolveSphereVsOBB(Node& a, Node& b);	
-	// 球vs球
-	void ResolveSphereVsSphere(Node& a, Node& b);
-	// OBBvsOBB
-	void ResolveOBBVsOBB(Node& a, Node& b);
 };

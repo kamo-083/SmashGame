@@ -11,10 +11,10 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Common/Collision.h"
+#include"Source/Game/Physics/Collision.h"
+#include"Source/Game/Physics/CollisionManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/ResourceManager.h"
-#include"Source/Game/Common/CollisionManager.h"
 
 
 // クラスの定義 ===============================================================

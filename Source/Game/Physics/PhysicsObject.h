@@ -9,10 +9,10 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Common/Collision.h"
-#include"Source/Game/Common/PhysicsEngine/Gravity.h"
-#include"Source/Game/Common/PhysicsEngine/ExternalForce.h"
-#include"Source/Game/Common/PhysicsEngine/Friction.h"
+#include"Source/Game/Physics/Collision.h"
+#include"Source/Game/Physics/Gravity.h"
+#include"Source/Game/Physics/ExternalForce.h"
+#include"Source/Game/Physics/Friction.h"
 
 #include"Source/Debug/DebugFont.h"
 

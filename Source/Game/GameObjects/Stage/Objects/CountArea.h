@@ -13,8 +13,8 @@
 #include <functional>
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Common/UserResources.h"
-#include"Source/Game/Common/Collision.h"
-#include"Source/Game/Common/CollisionManager.h"
+#include"Source/Game/Physics/Collision.h"
+#include"Source/Game/Physics/CollisionManager.h"
 #include"Source/Game/Common/ShaderManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/Elements/NumberRenderer/NumberRenderer3D.h"
