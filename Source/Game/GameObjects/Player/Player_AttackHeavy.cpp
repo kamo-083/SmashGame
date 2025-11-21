@@ -79,7 +79,7 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	m_attackTime -= elapsedTime;
 
 	// 位置の更新
-	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
+	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
 
@@ -97,8 +97,6 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	{
 		m_pPlayer->SetAttackCollisionEnabled(false);
 	}
-
-	m_pPlayer->SetOnGround(false);
 
 	// アニメーションの更新
 	m_modelAnimator->Update(elapsedTime);

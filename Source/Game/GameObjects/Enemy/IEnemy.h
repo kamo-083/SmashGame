@@ -50,6 +50,7 @@ protected:
 	const float DYNAMIC_FRICTION;	// 動摩擦係数
 	const float RESTITUTION;		// 反発係数
 
+	static constexpr float ANGULAR_VELOCITY = 50.0f;	// 角速度
 	static constexpr float SCALE = 0.005f;
 
 
@@ -70,8 +71,8 @@ protected:
 	//角度
 	float m_rotY;
 
-	//地面
-	bool m_onGround;
+	// 角速度
+	float m_angVelocityY;
 
 	//攻撃中
 	bool m_isAttack;
@@ -116,7 +117,7 @@ public:
 		, m_pScene{ pScene }
 		, m_currentState{ nullptr }
 		, m_rotY{ 0.0f }
-		, m_onGround{ false }
+		, m_angVelocityY{ 0.0f }
 		, m_isAttack{ false }
 		, m_attackForce{ 0.0f }
 		, m_model{ nullptr }
@@ -167,14 +168,17 @@ public:
 	SphereCollider* GetCollider() { return &m_collider; }						// 当たり判定を取得
 	PhysicsObject* GetPhysics() { return m_physics.get(); }						// 物理演算オブジェクトを取得 
 	float GetMass() { return MASS; }											// 質量を取得
-	bool GetOnGround() { return m_onGround; }									// 接地フラグを取得
-	void SetOnGround(bool onGround) { m_onGround = onGround; }					// 接地フラグを設定
 	bool GetIsAttack() { return m_isAttack; }									// 攻撃中フラグを取得
 	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }					// 攻撃中フラグを設定
 	float GetAttackForce() { return m_attackForce; }							// 攻撃力を取得
 	void SetAttackForce(float force) { m_attackForce = force; }					// 攻撃力を設定
 	float  GetScale() { return SCALE; }											// 大きさを取得
 	float GetRadius() { return RADIUS; }										// 半径サイズの取得
+	float GetRotY() { return m_rotY; }											// 回転の取得
+	void SetRotY(float royY) { m_rotY = royY; }									// 回転の設定
+	float GetAngVelocityY() { return m_angVelocityY; }							// 角速度の取得
+	void SetAngVelocityY(float angVelY) { m_angVelocityY = angVelY; }			// 角速度の設定
+
 
 // 内部実装
 private:

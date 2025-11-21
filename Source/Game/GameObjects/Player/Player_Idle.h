@@ -30,6 +30,8 @@ class Player_Idle :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
+	static constexpr float ANGULAR_VELOCITY_DAMPING = 0.9f;		// 角速度の減衰率
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -78,5 +80,6 @@ public:
 
 // 内部実装
 private:
-
+	// 角速度による回転
+	void RotateAngVel(float elapsedTime);
 };

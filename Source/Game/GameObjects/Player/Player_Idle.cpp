@@ -57,14 +57,12 @@ void Player_Idle::Initialize(ResourceManager* pRM)
 void Player_Idle::Update(const float& elapsedTime)
 {
 	// ˆÊ’u‚ÌXV
-	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
+	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
 
 	// “–‚½‚è”»’è‚ÌXV
 	m_pPlayer->GetCollider()->SetCenter(m_pPlayer->GetPosition());
-
-	m_pPlayer->SetOnGround(false);
 
 	// UŒ‚‚ÌØ‚è‘Ö‚¦
 	m_pPlayer->ChangeAttack(m_pKbTracker);
@@ -72,6 +70,9 @@ void Player_Idle::Update(const float& elapsedTime)
 	// ‚Á”ò‚Î‚³‚êó‘Ô
 	if (m_pPlayer->GetIsBounce())
 	{
+		// Šp‘¬“x‚É‚æ‚é‰ñ“]
+		RotateAngVel(elapsedTime);
+
 		if (m_pPlayer->GetVelocity().Length() < 1.0f)
 		{
 			m_pPlayer->SetIsBounce(false);
@@ -127,4 +128,25 @@ void Player_Idle::Finalize()
 {
 	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
+}
+
+
+/**
+ * @brief Šp‘¬“x‚É‚æ‚é‰ñ“]
+ *
+ * @param elapsedTime Œo‰ßŽžŠÔ
+ *
+ * @return ‚È‚µ
+ */
+void Player_Idle::RotateAngVel(float elapsedTime)
+{
+	if (m_pPlayer->GetAngVelocityY() == 0.0f) return;
+
+	m_pPlayer->SetRotY(m_pPlayer->GetRotY() + m_pPlayer->GetAngVelocityY() * elapsedTime);
+	m_pPlayer->SetAngVelocityY(m_pPlayer->GetAngVelocityY() * ANGULAR_VELOCITY_DAMPING);
+
+	if (m_pPlayer->GetAngVelocityY() < 0.01f)
+	{
+		m_pPlayer->SetAngVelocityY(0.0f);
+	}
 }

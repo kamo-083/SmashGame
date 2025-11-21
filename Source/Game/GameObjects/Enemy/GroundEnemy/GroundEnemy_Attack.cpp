@@ -54,7 +54,7 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 
 	m_pGroundEnemy->SetAttackForce(ATTACK_FORCE);
 
-	float rot = m_pGroundEnemy->GetRotY() - DirectX::XM_PIDIV2;	//モデルの向きの関係で調整
+	float rot = m_pGroundEnemy->GetRotY();
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(rot), 0.0f, cosf(rot));
 	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * 0.5f));
 	m_pGroundEnemy->GetAttackCollider()->SetRadius(ATTACK_SIZE);
@@ -73,18 +73,16 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 	m_attackTime -= elapsedTime;
 
 	// 位置の更新
-	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime, m_pGroundEnemy->GetOnGround());
+	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime);
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新
 	m_pGroundEnemy->GetCollider()->SetCenter(m_pGroundEnemy->GetPosition());
 
 	// 攻撃判定の更新
-	float rot = m_pGroundEnemy->GetRotY() - DirectX::XM_PIDIV2;	//モデルの向きの関係で調整
+	float rot = m_pGroundEnemy->GetRotY();
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(rot), 0.0f, cosf(rot));
 	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * DISTANCE_RAITO));
-
-	m_pGroundEnemy->SetOnGround(false);
 
 	// アニメーションの更新
 	m_modelAnimator->Update(elapsedTime);
@@ -110,7 +108,7 @@ void GroundEnemy_Attack::Render(RenderContext& context)
 {
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
-	DirectX::SimpleMath::Matrix rot =	DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
+	DirectX::SimpleMath::Matrix rot =	DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY()+ DirectX::XM_PIDIV2);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 

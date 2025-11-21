@@ -30,7 +30,7 @@ Player::Player(
 	, STATIC_FRICTION_FORCE{ info.static_friction }
 	, m_pScene{ pScene }
 	, m_rotY{ 0.0f }
-	, m_onGround{ false }
+	, m_angVelocityY{ 0.0f }
 	, m_isBounce{ false }
 	, m_model{ nullptr }
 	, m_pResourceManager{ nullptr }
@@ -92,9 +92,6 @@ void Player::Initialize(PlayerParams param, InputKeyLoader::InputKeyInfo keyConf
 
 	// 向きの初期化
 	m_rotY = 0.0f;
-
-	// 着地
-	m_onGround = false;
 
 	// 吹っ飛ばされ状態
 	m_isBounce = false;
@@ -162,8 +159,8 @@ void Player::Draw(RenderContext& context, DebugFont* debugFont)
 	// デバッグ情報の追加
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
-	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"attack = %d", static_cast<int>(m_attackType));
-	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"bounce = %d", static_cast<int>(m_isBounce));
+	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"ground = %d", static_cast<int>(m_physics->IsOnGround()));
+	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"angVel = %f", m_angVelocityY);
 }
 
 
@@ -318,14 +315,14 @@ void Player::Respawn()
 	// 向きの初期化
 	m_rotY = 0.0f;
 
-	// 着地
-	m_onGround = false;
-
 	// 吹っ飛ばされ状態
 	m_isBounce = false;
 
 	// 軌跡エフェクトをオフ
 	m_trajectory->SetSpawn(false);
+
+	// 接地面情報のリセット
+	m_physics->ResetGroundInfo();
 
 	// 状態の切り替え
 	ChangeState(m_idlingState.get());
@@ -490,6 +487,9 @@ void Player::SmashEnemyAttack(const uint32_t& handle)
 	// SEの再生
 	m_pScene->PlaySE("attackSE");
 
+	// 角速度の設定
+	m_angVelocityY = ANGULAR_VELOCITY;
+
 	// 跳ね返り状態に遷移
 	m_isBounce = true;
 	m_trajectory->SetSpawn(true);
@@ -573,10 +573,9 @@ void Player::SetupCollision(CollisionManager* pCM)
 	bodyDesc.velocity = &m_velocity;
 	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
-		[this](uint32_t, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		[this](uint32_t, const DirectX::SimpleMath::Vector3& n, float)	// 接地面の法線を渡す
 		{
-			const float groundCos = std::cos(DirectX::XMConvertToRadians(30.0f));
-			if (n.y >= groundCos) m_onGround = true;
+			m_physics->SetGroundInfo(n);
 		};
 	bodyDesc.callback.onEnter =
 		[this](uint32_t, uint32_t other)		// 敵の攻撃で吹っ飛ぶ

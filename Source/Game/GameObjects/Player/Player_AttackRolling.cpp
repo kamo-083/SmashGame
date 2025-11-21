@@ -89,15 +89,15 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 
 	//入力による移動速度
 	inputVelocity = m_pPlayer->MoveDirection(m_pKbTracker, m_pCamera);
-	if (m_pPlayer->GetOnGround())	inputVelocity *= GROUND_SPEED;
-	else							inputVelocity *= AIR_SPEED;
+	if (m_pPlayer->GetPhysics()->IsOnGround())	inputVelocity *= GROUND_SPEED;
+	else										inputVelocity *= AIR_SPEED;
 	m_pPlayer->LimitVelocity(inputVelocity, m_pPlayer->GetMaxSpeed());
 
 	if (inputVelocity.LengthSquared() != 0.0f) m_moveForce = inputVelocity;
 
 	// 位置の更新
 	m_pPlayer->SetVelocity({ m_moveForce.x, m_pPlayer->GetVelocity().y, m_moveForce.z });
-	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
+	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
 
@@ -107,8 +107,6 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 	// 攻撃判定の更新
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(m_pPlayer->GetRotY()), 0.0f, cosf(m_pPlayer->GetRotY()));
 	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition());
-
-	m_pPlayer->SetOnGround(false);
 
 	// アニメーションの更新
 	m_modelAnimator->Update(elapsedTime);

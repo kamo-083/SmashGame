@@ -22,6 +22,8 @@ class PhysicsObject
 private:
 	static constexpr float RESTITUTION_COEFFICIENT = 1.0f;	// 反発係数のデフォルト値
 
+	static constexpr float GROUND_COS_THRESHOLD = 30.0f;	// 地面判定用の最大傾斜角の閾値
+
 	static constexpr int DEBUG_FONT_INTERVAL = 25;	// デバッグ用フォントの表示間隔
 
 	// 重力
@@ -33,6 +35,11 @@ private:
 	// 摩擦力
 	Friction m_friction;
 
+	// 地面に触れているか
+	bool m_onGround;
+	// 接触面の法線ベクトル
+	DirectX::SimpleMath::Vector3 m_groundNormal;
+
 public:
 	// コンストラクタ・デストラクタ
 	PhysicsObject();
@@ -42,8 +49,7 @@ public:
 	void CalculateForce(
 		DirectX::SimpleMath::Vector3& velocity,
 		float mass,
-		float elapsedTime,
-		bool onGround);
+		float elapsedTime);
 
 	// 跳ね返り処理
 	void Reflection(
@@ -65,8 +71,22 @@ public:
 	// デバッグフォントの描画
 	void DrawDebugFont(DebugFont* debugFont, int y);
 
+	// 接地面情報のリセット
+	void ResetGroundInfo();
+
+	// 接地面情報の設定
+	void SetGroundInfo(DirectX::SimpleMath::Vector3 const normal);
+
+	// 接触面の法線ベクトルを取得
+	const DirectX::SimpleMath::Vector3& GetGroundNormal() { return m_groundNormal; }
+
+	// 地面に振れているかを取得
+	bool IsOnGround() { return m_onGround; }
+
 private:
 	// 反射ベクトルの計算
-	DirectX::SimpleMath::Vector3 CalculateReflectionVector(DirectX::SimpleMath::Vector3 velocity,
-														   DirectX::SimpleMath::Vector3 normal);
+	DirectX::SimpleMath::Vector3 CalculateReflectionVector(
+		DirectX::SimpleMath::Vector3 velocity,
+		DirectX::SimpleMath::Vector3 normal);
 };
+

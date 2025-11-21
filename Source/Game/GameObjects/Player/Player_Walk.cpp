@@ -70,22 +70,20 @@ void Player_Walk::Update(const float& elapsedTime)
 
 	//入力による移動速度
 	inputVelocity = m_pPlayer->MoveDirection(m_pKbTracker, m_pCamera);
-	if (m_pPlayer->GetOnGround())	inputVelocity *= GROUND_SPEED;
-	else							inputVelocity *= AIR_SPEED;
+	if (m_pPlayer->GetPhysics()->IsOnGround())	inputVelocity *= GROUND_SPEED;
+	else										inputVelocity *= AIR_SPEED;
 
 	// 入力が無いときは以前の速度を入れる
 	if (inputVelocity.LengthSquared() == 0.0f) inputVelocity = m_pPlayer->GetVelocity();
 
 	// 位置の更新
 	m_pPlayer->SetVelocity({ inputVelocity.x, m_pPlayer->GetVelocity().y, inputVelocity.z });
-	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime, m_pPlayer->GetOnGround());
+	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新
 	m_pPlayer->GetCollider()->SetCenter(m_pPlayer->GetPosition());
-
-	m_pPlayer->SetOnGround(false);
 
 	// 攻撃の切り替え
 	m_pPlayer->ChangeAttack(m_pKbTracker);

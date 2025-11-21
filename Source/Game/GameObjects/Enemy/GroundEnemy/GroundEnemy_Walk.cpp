@@ -71,13 +71,11 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 
 	// 位置の更新
 	m_pGroundEnemy->SetVelocity(m_pGroundEnemy->GetVelocity() + force);
-	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime, m_pGroundEnemy->GetOnGround());
+	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime);
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新
 	m_pGroundEnemy->GetCollider()->SetCenter(m_pGroundEnemy->GetPosition());
-
-	m_pGroundEnemy->SetOnGround(false);
 
 	// アニメーションの更新
 	m_modelAnimator->Update(elapsedTime);
@@ -109,7 +107,7 @@ void GroundEnemy_Walk::Render(RenderContext& context)
 {
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
-	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY());
+	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY() + DirectX::XM_PIDIV2);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 

@@ -67,9 +67,6 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 	// 速度の初期化
 	m_velocity = DirectX::SimpleMath::Vector3::Zero;
 
-	// 着地判定の初期化
-	m_onGround = false;
-
 	// 攻撃の初期化
 	m_isAttack = false;
 	m_attackForce = 0.0f;
@@ -122,11 +119,14 @@ void GroundEnemy::Draw(RenderContext& context, DebugFont* debugFont)
 	m_currentState->Render(context);
 
 	// デバッグ情報の追加
-	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
+	//debugFont->AddString(0, 200, DirectX::Colors::Blue, L"dist = %f", m_playerRelationData.distance);
 	//debugFont->AddString(0, 230, DirectX::Colors::Blue, L"ePos  = %f,%f,%f",
 	//	m_circle->position->x, m_circle->position->y, m_circle->position->z);
 	//debugFont->AddString(0, 260, DirectX::Colors::Blue, L"effect  = %d", m_trajectory->spawn);
 	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"state= %d", GetStateType());
+
+	if (m_angVelocityY == 0.0f) return;
+	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"angVel= %f", m_angVelocityY);
 }
 
 
@@ -236,14 +236,14 @@ void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, 
 
 
 /**
- * @brief 攻撃を受けた時の処理
+ * @brief 攻撃を受けて吹っ飛ぶ
  *
  * @param collider 相手のコライダー
  * @param power	   攻撃力
  *
  * @return 攻撃が
  */
-void GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
+void GroundEnemy::SmashPlayerAttack(SphereCollider collider, float power)
 {
 	MTV mtv = CalculateMTV(collider, m_collider);
 
@@ -253,6 +253,12 @@ void GroundEnemy::DetectCollisionToAttack(SphereCollider collider, float power)
 	
 	DirectX::SimpleMath::Vector3 force = knockbackDir * power;
 	m_physics->GetExternalForce().Add(force);
+
+	// SEの再生
+	m_pScene->PlaySE("attackSE");
+
+	// 角速度の設定
+	m_angVelocityY = ANGULAR_VELOCITY;
 
 	// 跳ね返り状態に遷移
 	ChangeState(m_bouncingState.get());
@@ -384,13 +390,9 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 	bodyDesc.velocity = &m_velocity;
 	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
-		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)	// 接地フラグを立てる
+		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)	// 接地面の法線を渡す
 		{
-			const float groundCos = std::cos(DirectX::XMConvertToRadians(30.0f));
-			if (n.y >= groundCos) m_onGround = true;
-
-			// 地面・壁との反射
-			if (m_pCollisionManager->GetDesc(other)->layer == CollisionManager::Layer::Stage) ReflectOnCollision(n);
+			m_physics->SetGroundInfo(n);
 		};
 	bodyDesc.callback.onEnter =
 		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ
@@ -398,10 +400,7 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 			auto otherDesc = m_pCollisionManager->GetDesc(other);
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack) return;
 
-			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
-
-			// SEの再生
-			m_pScene->PlaySE("attackSE");
+			SmashPlayerAttack(*otherDesc->sphere, *otherDesc->userData);
 		};
 	bodyDesc.callback.onStay =
 		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)
@@ -409,7 +408,7 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 			auto otherDesc = m_pCollisionManager->GetDesc(other);
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack && !otherDesc->isMultiHit) return;
 
-			DetectCollisionToAttack(*otherDesc->sphere, *otherDesc->userData);
+			SmashPlayerAttack(*otherDesc->sphere, *otherDesc->userData);
 		};
 	m_handleBody = m_pCollisionManager->Add(bodyDesc);
 	// 攻撃

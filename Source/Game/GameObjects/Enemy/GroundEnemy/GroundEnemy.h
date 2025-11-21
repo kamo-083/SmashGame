@@ -137,8 +137,6 @@ public:
 
 	PlayerRelationData GetPlayerRelativeData() { return m_playerRelationData; }	// プレイヤーとの位置関係を取得
 	SphereCollider* GetAttackCollider() { return &m_attackCollider; }			// 攻撃の当たり判定を取得
-	float GetRotY() { return m_rotY; }								// 向きの取得
-	void SetRotY(float rot) { m_rotY = rot + DirectX::XM_PIDIV2; }	// 向きの設定
 
 	DirectX::Model* GetModel() { return m_model; }				// モデルのポインタの取得
 	Animations* GetAnimation() { return m_animations.get(); }	// アニメーションのポインタ群の取得
@@ -150,8 +148,8 @@ public:
 
 // 内部実装
 private:
-	// 攻撃を受けた時の処理
-	void DetectCollisionToAttack(SphereCollider collider, float power);
+	// 攻撃を受けて吹っ飛ぶ
+	void SmashPlayerAttack(SphereCollider collider, float power);
 
 	// 地面・壁との反射
 	void ReflectOnCollision(DirectX::SimpleMath::Vector3 normal);

@@ -16,6 +16,8 @@ PhysicsObject::PhysicsObject()
 	: m_gravity{}
 	, m_externalForce{}
 	, m_friction{}
+	, m_onGround{ false }
+	, m_groundNormal{ DirectX::SimpleMath::Vector3::UnitY }
 {
 }
 
@@ -28,23 +30,23 @@ PhysicsObject::PhysicsObject()
  * @param velocity		対象の速度
  * @param mass			対象の質量
  * @param elapsedTime	経過時間
- * @param onGround		対象が地面と接しているか
  *
  * @return なし
  */
 void PhysicsObject::CalculateForce(
 	DirectX::SimpleMath::Vector3& velocity,
 	float mass,
-	float elapsedTime,
-	bool onGround)
+	float elapsedTime)
 {
+	if (mass == 0.0f) return;	// 0除算防止
+
 	DirectX::SimpleMath::Vector3 totalForce = DirectX::SimpleMath::Vector3::Zero;
 
 	//外力
 	m_externalForce.Calculate(totalForce);
 
 	//摩擦力(接地時)
-	if (onGround)
+	if (m_onGround)
 	{
 		m_friction.ApplyToForce(totalForce, mass * m_gravity.Get());
 		m_friction.ApplyToVelocity(velocity, mass * m_gravity.Get(), elapsedTime);
@@ -59,8 +61,9 @@ void PhysicsObject::CalculateForce(
 	//加速度の反映
 	velocity += acceleration * elapsedTime;
 
-	//力のリセット
+	//リセット
 	m_externalForce.Reset();
+	ResetGroundInfo();
 }
 
 
@@ -78,9 +81,13 @@ void PhysicsObject::Reflection(
 	DirectX::SimpleMath::Vector3& normal,
 	float restitution)
 {
-	DirectX::SimpleMath::Vector3 v = velocity;
-	DirectX::SimpleMath::Vector3 n = normal;
-	DirectX::SimpleMath::Vector3 reflectionVector = CalculateReflectionVector(v, n);
+	using vector3 = DirectX::SimpleMath::Vector3;
+
+	if (normal == vector3::Zero) normal = m_groundNormal;
+
+	vector3 v = velocity;
+	vector3 n = normal;
+	vector3 reflectionVector = CalculateReflectionVector(v, n);
 	velocity = reflectionVector * restitution;
 }
 
@@ -99,9 +106,11 @@ void PhysicsObject::RollDown(
 	DirectX::SimpleMath::Vector3& normal,
 	float elapsedTime)
 {
-	DirectX::SimpleMath::Vector3 gravity = { 0.0f,-m_gravity.Get(),0.0f };
-	DirectX::SimpleMath::Vector3 gTangent = gravity - normal * gravity.Dot(normal);
-	DirectX::SimpleMath::Vector3 acceleration = (5.0f / 7.0f) * gTangent;
+	using vector3 = DirectX::SimpleMath::Vector3;
+
+	vector3 gravity = { 0.0f,-m_gravity.Get(),0.0f };
+	vector3 gTangent = gravity - normal * gravity.Dot(normal);
+	vector3 acceleration = (5.0f / 7.0f) * gTangent;
 
 	velocity += acceleration * elapsedTime;
 }
@@ -123,6 +132,38 @@ void PhysicsObject::DrawDebugFont(DebugFont* debugFont, int y)
 	debugFont->AddString(0, y, DirectX::Colors::White, L"friction = %f", m_friction.Get());
 	y += DEBUG_FONT_INTERVAL;
 	debugFont->AddString(0, y, DirectX::Colors::White, L"externalForce = %f,%f,%f", m_externalForce.Get().x, m_externalForce.Get().y, m_externalForce.Get().z);
+}
+
+
+/**
+ * @brief 接地面情報のリセット
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void PhysicsObject::ResetGroundInfo()
+{
+	m_onGround = false;
+	m_groundNormal = DirectX::SimpleMath::Vector3::UnitY;
+}
+
+
+/**
+ * @brief 接地面情報のリセット
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void PhysicsObject::SetGroundInfo(DirectX::SimpleMath::Vector3 const normal)
+{
+	const float groundCos = std::cos(DirectX::XMConvertToRadians(GROUND_COS_THRESHOLD));
+	if (normal.y >= groundCos)
+	{
+		m_onGround = true;
+		m_groundNormal = normal;
+	}
 }
 
 
