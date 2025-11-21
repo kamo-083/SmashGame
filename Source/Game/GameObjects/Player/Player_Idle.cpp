@@ -56,6 +56,8 @@ void Player_Idle::Initialize(ResourceManager* pRM)
  */
 void Player_Idle::Update(const float& elapsedTime)
 {
+	PhysicsObject* physics = m_pPlayer->GetPhysics();
+
 	// ˆÊ’u‚ÌXV
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
@@ -71,7 +73,11 @@ void Player_Idle::Update(const float& elapsedTime)
 	if (m_pPlayer->GetIsBounce())
 	{
 		// Šp‘¬“x‚É‚æ‚é‰ñ“]
-		RotateAngVel(elapsedTime);
+		float angVel;
+		if (physics->GetAngVelocity().x < physics->GetAngVelocity().z) angVel = physics->GetAngVelocity().z;
+		else angVel = physics->GetAngVelocity().x;
+		m_pPlayer->SetRotY(m_pPlayer->GetRotY() + angVel * elapsedTime);
+
 
 		if (m_pPlayer->GetVelocity().Length() < 1.0f)
 		{
@@ -128,25 +134,4 @@ void Player_Idle::Finalize()
 {
 	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
-}
-
-
-/**
- * @brief Šp‘¬“x‚É‚æ‚é‰ñ“]
- *
- * @param elapsedTime Œo‰ßŽžŠÔ
- *
- * @return ‚È‚µ
- */
-void Player_Idle::RotateAngVel(float elapsedTime)
-{
-	if (m_pPlayer->GetAngVelocityY() == 0.0f) return;
-
-	m_pPlayer->SetRotY(m_pPlayer->GetRotY() + m_pPlayer->GetAngVelocityY() * elapsedTime);
-	m_pPlayer->SetAngVelocityY(m_pPlayer->GetAngVelocityY() * ANGULAR_VELOCITY_DAMPING);
-
-	if (m_pPlayer->GetAngVelocityY() < 0.01f)
-	{
-		m_pPlayer->SetAngVelocityY(0.0f);
-	}
 }

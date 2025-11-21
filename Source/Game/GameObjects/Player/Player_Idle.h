@@ -80,6 +80,5 @@ public:
 
 // “à•”ŽÀ‘•
 private:
-	// Šp‘¬“x‚É‚æ‚é‰ñ“]
-	void RotateAngVel(float elapsedTime);
+
 };

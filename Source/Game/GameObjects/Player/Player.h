@@ -54,7 +54,7 @@ private:
 	const float MASS;					//質量
 	const float DYNAMIC_FRICTION_FORCE;	//動摩擦力
 	const float STATIC_FRICTION_FORCE;	//静止摩擦力
-	static constexpr float ANGULAR_VELOCITY = 100.0f;	// 角速度
+	static constexpr float ANGULAR_VELOCITY = 50.0f;	// 角速度
 	static constexpr float SCALE = 0.02f;		//スケール
 	static constexpr float KILL_HEIGHT = -5.0f;	//落下判定をされる高さ
 	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,0.0f,2.0f };	// 初期位置
@@ -102,9 +102,6 @@ private:
 
 	// 向き
 	float m_rotY;
-
-	// 角速度
-	float m_angVelocityY;
 
 	// 攻撃を受けて吹っ飛ばされた
 	bool m_isBounce;
@@ -243,8 +240,6 @@ public:
 	float GetMaxSpeed() { return MAX_SPEED; }										// 最高移動速度の取得
 	float GetRotY() { return m_rotY; }												// 向きの取得
 	void SetRotY(float rotY) { m_rotY = rotY; }										// 向きの設定
-	float GetAngVelocityY() { return m_angVelocityY; }								// 角速度の取得
-	void SetAngVelocityY(float angVelY) { m_angVelocityY = angVelY; }				// 角速度の設定
 	PhysicsObject* GetPhysics() { return m_physics.get(); }							// 物理演算オブジェクトの取得
 	SphereCollider* GetCollider() { return &m_collider; };							// 当たり判定の取得
 	SphereCollider* GetAttackCollider() { return &m_attackCollider; }				// 攻撃判定の取得

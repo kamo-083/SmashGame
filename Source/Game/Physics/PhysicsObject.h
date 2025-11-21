@@ -26,6 +26,8 @@ private:
 
 	static constexpr int DEBUG_FONT_INTERVAL = 25;	// デバッグ用フォントの表示間隔
 
+	static constexpr float ANGULAR_VELOCITY_DAMPING = 0.9f;	// 角速度の減衰率
+
 	// 重力
 	Gravity m_gravity;
 
@@ -39,6 +41,12 @@ private:
 	bool m_onGround;
 	// 接触面の法線ベクトル
 	DirectX::SimpleMath::Vector3 m_groundNormal;
+
+	// 角速度
+	DirectX::SimpleMath::Vector3 m_angularVelocity;
+	// 慣性
+	DirectX::SimpleMath::Vector3 m_inertia;
+
 
 public:
 	// コンストラクタ・デストラクタ
@@ -67,6 +75,7 @@ public:
 	ExternalForce& GetExternalForce() { return m_externalForce; }	// 外力
 	Gravity& GetGravity() { return m_gravity; }						// 重力
 	Friction& GetFriction() { return m_friction; }					// 摩擦力
+	DirectX::SimpleMath::Vector3 GetAngVelocity() { return m_angularVelocity; }		// 角速度
 
 	// デバッグフォントの描画
 	void DrawDebugFont(DebugFont* debugFont, int y);
@@ -83,10 +92,17 @@ public:
 	// 地面に振れているかを取得
 	bool IsOnGround() { return m_onGround; }
 
+	// 角速度の加算
+	void AddAngVelocity(DirectX::SimpleMath::Vector3 angVel) { m_angularVelocity += angVel; }
+
 private:
 	// 反射ベクトルの計算
 	DirectX::SimpleMath::Vector3 CalculateReflectionVector(
 		DirectX::SimpleMath::Vector3 velocity,
 		DirectX::SimpleMath::Vector3 normal);
+
+	// 角速度の減衰
+	void DampingAngVelocity(float elapsedTime);
+
 };
 

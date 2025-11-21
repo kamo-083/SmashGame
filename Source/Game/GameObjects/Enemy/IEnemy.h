@@ -50,8 +50,8 @@ protected:
 	const float DYNAMIC_FRICTION;	// 動摩擦係数
 	const float RESTITUTION;		// 反発係数
 
-	static constexpr float ANGULAR_VELOCITY = 50.0f;	// 角速度
-	static constexpr float SCALE = 0.005f;
+	static constexpr float ANGULAR_VELOCITY = 10.0f;	// 角速度
+	static constexpr float SCALE = 0.005f;				// モデルのスケール
 
 
 // データメンバの宣言 -----------------------------------------------
@@ -70,9 +70,6 @@ protected:
 
 	//角度
 	float m_rotY;
-
-	// 角速度
-	float m_angVelocityY;
 
 	//攻撃中
 	bool m_isAttack;
@@ -117,7 +114,6 @@ public:
 		, m_pScene{ pScene }
 		, m_currentState{ nullptr }
 		, m_rotY{ 0.0f }
-		, m_angVelocityY{ 0.0f }
 		, m_isAttack{ false }
 		, m_attackForce{ 0.0f }
 		, m_model{ nullptr }
@@ -176,8 +172,6 @@ public:
 	float GetRadius() { return RADIUS; }										// 半径サイズの取得
 	float GetRotY() { return m_rotY; }											// 回転の取得
 	void SetRotY(float royY) { m_rotY = royY; }									// 回転の設定
-	float GetAngVelocityY() { return m_angVelocityY; }							// 角速度の取得
-	void SetAngVelocityY(float angVelY) { m_angVelocityY = angVelY; }			// 角速度の設定
 
 
 // 内部実装

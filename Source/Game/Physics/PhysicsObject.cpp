@@ -38,6 +38,9 @@ void PhysicsObject::CalculateForce(
 	float mass,
 	float elapsedTime)
 {
+	//äpë¨ìxÇÃå∏êä
+	DampingAngVelocity(elapsedTime);
+
 	if (mass == 0.0f) return;	// 0èúéZñhé~
 
 	DirectX::SimpleMath::Vector3 totalForce = DirectX::SimpleMath::Vector3::Zero;
@@ -89,6 +92,9 @@ void PhysicsObject::Reflection(
 	vector3 n = normal;
 	vector3 reflectionVector = CalculateReflectionVector(v, n);
 	velocity = reflectionVector * restitution;
+
+	// äpë¨ìxÇÃâ¡éZ
+	m_angularVelocity += n * 15.0f;
 }
 
 
@@ -180,4 +186,24 @@ DirectX::SimpleMath::Vector3 PhysicsObject::CalculateReflectionVector(
 	DirectX::SimpleMath::Vector3 normal)
 {
 	return velocity - 2.0f * (velocity * normal) * normal;
+}
+
+
+/**
+ * @brief äpë¨ìxÇÃå∏êä
+ *
+ * @param elapsedTime åoâﬂéûä‘
+ *
+ * @return Ç»Çµ
+ */
+void PhysicsObject::DampingAngVelocity(float elapsedTime)
+{
+	if (m_angularVelocity == DirectX::SimpleMath::Vector3::Zero) return;
+
+	m_angularVelocity *= ANGULAR_VELOCITY_DAMPING;
+
+	// äeílÇ™0.01Çâ∫âÒÇ¡ÇΩÇÁ0Ç…Ç∑ÇÈ
+	if (m_angularVelocity.x < 0.01f) m_angularVelocity.x = 0.0f;
+	if (m_angularVelocity.y < 0.01f) m_angularVelocity.y = 0.0f;
+	if (m_angularVelocity.z < 0.01f) m_angularVelocity.z = 0.0f;
 }

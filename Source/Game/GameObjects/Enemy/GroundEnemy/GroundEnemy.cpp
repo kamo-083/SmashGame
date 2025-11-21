@@ -124,9 +124,6 @@ void GroundEnemy::Draw(RenderContext& context, DebugFont* debugFont)
 	//	m_circle->position->x, m_circle->position->y, m_circle->position->z);
 	//debugFont->AddString(0, 260, DirectX::Colors::Blue, L"effect  = %d", m_trajectory->spawn);
 	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"state= %d", GetStateType());
-
-	if (m_angVelocityY == 0.0f) return;
-	debugFont->AddString(0, 200, DirectX::Colors::Blue, L"angVel= %f", m_angVelocityY);
 }
 
 
@@ -241,7 +238,7 @@ void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, 
  * @param collider 相手のコライダー
  * @param power	   攻撃力
  *
- * @return 攻撃が
+ * @return なし
  */
 void GroundEnemy::SmashPlayerAttack(SphereCollider collider, float power)
 {
@@ -257,8 +254,8 @@ void GroundEnemy::SmashPlayerAttack(SphereCollider collider, float power)
 	// SEの再生
 	m_pScene->PlaySE("attackSE");
 
-	// 角速度の設定
-	m_angVelocityY = ANGULAR_VELOCITY;
+	// 角速度の加算
+	m_physics->AddAngVelocity(DirectX::SimpleMath::Vector3(ANGULAR_VELOCITY, 0.0f, 0.0f));
 
 	// 跳ね返り状態に遷移
 	ChangeState(m_bouncingState.get());
@@ -390,9 +387,10 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 	bodyDesc.velocity = &m_velocity;
 	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
-		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)	// 接地面の法線を渡す
+		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)
 		{
-			m_physics->SetGroundInfo(n);
+			m_physics->SetGroundInfo(n);	// 接地面の法線を渡す
+			ReflectOnCollision(n);			// 跳ね返り
 		};
 	bodyDesc.callback.onEnter =
 		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ

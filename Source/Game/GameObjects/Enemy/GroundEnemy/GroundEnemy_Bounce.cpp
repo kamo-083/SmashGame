@@ -61,13 +61,18 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
  */
 void GroundEnemy_Bounce::Update(const float& elapsedTime)
 {
+	PhysicsObject* physics = m_pGroundEnemy->GetPhysics();
+
 	// ˆÊ’u‚ÌXV
-	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime);
+	physics->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime);
 	m_pGroundEnemy->LimitVelocity();
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
 
 	// Šp‘¬“x‚É‚æ‚é‰ñ“]
-	RotateAngVel(elapsedTime);
+	float angVel;
+	if (physics->GetAngVelocity().x < physics->GetAngVelocity().z) angVel = physics->GetAngVelocity().z;
+	else angVel = physics->GetAngVelocity().x;
+	m_pGroundEnemy->SetRotY(m_pGroundEnemy->GetRotY() + angVel * elapsedTime);	
 
 	// “–‚½‚è”»’è‚ÌXV
 	m_pGroundEnemy->GetCollider()->SetCenter(m_pGroundEnemy->GetPosition());
@@ -114,25 +119,4 @@ void GroundEnemy_Bounce::Finalize()
 {
 	if (m_modelAnimator) m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
-}
-
-
-/**
- * @brief Šp‘¬“x‚É‚æ‚é‰ñ“]
- *
- * @param elapsedTime Œo‰ßŽžŠÔ
- *
- * @return ‚È‚µ
- */
-void GroundEnemy_Bounce::RotateAngVel(float elapsedTime)
-{
-	if (m_pGroundEnemy->GetAngVelocityY() == 0.0f) return;
-
-	m_pGroundEnemy->SetRotY(m_pGroundEnemy->GetRotY() + m_pGroundEnemy->GetAngVelocityY() * elapsedTime);
-	m_pGroundEnemy->SetAngVelocityY(m_pGroundEnemy->GetAngVelocityY() * ANGULAR_VELOCITY_DAMPING);
-
-	if (m_pGroundEnemy->GetAngVelocityY() < 0.01f)
-	{
-		m_pGroundEnemy->SetAngVelocityY(0.0f);
-	}
 }

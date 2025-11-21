@@ -30,7 +30,6 @@ Player::Player(
 	, STATIC_FRICTION_FORCE{ info.static_friction }
 	, m_pScene{ pScene }
 	, m_rotY{ 0.0f }
-	, m_angVelocityY{ 0.0f }
 	, m_isBounce{ false }
 	, m_model{ nullptr }
 	, m_pResourceManager{ nullptr }
@@ -160,7 +159,7 @@ void Player::Draw(RenderContext& context, DebugFont* debugFont)
 	debugFont->AddString(0, 60, DirectX::Colors::Cyan, L"pos = %f,%f,%f", m_position.x, m_position.y, m_position.z);
 	debugFont->AddString(0, 85, DirectX::Colors::Cyan, L"vel = %f,%f,%f", m_velocity.x, m_velocity.y, m_velocity.z);
 	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"ground = %d", static_cast<int>(m_physics->IsOnGround()));
-	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"angVel = %f", m_angVelocityY);
+	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"angVel = %f", m_physics->GetAngVelocity());
 }
 
 
@@ -488,7 +487,7 @@ void Player::SmashEnemyAttack(const uint32_t& handle)
 	m_pScene->PlaySE("attackSE");
 
 	// Šp‘¬“x‚Ìİ’è
-	m_angVelocityY = ANGULAR_VELOCITY;
+	m_physics->AddAngVelocity(DirectX::SimpleMath::Vector3(ANGULAR_VELOCITY, 0.0f, 0.0f));
 
 	// ’µ‚Ë•Ô‚èó‘Ô‚É‘JˆÚ
 	m_isBounce = true;
