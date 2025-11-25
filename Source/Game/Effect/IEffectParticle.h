@@ -121,10 +121,10 @@ public:
 
 	// ビルボードを作成
 	void CreateBillboard(
-		DirectX::SimpleMath::Vector3 position,
 		DirectX::SimpleMath::Vector3 target,
 		DirectX::SimpleMath::Vector3 eye,
-		DirectX::SimpleMath::Vector3 up);
+		DirectX::SimpleMath::Vector3 up,
+		DirectX::SimpleMath::Vector3 forward);
 
 	// 描画処理
 	void Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj);

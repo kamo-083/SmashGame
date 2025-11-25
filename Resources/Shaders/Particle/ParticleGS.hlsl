@@ -25,9 +25,6 @@ void main(
 		//	新しい頂点情報用の変数
 		PS_INPUT element;
 
-		//	ベースの座標を取得
-		float4 res = offset_array[i];
-
 		//	Texに入っている情報で表示サイズを決定する。
 		//	その計算結果を、表示したい位置まで移動。
 		element.Pos =input[0].Pos + mul(offset_array[i] * input[0].Tex.x, matWorld);

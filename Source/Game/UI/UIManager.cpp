@@ -201,14 +201,14 @@ void UIManager::Draw(RenderContext context)
 		ui->Draw(context);
 	}
 
-	// ƒŠƒUƒ‹ƒgUI‚Ì•`‰æ
-	if (m_resultUI) m_resultUI->Draw(context);
-
 	// UŒ‚•û–@UI‚Ì•`‰æ
 	if (m_attackUI) m_attackUI->Draw(context);
 
 	// ƒJƒƒ‰‰ñ“]UI‚Ì•`‰æ
 	if (m_cameraUI) m_cameraUI->Draw(context);
+
+	// ƒŠƒUƒ‹ƒgUI‚Ì•`‰æ
+	if (m_resultUI) m_resultUI->Draw(context);
 
 	context.spriteBatch->End();
 }

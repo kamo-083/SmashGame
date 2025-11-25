@@ -39,7 +39,7 @@ void PhysicsObject::CalculateForce(
 	float elapsedTime)
 {
 	//Šp‘¬“x‚ÌŒ¸Š
-	DampingAngVelocity(elapsedTime);
+	DampingAngularVelocity();
 
 	if (mass == 0.0f) return;	// 0œZ–h~
 
@@ -94,7 +94,7 @@ void PhysicsObject::Reflection(
 	velocity = reflectionVector * restitution;
 
 	// Šp‘¬“x‚Ì‰ÁZ
-	m_angularVelocity += n * 15.0f;
+	AddAngVelocity(n);
 }
 
 
@@ -174,6 +174,20 @@ void PhysicsObject::SetGroundInfo(DirectX::SimpleMath::Vector3 const normal)
 
 
 /**
+ * @brief Šp‘¬“x‚Ì‰ÁZ
+ *
+ * @param angVel	‰ÁZ‚·‚é’l
+ *
+ * @return ‚È‚µ
+ */
+void PhysicsObject::AddAngVelocity(DirectX::SimpleMath::Vector3 angVel)
+{
+	m_angularVelocity += angVel;
+	ClampAngularVelocity();
+}
+
+
+/**
  * @brief ”½ËƒxƒNƒgƒ‹‚ÌŒvZ
  *
  * @param velocity		‘ÎÛ‚Ì‘¬“x
@@ -192,11 +206,11 @@ DirectX::SimpleMath::Vector3 PhysicsObject::CalculateReflectionVector(
 /**
  * @brief Šp‘¬“x‚ÌŒ¸Š
  *
- * @param elapsedTime Œo‰ßŠÔ
+ * @param ‚È‚µ
  *
  * @return ‚È‚µ
  */
-void PhysicsObject::DampingAngVelocity(float elapsedTime)
+void PhysicsObject::DampingAngularVelocity()
 {
 	if (m_angularVelocity == DirectX::SimpleMath::Vector3::Zero) return;
 
@@ -206,4 +220,19 @@ void PhysicsObject::DampingAngVelocity(float elapsedTime)
 	if (m_angularVelocity.x < 0.01f) m_angularVelocity.x = 0.0f;
 	if (m_angularVelocity.y < 0.01f) m_angularVelocity.y = 0.0f;
 	if (m_angularVelocity.z < 0.01f) m_angularVelocity.z = 0.0f;
+}
+
+
+/**
+ * @brief Šp‘¬“x‚Ì§ŒÀ
+ *
+ * @param ‚È‚µ
+ *
+ * @return ‚È‚µ
+ */
+void PhysicsObject::ClampAngularVelocity()
+{
+	if (m_angularVelocity.x > ANGULAR_VELOCITY_MAX) m_angularVelocity.x = ANGULAR_VELOCITY_MAX;
+	if (m_angularVelocity.y > ANGULAR_VELOCITY_MAX) m_angularVelocity.y = ANGULAR_VELOCITY_MAX;
+	if (m_angularVelocity.z > ANGULAR_VELOCITY_MAX) m_angularVelocity.z = ANGULAR_VELOCITY_MAX;
 }

@@ -27,6 +27,7 @@ private:
 	static constexpr int DEBUG_FONT_INTERVAL = 25;	// デバッグ用フォントの表示間隔
 
 	static constexpr float ANGULAR_VELOCITY_DAMPING = 0.9f;	// 角速度の減衰率
+	static constexpr float ANGULAR_VELOCITY_MAX = 50.0f;	// 角速度の上限
 
 	// 重力
 	Gravity m_gravity;
@@ -93,7 +94,7 @@ public:
 	bool IsOnGround() { return m_onGround; }
 
 	// 角速度の加算
-	void AddAngVelocity(DirectX::SimpleMath::Vector3 angVel) { m_angularVelocity += angVel; }
+	void AddAngVelocity(DirectX::SimpleMath::Vector3 angVel);
 
 private:
 	// 反射ベクトルの計算
@@ -102,7 +103,9 @@ private:
 		DirectX::SimpleMath::Vector3 normal);
 
 	// 角速度の減衰
-	void DampingAngVelocity(float elapsedTime);
+	void DampingAngularVelocity();
 
+	// 角速度の制限
+	void ClampAngularVelocity();
 };
 

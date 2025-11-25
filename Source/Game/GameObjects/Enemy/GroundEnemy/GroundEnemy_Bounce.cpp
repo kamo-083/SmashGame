@@ -80,6 +80,7 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 	// アニメーションの更新
 	m_modelAnimator->Update(elapsedTime);
 
+	// 待機状態に移行
 	if (m_pGroundEnemy->GetVelocity().Length() < 1.0f)
 	{
 		m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(false);

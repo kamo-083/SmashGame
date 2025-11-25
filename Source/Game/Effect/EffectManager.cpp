@@ -125,14 +125,14 @@ void EffectManager::Update(float elapsedTime)
 	for (std::unique_ptr<TrajectoryParticleData>& trajectory : m_trajectory)
 	{
 		trajectory->effect->Update(elapsedTime, *trajectory->position, trajectory->spawn, trajectory->random);
-		trajectory->effect->CreateBillboard(*trajectory->position, m_pCamera->GetTarget(), m_pCamera->GetEye(), m_pCamera->GetUp());
+		trajectory->effect->CreateBillboard(m_pCamera->GetTarget(), m_pCamera->GetEye(), m_pCamera->GetUp(), m_pCamera->GetForward());
 	}
 
 	// 円形エフェクトの更新
 	for (std::unique_ptr<CircleParticleData>& circle : m_circle)
 	{
 		circle->effect->Update(elapsedTime);
-		circle->effect->CreateBillboard(*circle->position, m_pCamera->GetTarget(), m_pCamera->GetEye(), m_pCamera->GetUp());
+		circle->effect->CreateBillboard(m_pCamera->GetTarget(), m_pCamera->GetEye(), m_pCamera->GetUp(), m_pCamera->GetForward());
 	}
 }
 

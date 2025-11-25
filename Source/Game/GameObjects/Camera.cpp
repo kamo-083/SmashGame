@@ -188,8 +188,7 @@ void Camera::SmoothCameraRotation(float elapsedTime)
 DirectX::SimpleMath::Vector3 Camera::GetForward()
 {
 	m_forward = m_target - m_eye;
-	m_forward.y = 0.0f;
-	//m_forward.Normalize();
+	m_forward.Normalize();
 
 	return m_forward;
 }

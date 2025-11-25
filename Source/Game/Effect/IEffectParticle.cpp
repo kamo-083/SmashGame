@@ -87,32 +87,38 @@ void IEffectParticle::Create(
 /**
  * @brief ビルボードの作成
  *
- * @param position	パーティクルの座標
  * @param target	カメラのターゲットの座標
  * @param eye		カメラの座標
  * @param up		カメラの上ベクトル
+ * @param forward	カメラの前ベクトル
  *
  * @return なし
  */
 void IEffectParticle::CreateBillboard(
-	DirectX::SimpleMath::Vector3 position,
 	DirectX::SimpleMath::Vector3 target,
 	DirectX::SimpleMath::Vector3 eye, 
-	DirectX::SimpleMath::Vector3 up)
+	DirectX::SimpleMath::Vector3 up,
+	DirectX::SimpleMath::Vector3 forward)
 {
-	m_billboard =
-		DirectX::SimpleMath::Matrix::CreateBillboard(position, eye, up);
+	// 右ベクトルを計算する
+	DirectX::SimpleMath::Vector3 camRight = up.Cross(forward);
+	camRight.Normalize();
 
-	//	回転情報を設定する
-	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::Identity;
+	// 上ベクトルを計算する
+	DirectX::SimpleMath::Vector3 camUp = forward.Cross(camRight);
 	
-	//	180度逆を向いているので、補正するための情報を入れる
-	rot._11 = -1;
-	rot._33 = -1;
+	// ビルボードの回転を作成する
+	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::Identity;
+	rot.Forward(-forward);
+	rot.Right(camRight);
+	rot.Up(camUp);
 
+	// 回転情報を設定する
+	m_billboard = rot;
+
+	// カメラ情報を設定する
 	m_cameraPosition = eye;
 	m_cameraTarget = target;
-	m_billboard = rot * m_billboard;
 }
 
 
