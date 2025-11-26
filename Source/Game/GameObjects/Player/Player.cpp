@@ -570,6 +570,7 @@ void Player::SetupCollision(CollisionManager* pCM)
 	bodyDesc.sphere = &m_collider;
 	bodyDesc.position = &m_position;
 	bodyDesc.velocity = &m_velocity;
+	bodyDesc.restitution = RESTITUTION;
 	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
 		[this](uint32_t, const DirectX::SimpleMath::Vector3& n, float)	// Ú’n–Ê‚Ì–@ü‚ğ“n‚·

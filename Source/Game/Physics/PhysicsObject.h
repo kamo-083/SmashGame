@@ -9,7 +9,6 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Physics/Gravity.h"
 #include"Source/Game/Physics/ExternalForce.h"
 #include"Source/Game/Physics/Friction.h"
@@ -84,8 +83,11 @@ public:
 	// 接地面情報のリセット
 	void ResetGroundInfo();
 
+	// 法線が地面かどうかを取得
+	static bool IsGroundNormal(const DirectX::SimpleMath::Vector3 normal);
+
 	// 接地面情報の設定
-	void SetGroundInfo(DirectX::SimpleMath::Vector3 const normal);
+	void SetGroundInfo(const DirectX::SimpleMath::Vector3 normal);
 
 	// 接触面の法線ベクトルを取得
 	const DirectX::SimpleMath::Vector3& GetGroundNormal() { return m_groundNormal; }

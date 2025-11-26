@@ -156,16 +156,30 @@ void PhysicsObject::ResetGroundInfo()
 
 
 /**
- * @brief 接地面情報のリセット
+ * @brief 法線が地面がどうかを返す
  *
- * @param なし
+ * @param normal 判定する法線
  *
  * @return なし
  */
-void PhysicsObject::SetGroundInfo(DirectX::SimpleMath::Vector3 const normal)
+bool PhysicsObject::IsGroundNormal(const DirectX::SimpleMath::Vector3 normal)
 {
 	const float groundCos = std::cos(DirectX::XMConvertToRadians(GROUND_COS_THRESHOLD));
-	if (normal.y >= groundCos)
+	if (normal.y >= groundCos) return true;
+	return false;
+}
+
+
+/**
+ * @brief 接地面情報のリセット
+ *
+ * @param normal 判定する法線
+ *
+ * @return なし
+ */
+void PhysicsObject::SetGroundInfo(const DirectX::SimpleMath::Vector3 normal)
+{
+	if (IsGroundNormal(normal))
 	{
 		m_onGround = true;
 		m_groundNormal = normal;

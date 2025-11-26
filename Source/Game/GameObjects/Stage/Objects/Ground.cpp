@@ -74,7 +74,7 @@ void Ground::Initialize(
 	desc.obb = &m_collider;
 	desc.position = nullptr;
 	desc.velocity = nullptr;
-	desc.restitution = 0.0f;
+	desc.restitution = 0.9f;
 	m_collisionHandle = pCM->Add(desc);
 }
 

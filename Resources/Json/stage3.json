@@ -1,17 +1,20 @@
 {
     "objects": [        
-        { "type": "Goal", "pos": [ 4, 1, 4 ]},
-        { "type": "Ground", "pos": [ 0, -1, 0 ], "scale": [ 5.5, 1, 5.5 ]},
-        { "type": "Area", "pos": [ 0, 0, -2 ], "scale": [ 3, 1, 2 ], "mode": "ReachCount", "command": "EnableGoal", "target": 2},
-        { "type": "Fence", "pos": [ 0, 0.5, 5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 10},
-        { "type": "Fence", "pos": [ 0, 0.5, -5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 10},
-        { "type": "Fence", "pos": [ 5, 0.5, 0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 10},
-        { "type": "Fence", "pos": [ -5, 0.5, 0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 10}
+        { "type": "Goal", "pos": [ 3, 0.93, 3 ]},
+        { "type": "Ground", "pos": [ 0, -1, 0 ], "scale": [ 8.5, 1, 5.5 ]},
+        { "type": "Area", "pos": [ 0, 0, -2 ], "scale": [ 3, 1, 2 ], "mode": "ReachCount", "command": "EnableGoal", "target": 6},
+        { "type": "Fence", "pos": [ 0, 0.5, 5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 16},
+        { "type": "Fence", "pos": [ 0, 0.5, -5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 16},
+        { "type": "Fence", "pos": [ 8, 0.5, 0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 10},
+        { "type": "Fence", "pos": [ -8, 0.5, 0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 10}
     ],
 
     "enemies": [
-        { "type": "Basic", "pos":[ -3, 1, 3 ]},
-        { "type": "Basic", "pos":[ 3.5, 1, 1.5 ]},
-        { "type": "Light", "pos":[ 3, 1, 4 ]}
+        { "type": "Basic", "pos":[ -3.5, 1, 3.0 ]},
+        { "type": "Basic", "pos":[ -5.5, 1, -2.0 ]},
+        { "type": "Basic", "pos":[ 6.5, 1, 0.0 ]},
+        { "type": "Light", "pos":[ -6.5, 1, 1.0 ]},
+        { "type": "Light", "pos":[ 4.5, 1, 3.5 ]},
+        { "type": "Light", "pos":[ 6.0, 1, -3.5 ]}
     ]
 }

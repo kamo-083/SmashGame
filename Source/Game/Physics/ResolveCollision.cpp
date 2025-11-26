@@ -8,6 +8,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "ResolveCollision.h"
+#include "Source/Game/Physics/PhysicsObject.h"
 
 /**
  * @brief 球とOBBの衝突を解決する
@@ -46,8 +47,8 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 		normal = -normal;
 	}
 
-	const float percent = 0.8f;
-	const float slop = 0.01f;
+	const float percent = 0.6f;
+	const float slop = 0.05f;
 	float invA = a.desc.invMass;
 	float invB = b.desc.invMass;
 	float invSum = invA + invB;
@@ -78,21 +79,33 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 	DirectX::SimpleMath::Vector3 rv = velA - velB;
 	float vn = rv.Dot(normal);
 
-	if (invSum > 0.0f && vn < 0.0f)
+	if (a.desc.layer == CollisionManager::Layer::PlayerBody && b.desc.layer == CollisionManager::Layer::Stage)
 	{
-		// インパルス
-		float e = std::min(a.desc.restitution, b.desc.restitution);
-		float j = -(1.0f + e) * vn / invSum;
-		DirectX::SimpleMath::Vector3 impulse = j * normal;
-
-		// 速度を調整
-		if (a.desc.velocity && invA > 0.0f)
+		if (!PhysicsObject::IsGroundNormal(normal))
 		{
-			*a.desc.velocity += impulse * invA;
+			normal.y = 0.0f;
 		}
-		if (b.desc.velocity && invB > 0.0f)
+
+		SlideVelocity(a.desc.velocity, normal);
+	}
+	else
+	{
+		if (invSum > 0.0f && vn < 0.0f)
 		{
-			*b.desc.velocity -= impulse * invB;
+			// インパルス
+			float e = std::min(a.desc.restitution, b.desc.restitution);
+			float j = -(1.0f + e) * vn / invSum;
+			DirectX::SimpleMath::Vector3 impulse = j * normal;
+
+			// 速度を調整
+			if (a.desc.velocity && invA > 0.0f)
+			{
+				*a.desc.velocity += impulse * invA;
+			}
+			if (b.desc.velocity && invB > 0.0f)
+			{
+				*b.desc.velocity -= impulse * invB;
+			}
 		}
 	}
 

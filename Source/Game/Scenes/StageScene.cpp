@@ -387,6 +387,9 @@ void StageScene::SettingShadow(RenderContext context)
 
 	// 深度バッファ
 	context.deviceContext->OMSetDepthStencilState(m_depthStencilState_shadow.Get(), 1);
+
+	// カリングなし
+	context.deviceContext->RSSetState(context.states->CullNone());
 }
 
 

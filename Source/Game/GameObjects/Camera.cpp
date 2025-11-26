@@ -239,6 +239,4 @@ float Camera::NormalizeAngle(float angle)
 	if (angle > 360.0f)		angle -= 360.0f;
 	else if (angle < 0.0f)  angle += 360.0f;
 	return angle;
-	
-	//return std::min(std::max(angle, 0.0f), 360.0f);
 }

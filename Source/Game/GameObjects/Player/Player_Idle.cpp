@@ -120,6 +120,15 @@ void Player_Idle::Render(RenderContext& context)
 	world = scale * rot * trans;
 
 	m_modelAnimator->Draw(context, world);
+
+	// 当たり判定のデバッグ描画
+	if (m_pPlayer->GetSpherePrimitive())
+	{
+		scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetCollider()->GetRadius());
+		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetCollider()->GetCenter());
+		world = scale * trans;
+		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, DirectX::Colors::Blue, nullptr, true);
+	}
 }
 
 

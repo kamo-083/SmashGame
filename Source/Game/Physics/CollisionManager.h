@@ -83,7 +83,7 @@ public:
 		Callbacks callback;			// コールバック
 		float mass = 0.0f;			// 質量(静的オブジェクトなら0にしておく)
 		float invMass = 0.0f;		// 質量の逆数
-		float restitution = 0.8f;	// 反発係数
+		float restitution = 0.0f;	// 反発係数
 		float* userData = nullptr;	// 攻撃力などの個別データ
 	};
 

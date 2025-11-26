@@ -40,7 +40,7 @@ private:
 
 	// 当たり判定のサイズ
 	static constexpr float GOAL_HALF_LENGTH = 1.0f;		// ゴール判定
-	static constexpr float TABLE_HALF_LENGTH = 0.75f;	// テーブル本体
+	static constexpr DirectX::SimpleMath::Vector3 TABLE_HALF_SIZE = { 0.75,1.0f,0.75f };	// テーブル本体
 
 	// トゥイーンアニメーション関連
 	static constexpr float LID_MOVE_Y = 5.0f;		// フタのモデルが飛ぶ距離

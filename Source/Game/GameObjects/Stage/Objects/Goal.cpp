@@ -69,7 +69,7 @@ void Goal::Initialize(
 	// テーブル
 	m_tableCollider.SetCenter(m_position);
 	m_tableCollider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
-	m_tableCollider.SetHalfLength(DirectX::SimpleMath::Vector3(TABLE_HALF_LENGTH));
+	m_tableCollider.SetHalfLength(DirectX::SimpleMath::Vector3(TABLE_HALF_SIZE));
 
 	// 当たり判定マネージャーに登録
 	CollisionManager::Desc desc{};
@@ -162,9 +162,9 @@ void Goal::Draw(RenderContext& context, DebugFont* debugFont)
 	}
 
 	// 当たり判定のデバッグ描画
-	//DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(GOAL_HALF_LENGTH * 2.0f);
-	//world = scale * trans;
-	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
+	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(TABLE_HALF_SIZE * 2.0f);
+	world = scale * trans;
+	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
 
 	// デバッグ情報の追加
 	debugFont->AddString(0, 140, DirectX::Colors::Yellow, L" can = %d", m_canGoal);
