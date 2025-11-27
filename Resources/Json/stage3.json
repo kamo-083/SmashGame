@@ -10,11 +10,11 @@
     ],
 
     "enemies": [
-        { "type": "Basic", "pos":[ -3.5, 1, 3.0 ]},
-        { "type": "Basic", "pos":[ -5.5, 1, -2.0 ]},
-        { "type": "Basic", "pos":[ 6.5, 1, 0.0 ]},
-        { "type": "Light", "pos":[ -6.5, 1, 1.0 ]},
-        { "type": "Light", "pos":[ 4.5, 1, 3.5 ]},
-        { "type": "Light", "pos":[ 6.0, 1, -3.5 ]}
+        { "type": "Basic", "pos":[ -3.5, 1, 3.0 ], "dropRespawn": true},
+        { "type": "Basic", "pos":[ -5.5, 1, -2.0 ], "dropRespawn": true},
+        { "type": "Basic", "pos":[ 6.5, 1, 0.0 ], "dropRespawn": true},
+        { "type": "Light", "pos":[ -6.5, 1, 1.0 ], "dropRespawn": true},
+        { "type": "Light", "pos":[ 4.5, 1, 3.5 ], "dropRespawn": true},
+        { "type": "Light", "pos":[ 6.0, 1, -3.5 ], "dropRespawn": true}
     ]
 }

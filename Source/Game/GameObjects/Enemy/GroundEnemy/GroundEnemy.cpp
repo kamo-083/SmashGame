@@ -55,14 +55,16 @@ GroundEnemy::~GroundEnemy()
  *
  * @return なし
  */
-void GroundEnemy::Initialize(ResourceManager* pRM,
-							 CollisionManager* pCM,
-							 const DirectX::SimpleMath::Vector3& position,
-							 const EnemyInfoLoader::EnemyInfo& info,
-							 uint32_t id)
-{ 
+void GroundEnemy::Initialize(
+	ResourceManager* pRM,
+	CollisionManager* pCM,
+	const DirectX::SimpleMath::Vector3& position,
+	const EnemyInfoLoader::EnemyInfo& info,
+	const bool& dropRespawn,
+	uint32_t id)
+{
 	// 位置の初期化
-	m_position = DirectX::SimpleMath::Vector3(position);
+	m_position = position;
 
 	// 速度の初期化
 	m_velocity = DirectX::SimpleMath::Vector3::Zero;
@@ -70,6 +72,13 @@ void GroundEnemy::Initialize(ResourceManager* pRM,
 	// 攻撃の初期化
 	m_isAttack = false;
 	m_attackForce = 0.0f;
+
+	// リスポーン位置を設定
+	m_respawnPos = m_position;
+	m_respawnPos.y += RESPAWN_POS_HEIGHT;
+
+	// リスポーン有無の設定
+	m_dropRespawn = dropRespawn;
 
 	// モデル・アニメーションの設定
 	SetupModels(pRM, info);
@@ -177,6 +186,29 @@ void GroundEnemy::Finalize()
 		m_trajectory->effect->Deactivate();
 		m_trajectory = nullptr;
 	}
+}
+
+
+/**
+ * @brief リスポーン
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void GroundEnemy::Respawn()
+{
+	// 座標と速度を初期化
+	m_position = m_respawnPos;
+	m_velocity = DirectX::SimpleMath::Vector3::Zero;
+	m_isAttack = false;
+	m_collider.SetCenter(m_position);
+
+	// エフェクトの出現
+	m_circle->Spawn();
+
+	// 跳ね返り状態に設定
+	ChangeState(m_idlingState.get());
 }
 
 

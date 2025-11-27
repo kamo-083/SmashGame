@@ -21,6 +21,7 @@ GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfo
 	, ATTACK_TIME{ info.attack.time }
 	, ATTACK_SIZE{ info.attack.size }
 	, ATTACK_FORCE{ info.attack.force }
+	, DISTANCE_RAITO{ info.attack.distance_raito }
 	, m_attackTime{ 0.0f }
 	, m_stateType{ StateType::Attack }
 {

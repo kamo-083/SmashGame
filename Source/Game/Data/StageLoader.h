@@ -62,6 +62,7 @@ public:
 	{
 		std::string type;						// 種類
 		DirectX::SimpleMath::Vector3 position;	// 座標
+		bool dropRespawn = false;				// 落下時のリスポーン有無
 	};
 
 
@@ -190,6 +191,12 @@ public:
 					element["pos"][1].get<float>(),
 					element["pos"][2].get<float>()
 				};
+			}
+
+			// 落下時のリスポーン有無
+			if (element.contains("dropRespawn") && element["dropRespawn"].is_boolean())
+			{
+				data.dropRespawn = element["dropRespawn"];
 			}
 
 			// 配列に追加

@@ -46,7 +46,7 @@ public:
 
 	static constexpr float DITECTION_RANGE = 2.5f;	// プレイヤー感知範囲
 
-	//static constexpr float RESTITUTION = 0.95f;	// 反発係数
+	static constexpr float RESPAWN_POS_HEIGHT = 1.0f;	// リスポーン時の高さ
 
 	// エフェクト関連
 	static constexpr float TRAJECTORY_SCALE = 0.5f;	// 軌跡エフェクトのスケール
@@ -107,6 +107,7 @@ public:
 		CollisionManager* pCM,
 		const DirectX::SimpleMath::Vector3& position,
 		const EnemyInfoLoader::EnemyInfo& info,
+		const bool& isRespawn,
 		uint32_t id) override;
 
 	// 更新処理
@@ -117,6 +118,9 @@ public:
 
 	// 終了処理
 	void Finalize() override;
+
+	// リスポーン
+	void Respawn() override;
 
 	// 状態遷移
 	void ChangeState(IState* newState);

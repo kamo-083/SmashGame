@@ -69,7 +69,7 @@ void AttackUI::Initialize(const AttackUIDesc& attackDesc, const OperationUI::Ope
 	m_layoutList.resize(static_cast<int>(Layout::DisplayNum));
 
 	DirectX::SimpleMath::Vector2 center = {
-		m_windowSize.x - m_textureSize.x * UI_POS_ADJUST_SCALE.x,
+		m_textureSize.x * UI_POS_ADJUST_SCALE.x,
 		m_windowSize.y - m_textureSize.y * UI_POS_ADJUST_SCALE.y };
 	float  offsetX = m_textureSize.x * OFFSET_X_ADJUST_SCALE;
 

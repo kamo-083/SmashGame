@@ -161,10 +161,10 @@ void Goal::Draw(RenderContext& context, DebugFont* debugFont)
 		m_models->cageLid->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 	}
 
-	// 当たり判定のデバッグ描画
-	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(TABLE_HALF_SIZE * 2.0f);
-	world = scale * trans;
-	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
+	//// 当たり判定のデバッグ描画
+	//DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(TABLE_HALF_SIZE * 2.0f);
+	//world = scale * trans;
+	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Aqua, nullptr, true);
 
 	// デバッグ情報の追加
 	debugFont->AddString(0, 140, DirectX::Colors::Yellow, L" can = %d", m_canGoal);

@@ -135,6 +135,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		else if (data.type == "Heavy") spawnData.type = EnemyType::Heavy;
 		else if (data.type == "Light") spawnData.type = EnemyType::Light;
 		spawnData.position = data.position;
+		spawnData.dropRespawn = data.dropRespawn;
 
 		pEM->Spawn(spawnData);
 	}

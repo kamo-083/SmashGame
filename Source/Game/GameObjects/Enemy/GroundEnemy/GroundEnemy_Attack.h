@@ -33,9 +33,7 @@ private:
 	const float ATTACK_FORCE;	// 攻撃力
 	const float ATTACK_TIME;	// 攻撃持続時間
 	const float ATTACK_SIZE;	// 攻撃判定サイズ
-
-	// 体から攻撃判定の中心距離を求める際の倍率
-	static constexpr float DISTANCE_RAITO = 0.05f;
+	const float DISTANCE_RAITO;	// 体から攻撃判定の中心距離を求める際の倍率 0.05
 
 
 	// データメンバの宣言 -----------------------------------------------

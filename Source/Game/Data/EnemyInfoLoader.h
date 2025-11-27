@@ -41,6 +41,7 @@ public:
 		float time = 0.0f;		// UŒ‚ŠÔ
 		float size = 0.0f;		// ”»’èƒTƒCƒY
 		float force = 0.0f;		// UŒ‚—Í
+		float distance_raito = 1.0f;	// UŒ‚”»’è‚Ì‹——£”{—¦
 	};
 
 	// “G‚Ìî•ñ
@@ -161,7 +162,8 @@ public:
 				{
 					element["attack"][0].get<float>(),
 					element["attack"][1].get<float>(),
-					element["attack"][2].get<float>()
+					element["attack"][2].get<float>(),
+					element["attack"][3].get<float>()
 				};
 			}
 

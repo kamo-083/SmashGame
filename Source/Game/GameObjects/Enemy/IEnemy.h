@@ -62,25 +62,31 @@ protected:
 	// 現在の状態へのポインタ
 	IState* m_currentState;
 
-	//座標
+	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
 
-	//速度
+	// 速度
 	DirectX::SimpleMath::Vector3 m_velocity;
 
-	//角度
+	// 角度
 	float m_rotY;
 
-	//攻撃中
+	// 攻撃中
 	bool m_isAttack;
 
-	//攻撃力
+	// 攻撃力
 	float m_attackForce;
 
-	//球のコライダー
+	// リスポーン位置
+	DirectX::SimpleMath::Vector3 m_respawnPos;
+
+	// 落下時のリスポーン有無
+	bool m_dropRespawn;
+
+	// 球のコライダー
 	SphereCollider m_collider;
 
-	//物理演算
+	// 物理演算
 	std::unique_ptr<PhysicsObject> m_physics;
 
 	// モデル
@@ -116,6 +122,7 @@ public:
 		, m_rotY{ 0.0f }
 		, m_isAttack{ false }
 		, m_attackForce{ 0.0f }
+		, m_dropRespawn{ false }
 		, m_model{ nullptr }
 		, m_pCollisionManager{ nullptr }
 		, m_pResourceManager{ nullptr }
@@ -135,6 +142,7 @@ public:
 		CollisionManager* pCollisionManager,
 		const DirectX::SimpleMath::Vector3& position,
 		const EnemyInfoLoader::EnemyInfo& info,
+		const bool& isRespawn,
 		uint32_t id) = 0;
 
 	// 更新処理
@@ -146,12 +154,16 @@ public:
 	// 終了処理
 	virtual void Finalize() = 0;
 
+	// リスポーン
+	virtual void Respawn() = 0;
+
 	// プレイヤーとの距離を計算
 	virtual void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius) = 0;
 
 	// 攻撃の当たり判定の有効設定
 	void SetAttackCollisionEnabled(bool enabled) 
 	{ m_pCollisionManager->SetEnabled(m_handleAttack, enabled); }
+
 
 // 取得/設定
 public:
@@ -172,6 +184,7 @@ public:
 	float GetRadius() { return RADIUS; }										// 半径サイズの取得
 	float GetRotY() { return m_rotY; }											// 回転の取得
 	void SetRotY(float royY) { m_rotY = royY; }									// 回転の設定
+	bool IsRespawn() { return m_dropRespawn; }									// 落下時のリスポーン有無を取得
 
 
 // 内部実装

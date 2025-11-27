@@ -86,8 +86,16 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 		{
 			if (!e->alive)
 			{
-				e->enemy->Finalize();
-				return true;
+				if (e->enemy->IsRespawn())
+				{
+					e->enemy->Respawn();
+					e->alive = true;
+				}
+				else
+				{
+					e->enemy->Finalize();
+					return true;
+				}
 			}
 			return false;
 		}),
@@ -142,11 +150,13 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 
 	// “G‚ğ¶¬
 	std::unique_ptr<IEnemy> enemy = Create(spawnData.type);
-	enemy->Initialize(m_pUserResources->GetResourceManager(),
-					  m_pCollisionManager,
-					  spawnData.position,
-					  m_enemyInfo[static_cast<int>(spawnData.type)],
-					  m_nextID);
+	enemy->Initialize(
+		m_pUserResources->GetResourceManager(),
+		m_pCollisionManager,
+		spawnData.position,
+		m_enemyInfo[static_cast<int>(spawnData.type)],
+		spawnData.dropRespawn,
+		m_nextID);
 
 	// ”z—ñ‚É“o˜^
 	std::unique_ptr<EnemyData> enemyData = std::make_unique<EnemyData>

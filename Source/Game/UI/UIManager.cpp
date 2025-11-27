@@ -107,9 +107,9 @@ void UIManager::SetupStageUI(
 	// çUåÇ
 	std::vector<DirectX::Keyboard::Keys> attack_keys;
 	attack_keys.push_back(keyConfig.attack);
-	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(120, 600), attack_keys, pKbTracker);
+	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(900, 600), attack_keys, pKbTracker);
 	// à⁄ìÆ
-	DirectX::SimpleMath::Vector2 base_pos = { 350, 600 };
+	DirectX::SimpleMath::Vector2 base_pos = { 1130, 600 };
 	float adjust_pos = 80;
 	// ëO
 	std::vector<DirectX::Keyboard::Keys> forward_keys;
@@ -149,7 +149,7 @@ void UIManager::SetupStageUI(
 	opUIDesc.textures = opTextures;
 	opUIDesc.arrowRotateAdjustPos = DirectX::SimpleMath::Vector2(0.0f, -70.0f);
 	opUIDesc.UIScale = 0.8f;
-	CreateCameraUI(opUIDesc, DirectX::SimpleMath::Vector2(200.0f, 130.0f));
+	CreateCameraUI(opUIDesc, DirectX::SimpleMath::Vector2(1080.0f, 130.0f));
 }
 
 

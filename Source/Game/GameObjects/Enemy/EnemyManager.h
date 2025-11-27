@@ -37,6 +37,7 @@ public:
 	{
 		EnemyType type = EnemyType::Basic;		// 種類
 		DirectX::SimpleMath::Vector3 position;	// 座標
+		bool dropRespawn = false;				// 落下時リスポーンの有無
 	};
 
 	struct EnemyData
