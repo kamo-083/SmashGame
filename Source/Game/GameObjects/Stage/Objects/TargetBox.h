@@ -10,6 +10,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include <functional>
 #include "Source/Game/Physics/PhysicsObject.h"
 #include "Source/Game/Physics/Collision.h"
 #include"Source/Game/Physics/CollisionManager.h"
@@ -17,7 +18,6 @@
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Interface/IState.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
-#include "GeometricPrimitive.h"
 
 
 // クラスの定義 ===============================================================
@@ -46,8 +46,8 @@ private:
 	// 当たり判定
 	OBBCollider m_collider;
 
-	// ゴールのポインタ
-	Goal* m_pGoal;
+	// ぶつけた時の処理
+	std::function<void()> m_operation;
 
 	// 衝突判定のハンドル
 	uint32_t m_collisionHandle;
@@ -72,7 +72,7 @@ public:
 	void Initialize(
 		CollisionManager* pCM,
 		EnemyManager* pEM,
-		Goal* goal,
+		std::function<void()> operation,
 		DirectX::SimpleMath::Vector3 position,
 		DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
 		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero);

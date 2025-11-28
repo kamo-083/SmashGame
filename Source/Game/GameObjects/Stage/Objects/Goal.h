@@ -107,12 +107,14 @@ public:
 
 // 取得/設定
 public:
+	const DirectX::SimpleMath::Vector3 GetPosition() { return m_position; }
 	OBBCollider GetCollider(){ return m_goalCollider; }		// 当たり判定の取得
-	bool IsGoal() { return m_isGoal; }					// ゴールフラグの取得
-	bool IsCanGoal() { return m_canGoal; }				// ゴール可能フラグの取得
+	bool IsGoal() { return m_isGoal; }						// ゴールフラグの取得
+	bool IsCanGoal() { return m_canGoal; }					// ゴール可能フラグの取得
 
 	// ゴール可能/不可能の設定
 	void CanGoal(bool canGoal = true);
+
 
 
 // 内部実装

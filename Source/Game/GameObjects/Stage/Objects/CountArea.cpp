@@ -209,11 +209,6 @@ void CountArea::Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos
 	// 経過時間の加算
 	m_timer += elapsedTime;
 
-	if (m_isTrigger)
-	{
-		m_operation();
-	}
-
 	m_numberBorad->CreateBillboard(cameraPos, cameraUp);
 }
 
@@ -404,6 +399,9 @@ void CountArea::TriggerOn()
 {
 	// トリガーをオン
 	m_isTrigger = true;
+
+	// 処理を実行
+	m_operation();
 
 	// 色を変更
 	m_color = DirectX::Colors::Blue;

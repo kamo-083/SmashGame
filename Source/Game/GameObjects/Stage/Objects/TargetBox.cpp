@@ -16,8 +16,7 @@
  * @param context	デバイスコンテキストのポインタ
  */
 TargetBox::TargetBox(ID3D11DeviceContext* context)
-	: m_pGoal{ nullptr }
-	, m_collisionHandle{ 0 }
+	: m_collisionHandle{ 0 }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -39,26 +38,27 @@ TargetBox::~TargetBox()
  *
  * @param pCM			当たり判定マネージャーのポインタ
  * @param pEM			敵マネージャーのポインタ
- * @param goal			ゴールのポインタ
+ * @param operation		ぶつけた時の処理
  * @param position		位置
  * @param halfLength	大きさの半分
  * @param angle			回転角度
  *
  * @return なし
  */
-void TargetBox::Initialize(CollisionManager* pCM,
-						   EnemyManager* pEM,
-						   Goal* goal,
-						   DirectX::SimpleMath::Vector3 position,
-						   DirectX::SimpleMath::Vector3 halfLength,
-						   DirectX::SimpleMath::Vector3 angle)
+void TargetBox::Initialize(
+	CollisionManager* pCM,
+	EnemyManager* pEM,
+	std::function<void()> operation,
+	DirectX::SimpleMath::Vector3 position,
+	DirectX::SimpleMath::Vector3 halfLength,
+	DirectX::SimpleMath::Vector3 angle)
 {
 	m_position = position;
 	m_halfLength = halfLength;
 	m_angle = angle;
 
-	// ゴールのポインタを設定
-	m_pGoal = goal;
+	// ぶつけた時の処理
+	m_operation = operation;
 
 	// 当たり判定の作成
 	m_collider.SetCenter(m_position);
@@ -82,13 +82,13 @@ void TargetBox::Initialize(CollisionManager* pCM,
 			// 当たったのが敵本体なら通す
 			if (pCM->GetDesc(other)->layer != CollisionManager::Layer::EnemyBody) return;
 
-			//IDから敵を取得
+			// IDから敵を取得
 			IEnemy* enemy = pEM->GetEnemyByID(pCM->GetDesc(other)->userId);
 
-			// 当たった敵が跳ね返り状態ならゴール可能にする
+			// 当たった敵が跳ね返り状態なら処理を呼び出す
 			if (enemy->GetStateType() == StateType::Bounce)
 			{
-				m_pGoal->CanGoal();
+				m_operation();
 			}
 		};
 	m_collisionHandle = pCM->Add(desc);

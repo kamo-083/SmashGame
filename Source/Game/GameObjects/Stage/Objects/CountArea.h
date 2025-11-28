@@ -66,7 +66,7 @@ private:
 	// 目標数
 	int m_targetNum;
 
-	// 目標に達しているか
+	// 条件を達成しているか
 	bool m_isTrigger;
 
 	// 内部にいるか(AllOut用)
@@ -135,6 +135,8 @@ public:
 
 // 取得/設定
 public:
+	// 条件を達成しているかを取得
+	bool IsTrigger() { return m_isTrigger; }
 
 // 内部実装
 private:

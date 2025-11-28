@@ -228,6 +228,7 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Fence.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Goal.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Ground.h" />
+    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Key.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\TargetBox.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\StageManager.h" />
     <ClInclude Include="Source\Game\Interface\IState.h" />
@@ -299,6 +300,7 @@
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Fence.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Goal.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Ground.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Key.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\TargetBox.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\StageManager.cpp" />
     <ClCompile Include="Source\Game\Physics\Collision.cpp" />

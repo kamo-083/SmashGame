@@ -62,7 +62,7 @@ void Game::Initialize(HWND window, int width, int height)
 
     // 開始シーンの設定
     //m_sceneManager->SetStartScene("TitleScene");
-    m_sceneManager->SetStartScene("Stage2Scene");
+    m_sceneManager->SetStartScene("Stage1Scene");
 }
 
 #pragma region Frame Update

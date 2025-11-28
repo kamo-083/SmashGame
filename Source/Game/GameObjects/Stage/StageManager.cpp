@@ -13,6 +13,7 @@
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Objects/CountArea.h"
 #include "Source/Game/GameObjects/Stage/Objects/Fence.h"
+#include "Source/Game/GameObjects/Stage/Objects/Key.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -85,8 +86,9 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		// 的
 		case StageLoader::ObjectType::TargetBox:
 		{
+			std::function<void()> operate = [this, data](){ m_key->Spawn(data.position, m_goal->GetPosition()); };
 			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(context)));
-			m_targetBoxes.back()->Initialize(pCM, pEM, m_goal.get(), data.position, data.scale);
+			m_targetBoxes.back()->Initialize(pCM, pEM, operate, data.position, data.scale);
 			break;
 		}
 		// エリア
@@ -94,7 +96,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		{
 			// 操作を設定
 			std::function<void()> operate;
-			CreateOperate(operate, data.areaAction);
+			CreateOperate(operate, data.areaAction, data.position);
 
 			// モードを設定
 			CountArea::TriggerMode mode{};
@@ -126,6 +128,8 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 
 		}
 	}
+	// 鍵
+	m_key = std::make_unique<Key>(context);
 
 	// 敵の生成
 	for (StageLoader::EnemyData data : enemyData)
@@ -159,7 +163,14 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
 	{
 		area->Update(elapsedTime, cameraPos, cameraUp);
 	}
-	
+
+	// 鍵の更新
+	if (m_key)
+	{
+		m_key->Update(elapsedTime);
+		if (m_key->GetState() == Key::KeyState::FINISHED) m_goal->CanGoal();
+	}
+
 	// ゴールの更新
 	if(m_goal) m_goal->Update(elapsedTime);
 }
@@ -193,6 +204,9 @@ void StageManager::Draw(RenderContext context, DebugFont* debugFont)
 	{
 		fences->Draw(context);
 	}
+
+	// 鍵の描画
+	if (m_key) m_key->Draw(context, debugFont);
 
 	// ゴールの描画
 	if(m_goal) m_goal->Draw(context, debugFont);
@@ -263,16 +277,20 @@ void StageManager::Finalize()
  *
  * @param outOperate 処理出力用
  * @param desc		 ギミック情報
+ * @param position	 位置
  *
  * @return なし
  */
-void StageManager::CreateOperate(std::function<void()>& outOperate, StageLoader::AreaActionDesc& desc)
+void StageManager::CreateOperate(
+	std::function<void()>& outOperate,
+	StageLoader::AreaActionDesc& desc,
+	DirectX::SimpleMath::Vector3 position)
 {
 	if (desc.command == "EnableGoal")
 	{
-		outOperate = [this]()
+		outOperate = [this, position]()
 			{
-				m_goal->CanGoal();
+				m_key->Spawn(position, m_goal->GetPosition());
 			};
 
 		return;

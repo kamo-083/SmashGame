@@ -25,6 +25,7 @@ class TargetBox;
 class Goal;
 class CountArea;
 class Fence;
+class Key;
 
 
 // クラスの定義 ===============================================================
@@ -45,20 +46,23 @@ private:
 	// 深度ステンシルステート(各ステージオブジェクトに渡すため保持)
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState;
 
-	//地面
+	// 地面
 	std::vector<std::unique_ptr<Ground>> m_grounds;
 
-	//的
+	// 的
 	std::vector<std::unique_ptr<TargetBox>> m_targetBoxes;
 
-	//エリア
+	// エリア
 	std::vector<std::unique_ptr<CountArea>> m_areas;
 
-	//柵
+	// 柵
 	std::vector<std::unique_ptr<Fence>> m_fences;
 
-	//ゴール
+	// ゴール
 	std::unique_ptr<Goal> m_goal;
+
+	// 鍵
+	std::unique_ptr<Key> m_key;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -91,7 +95,10 @@ public:
 	void Finalize();
 
 	// 操作の作成
-	void CreateOperate(std::function<void()>& outOperate, StageLoader::AreaActionDesc& desc);
+	void CreateOperate(
+		std::function<void()>& outOperate,
+		StageLoader::AreaActionDesc& desc,
+		DirectX::SimpleMath::Vector3 position);
 
 
 // 取得/設定
