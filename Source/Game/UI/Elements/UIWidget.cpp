@@ -105,7 +105,7 @@ void UIWidget::Draw(RenderContext context)
  * @param texture	  テクスチャのポインタ
  * @param pos		  座標
  * @param rect		  切り取り範囲
- * @param rot		  回転
+ * @param rot		  回転(ラジアン)
  * @param size		  画像サイズ
  *
  * @return なし

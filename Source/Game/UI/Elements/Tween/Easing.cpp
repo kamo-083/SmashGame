@@ -16,7 +16,7 @@
  * @param ease	イージングの種類
  * @param t		進行度
  *
- * @return なし
+ * @return 進行度
  */
 float Easing::EaseValue(EaseType ease, float t)
 {

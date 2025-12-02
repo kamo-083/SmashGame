@@ -72,6 +72,7 @@ void Tween<TVec, TRot>::Update(float deltaTime, UIParams& params)
 	params.scale = m_data.start.scale + m_data.delta.scale * n;
 
 	// 回転を補間
+	Rotate(params.rotation, n);
 	//float endAngle = m_data.start.rotation + m_data.delta.rotation;
 	//float deltaAngle = ShortestAngle(endAngle - m_data.start.rotation);
 	//params.rotation = m_data.start.rotation + deltaAngle * n;
@@ -177,24 +178,50 @@ void Tween<TVec, TRot>::ResetTime()
 	m_elapsedTime = 0.0f;
 
 	if (m_data.loop == Easing::PlaybackMode::Once_Reverse)	m_reverse = true;
-	else											m_reverse = false;
+	else													m_reverse = false;
 }
-
 
 
 
 /**
- * @brief 最短回転角度の計算
+ * @brief 回転の補間(2D)
  *
- * @param delta	回転角度
+ * @param param	変更パラメータ
+ * @param t		アニメーションの進行度
  *
  * @return なし
  */
 template<typename TVec, typename TRot>
-float Tween<TVec, TRot>::ShortestAngle(float delta)
+inline void Tween<TVec, TRot>::Rotate(float& param, float t)
 {
+	// 最短距離を求める
+	float delta = DirectX::XMConvertToRadians(m_data.delta.rotation);
 	if (delta > DirectX::XM_PI)  delta -= DirectX::XM_2PI;
 	if (delta < -DirectX::XM_PI) delta += DirectX::XM_2PI;
-	return delta;
+
+	param = DirectX::XMConvertToRadians(m_data.start.rotation) + delta * t;
 }
 
+
+
+/**
+ * @brief 回転の補間(3D)
+ *
+ * @param param	変更パラメータ
+ * @param t		アニメーションの進行度
+ *
+ * @return なし
+ */
+template<typename TVec, typename TRot>
+inline void Tween<TVec, TRot>::Rotate(DirectX::SimpleMath::Quaternion& param, float t)
+{
+	using quaternion = DirectX::SimpleMath::Quaternion;
+
+	// 進行度から回転量を求める
+	quaternion offset = quaternion::Slerp(
+		quaternion::Identity,
+		m_data.delta.rotation,
+		t
+	);
+	param = m_data.start.rotation * offset;
+}

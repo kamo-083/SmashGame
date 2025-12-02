@@ -120,7 +120,7 @@ void Game::Render()
     {
         SimpleMath::Matrix::Identity,
         m_proj,
-        m_deviceResources->GetD3DDeviceContext(),
+        context,
         m_states.get(),
         m_spriteBatch.get()
     };

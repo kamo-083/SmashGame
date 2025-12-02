@@ -116,7 +116,9 @@ public:
 
 // “à•”À‘•
 private:
-	float ShortestAngle(float delta);	// Å’Z‰ñ“]Šp“x‚ğ‹‚ß‚é
+	// ‰ñ“]‚Ì•âŠÔ
+	void Rotate(float& param, float t);								// 2D
+	void Rotate(DirectX::SimpleMath::Quaternion& param, float t);	// 3D
 
 };
 
