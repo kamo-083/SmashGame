@@ -27,7 +27,7 @@ public:
 	{
 		TVec pos;		// 位置(Vector2/Vector3)
 		TVec scale;		// 大きさ(Vector2/Vector3)
-		TRot rotation;	// 回転(float/Quaternion)
+		TRot rotation;	// 回転(float(ラジアン)/Quaternion)
 		float opacity;	// 不透明度
 	};
 
@@ -37,7 +37,7 @@ public:
 		UIParams start;		// 初期値
 		UIParams delta;		// 全体の変化量
 		float duration;		// 再生時間
-		Easing::EaseType ease;			// 処理
+		Easing::EaseType ease;		// 処理
 		Easing::PlaybackMode loop;	// 再生方法
 	};
 
@@ -110,8 +110,14 @@ public:
 	// 開始時のパラメータを取得
 	UIParams GetStartParams() const { return m_data.start; }
 
-	TweenData GetTweenData() const { return m_data; }		// トゥイーン情報を取得
-	void SetTweenData(TweenData data) { m_data = data; }	// トゥイーン情報を設定
+	// トゥイーン情報を取得
+	TweenData GetTweenData() const { return m_data; }
+
+	// トゥイーン情報を設定
+	void SetTweenData(TweenData data) { m_data = data; }
+
+	// 進行度を取得
+	float GetProgress() { return Easing::EaseValue(m_data.ease, m_elapsedTime / m_data.duration); }
 
 
 // 内部実装

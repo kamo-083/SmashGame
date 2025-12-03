@@ -89,7 +89,7 @@ void Goal::Initialize(
 	desc.layer = CollisionManager::Layer::Trigger;
 	desc.obb = &m_goalCollider;
 	desc.isTrigger = true;
-	desc.callback.onEnter =
+	desc.callback.onEnter = desc.callback.onStay =
 		[this, pCM](uint32_t, uint32_t other)
 		{
 			if (!m_canGoal || pCM->GetDesc(other)->layer != CollisionManager::Layer::PlayerBody) return;
@@ -132,7 +132,7 @@ void Goal::Initialize(
 void Goal::Update(float elapsedTime)
 {
 	// トゥイーンアニメーションの更新
-	if (m_canGoal) m_tweenAnim->Update(elapsedTime, m_tweenParam);
+	if (m_tweenAnim->IsPlaying()) m_tweenAnim->Update(elapsedTime, m_tweenParam);
 }
 
 
@@ -190,22 +190,25 @@ void Goal::Finalize()
 
 
 /**
- * @brief ゴール可能/不可能の設定
+ * @brief ゴールを開放
  *
- * @param canGoal	ゴール可/不可
+ * @param なし
  *
  * @return なし
  */
-void Goal::CanGoal(bool canGoal)
+void Goal::OpenGoal()
 {
-	if (!m_canGoal && canGoal)
+	if (!m_canGoal)
 	{
 		// SEの再生
 		m_pScene->PlaySE("canGoalSE");
-		// トゥイーンアニメーションの再生
+		// アニメーションの再生
 		m_tweenAnim->Play();
 	}
 
-	// ゴール可能フラグを更新
-	m_canGoal = canGoal;
+	// アニメーションが半分以上終わっていたら、ゴール可能に設定
+	if (m_tweenAnim->GetProgress() >= 0.5f)
+	{
+		m_canGoal = true;
+	}
 }

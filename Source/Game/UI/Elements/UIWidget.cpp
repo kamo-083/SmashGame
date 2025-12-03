@@ -48,6 +48,7 @@ void UIWidget::Initialize(ID3D11ShaderResourceView* texture,
 						  DirectX::SimpleMath::Vector2 size,
 						  bool play)
 {
+	// テクスチャ・アニメーションの設定
 	m_texture = texture;
 	m_params = data.start;
 	m_texSize = size;
@@ -84,6 +85,7 @@ void UIWidget::Update(float elapsedTime)
  */
 void UIWidget::Draw(RenderContext context)
 {
+	// 透明度・画像サイズの設定
 	DirectX::SimpleMath::Color color = { 1, 1, 1, m_params.opacity };
 	DirectX::SimpleMath::Vector2 size = { m_texSize.x * 0.5f, m_texSize.y * 0.5f };
 
@@ -170,10 +172,12 @@ void UIWidget::Finalize()
  */
 void UIWidget::TweenReset(bool play)
 {
+	// パラメータ・アニメーションの初期化
 	m_params = m_tween->GetStartParams();
 	m_tween->ResetTime();
 	m_tween->ResetPlayed();
 
+	// すぐに再生するか
 	if (play) m_tween->Play();
 	else	  m_tween->End();
 }
@@ -189,8 +193,10 @@ void UIWidget::TweenReset(bool play)
  */
 void UIWidget::SetParam(Tween2D::UIParams start, Tween2D::UIParams delta)
 {
+	// 現在のパラメータを更新
 	m_params = start;
 
+	// アニメーションにパラメータを設定
 	Tween2D::TweenData data = m_tween->GetTweenData();
 	data.start = start;
 	data.delta = delta;

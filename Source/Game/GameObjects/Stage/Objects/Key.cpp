@@ -72,7 +72,7 @@ void Key::Update(float elapsedTime)
 {
 	switch (m_state)
 	{
-	case Key::KeyState::SPAWN:
+	case Key::KeyState::SPAWN:		// 出現状態
 		//アニメーションを更新
 		m_tweenAnim->Update(elapsedTime, m_tweenParam);
 
@@ -88,7 +88,7 @@ void Key::Update(float elapsedTime)
 			m_state = KeyState::FLYING;
 		}
 		break;
-	case Key::KeyState::FLYING:
+	case Key::KeyState::FLYING:		// 移動状態
 		// アニメーションを更新
 		m_tweenAnim->Update(elapsedTime, m_tweenParam);
 
@@ -163,21 +163,24 @@ void Key::Finalize()
  */
 void Key::SettingSpawnAnim(DirectX::SimpleMath::Vector3 startPos)
 {
+	// 開始
 	Tween3D::UIParams start = {
 	startPos,
 	DirectX::SimpleMath::Vector3(1.0f),
 	DirectX::SimpleMath::Quaternion::Identity,
 	1.0f
 	};
-	Tween3D::UIParams end = {
+	// 変化量
+	Tween3D::UIParams delta = {
 		DirectX::SimpleMath::Vector3(0.0f,2.0f,0.0f),
 		DirectX::SimpleMath::Vector3(0.0f),
 		DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(
 			DirectX::SimpleMath::Vector3::Up,DirectX::XMConvertToRadians(180.0f)),
 		0.0f
 	};
+	// パラメータを設定
 	Tween3D::TweenData data = {
-		start,end,1.0f,
+		start,delta,1.0f,
 		Easing::EaseType::OutQuart,
 		Easing::PlaybackMode::Once
 	};
@@ -196,18 +199,20 @@ void Key::SettingSpawnAnim(DirectX::SimpleMath::Vector3 startPos)
  */
 void Key::SettingFlyingAnim()
 {
+	// 開始
 	Tween3D::UIParams start = m_tweenParam;
-	Tween3D::UIParams end = {
+	// 変化量
+	Tween3D::UIParams delta = {
 		m_goalPos - start.pos,
 		DirectX::SimpleMath::Vector3(0.0f),
 		DirectX::SimpleMath::Quaternion::Identity,
 		0.0f
 	};
+	// パラメータを設定 
 	Tween3D::TweenData data = {
-		start,end,1.0f,
+		start,delta,1.0f,
 		Easing::EaseType::OutQuart,
 		Easing::PlaybackMode::Once
 	};
-
 	m_tweenAnim->SetTweenData(data);
 }

@@ -464,11 +464,11 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 void GroundEnemy::SetupState(ResourceManager* pRM, const EnemyInfoLoader::EnemyInfo& info)
 {
 	// ó‘Ô‚Ìì¬
-// ‘Ò‹@ó‘Ô
+	// ‘Ò‹@ó‘Ô
 	m_idlingState = std::make_unique<GroundEnemy_Idle>(this);
 	m_idlingState->Initialize(pRM);
 	// •à‚«ó‘Ô
-	m_walkingState = std::make_unique<GroundEnemy_Walk>(this);
+	m_walkingState = std::make_unique<GroundEnemy_Walk>(this, info);
 	m_walkingState->Initialize(pRM);
 	// ’µ‚Ë•Ô‚èó‘Ô
 	m_bouncingState = std::make_unique<GroundEnemy_Bounce>(this);

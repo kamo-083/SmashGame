@@ -168,7 +168,7 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
 	if (m_key)
 	{
 		m_key->Update(elapsedTime);
-		if (m_key->GetState() == Key::KeyState::FINISHED) m_goal->CanGoal();
+		if (m_key->GetState() == Key::KeyState::FINISHED) m_goal->OpenGoal();
 	}
 
 	// ƒS[ƒ‹‚ÌXV

@@ -111,7 +111,7 @@ public:
 	// コンストラクタ
 	IEnemy(EnemyInfoLoader::EnemyInfo info, StageScene* pScene)
 		: RADIUS{ info.radius }
-		, SPEED{ info.speed }
+		, SPEED{ info.move_speed }
 		, MASS{ info.mass }
 		, MAX_SPEED{ info.max_speed }
 		, STATIC_FRICTION{ info.static_friction }

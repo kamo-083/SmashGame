@@ -112,8 +112,8 @@ public:
 	bool IsGoal() { return m_isGoal; }						// ゴールフラグの取得
 	bool IsCanGoal() { return m_canGoal; }					// ゴール可能フラグの取得
 
-	// ゴール可能/不可能の設定
-	void CanGoal(bool canGoal = true);
+	// ゴールを開放
+	void OpenGoal();
 
 
 

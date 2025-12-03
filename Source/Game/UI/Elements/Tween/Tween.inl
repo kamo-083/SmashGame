@@ -73,9 +73,6 @@ void Tween<TVec, TRot>::Update(float deltaTime, UIParams& params)
 
 	// ‰ñ“]‚ð•âŠÔ
 	Rotate(params.rotation, n);
-	//float endAngle = m_data.start.rotation + m_data.delta.rotation;
-	//float deltaAngle = ShortestAngle(endAngle - m_data.start.rotation);
-	//params.rotation = m_data.start.rotation + deltaAngle * n;
 	
 	// •s“§–¾“x‚ð•âŠÔ
 	params.opacity = m_data.start.opacity + m_data.delta.opacity * n;
@@ -195,11 +192,11 @@ template<typename TVec, typename TRot>
 inline void Tween<TVec, TRot>::Rotate(float& param, float t)
 {
 	// Å’Z‹——£‚ð‹‚ß‚é
-	float delta = DirectX::XMConvertToRadians(m_data.delta.rotation);
+	float delta = m_data.delta.rotation;
 	if (delta > DirectX::XM_PI)  delta -= DirectX::XM_2PI;
 	if (delta < -DirectX::XM_PI) delta += DirectX::XM_2PI;
 
-	param = DirectX::XMConvertToRadians(m_data.start.rotation) + delta * t;
+	param = m_data.start.rotation + delta * t;
 }
 
 

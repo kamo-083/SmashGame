@@ -17,8 +17,9 @@
  *
  * @param groundEnemy “G‚Ìƒ|ƒCƒ“ƒ^
  */
-GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy)
-	: m_pGroundEnemy{ groundEnemy }
+GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info)
+	: MOVE_SPEED(info.move_speed)
+	, m_pGroundEnemy{ groundEnemy }
 	, m_stateType{ StateType::Walk }
 {
 

@@ -50,7 +50,7 @@ public:
 		EnemyType type = EnemyType::Basic;	// í—Ş
 		float radius = 0.0f;				// ”¼ŒaƒTƒCƒY
 		float mass = 0.0f;					// ¿—Ê
-		float speed = 0.0f;					// ˆÚ“®‘¬“x
+		float move_speed = 0.0f;			// ˆÚ“®‘¬“x
 		float max_speed = 0.0f;				// Å‚ˆÚ“®‘¬“x
 		float static_friction = 0.0f;		// Ã~–€CŒW”
 		float dynamic_friction = 0.0f;		// “®–€CŒW”
@@ -126,9 +126,9 @@ public:
 			}
 
 			// ˆÚ“®‘¬“x
-			if (element.contains("speed") && element["speed"].is_number())
+			if (element.contains("move_speed") && element["move_speed"].is_number())
 			{
-				data.speed = element["speed"];
+				data.move_speed = element["move_speed"];
 			}
 
 			// Å‚‘¬“x

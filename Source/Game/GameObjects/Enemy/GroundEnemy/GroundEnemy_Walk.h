@@ -30,7 +30,7 @@ class GroundEnemy_Walk :public IState
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float MOVE_SPEED = 10.0f;	// 移動速度
+	const float MOVE_SPEED;	// 移動速度
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -49,7 +49,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	GroundEnemy_Walk(GroundEnemy* groundEnemy);
+	GroundEnemy_Walk(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info);
 
 	// デストラクタ
 	~GroundEnemy_Walk() = default;

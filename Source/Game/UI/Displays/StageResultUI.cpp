@@ -68,6 +68,7 @@ void StageResultUI::Initialize(
 	};
 	m_widget->Initialize(texture, data, texSize);
 
+	// –³Œø‰»
 	m_enable = false;
 }
 
