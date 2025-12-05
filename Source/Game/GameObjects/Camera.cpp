@@ -50,17 +50,23 @@ Camera::~Camera()
  */
 void Camera::Initialize(DirectX::SimpleMath::Vector3* followTargetPos)
 {
+	// 位置・注視点・ビュー行列の初期化
 	m_eye = CAMERA_DEFAULT_EYE;
 	m_target = CAMERA_DEFAULT_TARGET;
 	m_view = DirectX::SimpleMath::Matrix::CreateLookAt(m_eye, m_target, CAMERA_DEFAULT_UP);
 
+	// 回転角度の初期化
 	m_angle = DirectX::SimpleMath::Vector3::Zero;
+
+	// 追従対象の座標のポインタを設定
 	m_followTargetPos = followTargetPos;
 
+	// 前方向ベクトルを設定
 	m_forward = m_target - m_eye;
 	m_forward.y = (*m_followTargetPos).y;
 	m_forward.Normalize();
 
+	// 回転状態の初期化
 	m_isRotation = false;
 	m_rotProgress= m_startAngle = m_endAngle = 0.0f;
 }
@@ -88,6 +94,7 @@ void Camera::Update(float elapsedTime)
 	// 回転の反映
 	m_eye = RotateEyeAroundPoint(m_angle, *m_followTargetPos);
 
+	// ビュー行列の更新
 	m_view = DirectX::SimpleMath::Matrix::CreateLookAt(m_eye, m_target, CAMERA_DEFAULT_UP);
 }
 

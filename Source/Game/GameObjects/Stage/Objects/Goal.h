@@ -62,9 +62,6 @@ private:
 	// デバッグ用
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
-	// 当たり判定のハンドル
-	uint32_t m_collisionHandle;
-
 	// フラグ系
 	bool m_canGoal;	// ゴール可能か
 	bool m_isGoal;	// ゴールしているか
@@ -116,8 +113,11 @@ public:
 	void OpenGoal();
 
 
-
 // 内部実装
 private:
+	// 当たり判定の初期設定
+	void SetupCollider(CollisionManager* pCM);
 
+	// アニメーションの初期設定
+	void SetupAnimation();
 };

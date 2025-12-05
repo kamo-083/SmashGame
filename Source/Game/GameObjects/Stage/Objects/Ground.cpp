@@ -89,6 +89,7 @@ void Ground::Initialize(
  */
 void Ground::Draw(RenderContext& context)
 {
+	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_halfLength * 2.0f);
@@ -100,6 +101,7 @@ void Ground::Draw(RenderContext& context)
 		DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
+	// モデルの仮描画
 	m_geometricPrimitive->Draw(
 		world, context.view, context.proj, DirectX::Colors::GreenYellow,
 		nullptr, false,

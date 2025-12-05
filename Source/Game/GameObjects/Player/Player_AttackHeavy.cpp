@@ -53,10 +53,8 @@ void Player_AttackHeavy::Initialize(ResourceManager* pRM)
 	}
 	m_modelAnimator->Initialize(ATTACK_TIME + COOL_TIME);
 
-	// 力の設定
+	// 攻撃力・攻撃時間の初期化
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);
-
-	// 時間の設定
 	m_attackTime = ATTACK_TIME + COOL_TIME;
 
 	// 攻撃判定の設定
@@ -119,12 +117,14 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
  */
 void Player_AttackHeavy::Render(RenderContext& context)
 {
+	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetPosition());
 	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
 	world = scale * rot * trans;
 
+	// モデルの描画
 	m_modelAnimator->Draw(context, world);
 
 	// 当たり判定のデバッグ描画

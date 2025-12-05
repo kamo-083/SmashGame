@@ -54,6 +54,7 @@ EnemyManager::~EnemyManager()
  */
 void EnemyManager::Initialize()
 {
+	// ƒf[ƒ^‚ð“Ç‚Ýž‚Þ
 	EnemyInfoLoader loader;
 	loader.LoadData("Resources/Json/enemyInfo.json", m_enemyInfo);
 }
@@ -74,6 +75,7 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 	{
 		e->enemy->Update(elapsedTime);
 
+		// ƒvƒŒƒCƒ„[‚Æ‚ÌˆÊ’uŠÖŒW‚ðŒvŽZ
 		e->enemy->CalculatePlayerRelationData(pPlayer->GetPosition(), pPlayer->GetRadius());
 
 		// —Ž‰º‚µ‚½“G‚ÌŠˆ“®‚ð’âŽ~
@@ -88,11 +90,13 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 			{
 				if (e->enemy->IsRespawn())
 				{
+					// ƒŠƒXƒ|[ƒ“‰Â”\‚ÉÝ’è‚³‚ê‚Ä‚¢‚éê‡
 					e->enemy->Respawn();
 					e->alive = true;
 				}
 				else
 				{
+					// ‚»‚¤‚Å‚È‚¢ê‡‚Ííœ
 					e->enemy->Finalize();
 					return true;
 				}
@@ -112,6 +116,7 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
  */
 void EnemyManager::Draw(RenderContext& context)
 {
+	// Še“G‚Ì•`‰æ
 	for (auto& e : m_enemies)
 	{
 		e->enemy->Draw(context, m_pUserResources->GetDebugFont());

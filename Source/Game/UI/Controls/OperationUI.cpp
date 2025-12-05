@@ -71,7 +71,7 @@ void OperationUI::Initialize(
 	m_textures->icon = desc.textures.icon;
 
 	// ウィジェットの作成
-	SettingWidgets(desc, centerPos, arrowInterval);
+	SetupWidgets(desc, centerPos, arrowInterval);
 
 	// アイコン位置の設定(アイコンが必要な場合)
 	if (m_textures->icon)
@@ -102,7 +102,7 @@ void OperationUI::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param context		描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
@@ -173,7 +173,7 @@ void OperationUI::Finalize()
 /**
  * @brief 有効/無効化
  *
- * @param なし
+ * @param active 有効/無効
  *
  * @return なし
  */
@@ -200,7 +200,7 @@ void OperationUI::Active(bool active)
  *
  * @return なし
  */
-void OperationUI::SettingWidgets(
+void OperationUI::SetupWidgets(
 	const OperationUIDesc& desc,
 	const DirectX::SimpleMath::Vector2 centerPos, 
 	const float arrowInterval)

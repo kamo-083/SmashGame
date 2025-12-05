@@ -36,6 +36,7 @@ void GroundEnemy_Idle::Initialize(ResourceManager* pRM)
 	// 継承して未使用の引数
 	UNREFERENCED_PARAMETER(pRM);
 
+	// モデルアニメーターを作成
 	if (!m_modelAnimator)
 	{
 		m_modelAnimator = std::make_unique<ModelAnimator>(
@@ -86,12 +87,14 @@ void GroundEnemy_Idle::Update(const float& elapsedTime)
  */
 void GroundEnemy_Idle::Render(RenderContext& context)
 {
+	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
 	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY() + DirectX::XM_PIDIV2);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
+	// モデルの描画
 	m_modelAnimator->Draw(context, world);
 }
 

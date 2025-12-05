@@ -140,18 +140,12 @@ void AttackUI::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param context		描画用構造体
+ * @param context	描画用構造体
  *
  * @return なし
  */
 void AttackUI::Draw(RenderContext context)
 {
-	//context.spriteBatch->Begin(
-	//	DirectX::SpriteSortMode_Deferred,
-	//	context.states->NonPremultiplied(),
-	//	context.states->LinearClamp()
-	//);
-
 	// 各攻撃アイコンの描画
 	for (auto& widget : m_widgets)
 	{
@@ -160,8 +154,6 @@ void AttackUI::Draw(RenderContext context)
 
 	// 操作方法UIの描画
 	m_operationUI->Draw(context);
-
-	//context.spriteBatch->End();
 }
 
 
@@ -228,11 +220,29 @@ void AttackUI::ChangeAttack(AttackType type)
 	}
 }
 
+
+
+/**
+ * @brief 操作方法UIの状態を切り替え
+ *
+ * @param なし
+ *
+ * @return なし
+ */
 void AttackUI::SwitchUIMode()
 {
 	m_operationUI->Active(!m_operationUI->IsActive());
 }
 
+
+
+/**
+ * @brief 全体をスライドする
+ *
+ * @param dir スライド方向
+ *
+ * @return なし
+ */
 void AttackUI::Slide(Direction dir)
 {
 	// 最後にスライドした方向を記録
@@ -262,6 +272,16 @@ void AttackUI::Slide(Direction dir)
 	}
 }
 
+
+
+/**
+ * @brief スライドアニメーションのパラメータを作成
+ *
+ * @param widget 対象ウィジェット
+ * @param to	 スライド先
+ *
+ * @return なし
+ */
 void AttackUI::MakeParam(UIWidget& widget, const LayoutData& to)
 {
 	Tween2D::UIParams from = widget.GetParam();
@@ -276,6 +296,15 @@ void AttackUI::MakeParam(UIWidget& widget, const LayoutData& to)
 	widget.SetParam(from, delta);
 }
 
+
+
+/**
+ * @brief 攻撃リストとUI画像を一致させる
+ *
+ * @param なし
+ *
+ * @return なし
+ */
 void AttackUI::BindAttackSlots()
 {
 	// 攻撃種類数

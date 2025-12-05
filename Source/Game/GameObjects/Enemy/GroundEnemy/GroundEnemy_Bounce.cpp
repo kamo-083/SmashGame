@@ -44,6 +44,7 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
 	}
 	m_modelAnimator->Initialize();
 
+	// UŒ‚ó‘Ô‚ð‰ðœ
 	m_pGroundEnemy->SetIsAttack(false);
 	m_pGroundEnemy->SetAttackCollisionEnabled(false);
 
@@ -99,12 +100,14 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
  */
 void GroundEnemy_Bounce::Render(RenderContext& context)
 {
+	// ƒ[ƒ‹ƒhs—ñ‚Ìì¬
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
 	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY() + DirectX::XM_PIDIV2);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
+	// ƒ‚ƒfƒ‹‚Ì•`‰æ
 	m_modelAnimator->Draw(context, world);
 }
 

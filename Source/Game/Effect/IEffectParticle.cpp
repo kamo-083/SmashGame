@@ -62,23 +62,30 @@ void IEffectParticle::Create(
 	ParticleUtility::ParticleData data)
 {
 	{
+		// デバイスリソースの設定
 		m_pDR = pDR;
-
+		// バッファの設定
 		m_CBuffer = CBuffer;
+		// インプットレイアウトの設定
 		m_inputLayout = inputLayout;
 
 		//画像の保存
 		m_texture.push_back(texture);
 
+		// プリミティブバッチの設定
 		m_batch = batch;
+		// 共通ステートの設定
 		m_states = states;
 
+		// 各シェーダーの設定
 		m_pixelShader = pixelShader;
 		m_vertexShader = vertexShader;
 		m_geometryShader = geometryShader;
 
+		// 有効状態に設定
 		m_isActive = true;
 
+		// パーティクルのパラメータを設定
 		m_particleData = data;
 	};
 }

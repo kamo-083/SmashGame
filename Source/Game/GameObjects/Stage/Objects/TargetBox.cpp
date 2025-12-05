@@ -53,6 +53,7 @@ void TargetBox::Initialize(
 	DirectX::SimpleMath::Vector3 halfLength,
 	DirectX::SimpleMath::Vector3 angle)
 {
+	// 位置・大きさ(1辺の半分)・回転を設定
 	m_position = position;
 	m_halfLength = halfLength;
 	m_angle = angle;
@@ -105,6 +106,7 @@ void TargetBox::Initialize(
  */
 void TargetBox::Draw(RenderContext& context)
 {
+	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_halfLength * 2.0f);
@@ -116,6 +118,7 @@ void TargetBox::Draw(RenderContext& context)
 		DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
+	// モデルの仮描画
 	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Brown);
 }
 

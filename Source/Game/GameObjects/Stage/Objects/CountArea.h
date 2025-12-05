@@ -140,6 +140,15 @@ public:
 
 // 内部実装
 private:
+	// 当たり判定の初期設定
+	void SetupCollider(CollisionManager* pCM, float x, float z);
+
+	// エリアに入った敵をリストに追加・条件判定
+	void EnterEnemy(CollisionManager* pCM, uint32_t handle);
+
+	// エリアを出た敵をリストから除外・条件判定
+	void ExitEnemy(CollisionManager* pCM, uint32_t handle);
+
 	// シェーダーの読み込み
 	void LoadShaders(ShaderManager* shaderManager, ID3D11Device* device);
 

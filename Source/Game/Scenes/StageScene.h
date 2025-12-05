@@ -165,7 +165,7 @@ private:
 	void CreateDepthStencilState(ID3D11Device* device);
 
 	// ‰e‚Ìİ’è
-	void SettingShadow(RenderContext context);
+	void SetupShadow(RenderContext context);
 
 	// ‰e‚Ì•`‰æ
 	void DrawShadow(const DirectX::SimpleMath::Vector3 position, const float radius);

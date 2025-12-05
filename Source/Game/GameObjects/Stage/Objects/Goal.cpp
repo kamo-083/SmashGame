@@ -22,7 +22,7 @@
 Goal::Goal(ID3D11DeviceContext* context, StageScene* pScene)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
 	, m_goalCollider{}
-	, m_collisionHandle{ 0 }
+	, m_tableCollider{}
 	, m_isGoal{ false }
 	, m_canGoal{ false }
 	, m_pScene{ pScene }
@@ -66,54 +66,10 @@ void Goal::Initialize(
 	m_models->cageLid = pRM->RequestSDKMESH("cageLid", "lid.sdkmesh");
 
 	// 当たり判定の作成
-	// テーブル
-	m_tableCollider.SetCenter(m_position);
-	m_tableCollider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
-	m_tableCollider.SetHalfLength(DirectX::SimpleMath::Vector3(TABLE_HALF_SIZE));
+	SetupCollider(pCM);
 
-	// 当たり判定マネージャーに登録
-	CollisionManager::Desc desc{};
-	desc.type = CollisionManager::Type::OBB;
-	desc.layer = CollisionManager::Layer::Stage;
-	desc.obb = &m_tableCollider;
-	desc.position = nullptr;
-	desc.velocity = nullptr;
-	m_collisionHandle = pCM->Add(desc);
-
-	// ゴール
-	m_goalCollider.SetCenter(m_position);
-	m_goalCollider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
-	m_goalCollider.SetHalfLength(DirectX::SimpleMath::Vector3(GOAL_HALF_LENGTH));
-
-	// 当たり判定マネージャーに登録
-	desc.layer = CollisionManager::Layer::Trigger;
-	desc.obb = &m_goalCollider;
-	desc.isTrigger = true;
-	desc.callback.onEnter = desc.callback.onStay =
-		[this, pCM](uint32_t, uint32_t other)
-		{
-			if (!m_canGoal || pCM->GetDesc(other)->layer != CollisionManager::Layer::PlayerBody) return;
-
-			m_isGoal = true;	// ゴールした
-		};
-	m_collisionHandle = pCM->Add(desc);
-
-	// トゥイーンアニメーションの設定
-	m_tweenParam = {
-		m_position,
-		DirectX::SimpleMath::Vector3(GOAL_HALF_LENGTH),
-		DirectX::SimpleMath::Quaternion::Identity,
-		1.0f
-	};
-	Tween3D::TweenData data = {
-		m_tweenParam,
-		{DirectX::SimpleMath::Vector3(0.0f, LID_MOVE_Y, 0.0f), DirectX::SimpleMath::Vector3::Zero,
-		 DirectX::SimpleMath::Quaternion::Identity, -1.0f},
-		 TWEEN_ANIM_TIME,
-		 Easing::EaseType::InQuart,
-		 Easing::PlaybackMode::Once
-	};
-	m_tweenAnim = std::make_unique<Tween3D>(data);
+	// アニメーションの設定
+	SetupAnimation();
 
 	// フラグの初期化
 	m_canGoal = false;
@@ -131,7 +87,7 @@ void Goal::Initialize(
  */
 void Goal::Update(float elapsedTime)
 {
-	// トゥイーンアニメーションの更新
+	// アニメーションの更新
 	if (m_tweenAnim->IsPlaying()) m_tweenAnim->Update(elapsedTime, m_tweenParam);
 }
 
@@ -211,4 +167,84 @@ void Goal::OpenGoal()
 	{
 		m_canGoal = true;
 	}
+}
+
+
+
+/**
+ * @brief 当たり判定の初期設定
+ *
+ * @param pCM 当たり判定マネージャーのポインタ
+ *
+ * @return なし
+ */
+void Goal::SetupCollider(CollisionManager* pCM)
+{
+	// テーブル
+	m_tableCollider.SetCenter(m_position);
+	m_tableCollider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
+	m_tableCollider.SetHalfLength(DirectX::SimpleMath::Vector3(TABLE_HALF_SIZE));
+
+	// 当たり判定マネージャーに登録
+	CollisionManager::Desc desc{};
+	desc.type = CollisionManager::Type::OBB;
+	desc.layer = CollisionManager::Layer::Stage;
+	desc.obb = &m_tableCollider;
+	desc.position = nullptr;
+	desc.velocity = nullptr;
+	pCM->Add(desc);
+
+	// ゴール
+	m_goalCollider.SetCenter(m_position);
+	m_goalCollider.SetRotation(DirectX::SimpleMath::Quaternion::Identity);
+	m_goalCollider.SetHalfLength(DirectX::SimpleMath::Vector3(GOAL_HALF_LENGTH));
+
+	// 当たり判定マネージャーに登録
+	desc.layer = CollisionManager::Layer::Trigger;
+	desc.obb = &m_goalCollider;
+	desc.isTrigger = true;
+	desc.callback.onEnter = desc.callback.onStay =
+		[this, pCM](uint32_t, uint32_t other)
+		{
+			if (!m_canGoal || pCM->GetDesc(other)->layer != CollisionManager::Layer::PlayerBody) return;
+
+			m_isGoal = true;	// ゴールした
+		};
+	pCM->Add(desc);
+}
+
+
+
+/**
+ * @brief アニメーションの初期設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void Goal::SetupAnimation()
+{
+	// 開始
+	m_tweenParam = {
+		m_position,
+		DirectX::SimpleMath::Vector3(GOAL_HALF_LENGTH),
+		DirectX::SimpleMath::Quaternion::Identity,
+		1.0f
+	};
+	// 変化量
+	Tween3D::UIParams delta = {
+		DirectX::SimpleMath::Vector3(0.0f, LID_MOVE_Y, 0.0f),
+		DirectX::SimpleMath::Vector3::Zero,
+		DirectX::SimpleMath::Quaternion::Identity,
+		-1.0f
+	};
+	// パラメータを設定
+	Tween3D::TweenData data = {
+		m_tweenParam,
+		delta,
+		TWEEN_ANIM_TIME,
+		Easing::EaseType::InQuart,
+		Easing::PlaybackMode::Once
+	};
+	m_tweenAnim = std::make_unique<Tween3D>(data);
 }

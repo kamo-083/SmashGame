@@ -61,13 +61,14 @@ StageManager::~StageManager()
 void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyManager* pEM,
 							   const std::string& path)
 {
+
+	// データの読み込み
 	StageLoader loader;
 	std::vector<StageLoader::ObjectData> objectData;
 	std::vector<StageLoader::EnemyData> enemyData;
-
-	// データの読み込み
 	loader.LoadData(path, objectData, enemyData);
 
+	// よく使用するポインタを取得
 	ResourceManager* pRM = pUR->GetResourceManager();
 	ID3D11DeviceContext* context = pUR->GetDeviceResources()->GetD3DDeviceContext();
 
@@ -286,7 +287,7 @@ void StageManager::CreateOperate(
 	StageLoader::AreaActionDesc& desc,
 	DirectX::SimpleMath::Vector3 position)
 {
-	if (desc.command == "EnableGoal")
+	if (desc.command == "EnableGoal")	// ゴールを可能にする
 	{
 		outOperate = [this, position]()
 			{

@@ -113,9 +113,8 @@ void TitleScene::Initialize()
 	// 選択中のボタンを初期化
 	m_selectButton = 0;
 
-	AudioManager* pAM = m_userResources->GetAudioManager();
-
 	// BGM・SEの読み込み
+	AudioManager* pAM = m_userResources->GetAudioManager();
 	SetupAudio(pAM);
 }
 

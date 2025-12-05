@@ -253,6 +253,7 @@ void Player::ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 		m_pScene->PlaySE("cursorSE");
 	}
 
+	// UIに変更を反映
 	m_pAttackUI->ChangeAttack(m_attackType);
 }
 
@@ -267,6 +268,7 @@ void Player::ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
  */
 void Player::Attack()
 {
+	// 攻撃判定を有効化
 	m_isAttack = true;
 	SetAttackCollisionEnabled(true);
 
@@ -508,7 +510,7 @@ void Player::SmashEnemyAttack(const uint32_t& handle)
 void Player::SetupEffects(EffectManager* pEM, ResourceManager* pRM)
 {
 	// エフェクトのパラメータを設定
-// 軌跡
+	// 軌跡
 	ParticleUtility::ParticleData t_data =
 	{
 		{DirectX::SimpleMath::Vector3(TRAJECTORY_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},

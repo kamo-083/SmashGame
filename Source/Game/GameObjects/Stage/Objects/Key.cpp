@@ -50,7 +50,7 @@ void Key::Spawn(
 	m_goalPos = goalPos;
 
 	// アニメーションの設定
-	SettingSpawnAnim(spawnPos);
+	SetupSpawnAnim(spawnPos);
 
 	// アニメーションの開始
 	m_tweenAnim->Play();
@@ -80,7 +80,7 @@ void Key::Update(float elapsedTime)
 		if (m_tweenAnim->Finished())
 		{
 			// アニメーションを設定
-			SettingFlyingAnim();
+			SetupFlyingAnim();
 			m_tweenAnim->ResetTime();
 			m_tweenAnim->Play();
 
@@ -161,7 +161,7 @@ void Key::Finalize()
  *
  * @return なし
  */
-void Key::SettingSpawnAnim(DirectX::SimpleMath::Vector3 startPos)
+void Key::SetupSpawnAnim(DirectX::SimpleMath::Vector3 startPos)
 {
 	// 開始
 	Tween3D::UIParams start = {
@@ -197,7 +197,7 @@ void Key::SettingSpawnAnim(DirectX::SimpleMath::Vector3 startPos)
  *
  * @return なし
  */
-void Key::SettingFlyingAnim()
+void Key::SetupFlyingAnim()
 {
 	// 開始
 	Tween3D::UIParams start = m_tweenParam;

@@ -20,12 +20,13 @@
  * @brief コンストラクタ
  *
  * @param position  出現位置
- * @param params		パラメータ一覧
+ * @param params	パラメータ一覧
  */
 ParticleUtility::ParticleUtility(
 	DirectX::SimpleMath::Vector3 position,
 	ParticleData params)
 {
+	// 出現位置・各パラメータの初期化
 	m_position = position;
 	m_scale = params.start.scale;
 	m_life = params.life;

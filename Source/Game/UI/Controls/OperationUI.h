@@ -130,7 +130,7 @@ public:
 	// 内部実装
 private:
 	// ウィジェットの初期設定
-	void SettingWidgets(
+	void SetupWidgets(
 		const OperationUIDesc& desc,
 		const DirectX::SimpleMath::Vector2 centerPos,
 		const float arrowInterval);

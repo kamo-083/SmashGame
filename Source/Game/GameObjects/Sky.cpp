@@ -63,8 +63,10 @@ void Sky::Draw(const RenderContext& context)
 	// 中心座標のポインタが設定されていた場合は反映
 	if (m_pPosition) world *= DirectX::SimpleMath::Matrix::CreateTranslation(*m_pPosition);
 
+	// モデルを描画
 	m_skyDome->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 
+	// モデルのエフェクトを設定
 	m_skyDome->UpdateEffects([](DirectX::IEffect* effect)
 		{
 			auto lights = dynamic_cast<DirectX::IEffectLights*>(effect);	// ライト

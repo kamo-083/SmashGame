@@ -125,5 +125,5 @@ private:
 	void SetupTextures(ResourceManager* pRM);
 
 	// ‰¹º‚Ìİ’è
-	void SetupAudios();
+	void SetupAudios(AudioManager* pAM);
 };

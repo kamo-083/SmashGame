@@ -113,12 +113,14 @@ void Player_Idle::Update(const float& elapsedTime)
  */
 void Player_Idle::Render(RenderContext& context)
 {
+	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pPlayer->GetPosition());
 	DirectX::SimpleMath::Matrix rot =	DirectX::SimpleMath::Matrix::CreateRotationY(m_pPlayer->GetRotY());
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pPlayer->GetScale());
 	world = scale * rot * trans;
 
+	// モデルの描画
 	m_modelAnimator->Draw(context, world);
 
 	// 当たり判定のデバッグ描画

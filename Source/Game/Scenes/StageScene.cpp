@@ -366,7 +366,7 @@ void StageScene::CreateDepthStencilState(ID3D11Device* device)
  *
  * @return なし
  */
-void StageScene::SettingShadow(RenderContext context)
+void StageScene::SetupShadow(RenderContext context)
 {
 	// エフェクトの設定・適応
 	m_basicEffect->SetWorld(DirectX::SimpleMath::Matrix::Identity);
@@ -429,6 +429,7 @@ void StageScene::DrawShadow(const DirectX::SimpleMath::Vector3 position, const f
 std::array<DirectX::VertexPositionTexture, StageScene::SHADOW_VERTEX_NUM> StageScene::CreateVertexes(
 	const DirectX::SimpleMath::Vector3 position, const float radius)
 {
+	// 4頂点を作成
 	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> vertexes =
 	{
 		DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3::Zero,DirectX::SimpleMath::Vector2(0.0f,0.0f)),
@@ -457,8 +458,10 @@ std::array<DirectX::VertexPositionTexture, StageScene::SHADOW_VERTEX_NUM> StageS
  */
 void StageScene::DrawObjectsShadow(RenderContext context)
 {
-	SettingShadow(context);
+	// 影の設定
+	SetupShadow(context);
 	float groundHeight = m_stageManager->GetGround(0)->GetHeight().y;
+
 	m_primitiveBatch->Begin();
 
 	// プレイヤー
@@ -518,6 +521,7 @@ void StageScene::UpdateResult(float elapsedTime)
  */
 void StageScene::ChangeKeyMode()
 {
+	// モードを反転
 	m_keyMode = !m_keyMode;
 
 	// UI切り替え
@@ -541,7 +545,7 @@ void StageScene::SetupCollitionLayer()
 {
 	auto& M = m_collisionManager->GetLayerMatrix();
 	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyBody] = true;		// プレイヤーと敵
-	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyBody] = true;		// 敵同士
+	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::EnemyBody] = true;		// 敵と敵
 	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::EnemyAttack] = true;	// プレイヤーと敵の攻撃
 	M.matrix[(int)CollisionManager::Layer::PlayerBody][(int)CollisionManager::Layer::PlayerAttack] = false;	// プレイヤーとプレイヤーの攻撃
 	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::PlayerAttack] = true;	// 敵とプレイヤーの攻撃

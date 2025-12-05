@@ -254,12 +254,13 @@ void GroundEnemy::LimitVelocity()
  */
 void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius)
 {
+	// 自身からプレイヤーへの方向を計算
 	m_playerRelationData.direction = pos - m_position;
 
+	// プレイヤーとの距離を計算
 	float centerDistance = m_playerRelationData.direction.Length();
 	float radiusSum = radius + RADIUS;
 	m_playerRelationData.distance = std::fabs(radiusSum - centerDistance);
-
 	m_playerRelationData.direction.Normalize();
 }
 
@@ -279,7 +280,8 @@ void GroundEnemy::SmashPlayerAttack(SphereCollider collider, float power)
 	// 吹っ飛ぶ方向の設定
 	DirectX::SimpleMath::Vector3 knockbackDir = mtv.direction;
 	knockbackDir.Normalize();
-	
+
+	// 外力を加える
 	DirectX::SimpleMath::Vector3 force = knockbackDir * power;
 	m_physics->GetExternalForce().Add(force);
 
@@ -333,7 +335,7 @@ void GroundEnemy::ReflectOnCollision(DirectX::SimpleMath::Vector3 normal)
 void GroundEnemy::SetupEffects(EffectManager* pEM, ResourceManager* pRM)
 {
 	// エフェクトのパラメータを設定
-// 軌跡
+	// 軌跡
 	ParticleUtility::ParticleData t_data =
 	{
 		{DirectX::SimpleMath::Vector3(TRAJECTORY_SCALE),DirectX::SimpleMath::Color(1,1,1,1)},

@@ -58,6 +58,7 @@ void Fence::Initialize(
 	DirectX::SimpleMath::Vector3 scale,
 	DirectX::SimpleMath::Vector3 angle)
 {
+	// 位置・スケール・回転・柵数を設定
 	m_position = position;
 	m_scale = scale;
 	m_angle = angle;
@@ -97,7 +98,7 @@ void Fence::Initialize(
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context 描画用構造体
  *
  * @return なし
  */

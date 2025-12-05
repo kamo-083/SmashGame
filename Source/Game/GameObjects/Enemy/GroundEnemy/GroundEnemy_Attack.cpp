@@ -42,6 +42,7 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 	// 継承して未使用の引数
 	UNREFERENCED_PARAMETER(pRM);
 
+	// モデルアニメーターの作成
 	if (!m_modelAnimator)
 	{
 		m_modelAnimator = std::make_unique<ModelAnimator>(
@@ -51,10 +52,11 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 	}
 	m_modelAnimator->Initialize(ATTACK_TIME);
 
+	// 攻撃時間・攻撃力を初期化
 	m_attackTime = ATTACK_TIME;
-
 	m_pGroundEnemy->SetAttackForce(ATTACK_FORCE);
 
+	// 攻撃判定の設定
 	float rot = m_pGroundEnemy->GetRotY();
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(rot), 0.0f, cosf(rot));
 	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * 0.5f));
@@ -107,12 +109,14 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
  */
 void GroundEnemy_Attack::Render(RenderContext& context)
 {
+	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_pGroundEnemy->GetPosition());
 	DirectX::SimpleMath::Matrix rot =	DirectX::SimpleMath::Matrix::CreateRotationY(m_pGroundEnemy->GetRotY()+ DirectX::XM_PIDIV2);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_pGroundEnemy->GetScale());
 	world = scale * rot * trans;
 
+	// モデルの描画
 	m_modelAnimator->Draw(context, world);
 
 	// 当たり判定のデバッグ描画

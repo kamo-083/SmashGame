@@ -84,8 +84,8 @@ public:
 // 内部実装
 private:
 	// 出現時のアニメーションを設定
-	void SettingSpawnAnim(DirectX::SimpleMath::Vector3 startPos);
+	void SetupSpawnAnim(DirectX::SimpleMath::Vector3 startPos);
 
 	// 移動時のアニメーションを設定
-	void SettingFlyingAnim();
+	void SetupFlyingAnim();
 };

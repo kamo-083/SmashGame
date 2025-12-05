@@ -184,7 +184,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	// カリングの設定
 	renderContext.deviceContext->RSSetState(renderContext.states->CullNone());
 
-	// ワールド行列の計算
+	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world =
 		DirectX::SimpleMath::Matrix::CreateScale(SCALE) *
 		DirectX::SimpleMath::Matrix::CreateTranslation(m_position);

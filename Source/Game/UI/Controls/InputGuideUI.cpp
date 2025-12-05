@@ -96,7 +96,7 @@ void InputGuideUI::Initialize(
 /**
  * @brief 更新処理
  *
- * @param なし
+ * @param elapsedTime 経過時間
  *
  * @return なし
  */
@@ -144,7 +144,7 @@ void InputGuideUI::Update(float elapsedTime)
 /**
  * @brief 描画処理
  *
- * @param なし
+ * @param context 描画用構造体
  *
  * @return なし
  */
