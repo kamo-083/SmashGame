@@ -18,6 +18,7 @@
 PauseUI::PauseUI()
 	: UIElement()
 	, m_isOpen(false)
+	, m_options(PAUSE_OPTIONS::NONE)
 {
 
 }
@@ -49,7 +50,7 @@ void PauseUI::Initialize(
 	// 開かれているかのフラグを初期化
 	m_isOpen = false;
 
-	// 選択項目を設定
+	// 選択項目の初期化
 	m_options = PAUSE_OPTIONS::RETURN_STAGE;
 
 	// ウィンドウサイズの設定
@@ -92,7 +93,7 @@ void PauseUI::Initialize(
  */
 void PauseUI::Update(float elapsedTime)
 {
-	if (!m_isOpen) return;
+	if (!m_isOpen) return;	// 開いていなかったら終了
 
 	// ウィジェットの更新
 	m_widget->Update(elapsedTime);
@@ -109,27 +110,32 @@ void PauseUI::Update(float elapsedTime)
  */
 void PauseUI::Draw(RenderContext context)
 {
-	if (!m_isOpen) return;
+	if (!m_isOpen) return;	// 開いていなかったら終了
 
 	// ウィジェットの描画
 	m_widget->Draw(context.spriteBatch);
 
+	// テキスト描画の初期設定
 	float height = 60;
-	DirectX::SimpleMath::Vector2 textPos = { 0,-height };
+	float numHalf = std::floor(static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM) / 2);	// 項目をずらす数を求める
+	DirectX::SimpleMath::Vector2 textPos = { 0,-(height * numHalf) };				// 真ん中の項目がウィンドウの中央に来るようにずらす
 	RECT rect = { 0,0,0,0 };
 	rect.right = 350;
 	rect.bottom = height;
-	float rot = 0.0f;
+	DirectX::SimpleMath::Color color = { 1,1,1,0 };
 
+	// 項目数だけ回す
 	for (int i = 0; i < static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM); i++)
 	{
-		if (i == static_cast<int>(m_options)) rot += DirectX::XMConvertToRadians(10.0f);
-		else								  rot = 0.0f;
+		// 選択されている項目だったら色を変える
+		if (i == static_cast<int>(m_options))	color.z = 0;	// 黄
+		else									color.z = 1;	// 白
 
+		// テキストを描画
 		m_widget->Draw(
 			context.spriteBatch,
 			m_textures->text,
-			textPos, &rect, rot);
+			textPos, &rect, FLT_MAX, color);
 
 		// 表示位置をずらす
 		textPos.y += height;
@@ -166,7 +172,10 @@ void PauseUI::Finalize()
  */
 void PauseUI::OpenPause()
 {
+	// アニメーションを再生
 	m_widget->GetTween()->Play();
+
+	// フラグを開いている状態に設定
 	m_isOpen = true;
 }
 
@@ -181,8 +190,14 @@ void PauseUI::OpenPause()
  */
 void PauseUI::ClosePause()
 {
+	// アニメーションを初期化
 	m_widget->TweenReset();
+
+	// フラグを閉じている状態に設定
 	m_isOpen = false;
+
+	// 選択項目を初期化
+	m_options = PAUSE_OPTIONS::RETURN_STAGE;
 }
 
 
@@ -197,6 +212,8 @@ void PauseUI::ClosePause()
 void PauseUI::SelectUp()
 {
 	m_options = static_cast<PAUSE_OPTIONS>(static_cast<int>(m_options) - 1);
+
+	// 選択範囲を超えていた場合はループする
 	if (m_options == PAUSE_OPTIONS::NONE)
 	{
 		m_options = static_cast<PAUSE_OPTIONS>(static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM) - 1);
@@ -215,6 +232,8 @@ void PauseUI::SelectUp()
 void PauseUI::SelectDown()
 {
 	m_options = static_cast<PAUSE_OPTIONS>(static_cast<int>(m_options) + 1);
+
+	// 選択範囲を超えていた場合はループする
 	if (m_options == PAUSE_OPTIONS::OPTIONS_NUM)
 	{
 		m_options = static_cast<PAUSE_OPTIONS>(static_cast<int>(PAUSE_OPTIONS::NONE) + 1);

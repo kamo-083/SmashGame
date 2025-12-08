@@ -146,13 +146,6 @@ void StageScene::Initialize()
 
 	// 音声の設定
 	SetupSounds(pAM);
-
-	PauseUI::Textures pauseTex{
-		pRM->RequestPNG("pauseWindow","UI/pauseWindow.png"),
-		pRM->RequestPNG("pauseText","Text/pauseText.png")
-	};
-	m_pauseUI = std::make_unique<PauseUI>();
-	m_pauseUI->Initialize(windowSize, pauseTex);
 }
 
 
@@ -179,8 +172,6 @@ void StageScene::Update(float elapsedTime)
 		UpdateResult(elapsedTime);
 		break;
 	}
-
-	m_pauseUI->Update(elapsedTime);
 }
 
 
@@ -198,7 +189,7 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 	// デバッグ情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");
 	debugFont->AddString(150, 30, DirectX::Colors::Red, L"mode=%d", m_overlayMode);
-	debugFont->AddString(250, 30, DirectX::Colors::Red, L"pause=%d", m_pauseUI->GetNowOption());
+	debugFont->AddString(250, 30, DirectX::Colors::Red, L"pause=%d", m_UIManager->GetPauseUI()->GetNowOption());
 
 	// ビュー行列の反映
 	context.view = m_camera->GetView();
@@ -229,10 +220,6 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 
 	// UIの描画
 	m_UIManager->Draw(context);
-
-	context.spriteBatch->Begin();
-	m_pauseUI->Draw(context);
-	context.spriteBatch->End();
 }
 
 
@@ -246,9 +233,6 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
  */
 void StageScene::Finalize()
 {
-	if (m_pauseUI) m_pauseUI->Finalize();
-	m_pauseUI.reset();
-
 	if (m_player) m_player->Finalize();
 	m_player.reset();
 
@@ -520,7 +504,7 @@ void StageScene::UpdateGameplay(float elapsedTime)
 	{
 		m_overlayMode = Overlay::PAUSE;
 
-		m_pauseUI->OpenPause();
+		m_UIManager->GetPauseUI()->OpenPause();
 	}
 }
 
@@ -537,24 +521,26 @@ void StageScene::UpdatePause(float elapsedTime)
 {
 	DirectX::Keyboard::KeyboardStateTracker* kbTracker = m_userResources->GetKeyboardTracker();
 
+	m_UIManager->GetPauseUI()->Update(elapsedTime);
+
 	// 選択項目を切り替え
 	if (kbTracker->pressed.Up)
 	{
-		m_pauseUI->SelectUp();
+		m_UIManager->GetPauseUI()->SelectUp();
 	}
 	else if (kbTracker->pressed.Down)
 	{
-		m_pauseUI->SelectDown();
+		m_UIManager->GetPauseUI()->SelectDown();
 	}
 
 	// スペースキーで項目を選択
 	if (kbTracker->pressed.Space)
 	{
-		switch (m_pauseUI->GetNowOption())
+		switch (m_UIManager->GetPauseUI()->GetNowOption())
 		{
 		case PauseUI::PAUSE_OPTIONS::RETURN_STAGE:	// ゲームプレイへ
 			m_overlayMode = Overlay::GAMEPLAY;
-			m_pauseUI->ClosePause();
+			m_UIManager->GetPauseUI()->ClosePause();
 			break;
 		case PauseUI::PAUSE_OPTIONS::STAGE_SELECT:	// ステージ選択へ
 			// BGMの停止
@@ -573,7 +559,7 @@ void StageScene::UpdatePause(float elapsedTime)
 	{
 		m_overlayMode = Overlay::GAMEPLAY;
 
-		m_pauseUI->ClosePause();
+		m_UIManager->GetPauseUI()->ClosePause();
 	}
 }
 

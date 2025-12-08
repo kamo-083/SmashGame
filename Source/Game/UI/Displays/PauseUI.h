@@ -25,17 +25,17 @@ public:
 	enum class PAUSE_OPTIONS
 	{
 		NONE = -1,
-		RETURN_STAGE,
-		STAGE_SELECT,
-		RESET_STAGE,
+		RETURN_STAGE,	// ステージに戻る
+		STAGE_SELECT,	// ステージ選択へ
+		RESET_STAGE,	// ステージを最初からにする
 
-		OPTIONS_NUM
+		OPTIONS_NUM		// 項目数
 	};
 
 	struct Textures
 	{
-		ID3D11ShaderResourceView* window;
-		ID3D11ShaderResourceView* text;
+		ID3D11ShaderResourceView* window;	// 背景
+		ID3D11ShaderResourceView* text;		// テキスト
 	};
 
 
@@ -47,7 +47,7 @@ private:
 	// テクスチャ群
 	std::unique_ptr<Textures> m_textures;
 
-	// 選択項目
+	// 選択している項目
 	PAUSE_OPTIONS m_options;
 
 	// 開かれているか

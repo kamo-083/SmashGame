@@ -154,7 +154,7 @@ void Goal::Finalize()
  */
 void Goal::OpenGoal()
 {
-	if (!m_canGoal)
+	if (!m_tweenAnim->IsPlayed())
 	{
 		// SE‚ÌÄ¶
 		m_pScene->PlaySE("canGoalSE");

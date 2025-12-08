@@ -29,7 +29,6 @@ class AttackUI;
 class StageResultUI;
 class OperationUI;
 class InputGuideUI;
-class PauseUI;
 
 
 // クラスの定義 ===============================================================
@@ -125,9 +124,6 @@ private:
 
 	// テクスチャ群
 	std::unique_ptr<Textures> m_textures;
-
-
-	std::unique_ptr<PauseUI> m_pauseUI;
 
 
 // メンバ関数の宣言 -------------------------------------------------

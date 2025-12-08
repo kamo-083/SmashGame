@@ -13,6 +13,7 @@
 #include "Source/Game/UI/Controls/AttackUI.h"
 #include "Source/Game/UI/Controls/InputGuideUI.h"
 #include "Source/Game/UI/Displays/StageResultUI.h"
+#include "Source/Game/UI/Displays/PauseUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -75,6 +76,9 @@ void UIManager::SetupStageUI(
 	m_textures->window_result = {
 		m_pRM->RequestPNG("resultPanel", "UI/resultPanel.png"),
 		DirectX::SimpleMath::Vector2(350.0f, 400.0f) };
+	m_textures->window_pause = {
+		m_pRM->RequestPNG("pauseWindow", "UI/pauseWindow.png"),
+		DirectX::SimpleMath::Vector2(350.0f, 267.0f) };
 	// 矢印
 	m_textures->arrow_normal = {
 		m_pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png"),
@@ -92,6 +96,9 @@ void UIManager::SetupStageUI(
 	m_textures->text_keys = {
 		m_pRM->RequestPNG("keysText", "Text/keysText.png"),
 		DirectX::SimpleMath::Vector2(60.0f, 60.0f) };
+	m_textures->text_pause = {
+		m_pRM->RequestPNG("pauseText", "Text/pauseText.png"),
+		DirectX::SimpleMath::Vector2(350.0f, 200.0f) };
 	// その他
 	m_textures->base_key = {
 		m_pRM->RequestPNG("keyBase", "UI/key.png"),
@@ -103,6 +110,8 @@ void UIManager::SetupStageUI(
 	CreateResultUI();
 	// クリア条件
 	CreateClearConditionUI(conditionsType);
+	// ポーズ画面
+	CreatePauseUI();
 	// 操作ガイド
 	// 攻撃
 	std::vector<DirectX::Keyboard::Keys> attack_keys;
@@ -210,6 +219,9 @@ void UIManager::Draw(RenderContext context)
 	// リザルトUIの描画
 	if (m_resultUI) m_resultUI->Draw(context);
 
+	// ポーズ画面UIの描画
+	if (m_pauseUI) m_pauseUI->Draw(context);
+
 	context.spriteBatch->End();
 }
 
@@ -242,6 +254,9 @@ void UIManager::Finalize()
 	// カメラ回転UIの終了
 	if (m_cameraUI) m_cameraUI->Finalize();
 	m_cameraUI.reset();
+
+	// ポーズ画面UIの終了
+	if (m_pauseUI) m_pauseUI->Finalize();
 }
 
 
@@ -365,4 +380,23 @@ void UIManager::CreateCameraUI(
 		opUIDesc.arrowNormalSize.x * 1.75f,
 		false
 	);
+}
+
+
+
+/**
+ * @brief ポーズ画面UIの作成
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void UIManager::CreatePauseUI()
+{
+	PauseUI::Textures pauseTex{
+		m_textures->window_pause.texture,
+		m_textures->text_pause.texture
+	};
+	m_pauseUI = std::make_unique<PauseUI>();
+	m_pauseUI->Initialize(m_windowSize, pauseTex);
 }

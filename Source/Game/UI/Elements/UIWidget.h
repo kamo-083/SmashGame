@@ -63,11 +63,13 @@ public:
 
 	// ï`âÊèàóù
 	void Draw(RenderContext context);
-	void Draw(DirectX::SpriteBatch* spriteBatch,
-			  ID3D11ShaderResourceView* texture = nullptr,
-			  DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero,
-			  const RECT* rect = nullptr,
-			  float rot = FLT_MAX);
+	void Draw(
+		DirectX::SpriteBatch* spriteBatch,
+		ID3D11ShaderResourceView* texture = nullptr,
+		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero,
+		const RECT* rect = nullptr,
+		float rot = FLT_MAX,
+		DirectX::SimpleMath::Color col = DirectX::SimpleMath::Color(1, 1, 1));
 
 	// èIóπèàóù
 	void Finalize();

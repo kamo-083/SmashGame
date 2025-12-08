@@ -108,15 +108,17 @@ void UIWidget::Draw(RenderContext context)
  * @param pos		  座標
  * @param rect		  切り取り範囲
  * @param rot		  回転(ラジアン)
- * @param size		  画像サイズ
+ * @param col		  色(RGB)
  *
  * @return なし
  */
-void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch,
-					ID3D11ShaderResourceView* texture,
-					DirectX::SimpleMath::Vector2 pos,
-					const RECT* rect,
-					float rot)
+void UIWidget::Draw(
+	DirectX::SpriteBatch* spriteBatch,
+	ID3D11ShaderResourceView* texture,
+	DirectX::SimpleMath::Vector2 pos,
+	const RECT* rect,
+	float rot,
+	DirectX::SimpleMath::Color col)
 {
 	// 各引数が初期値だった場合、既に登録済みのデータを使う
 	// テクスチャ
@@ -124,7 +126,7 @@ void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch,
 
 	// 描画サイズ
 	DirectX::SimpleMath::Vector2 srcSize = m_texSize;
-	if (rect) 
+	if (rect)
 	{
 		srcSize.x = float(rect->right - rect->left);
 		srcSize.y = float(rect->bottom - rect->top);
@@ -141,7 +143,7 @@ void UIWidget::Draw(DirectX::SpriteBatch* spriteBatch,
 	DirectX::SimpleMath::Vector2 origin = srcSize * 0.5f;
 
 	// 透明度
-	DirectX::SimpleMath::Color color = { 1, 1, 1, m_params.opacity };
+	DirectX::SimpleMath::Color color = { col.x, col.y, col.z, m_params.opacity };
 
 	spriteBatch->Draw(texture, pos, rect, color, rot, origin, m_params.scale);
 }

@@ -21,6 +21,7 @@ class ResourceManager;
 class UIElement;
 class StageResultUI;
 class AttackUI;
+class PauseUI;
 
 
 // クラスの定義 ===============================================================
@@ -49,6 +50,7 @@ private:
 
 		// ウィンドウ
 		TextureDesc window_result;
+		TextureDesc window_pause;
 
 		// 矢印
 		TextureDesc arrow_normal;
@@ -58,6 +60,7 @@ private:
 		TextureDesc text_operation;
 		TextureDesc text_conditions;
 		TextureDesc text_keys;
+		TextureDesc text_pause;
 
 		// その他
 		TextureDesc base_key;
@@ -85,6 +88,9 @@ private:
 
 	// カメラ回転UI
 	std::unique_ptr<OperationUI> m_cameraUI;
+
+	// ポーズUI
+	std::unique_ptr<PauseUI> m_pauseUI;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -132,6 +138,9 @@ public:
 	// カメラ回転UIの取得
 	OperationUI* GetCameraUI() { return m_cameraUI.get(); }
 
+	// ポーズ画面UIの取得
+	PauseUI* GetPauseUI() { return m_pauseUI.get(); }
+
 
 // 内部実装
 private:
@@ -156,4 +165,7 @@ private:
 		OperationUI::OperationUIDesc opUIDesc,
 		DirectX::SimpleMath::Vector2 position
 	);
+
+	// ポーズ画面UIの作成
+	void CreatePauseUI();
 };
