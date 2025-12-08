@@ -21,6 +21,7 @@
 #include "Source/Game/UI/UIManager.h"
 #include "Source/Game/UI/Controls/AttackUI.h"
 #include "Source/Game/UI/Displays/StageResultUI.h"
+#include "Source/Game/UI/Displays/PauseUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -50,7 +51,7 @@ StageScene::StageScene(
 
 	// ベーシックエフェクトの作成
 	ID3D11Device* device = pDR->GetD3DDevice();
-	m_basicEffect = std::make_unique<DirectX::BasicEffect>(device); 
+	m_basicEffect = std::make_unique<DirectX::BasicEffect>(device);
 	m_basicEffect->SetLightingEnabled(false);
 	m_basicEffect->SetVertexColorEnabled(false);
 	m_basicEffect->SetTextureEnabled(true);
@@ -145,6 +146,13 @@ void StageScene::Initialize()
 
 	// 音声の設定
 	SetupSounds(pAM);
+
+	PauseUI::Textures pauseTex{
+		pRM->RequestPNG("pauseWindow","UI/pauseWindow.png"),
+		pRM->RequestPNG("pauseText","Text/pauseText.png")
+	};
+	m_pauseUI = std::make_unique<PauseUI>();
+	m_pauseUI->Initialize(windowSize, pauseTex);
 }
 
 
@@ -158,64 +166,21 @@ void StageScene::Initialize()
  */
 void StageScene::Update(float elapsedTime)
 {
-	// リザルト表示中
-	if (m_overlayMode == Overlay::RESULT)
+	// モードに応じて更新
+	switch (m_overlayMode)
 	{
+	case StageScene::Overlay::GAMEPLAY:
+		UpdateGameplay(elapsedTime);
+		break;
+	case StageScene::Overlay::PAUSE:
+		UpdatePause(elapsedTime);
+		break;
+	case StageScene::Overlay::RESULT:
 		UpdateResult(elapsedTime);
-		return;
+		break;
 	}
 
-	// キー操作のモード切り替え
-	if (m_userResources->GetKeyboardTracker()->IsKeyPressed(m_keyConfig.mode_switch))
-	{
-		ChangeKeyMode();
-	}
-
-	// プレイヤーの更新
-	m_player->Update(elapsedTime);
-
-	// 敵の更新
-	m_enemyManager->Update(elapsedTime, m_player.get());
-
-	// カメラの更新
-	if (!m_keyMode) m_camera->Rotation(m_userResources->GetKeyboardTracker(), m_keyConfig);
-	m_camera->Update(elapsedTime);
-
-	// ステージの更新
-	m_stageManager->Update(elapsedTime, m_camera->GetEye(), m_camera->GetUp());
-
-	// エフェクトの更新
-	m_effectManager->Update(elapsedTime);
-
-	// UIの更新
-	m_UIManager->Update(elapsedTime);
-
-	// 当たり判定の更新
-	m_collisionManager->Update();
-
-	// 落下時のリスポーン
-	if (m_player->GetPosition().y <= m_player->GetKillHeight()) m_player->Respawn();
-
-	// リザルトの表示　
-	if (m_stageManager->IsGoal())
-	{
-		// SEの再生
-		PlaySE("clearSE");
-
-		// リザルトUIの有効化
-		m_UIManager->GetResultUI()->Enable();
-
-		m_overlayMode = Overlay::RESULT;
-	}
-
-	// ステージ選択へ戻る
-	if (m_userResources->GetKeyboardTracker()->pressed.Q)
-	{
-		// BGMの停止
-		m_userResources->GetAudioManager()->Stop("stageBGM");
-
-		ChangeScene("StageSelectScene");
-	}
+	m_pauseUI->Update(elapsedTime);
 }
 
 
@@ -232,6 +197,8 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 {
 	// デバッグ情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");
+	debugFont->AddString(150, 30, DirectX::Colors::Red, L"mode=%d", m_overlayMode);
+	debugFont->AddString(250, 30, DirectX::Colors::Red, L"pause=%d", m_pauseUI->GetNowOption());
 
 	// ビュー行列の反映
 	context.view = m_camera->GetView();
@@ -262,6 +229,10 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
 
 	// UIの描画
 	m_UIManager->Draw(context);
+
+	context.spriteBatch->Begin();
+	m_pauseUI->Draw(context);
+	context.spriteBatch->End();
 }
 
 
@@ -275,6 +246,9 @@ void StageScene::Render(RenderContext context, DebugFont* debugFont)
  */
 void StageScene::Finalize()
 {
+	if (m_pauseUI) m_pauseUI->Finalize();
+	m_pauseUI.reset();
+
 	if (m_player) m_player->Finalize();
 	m_player.reset();
 
@@ -485,6 +459,122 @@ void StageScene::DrawObjectsShadow(RenderContext context)
 	}
 
 	m_primitiveBatch->End();
+}
+
+
+
+/**
+ * @brief ゲームプレイ中の更新
+ *
+ * @param elapsedTime	経過時間
+ *
+ * @return なし
+ */
+void StageScene::UpdateGameplay(float elapsedTime)
+{
+	// キー操作のモード切り替え
+	if (m_userResources->GetKeyboardTracker()->IsKeyPressed(m_keyConfig.mode_switch))
+	{
+		ChangeKeyMode();
+	}
+
+	// プレイヤーの更新
+	m_player->Update(elapsedTime);
+
+	// 敵の更新
+	m_enemyManager->Update(elapsedTime, m_player.get());
+
+	// カメラの更新
+	if (!m_keyMode) m_camera->Rotation(m_userResources->GetKeyboardTracker(), m_keyConfig);
+	m_camera->Update(elapsedTime);
+
+	// ステージの更新
+	m_stageManager->Update(elapsedTime, m_camera->GetEye(), m_camera->GetUp());
+
+	// エフェクトの更新
+	m_effectManager->Update(elapsedTime);
+
+	// UIの更新
+	m_UIManager->Update(elapsedTime);
+
+	// 当たり判定の更新
+	m_collisionManager->Update();
+
+	// 落下時のリスポーン
+	if (m_player->GetPosition().y <= m_player->GetKillHeight()) m_player->Respawn();
+
+	// リザルトの表示　
+	if (m_stageManager->IsGoal())
+	{
+		// SEの再生
+		PlaySE("clearSE");
+
+		// リザルトUIの有効化
+		m_UIManager->GetResultUI()->Enable();
+
+		m_overlayMode = Overlay::RESULT;
+	}
+
+	// ポーズに切り替え
+	if (m_userResources->GetKeyboardTracker()->pressed.Q)
+	{
+		m_overlayMode = Overlay::PAUSE;
+
+		m_pauseUI->OpenPause();
+	}
+}
+
+
+
+/**
+ * @brief ポーズ中の更新
+ *
+ * @param elapsedTime	経過時間
+ *
+ * @return なし
+ */
+void StageScene::UpdatePause(float elapsedTime)
+{
+	DirectX::Keyboard::KeyboardStateTracker* kbTracker = m_userResources->GetKeyboardTracker();
+
+	// 選択項目を切り替え
+	if (kbTracker->pressed.Up)
+	{
+		m_pauseUI->SelectUp();
+	}
+	else if (kbTracker->pressed.Down)
+	{
+		m_pauseUI->SelectDown();
+	}
+
+	// スペースキーで項目を選択
+	if (kbTracker->pressed.Space)
+	{
+		switch (m_pauseUI->GetNowOption())
+		{
+		case PauseUI::PAUSE_OPTIONS::RETURN_STAGE:	// ゲームプレイへ
+			m_overlayMode = Overlay::GAMEPLAY;
+			m_pauseUI->ClosePause();
+			break;
+		case PauseUI::PAUSE_OPTIONS::STAGE_SELECT:	// ステージ選択へ
+			// BGMの停止
+			m_userResources->GetAudioManager()->Stop("stageBGM");
+			// シーン移動
+			ChangeScene("StageSelectScene");
+			break;
+		case PauseUI::PAUSE_OPTIONS::RESET_STAGE:	// ステージをリセット
+			Initialize();
+			break;
+		}
+	}
+
+	// ゲームプレイに戻る
+	if (kbTracker->pressed.Q)
+	{
+		m_overlayMode = Overlay::GAMEPLAY;
+
+		m_pauseUI->ClosePause();
+	}
 }
 
 

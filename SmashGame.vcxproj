@@ -247,6 +247,7 @@
     <ClInclude Include="Source\Game\UI\Controls\OperationUI.h" />
     <ClInclude Include="Source\Game\UI\Displays\Button.h" />
     <ClInclude Include="Source\Game\UI\Displays\ClearConditionsUI.h" />
+    <ClInclude Include="Source\Game\UI\Displays\PauseUI.h" />
     <ClInclude Include="Source\Game\UI\Displays\StageResultUI.h" />
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\INumberRenderer.h" />
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.h" />
@@ -315,6 +316,7 @@
     <ClCompile Include="Source\Game\UI\Controls\OperationUI.cpp" />
     <ClCompile Include="Source\Game\UI\Displays\Button.cpp" />
     <ClCompile Include="Source\Game\UI\Displays\ClearConditionsUI.cpp" />
+    <ClCompile Include="Source\Game\UI\Displays\PauseUI.cpp" />
     <ClCompile Include="Source\Game\UI\Displays\StageResultUI.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.cpp" />

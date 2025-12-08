@@ -29,6 +29,7 @@ class AttackUI;
 class StageResultUI;
 class OperationUI;
 class InputGuideUI;
+class PauseUI;
 
 
 // クラスの定義 ===============================================================
@@ -44,6 +45,7 @@ public:
 	{
 		NONE = -1,
 		GAMEPLAY,	// ゲーム
+		PAUSE,		// ポーズ
 		RESULT,		// リザルト
 	};
 
@@ -125,6 +127,9 @@ private:
 	std::unique_ptr<Textures> m_textures;
 
 
+	std::unique_ptr<PauseUI> m_pauseUI;
+
+
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
@@ -176,6 +181,12 @@ private:
 
 	// オブジェクトの影を描画
 	void DrawObjectsShadow(RenderContext context);
+
+	// ゲームプレイ中の更新
+	void UpdateGameplay(float elapsedTime);
+
+	// ポーズ中の更新
+	void UpdatePause(float elapsedTime);
 
 	// リザルト中の更新
 	void UpdateResult(float elapsedTime);

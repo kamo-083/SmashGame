@@ -311,6 +311,9 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Key.h">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\Displays\PauseUI.h">
+      <Filter>UI\Displays</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -482,6 +485,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Key.cpp">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Displays\PauseUI.cpp">
+      <Filter>UI\Displays</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

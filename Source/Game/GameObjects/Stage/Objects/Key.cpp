@@ -46,6 +46,9 @@ void Key::Spawn(
 	DirectX::SimpleMath::Vector3 spawnPos,
 	DirectX::SimpleMath::Vector3 goalPos)
 {
+	// 使用済みならここで終了
+	if (m_state != KeyState::NONE) return;
+
 	// ゴールの位置を設定
 	m_goalPos = goalPos;
 

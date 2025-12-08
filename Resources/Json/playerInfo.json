@@ -18,7 +18,7 @@
         },
         {
             "atkType": "Rolling",
-            "atkParam": [ 3.0, 3.0, 300.0 ]
+            "atkParam": [ 1.5, 4.0, 100.0 ]
         }
     ],
     "modelPath": "playerCat.sdkmesh",
