@@ -76,7 +76,7 @@ void PauseUI::Initialize(
 	Tween2D::TweenData params{
 		start,delta,
 		0.15f,
-		Easing::EaseType::OutBack,
+		Easing::EaseType::InSine,
 		Easing::PlaybackMode::Once
 	};
 	m_widget->Initialize(m_textures->window, params, DirectX::SimpleMath::Vector2(350.f, 267.f), false);
