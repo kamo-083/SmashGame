@@ -81,7 +81,7 @@ public:
 	OBBCollider GetCollider(){ return m_collider; }
 
 	// ’n–Ê‚ÌˆÊ’u‚Æ‚‚³‚ğæ“¾
-	DirectX::SimpleMath::Vector3 GetHeight();
+	DirectX::SimpleMath::Vector3 GetHeight() const;
 
 // “à•”À‘•
 private:

@@ -421,7 +421,7 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 	bodyDesc.velocity = &m_velocity;
 	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
-		[this](uint32_t other, const DirectX::SimpleMath::Vector3& n, float)
+		[this](uint32_t , const DirectX::SimpleMath::Vector3& n, float)
 		{
 			m_physics->SetGroundInfo(n);	// Ú’n–Ê‚Ì–@ü‚ğ“n‚·
 			ReflectOnCollision(n);			// ’µ‚Ë•Ô‚è

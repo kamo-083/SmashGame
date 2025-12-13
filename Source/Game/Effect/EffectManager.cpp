@@ -75,15 +75,15 @@ EffectManager::~EffectManager()
 void EffectManager::LoadShaders(ShaderManager* shaderManager)
 {
 	// 頂点シェーダー
-	shaderManager->CreateVS("effectVS", L"Resources/Shaders/Particle/ParticleVS.cso", INPUT_LAYOUT);
+	shaderManager->CreateVS("effectVS", L"Shaders/Particle/ParticleVS.cso", INPUT_LAYOUT);
 	m_vs = shaderManager->GetVS("effectVS");
 
 	// ピクセルシェーダー
-	shaderManager->CreatePS("effectPS", L"Resources/Shaders/Particle/ParticlePS.cso");
+	shaderManager->CreatePS("effectPS", L"Shaders/Particle/ParticlePS.cso");
 	m_ps = shaderManager->GetPS("effectPS");
 
 	// ジオメトリシェーダー
-	shaderManager->CreateGS("effectGS", L"Resources/Shaders/Particle/ParticleGS.cso");
+	shaderManager->CreateGS("effectGS", L"Shaders/Particle/ParticleGS.cso");
 	m_gs = shaderManager->GetGS("effectGS");
 
 	//	シェーダーにデータを渡すためのコンスタントバッファ生成

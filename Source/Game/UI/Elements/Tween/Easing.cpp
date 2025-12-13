@@ -23,9 +23,21 @@ float Easing::EaseValue(EaseType ease, float t)
 
 	switch (ease)
 	{
-	case Easing::EaseType::Liner:
+	case Easing::EaseType::Linear:
 	{
 		return t;
+	}
+	case Easing::EaseType::InSine:
+	{
+		return 1 - std::cos((t * DirectX::XM_PI) / 2);
+	}
+	case Easing::EaseType::OutSine:
+	{
+		return std::cos((t * DirectX::XM_PI) / 2);
+	}
+	case Easing::EaseType::InOutSine:
+	{
+		return -(std::cos(DirectX::XM_PI * t) - 1) / 2;
 	}
 	case Easing::EaseType::InQuart:
 	{
@@ -34,6 +46,17 @@ float Easing::EaseValue(EaseType ease, float t)
 	case Easing::EaseType::OutQuart:
 	{
 		return 1.f - std::pow(1.f - t, 4.f);
+	}
+	case Easing::EaseType::InOutQuart:
+	{
+		if (t < 0.5f) {
+			// ‘O”¼FIn
+			return 0.5f * EaseValue(EaseType::InQuart, t * 2.f - 1.f);
+		}
+		else {
+			// Œã”¼FOut
+			return 0.5f + 0.5f * EaseValue(EaseType::OutQuart, t * 2.f);
+		}
 	}
 	case Easing::EaseType::OutInQuart:
 	{

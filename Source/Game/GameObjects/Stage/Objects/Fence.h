@@ -12,9 +12,12 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Physics/Collision.h"
-#include"Source/Game/Physics/CollisionManager.h"
 #include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/Common/ResourceManager.h"
+
+
+// クラスの宣言 ===============================================================
+class ResourceManager;
+class CollisionManager;
 
 
 // クラスの定義 ===============================================================

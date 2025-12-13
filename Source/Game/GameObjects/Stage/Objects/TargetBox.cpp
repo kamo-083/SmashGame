@@ -7,16 +7,18 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "TargetBox.h"
+#include "Source/Game/Common/ResourceManager.h"
 
 
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param context	デバイスコンテキストのポインタ
+ * @param なし
  */
 TargetBox::TargetBox(ID3D11DeviceContext* context)
 	: m_collisionHandle{ 0 }
+	, m_model(nullptr)
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -28,7 +30,7 @@ TargetBox::TargetBox(ID3D11DeviceContext* context)
  */
 TargetBox::~TargetBox()
 {
-	m_geometricPrimitive.reset();
+
 }
 
 
@@ -36,6 +38,7 @@ TargetBox::~TargetBox()
 /**
  * @brief 初期化処理
  *
+ * @param pRM			リソースマネージャーのポインタ
  * @param pCM			当たり判定マネージャーのポインタ
  * @param pEM			敵マネージャーのポインタ
  * @param operation		ぶつけた時の処理
@@ -46,6 +49,7 @@ TargetBox::~TargetBox()
  * @return なし
  */
 void TargetBox::Initialize(
+	ResourceManager* pRM,
 	CollisionManager* pCM,
 	EnemyManager* pEM,
 	std::function<void()> operation,
@@ -57,6 +61,9 @@ void TargetBox::Initialize(
 	m_position = position;
 	m_halfLength = halfLength;
 	m_angle = angle;
+
+	// モデルの読み込み
+	m_model = pRM->RequestSDKMESH("box", "box.sdkmesh");
 
 	// ぶつけた時の処理
 	m_operation = operation;
@@ -110,6 +117,7 @@ void TargetBox::Draw(RenderContext& context)
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_halfLength * 2.0f);
+	//scale = DirectX::SimpleMath::Matrix::CreateScale(1.f);
 	float rotX = DirectX::XMConvertToRadians(m_angle.x);
 	float rotY = DirectX::XMConvertToRadians(m_angle.y);
 	float rotZ = DirectX::XMConvertToRadians(m_angle.z);
@@ -118,8 +126,11 @@ void TargetBox::Draw(RenderContext& context)
 		DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	// モデルの仮描画
-	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Brown);
+	// モデルの描画
+	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+
+	// 当たり判定の描画(デバッグ用)
+	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);
 }
 
 
@@ -133,5 +144,5 @@ void TargetBox::Draw(RenderContext& context)
  */
 void TargetBox::Finalize()
 {
-	
+	m_model = nullptr;
 }

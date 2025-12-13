@@ -89,7 +89,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		{
 			std::function<void()> operate = [this, data](){ m_key->Spawn(data.position, m_goal->GetPosition()); };
 			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(context)));
-			m_targetBoxes.back()->Initialize(pCM, pEM, operate, data.position, data.scale);
+			m_targetBoxes.back()->Initialize(pRM, pCM, pEM, operate, data.position, data.scale);
 			break;
 		}
 		// ƒGƒŠƒA
@@ -130,7 +130,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		}
 	}
 	// Œ®
-	m_key = std::make_unique<Key>(context);
+	m_key = std::make_unique<Key>(context, pRM);
 
 	// “G‚Ì¶¬
 	for (StageLoader::EnemyData data : enemyData)

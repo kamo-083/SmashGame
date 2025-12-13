@@ -25,10 +25,10 @@ public:
 	// アニメーションのパラメータ
 	struct UIParams
 	{
-		TVec pos;		// 位置(Vector2/Vector3)
-		TVec scale;		// 大きさ(Vector2/Vector3)
-		TRot rotation;	// 回転(float(ラジアン)/Quaternion)
-		float opacity;	// 不透明度
+		TVec pos;				// 位置(Vector2/Vector3)
+		TVec scale;				// 大きさ(Vector2/Vector3)
+		TRot rotation;			// 回転(float(ラジアン)/Quaternion)
+		float opacity = 1.0f;	// 不透明度
 	};
 
 	// トゥイーンに必要なデータ
@@ -116,8 +116,11 @@ public:
 	// トゥイーン情報を設定
 	void SetTweenData(TweenData data) { m_data = data; }
 
-	// 進行度を取得
-	float GetProgress() { return Easing::EaseValue(m_data.ease, m_elapsedTime / m_data.duration); }
+	// イージング済みの進行度を取得
+	float GetEasingProgress() { return Easing::EaseValue(m_data.ease, m_elapsedTime / m_data.duration); }
+
+	// 素の進行度を取得
+	float GetLinearProgress() { return m_elapsedTime / m_data.duration; }
 
 
 // 内部実装

@@ -10,10 +10,11 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/GameObjects/Camera.h"
-#include"Source/Game/Common/ShaderManager.h"
-#include"Source/Game/Effect/Trajectory/TrajectoryParticle.h"
-#include"Source/Game/Effect/Circle/CircleParticle.h"
+#include "Source/Game/Common/DeviceResources.h"
+#include "Source/Game/GameObjects/Camera.h"
+#include "Source/Game/Common/ShaderManager.h"
+#include "Source/Game/Effect/Trajectory/TrajectoryParticle.h"
+#include "Source/Game/Effect/Circle/CircleParticle.h"
 
 
 // クラスの定義 ===============================================================

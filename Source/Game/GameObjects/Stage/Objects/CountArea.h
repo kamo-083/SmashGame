@@ -19,6 +19,9 @@
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/Elements/NumberRenderer/NumberRenderer3D.h"
 
+// クラスの宣言 ===============================================================
+class ResourceManager;
+
 
 // クラスの定義 ===============================================================
 /**

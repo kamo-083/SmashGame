@@ -22,6 +22,7 @@ class UIElement;
 class StageResultUI;
 class AttackUI;
 class PauseUI;
+class UIDimmer;
 
 
 // クラスの定義 ===============================================================
@@ -60,11 +61,30 @@ private:
 		TextureDesc text_operation;
 		TextureDesc text_conditions;
 		TextureDesc text_keys;
-		TextureDesc text_pause;
+		TextureDesc text_pauseOptions;
+		TextureDesc text_pauseTitle;
 
 		// その他
 		TextureDesc base_key;
 	};
+
+	// ディマーの暗さ
+	static constexpr float DIMMER_DARKNESS = 0.5f;
+
+	// 画像サイズ
+	DirectX::SimpleMath::Vector2 TEX_SIZE_ICON_ATK = { 200.0f,200.0f };			// 攻撃UIアイコン
+	DirectX::SimpleMath::Vector2 TEX_SIZE_ICON_CAM = { 200.0f,135.0f };			// カメラアイコン
+	DirectX::SimpleMath::Vector2 TEX_SIZE_WINDOW_RESULT = { 350.0f, 400.0f };	// リザルトウィンドウ
+	DirectX::SimpleMath::Vector2 TEX_SIZE_WINDOW_PAUSE = { 350.0f, 267.0f };	// ポーズウィンドウ
+	DirectX::SimpleMath::Vector2 TEX_SIZE_ARROW_NOMAL = { 200.0f, 100.0f };		// 矢印(通常)
+	DirectX::SimpleMath::Vector2 TEX_SIZE_ARROW_ROTATE = { 200.0f, 200.0f };	// 矢印(回転)
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_OPERATION = { 50.0f, 100.0f };	// 操作キーテキスト
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_CONDITION = { 300.0f, 90.0f };	// クリア条件テキスト
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_KEYS = { 60.0f, 60.0f };			// 入力キーテキスト
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_OPTION = { 350.0f, 200.0f };		// ポーズ選択肢テキスト
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_TITLE = { 350.0f, 70.0f };		// ポーズタイトルテキスト
+	DirectX::SimpleMath::Vector2 TEX_SIZE_KEY_BASE = { 150.0f, 150.0f };		// キー
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -76,6 +96,9 @@ private:
 
 	// テクスチャ群
 	std::unique_ptr<UITextures> m_textures;
+
+	// ディマー
+	std::unique_ptr<UIDimmer> m_dimmer;
 
 	// 基本UIの配列
 	std::vector<std::unique_ptr<UIElement>> m_elements;
@@ -109,6 +132,7 @@ public:
 public:
 	// UIの初期化(ステージ用)
 	void SetupStageUI(
+		DX::DeviceResources* pDR,
 		DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 		ClearConditionsUI::ConditionsType conditionsType,
 		const InputKeyLoader::InputKeyInfo& keyConfig
@@ -144,6 +168,9 @@ public:
 
 // 内部実装
 private:
+	// ディマーの描画
+	void DrawDimmer(UIElement* ui, RenderContext context);
+
 	// リザルトUIの作成
 	void CreateResultUI();
 

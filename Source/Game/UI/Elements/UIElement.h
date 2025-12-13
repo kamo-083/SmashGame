@@ -58,6 +58,12 @@ public:
 	// 現在のパラメータの取得
 	Tween2D::UIParams GetParam() const { return m_widget->GetParam(); }
 
+	// アニメーションのイージング済みの進行度を取得
+	float GetAnimEasingProgress() { return m_widget->GetEasingProgress(); }
+
+	// アニメーションの素の進行度を取得
+	float GetAnimLinearProgress() { return m_widget->GetLinearProgress(); }
+
 // 内部実装
 private:
 

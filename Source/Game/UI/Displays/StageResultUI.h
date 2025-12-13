@@ -21,7 +21,7 @@ class StageResultUI :public UIElement
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-
+	static constexpr float ANIM_TIME = 0.25f;
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -61,6 +61,8 @@ public:
 
 	// 取得/設定
 public:
+	// 有効かどうかを返す
+	bool IsEnable() { return m_enable; }
 
 	// 内部実装
 private:

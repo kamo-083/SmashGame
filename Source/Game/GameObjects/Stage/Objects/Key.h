@@ -10,10 +10,12 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include "Source/Game/Physics/Collision.h"
-#include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
+
+
+// クラスの宣言 ===============================================================
+class ResourceManager;
 
 
 // クラスの定義 ===============================================================
@@ -33,6 +35,9 @@ public:
 		FINISHED	// 移動済み
 	};
 
+	// アニメーション関連
+	static constexpr float ANIMATION_TIME = 1.0f;
+	static constexpr float SPAWN_HEIGHT = 2.0f;
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -45,6 +50,9 @@ private:
 	// 四角形
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
+	// モデル
+	DirectX::Model* m_model;
+
 	// トゥイーン関連
 	std::unique_ptr<Tween3D> m_tweenAnim;
 	Tween3D::UIParams m_tweenParam;
@@ -54,7 +62,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Key(ID3D11DeviceContext* context);
+	Key(ID3D11DeviceContext* context, ResourceManager* pRM);
 
 	// デストラクタ
 	~Key();
@@ -79,7 +87,7 @@ public:
 // 取得/設定
 public:
 	// 状態の取得
-	KeyState GetState() { return m_state; }
+	KeyState GetState() const { return m_state; }
 
 // 内部実装
 private:

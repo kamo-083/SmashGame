@@ -62,7 +62,7 @@ void StageResultUI::Initialize(
 	{
 		Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,0.0f),0.0f,1.0f},
 		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),DirectX::SimpleMath::Vector2(0.0f,1.0f),0.0f,0.0f},
-		0.25f,
+		ANIM_TIME,
 		Easing::EaseType::OutBack,
 		Easing::PlaybackMode::Once
 	};

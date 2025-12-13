@@ -23,9 +23,13 @@ public:
 	// イージングの種類
 	enum class EaseType
 	{
-		Liner,
+		Linear,
+		InSine,
+		OutSine,
+		InOutSine,
 		InQuart,
 		OutQuart,
+		InOutQuart,
 		OutInQuart,
 		OutBack,
 		OutElastic,

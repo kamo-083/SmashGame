@@ -34,7 +34,7 @@ public:
 	const ConditionsType CONDITIONS_TYPE;
 
 	// トゥイーンアニメーションの時間
-	static constexpr float TWEEN_ANIM_TIME = 2.0f;
+	static constexpr float ANIM_TIME = 2.0f;
 
 
 	// データメンバの宣言 -----------------------------------------------

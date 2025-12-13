@@ -7,19 +7,23 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Key.h"
+#include "Source/Game/Common/ResourceManager.h"
 
 
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param context	デバイスコンテキストのポインタ
+ * @param pRM		リソースマネージャーのポインタ
  */
-Key::Key(ID3D11DeviceContext* context)
+Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM)
 	: m_state(KeyState::NONE)
+	, m_model(nullptr)
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 
+	// モデルの読み込み
+	m_model = pRM->RequestSDKMESH("key", "key.sdkmesh");
 }
 
 
@@ -123,7 +127,12 @@ void Key::Draw(RenderContext& context, DebugFont* debugFont)
 		DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_tweenParam.pos);
 		DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_tweenParam.rotation);
 		world = rot * trans;
-		m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);
+
+		// モデルの描画
+		m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+
+		// 当たり判定の描画(デバッグ用)
+		//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);
 	}
 
 	// デバッグ情報の追加
@@ -152,7 +161,7 @@ void Key::Draw(RenderContext& context, DebugFont* debugFont)
  */
 void Key::Finalize()
 {
-	m_geometricPrimitive.reset();
+	m_model = nullptr;
 }
 
 
@@ -175,15 +184,15 @@ void Key::SetupSpawnAnim(DirectX::SimpleMath::Vector3 startPos)
 	};
 	// 変化量
 	Tween3D::UIParams delta = {
-		DirectX::SimpleMath::Vector3(0.0f,2.0f,0.0f),
+		DirectX::SimpleMath::Vector3(0.0f,SPAWN_HEIGHT,0.0f),
 		DirectX::SimpleMath::Vector3(0.0f),
 		DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(
-			DirectX::SimpleMath::Vector3::Up,DirectX::XMConvertToRadians(180.0f)),
+			DirectX::SimpleMath::Vector3::Up,DirectX::XM_PI),
 		0.0f
 	};
 	// パラメータを設定
 	Tween3D::TweenData data = {
-		start,delta,1.0f,
+		start,delta,ANIMATION_TIME,
 		Easing::EaseType::OutQuart,
 		Easing::PlaybackMode::Once
 	};
@@ -213,7 +222,7 @@ void Key::SetupFlyingAnim()
 	};
 	// パラメータを設定 
 	Tween3D::TweenData data = {
-		start,delta,1.0f,
+		start,delta,ANIMATION_TIME,
 		Easing::EaseType::OutQuart,
 		Easing::PlaybackMode::Once
 	};

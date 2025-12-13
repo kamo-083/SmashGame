@@ -40,12 +40,14 @@ PauseUI::~PauseUI()
  *
  * @param windowSize	ウィンドウサイズ
  * @param textures		テクスチャ群のポインタ
+ * @param desc			引数用構造体
  *
  * @return なし
  */
 void PauseUI::Initialize(
 	const DirectX::SimpleMath::Vector2& windowSize,
-	Textures& textures)
+	const Textures& textures,
+	const PauseUIDesc& desc)
 {
 	// 開かれているかのフラグを初期化
 	m_isOpen = false;
@@ -59,27 +61,11 @@ void PauseUI::Initialize(
 	// テクスチャ群の設定
 	m_textures = std::make_unique<Textures>();
 	m_textures->window = textures.window;
-	m_textures->text = textures.text;
+	m_textures->titleText = textures.titleText;
+	m_textures->optionsText = textures.optionsText;
 
-	// 背景
-	m_widget = std::make_unique<UIWidget>();
-	Tween2D::UIParams start{
-		m_windowSize * 0.5f,
-		DirectX::SimpleMath::Vector2(1.0f,0.0f),
-		0.0f,1.0f
-	};
-	Tween2D::UIParams delta{
-		DirectX::SimpleMath::Vector2::Zero,
-		DirectX::SimpleMath::Vector2(0.0f,1.0f),
-		0.0f,1.0f
-	};
-	Tween2D::TweenData params{
-		start,delta,
-		0.15f,
-		Easing::EaseType::InSine,
-		Easing::PlaybackMode::Once
-	};
-	m_widget->Initialize(m_textures->window, params, DirectX::SimpleMath::Vector2(350.f, 267.f), false);
+	// ウィジェットの作成
+	SetupWidget(desc);
 }
 
 
@@ -96,7 +82,8 @@ void PauseUI::Update(float elapsedTime)
 	if (!m_isOpen) return;	// 開いていなかったら終了
 
 	// ウィジェットの更新
-	m_widget->Update(elapsedTime);
+	m_widget->Update(elapsedTime);			// 背景
+	m_titleWidget->Update(elapsedTime);		// タイトル
 }
 
 
@@ -113,34 +100,34 @@ void PauseUI::Draw(RenderContext context)
 	if (!m_isOpen) return;	// 開いていなかったら終了
 
 	// ウィジェットの描画
-	m_widget->Draw(context.spriteBatch);
+	m_widget->Draw(context.spriteBatch);		// 背景
+	m_titleWidget->Draw(context.spriteBatch);	// タイトル
 
-	// テキスト描画の初期設定
-	float height = 60;
-	float numHalf = std::floor(static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM) / 2);	// 項目をずらす数を求める
-	DirectX::SimpleMath::Vector2 textPos = { 0,-(height * numHalf) };				// 真ん中の項目がウィンドウの中央に来るようにずらす
+	// 選択肢テキストの初期設定
+	float numHalf = std::floorf(static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM) / 2);		// 項目をずらす数を求める
+	DirectX::SimpleMath::Vector2 textPos = { 0,-(static_cast<float>(OPTIONS_HEIGHT) * numHalf) };	// 真ん中の項目がウィンドウの中央に来るように位置をずらす
 	RECT rect = { 0,0,0,0 };
-	rect.right = 350;
-	rect.bottom = height;
+	rect.right = OPTIONS_WIDTH;
+	rect.bottom = OPTIONS_HEIGHT;
 	DirectX::SimpleMath::Color color = { 1,1,1,0 };
 
 	// 項目数だけ回す
 	for (int i = 0; i < static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM); i++)
 	{
 		// 選択されている項目だったら色を変える
-		if (i == static_cast<int>(m_options))	color.z = 0;	// 黄
-		else									color.z = 1;	// 白
+		if (i == static_cast<int>(m_options))	color = SELECTED_COLOR;
+		else									color = UNSELECTED_COLOR;
 
-		// テキストを描画
+		// 選択肢テキストを描画
 		m_widget->Draw(
 			context.spriteBatch,
-			m_textures->text,
+			m_textures->optionsText,
 			textPos, &rect, FLT_MAX, color);
 
 		// 表示位置をずらす
-		textPos.y += height;
-		rect.top += height;
-		rect.bottom += height;
+		textPos.y += OPTIONS_HEIGHT;
+		rect.top += OPTIONS_HEIGHT;
+		rect.bottom += OPTIONS_HEIGHT;
 	}
 }
 
@@ -157,6 +144,9 @@ void PauseUI::Finalize()
 {
 	if (m_widget) m_widget->Finalize();
 	m_widget.reset();
+	
+	if (m_titleWidget) m_titleWidget->Finalize();
+	m_titleWidget.reset();
 
 	m_textures.reset();
 }
@@ -173,7 +163,8 @@ void PauseUI::Finalize()
 void PauseUI::OpenPause()
 {
 	// アニメーションを再生
-	m_widget->GetTween()->Play();
+	m_widget->GetTween()->Play();		// 背景
+	m_titleWidget->GetTween()->Play();	// タイトル
 
 	// フラグを開いている状態に設定
 	m_isOpen = true;
@@ -191,7 +182,8 @@ void PauseUI::OpenPause()
 void PauseUI::ClosePause()
 {
 	// アニメーションを初期化
-	m_widget->TweenReset();
+	m_widget->TweenReset();			// 背景
+	m_titleWidget->TweenReset();	// タイトル
 
 	// フラグを閉じている状態に設定
 	m_isOpen = false;
@@ -238,4 +230,56 @@ void PauseUI::SelectDown()
 	{
 		m_options = static_cast<PAUSE_OPTIONS>(static_cast<int>(PAUSE_OPTIONS::NONE) + 1);
 	}
+}
+
+
+
+/**
+ * @brief ウィジェットの初期設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void PauseUI::SetupWidget(const PauseUIDesc& desc)
+{
+	// 背景
+	m_widget = std::make_unique<UIWidget>();
+	Tween2D::UIParams start_back{
+		m_windowSize * 0.5f,
+		DirectX::SimpleMath::Vector2(1.0f, 0.0f),
+		0.0f,1.0f
+	};
+	Tween2D::UIParams delta_back{
+		DirectX::SimpleMath::Vector2::Zero,
+		DirectX::SimpleMath::Vector2(0.0f, 1.0f),
+		0.0f,0.0f
+	};
+	Tween2D::TweenData params_back{
+		start_back,delta_back,
+		WINDOW_ANIM_TIME,
+		Easing::EaseType::OutBack,
+		Easing::PlaybackMode::Once
+	};
+	m_widget->Initialize(m_textures->window, params_back, desc.windowTexSize, false);
+
+	// タイトル
+	m_titleWidget = std::make_unique<UIWidget>();
+	Tween2D::UIParams start_title{
+		DirectX::SimpleMath::Vector2(start_back.pos.x, start_back.pos.y - TITLE_POS_ADJUST),
+		DirectX::SimpleMath::Vector2(1.0f, 1.0f),
+		0.0f,1.0f
+	};
+	Tween2D::UIParams delta_title{
+		DirectX::SimpleMath::Vector2(0.0f, TEXT_TITLE_MOVE),
+		DirectX::SimpleMath::Vector2(0.0f, 0.0f),
+		0.0f,0.0f
+	};
+	Tween2D::TweenData params_title{
+		start_title,delta_title,
+		TITLE_ANIM_TIME,
+		Easing::EaseType::InOutSine,
+		Easing::PlaybackMode::PingPong
+	};
+	m_titleWidget->Initialize(m_textures->titleText, params_title, desc.titleTexSize, false);
 }

@@ -7,6 +7,8 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Fence.h"
+#include"Source/Game/Physics/CollisionManager.h"
+#include"Source/Game/Common/ResourceManager.h"
 
 
 // メンバ関数の定義 ===========================================================

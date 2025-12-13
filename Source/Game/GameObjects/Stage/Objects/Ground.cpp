@@ -135,7 +135,7 @@ void Ground::Finalize()
  *
  * @return ’n–Ê‚ÌˆÊ’u
  */
-DirectX::SimpleMath::Vector3 Ground::GetHeight()
+DirectX::SimpleMath::Vector3 Ground::GetHeight() const
 {
 	DirectX::SimpleMath::Vector3 pos = m_position;
 	pos.y += HALF_LENGTH.y * 2.0f;

@@ -314,6 +314,9 @@
     <ClInclude Include="Source\Game\UI\Displays\PauseUI.h">
       <Filter>UI\Displays</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\UIDimmer.h">
+      <Filter>UI\Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -488,6 +491,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\Displays\PauseUI.cpp">
       <Filter>UI\Displays</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Elements\UIDimmer.cpp">
+      <Filter>UI\Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

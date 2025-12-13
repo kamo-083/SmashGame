@@ -115,7 +115,7 @@ void StageScene::Initialize()
 
 	// UIマネージャーの作成
 	m_UIManager = std::make_unique<UIManager>(windowSize, pRM);
-	m_UIManager->SetupStageUI(m_userResources->GetKeyboardTracker(), CLEAR_CONDITIONS, keyConfig);
+	m_UIManager->SetupStageUI(pDR, m_userResources->GetKeyboardTracker(), CLEAR_CONDITIONS, keyConfig);
 
 	// 深度ステンシルステートの作成
 	CreateDepthStencilState(pDR->GetD3DDevice());
@@ -526,10 +526,16 @@ void StageScene::UpdatePause(float elapsedTime)
 	// 選択項目を切り替え
 	if (kbTracker->pressed.Up)
 	{
+		// SEの再生
+		PlaySE("cursorSE");
+		// 選択項目を上へ
 		m_UIManager->GetPauseUI()->SelectUp();
 	}
 	else if (kbTracker->pressed.Down)
 	{
+		// SEの再生
+		PlaySE("cursorSE");
+		// 選択項目を下へ
 		m_UIManager->GetPauseUI()->SelectDown();
 	}
 
@@ -758,6 +764,7 @@ void StageScene::SetupSounds(AudioManager* pAM)
 	pAM->LoadMP3("canGoalSE", "SE/bell.mp3");
 	pAM->LoadMP3("clearSE", "SE/one08.mp3");
 	pAM->LoadMP3("attackSE", "SE/hit01.mp3");
+	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
 
 	// BGM・SEの音量変更
 	pAM->SetVolume("stageBGM", BGM_VOLUME);

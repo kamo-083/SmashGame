@@ -158,7 +158,7 @@ bool ShaderManager::CreateGS(const std::string& name, const wchar_t* filePath)
 /**
  * @brief 頂点シェーダーの取得
  *
- * @param name		取得したい頂点シェーダーのキー
+ * @param name	取得したい頂点シェーダーのキー
  *
  * @return	頂点シェーダーの情報のポインタ
  */
@@ -179,7 +179,7 @@ ShaderManager::VertexShaderEntry* ShaderManager::GetVS(const std::string& name)
 /**
  * @brief ピクセルシェーダーの取得
  *
- * @param name		取得したいピクセルシェーダーのキー
+ * @param name	取得したいピクセルシェーダーのキー
  *
  * @return	ピクセルシェーダーの情報のポインタ
  */
@@ -200,7 +200,7 @@ ShaderManager::PixelShaderEntry* ShaderManager::GetPS(const std::string& name)
 /**
  * @brief ジオメトリシェーダーの取得
  *
- * @param name		取得したいジオメトリシェーダーのキー
+ * @param name	取得したいジオメトリシェーダーのキー
  *
  * @return	ジオメトリシェーダーの情報のポインタ
  */

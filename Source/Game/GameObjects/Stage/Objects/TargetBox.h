@@ -55,6 +55,9 @@ private:
 	// 四角形
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
+	// モデル
+	DirectX::Model* m_model;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -70,6 +73,7 @@ public:
 public:
 	// 初期化処理
 	void Initialize(
+		ResourceManager* pRM,
 		CollisionManager* pCM,
 		EnemyManager* pEM,
 		std::function<void()> operation,
@@ -87,7 +91,7 @@ public:
 // 取得/設定
 public:
 	// 当たり判定の取得
-	OBBCollider GetCollider() { return m_collider; }
+	OBBCollider GetCollider() const { return m_collider; }
 
 // 内部実装
 private:

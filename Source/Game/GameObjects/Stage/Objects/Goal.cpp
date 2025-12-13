@@ -163,7 +163,7 @@ void Goal::OpenGoal()
 	}
 
 	// アニメーションが半分以上終わっていたら、ゴール可能に設定
-	if (m_tweenAnim->GetProgress() >= 0.5f)
+	if (m_tweenAnim->GetEasingProgress() >= 0.5f)
 	{
 		m_canGoal = true;
 	}

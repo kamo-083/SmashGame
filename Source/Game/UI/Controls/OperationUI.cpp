@@ -217,7 +217,7 @@ void OperationUI::SetupWidgets(
 		{centerPos + desc.arrowRotateAdjustPos,vector2::Zero,0.0f,1.0f},
 		{vector2::Zero,vector2::Zero,0.0f,0.0f},
 		TWEEN_TIME,
-		Easing::EaseType::Liner,
+		Easing::EaseType::Linear,
 		Easing::PlaybackMode::Once
 	};
 	widget->Initialize(m_textures->rotateArrow, data, m_arrowSizeRotate, false);

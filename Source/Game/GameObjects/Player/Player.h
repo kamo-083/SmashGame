@@ -57,7 +57,7 @@ private:
 	static constexpr float ANGULAR_VELOCITY = 50.0f;	// 角速度
 	static constexpr float SCALE = 0.02f;		//スケール
 	static constexpr float RESTITUTION = 0.8f;		//衝突判定の反射
-	static constexpr float KILL_HEIGHT = -5.0f;	//落下判定をされる高さ
+	static constexpr float KILL_HEIGHT = -5.0f;		//落下判定をされる高さ
 	static constexpr DirectX::SimpleMath::Vector3 START_POS = { 0.0f,0.0f,2.0f };	// 初期位置
 
 	// エフェクト関連
