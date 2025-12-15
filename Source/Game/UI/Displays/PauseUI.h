@@ -51,8 +51,8 @@ public:
 	static constexpr DirectX::SimpleMath::Color SELECTED_COLOR = { 1,1,0,1 };			// 選択時
 	static constexpr DirectX::SimpleMath::Color UNSELECTED_COLOR = { 0.9,0.9,0.9,1 };	// 非選択時
 
-	static constexpr LONG OPTIONS_HEIGHT = 60.0f;	// 選択肢テキスト画像1行分の高さ
-	static constexpr LONG OPTIONS_WIDTH = 350.0f;	// 選択肢テキスト画像の横幅
+	static constexpr LONG OPTIONS_HEIGHT = 60;	// 選択肢テキスト画像1行分の高さ
+	static constexpr LONG OPTIONS_WIDTH = 350;	// 選択肢テキスト画像の横幅
 
 	static constexpr float TEXT_TITLE_MOVE = -5.0f;	// タイトル画像が動く幅
 

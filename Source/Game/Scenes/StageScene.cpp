@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "StageScene.h"
 #include "Source/Game/Common/SceneManager.h"
+#include "Source/Game/Common/SceneTransition.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
@@ -146,6 +147,10 @@ void StageScene::Initialize()
 
 	// 音声の設定
 	SetupSounds(pAM);
+
+	// シーン遷移演出を開く
+	SceneTransition* transition = m_sceneManager->GetTransition();
+	if (transition->IsClose())	transition->Open();
 }
 
 
@@ -539,6 +544,8 @@ void StageScene::UpdatePause(float elapsedTime)
 		m_UIManager->GetPauseUI()->SelectDown();
 	}
 
+	SceneTransition* transition = m_sceneManager->GetTransition();
+
 	// スペースキーで項目を選択
 	if (kbTracker->pressed.Space)
 	{
@@ -549,10 +556,14 @@ void StageScene::UpdatePause(float elapsedTime)
 			m_UIManager->GetPauseUI()->ClosePause();
 			break;
 		case PauseUI::PAUSE_OPTIONS::STAGE_SELECT:	// ステージ選択へ
-			// BGMの停止
-			m_userResources->GetAudioManager()->Stop("stageBGM");
-			// シーン移動
-			ChangeScene("StageSelectScene");
+			// シーン遷移演出
+			if (transition->IsOpen())
+			{
+				// BGMの停止
+				m_userResources->GetAudioManager()->Stop("stageBGM");
+				// シーンを閉じる
+				transition->Close();
+			}
 			break;
 		case PauseUI::PAUSE_OPTIONS::RESET_STAGE:	// ステージをリセット
 			Initialize();
@@ -566,6 +577,13 @@ void StageScene::UpdatePause(float elapsedTime)
 		m_overlayMode = Overlay::GAMEPLAY;
 
 		m_UIManager->GetPauseUI()->ClosePause();
+	}
+
+	// シーン遷移演出が終わっていたら
+	if (transition->IsClose() && transition->IsEnd())
+	{
+		// シーン移動
+		ChangeScene("StageSelectScene");
 	}
 }
 
@@ -582,12 +600,18 @@ void StageScene::UpdateResult(float elapsedTime)
 {
 	m_UIManager->GetResultUI()->Update(elapsedTime);
 
-	// シーンの切り替え
-	if (m_userResources->GetKeyboardTracker()->pressed.Space)
+	// シーン遷移演出
+	SceneTransition* transition = m_sceneManager->GetTransition();
+	if (m_userResources->GetKeyboardTracker()->pressed.Space && transition->IsOpen())
+	{
+		// シーンを閉じる
+		transition->Close();
+	}
+	if (transition->IsClose() && transition->IsEnd())
 	{
 		// BGMの停止
 		m_userResources->GetAudioManager()->Stop("stageBGM");
-
+		// シーン移動
 		ChangeScene("StageSelectScene");
 	}
 }

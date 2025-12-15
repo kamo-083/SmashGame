@@ -22,6 +22,7 @@
 
 // クラスの宣言 ===============================================================
 class Scene;
+class SceneTransition;
 
 
 // クラスの定義 ===============================================================
@@ -34,6 +35,8 @@ class SceneManager
 private:
 	// シーン配列
 	using SceneCollection = std::unordered_map<std::string, std::unique_ptr<Scene>>;
+
+	static constexpr float TRANSITION_INTERVAL = 0.5f;
 
 
 // データメンバの宣言 -----------------------------------------------
@@ -49,6 +52,9 @@ private:
 
 	// ユーザーリソースのポインタ
 	UserResources* m_userResources;	
+
+	// シーン遷移演出
+	std::unique_ptr<SceneTransition> m_transition;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -83,6 +89,10 @@ public:
 public:
 	// ユーザーリソースのポインタの取得
 	UserResources* GetUserResources() { return m_userResources; }
+
+	// シーン遷移演出の取得
+	SceneTransition* GetTransition() { return m_transition.get(); }
+
 
 // 内部実装
 private:

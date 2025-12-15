@@ -194,6 +194,7 @@
     <ClInclude Include="Source\Game\Common\ResourceManager.h" />
     <ClInclude Include="Source\Game\Common\Scene.h" />
     <ClInclude Include="Source\Game\Common\SceneManager.h" />
+    <ClInclude Include="Source\Game\Common\SceneTransition.h" />
     <ClInclude Include="Source\Game\Common\ShaderManager.h" />
     <ClInclude Include="Source\Game\Common\StepTimer.h" />
     <ClInclude Include="Source\Game\Common\UserResources.h" />
@@ -274,6 +275,7 @@
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
     <ClCompile Include="Source\Game\Common\SceneManager.cpp" />
+    <ClCompile Include="Source\Game\Common\SceneTransition.cpp" />
     <ClCompile Include="Source\Game\Common\ShaderManager.cpp" />
     <ClCompile Include="Source\Game\Effect\Circle\CircleParticle.cpp" />
     <ClCompile Include="Source\Game\Effect\EffectManager.cpp" />
@@ -346,6 +348,7 @@
     <None Include="Resources\Json\stage3.json" />
     <None Include="Resources\Shaders\Area\Area.hlsli" />
     <None Include="Resources\Shaders\Particle\Particle.hlsli" />
+    <None Include="Resources\Shaders\Transition\Transition.hlsli" />
     <None Include="Source\Game\UI\Elements\Tween\Tween.inl" />
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +391,26 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\Particle\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\Particle\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Transition\TransitionGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\Transition\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\Transition\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Transition\TransitionPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\Transition\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\Transition\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Transition\TransitionVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\Transition\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\Transition\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

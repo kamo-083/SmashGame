@@ -89,6 +89,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{488ad2c3-4759-4b53-83d0-e5a5474459c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Transition">
+      <UniqueIdentifier>{3307d00b-b2bb-410f-83e4-0f25053d481b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -317,6 +320,9 @@
     <ClInclude Include="Source\Game\UI\Elements\UIDimmer.h">
       <Filter>UI\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Common\SceneTransition.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -495,6 +501,9 @@
     <ClCompile Include="Source\Game\UI\Elements\UIDimmer.cpp">
       <Filter>UI\Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Common\SceneTransition.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\directx.ico">
@@ -538,6 +547,9 @@
     <None Include="Resources\Json\inputKeyInfo.json">
       <Filter>Json</Filter>
     </None>
+    <None Include="Resources\Shaders\Transition\Transition.hlsli">
+      <Filter>Shader\Transition</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle\ParticleVS.hlsl">
@@ -557,6 +569,15 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Area\AreaVS.hlsl">
       <Filter>Shader\Area</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Transition\TransitionGS.hlsl">
+      <Filter>Shader\Transition</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Transition\TransitionPS.hlsl">
+      <Filter>Shader\Transition</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Transition\TransitionVS.hlsl">
+      <Filter>Shader\Transition</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

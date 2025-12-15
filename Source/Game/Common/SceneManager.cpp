@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/Scene.h"
+#include "Source/Game/Common/SceneTransition.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -22,6 +23,15 @@ SceneManager::SceneManager(UserResources* pUserResources)
 	, m_pRequestedScene{ nullptr }
 	, m_userResources{ pUserResources }
 {
+	// シーン遷移演出の作成
+	DirectX::SimpleMath::Vector2 windowSize ={ 
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom) };
+	m_transition = std::make_unique<SceneTransition>(
+		m_userResources->GetDeviceResources(), 
+		m_userResources->GetShaderManager(),
+		m_userResources->GetResourceManager(),
+		windowSize, TRANSITION_INTERVAL);
 }
 
 
@@ -69,11 +79,11 @@ void SceneManager::Update(float elapsedTime)
 		ChangeScene();
 	}
 
-
 	// 現在のシーンを更新
 	if (m_pCurrentScene)
 	{
 		m_pCurrentScene->Update(elapsedTime);
+		m_transition->Update(elapsedTime);
 	}
 }
 
@@ -91,10 +101,12 @@ void SceneManager::Render(RenderContext context)
 	if (m_pCurrentScene)
 	{
 		m_pCurrentScene->Render(context, m_userResources->GetDebugFont());
+		m_transition->Draw(context);
 	}
 
 	// デバッグ情報の追加
 	m_userResources->GetDebugFont()->AddString(0, 0, DirectX::Colors::White, L"SceneManager");
+	m_userResources->GetDebugFont()->AddString(180, 0, DirectX::Colors::Yellow, L"transition:%0.2f", m_transition->GetRate());
 }
 
 	

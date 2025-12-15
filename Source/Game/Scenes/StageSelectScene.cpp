@@ -7,6 +7,8 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "StageSelectScene.h"
+#include "Source/Game/Common/SceneManager.h"
+#include "Source/Game/Common/SceneTransition.h"
 #include "Source/Game/UI/Displays/Button.h"
 #include "Source/Game/UI/Elements/NumberRenderer/NumberRenderer2D.h"
 #include "Source/Game/Common/RenderTexture.h"
@@ -23,7 +25,8 @@
 StageSelectScene::StageSelectScene(SceneManager* pSM, UserResources* pUR, int stages)
 	: Scene{ pSM,pUR }
 	, STAGES{ stages }
-	, m_selectNum{ 0 }
+	, m_selectStage{ 0 }
+	, m_transitionStage{ -1 }
 {
 
 }
@@ -69,6 +72,13 @@ void StageSelectScene::Initialize()
 	// 音声の設定
 	AudioManager* pAM = m_userResources->GetAudioManager();
 	SetupAudios(pAM);
+
+	// シーン遷移演出を開く
+	SceneTransition* transition = m_sceneManager->GetTransition();
+	if (transition->IsClose())	transition->Open();
+
+	// 遷移先のステージ番号を初期化
+	m_transitionStage = -1;
 }
 
 
@@ -88,10 +98,10 @@ void StageSelectScene::Update(float elapsedTime)
 	if (kb->pressed.Right)
 	{
 		// 前に選択していたステージのパネルをリセット
-		ResetPanel(m_selectNum);
+		ResetPanel(m_selectStage);
 
-		m_selectNum++;
-		if (m_selectNum == STAGES) m_selectNum = 0;
+		m_selectStage++;
+		if (m_selectStage == STAGES) m_selectStage = 0;
 
 		// SEの再生
 		m_userResources->GetAudioManager()->Play("cursorSE", false);
@@ -99,26 +109,46 @@ void StageSelectScene::Update(float elapsedTime)
 	else if (kb->pressed.Left)
 	{
 		// 前に選択していたステージのパネルをリセット
-		ResetPanel(m_selectNum);
+		ResetPanel(m_selectStage);
 
-		m_selectNum--;
-		if (m_selectNum < 0) m_selectNum = STAGES - 1;
+		m_selectStage--;
+		if (m_selectStage < 0) m_selectStage = STAGES - 1;
 
 		// SEの再生
 		m_userResources->GetAudioManager()->Play("cursorSE", false);
 	}
 
 	// ステージパネルの更新
-	m_stagePanels[m_selectNum]->Update(elapsedTime);
+	m_stagePanels[m_selectStage]->Update(elapsedTime);
 
 	// シーン移動
 	if (kb->pressed.Space)	// 各ステージへ
 	{
-		m_stagePanels[m_selectNum]->Press();
+		m_stagePanels[m_selectStage]->Press();
 	}
 	if (kb->pressed.Q)		// タイトル画面へ
 	{
 		ChangeScene("TitleScene");
+	}
+
+	// シーン遷移演出
+	SceneTransition* transition = m_sceneManager->GetTransition();
+	if (kb->pressed.Q && transition->IsOpen())
+	{
+		transition->Close();
+	}
+	if (transition->IsClose() && transition->IsEnd())	// タイトル画面へ
+	{
+		if (m_transitionStage != -1)	// 遷移先のステージ番号が登録されていた場合
+		{
+			// 番号からシーン名を作成
+			std::string stageName = "Stage" + std::to_string(m_transitionStage + 1) + "Scene";
+			ChangeScene(stageName);		// ステージへ
+		}
+		else
+		{
+			ChangeScene("TitleScene");	// タイトルへ
+		}
 	}
 }
 
@@ -136,7 +166,7 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 {
 	// デバッグ用情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageSelectScene");
-	debugFont->AddString(0, 60, DirectX::Colors::Yellow, L"Select:%d",m_selectNum);
+	debugFont->AddString(0, 60, DirectX::Colors::Yellow, L"Select:%d",m_selectStage);
 
 	context.spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
@@ -253,12 +283,17 @@ void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize, Resou
 			pRM->RequestPNG("stagePanel", "UI/stagePanel.png"),
 			data, PANEL_TEX_SIZE,
 			[this, i]() {
+				SceneTransition* transition = m_sceneManager->GetTransition();
+				if (transition->IsOpen())
+				{
+					transition->Close();
+				}
+
 				// BGMの停止
 				if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
 
-				// 選択番号からシーン名を作成
-				std::string stageName = "Stage" + std::to_string(i + 1) + "Scene";
-				ChangeScene(stageName);
+				// 遷移先のステージ番号を保存
+				m_transitionStage = i;
 			});
 		m_stagePanels.push_back(std::move(panel));
 	}

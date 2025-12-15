@@ -74,7 +74,10 @@ private:
 	std::unique_ptr<Textures> m_textures;
 
 	// 選択中のステージ番号
-	int m_selectNum;	
+	int m_selectStage;	
+
+	// 遷移先のステージ番号(無いときは-1)
+	int m_transitionStage;
 
 	// ステージパネル
 	std::vector<std::unique_ptr<Button>> m_stagePanels;

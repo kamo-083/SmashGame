@@ -7,6 +7,8 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "TitleScene.h"
+#include "Source/Game/Common/SceneManager.h"
+#include "Source/Game/Common/SceneTransition.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Displays/Button.h"
 
@@ -88,11 +90,15 @@ void TitleScene::Initialize()
 	start->Initialize(
 		m_textures->start, data, TEXT_SIZE,
 		[this]() {
-			// SEの再生
-			m_userResources->GetAudioManager()->Play("cursorSE", false);
-
-			// シーン切り替え
-			ChangeScene("StageSelectScene");
+			// シーン遷移演出
+			SceneTransition* transition = m_sceneManager->GetTransition();
+			if (transition->IsOpen())
+			{
+				// SEの再生
+				m_userResources->GetAudioManager()->Play("cursorSE", false);
+				// シーンを閉じる
+				transition->Close();
+			}
 		}
 	);
 	m_buttons.push_back(std::move(start));
@@ -116,6 +122,10 @@ void TitleScene::Initialize()
 	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
 	SetupAudio(pAM);
+
+	// シーン遷移演出を開く
+	SceneTransition* transition = m_sceneManager->GetTransition();
+	if (transition->IsClose())	transition->Open();
 }
 
 
@@ -159,8 +169,11 @@ void TitleScene::Update(float elapsedTime)
 	m_titleLogo->Update(elapsedTime);
 	m_buttons[m_selectButton]->Update(elapsedTime);
 
-	if (m_userResources->GetKeyboardTracker()->pressed.P)
+	// シーン遷移演出
+	SceneTransition* transition = m_sceneManager->GetTransition();
+	if (transition->IsClose() && transition->IsEnd())
 	{
+		// 演出が終わっていたらシーン移動
 		ChangeScene("StageSelectScene");
 	}
 }
