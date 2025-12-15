@@ -22,7 +22,7 @@
 
 // クラスの宣言 ===============================================================
 class Scene;
-class SceneTransition;
+class BlockTransition;
 
 
 // クラスの定義 ===============================================================
@@ -36,7 +36,7 @@ private:
 	// シーン配列
 	using SceneCollection = std::unordered_map<std::string, std::unique_ptr<Scene>>;
 
-	static constexpr float TRANSITION_INTERVAL = 0.5f;
+	static constexpr float TRANSITION_INTERVAL = 0.25f;
 
 
 // データメンバの宣言 -----------------------------------------------
@@ -54,7 +54,7 @@ private:
 	UserResources* m_userResources;	
 
 	// シーン遷移演出
-	std::unique_ptr<SceneTransition> m_transition;
+	std::unique_ptr<BlockTransition> m_transition;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -91,7 +91,7 @@ public:
 	UserResources* GetUserResources() { return m_userResources; }
 
 	// シーン遷移演出の取得
-	SceneTransition* GetTransition() { return m_transition.get(); }
+	BlockTransition* GetTransition() { return m_transition.get(); }
 
 
 // 内部実装

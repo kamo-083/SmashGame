@@ -8,7 +8,7 @@
 #include "pch.h"
 #include "StageScene.h"
 #include "Source/Game/Common/SceneManager.h"
-#include "Source/Game/Common/SceneTransition.h"
+#include "Source/Game/Transition/BlockTransition.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
@@ -149,7 +149,7 @@ void StageScene::Initialize()
 	SetupSounds(pAM);
 
 	// シーン遷移演出を開く
-	SceneTransition* transition = m_sceneManager->GetTransition();
+	BlockTransition* transition = m_sceneManager->GetTransition();
 	if (transition->IsClose())	transition->Open();
 }
 
@@ -544,7 +544,7 @@ void StageScene::UpdatePause(float elapsedTime)
 		m_UIManager->GetPauseUI()->SelectDown();
 	}
 
-	SceneTransition* transition = m_sceneManager->GetTransition();
+	BlockTransition* transition = m_sceneManager->GetTransition();
 
 	// スペースキーで項目を選択
 	if (kbTracker->pressed.Space)
@@ -559,8 +559,6 @@ void StageScene::UpdatePause(float elapsedTime)
 			// シーン遷移演出
 			if (transition->IsOpen())
 			{
-				// BGMの停止
-				m_userResources->GetAudioManager()->Stop("stageBGM");
 				// シーンを閉じる
 				transition->Close();
 			}
@@ -582,6 +580,8 @@ void StageScene::UpdatePause(float elapsedTime)
 	// シーン遷移演出が終わっていたら
 	if (transition->IsClose() && transition->IsEnd())
 	{
+		// BGMの停止
+		m_userResources->GetAudioManager()->Stop("stageBGM");
 		// シーン移動
 		ChangeScene("StageSelectScene");
 	}
@@ -601,7 +601,7 @@ void StageScene::UpdateResult(float elapsedTime)
 	m_UIManager->GetResultUI()->Update(elapsedTime);
 
 	// シーン遷移演出
-	SceneTransition* transition = m_sceneManager->GetTransition();
+	BlockTransition* transition = m_sceneManager->GetTransition();
 	if (m_userResources->GetKeyboardTracker()->pressed.Space && transition->IsOpen())
 	{
 		// シーンを閉じる

@@ -8,7 +8,7 @@
 #include "pch.h"
 #include "StageSelectScene.h"
 #include "Source/Game/Common/SceneManager.h"
-#include "Source/Game/Common/SceneTransition.h"
+#include "Source/Game/Transition/BlockTransition.h"
 #include "Source/Game/UI/Displays/Button.h"
 #include "Source/Game/UI/Elements/NumberRenderer/NumberRenderer2D.h"
 #include "Source/Game/Common/RenderTexture.h"
@@ -74,7 +74,7 @@ void StageSelectScene::Initialize()
 	SetupAudios(pAM);
 
 	// シーン遷移演出を開く
-	SceneTransition* transition = m_sceneManager->GetTransition();
+	BlockTransition* transition = m_sceneManager->GetTransition();
 	if (transition->IsClose())	transition->Open();
 
 	// 遷移先のステージ番号を初期化
@@ -94,62 +94,14 @@ void StageSelectScene::Update(float elapsedTime)
 {
 	DirectX::Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
 
-	// ステージ切り替え
-	if (kb->pressed.Right)
-	{
-		// 前に選択していたステージのパネルをリセット
-		ResetPanel(m_selectStage);
-
-		m_selectStage++;
-		if (m_selectStage == STAGES) m_selectStage = 0;
-
-		// SEの再生
-		m_userResources->GetAudioManager()->Play("cursorSE", false);
-	}
-	else if (kb->pressed.Left)
-	{
-		// 前に選択していたステージのパネルをリセット
-		ResetPanel(m_selectStage);
-
-		m_selectStage--;
-		if (m_selectStage < 0) m_selectStage = STAGES - 1;
-
-		// SEの再生
-		m_userResources->GetAudioManager()->Play("cursorSE", false);
-	}
+	// 選択ステージ切り替え
+	ChangeSelectStage(kb);
 
 	// ステージパネルの更新
 	m_stagePanels[m_selectStage]->Update(elapsedTime);
 
 	// シーン移動
-	if (kb->pressed.Space)	// 各ステージへ
-	{
-		m_stagePanels[m_selectStage]->Press();
-	}
-	if (kb->pressed.Q)		// タイトル画面へ
-	{
-		ChangeScene("TitleScene");
-	}
-
-	// シーン遷移演出
-	SceneTransition* transition = m_sceneManager->GetTransition();
-	if (kb->pressed.Q && transition->IsOpen())
-	{
-		transition->Close();
-	}
-	if (transition->IsClose() && transition->IsEnd())	// タイトル画面へ
-	{
-		if (m_transitionStage != -1)	// 遷移先のステージ番号が登録されていた場合
-		{
-			// 番号からシーン名を作成
-			std::string stageName = "Stage" + std::to_string(m_transitionStage + 1) + "Scene";
-			ChangeScene(stageName);		// ステージへ
-		}
-		else
-		{
-			ChangeScene("TitleScene");	// タイトルへ
-		}
-	}
+	TransitionScene(kb);
 }
 
 
@@ -247,6 +199,88 @@ void StageSelectScene::ResetPanel(int panelNum)
 
 
 /**
+ * @brief 選択中のステージを切り替え
+ *
+ * @param kb キーボードトラッカーのポインタ
+ *
+ * @return なし
+ */
+void StageSelectScene::ChangeSelectStage(DirectX::Keyboard::KeyboardStateTracker* kb)
+{
+	if (kb->pressed.Right)	// 右へ
+	{
+		// 前に選択していたステージのパネルをリセット
+		ResetPanel(m_selectStage);
+
+		m_selectStage++;
+		if (m_selectStage == STAGES) m_selectStage = 0;
+
+		// SEの再生
+		m_userResources->GetAudioManager()->Play("cursorSE", false);
+	}
+	else if (kb->pressed.Left)	// 左へ
+	{
+		// 前に選択していたステージのパネルをリセット
+		ResetPanel(m_selectStage);
+
+		m_selectStage--;
+		if (m_selectStage < 0) m_selectStage = STAGES - 1;
+
+		// SEの再生
+		m_userResources->GetAudioManager()->Play("cursorSE", false);
+	}
+}
+
+
+
+/**
+ * @brief シーンを移動
+ *
+ * @param kb キーボードトラッカーのポインタ
+ *
+ * @return なし
+ */
+void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* kb)
+{
+	// シーン遷移演出クラスのポインタを取得
+	BlockTransition* transition = m_sceneManager->GetTransition();
+
+	if (kb->pressed.Space)	// 各ステージへ
+	{
+		m_stagePanels[m_selectStage]->Press();
+	}
+	if (kb->pressed.Q)		// タイトル画面へ
+	{
+		transition->Close();
+	}
+
+	// シーン遷移演出
+	if (kb->pressed.Q && transition->IsOpen())
+	{
+		// シーンを閉じる
+		transition->Close();
+	}
+	if (transition->IsClose() && transition->IsEnd())	// シーン遷移演出が終わっていたら
+	{
+		if (m_transitionStage != -1)	// 遷移先のステージ番号が登録されていた場合
+		{
+			// 番号からシーン名を作成
+			std::string stageName = "Stage" + std::to_string(m_transitionStage + 1) + "Scene";
+			// BGMの停止
+			if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
+
+			ChangeScene(stageName);		// 各ステージへ
+		}
+		else
+		{
+			ChangeScene("TitleScene");	// タイトルへ
+		}
+	}
+}
+
+
+
+/**
  * @brief ステージパネルの設定
  *
  * @param windowSize	ウィンドウサイズ
@@ -283,17 +317,15 @@ void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize, Resou
 			pRM->RequestPNG("stagePanel", "UI/stagePanel.png"),
 			data, PANEL_TEX_SIZE,
 			[this, i]() {
-				SceneTransition* transition = m_sceneManager->GetTransition();
+				BlockTransition* transition = m_sceneManager->GetTransition();
 				if (transition->IsOpen())
 				{
+					// シーンを閉じる
 					transition->Close();
+
+					// 遷移先のステージ番号を保存
+					m_transitionStage = i;
 				}
-
-				// BGMの停止
-				if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
-
-				// 遷移先のステージ番号を保存
-				m_transitionStage = i;
 			});
 		m_stagePanels.push_back(std::move(panel));
 	}

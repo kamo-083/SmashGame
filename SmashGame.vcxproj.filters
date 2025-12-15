@@ -92,6 +92,12 @@
     <Filter Include="Shader\Transition">
       <UniqueIdentifier>{3307d00b-b2bb-410f-83e4-0f25053d481b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Transition">
+      <UniqueIdentifier>{ae2a15bd-d7b5-4fda-ae02-978d2f4ba55c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transition\Block">
+      <UniqueIdentifier>{3df46d73-2940-440c-a08d-7511ee89e933}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -320,8 +326,11 @@
     <ClInclude Include="Source\Game\UI\Elements\UIDimmer.h">
       <Filter>UI\Elements</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Common\SceneTransition.h">
-      <Filter>Common</Filter>
+    <ClInclude Include="Source\Game\Transition\ITransition.h">
+      <Filter>Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Transition\BlockTransition.h">
+      <Filter>Transition\Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -501,8 +510,11 @@
     <ClCompile Include="Source\Game\UI\Elements\UIDimmer.cpp">
       <Filter>UI\Elements</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Common\SceneTransition.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Source\Game\Transition\ITransition.cpp">
+      <Filter>Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Transition\BlockTransition.cpp">
+      <Filter>Transition\Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

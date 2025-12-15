@@ -76,7 +76,7 @@ private:
 	// 選択中のステージ番号
 	int m_selectStage;	
 
-	// 遷移先のステージ番号(無いときは-1)
+	// 遷移先のステージ番号(未登録：-1)
 	int m_transitionStage;
 
 	// ステージパネル
@@ -116,6 +116,12 @@ public:
 private:
 	// 指定したステージパネルをリセット
 	void ResetPanel(int panelNum);
+
+	// 選択中のステージを切り替え
+	void ChangeSelectStage(DirectX::Keyboard::KeyboardStateTracker* kb);
+
+	// シーンを移動
+	void TransitionScene(DirectX::Keyboard::KeyboardStateTracker* kb);
 
 	// 初期設定関連
 	// ステージパネルの設定

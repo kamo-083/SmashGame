@@ -8,7 +8,7 @@
 #include "pch.h"
 #include "TitleScene.h"
 #include "Source/Game/Common/SceneManager.h"
-#include "Source/Game/Common/SceneTransition.h"
+#include "Source/Game/Transition/BlockTransition.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Displays/Button.h"
 
@@ -91,7 +91,7 @@ void TitleScene::Initialize()
 		m_textures->start, data, TEXT_SIZE,
 		[this]() {
 			// シーン遷移演出
-			SceneTransition* transition = m_sceneManager->GetTransition();
+			BlockTransition* transition = m_sceneManager->GetTransition();
 			if (transition->IsOpen())
 			{
 				// SEの再生
@@ -124,7 +124,7 @@ void TitleScene::Initialize()
 	SetupAudio(pAM);
 
 	// シーン遷移演出を開く
-	SceneTransition* transition = m_sceneManager->GetTransition();
+	BlockTransition* transition = m_sceneManager->GetTransition();
 	if (transition->IsClose())	transition->Open();
 }
 
@@ -170,7 +170,7 @@ void TitleScene::Update(float elapsedTime)
 	m_buttons[m_selectButton]->Update(elapsedTime);
 
 	// シーン遷移演出
-	SceneTransition* transition = m_sceneManager->GetTransition();
+	BlockTransition* transition = m_sceneManager->GetTransition();
 	if (transition->IsClose() && transition->IsEnd())
 	{
 		// 演出が終わっていたらシーン移動

@@ -8,7 +8,7 @@
 #include "pch.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/Scene.h"
-#include "Source/Game/Common/SceneTransition.h"
+#include "Source/Game/Transition/BlockTransition.h"
 
 
 // ÉÅÉìÉoä÷êîÇÃíËã` ===========================================================
@@ -27,10 +27,14 @@ SceneManager::SceneManager(UserResources* pUserResources)
 	DirectX::SimpleMath::Vector2 windowSize ={ 
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom) };
-	m_transition = std::make_unique<SceneTransition>(
+	m_transition = std::make_unique<BlockTransition>(
 		m_userResources->GetDeviceResources(), 
 		m_userResources->GetShaderManager(),
 		m_userResources->GetResourceManager(),
+		ITransition::ResourcesDesc{ "blockVS","Shaders/Transition/TransitionVS.cso" },
+		ITransition::ResourcesDesc{ "blockPS","Shaders/Transition/TransitionPS.cso" },
+		ITransition::ResourcesDesc{ "blockGS","Shaders/Transition/TransitionGS.cso" },
+		ITransition::ResourcesDesc{ "blockTransition", "Others/block_mask.png" },
 		windowSize, TRANSITION_INTERVAL);
 }
 

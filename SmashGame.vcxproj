@@ -194,7 +194,6 @@
     <ClInclude Include="Source\Game\Common\ResourceManager.h" />
     <ClInclude Include="Source\Game\Common\Scene.h" />
     <ClInclude Include="Source\Game\Common\SceneManager.h" />
-    <ClInclude Include="Source\Game\Common\SceneTransition.h" />
     <ClInclude Include="Source\Game\Common\ShaderManager.h" />
     <ClInclude Include="Source\Game\Common\StepTimer.h" />
     <ClInclude Include="Source\Game\Common\UserResources.h" />
@@ -243,6 +242,8 @@
     <ClInclude Include="Source\Game\Scenes\StageSelectScene.h" />
     <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
     <ClInclude Include="Source\Game\Scenes\StageScene.h" />
+    <ClInclude Include="Source\Game\Transition\BlockTransition.h" />
+    <ClInclude Include="Source\Game\Transition\ITransition.h" />
     <ClInclude Include="Source\Game\UI\Controls\AttackUI.h" />
     <ClInclude Include="Source\Game\UI\Controls\InputGuideUI.h" />
     <ClInclude Include="Source\Game\UI\Controls\OperationUI.h" />
@@ -275,7 +276,6 @@
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
     <ClCompile Include="Source\Game\Common\SceneManager.cpp" />
-    <ClCompile Include="Source\Game\Common\SceneTransition.cpp" />
     <ClCompile Include="Source\Game\Common\ShaderManager.cpp" />
     <ClCompile Include="Source\Game\Effect\Circle\CircleParticle.cpp" />
     <ClCompile Include="Source\Game\Effect\EffectManager.cpp" />
@@ -314,6 +314,8 @@
     <ClCompile Include="Source\Game\Scenes\StageSelectScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\StageScene.cpp" />
+    <ClCompile Include="Source\Game\Transition\BlockTransition.cpp" />
+    <ClCompile Include="Source\Game\Transition\ITransition.cpp" />
     <ClCompile Include="Source\Game\UI\Controls\AttackUI.cpp" />
     <ClCompile Include="Source\Game\UI\Controls\InputGuideUI.cpp" />
     <ClCompile Include="Source\Game\UI\Controls\OperationUI.cpp" />

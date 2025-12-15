@@ -1,21 +1,13 @@
 /**
- * @file   SceneTransition.cpp
+ * @file   BlockTransition.cpp
  *
  * @brief  シーン遷移演出に関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
-#include "SceneTransition.h"
+#include "BlockTransition.h"
 #include "Source/Game/Common/DeviceResources.h"
-
-// インプットレイアウトを設定
-const std::vector<D3D11_INPUT_ELEMENT_DESC> SceneTransition::INPUT_LAYOUT =
-{
-	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, sizeof(DirectX::SimpleMath::Vector3) + sizeof(DirectX::SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-};
 
 
 // メンバ関数の定義 ===========================================================
@@ -28,28 +20,22 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> SceneTransition::INPUT_LAYOUT =
  * @param windowSize ウィンドウサイズ
  * @param interval	 開閉にかける時間
  */
-SceneTransition::SceneTransition(
+BlockTransition::BlockTransition(
 	DX::DeviceResources* pDR,
 	ShaderManager* pSM,
-	ResourceManager* pRM, 
+	ResourceManager* pRM,
+	const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs, const ResourcesDesc& tex,
 	DirectX::SimpleMath::Vector2 windowSize, float interval)
-	: m_windowSize(windowSize)
-	, m_interval(interval)
-	, m_rate(0.0f)
-	, m_open(true)
-	, m_vs(nullptr)
-	, m_ps(nullptr)
-	, m_gs(nullptr)
-	, m_texture(nullptr)
+	: ITransition(pDR, pSM, pRM, vs, ps, gs, tex, windowSize, interval)
 {
-	// プリミティブバッチの作成
-	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(pDR->GetD3DDeviceContext());
-	
-	// シェーダーの読み込み
-	LoadShader(pDR, pSM);
-
-	// テクスチャの読み込み
-	LoadTexture(pRM);
+	//	シェーダーにデータを渡すためのコンスタントバッファ生成
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(ConstBuffer);
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags = 0;
+	pDR->GetD3DDevice()->CreateBuffer(&bd, nullptr, &m_CBuffer);
 }
 
 
@@ -57,9 +43,9 @@ SceneTransition::SceneTransition(
 /**
  * @brief デストラクタ
  */
-SceneTransition::~SceneTransition()
+BlockTransition::~BlockTransition()
 {
-	m_CBuffer.Reset();
+
 }
 
 
@@ -71,7 +57,7 @@ SceneTransition::~SceneTransition()
  *
  * @return なし
  */
-void SceneTransition::Update(float elapsedTime)
+void BlockTransition::Update(float elapsedTime)
 {
 	if (m_open)
 	{
@@ -96,7 +82,7 @@ void SceneTransition::Update(float elapsedTime)
  *
  * @return なし
  */
-void SceneTransition::Draw(RenderContext context)
+void BlockTransition::Draw(RenderContext context)
 {
 	if (m_rate == 0.0f) return;
 
@@ -112,7 +98,7 @@ void SceneTransition::Draw(RenderContext context)
 			DirectX::SimpleMath::Vector2(0.0f, 0.0f)),
 	};
 
-	//	シェーダーに渡す追加のバッファを作成する。(ConstBuffer）
+	//	シェーダーに渡す追加のバッファを作成
 	ConstBuffer cbuff;
 	cbuff.matView = matrix::Identity;
 	cbuff.matProj = matrix::Identity;
@@ -178,115 +164,7 @@ void SceneTransition::Draw(RenderContext context)
  *
  * @return なし
  */
-void SceneTransition::Finalize()
+void BlockTransition::Finalize()
 {
 
-}
-
-
-
-/**
- * @brief 開く
- *
- * @param なし
- *
- * @return なし
- */
-void SceneTransition::Open()
-{
-	m_open = true;
-	m_rate = 1.0f;
-}
-
-
-
-/**
- * @brief 閉じる
- *
- * @param なし
- *
- * @return なし
- */
-void SceneTransition::Close()
-{
-	m_open = false;
-	m_rate = 0.0f;
-}
-
-
-
-/**
- * @brief シェーダーの読み込み
- *
- * @param pDR	デバイスリソースのポインタ
- * @param pSM	シェーダーマネージャーのポインタ
- *
- * @return なし
- */
-void SceneTransition::LoadShader(DX::DeviceResources* pDR, ShaderManager* pSM)
-{
-	// 頂点シェーダー
-	pSM->CreateVS("transitionVS", L"Shaders/Transition/TransitionVS.cso", INPUT_LAYOUT);
-	m_vs = pSM->GetVS("transitionVS");
-
-	// ピクセルシェーダー
-	pSM->CreatePS("transitionPS", L"Shaders/Transition/TransitionPS.cso");
-	m_ps = pSM->GetPS("transitionPS");
-
-	// ジオメトリシェーダー
-	pSM->CreateGS("transitionGS", L"Shaders/Transition/TransitionGS.cso");
-	m_gs = pSM->GetGS("transitionGS");
-
-	//	シェーダーにデータを渡すためのコンスタントバッファ生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(ConstBuffer);
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = 0;
-	pDR->GetD3DDevice()->CreateBuffer(&bd, nullptr, &m_CBuffer);
-}
-
-
-
-/**
- * @brief テクスチャの読み込み
- *
- * @param pRM	リソースマネージャーのポインタ
- *
- * @return なし
- */
-void SceneTransition::LoadTexture(ResourceManager* pRM)
-{
-	m_texture = pRM->RequestPNG("transition", "Others/block_mask.png");
-}
-
-
-
-/**
- * @brief 終了しているかを返す
- *
- * @param なし
- *
- * @return 終了しているか
- */
-bool SceneTransition::IsEnd()
-{
-	if (GetRate() == 1.0f) return true;
-	else return false;
-}
-
-
-
-/**
- * @brief 進行割合を返す
- *
- * @param なし
- *
- * @return 進行割合
- */
-float SceneTransition::GetRate()
-{
-	if (m_open) return 1.0f - m_rate;
-	return m_rate;
 }

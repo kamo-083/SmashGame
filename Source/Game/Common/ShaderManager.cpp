@@ -46,7 +46,7 @@ ShaderManager::~ShaderManager()
  * @retval false 作成に失敗
  */
 bool ShaderManager::CreateVS(
-	const std::string& name, const wchar_t* filePath, 
+	const std::string& name, const std::string& filePath, 
 	const std::vector<D3D11_INPUT_ELEMENT_DESC>& inputLayoutDesc)
 {
 	// 名前が重複していないか確認
@@ -57,7 +57,7 @@ bool ShaderManager::CreateVS(
 
 	// ファイルを読み込む
 	std::vector<uint8_t> bytecode;
-	if (!LoadFile(filePath, bytecode)) return false;
+	if (!LoadFile(StringToWchar(filePath).c_str(), bytecode)) return false;
 
 	VertexShaderEntry entry{};
 
@@ -96,7 +96,7 @@ bool ShaderManager::CreateVS(
  * @retval true  作成に成功
  * @retval false 作成に失敗
  */
-bool ShaderManager::CreatePS(const std::string& name, const wchar_t* filePath)
+bool ShaderManager::CreatePS(const std::string& name, const std::string& filePath)
 {
 	// 名前が重複していないか確認
 	if (m_pixelShaders.find(name) != m_pixelShaders.end())
@@ -106,7 +106,7 @@ bool ShaderManager::CreatePS(const std::string& name, const wchar_t* filePath)
 
 	// ファイルを読み込む
 	std::vector<uint8_t> bytecode;
-	if (!LoadFile(filePath, bytecode)) return false;
+	if (!LoadFile(StringToWchar(filePath).c_str(), bytecode)) return false;
 
 	PixelShaderEntry entry{};
 
@@ -130,7 +130,7 @@ bool ShaderManager::CreatePS(const std::string& name, const wchar_t* filePath)
  * @retval true  作成に成功
  * @retval false 作成に失敗
  */
-bool ShaderManager::CreateGS(const std::string& name, const wchar_t* filePath)
+bool ShaderManager::CreateGS(const std::string& name, const std::string& filePath)
 {
 	// 名前が重複していないか確認
 	if (m_geometryShaders.find(name) != m_geometryShaders.end())
@@ -140,7 +140,7 @@ bool ShaderManager::CreateGS(const std::string& name, const wchar_t* filePath)
 
 	// ファイルを読み込む
 	std::vector<uint8_t> bytecode;
-	if (!LoadFile(filePath, bytecode)) return false;
+	if (!LoadFile(StringToWchar(filePath).c_str(), bytecode)) return false;
 
 	GeometryShaderEntry entry{};
 
@@ -245,4 +245,18 @@ bool ShaderManager::LoadFile(const wchar_t* filePath, std::vector<uint8_t>& out)
 	if (size) ifs.read(reinterpret_cast<char*>(out.data()), size);
 
 	return static_cast<bool>(ifs);
+}
+
+
+
+/**
+ * @brief string型をwchar_t型へ変換
+ *
+ * @param str	変換したい文字列
+ *
+ * @return 変換後の文字列
+ */
+std::wstring ShaderManager::StringToWchar(std::string str)
+{
+	return std::wstring(str.begin(), str.end());
 }

@@ -68,10 +68,10 @@ public:
 public:
 	// シェーダーを読込・作成
 	bool CreateVS(
-		const std::string& name, const wchar_t* filePath,
+		const std::string& name, const std::string& filePath,
 		const std::vector<D3D11_INPUT_ELEMENT_DESC>& inputLayoutDesc);	// 頂点シェーダー
-	bool CreatePS(const std::string& name, const wchar_t* filePath);	// ピクセルシェーダー
-	bool CreateGS(const std::string& name, const wchar_t* filePath);	// ジオメトリシェーダー
+	bool CreatePS(const std::string& name, const std::string& filePath);	// ピクセルシェーダー
+	bool CreateGS(const std::string& name, const std::string& filePath);	// ジオメトリシェーダー
 
 
 // 取得/設定
@@ -85,4 +85,8 @@ public:
 private:
 	// ファイルの読み込み
 	bool LoadFile(const wchar_t* filePath, std::vector<uint8_t>& out);
+
+	// string型をwchar_t型へ変換
+	std::wstring StringToWchar(std::string str);
+
 };

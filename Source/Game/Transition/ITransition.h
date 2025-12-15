@@ -1,5 +1,5 @@
 /**
- * @file   SceneTransition.h
+ * @file   ITransition.h
  *
  * @brief  シーン遷移演出に関するヘッダファイル
  */
@@ -23,28 +23,23 @@ class DeviceResources;
 /**
  * @brief シーン遷移演出
  */
-class SceneTransition
+class ITransition
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	// シェーダーに渡す定数バッファ
-	struct ConstBuffer
-	{
-		DirectX::SimpleMath::Matrix	 matWorld;		// ワールド行列
-		DirectX::SimpleMath::Matrix	 matView;		// ビュー行列
-		DirectX::SimpleMath::Matrix	 matProj;		// 射影行列
-		DirectX::SimpleMath::Vector4 Diffuse;		// 基本色
-		DirectX::SimpleMath::Vector2 WindowSize;	// ウィンドウサイズ
-		float Rate;									// 進行割合
-		float Dummy;
-	};
-
 	// インプットレイアウト
 	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
 
+	// キーとパスを渡す構造体
+	struct ResourcesDesc
+	{
+		std::string key;	// キー
+		std::string path;	// ファイルパス
+	};
+
 
 	// データメンバの宣言 -----------------------------------------------
-private:
+protected:
 	// ウィンドウサイズ
 	DirectX::SimpleMath::Vector2 m_windowSize;
 
@@ -76,26 +71,24 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	SceneTransition(
+	ITransition(
 		DX::DeviceResources* pDR,
 		ShaderManager* pSM,
 		ResourceManager* pRM,
+		const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs, const ResourcesDesc& tex,
 		DirectX::SimpleMath::Vector2 windowSize, float interval);
 
 	// デストラクタ
-	~SceneTransition();
+	~ITransition();
 
 
 // 操作
 public:
 	// 更新処理
-	void Update(float elapsedTime);
+	virtual void Update(float elapsedTime) = 0;
 
 	// 描画処理
-	void Draw(RenderContext context);
-
-	// 終了処理
-	void Finalize();
+	virtual void Draw(RenderContext context) = 0;
 
 	// 開く
 	void Open();
@@ -107,10 +100,12 @@ public:
 // 取得/設定
 public:
 	// シェーダーの読み込み
-	void LoadShader(DX::DeviceResources* pDR, ShaderManager* pSM);
+	void LoadShader(
+		DX::DeviceResources* pDR, ShaderManager* pSM,
+		const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs);
 
 	// テクスチャの読み込み
-	void LoadTexture(ResourceManager* pRM);
+	void LoadTexture(ResourceManager* pRM, const ResourcesDesc& desc);
 
 	// オープン中かを返す
 	bool IsOpen() { return m_open; }
