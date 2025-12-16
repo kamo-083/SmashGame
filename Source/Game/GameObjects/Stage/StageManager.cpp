@@ -80,7 +80,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		// ’n–Ê
 		case StageLoader::ObjectType::Ground:
 		{
-			m_grounds.push_back(std::move(std::make_unique<Ground>(context, m_depthStencilState.Get())));
+			m_grounds.push_back(std::move(std::make_unique<Ground>(context, m_depthStencilState.Get(), pRM)));
 			m_grounds.back()->Initialize(pCM, data.position, data.scale);
 			break;
 		}

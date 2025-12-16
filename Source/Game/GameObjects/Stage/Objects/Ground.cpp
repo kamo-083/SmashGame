@@ -7,6 +7,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Ground.h"
+#include "Source/Game/Common/ResourceManager.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -15,8 +16,9 @@
  *
  * @param context	デバイスコンテキストのポインタ
  * @param pDSS		深度ステンシルステートのポインタ
+ * @param pRM		リソースマネージャーのポインタ
  */
-Ground::Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS)
+Ground::Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS, ResourceManager* pRM)
 	: m_position{ DirectX::SimpleMath::Vector3::Zero }
 	, m_halfLength{ DirectX::SimpleMath::Vector3::Zero }
 	, m_angle{ DirectX::SimpleMath::Vector3::Zero }
@@ -25,6 +27,9 @@ Ground::Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS)
 	, m_depthStencilState{ pDSS }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
+
+	// モデルの読み込み
+	m_model = pRM->RequestSDKMESH("ground", "ground.sdkmesh");
 }
 
 
@@ -96,20 +101,24 @@ void Ground::Draw(RenderContext& context)
 	float rotX = DirectX::XMConvertToRadians(m_angle.x);
 	float rotY = DirectX::XMConvertToRadians(m_angle.y);
 	float rotZ = DirectX::XMConvertToRadians(m_angle.z);
-	DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationX(rotX) *
+	DirectX::SimpleMath::Matrix rot =
+		DirectX::SimpleMath::Matrix::CreateRotationX(rotX) *
 		DirectX::SimpleMath::Matrix::CreateRotationY(rotY) *
 		DirectX::SimpleMath::Matrix::CreateRotationZ(rotZ);
 	world = scale * rot * trans;
 
-	// モデルの仮描画
-	m_geometricPrimitive->Draw(
-		world, context.view, context.proj, DirectX::Colors::GreenYellow,
-		nullptr, false,
-		[&]() 
-		{
-			// 深度ステンシルステートの設定
-			context.deviceContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
-		});	
+	// モデルの描画
+	DrawGroundGrid(context, m_halfLength.x, m_halfLength.z, rot);
+
+	// 当たり判定の描画
+	//m_geometricPrimitive->Draw(
+	//	world, context.view, context.proj, DirectX::Colors::GreenYellow,
+	//	nullptr, false,
+	//	[&]() 
+	//	{
+	//		// 深度ステンシルステートの設定
+	//		context.deviceContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
+	//	});	
 }
 
 
@@ -123,7 +132,7 @@ void Ground::Draw(RenderContext& context)
  */
 void Ground::Finalize()
 {
-
+	m_model = nullptr;
 }
 
 
@@ -140,4 +149,53 @@ DirectX::SimpleMath::Vector3 Ground::GetHeight() const
 	DirectX::SimpleMath::Vector3 pos = m_position;
 	pos.y += HALF_LENGTH.y * 2.0f;
 	return pos;
+}
+
+
+
+/**
+ * @brief 地面のグリッド描画
+ *
+ * @param context	描画用構造体
+ * @param tilesX	X方向のタイル数
+ * @param tilesZ	Z方向のタイル数
+ * @param rot		回転の行列
+ *
+ * @return なし
+ */
+void Ground::DrawGroundGrid(
+	RenderContext context,
+	const int& tilesX, const int& tilesZ,
+	const DirectX::SimpleMath::Matrix& rot)
+{
+	// 中心への補正値を計算
+	float halfX = (tilesX - 1) * 0.5f;
+	float halfZ = (tilesZ - 1) * 0.5f;
+
+	for (int x = 0; x < tilesX; x++)
+	{
+		// X方向の描画位置を計算
+		float offsetX = (x - halfX) * 2.0f;
+		
+		for (int z = 0; z < tilesZ; z++)
+		{
+			// 描画位置を計算
+			float offsetZ = (z - halfZ) * 2.0f;
+			DirectX::SimpleMath::Vector3 offset(offsetX, 0.0f, offsetZ);
+			DirectX::SimpleMath::Vector3 pos = m_position + offset;
+
+			// ワールド行列を作成
+			DirectX::SimpleMath::Matrix world = rot * DirectX::SimpleMath::Matrix::CreateTranslation(pos);
+
+			// モデルを描画
+			m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+
+			//m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj, false,
+			//		[&]()
+			//		{
+			//			// 深度ステンシルステートの設定
+			//			context.deviceContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
+			//		});
+		}
+	}
 }

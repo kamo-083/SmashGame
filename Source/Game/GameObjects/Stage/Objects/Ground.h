@@ -16,6 +16,10 @@
 #include"Source/Game/Common/RenderContext.h"
 
 
+// クラスの宣言 ===============================================================
+class ResourceManager;
+
+
 // クラスの定義 ===============================================================
 /**
  * @brief 地面
@@ -43,6 +47,9 @@ private:
 	// 衝突判定のハンドル
 	uint32_t m_collisionHandle;
 
+	// モデル
+	DirectX::Model* m_model;
+
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
 	// 深度ステンシルステート
@@ -53,7 +60,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS);
+	Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS, ResourceManager* pRM);
 
 	// デストラクタ
 	~Ground();
@@ -85,6 +92,11 @@ public:
 
 // 内部実装
 private:
-
+	// 地面のグリッド描画
+	void DrawGroundGrid(
+		RenderContext context,
+		const int& tilesX, const int& tilesZ,
+		const DirectX::SimpleMath::Matrix& rot
+	);
 
 };
