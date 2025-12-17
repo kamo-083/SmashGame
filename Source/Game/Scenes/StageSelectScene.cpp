@@ -162,7 +162,7 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 	// ステージ番号・スタンプの描画
 	for (int i = 0; i < STAGES; i++)
 	{
-		// パネルのスケール
+		// パネルのスケールを取得
 		float scale = m_stagePanels[i]->GetParam().scale.x;
 
 		// ステージ番号
@@ -180,11 +180,13 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 		stamp_pos.y += STAMP_TEX_SIZE.y * 0.25f;
 		if (m_stageCleared[i])	// クリア済みかどうか
 		{
-			context.spriteBatch->Draw(m_textures->stamp_on, stamp_pos, &stamp_rect, DirectX::Colors::White, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
+			// スタンプ
+			context.spriteBatch->Draw(m_textures->stamp_on, stamp_pos, &stamp_rect, DirectX::Colors::Red, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
 		}
 		else
 		{
-			context.spriteBatch->Draw(m_textures->stamp_off, stamp_pos, &stamp_rect, DirectX::Colors::White, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
+			// 枠のみ
+			context.spriteBatch->Draw(m_textures->stamp_off, stamp_pos, &stamp_rect, DirectX::Colors::Gray, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
 		}
 	}
 
