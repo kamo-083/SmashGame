@@ -38,11 +38,12 @@ Scene::~Scene()
 }
 
 
+
 /**
- * @brief シーンの変更
- *
+ * @brief シーン変更
+ * 
  * @param nextSceneName 変更先のシーン名
- *
+ * 
  * @return なし
  */
 void Scene::ChangeScene(const std::string& nextSceneName)

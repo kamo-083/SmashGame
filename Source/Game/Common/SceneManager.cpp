@@ -49,6 +49,7 @@ SceneManager::~SceneManager()
 		m_pCurrentScene->Finalize();
 	}
 
+	m_shaerdData.clear();
 	m_scenes.clear();
 }
 
@@ -109,8 +110,7 @@ void SceneManager::Render(RenderContext context)
 	}
 
 	// デバッグ情報の追加
-	m_userResources->GetDebugFont()->AddString(0, 0, DirectX::Colors::White, L"SceneManager");
-	m_userResources->GetDebugFont()->AddString(180, 0, DirectX::Colors::Yellow, L"transition:%0.2f", m_transition->GetRate());
+	m_userResources->GetDebugFont()->AddString(100, 0, DirectX::Colors::White, L"transition:%0.2f", m_transition->GetRate());
 }
 
 	
@@ -144,6 +144,43 @@ void SceneManager::RequestSceneChange(const std::string& requestSceneName)
 	}
 
 	m_pRequestedScene = m_scenes[requestSceneName].get();
+}
+
+
+/**
+ * @brief 共有データの登録
+ *
+ * @param name データ名
+ * @param data データ内容
+ *
+ * @return なし
+ */
+void SceneManager::SetSharedData(std::string name, std::string data)
+{
+	m_shaerdData[name] = data;
+}
+
+
+/**
+ * @brief 共有データの取得
+ *
+ * @param name データ名
+ *
+ * @return データ内容
+ */
+std::string SceneManager::GetSharedData(std::string name)
+{
+	// データを検索
+	auto it = m_shaerdData.find(name);
+
+	// 見つからなかった場合は"empty"を返す
+	if (it == m_shaerdData.end())
+	{
+		return "empty";
+	}
+
+	// 内容を返す
+	return m_shaerdData[name];
 }
 
 

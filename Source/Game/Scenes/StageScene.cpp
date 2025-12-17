@@ -35,10 +35,11 @@
  * @param clearCondition  クリア条件
  */
 StageScene::StageScene(
-	SceneManager* pSM, UserResources* pUR,
+	SceneManager* pSM, UserResources* pUR, const int& stageNum,
 	std::string path, ClearConditionsUI::ConditionsType clearCondition)
 	: Scene{ pSM,pUR }
 	, CLEAR_CONDITIONS{ clearCondition }
+	, STAGE_NUM{ stageNum }
 	, m_keyMode{ false }
 	, m_stageFilePath{ path }
 	, m_overlayMode{ Overlay::NONE }
@@ -609,6 +610,8 @@ void StageScene::UpdateResult(float elapsedTime)
 	}
 	if (transition->IsClose() && transition->IsEnd())
 	{
+		// クリア情報を登録
+		m_sceneManager->SetSharedData("cleared" + std::to_string(STAGE_NUM), "cleared");
 		// BGMの停止
 		m_userResources->GetAudioManager()->Stop("stageBGM");
 		// シーン移動

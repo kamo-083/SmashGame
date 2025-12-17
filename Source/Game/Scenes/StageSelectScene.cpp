@@ -28,7 +28,7 @@ StageSelectScene::StageSelectScene(SceneManager* pSM, UserResources* pUR, int st
 	, m_selectStage{ 0 }
 	, m_transitionStage{ -1 }
 {
-
+	m_stageCleared.resize(STAGES);
 }
 
 
@@ -79,6 +79,13 @@ void StageSelectScene::Initialize()
 
 	// 遷移先のステージ番号を初期化
 	m_transitionStage = -1;
+
+	for (int i = 0; i < STAGES; i++)
+	{
+		std::string data = m_sceneManager->GetSharedData("cleared" + std::to_string(i + 1));
+		if (data == "cleared")	m_stageCleared[i] = true;
+		else					m_stageCleared[i] = false;
+	}
 }
 
 
@@ -147,17 +154,38 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
-	// ステージ番号の描画
+	// スタンプ画像の描画範囲 (画像全体をそのまま)
+	RECT stamp_rect = {};
+	stamp_rect.right = static_cast<LONG>(STAMP_TEX_SIZE.x);
+	stamp_rect.bottom = static_cast<LONG>(STAMP_TEX_SIZE.y);
+
+	// ステージ番号・スタンプの描画
 	for (int i = 0; i < STAGES; i++)
 	{
-		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(
+		// パネルのスケール
+		float scale = m_stagePanels[i]->GetParam().scale.x;
+
+		// ステージ番号
+		DirectX::SimpleMath::Vector2 number_pos = DirectX::SimpleMath::Vector2(
 			windowSize.x / static_cast<float>(STAGES) * i + NUMBER_ADJUST_INTERVAL,
 			windowSize.y * 0.25f
 		);
 		m_numberBoard->SetNumber(i + 1);
-		m_numberBoard->SetPosition(pos);
-		m_numberBoard->SetScale(m_stagePanels[i]->GetParam().scale.x);
+		m_numberBoard->SetPosition(number_pos);
+		m_numberBoard->SetScale(scale);
 		m_numberBoard->Draw(context);
+
+		// スタンプ
+		DirectX::SimpleMath::Vector2 stamp_pos = m_stagePanels[i]->GetParam().pos;
+		stamp_pos.y += STAMP_TEX_SIZE.y * 0.25f;
+		if (m_stageCleared[i])	// クリア済みかどうか
+		{
+			context.spriteBatch->Draw(m_textures->stamp_on, stamp_pos, &stamp_rect, DirectX::Colors::White, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
+		}
+		else
+		{
+			context.spriteBatch->Draw(m_textures->stamp_off, stamp_pos, &stamp_rect, DirectX::Colors::White, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
+		}
 	}
 
 	context.spriteBatch->End();
@@ -363,6 +391,8 @@ void StageSelectScene::SetupTextures(ResourceManager* pRM)
 	m_textures = std::make_unique<Textures>();
 	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
 	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
+	m_textures->stamp_on = pRM->RequestPNG("stamp_on", "UI/stamp_on.png");
+	m_textures->stamp_off = pRM->RequestPNG("stamp_off", "UI/stamp_off.png");
 }
 
 

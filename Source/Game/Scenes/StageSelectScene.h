@@ -34,6 +34,8 @@ public:
 	{
 		ID3D11ShaderResourceView* background;	// 背景
 		ID3D11ShaderResourceView* key;			// 操作テキスト
+		ID3D11ShaderResourceView* stamp_on;		// スタンプ(済)
+		ID3D11ShaderResourceView* stamp_off;	// スタンプ(空)
 		std::vector <std::unique_ptr<RenderTexture>> stagePanels;	// ステージパネル
 	};
 
@@ -52,6 +54,9 @@ public:
 
 	// パネル画像サイズ
 	static constexpr DirectX::SimpleMath::Vector2 PANEL_TEX_SIZE = { 350.0f,400.0f };
+
+	// スタンプ画像サイズ
+	static constexpr DirectX::SimpleMath::Vector2 STAMP_TEX_SIZE = { 250.0f,250.0f };
 
 	// パネルのトゥイーン関連
 	// アニメーションの時間
@@ -81,6 +86,9 @@ private:
 
 	// ステージパネル
 	std::vector<std::unique_ptr<Button>> m_stagePanels;
+
+	// ステージクリア情報
+	std::vector<bool> m_stageCleared;
 
 
 // メンバ関数の宣言 -------------------------------------------------

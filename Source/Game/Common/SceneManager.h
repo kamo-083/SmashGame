@@ -56,6 +56,9 @@ private:
 	// シーン遷移演出
 	std::unique_ptr<BlockTransition> m_transition;
 
+	// シーン間の共有データ
+	std::unordered_map<std::string, std::string> m_shaerdData;
+
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
@@ -92,6 +95,12 @@ public:
 
 	// シーン遷移演出の取得
 	BlockTransition* GetTransition() { return m_transition.get(); }
+
+	// 共有データの登録
+	void SetSharedData(std::string name, std::string data);
+
+	// 共有データの取得
+	std::string GetSharedData(std::string name);
 
 
 // 内部実装

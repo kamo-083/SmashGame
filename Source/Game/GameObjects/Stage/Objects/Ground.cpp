@@ -113,7 +113,7 @@ void Ground::Draw(RenderContext& context)
 	// 当たり判定の描画
 	//m_geometricPrimitive->Draw(
 	//	world, context.view, context.proj, DirectX::Colors::GreenYellow,
-	//	nullptr, false,
+	//	nullptr, true,
 	//	[&]() 
 	//	{
 	//		// 深度ステンシルステートの設定
@@ -133,6 +133,7 @@ void Ground::Draw(RenderContext& context)
 void Ground::Finalize()
 {
 	m_model = nullptr;
+	m_depthStencilState.Reset();
 }
 
 

@@ -53,12 +53,16 @@ void Game::Initialize(HWND window, int width, int height)
     // 各シーンの作成
     m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_userResources.get()));
     m_sceneManager->Register("StageSelectScene", std::make_unique<StageSelectScene>(m_sceneManager.get(), m_userResources.get(), 3));
+
+    int stageNum = 1;
     m_sceneManager->Register("Stage1Scene", std::make_unique<StageScene>(
-        m_sceneManager.get(), m_userResources.get(), "Resources/Json/stage1.json", ClearConditionsUI::ConditionsType::SMASH));
+        m_sceneManager.get(), m_userResources.get(), stageNum, "Resources/Json/stage1.json", ClearConditionsUI::ConditionsType::SMASH));
+    stageNum++;
     m_sceneManager->Register("Stage2Scene", std::make_unique<StageScene>(
-        m_sceneManager.get(), m_userResources.get(), "Resources/Json/stage2.json", ClearConditionsUI::ConditionsType::PUSH_OUT));
+        m_sceneManager.get(), m_userResources.get(), stageNum, "Resources/Json/stage2.json", ClearConditionsUI::ConditionsType::PUSH_OUT));
+    stageNum++;
     m_sceneManager->Register("Stage3Scene", std::make_unique<StageScene>(
-        m_sceneManager.get(), m_userResources.get(), "Resources/Json/stage3.json", ClearConditionsUI::ConditionsType::GATHER));
+        m_sceneManager.get(), m_userResources.get(), stageNum, "Resources/Json/stage3.json", ClearConditionsUI::ConditionsType::GATHER));
 
     // 開始シーンの設定
     m_sceneManager->SetStartScene("TitleScene");
@@ -129,6 +133,8 @@ void Game::Render()
     m_sceneManager->Render(renderContext);
 
 #ifdef _DEBUG
+    m_debugFont->AddString(0, 0, DirectX::Colors::White, L"fps:%d", m_timer.GetFramesPerSecond());
+
     // デバッグフォントの描画
     m_debugFont->Render(m_states.get());
 #endif

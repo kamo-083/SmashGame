@@ -56,6 +56,8 @@ public:
 
 	const ClearConditionsUI::ConditionsType CLEAR_CONDITIONS;	// クリア条件
 
+	const int STAGE_NUM;	// ステージ番号
+
 	// BGMの音量
 	static constexpr float BGM_VOLUME = 0.5f;
 
@@ -131,7 +133,7 @@ private:
 public:
 	// コンストラクタ
 	StageScene(
-		SceneManager* pSM, UserResources* pUR,
+		SceneManager* pSM, UserResources* pUR, const int& stageNum,
 		std::string path, ClearConditionsUI::ConditionsType clearCondition);
 
 	// デストラクタ
