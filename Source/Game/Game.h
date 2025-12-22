@@ -100,4 +100,5 @@ private:
     // キーボードトラッカー
     std::unique_ptr<DirectX::Keyboard::KeyboardStateTracker> m_kbTracker;
 
+    bool start;
 };

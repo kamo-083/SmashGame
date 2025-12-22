@@ -209,6 +209,7 @@
     <ClInclude Include="Source\Game\Effect\ParticleUtility.h" />
     <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticle.h" />
     <ClInclude Include="Source\Game\Game.h" />
+    <ClInclude Include="Source\Game\GameObjects\Background.h" />
     <ClInclude Include="Source\Game\GameObjects\Camera.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\IEnemy.h" />
     <ClInclude Include="Source\Game\GameObjects\Enemy\EnemyManager.h" />
@@ -286,6 +287,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Background.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Camera.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Enemy\GroundEnemy\GroundEnemy.cpp" />
@@ -349,6 +351,7 @@
     <None Include="Resources\Json\stage2.json" />
     <None Include="Resources\Json\stage3.json" />
     <None Include="Resources\Shaders\Area\Area.hlsli" />
+    <None Include="Resources\Shaders\Background\Background.hlsli" />
     <None Include="Resources\Shaders\Particle\Particle.hlsli" />
     <None Include="Resources\Shaders\Transition\Transition.hlsli" />
     <None Include="Source\Game\UI\Elements\Tween\Tween.inl" />
@@ -373,6 +376,26 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\Area\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\Area\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Background\BackgroundGS.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\Background\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\Background\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Background\BackgroundPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\Background\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\Background\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Background\BackgroundVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\Background\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\Background\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Particle\ParticleGS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>

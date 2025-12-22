@@ -16,6 +16,7 @@
 // クラスの宣言 ===============================================================
 class UIWidget;
 class Button;
+class Background;
 
 
 // クラスの定義 ===============================================================
@@ -33,7 +34,6 @@ public:
 		ID3D11ShaderResourceView* start;		// ゲーム開始テキスト
 		ID3D11ShaderResourceView* exit;			// 終了テキスト
 		ID3D11ShaderResourceView* key;			// 操作テキスト
-		ID3D11ShaderResourceView* background;	// 背景
 	};
 
 	static constexpr int BUTTONS = 2;	// ボタン数
@@ -65,19 +65,21 @@ public:
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
-
-
-	// オブジェクト関連
 	// テクスチャ群
 	std::unique_ptr<Textures> m_textures;
 
+	// オブジェクト関連
 	// タイトルロゴ
 	std::unique_ptr<UIWidget> m_titleLogo;
+
 	// ボタン
 	std::vector<std::unique_ptr<Button>> m_buttons;
 
 	// 選択中のボタン
 	int m_selectButton;
+
+	// 背景
+	std::unique_ptr<Background> m_background;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -119,6 +121,16 @@ private:
 	void SelectButtonDown();	// 下へ
 
 	// 初期設定関連
+	// ボタンの設定
+	void SetupBotton(float windowHalfWidth);
+	
+	// 背景の設定
+	void SetupBackground(
+		DX::DeviceResources* pDR,
+		ShaderManager* pSM,
+		ResourceManager* pRM,
+		DirectX::SimpleMath::Vector2 windowSize);
+
 	// テクスチャの設定
 	void SetupTexture(ResourceManager* pRM);
 

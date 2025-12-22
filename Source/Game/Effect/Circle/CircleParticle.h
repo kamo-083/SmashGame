@@ -46,7 +46,7 @@ public:
 	// 更新処理
 	void Update(float elapsedTime);
 
-	// エフェクトを出現させる
+	// エフェクトを発生させる
 	void SpawnParticleEffect(
 		DirectX::SimpleMath::Vector3 pos,
 		float range,

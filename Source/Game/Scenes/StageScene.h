@@ -101,6 +101,11 @@ private:
 	// キャラクター用
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState_shadow;
 
+	// ステージファイルへのパス
+	std::string m_stageFilePath;
+
+	// テクスチャ群
+	std::unique_ptr<Textures> m_textures;
 
 	// オブジェクト関連
 	// カメラ
@@ -120,12 +125,6 @@ private:
 
 	// スカイドーム
 	std::unique_ptr<Sky> m_sky;
-
-	// ステージファイルへのパス
-	std::string m_stageFilePath;
-
-	// テクスチャ群
-	std::unique_ptr<Textures> m_textures;
 
 
 // メンバ関数の宣言 -------------------------------------------------

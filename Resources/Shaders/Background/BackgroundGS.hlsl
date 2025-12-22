@@ -1,4 +1,4 @@
-#include "Transition.hlsli"
+#include "Background.hlsli"
 
 static const int vnum = 4;
 
@@ -17,6 +17,7 @@ void main(
 	inout TriangleStream< PS_INPUT > output
 )
 {
+
 	for (int i = 0; i < vnum; i++)
 	{
 		PS_INPUT element;

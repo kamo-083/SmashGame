@@ -9,6 +9,7 @@
 #include "TitleScene.h"
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Transition/BlockTransition.h"
+#include "Source/Game/GameObjects/Background.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Displays/Button.h"
 
@@ -72,52 +73,17 @@ void TitleScene::Initialize()
 	m_titleLogo->Initialize(m_textures->logo, data, LOGO_SIZE);
 
 	// 選択ボタンを作成
-	m_buttons.reserve(BUTTONS);
-	// ゲーム開始のボタン
-	// トゥイーンアニメーションのパラメータ作成
-	std::unique_ptr<Button> start = std::make_unique<Button>();
-	data =
-	{
-		Tween2D::UIParams{DirectX::SimpleMath::Vector2(halfWidth, TEXT_POS_Y),
-						  DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
-		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
-						  DirectX::SimpleMath::Vector2(TWEEN_DELTA_SCALE, TWEEN_DELTA_SCALE),
-						  0.0f, 0.0f},
-		TWEEN_ANIM_TIME,
-		Easing::EaseType::OutQuart,
-		Easing::PlaybackMode::PingPong
-	};
-	start->Initialize(
-		m_textures->start, data, TEXT_SIZE,
-		[this]() {
-			// シーン遷移演出
-			BlockTransition* transition = m_sceneManager->GetTransition();
-			if (transition->IsOpen())
-			{
-				// SEの再生
-				m_userResources->GetAudioManager()->Play("cursorSE", false);
-				// シーンを閉じる
-				transition->Close();
-			}
-		}
-	);
-	m_buttons.push_back(std::move(start));
-
-	// ゲーム終了のボタン
-	std::unique_ptr<Button> exit = std::make_unique<Button>();
-	// パラメータの表示位置を変更
-	data.start.pos = DirectX::SimpleMath::Vector2(halfWidth, TEXT_POS_Y + TEXT_INTERVAL);
-	exit->Initialize(
-		m_textures->exit, data, TEXT_SIZE,
-		[this]() {
-			if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
-			PostQuitMessage(0);
-		}
-	);
-	m_buttons.push_back(std::move(exit));
+	SetupBotton(halfWidth);
 
 	// 選択中のボタンを初期化
 	m_selectButton = 0;
+
+	// 背景の作成
+	SetupBackground(
+		m_userResources->GetDeviceResources(), m_userResources->GetShaderManager(),
+		pRM,
+		DirectX::SimpleMath::Vector2{ static_cast<float>(windowSize.right), static_cast<float>(windowSize.bottom) }
+	);
 
 	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
@@ -169,6 +135,9 @@ void TitleScene::Update(float elapsedTime)
 	m_titleLogo->Update(elapsedTime);
 	m_buttons[m_selectButton]->Update(elapsedTime);
 
+	// 背景の更新
+	m_background->Update(elapsedTime);
+
 	// シーン遷移演出
 	BlockTransition* transition = m_sceneManager->GetTransition();
 	if (transition->IsClose() && transition->IsEnd())
@@ -193,13 +162,13 @@ void TitleScene::Render(RenderContext context, DebugFont* debugFont)
 	// デバッグ用情報追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"TitleScene");
 
+	// 背景の描画
+	m_background->Draw(context);
+
 	context.spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
 		context.states->NonPremultiplied(),
 		context.states->LinearClamp());
-
-	// 背景の描画
-	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
 
 	// 操作方法の描画
 	context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero, &KEY_RECT);
@@ -235,6 +204,8 @@ void TitleScene::Finalize()
 		button->Finalize();
 	}
 	m_buttons.clear();
+
+	m_background.reset();
 
 	m_textures.reset();
 }
@@ -295,6 +266,90 @@ void TitleScene::SelectButtonDown()
 
 
 /**
+ * @brief ボタンの設定
+ *
+ * @param なし
+ * 
+ * @return なし
+ */
+void TitleScene::SetupBotton(float windowHalfWidth)
+{
+	m_buttons.reserve(BUTTONS);
+	// ゲーム開始のボタン
+	// トゥイーンアニメーションのパラメータ作成
+	std::unique_ptr<Button> start = std::make_unique<Button>();
+	Tween2D::TweenData data =
+	{
+		Tween2D::UIParams{DirectX::SimpleMath::Vector2(windowHalfWidth, TEXT_POS_Y),
+						  DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
+		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
+						  DirectX::SimpleMath::Vector2(TWEEN_DELTA_SCALE, TWEEN_DELTA_SCALE),
+						  0.0f, 0.0f},
+		TWEEN_ANIM_TIME,
+		Easing::EaseType::OutQuart,
+		Easing::PlaybackMode::PingPong
+	};
+	start->Initialize(
+		m_textures->start, data, TEXT_SIZE,
+		[this]() {
+			// シーン遷移演出
+			BlockTransition* transition = m_sceneManager->GetTransition();
+			if (transition->IsOpen())
+			{
+				// SEの再生
+				m_userResources->GetAudioManager()->Play("cursorSE", false);
+				// シーンを閉じる
+				transition->Close();
+			}
+		}
+	);
+	m_buttons.push_back(std::move(start));
+
+	// ゲーム終了のボタン
+	std::unique_ptr<Button> exit = std::make_unique<Button>();
+	// パラメータの表示位置を変更
+	data.start.pos = DirectX::SimpleMath::Vector2(windowHalfWidth, TEXT_POS_Y + TEXT_INTERVAL);
+	exit->Initialize(
+		m_textures->exit, data, TEXT_SIZE,
+		[this]() {
+			if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
+			PostQuitMessage(0);
+		}
+	);
+	m_buttons.push_back(std::move(exit));
+}
+
+
+
+/**
+ * @brief 背景の設定
+ *
+ * @param pDR		 デバイスリソースのポインタ
+ * @param pSM		 シェーダーマネージャーのポインタ
+ * @param pRM		 リソースマネージャーのポインタ
+ * @param windowSize ウィンドウサイズ
+ *
+ * @return なし
+ */
+void TitleScene::SetupBackground(
+	DX::DeviceResources* pDR,
+	ShaderManager* pSM,
+	ResourceManager* pRM,
+	DirectX::SimpleMath::Vector2 windowSize)
+{
+	m_background = std::make_unique<Background>(
+		pDR, pSM, pRM,
+		Background::ResourcesDesc{ "backgroundVS","Shaders/Background/BackgroundVS.cso" },
+		Background::ResourcesDesc{ "backgroundPS","Shaders/Background/BackgroundPS.cso" },
+		Background::ResourcesDesc{ "backgroundGS","Shaders/Background/BackgroundGS.cso" },
+		Background::ResourcesDesc{ "background_dot", "Others/dot_pattern.png" },
+		windowSize, Background::MoveDirection::DOWN + Background::MoveDirection::RIGHT
+	);
+}
+
+
+
+/**
  * @brief テクスチャの設定
  *
  * @param pRM リソースマネージャーのポインタ
@@ -308,7 +363,6 @@ void TitleScene::SetupTexture(ResourceManager* pRM)
 	m_textures->start = pRM->RequestPNG("startText", "Text/startText.png");
 	m_textures->exit = pRM->RequestPNG("exitText", "Text/exitText.png");
 	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
-	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
 }
 
 

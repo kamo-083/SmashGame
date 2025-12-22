@@ -98,6 +98,9 @@
     <Filter Include="Transition\Block">
       <UniqueIdentifier>{3df46d73-2940-440c-a08d-7511ee89e933}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Background">
+      <UniqueIdentifier>{9e9e2bac-55cd-4eca-981c-6493caaeafc5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -332,6 +335,9 @@
     <ClInclude Include="Source\Game\Transition\BlockTransition.h">
       <Filter>Transition\Block</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Background.h">
+      <Filter>Game\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -516,6 +522,9 @@
     <ClCompile Include="Source\Game\Transition\BlockTransition.cpp">
       <Filter>Transition\Block</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Background.cpp">
+      <Filter>Game\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\directx.ico">
@@ -562,6 +571,9 @@
     <None Include="Resources\Shaders\Transition\Transition.hlsli">
       <Filter>Shader\Transition</Filter>
     </None>
+    <None Include="Resources\Shaders\Background\Background.hlsli">
+      <Filter>Shader\Background</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle\ParticleVS.hlsl">
@@ -590,6 +602,15 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Transition\TransitionVS.hlsl">
       <Filter>Shader\Transition</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Background\BackgroundGS.hlsl">
+      <Filter>Shader\Background</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Background\BackgroundPS.hlsl">
+      <Filter>Shader\Background</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Background\BackgroundVS.hlsl">
+      <Filter>Shader\Background</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

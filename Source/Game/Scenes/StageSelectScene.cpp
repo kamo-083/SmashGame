@@ -12,6 +12,7 @@
 #include "Source/Game/UI/Displays/Button.h"
 #include "Source/Game/UI/Elements/NumberRenderer/NumberRenderer2D.h"
 #include "Source/Game/Common/RenderTexture.h"
+#include "Source/Game/GameObjects/Background.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -66,6 +67,11 @@ void StageSelectScene::Initialize()
 	// ステージ番号表示オブジェクトの作成
 	SetupNumberBoard(pRM);
 
+	// 背景の作成
+	SetupBackground(
+		m_userResources->GetDeviceResources(), m_userResources->GetShaderManager(),
+		pRM, windowSize
+	);
 	// テクスチャの読み込み
 	SetupTextures(pRM);
 
@@ -107,6 +113,9 @@ void StageSelectScene::Update(float elapsedTime)
 	// ステージパネルの更新
 	m_stagePanels[m_selectStage]->Update(elapsedTime);
 
+	// 背景の更新
+	m_background->Update(elapsedTime);
+
 	// シーン移動
 	TransitionScene(kb);
 }
@@ -127,13 +136,13 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageSelectScene");
 	debugFont->AddString(0, 60, DirectX::Colors::Yellow, L"Select:%d",m_selectStage);
 
+	// 背景の描画
+	m_background->Draw(context);
+
 	context.spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
 		context.states->NonPremultiplied(),
 		context.states->LinearClamp());
-
-	// 背景の描画
-	context.spriteBatch->Draw(m_textures->background, DirectX::SimpleMath::Vector2::Zero);
 
 	// 操作方法の描画
 	context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero, &KEY_RECT);
@@ -209,6 +218,8 @@ void StageSelectScene::Finalize()
 		panel->Finalize();
 	}
 	m_stagePanels.clear();
+
+	m_background.reset();
 }
 
 
@@ -382,6 +393,33 @@ void StageSelectScene::SetupNumberBoard(ResourceManager* pRM)
 
 
 /**
+ * @brief 背景の設定
+ *
+ * @param pDR		 デバイスリソースのポインタ
+ * @param pSM		 シェーダーマネージャーのポインタ
+ * @param pRM		 リソースマネージャーのポインタ
+ * @param windowSize ウィンドウサイズ
+ *
+ * @return なし
+ */
+void StageSelectScene::SetupBackground(
+	DX::DeviceResources* pDR,
+	ShaderManager* pSM,
+	ResourceManager* pRM,
+	DirectX::SimpleMath::Vector2 windowSize)
+{
+	m_background = std::make_unique<Background>(
+		pDR, pSM, pRM,
+		Background::ResourcesDesc{ "backgroundVS","Shaders/Background/BackgroundVS.cso" },
+		Background::ResourcesDesc{ "backgroundPS","Shaders/Background/BackgroundPS.cso" },
+		Background::ResourcesDesc{ "backgroundGS","Shaders/Background/BackgroundGS.cso" },
+		Background::ResourcesDesc{ "background_stripes", "Others/stripes_pattern.png" },
+		windowSize, Background::MoveDirection::RIGHT
+	);
+}
+
+
+/**
  * @brief テクスチャの設定
  *
  * @param pRM	リソースマネージャーのポインタ
@@ -391,7 +429,6 @@ void StageSelectScene::SetupNumberBoard(ResourceManager* pRM)
 void StageSelectScene::SetupTextures(ResourceManager* pRM)
 {
 	m_textures = std::make_unique<Textures>();
-	m_textures->background = pRM->RequestPNG("background2D", "Others/background.png");
 	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
 	m_textures->stamp_on = pRM->RequestPNG("stamp_on", "UI/stamp_on.png");
 	m_textures->stamp_off = pRM->RequestPNG("stamp_off", "UI/stamp_off.png");

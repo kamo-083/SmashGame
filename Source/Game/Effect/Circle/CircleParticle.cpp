@@ -52,7 +52,7 @@ void CircleParticle::Update(float elapsedTime)
 }
 
 /**
- * @brief エフェクトを出現させる
+ * @brief エフェクトを発生させる
  *
  * @param pos		   出現位置
  * @param range		   円の半径

@@ -18,6 +18,7 @@
 class Button;
 class NumberRenderer2D;
 class RenderTexture;
+class Background;
 
 
 // クラスの定義 ===============================================================
@@ -32,7 +33,6 @@ public:
 
 	struct Textures
 	{
-		ID3D11ShaderResourceView* background;	// 背景
 		ID3D11ShaderResourceView* key;			// 操作テキスト
 		ID3D11ShaderResourceView* stamp_on;		// スタンプ(済)
 		ID3D11ShaderResourceView* stamp_off;	// スタンプ(空)
@@ -71,24 +71,28 @@ public:
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
-	std::unique_ptr<NumberRenderer2D> m_numberBoard;
-
-
-	// オブジェクト関連
 	// テクスチャ群
 	std::unique_ptr<Textures> m_textures;
 
 	// 選択中のステージ番号
-	int m_selectStage;	
+	int m_selectStage;
 
 	// 遷移先のステージ番号(未登録：-1)
 	int m_transitionStage;
+
+
+	// オブジェクト関連
+	// 数字表示ボード
+	std::unique_ptr<NumberRenderer2D> m_numberBoard;
 
 	// ステージパネル
 	std::vector<std::unique_ptr<Button>> m_stagePanels;
 
 	// ステージクリア情報
 	std::vector<bool> m_stageCleared;
+
+	// 背景
+	std::unique_ptr<Background> m_background;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -137,6 +141,13 @@ private:
 
 	// ステージ番号表示の設定
 	void SetupNumberBoard(ResourceManager* pRM);
+
+	// 背景の設定
+	void SetupBackground(
+		DX::DeviceResources* pDR,
+		ShaderManager* pSM,
+		ResourceManager* pRM,
+		DirectX::SimpleMath::Vector2 windowSize);
 
 	// テクスチャの設定
 	void SetupTextures(ResourceManager* pRM);

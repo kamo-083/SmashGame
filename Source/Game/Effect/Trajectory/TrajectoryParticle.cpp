@@ -60,7 +60,7 @@ void TrajectoryParticle::Update(float elapsedTime, DirectX::SimpleMath::Vector3 
 			pos,
 			m_particleData
 		};
-		m_particleUtility.push_back(particleUtility);	//ビルボードしたい
+		m_particleUtility.push_back(particleUtility);
 
 		m_timer = 0.0f;
 	}

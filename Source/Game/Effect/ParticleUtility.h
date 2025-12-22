@@ -22,7 +22,7 @@ public:
 	{
 		EffectParam start;
 		EffectParam end;
-		float life;
+		float life = 0.0f;
 	};
 
 private:
