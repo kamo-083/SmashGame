@@ -301,8 +301,8 @@ void StageScene::CreateDepthStencilState(ID3D11Device* device)
 	desc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;		// 初期値(0xff)
 	desc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;	// 初期値(0xff)
 	// 表面
-	desc.FrontFace.StencilFunc = D3D11_COMPARISON_EQUAL;		// テスト結果が0ならば
-	desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_INCR_SAT;	// 1にする(表示する)
+	desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;		// 常に1
+	desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;	// 1にする(表示する)
 	desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;		// そのまま
 	desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;	// そのまま
 	// 裏面
@@ -313,7 +313,10 @@ void StageScene::CreateDepthStencilState(ID3D11Device* device)
 	// キャラクターの影用
 	// 深度テスト
 	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;			// 深度バッファに書き込みしない
+	// ステンシルテスト
+	desc.StencilWriteMask = 0x00;	// 初期値(0xff)
 	// 表面
+	desc.FrontFace.StencilFunc = D3D11_COMPARISON_EQUAL;		// テスト結果が0ならば
 	desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;		// 1にする(表示する)
 	// 裏面
 	desc.BackFace = desc.FrontFace;								// 裏面も表面と同じ

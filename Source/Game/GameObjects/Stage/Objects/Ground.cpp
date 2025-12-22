@@ -113,7 +113,7 @@ void Ground::Draw(RenderContext& context)
 	// 当たり判定の描画
 	//m_geometricPrimitive->Draw(
 	//	world, context.view, context.proj, DirectX::Colors::GreenYellow,
-	//	nullptr, true,
+	//	nullptr, false,
 	//	[&]() 
 	//	{
 	//		// 深度ステンシルステートの設定
@@ -148,7 +148,7 @@ void Ground::Finalize()
 DirectX::SimpleMath::Vector3 Ground::GetHeight() const
 {
 	DirectX::SimpleMath::Vector3 pos = m_position;
-	pos.y += HALF_LENGTH.y * 2.0f;
+	pos.y += m_halfLength.y;
 	return pos;
 }
 
@@ -173,6 +173,9 @@ void Ground::DrawGroundGrid(
 	float halfX = (tilesX - 1) * 0.5f;
 	float halfZ = (tilesZ - 1) * 0.5f;
 
+	// 深度ステンシルステートの設定
+	context.deviceContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
+
 	for (int x = 0; x < tilesX; x++)
 	{
 		// X方向の描画位置を計算
@@ -189,14 +192,14 @@ void Ground::DrawGroundGrid(
 			DirectX::SimpleMath::Matrix world = rot * DirectX::SimpleMath::Matrix::CreateTranslation(pos);
 
 			// モデルを描画
-			m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
-
-			//m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj, false,
-			//		[&]()
-			//		{
-			//			// 深度ステンシルステートの設定
-			//			context.deviceContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
-			//		});
+			m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj, false,
+					[&]()
+					{
+						// 深度ステンシルステートの設定
+						context.deviceContext->OMSetDepthStencilState(m_depthStencilState.Get(), 1);
+					});			
 		}
 	}
+
+	context.deviceContext->OMSetDepthStencilState(nullptr, 0);
 }
