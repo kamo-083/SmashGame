@@ -308,7 +308,7 @@ void StageManager::CreateOperate(
  * @retval true  ƒS[ƒ‹‚µ‚Ä‚¢‚é
  * @retval false ƒS[ƒ‹‚µ‚Ä‚¢‚È‚¢
  */
-bool StageManager::IsGoal()
+bool StageManager::IsGoal() const
 {
 	return m_goal->IsGoal();
 }
@@ -323,7 +323,7 @@ bool StageManager::IsGoal()
  * @retval true  ƒS[ƒ‹‚Å‚«‚é
  * @retval false ƒS[ƒ‹‚Å‚«‚È‚¢
  */
-bool StageManager::IsCanGoal()
+bool StageManager::IsCanGoal() const
 {
 	return m_goal->IsCanGoal();
 }

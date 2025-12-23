@@ -108,7 +108,7 @@ void Ground::Draw(RenderContext& context)
 	world = scale * rot * trans;
 
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ
-	DrawGroundGrid(context, m_halfLength.x, m_halfLength.z, rot);
+	DrawGroundGrid(context, static_cast<int>(m_halfLength.x), static_cast<int>(m_halfLength.z), rot);
 
 	// “–‚½‚è”»’è‚Ì•`‰æ
 	//m_geometricPrimitive->Draw(

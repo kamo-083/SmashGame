@@ -62,7 +62,7 @@ public:
 	// æ“¾/İ’è
 public:
 	// —LŒø‚©‚Ç‚¤‚©‚ğ•Ô‚·
-	bool IsEnable() { return m_enable; }
+	bool IsEnable() const { return m_enable; }
 
 	// “à•”À‘•
 private:

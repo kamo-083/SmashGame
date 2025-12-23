@@ -117,10 +117,10 @@ public:
 	void SetTweenData(TweenData data) { m_data = data; }
 
 	// イージング済みの進行度を取得
-	float GetEasingProgress() { return Easing::EaseValue(m_data.ease, m_elapsedTime / m_data.duration); }
+	float GetEasingProgress() const { return Easing::EaseValue(m_data.ease, m_elapsedTime / m_data.duration); }
 
 	// 素の進行度を取得
-	float GetLinearProgress() { return m_elapsedTime / m_data.duration; }
+	float GetLinearProgress() const { return m_elapsedTime / m_data.duration; }
 
 
 // 内部実装

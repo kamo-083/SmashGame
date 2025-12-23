@@ -104,10 +104,10 @@ public:
 
 // 取得/設定
 public:
-	const DirectX::SimpleMath::Vector3 GetPosition() { return m_position; }
+	DirectX::SimpleMath::Vector3 GetPosition() const { return m_position; }
 	OBBCollider GetCollider(){ return m_goalCollider; }		// 当たり判定の取得
-	bool IsGoal() { return m_isGoal; }						// ゴールフラグの取得
-	bool IsCanGoal() { return m_canGoal; }					// ゴール可能フラグの取得
+	bool IsGoal() const { return m_isGoal; }						// ゴールフラグの取得
+	bool IsCanGoal() const { return m_canGoal; }					// ゴール可能フラグの取得
 
 	// ゴールを開放
 	void OpenGoal();

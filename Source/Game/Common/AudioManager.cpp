@@ -370,7 +370,7 @@ void AudioManager::Stop(const std::string& key)
  * @retval true  再生されている
  * @retval false 再生されていない
  */
-bool AudioManager::IsPlaying(const std::string& key)
+bool AudioManager::IsPlaying(const std::string& key) const
 {
 	// キーが無かったらfalse
 	auto it = m_sounds.find(key);

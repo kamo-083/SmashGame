@@ -22,7 +22,36 @@ class ModelAnimator
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
+	// ライトの設定値
+	struct LightSetting
+	{
+		DirectX::SimpleMath::Vector3 direction;	// 方向
+		float intensity;						// 強さ
+	};
 
+	// 環境光の強さ
+	static constexpr float AMBIENT_LIGHT_INTENSITY = 0.7f;
+
+	// メインのライト
+	static constexpr LightSetting KEY_LIGHT =
+	{
+		{ 0.2f, -1.0f, -0.3f },
+		0.45f
+	};
+	
+	// 補助ライト(左)
+	static constexpr LightSetting FILL_LIGHT_LEFT =
+	{
+		{ -1.0f, -0.5f, -0.2f },
+		0.25f
+	};
+	
+	// 補助ライト(右)
+	static constexpr LightSetting FILL_LIGHT_RIGHT =
+	{
+		{ 1.0f, -0.3f, -0.2f },
+		0.15f
+	};
 
 
 	// データメンバの宣言 -----------------------------------------------

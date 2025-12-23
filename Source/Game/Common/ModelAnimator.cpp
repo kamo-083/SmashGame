@@ -114,22 +114,22 @@ void ModelAnimator::Draw(RenderContext context, const DirectX::SimpleMath::Matri
 		{
 			if (auto lights = dynamic_cast<DirectX::IEffectLights*>(effect))
 			{
-				lights->SetAmbientLightColor(DirectX::Colors::White * 0.7f);
+				lights->SetAmbientLightColor(DirectX::Colors::White * AMBIENT_LIGHT_INTENSITY);
 
 				// ライト0：前上から
 				lights->SetLightEnabled(0, true);
-				lights->SetLightDirection(0, DirectX::XMVector3Normalize(DirectX::XMVectorSet(0.2f, -1.0f, -0.3f, 0.0f)));
-				lights->SetLightDiffuseColor(0, DirectX::Colors::White * 0.45f);
+				lights->SetLightDirection(0, DirectX::XMVector3Normalize(KEY_LIGHT.direction));
+				lights->SetLightDiffuseColor(0, DirectX::Colors::White * KEY_LIGHT.intensity);
 
 				// ライト1：左上から弱め
 				lights->SetLightEnabled(1, true);
-				lights->SetLightDirection(1, DirectX::XMVector3Normalize(DirectX::XMVectorSet(-1.0f, -0.5f, -0.2f, 0.0f)));
-				lights->SetLightDiffuseColor(1, DirectX::Colors::White * 0.25f);
+				lights->SetLightDirection(1, DirectX::XMVector3Normalize(FILL_LIGHT_LEFT.direction));
+				lights->SetLightDiffuseColor(1, DirectX::Colors::White * FILL_LIGHT_LEFT.intensity);
 
 				// ライト2：右上から弱め
 				lights->SetLightEnabled(2, true);
-				lights->SetLightDirection(2, DirectX::XMVector3Normalize(DirectX::XMVectorSet(1.0f, -0.3f, -0.2f, 0.0f)));
-				lights->SetLightDiffuseColor(2, DirectX::Colors::White * 0.15f);
+				lights->SetLightDirection(2, DirectX::XMVector3Normalize(FILL_LIGHT_RIGHT.direction));
+				lights->SetLightDiffuseColor(2, DirectX::Colors::White * FILL_LIGHT_RIGHT.intensity);
 
 				// テカリ抑制
 				lights->SetLightSpecularColor(0, DirectX::Colors::Black);

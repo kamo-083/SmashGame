@@ -210,7 +210,7 @@ DirectX::SimpleMath::Vector3 Camera::GetForward()
  *
  * @return ‰ñ“]Œã‚ÌƒJƒƒ‰ˆÊ’u
  */
-DirectX::SimpleMath::Vector3 Camera::RotateEyeAroundPoint(DirectX::SimpleMath::Vector3 angle, DirectX::SimpleMath::Vector3 point)
+DirectX::SimpleMath::Vector3 Camera::RotateEyeAroundPoint(DirectX::SimpleMath::Vector3 angle, DirectX::SimpleMath::Vector3 point) const
 {
 	DirectX::SimpleMath::Vector3 rotatedEye = { 0.0f,0.0f,0.0f };
 	float radian_x = DirectX::XMConvertToRadians(angle.y);	//m_angle‚ğ‘€ì‚·‚é‚Æ‚«‚É•ª‚©‚è‚â‚·‚¢‚æ‚¤‚Éx‚Æy‚ğ‹t‚É‚µ‚ÄŒvZ

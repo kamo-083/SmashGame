@@ -101,23 +101,23 @@ public:
 public:
 	// シェーダーの読み込み
 	void LoadShader(
-		DX::DeviceResources* pDR, ShaderManager* pSM,
+		ShaderManager* pSM,
 		const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs);
 
 	// テクスチャの読み込み
 	void LoadTexture(ResourceManager* pRM, const ResourcesDesc& desc);
 
 	// オープン中かを返す
-	bool IsOpen() { return m_open; }
+	bool IsOpen() const { return m_open; }
 
 	// クローズ中かを返す
-	bool IsClose() { return !m_open; }
+	bool IsClose() const { return !m_open; }
 
 	// 終了しているかを返す
-	bool IsEnd();
+	bool IsEnd() const;
 
 	// 進行割合を返す
-	float GetRate();
+	float GetRate() const;
 
 
 // 内部実装

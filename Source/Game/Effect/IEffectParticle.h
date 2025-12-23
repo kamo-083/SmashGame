@@ -130,7 +130,7 @@ public:
 	void Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj);
 
 	// —LŒø‚©‚Ç‚¤‚©
-	bool IsActive() { return m_isActive; }
+	bool IsActive() const { return m_isActive; }
 
 	// –³Œø‰»
 	void Deactivate() { m_isActive = false; }

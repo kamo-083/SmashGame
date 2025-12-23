@@ -83,8 +83,8 @@ public:
 	Tween2D* GetTween() { return m_tween.get(); }				// トゥイーンの取得
 	Tween2D::UIParams GetParam () const { return m_params; }	// 現在のパラメータの取得
 	Tween2D::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }	// 変化後のパラメータを取得
-	float GetEasingProgress() { return m_tween->GetEasingProgress(); }				// イージング済みの進行度を取得
-	float GetLinearProgress() { return m_tween->GetLinearProgress(); }				// 素の経過時間を取得
+	float GetEasingProgress() const { return m_tween->GetEasingProgress(); }		// イージング済みの進行度を取得
+	float GetLinearProgress() const { return m_tween->GetLinearProgress(); }		// 素の経過時間を取得
 	void SetTexture(ID3D11ShaderResourceView* texture) { m_texture = texture; }		// テクスチャの取得
 
 	// 新しいパラメータをセット

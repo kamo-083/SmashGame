@@ -51,7 +51,7 @@ ITransition::ITransition(
 	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(pDR->GetD3DDeviceContext());
 
 	// シェーダーの読み込み
-	LoadShader(pDR, pSM, vs, ps, gs);
+	LoadShader(pSM, vs, ps, gs);
 
 	// テクスチャの読み込み
 	LoadTexture(pRM, tex);
@@ -103,7 +103,6 @@ void ITransition::Close()
 /**
  * @brief シェーダーの読み込み
  *
- * @param pDR	デバイスリソースのポインタ
  * @param pSM	シェーダーマネージャーのポインタ
  * @param vs	頂点シェーダーのキー・ファイルパス
  * @param ps	ピクセルシェーダーのキー・ファイルパス
@@ -112,7 +111,7 @@ void ITransition::Close()
  * @return なし
  */
 void ITransition::LoadShader(
-	DX::DeviceResources* pDR, ShaderManager* pSM,
+	ShaderManager* pSM,
 	const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs)
 {
 	// 頂点シェーダー
@@ -152,7 +151,7 @@ void ITransition::LoadTexture(ResourceManager* pRM, const ResourcesDesc& desc)
  *
  * @return 終了しているか
  */
-bool ITransition::IsEnd()
+bool ITransition::IsEnd() const
 {
 	if (GetRate() == 1.0f) return true;
 	else return false;
@@ -167,7 +166,7 @@ bool ITransition::IsEnd()
  *
  * @return 進行割合
  */
-float ITransition::GetRate()
+float ITransition::GetRate() const
 {
 	if (m_open) return 1.0f - m_rate;
 	return m_rate;

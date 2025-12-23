@@ -125,7 +125,7 @@ public:
 	// æ“¾/İ’è
 public:
 	// —LŒø‚©‚Ç‚¤‚©‚ğ•Ô‚·
-	bool IsActive() { return m_active; }
+	bool IsActive() const { return m_active; }
 
 	// “à•”À‘•
 private:

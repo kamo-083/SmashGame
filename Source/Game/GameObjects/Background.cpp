@@ -51,7 +51,7 @@ Background::Background(
 	pDR->GetD3DDevice()->CreateBuffer(&bd, nullptr, &m_CBuffer);
 
 	// シェーダーの読み込み
-	LoadShader(pDR, pSM, vs, ps, gs);
+	LoadShader(pSM, vs, ps, gs);
 
 	// テクスチャの読み込み
 	LoadTexture(pRM, tex);
@@ -168,7 +168,6 @@ void Background::Draw(RenderContext context)
 /**
  * @brief シェーダーの読み込み
  *
- * @param pDR	デバイスリソースのポインタ
  * @param pSM	シェーダーマネージャーのポインタ
  * @param vs	頂点シェーダーのキー・ファイルパス
  * @param ps	ピクセルシェーダーのキー・ファイルパス
@@ -177,7 +176,7 @@ void Background::Draw(RenderContext context)
  * @return なし
  */
 void Background::LoadShader(
-	DX::DeviceResources* pDR, ShaderManager* pSM, 
+	ShaderManager* pSM, 
 	const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs)
 {
 	// 頂点シェーダー

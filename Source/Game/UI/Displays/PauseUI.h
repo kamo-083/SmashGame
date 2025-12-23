@@ -123,10 +123,10 @@ public:
 	// æ“¾/İ’è
 public:
 	// ‘I‘ğ’†‚Ì€–Ú‚ğ•Ô‚·
-	const PauseUI::PAUSE_OPTIONS& GetNowOption() { return m_options; }
+	PauseUI::PAUSE_OPTIONS& GetNowOption() const { return m_options; }
 
 	// ŠJ‚¢‚Ä‚¢‚é‚©‚ğ•Ô‚·
-	bool IsOpen() { return m_isOpen; }
+	bool IsOpen() const { return m_isOpen; }
 
 
 	// “à•”À‘•

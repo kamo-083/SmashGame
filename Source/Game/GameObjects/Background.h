@@ -106,7 +106,7 @@ public:
 
 	// シェーダーの作成
 	void LoadShader(
-		DX::DeviceResources* pDR, ShaderManager* pSM,
+		ShaderManager* pSM,
 		const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs);
 
 	// テクスチャの読み込み

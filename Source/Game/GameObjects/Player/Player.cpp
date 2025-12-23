@@ -451,7 +451,7 @@ void Player::SetAttackCollisionMultiHit(bool multiHit)
  *
  * @return いずれかの移動キーが押されているかどうか
  */
-bool Player::PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
+bool Player::PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* pKbTracker) const
 {
 	// キーボードの状態を取得
 	DirectX::Keyboard::State keyState = pKbTracker->GetLastState();

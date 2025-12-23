@@ -139,7 +139,7 @@ public:
 // æ“¾/İ’è
 public:
 	// ğŒ‚ğ’B¬‚µ‚Ä‚¢‚é‚©‚ğæ“¾
-	bool IsTrigger() { return m_isTrigger; }
+	bool IsTrigger() const { return m_isTrigger; }
 
 // “à•”À‘•
 private:

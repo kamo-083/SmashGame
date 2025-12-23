@@ -54,11 +54,11 @@ public:
 	bool Update(float elapsedTime);
 
 	// À•W‚Ìæ“¾
-	const DirectX::SimpleMath::Vector3 GetPosition() { return m_position; }
+	DirectX::SimpleMath::Vector3 GetPosition() const { return m_position; }
 	// õ–½‚Ìæ“¾
-	const float GetLife() { return m_life; }
+	float GetLife() const { return m_life; }
 	// ‘å‚«‚³‚Ìæ“¾
-	const DirectX::SimpleMath::Vector3 GetScale() { return m_scale; }
+	DirectX::SimpleMath::Vector3 GetScale() const { return m_scale; }
 	// F‚Ìæ“¾
-	const DirectX::SimpleMath::Color GetColor() { return m_color; }
+	DirectX::SimpleMath::Color GetColor() const { return m_color; }
 };

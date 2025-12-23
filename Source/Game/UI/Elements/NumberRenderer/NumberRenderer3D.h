@@ -96,7 +96,7 @@ public:
 	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }
 
 	// スケールを取得
-	float GetScale() { return SCALE; }
+	float GetScale() const { return SCALE; }
 
 	// 表示する数値を設定
 	void SetNumber(int num) { m_number = num; }

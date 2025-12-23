@@ -93,7 +93,7 @@ public:
 	void Stop(const std::string& key);
 
 	//‰¹º‚ªÄ¶‚³‚ê‚Ä‚¢‚é‚©‚ğæ“¾
-	bool IsPlaying(const std::string& key);
+	bool IsPlaying(const std::string& key) const;
 
 	// ‰¹—Ê‚Ìİ’è
 	void SetVolume(const std::string& key, const float volume);

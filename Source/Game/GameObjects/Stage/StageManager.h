@@ -104,9 +104,9 @@ public:
 // 取得/設定
 public:
 	// ゴールしているか
-	bool IsGoal();
+	bool IsGoal() const;
 	// ゴールできるか
-	bool IsCanGoal();
+	bool IsCanGoal() const;
 
 	// 指定した地面の取得
 	Ground* GetGround(const int groundNum) { return m_grounds[groundNum].get(); }
