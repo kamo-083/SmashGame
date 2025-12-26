@@ -116,7 +116,7 @@ void PhysicsObject::RollDown(
 
 	vector3 gravity = { 0.0f,-m_gravity.Get(),0.0f };
 	vector3 gTangent = gravity - normal * gravity.Dot(normal);
-	vector3 acceleration = (5.0f / 7.0f) * gTangent;
+	vector3 acceleration = ROLLING_ACCELERATION_COEFF * gTangent;
 
 	velocity += acceleration * elapsedTime;
 }

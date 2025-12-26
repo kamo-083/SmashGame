@@ -47,18 +47,16 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 		normal = -normal;
 	}
 
-	const float percent = 0.6f;
-	const float slop = 0.05f;
 	float invA = a.desc.invMass;
 	float invB = b.desc.invMass;
 	float invSum = invA + invB;
 
-	float depth = mtv.distance - slop;
+	float depth = mtv.distance - PENETRATION_SLOP;
 	if (depth < 0.0f) depth = 0.0f;
 
 	if (invSum > 0.0f && depth > 0.0f)
 	{
-		DirectX::SimpleMath::Vector3 correction = normal * (depth * percent / invSum);
+		DirectX::SimpleMath::Vector3 correction = normal * (depth * POSITION_CORRECTION_RATE / invSum);
 
 		// À•W‚ð’²®
 		if (a.desc.position && invA > 0.0f)

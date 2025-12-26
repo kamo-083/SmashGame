@@ -63,12 +63,13 @@ void Player_AttackRolling::Initialize(ResourceManager* pRM)
 	m_attackTime = ATTACK_TIME;
 
 	// 攻撃判定の設定
-	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(m_pPlayer->GetRotY()), 0.0f, cosf(m_pPlayer->GetRotY()));
 	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition());
 	m_pPlayer->GetAttackCollider()->SetRadius(m_pPlayer->GetRadius() * ATTACK_SIZE);
 
-	// 移動力の初期化
-	m_moveForce = DirectX::SimpleMath::Vector3::Zero;
+	// 移動力の初期化 (向いている方向に設定)
+	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(-(sinf(m_pPlayer->GetRotY())), 0.0f, -(cosf(m_pPlayer->GetRotY())));
+	forward.Normalize();
+	m_moveForce = forward * GROUND_SPEED;
 }
 
 
@@ -103,7 +104,6 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 	m_pPlayer->GetCollider()->SetCenter(m_pPlayer->GetPosition());
 
 	// 攻撃判定の更新
-	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(m_pPlayer->GetRotY()), 0.0f, cosf(m_pPlayer->GetRotY()));
 	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition());
 
 	// アニメーションの更新

@@ -12,6 +12,8 @@
 #include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Physics/CollisionManager.h"
 
+static constexpr float POSITION_CORRECTION_RATE = 0.6f; // ‚ß‚è‚İ•â³—¦(1ƒtƒŒ[ƒ€‚ ‚½‚è)
+static constexpr float PENETRATION_SLOP = 0.05f;        // ‹–—e‚ß‚è‚İ—Ê(U“®–h~)
 
 // ‹…vsOBB
 void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b);

@@ -65,10 +65,9 @@ void Game::Initialize(HWND window, int width, int height)
         m_sceneManager.get(), m_userResources.get(), stageNum, "Resources/Json/stage3.json", ClearConditionsUI::ConditionsType::GATHER));
 
     // 開始シーンの設定
-    m_sceneManager->SetStartScene("TitleScene");
+    //m_sceneManager->SetStartScene("TitleScene");
     m_sceneManager->SetStartScene("Stage1Scene");
 
-    start = false;
 }
 
 #pragma region Frame Update
@@ -93,9 +92,6 @@ void Game::Update(DX::StepTimer const& timer)
     // キーボードの更新
     auto kb = Keyboard::Get().GetState();
     m_kbTracker->Update(kb);
-
-    //if (m_kbTracker->pressed.Tab) start = true;
-    //if (!start) return;
 
     // シーンマネージャの更新
     m_sceneManager->Update(elapsedTime);
@@ -124,8 +120,6 @@ void Game::Render()
     auto context = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Add your rendering code here.
-
-    //if (!start) return;
 
     RenderContext renderContext
     {

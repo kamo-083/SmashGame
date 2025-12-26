@@ -28,6 +28,8 @@ private:
 	static constexpr float ANGULAR_VELOCITY_DAMPING = 0.9f;	// 角速度の減衰率
 	static constexpr float ANGULAR_VELOCITY_MAX = 50.0f;	// 角速度の上限
 
+	static constexpr float ROLLING_ACCELERATION_COEFF = 5.0f / 7.0f; // 転がりによる加速度の低下係数
+
 	// 重力
 	Gravity m_gravity;
 
@@ -90,10 +92,10 @@ public:
 	void SetGroundInfo(const DirectX::SimpleMath::Vector3 normal);
 
 	// 接触面の法線ベクトルを取得
-	const DirectX::SimpleMath::Vector3& GetGroundNormal() { return m_groundNormal; }
+	DirectX::SimpleMath::Vector3& GetGroundNormal() { return m_groundNormal; }
 
 	// 地面に振れているかを取得
-	bool IsOnGround() { return m_onGround; }
+	bool IsOnGround() const { return m_onGround; }
 
 	// 角速度の加算
 	void AddAngVelocity(DirectX::SimpleMath::Vector3 angVel);
