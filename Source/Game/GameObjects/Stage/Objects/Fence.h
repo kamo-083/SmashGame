@@ -32,6 +32,8 @@ private:
 	static constexpr DirectX::SimpleMath::Vector3 DEFAULT_SCALE = { 1.0f,1.0f,1.0f };	// 基本の大きさ
 	static constexpr DirectX::SimpleMath::Vector3 ANGLE = { 0.0f,0.0f,0.0f };			// 基本の回転角度
 	static constexpr DirectX::SimpleMath::Vector3 FENCE_SIZE = { 0.25f,1.0f,1.0f };		// 柵1つ分の大きさ(x=厚さ、y=高さ、z=幅)
+	static constexpr float RESTITUTION = 0.5f;											// 反射係数
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:

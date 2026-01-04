@@ -44,6 +44,8 @@ public:
 		DX::AnimationSDKMESH* attack;	// 攻撃
 	};
 
+	const float ATTACK_DISTANCE;		// 攻撃距離
+
 	static constexpr float DITECTION_RANGE = 2.5f;	// プレイヤー感知範囲
 
 	static constexpr float RESPAWN_POS_HEIGHT = 1.0f;	// リスポーン時の高さ
@@ -141,6 +143,7 @@ public:
 
 	PlayerRelationData GetPlayerRelativeData() { return m_playerRelationData; }	// プレイヤーとの位置関係を取得
 	SphereCollider* GetAttackCollider() { return &m_attackCollider; }			// 攻撃の当たり判定を取得
+	float GetAttackDistance() const { return ATTACK_DISTANCE; }					// 攻撃の距離を取得
 
 	DirectX::Model* GetModel() { return m_model; }				// モデルのポインタの取得
 	Animations* GetAnimation() { return m_animations.get(); }	// アニメーションのポインタ群の取得

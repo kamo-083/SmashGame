@@ -88,7 +88,7 @@ void Fence::Initialize(
 	desc.obb = &m_collider;
 	desc.position = nullptr;
 	desc.velocity = nullptr;
-	desc.restitution = 0.2f;
+	desc.restitution = RESTITUTION;
 	m_collisionHandle = pCM->Add(desc);
 
 	// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ

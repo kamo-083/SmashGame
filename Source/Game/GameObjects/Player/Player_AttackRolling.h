@@ -36,7 +36,7 @@ private:
 	const float ATTACK_FORCE;	// 攻撃力
 	const float GROUND_SPEED;	// 移動速度(地面)
 	const float AIR_SPEED;		// 移動速度(空中)
-	static constexpr float ANIM_TIME = 1.5f;		// アニメーション1ループの時間
+	static constexpr float ANIM_TIME = 1.5f;			// アニメーション1ループの時間
 	
 public:
 	// 定数設定パラメータ

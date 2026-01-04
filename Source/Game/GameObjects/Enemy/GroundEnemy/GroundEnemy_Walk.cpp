@@ -63,17 +63,25 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 	// プレイヤーとの距離と方向を取得
 	IEnemy::PlayerRelationData playerData = m_pGroundEnemy->GetPlayerRelativeData();
 
-	DirectX::SimpleMath::Vector3 force = playerData.direction * MOVE_SPEED * elapsedTime;
-
-	//回転
+	// 回転
 	if (playerData.direction.x != 0.0f || playerData.direction.z != 0.0f)
 	{
 		m_pGroundEnemy->SetRotY(std::atan2f(-playerData.direction.x, -playerData.direction.z));
 	}
 
+	// 移動
+	DirectX::SimpleMath::Vector3 dir = playerData.direction;
+	if (dir.x > 0) dir.x = 1;
+	else if (dir.x < 0) dir.x = -1;
+	if (dir.z > 0) dir.z = 1;
+	else if (dir.z < 0) dir.z = -1;
+	if (dir.LengthSquared() > 0.0f) dir.Normalize();
+	DirectX::SimpleMath::Vector3 force = dir * MOVE_SPEED * elapsedTime;
+	force.y = 0.0f;
+
 	// 位置の更新
-	m_pGroundEnemy->SetVelocity(m_pGroundEnemy->GetVelocity() + force);
 	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime);
+	m_pGroundEnemy->SetVelocity(m_pGroundEnemy->GetVelocity() + force);
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
 
 	// 当たり判定の更新
@@ -83,7 +91,7 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 	m_modelAnimator->Update(elapsedTime);
 
 	// 攻撃状態に切り替え
-	if (playerData.distance <= m_pGroundEnemy->GetAttackCollider()->GetRadius())
+	if (playerData.distance < m_pGroundEnemy->GetAttackDistance())
 	{
 		m_pGroundEnemy->SetIsAttack(true);
 		m_pGroundEnemy->SetAttackCollisionEnabled(true);

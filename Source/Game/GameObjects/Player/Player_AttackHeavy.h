@@ -34,6 +34,7 @@ private:
 	const float ATTACK_SIZE;	// 攻撃判定サイズ
 	const float ATTACK_FORCE;	// 攻撃力
 	const float COOL_TIME;		// 反動時間
+	static constexpr float COLLIDER_POS_ADJUST = 0.1f;	// 攻撃判定位置の調整
 
 public:
 	// 定数設定パラメータ

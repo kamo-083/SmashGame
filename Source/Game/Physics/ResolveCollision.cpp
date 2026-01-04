@@ -77,17 +77,20 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 	DirectX::SimpleMath::Vector3 rv = velA - velB;
 	float vn = rv.Dot(normal);
 
+	bool isGround = PhysicsObject::IsGroundNormal(normal);
+
 	if (a.desc.layer == CollisionManager::Layer::PlayerBody && b.desc.layer == CollisionManager::Layer::Stage)
 	{
-		if (!PhysicsObject::IsGroundNormal(normal))
+		if (!isGround)
 		{
 			normal.y = 0.0f;
 		}
 
 		SlideVelocity(a.desc.velocity, normal);
 	}
-	else
+	else if (isGround)
 	{
+		// 地面の場合
 		if (invSum > 0.0f && vn < 0.0f)
 		{
 			// インパルス
@@ -107,9 +110,11 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 		}
 	}
 
+	// 重なっている相手に加える
 	a.overlapsNow.insert(b.handle);
 	b.overlapsNow.insert(a.handle);
 
+	// 解決時の処理を行う
 	if (a.desc.callback.onResolved)
 	{
 		a.desc.callback.onResolved(b.handle, normal, mtv.distance);
@@ -199,9 +204,11 @@ void ResolveSphereVsSphere(CollisionManager::Node& a, CollisionManager::Node& b)
 		}
 	}
 
+	// 重なっている相手に加える
 	a.overlapsNow.insert(b.handle);
 	b.overlapsNow.insert(a.handle);
 
+	// 解決時の処理を行う
 	if (a.desc.callback.onResolved)
 	{
 		a.desc.callback.onResolved(b.handle, normal, mtv.distance);
@@ -256,9 +263,11 @@ void ResolveOBBVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 	// 速度を調整
 	SlideVelocity(a.desc.velocity, normal);
 
+	// 重なっている相手に加える
 	a.overlapsNow.insert(b.handle);
 	b.overlapsNow.insert(a.handle);
 
+	// 解決時の処理を行う
 	if (a.desc.callback.onResolved)
 	{
 		a.desc.callback.onResolved(b.handle, normal, mtv.distance);

@@ -350,6 +350,7 @@
     <None Include="Resources\Json\stage1.json" />
     <None Include="Resources\Json\stage2.json" />
     <None Include="Resources\Json\stage3.json" />
+    <None Include="Resources\Json\stageTest.json" />
     <None Include="Resources\Shaders\Area\Area.hlsli" />
     <None Include="Resources\Shaders\Background\Background.hlsli" />
     <None Include="Resources\Shaders\Particle\Particle.hlsli" />

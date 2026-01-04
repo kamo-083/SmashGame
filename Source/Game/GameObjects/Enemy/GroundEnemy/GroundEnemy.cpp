@@ -24,6 +24,7 @@ GroundEnemy::GroundEnemy(
 	UserResources* pUR, EffectManager* pEM,
 	StageScene* pScene)
 	: IEnemy{ info,pScene }
+	, ATTACK_DISTANCE(RADIUS * info.attack.distance_raito)
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
 	, m_circle{ nullptr }

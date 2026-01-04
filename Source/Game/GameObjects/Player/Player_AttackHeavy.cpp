@@ -60,7 +60,10 @@ void Player_AttackHeavy::Initialize(ResourceManager* pRM)
 	// UŒ‚”»’è‚ÌÝ’è
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(
 		sinf(m_pPlayer->GetRotY()), m_pPlayer->GetRadius(), cosf(m_pPlayer->GetRotY()));
-	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition() - forward * m_pPlayer->GetRadius());
+	m_pPlayer->GetAttackCollider()->SetCenter(DirectX::SimpleMath::Vector3(
+		m_pPlayer->GetPosition().x - forward.x * m_pPlayer->GetRadius(),
+		m_pPlayer->GetPosition().y - m_pPlayer->GetRadius() * COLLIDER_POS_ADJUST,
+		m_pPlayer->GetPosition().z - forward.z * m_pPlayer->GetRadius()));
 	m_pPlayer->GetAttackCollider()->SetRadius(m_pPlayer->GetRadius() * ATTACK_SIZE);
 }
 

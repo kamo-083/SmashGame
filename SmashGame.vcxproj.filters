@@ -574,6 +574,9 @@
     <None Include="Resources\Shaders\Background\Background.hlsli">
       <Filter>Shader\Background</Filter>
     </None>
+    <None Include="Resources\Json\stageTest.json">
+      <Filter>Json</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle\ParticleVS.hlsl">

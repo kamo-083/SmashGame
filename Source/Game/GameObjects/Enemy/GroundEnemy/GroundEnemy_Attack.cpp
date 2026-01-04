@@ -59,7 +59,7 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 	// UŒ‚”»’è‚ÌÝ’è
 	float rot = m_pGroundEnemy->GetRotY();
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(rot), 0.0f, cosf(rot));
-	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * 0.5f));
+	m_pGroundEnemy->GetAttackCollider()->SetCenter(m_pGroundEnemy->GetPosition() - forward * (m_pGroundEnemy->GetRadius() * DISTANCE_RAITO));
 	m_pGroundEnemy->GetAttackCollider()->SetRadius(ATTACK_SIZE);
 }
 

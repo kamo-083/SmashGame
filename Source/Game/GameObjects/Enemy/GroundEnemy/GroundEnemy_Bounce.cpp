@@ -82,7 +82,7 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 	m_modelAnimator->Update(elapsedTime);
 
 	// ‘Ò‹@ó‘Ô‚ÉˆÚs
-	if (m_pGroundEnemy->GetVelocity().Length() < 1.0f)
+	if (m_pGroundEnemy->GetVelocity().Length() < 0.5f)
 	{
 		m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(false);
 
