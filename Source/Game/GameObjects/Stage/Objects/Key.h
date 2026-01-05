@@ -11,6 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/RenderContext.h"
+#include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 
 
@@ -39,6 +40,11 @@ public:
 	static constexpr float ANIMATION_TIME = 1.0f;
 	static constexpr float SPAWN_HEIGHT = 2.0f;
 
+	// エフェクト関連
+	static constexpr float EFFECT_LIFE = 1.25f;
+	static constexpr float EFFECT_SIZE_STAR = 0.5f;
+	static constexpr float EFFECT_SIZE_CIRCLE = 0.25f;
+
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// ゴールの位置
@@ -57,12 +63,15 @@ private:
 	std::unique_ptr<Tween3D> m_tweenAnim;
 	Tween3D::UIParams m_tweenParam;
 
+	// 軌跡エフェクト
+	std::vector<EffectManager::TrajectoryParticleData*> m_trajectorys;	
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Key(ID3D11DeviceContext* context, ResourceManager* pRM);
+	Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM);
 
 	// デストラクタ
 	~Key();
@@ -96,4 +105,7 @@ private:
 
 	// 移動時のアニメーションを設定
 	void SetupFlyingAnim();
+
+	// エフェクトを設定
+	void SetupEffect(ResourceManager* pRM, EffectManager* pEM);
 };

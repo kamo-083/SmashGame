@@ -197,8 +197,8 @@ void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath
 	//	透明判定処理
 	context->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
 
-	//	深度バッファに書き込み参照する
-	context->OMSetDepthStencilState(m_states->DepthDefault(), 0);
+	//	深度バッファは読み取り専用にする
+	context->OMSetDepthStencilState(m_states->DepthRead(), 0);
 
 	//	カリングはなし
 	context->RSSetState(m_states->CullNone());

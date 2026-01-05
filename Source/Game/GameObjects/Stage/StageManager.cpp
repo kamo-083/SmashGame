@@ -7,7 +7,12 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "StageManager.h"
+#include "Source/Debug/DebugFont.h"
 #include "Source/Game/Scenes/StageScene.h"
+#include "Source/Game/Common/UserResources.h"
+#include "Source/Game/Effect/EffectManager.h"
+#include "Source/Game/Physics/CollisionManager.h"
+#include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/GameObjects/Stage/Objects/Ground.h"
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
@@ -53,12 +58,13 @@ StageManager::~StageManager()
  *
  * @param pUR  ユーザーリソースのポインタ
  * @param pCM  当たり判定マネージャーのポインタ
- * @param pEM  敵マネージャーのポインタ
+ * @param pEnM 敵マネージャーのポインタ
+ * @param pEfM エフェクトマネージャーのポインタ
  * @param path ステージのファイルパス
  *
  * @return なし
  */
-void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyManager* pEM,
+void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyManager* pEnM, EffectManager* pEfM,
 							   const std::string& path)
 {
 
@@ -89,7 +95,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		{
 			std::function<void()> operate = [this, data](){ m_key->Spawn(data.position, m_goal->GetPosition()); };
 			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(pUR)));
-			m_targetBoxes.back()->Initialize(pRM, pCM, pEM, operate, data.position, data.scale);
+			m_targetBoxes.back()->Initialize(pRM, pCM, pEnM, operate, data.position, data.scale);
 			break;
 		}
 		// エリア
@@ -130,7 +136,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		}
 	}
 	// 鍵
-	m_key = std::make_unique<Key>(context, pRM);
+	m_key = std::make_unique<Key>(context, pRM, pEfM);
 
 	// 敵の生成
 	for (StageLoader::EnemyData data : enemyData)
@@ -142,7 +148,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		spawnData.position = data.position;
 		spawnData.dropRespawn = data.dropRespawn;
 
-		pEM->Spawn(spawnData);
+		pEnM->Spawn(spawnData);
 	}
 }
 

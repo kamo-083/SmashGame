@@ -741,7 +741,7 @@ void StageScene::SetupStage()
 {
 	m_stageManager = std::make_unique<StageManager>(this, m_depthStencilState_stage.Get());
 	m_stageManager->CreateStage(
-		m_userResources, m_collisionManager.get(), m_enemyManager.get(),
+		m_userResources, m_collisionManager.get(), m_enemyManager.get(), m_effectManager.get(),
 		m_stageFilePath);
 }
 

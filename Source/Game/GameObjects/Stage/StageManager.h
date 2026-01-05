@@ -11,15 +11,17 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
-#include "Source/Game/Physics/CollisionManager.h"
-#include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
-#include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/Data/StageLoader.h"
 
 
 // クラスの宣言	===============================================================
+class DebugFont;
 class StageScene;
+class UserResources;
+class CollisionManager;
+class EffectManager;
+class EnemyManager;
 class Ground;
 class TargetBox;
 class Goal;
@@ -81,7 +83,7 @@ public:
 public:
 	// ステージを生成
 	void CreateStage(
-		UserResources* pUR, CollisionManager* pCM, EnemyManager* pEM,
+		UserResources* pUR, CollisionManager* pCM, EnemyManager* pEnM, EffectManager* pEfM,
 		const std::string& path);
 
 	// 更新処理

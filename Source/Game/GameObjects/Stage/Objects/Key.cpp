@@ -14,9 +14,11 @@
 /**
  * @brief コンストラクタ
  *
+ * @param context	デバイスコンテキストのポインタ
  * @param pRM		リソースマネージャーのポインタ
+ * @param pEM		エフェクトマネージャーのポインタ
  */
-Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM)
+Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM)
 	: m_state(KeyState::NONE)
 	, m_model(nullptr)
 {
@@ -24,6 +26,9 @@ Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM)
 
 	// モデルの読み込み
 	m_model = pRM->RequestSDKMESH("key", "key.sdkmesh");
+
+	// エフェクトの作成
+	SetupEffect(pRM, pEM);
 }
 
 
@@ -33,7 +38,7 @@ Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM)
  */
 Key::~Key()
 {
-
+	m_trajectorys.clear();
 }
 
 
@@ -91,6 +96,12 @@ void Key::Update(float elapsedTime)
 			m_tweenAnim->ResetTime();
 			m_tweenAnim->Play();
 
+			// エフェクトを発生させる
+			for (EffectManager::TrajectoryParticleData* effect : m_trajectorys)
+			{
+				effect->SetSpawn(true);
+			}
+
 			// 状態を変更
 			m_state = KeyState::FLYING;
 		}
@@ -98,10 +109,17 @@ void Key::Update(float elapsedTime)
 	case Key::KeyState::FLYING:		// 移動状態
 		// アニメーションを更新
 		m_tweenAnim->Update(elapsedTime, m_tweenParam);
-
+		
 		// アニメーションが終了していたら移動済み状態に移行
 		if (m_tweenAnim->Finished())
 		{
+			// エフェクトの発生を停止
+			for (EffectManager::TrajectoryParticleData* effect : m_trajectorys)
+			{
+				effect->SetSpawn(false);
+			}
+
+			// 状態を変更
 			m_state = KeyState::FINISHED;
 		}
 		break;
@@ -227,4 +245,45 @@ void Key::SetupFlyingAnim()
 		Easing::PlaybackMode::Once
 	};
 	m_tweenAnim->SetTweenData(data);
+}
+
+
+
+/**
+ * @brief エフェクトを設定
+ *
+ * @param pRM リソースマネージャーのポインタ
+ * @param pEM エフェクトマネージャーのポインタ
+ *
+ * @return なし
+ */
+void Key::SetupEffect(ResourceManager* pRM, EffectManager* pEM)
+{
+	// パラメータを設定
+	ParticleUtility::ParticleData data =
+	{
+		{DirectX::SimpleMath::Vector3(EFFECT_SIZE_STAR),DirectX::Colors::Yellow.v},
+		{DirectX::SimpleMath::Vector3(0.0f),DirectX::SimpleMath::Color(1,1,1,0)},
+		EFFECT_LIFE
+	};
+
+	// エフェクトの作成
+	// 星
+	m_trajectorys.push_back(
+		pEM->CreateTrajectory(
+		pRM->RequestPNG("star", "Effect/star.png"),
+		data,
+		&m_tweenParam.pos,
+		true
+	));
+
+	// 丸
+	data.start.scale = DirectX::SimpleMath::Vector3(EFFECT_SIZE_CIRCLE);	// 大きさのパラメータを変更
+	m_trajectorys.push_back(
+		pEM->CreateTrajectory(
+		pRM->RequestPNG("circle", "Effect/circle.png"),
+		data,
+		&m_tweenParam.pos,
+		true
+	));
 }
