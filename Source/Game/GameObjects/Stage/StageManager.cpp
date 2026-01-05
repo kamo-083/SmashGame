@@ -88,7 +88,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
 		case StageLoader::ObjectType::TargetBox:
 		{
 			std::function<void()> operate = [this, data](){ m_key->Spawn(data.position, m_goal->GetPosition()); };
-			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(context)));
+			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(pUR)));
 			m_targetBoxes.back()->Initialize(pRM, pCM, pEM, operate, data.position, data.scale);
 			break;
 		}
@@ -159,6 +159,12 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
  */
 void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp)
 {
+	// 的の更新
+	for (auto& box : m_targetBoxes)
+	{
+		box->Update(elapsedTime);
+	}
+
 	// エリアの更新
 	for (auto& area : m_areas)
 	{

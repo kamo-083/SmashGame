@@ -8,19 +8,24 @@
 #include "pch.h"
 #include "TargetBox.h"
 #include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Effect/Area/AreaEffect.h"
 
 
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param pUR ユーザーリソースのポインタ
  */
-TargetBox::TargetBox(ID3D11DeviceContext* context)
+TargetBox::TargetBox(UserResources* pUR)
 	: m_collisionHandle{ 0 }
 	, m_model(nullptr)
 {
+	ID3D11DeviceContext* context = pUR->GetDeviceResources()->GetD3DDeviceContext();
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
+
+	// エフェクトの作成
+	m_effect = std::make_unique<AreaEffect>(pUR);
 }
 
 
@@ -30,7 +35,7 @@ TargetBox::TargetBox(ID3D11DeviceContext* context)
  */
 TargetBox::~TargetBox()
 {
-
+	m_effect.reset();
 }
 
 
@@ -67,6 +72,11 @@ void TargetBox::Initialize(
 
 	// ぶつけた時の処理
 	m_operation = operation;
+
+	// エフェクトの設定
+	m_effect->SetPosition(DirectX::SimpleMath::Vector3(m_position.x, m_position.y - m_halfLength.y, m_position.z));
+	m_effect->SetLength(DirectX::SimpleMath::Vector3(m_halfLength.x * 2.5f, m_halfLength.y * 1.5f, m_halfLength.z * 2.5f));
+	m_effect->SetColor(DirectX::Colors::Yellow.v);
 
 	// 当たり判定の作成
 	m_collider.SetCenter(m_position);
@@ -105,6 +115,21 @@ void TargetBox::Initialize(
 
 
 /**
+ * @brief 更新処理
+ *
+ * @param elapsedTime 経過時間
+ *
+ * @return なし
+ */
+void TargetBox::Update(float elapsedTime)
+{
+	// エフェクトの更新
+	m_effect->Update(elapsedTime);
+}
+
+
+
+/**
  * @brief 描画処理
  *
  * @param context	描画用構造体
@@ -128,6 +153,9 @@ void TargetBox::Draw(RenderContext& context)
 
 	// モデルの描画
 	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+
+	// エフェクトの描画
+	m_effect->Draw(context);
 
 	// 当たり判定の描画(デバッグ用)
 	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);

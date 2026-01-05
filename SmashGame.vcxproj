@@ -203,6 +203,7 @@
     <ClInclude Include="Source\Game\Data\InputKeyLoader.h" />
     <ClInclude Include="Source\Game\Data\PlayerInfoLoader.h" />
     <ClInclude Include="Source\Game\Data\StageLoader.h" />
+    <ClInclude Include="Source\Game\Effect\Area\AreaEffect.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h" />
     <ClInclude Include="Source\Game\Effect\EffectManager.h" />
     <ClInclude Include="Source\Game\Effect\IEffectParticle.h" />
@@ -278,6 +279,7 @@
     <ClCompile Include="Source\Game\Common\Scene.cpp" />
     <ClCompile Include="Source\Game\Common\SceneManager.cpp" />
     <ClCompile Include="Source\Game\Common\ShaderManager.cpp" />
+    <ClCompile Include="Source\Game\Effect\Area\AreaEffect.cpp" />
     <ClCompile Include="Source\Game\Effect\Circle\CircleParticle.cpp" />
     <ClCompile Include="Source\Game\Effect\EffectManager.cpp" />
     <ClCompile Include="Source\Game\Effect\IEffectParticle.cpp" />

@@ -11,6 +11,6 @@
 
     "enemies": [
         { "type": "Basic", "pos":[ -3.5, 1, 2 ], "dropRespawn": true},
-        { "type": "Basic", "pos":[ 2, 1, -1.5 ]}
+        { "type": "Basic", "pos":[ 2, 1, -1.5 ], "dropRespawn": true}
     ]
 }

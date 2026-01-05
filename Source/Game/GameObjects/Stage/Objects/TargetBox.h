@@ -11,13 +11,18 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
+#include"Source/Game/Common/UserResources.h"
+#include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Physics/PhysicsObject.h"
 #include "Source/Game/Physics/Collision.h"
 #include"Source/Game/Physics/CollisionManager.h"
 #include"Source/Game/GameObjects/Enemy/EnemyManager.h"
-#include "Source/Game/Common/RenderContext.h"
-#include "Source/Game/Interface/IState.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
+#include "Source/Game/Interface/IState.h"
+
+
+// クラスの宣言 ===============================================================
+class AreaEffect;
 
 
 // クラスの定義 ===============================================================
@@ -58,12 +63,15 @@ private:
 	// モデル
 	DirectX::Model* m_model;
 
+	// エフェクト
+	std::unique_ptr<AreaEffect> m_effect;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	TargetBox(ID3D11DeviceContext* context);
+	TargetBox(UserResources* pUR);
 
 	// デストラクタ
 	~TargetBox();
@@ -80,6 +88,9 @@ public:
 		DirectX::SimpleMath::Vector3 position,
 		DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
 		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero);
+
+	// 更新処理
+	void Update(float elapsedTime);
 
 	// 描画処理
 	void Draw(RenderContext& context);
