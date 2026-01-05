@@ -31,6 +31,14 @@ public:
 		ID3D11ShaderResourceView* icon = nullptr;			// アイコン(必要なら)
 	};
 
+	// 操作キー
+	struct InputKeys
+	{
+		DirectX::Keyboard::Keys change;	// 切り替え
+		DirectX::Keyboard::Keys left;	// 左
+		DirectX::Keyboard::Keys right;	// 右
+	};
+
 	// 表示レイアウト
 	enum class Layout
 	{
@@ -44,12 +52,12 @@ public:
 	// 引数用構造体
 	struct OperationUIDesc
 	{
+		InputKeys keys;												 // 操作キー
 		Textures textures;											 // テクスチャ群
 		DirectX::SimpleMath::Vector2 arrowNormalSize;				 // 通常矢印の画像サイズ
 		DirectX::SimpleMath::Vector2 arrowRotateSize;				 // 回転矢印の画像サイズ
-		DirectX::SimpleMath::Vector2 textSize;						 // テキスト画像の1文字分の大きさ
+		int textWidth;												// テキスト画像の1文字分の幅
 		DirectX::SimpleMath::Vector2 iconSize;						 // アイコン画像のサイズ(アイコン使用時)
-		float textUVLeft;											 // テキスト画像の使用箇所の左端
 		DirectX::SimpleMath::Vector2 arrowRotateAdjustPos = { 0,0 }; // 回転矢印の位置調整
 		DirectX::SimpleMath::Vector2 iconAdjustPos = {0,0};			 // アイコン画像の位置調整
 		float UIScale = 1.0f;										 // UI全体のスケール
@@ -67,6 +75,9 @@ private:
 	// テクスチャ群
 	std::unique_ptr<Textures> m_textures;
 
+	// 操作キー
+	std::vector<DirectX::Keyboard::Keys> m_inputKeys;
+
 	// 有効フラグ
 	bool m_active;
 
@@ -78,10 +89,8 @@ private:
 	// 回転矢印画像の大きさ
 	DirectX::SimpleMath::Vector2 m_arrowSizeRotate;
 
-	// テキスト画像を切り取る時の左端
-	float m_textUVLeft;
-	// テキスト画像の1文字の大きさ
-	DirectX::SimpleMath::Vector2 m_textSize;
+	// テキスト画像の1文字の幅
+	int m_textWidth;
 
 	// アイコン表示位置
 	DirectX::SimpleMath::Vector2 m_iconPos;
@@ -136,5 +145,5 @@ private:
 		const float arrowInterval);
 
 	// パラメータの切り替え
-	void SwitchParam(bool active, UIWidget& widget);
+	void ChangeParam(bool active, UIWidget& widget);
 };

@@ -80,10 +80,10 @@ private:
 	DirectX::SimpleMath::Vector2 TEX_SIZE_ARROW_ROTATE = { 200.0f, 200.0f };	// 矢印(回転)
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_OPERATION = { 50.0f, 100.0f };	// 操作キーテキスト
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_CONDITION = { 300.0f, 90.0f };	// クリア条件テキスト
-	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_KEYS = { 60.0f, 60.0f };			// 入力キーテキスト
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_KEYS = { 120.0f, 120.0f };		// 入力キーテキスト(1文字分)
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_OPTION = { 350.0f, 200.0f };		// ポーズ選択肢テキスト
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_TITLE = { 350.0f, 70.0f };		// ポーズタイトルテキスト
-	DirectX::SimpleMath::Vector2 TEX_SIZE_KEY_BASE = { 150.0f, 150.0f };		// キー
+	DirectX::SimpleMath::Vector2 TEX_SIZE_KEY_BASE = { 150.0f, 150.0f };		// キーアイコンのベース
 
 
 	// データメンバの宣言 -----------------------------------------------

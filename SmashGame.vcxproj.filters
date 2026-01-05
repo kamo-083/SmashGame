@@ -104,6 +104,12 @@
     <Filter Include="Effect\Area">
       <UniqueIdentifier>{3e8a964a-0f95-45e3-874a-e65bd9307ab4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Elements\KeyIcon">
+      <UniqueIdentifier>{1d7d2529-592a-4789-85a6-d3d59bc73e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Keys">
+      <UniqueIdentifier>{115bc840-bb76-427c-b08c-3e5ea15de672}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -296,9 +302,6 @@
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.h">
       <Filter>UI\Elements\NumberRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Common\KeyConverter.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Data\InputKeyLoader.h">
       <Filter>Data</Filter>
     </ClInclude>
@@ -343,6 +346,12 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Effect\Area\AreaEffect.h">
       <Filter>Effect\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\Keys\KeyAtlas.h">
+      <Filter>Common\Keys</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\Keys\KeyConverter.h">
+      <Filter>Common\Keys</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -498,9 +507,6 @@
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.cpp">
       <Filter>UI\Elements\NumberRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Common\KeyConverter.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Physics\PhysicsObject.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -534,6 +540,12 @@
     <ClCompile Include="Source\Game\Effect\Area\AreaEffect.cpp">
       <Filter>Effect\Area</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Common\Keys\KeyAtlas.cpp">
+      <Filter>Common\Keys</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Common\Keys\KeyConverter.cpp">
+      <Filter>Common\Keys</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\directx.ico">
@@ -562,12 +574,6 @@
     <None Include="Resources\Json\enemyInfo.json">
       <Filter>Json</Filter>
     </None>
-    <None Include="Resources\Shaders\Particle\Particle.hlsli">
-      <Filter>Shader\Particle</Filter>
-    </None>
-    <None Include="Resources\Shaders\Area\Area.hlsli">
-      <Filter>Shader\Area</Filter>
-    </None>
     <None Include="Resources\Json\playerInfo.json">
       <Filter>Json</Filter>
     </None>
@@ -577,52 +583,58 @@
     <None Include="Resources\Json\inputKeyInfo.json">
       <Filter>Json</Filter>
     </None>
-    <None Include="Resources\Shaders\Transition\Transition.hlsli">
-      <Filter>Shader\Transition</Filter>
-    </None>
-    <None Include="Resources\Shaders\Background\Background.hlsli">
-      <Filter>Shader\Background</Filter>
-    </None>
     <None Include="Resources\Json\stageTest.json">
       <Filter>Json</Filter>
     </None>
+    <None Include="Shaders\Area\Area.hlsli">
+      <Filter>Shader\Area</Filter>
+    </None>
+    <None Include="Shaders\Background\Background.hlsli">
+      <Filter>Shader\Background</Filter>
+    </None>
+    <None Include="Shaders\Particle\Particle.hlsli">
+      <Filter>Shader\Particle</Filter>
+    </None>
+    <None Include="Shaders\Transition\Transition.hlsli">
+      <Filter>Shader\Transition</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Shaders\Particle\ParticleVS.hlsl">
-      <Filter>Shader\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Particle\ParticleGS.hlsl">
-      <Filter>Shader\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Particle\ParticlePS.hlsl">
-      <Filter>Shader\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Area\AreaGS.hlsl">
+    <FxCompile Include="Shaders\Area\AreaGS.hlsl">
       <Filter>Shader\Area</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\Area\AreaPS.hlsl">
+    <FxCompile Include="Shaders\Area\AreaPS.hlsl">
       <Filter>Shader\Area</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\Area\AreaVS.hlsl">
+    <FxCompile Include="Shaders\Area\AreaVS.hlsl">
       <Filter>Shader\Area</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\Transition\TransitionGS.hlsl">
-      <Filter>Shader\Transition</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Transition\TransitionPS.hlsl">
-      <Filter>Shader\Transition</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Transition\TransitionVS.hlsl">
-      <Filter>Shader\Transition</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Background\BackgroundGS.hlsl">
+    <FxCompile Include="Shaders\Background\BackgroundGS.hlsl">
       <Filter>Shader\Background</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\Background\BackgroundPS.hlsl">
+    <FxCompile Include="Shaders\Background\BackgroundPS.hlsl">
       <Filter>Shader\Background</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\Background\BackgroundVS.hlsl">
+    <FxCompile Include="Shaders\Background\BackgroundVS.hlsl">
       <Filter>Shader\Background</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Particle\ParticleGS.hlsl">
+      <Filter>Shader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Particle\ParticlePS.hlsl">
+      <Filter>Shader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Particle\ParticleVS.hlsl">
+      <Filter>Shader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Transition\TransitionGS.hlsl">
+      <Filter>Shader\Transition</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Transition\TransitionPS.hlsl">
+      <Filter>Shader\Transition</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Transition\TransitionVS.hlsl">
+      <Filter>Shader\Transition</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

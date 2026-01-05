@@ -410,9 +410,9 @@ void StageSelectScene::SetupBackground(
 {
 	m_background = std::make_unique<Background>(
 		pDR, pSM, pRM,
-		Background::ResourcesDesc{ "backgroundVS","Shaders/Background/BackgroundVS.cso" },
-		Background::ResourcesDesc{ "backgroundPS","Shaders/Background/BackgroundPS.cso" },
-		Background::ResourcesDesc{ "backgroundGS","Shaders/Background/BackgroundGS.cso" },
+		Background::ResourcesDesc{ "backgroundVS","Resources/Shaders/Background/BackgroundVS.cso" },
+		Background::ResourcesDesc{ "backgroundPS","Resources/Shaders/Background/BackgroundPS.cso" },
+		Background::ResourcesDesc{ "backgroundGS","Resources/Shaders/Background/BackgroundGS.cso" },
 		Background::ResourcesDesc{ "background_stripes", "Others/stripes_pattern.png" },
 		windowSize, Background::MoveDirection::RIGHT
 	);

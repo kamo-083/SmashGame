@@ -8,7 +8,7 @@
 #include "pch.h"
 #include "UIManager.h"
 #include "Source/Game/Common/ResourceManager.h"
-#include "Source/Game/Common/KeyConverter.h"
+#include "Source/Game/Common/Keys/KeyConverter.h"
 #include "Source/Game/UI/Elements/UIDimmer.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Controls/AttackUI.h"
@@ -146,18 +146,23 @@ void UIManager::SetupStageUI(
 	right_keys.push_back(keyConfig.move_right);
 	CreateKeyGuideUI({ base_pos.x + adjust_pos, base_pos.y }, right_keys, pKbTracker);
 	// 攻撃方法
-	OperationUI::Textures opTextures;
+	OperationUI::Textures opTextures;	// テクスチャ
 	opTextures.nomalArrow = m_textures->arrow_normal.texture;
 	opTextures.rotateArrow = m_textures->arrow_rotate.texture;
-	opTextures.keyText = m_textures->text_operation.texture;
+	//opTextures.keyText = m_textures->text_operation.texture;
+	opTextures.keyText = m_textures->text_keys.texture;
+	OperationUI::InputKeys opKeys;		// 操作キー
+	opKeys.change = keyConfig.mode_switch;
+	opKeys.left = keyConfig.rotate_left;
+	opKeys.right = keyConfig.rotate_right;
 	OperationUI::OperationUIDesc opUIDesc =
 	{
+		opKeys,
 		opTextures,
 		m_textures->arrow_normal.size,
 		m_textures->arrow_rotate.size,
-		m_textures->text_operation.size,
-		m_textures->icon_camera.size,
-		370.0f,
+		m_textures->text_keys.size.x,
+		m_textures->icon_camera.size
 	};
 	opUIDesc.arrowRotateAdjustPos = DirectX::SimpleMath::Vector2(0.0f, -30.0f);
 	opUIDesc.UIScale = 0.8f;

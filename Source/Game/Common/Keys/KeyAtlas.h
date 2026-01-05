@@ -1,7 +1,7 @@
 /**
- * @file   KeyConverter.h
+ * @file   KeyAtlas.h
  *
- * @brief  文字列->Keysの変換に関するヘッダファイル
+ * @brief  キーアイコンの切り取りに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -10,22 +10,17 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Keyboard.h"
-#include<string>
-#include<unordered_map>
-#include<vector>
+
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief 文字列->Keysの変換
+ * @brief キーアイコンの切り取り
  */
-class KeyConverter
+class KeyAtlas
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	static const std::unordered_map<std::string, DirectX::Keyboard::Keys> KEY_MAP;
-
 	static const std::vector<std::string> KEY_INDEX;
 
 
@@ -33,23 +28,23 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	KeyConverter();
+	KeyAtlas();
 
 	// デストラクタ
-	~KeyConverter() = default;
+	~KeyAtlas() = default;
 
 
-// 操作
+// 操作・取得
 public:
-	// 文字列->Keysの変換
-	static DirectX::Keyboard::Keys ConvertToKeys(const std::string& name);
-	
-	// Keys->文字列の変換
-	static std::string ConvertToString(const DirectX::Keyboard::Keys& key);
+	// 切り取り範囲を取得
+	static RECT GetRect(DirectX::Keyboard::Keys key, long size);
 
+// 内部実装
+private:
 	// 文字列からキー番号を取得
 	static int GetIndex(const std::string& name);
 
 	// Keysからキー番号を取得
 	static int GetIndex(const DirectX::Keyboard::Keys& key);
+
 };

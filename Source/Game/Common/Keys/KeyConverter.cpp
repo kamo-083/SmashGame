@@ -45,19 +45,6 @@ const std::unordered_map<std::string, DirectX::Keyboard::Keys> KeyConverter::KEY
 	{"Space", DirectX::Keyboard::Keys::Space},
 };
 
-const std::vector<std::string> KeyConverter::KEY_INDEX =
-{
-	"A", "B", "C", "D",
-	"E", "F", "G", "H",
-	"I", "J", "K", "L",
-	"M", "N", "O", "P",
-	"Q", "R", "S", "T",
-	"U", "V", "W", "X",
-	"Y", "Z",
-	"Up", "Down", "Left", "Right",
-	"Space",
-};
-
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -111,40 +98,4 @@ std::string KeyConverter::ConvertToString(const DirectX::Keyboard::Keys& key)
 
 	// 無かった場合
 	return "None";
-}
-
-
-
-/**
- * @brief  文字列からキー番号を取得
- *
- * @param name キー名
- *
- * @return キー番号
- */
-int KeyConverter::GetIndex(const std::string& name)
-{
-	// 配列内からキーを探す
-	auto it = std::find(KEY_INDEX.begin(), KEY_INDEX.end(), name);
-	if (it == KEY_INDEX.end()) return -1;	// 無かった場合
-
-	return static_cast<int>(std::distance(KEY_INDEX.begin(), it));
-}
-
-
-
-/**
- * @brief  Keysからキー番号を取得
- *
- * @param key キー
- *
- * @return キー番号
- */
-int KeyConverter::GetIndex(const DirectX::Keyboard::Keys& key)
-{
-	// Keys->文字列の変換
-	const std::string& name = ConvertToString(key);
-	
-	// キー番号を取得
-	return GetIndex(name);
 }

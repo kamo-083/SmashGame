@@ -7,6 +7,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "OperationUI.h"
+#include "Source/Game/Common/Keys/KeyAtlas.h"	
 
 
 // メンバ関数の定義 ===========================================================
@@ -17,8 +18,8 @@
  */
 OperationUI::OperationUI()
 	: m_active{ false }
-	, m_textUVLeft{ 0.0f }
 	, m_scale{ 0.0f }
+	, m_textWidth{ 0 }
 {
 
 };
@@ -29,7 +30,7 @@ OperationUI::OperationUI()
  */
 OperationUI::~OperationUI()
 {
-
+	
 }
 
 
@@ -53,12 +54,17 @@ void OperationUI::Initialize(
 	// 各サイズの設定
 	m_arrowSizeNormal = desc.arrowNormalSize;	// 通常矢印
 	m_arrowSizeRotate = desc.arrowRotateSize;	// 回転矢印
-	m_textUVLeft = desc.textUVLeft;				// テキスト画像の左端
-	m_textSize = desc.textSize;					// テキストの1文字分
+	m_textWidth = desc.textWidth;				// テキストの1文字分の幅
 	m_iconSize = desc.iconSize;					// アイコン
 
 	// 有効・無効の設定
 	m_active = active;
+
+	// 操作キーの設定
+	m_inputKeys.clear();
+	m_inputKeys.push_back(desc.keys.change);
+	m_inputKeys.push_back(desc.keys.left);
+	m_inputKeys.push_back(desc.keys.right);
 
 	// UI全体のスケールの設定
 	m_scale = desc.UIScale;
@@ -131,10 +137,7 @@ void OperationUI::Draw(RenderContext context)
 	int loopTime = 0;
 	for (auto& widget : m_widgets)
 	{
-		LONG uvLeft = static_cast<LONG>(m_textUVLeft) + static_cast<LONG>(m_textSize.x) * loopTime;
-		RECT rect = {
-			uvLeft, 0, 
-			uvLeft + static_cast<LONG>(m_textSize.x), static_cast<LONG>(m_textSize.y) };
+		RECT rect = KeyAtlas::GetRect(m_inputKeys[loopTime], m_textWidth);
 
 		widget->Draw(
 			context.spriteBatch,
@@ -184,9 +187,9 @@ void OperationUI::Active(bool active)
 	m_active = active;
 
 	// パラメータの切り替え
-	SwitchParam(!m_active, *m_widgets[0].get());
-	SwitchParam(m_active, *m_widgets[1].get());
-	SwitchParam(m_active, *m_widgets[2].get());
+	ChangeParam(!m_active, *m_widgets[0].get());
+	ChangeParam(m_active, *m_widgets[1].get());
+	ChangeParam(m_active, *m_widgets[2].get());
 }
 
 
@@ -221,7 +224,7 @@ void OperationUI::SetupWidgets(
 		Easing::PlaybackMode::Once
 	};
 	widget->Initialize(m_textures->rotateArrow, data, m_arrowSizeRotate, false);
-	SwitchParam(!m_active, *widget.get());
+	ChangeParam(!m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::CENTER)] = std::move(widget);
 
 	// 左右(有効状態の時に表示する)
@@ -232,7 +235,7 @@ void OperationUI::SetupWidgets(
 	data.start.pos = leftPos;
 	data.start.rotation = DirectX::XM_PI;
 	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeNormal, false);
-	SwitchParam(m_active, *widget.get());
+	ChangeParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::LEFT)] = std::move(widget);
 
 	// 右
@@ -241,7 +244,7 @@ void OperationUI::SetupWidgets(
 	data.start.pos = rightPos;
 	data.start.rotation = 0.0f;
 	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeNormal, false);
-	SwitchParam(m_active, *widget.get());
+	ChangeParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
 }
 
@@ -255,7 +258,7 @@ void OperationUI::SetupWidgets(
  *
  * @return なし
  */
-void OperationUI::SwitchParam(bool active, UIWidget& widget)
+void OperationUI::ChangeParam(bool active, UIWidget& widget)
 {
 	// 現在値で初期化した新規パラメータを作成
 	Tween2D::TweenData newData = widget.GetTween()->GetTweenData();

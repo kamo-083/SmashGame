@@ -31,9 +31,9 @@ SceneManager::SceneManager(UserResources* pUserResources)
 		m_userResources->GetDeviceResources(), 
 		m_userResources->GetShaderManager(),
 		m_userResources->GetResourceManager(),
-		ITransition::ResourcesDesc{ "blockVS","Shaders/Transition/TransitionVS.cso" },
-		ITransition::ResourcesDesc{ "blockPS","Shaders/Transition/TransitionPS.cso" },
-		ITransition::ResourcesDesc{ "blockGS","Shaders/Transition/TransitionGS.cso" },
+		ITransition::ResourcesDesc{ "blockVS","Resources/Shaders/Transition/TransitionVS.cso" },
+		ITransition::ResourcesDesc{ "blockPS","Resources/Shaders/Transition/TransitionPS.cso" },
+		ITransition::ResourcesDesc{ "blockGS","Resources/Shaders/Transition/TransitionGS.cso" },
 		ITransition::ResourcesDesc{ "blockTransition", "Others/block_mask.png" },
 		windowSize, TRANSITION_INTERVAL);
 }

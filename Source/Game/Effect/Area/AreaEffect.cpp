@@ -206,15 +206,15 @@ void AreaEffect::Finalize()
 void AreaEffect::LoadShaders(ShaderManager* shaderManager, ID3D11Device* device)
 {
 	// 頂点シェーダー
-	shaderManager->CreateVS("areaVS", "Shaders/Area/AreaVS.cso", INPUT_LAYOUT);
+	shaderManager->CreateVS("areaVS", "Resources/Shaders/Area/AreaVS.cso", INPUT_LAYOUT);
 	m_vs = shaderManager->GetVS("areaVS");
 
 	// ピクセルシェーダー
-	shaderManager->CreatePS("areaPS", "Shaders/Area/AreaPS.cso");
+	shaderManager->CreatePS("areaPS", "Resources/Shaders/Area/AreaPS.cso");
 	m_ps = shaderManager->GetPS("areaPS");
 
 	// ジオメトリシェーダー
-	shaderManager->CreateGS("areaGS", "Shaders/Area/AreaGS.cso");
+	shaderManager->CreateGS("areaGS", "Resources/Shaders/Area/AreaGS.cso");
 	m_gs = shaderManager->GetGS("areaGS");
 
 	//	シェーダーにデータを渡すためのコンスタントバッファ生成
