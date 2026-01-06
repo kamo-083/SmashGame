@@ -8,13 +8,14 @@
 #include "pch.h"
 #include "UIManager.h"
 #include "Source/Game/Common/ResourceManager.h"
-#include "Source/Game/Common/Keys/KeyConverter.h"
+#include "Source/Game/Common/KeyConverter.h"
 #include "Source/Game/UI/Elements/UIDimmer.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Controls/AttackUI.h"
 #include "Source/Game/UI/Controls/InputGuideUI.h"
 #include "Source/Game/UI/Displays/StageResultUI.h"
 #include "Source/Game/UI/Displays/PauseUI.h"
+#include "Source/Game/UI/Displays/InputHintUI.h"
 
 
 // ƒƒ“ƒoŠÖ”‚Ì’è‹` ===========================================================
@@ -374,6 +375,7 @@ void UIManager::CreateKeyGuideUI(
 		m_textures->base_key.texture,
 		position,
 		{ m_textures->base_key.size.x, m_textures->base_key.size.y },
+		m_textures->text_keys.size.x,
 		keys,
 		pKbTracker
 	);
@@ -455,4 +457,22 @@ void UIManager::CreatePauseUI()
 	// UI‚ğì¬
 	m_pauseUI = std::make_unique<PauseUI>();
 	m_pauseUI->Initialize(m_windowSize, pauseTex, desc);
+}
+
+
+
+/**
+ * @brief ‘€ì•û–@UI‚Ìì¬
+ *
+ * @param ‚È‚µ
+ *
+ * @return ‚È‚µ
+ */
+void UIManager::CreateInputHintUI()
+{
+
+
+	std::unique_ptr<InputHintUI> inputUI = std::make_unique<InputHintUI>();
+	//inputUI->Initialize();
+	m_inputHintUI.push_back(std::move(inputUI));
 }

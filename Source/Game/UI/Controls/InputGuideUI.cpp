@@ -7,7 +7,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "InputGuideUI.h"
-#include "Source/Game/Common/Keys/KeyAtlas.h"
+#include "Source/Game/UI/Elements/Atlas/KeyAtlas.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -54,6 +54,7 @@ void InputGuideUI::Initialize(
 	ID3D11ShaderResourceView* baseTexture,
 	DirectX::SimpleMath::Vector2 pos,
 	DirectX::SimpleMath::Vector2 size,
+	int textWidth,
 	std::vector<DirectX::Keyboard::Keys> keys,
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
@@ -73,7 +74,7 @@ void InputGuideUI::Initialize(
 	m_widget->Initialize(baseTexture, data, size, false);
 
 	// 対応キーを登録
-	m_keys = keys;
+	m_inputKeys = keys;
 
 	// キーボードトラッカーのポインタの登録
 	m_pKbTracker = pKbTracker;
@@ -84,8 +85,11 @@ void InputGuideUI::Initialize(
 	// 文字テクスチャを登録
 	m_textTexture = textTexture;
 
+	// テキスト画像の1文字分の幅を設定
+	m_textWidth = textWidth;
+	
 	// キー押下状態記録用配列を作成
-	for (int i = 0; i < m_keys.size(); i++)
+	for (int i = 0; i < m_inputKeys.size(); i++)
 	{
 		m_keyLastStates.push_back(false);
 	}
@@ -103,13 +107,13 @@ void InputGuideUI::Initialize(
 void InputGuideUI::Update(float elapsedTime)
 {	
 	// 各キーの押下状態をチェック
-	for (int i = 0; i < m_keys.size(); i++)
+	for (int i = 0; i < m_inputKeys.size(); i++)
 	{
-		if (m_pKbTracker->IsKeyPressed(m_keys[i]))
+		if (m_pKbTracker->IsKeyPressed(m_inputKeys[i]))
 		{
 			m_keyLastStates[i] = true;
 		}
-		else if (m_pKbTracker->IsKeyReleased(m_keys[i]))
+		else if (m_pKbTracker->IsKeyReleased(m_inputKeys[i]))
 		{
 			m_keyLastStates[i] = false;
 		}
@@ -150,15 +154,23 @@ void InputGuideUI::Update(float elapsedTime)
  */
 void InputGuideUI::Draw(RenderContext context)
 {
-	// 背景の描画
-	m_widget->Draw(context.spriteBatch);
+	RECT rect;
+	DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero;
 
-	// 文字テクスチャの切り取り範囲を計算
-	long size = 120;
-	RECT rect = KeyAtlas::GetRect(m_keys[0], size);
+	for (DirectX::Keyboard::Keys key : m_inputKeys)
+	{
+		// 背景の描画
+		m_widget->Draw(context.spriteBatch, nullptr, pos);
 
-	// 文字の描画
-	m_widget->Draw(context.spriteBatch, m_textTexture, DirectX::SimpleMath::Vector2::Zero, &rect);
+		// 文字テクスチャの切り取り範囲を計算
+		RECT rect = KeyAtlas::GetRect(key, m_textWidth);
+
+		// 文字の描画
+		m_widget->Draw(context.spriteBatch, m_textTexture, pos, &rect);
+
+		// 表示位置をずらす
+		pos.x += m_widget->GetTexSize().x;
+	}
 }
 
 

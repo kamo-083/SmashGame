@@ -17,6 +17,7 @@
 class UIWidget;
 class Button;
 class Background;
+class InputHintUI;
 
 
 // クラスの定義 ===============================================================
@@ -32,8 +33,9 @@ public:
 	{
 		ID3D11ShaderResourceView* logo;			// ロゴ
 		ID3D11ShaderResourceView* start;		// ゲーム開始テキスト
-		ID3D11ShaderResourceView* exit;			// 終了テキスト
+		ID3D11ShaderResourceView* exit;			// ゲーム終了テキスト
 		ID3D11ShaderResourceView* key;			// 操作テキスト
+		ID3D11ShaderResourceView* action;		// 動作テキスト
 	};
 
 	static constexpr int BUTTONS = 2;	// ボタン数
@@ -44,13 +46,20 @@ public:
 	static constexpr float TEXT_POS_Y = 500.0f;
 	// 選択肢テキストの表示間隔
 	static constexpr float TEXT_INTERVAL = 100.0f;
-	// 操作テキストの切り取り範囲
-	static constexpr RECT KEY_RECT = { 0,0,290,110 };
+	// 操作テキストの表示位置
+	static constexpr DirectX::SimpleMath::Vector2 INPUT_TEXT_POS = { 500,700 };
+	// 操作テキストの表示位置の調整値
+	static constexpr float INPUT_TEXT_POS_ADJUST = 15.0f;
+
+	// 操作テキストのスケール
+	static constexpr float INPUT_TEXT_SCALE = 0.25f;
 
 	// タイトルロゴの画像サイズ
 	static constexpr DirectX::SimpleMath::Vector2 LOGO_SIZE = { 640.0f,360.0f };
 	// 選択肢テキストの画像サイズ
 	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 400.0f,67.0f };
+	// 操作テキストの1文字のサイズ
+	static constexpr long INPUT_TEXT_SIZE = 120;
 
 	// トゥイーンアニメーション関連
 	// スケール変化量
@@ -80,6 +89,9 @@ private:
 
 	// 背景
 	std::unique_ptr<Background> m_background;
+
+	// 操作方法UI
+	std::vector < std::unique_ptr<InputHintUI>> m_inputHintUI;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -136,4 +148,7 @@ private:
 
 	// 音声の設定
 	void SetupAudio(AudioManager* pAM);
+
+	// 操作UIの設定
+	void SetupInputUI();
 };

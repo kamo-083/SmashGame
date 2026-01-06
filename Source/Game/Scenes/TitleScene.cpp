@@ -12,6 +12,7 @@
 #include "Source/Game/GameObjects/Background.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Displays/Button.h"
+#include "Source/Game/UI/Displays/InputHintUI.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -84,6 +85,9 @@ void TitleScene::Initialize()
 		pRM,
 		DirectX::SimpleMath::Vector2{ static_cast<float>(windowSize.right), static_cast<float>(windowSize.bottom) }
 	);
+
+	// 操作UIの作成
+	SetupInputUI();
 
 	// BGM・SEの読み込み
 	AudioManager* pAM = m_userResources->GetAudioManager();
@@ -171,7 +175,10 @@ void TitleScene::Render(RenderContext context, DebugFont* debugFont)
 		context.states->LinearClamp());
 
 	// 操作方法の描画
-	context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero, &KEY_RECT);
+	for (auto& inputUI : m_inputHintUI)
+	{
+		inputUI->Draw(context);
+	}
 
 	// タイトルロゴの描画
 	m_titleLogo->Draw(context.spriteBatch);
@@ -196,7 +203,7 @@ void TitleScene::Render(RenderContext context, DebugFont* debugFont)
  */
 void TitleScene::Finalize()
 {
-	if (m_titleLogo)m_titleLogo->Finalize();
+	if (m_titleLogo) m_titleLogo->Finalize();
 	m_titleLogo.reset();
 
 	for (auto& button : m_buttons)
@@ -204,6 +211,12 @@ void TitleScene::Finalize()
 		button->Finalize();
 	}
 	m_buttons.clear();
+
+	for (auto& inputUI : m_inputHintUI)
+	{
+		inputUI->Finalize();
+	}
+	m_inputHintUI.clear();
 
 	m_background.reset();
 
@@ -362,7 +375,8 @@ void TitleScene::SetupTexture(ResourceManager* pRM)
 	m_textures->logo = pRM->RequestPNG("titleLogo", "Text/titleLogo.png");
 	m_textures->start = pRM->RequestPNG("startText", "Text/startText.png");
 	m_textures->exit = pRM->RequestPNG("exitText", "Text/exitText.png");
-	m_textures->key = pRM->RequestPNG("title_selectText", "Text/title_selectKeyText.png");
+	m_textures->key = pRM->RequestPNG("keysText", "Text/keysText.png");
+	m_textures->action = pRM->RequestPNG("actionText", "Text/actionText.png");
 }
 
 
@@ -384,4 +398,55 @@ void TitleScene::SetupAudio(AudioManager* pAM)
 
 	// BGMの再生
 	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
+}
+
+
+
+/**
+ * @brief 操作UIの設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void TitleScene::SetupInputUI()
+{
+	std::unique_ptr<InputHintUI> inputUI;
+
+	// 画像を設定
+	InputHintUI::Textures textures;
+	textures.key = m_textures->key;
+	textures.action = m_textures->action;
+
+	// 操作キー配列
+	std::vector<DirectX::Keyboard::Keys> keys;
+
+	// 表示位置の初期設定
+	DirectX::SimpleMath::Vector2 pos = INPUT_TEXT_POS;
+
+	// 選択
+	// キーを設定
+	keys.push_back(DirectX::Keyboard::Keys::Up);
+	keys.push_back(DirectX::Keyboard::Keys::Down);
+	// UIを作成
+	inputUI = std::make_unique<InputHintUI>();
+	inputUI->Initialize(
+		textures, pos, INPUT_TEXT_SCALE, INPUT_TEXT_SIZE, keys,
+		ActionAtlas::ActionType::SELECT);
+	// 表示位置をずらす
+	pos.x += inputUI->GetWidth() + INPUT_TEXT_POS_ADJUST;
+	// 配列に追加
+	m_inputHintUI.push_back(std::move(inputUI));
+
+	// 決定
+	// キーを設定
+	keys.clear();
+	keys.push_back(DirectX::Keyboard::Keys::Space);
+	// UIを作成
+	inputUI = std::make_unique<InputHintUI>();
+	inputUI->Initialize(
+		textures, pos, INPUT_TEXT_SCALE, INPUT_TEXT_SIZE, keys,
+		ActionAtlas::ActionType::DECIDE);
+	// 配列に追加
+	m_inputHintUI.push_back(std::move(inputUI));
 }

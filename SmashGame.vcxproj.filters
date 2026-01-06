@@ -104,11 +104,8 @@
     <Filter Include="Effect\Area">
       <UniqueIdentifier>{3e8a964a-0f95-45e3-874a-e65bd9307ab4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Elements\KeyIcon">
-      <UniqueIdentifier>{1d7d2529-592a-4789-85a6-d3d59bc73e97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common\Keys">
-      <UniqueIdentifier>{115bc840-bb76-427c-b08c-3e5ea15de672}</UniqueIdentifier>
+    <Filter Include="UI\Elements\Atlas">
+      <UniqueIdentifier>{dbda96bf-790c-46d8-8d92-c1e1c318386d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -347,11 +344,17 @@
     <ClInclude Include="Source\Game\Effect\Area\AreaEffect.h">
       <Filter>Effect\Area</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Common\Keys\KeyAtlas.h">
-      <Filter>Common\Keys</Filter>
+    <ClInclude Include="Source\Game\Common\KeyConverter.h">
+      <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Common\Keys\KeyConverter.h">
-      <Filter>Common\Keys</Filter>
+    <ClInclude Include="Source\Game\UI\Displays\InputHintUI.h">
+      <Filter>UI\Displays</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\Atlas\ActionAtlas.h">
+      <Filter>UI\Elements\Atlas</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\UI\Elements\Atlas\KeyAtlas.h">
+      <Filter>UI\Elements\Atlas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -540,11 +543,17 @@
     <ClCompile Include="Source\Game\Effect\Area\AreaEffect.cpp">
       <Filter>Effect\Area</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Common\Keys\KeyAtlas.cpp">
-      <Filter>Common\Keys</Filter>
+    <ClCompile Include="Source\Game\Common\KeyConverter.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Common\Keys\KeyConverter.cpp">
-      <Filter>Common\Keys</Filter>
+    <ClCompile Include="Source\Game\UI\Displays\InputHintUI.cpp">
+      <Filter>UI\Displays</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Elements\Atlas\ActionAtlas.cpp">
+      <Filter>UI\Elements\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\Elements\Atlas\KeyAtlas.cpp">
+      <Filter>UI\Elements\Atlas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

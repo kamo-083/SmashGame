@@ -187,8 +187,7 @@
     <ClInclude Include="Source\Game\Common\Animation.h" />
     <ClInclude Include="Source\Game\Common\AudioManager.h" />
     <ClInclude Include="Source\Game\Common\DeviceResources.h" />
-    <ClInclude Include="Source\Game\Common\Keys\KeyAtlas.h" />
-    <ClInclude Include="Source\Game\Common\Keys\KeyConverter.h" />
+    <ClInclude Include="Source\Game\Common\KeyConverter.h" />
     <ClInclude Include="Source\Game\Common\ModelAnimator.h" />
     <ClInclude Include="Source\Game\Common\RenderContext.h" />
     <ClInclude Include="Source\Game\Common\RenderTexture.h" />
@@ -252,8 +251,11 @@
     <ClInclude Include="Source\Game\UI\Controls\OperationUI.h" />
     <ClInclude Include="Source\Game\UI\Displays\Button.h" />
     <ClInclude Include="Source\Game\UI\Displays\ClearConditionsUI.h" />
+    <ClInclude Include="Source\Game\UI\Displays\InputHintUI.h" />
     <ClInclude Include="Source\Game\UI\Displays\PauseUI.h" />
     <ClInclude Include="Source\Game\UI\Displays\StageResultUI.h" />
+    <ClInclude Include="Source\Game\UI\Elements\Atlas\ActionAtlas.h" />
+    <ClInclude Include="Source\Game\UI\Elements\Atlas\KeyAtlas.h" />
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\INumberRenderer.h" />
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.h" />
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.h" />
@@ -273,8 +275,7 @@
     <ClCompile Include="Source\Game\Common\Animation.cpp" />
     <ClCompile Include="Source\Game\Common\AudioManager.cpp" />
     <ClCompile Include="Source\Game\Common\DeviceResources.cpp" />
-    <ClCompile Include="Source\Game\Common\Keys\KeyAtlas.cpp" />
-    <ClCompile Include="Source\Game\Common\Keys\KeyConverter.cpp" />
+    <ClCompile Include="Source\Game\Common\KeyConverter.cpp" />
     <ClCompile Include="Source\Game\Common\ModelAnimator.cpp" />
     <ClCompile Include="Source\Game\Common\RenderTexture.cpp" />
     <ClCompile Include="Source\Game\Common\ResourceManager.cpp" />
@@ -327,8 +328,11 @@
     <ClCompile Include="Source\Game\UI\Controls\OperationUI.cpp" />
     <ClCompile Include="Source\Game\UI\Displays\Button.cpp" />
     <ClCompile Include="Source\Game\UI\Displays\ClearConditionsUI.cpp" />
+    <ClCompile Include="Source\Game\UI\Displays\InputHintUI.cpp" />
     <ClCompile Include="Source\Game\UI\Displays\PauseUI.cpp" />
     <ClCompile Include="Source\Game\UI\Displays\StageResultUI.cpp" />
+    <ClCompile Include="Source\Game\UI\Elements\Atlas\ActionAtlas.cpp" />
+    <ClCompile Include="Source\Game\UI\Elements\Atlas\KeyAtlas.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer3D.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\Tween\Easing.cpp" />

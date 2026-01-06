@@ -19,6 +19,7 @@ class Button;
 class NumberRenderer2D;
 class RenderTexture;
 class Background;
+class InputHintUI;
 
 
 // クラスの定義 ===============================================================
@@ -34,6 +35,7 @@ public:
 	struct Textures
 	{
 		ID3D11ShaderResourceView* key;			// 操作テキスト
+		ID3D11ShaderResourceView* action;		// 動作テキスト
 		ID3D11ShaderResourceView* stamp_on;		// スタンプ(済)
 		ID3D11ShaderResourceView* stamp_off;	// スタンプ(空)
 		std::vector <std::unique_ptr<RenderTexture>> stagePanels;	// ステージパネル
@@ -47,10 +49,14 @@ public:
 	// ステージ番号の間隔調整
 	static constexpr float NUMBER_ADJUST_INTERVAL = 230.0f;
 
-	// 操作テキストの切り取り範囲
-	static constexpr RECT KEY_RECT = { 0,0,290,110 };
-	// 操作テキストの切り取り高さ
-	static constexpr LONG KEY_HEIGHT = 90;
+	// 操作テキストの表示位置
+	static constexpr DirectX::SimpleMath::Vector2 INPUT_TEXT_POS = { 450,700 };
+	// 操作テキストの表示位置の調整値
+	static constexpr float INPUT_TEXT_POS_ADJUST = 15.0f;
+	// 操作テキストのスケール
+	static constexpr float INPUT_TEXT_SCALE = 0.25f;
+	// 操作テキストの1文字のサイズ
+	static constexpr long INPUT_TEXT_SIZE = 120;
 
 	// パネル画像サイズ
 	static constexpr DirectX::SimpleMath::Vector2 PANEL_TEX_SIZE = { 350.0f,400.0f };
@@ -80,7 +86,6 @@ private:
 	// 遷移先のステージ番号(未登録：-1)
 	int m_transitionStage;
 
-
 	// オブジェクト関連
 	// 数字表示ボード
 	std::unique_ptr<NumberRenderer2D> m_numberBoard;
@@ -93,6 +98,9 @@ private:
 
 	// 背景
 	std::unique_ptr<Background> m_background;
+
+	// 操作方法UI
+	std::vector < std::unique_ptr<InputHintUI>> m_inputHintUI;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -154,4 +162,7 @@ private:
 
 	// 音声の設定
 	void SetupAudios(AudioManager* pAM);
+
+	// 操作UIの設定
+	void SetupInputUI();
 };

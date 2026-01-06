@@ -23,11 +23,10 @@ class InputGuideUI :public UIElement
 private:
 
 
-
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// 対応キー
-	std::vector<DirectX::Keyboard::Keys> m_keys;
+	std::vector<DirectX::Keyboard::Keys> m_inputKeys;
 
 	// キーボードトラッカーのポインタ
 	DirectX::Keyboard::KeyboardStateTracker* m_pKbTracker;
@@ -40,6 +39,9 @@ private:
 
 	// 文字テクスチャのポインタ
 	ID3D11ShaderResourceView* m_textTexture;
+
+	// テキスト画像の1文字分の幅
+	int m_textWidth;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -60,6 +62,7 @@ public:
 		ID3D11ShaderResourceView* baseTexture,
 		DirectX::SimpleMath::Vector2 pos,
 		DirectX::SimpleMath::Vector2 size,
+		int textWidth,
 		std::vector<DirectX::Keyboard::Keys> keys,
 		DirectX::Keyboard::KeyboardStateTracker* pKbTracker
 	);

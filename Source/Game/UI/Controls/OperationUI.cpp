@@ -7,7 +7,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "OperationUI.h"
-#include "Source/Game/Common/Keys/KeyAtlas.h"	
+#include "Source/Game/UI/Elements/Atlas/KeyAtlas.h"	
 
 
 // メンバ関数の定義 ===========================================================

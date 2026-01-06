@@ -1,13 +1,13 @@
 /**
  * @file   KeyAtlas.cpp
  *
- * @brief  キーアイコンの切り取りに関するソースファイル
+ * @brief  キーテキスト画像の切り取りに関するソースファイル
  */
 
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "KeyAtlas.h"
-#include "Source/Game/Common/Keys/KeyConverter.h"
+#include "Source/Game/Common/KeyConverter.h"
 
 // クラス定数の定義 ===========================================================
 const std::vector<std::string> KeyAtlas::KEY_INDEX =
@@ -38,11 +38,12 @@ KeyAtlas::KeyAtlas()
 
 
 /**
- * @brief  文字列からキー番号を取得
+ * @brief  切り取り範囲を取得
  *
- * @param name キー名
+ * @param key	キー
+ * @param size	1文字の大きさ(縦横)
  *
- * @return キー番号
+ * @return 切り取り範囲
  */
 RECT KeyAtlas::GetRect(DirectX::Keyboard::Keys key, long size)
 {

@@ -86,6 +86,7 @@ public:
 	float GetEasingProgress() const { return m_tween->GetEasingProgress(); }		// イージング済みの進行度を取得
 	float GetLinearProgress() const { return m_tween->GetLinearProgress(); }		// 素の経過時間を取得
 	void SetTexture(ID3D11ShaderResourceView* texture) { m_texture = texture; }		// テクスチャの取得
+	DirectX::SimpleMath::Vector2 GetTexSize() const { return m_texSize; }			// テクスチャサイズの取得
 
 	// 新しいパラメータをセット
 	void SetParam(Tween2D::UIParams start, Tween2D::UIParams delta);

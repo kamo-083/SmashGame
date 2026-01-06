@@ -22,6 +22,7 @@ class UIElement;
 class StageResultUI;
 class AttackUI;
 class PauseUI;
+class InputHintUI;
 class UIDimmer;
 
 
@@ -115,6 +116,9 @@ private:
 	// ポーズUI
 	std::unique_ptr<PauseUI> m_pauseUI;
 
+	// 操作方法UI
+	std::vector<std::unique_ptr<InputHintUI>> m_inputHintUI;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -195,4 +199,7 @@ private:
 
 	// ポーズ画面UIの作成
 	void CreatePauseUI();
+
+	// 操作方法UIの作成
+	void CreateInputHintUI();
 };
