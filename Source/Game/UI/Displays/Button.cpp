@@ -44,7 +44,7 @@ Button::~Button()
  * @return ‚È‚µ
  */
 void Button::Initialize(
-	ID3D11ShaderResourceView* texture,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 	const Tween2D::TweenData data,
 	DirectX::SimpleMath::Vector2 size,
 	std::function<void()> operate)

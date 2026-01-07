@@ -196,7 +196,7 @@ void EffectManager::Finalize()
  * @return 軌跡エフェクトのポインタ
  */
 EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
-	ID3D11ShaderResourceView* texture, ParticleUtility::ParticleData particleData,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, ParticleUtility::ParticleData particleData,
 	DirectX::SimpleMath::Vector3* position, bool random)
 {
 	// 軌跡エフェクトの作成
@@ -245,7 +245,7 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
  * @return 円形エフェクトのポインタ
  */
 EffectManager::CircleParticleData* EffectManager::CreateCircle(
-	ID3D11ShaderResourceView* texture, ParticleUtility::ParticleData particleData,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, ParticleUtility::ParticleData particleData,
 	DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal)
 {
 	// 円形エフェクトの作成

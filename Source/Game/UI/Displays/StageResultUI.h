@@ -62,7 +62,7 @@ private:
 	Time m_clearTime;
 
 	// クリアタイムのテキスト画像のポインタ
-	ID3D11ShaderResourceView* m_clearTimeTexture;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_clearTimeTexture;
 
 	// クリアタイムの表示位置
 	DirectX::SimpleMath::Vector2 m_clearTimePosition;

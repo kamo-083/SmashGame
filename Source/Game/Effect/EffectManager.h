@@ -152,12 +152,12 @@ public:
 
 	// 軌跡エフェクトの作成
 	TrajectoryParticleData* CreateTrajectory(
-		ID3D11ShaderResourceView* texture, ParticleUtility::ParticleData particleData,
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, ParticleUtility::ParticleData particleData,
 		DirectX::SimpleMath::Vector3* position, bool random);
 
 	// 円形エフェクトの作成
 	CircleParticleData* CreateCircle(
-		ID3D11ShaderResourceView* texture, ParticleUtility::ParticleData particleData,
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, ParticleUtility::ParticleData particleData,
 		DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal);
 
 

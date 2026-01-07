@@ -61,7 +61,7 @@ protected:
 	// 共通ステートのポインタ
 	DirectX::CommonStates* m_states;
 	// テクスチャのポインタ
-	std::vector<ID3D11ShaderResourceView*> m_texture;
+	std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_texture;
 	// 頂点の配列
 	std::vector<DirectX::VertexPositionColorTexture> m_vertices;
 
@@ -113,7 +113,7 @@ public:
 		ID3D11InputLayout* inputLayout,
 		DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>* batch,
 		DirectX::CommonStates* states,
-		ID3D11ShaderResourceView* texture,
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 		ID3D11VertexShader* vertexShader,
 		ID3D11PixelShader* pixelShader,
 		ID3D11GeometryShader* geometryShader,

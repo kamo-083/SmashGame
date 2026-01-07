@@ -31,11 +31,11 @@ public:
 	// 画像の構造体
 	struct Textures
 	{
-		ID3D11ShaderResourceView* logo;			// ロゴ
-		ID3D11ShaderResourceView* start;		// ゲーム開始テキスト
-		ID3D11ShaderResourceView* exit;			// ゲーム終了テキスト
-		ID3D11ShaderResourceView* key;			// 操作テキスト
-		ID3D11ShaderResourceView* action;		// 動作テキスト
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> logo;		// ロゴ
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> start;		// ゲーム開始テキスト
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> exit;		// ゲーム終了テキスト
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> key;		// 操作テキスト
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> action;	// 動作テキスト
 	};
 
 	static constexpr int BUTTONS = 2;	// ボタン数

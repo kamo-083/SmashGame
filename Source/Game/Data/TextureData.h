@@ -5,6 +5,6 @@
 // テクスチャの情報
 struct TextureInfo
 {
-	ID3D11ShaderResourceView* texture = nullptr;	// ポインタ
-	DirectX::SimpleMath::Vector2 size;				// 画像サイズ
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture = nullptr;	// ポインタ
+	DirectX::SimpleMath::Vector2 size;									// 画像サイズ
 };

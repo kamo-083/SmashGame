@@ -340,7 +340,7 @@ void StageScene::SetupShadow(RenderContext context)
 	m_basicEffect->SetWorld(DirectX::SimpleMath::Matrix::Identity);
 	m_basicEffect->SetView(context.view);
 	m_basicEffect->SetProjection(context.proj);
-	m_basicEffect->SetTexture(m_textures->shadow);
+	m_basicEffect->SetTexture(m_textures->shadow.Get());
 	m_basicEffect->Apply(context.deviceContext);
 
 	// 入力レイアウト

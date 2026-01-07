@@ -55,7 +55,7 @@ void IEffectParticle::Create(
 	ID3D11InputLayout* inputLayout, 
 	DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>* batch,
 	DirectX::CommonStates* states, 
-	ID3D11ShaderResourceView* texture,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 	ID3D11VertexShader* vertexShader,
 	ID3D11PixelShader* pixelShader, 
 	ID3D11GeometryShader* geometryShader,

@@ -51,7 +51,7 @@ public:
 	// テクスチャ群
 	struct Textures
 	{
-		ID3D11ShaderResourceView* shadow;	// 丸影
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> shadow;	// 丸影
 	};
 
 	const ClearConditionsUI::ConditionsType CLEAR_CONDITIONS;	// クリア条件

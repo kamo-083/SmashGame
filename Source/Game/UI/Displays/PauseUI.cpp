@@ -119,7 +119,7 @@ void PauseUI::Draw(RenderContext context)
 		// 選択肢テキストを描画
 		m_widget->Draw(
 			context.spriteBatch,
-			m_textures->optionsText.texture,
+			m_textures->optionsText.texture.Get(),
 			textPos, &rect, FLT_MAX, color);
 
 		// 表示位置をずらす

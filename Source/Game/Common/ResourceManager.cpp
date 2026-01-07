@@ -132,7 +132,7 @@ bool ResourceManager::LoadDDS(const std::string& key, const std::string& filenam
  *
  * @return テクスチャのポインタ
  */
-ID3D11ShaderResourceView* ResourceManager::RequestPNG(const std::string& key, const std::string& filename)
+Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ResourceManager::RequestPNG(const std::string& key, const std::string& filename)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_textures.find(key);
@@ -157,7 +157,7 @@ ID3D11ShaderResourceView* ResourceManager::RequestPNG(const std::string& key, co
  *
  * @return テクスチャのポインタ
  */
-ID3D11ShaderResourceView* ResourceManager::RequestDDS(const std::string& key, const std::string& filename)
+Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ResourceManager::RequestDDS(const std::string& key, const std::string& filename)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_textures.find(key);
@@ -179,7 +179,7 @@ ID3D11ShaderResourceView* ResourceManager::RequestDDS(const std::string& key, co
  *
  * @return テクスチャのポインタ
  */
-ID3D11ShaderResourceView* ResourceManager::GetTexture(const std::string& key)
+Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ResourceManager::GetTexture(const std::string& key)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_textures.find(key);

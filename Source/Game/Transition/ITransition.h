@@ -64,7 +64,7 @@ protected:
 	ShaderManager::GeometryShaderEntry* m_gs;
 
 	// テクスチャのポインタ
-	ID3D11ShaderResourceView* m_texture;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
 
 
 	// メンバ関数の宣言 -------------------------------------------------

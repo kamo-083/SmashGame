@@ -43,7 +43,7 @@ UIWidget::~UIWidget()
  *
  * @return なし
  */
-void UIWidget::Initialize(ID3D11ShaderResourceView* texture,
+void UIWidget::Initialize(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 						  const Tween2D::TweenData data,
 						  DirectX::SimpleMath::Vector2 size,
 						  bool play)
@@ -95,7 +95,7 @@ void UIWidget::Draw(RenderContext context)
 		context.states->LinearClamp()
 	);
 
-	context.spriteBatch->Draw(m_texture, m_params.pos, nullptr, color, m_params.rotation, size, m_params.scale, DirectX::SpriteEffects_None, 0.0f);
+	context.spriteBatch->Draw(m_texture.Get(), m_params.pos, nullptr, color, m_params.rotation, size, m_params.scale, DirectX::SpriteEffects_None, 0.0f);
 
 	context.spriteBatch->End();
 }
@@ -122,7 +122,7 @@ void UIWidget::Draw(
 {
 	// 各引数が初期値だった場合、既に登録済みのデータを使う
 	// テクスチャ
-	if (!texture) texture = m_texture;
+	if (!texture) texture = m_texture.Get();
 
 	// 描画サイズ
 	DirectX::SimpleMath::Vector2 srcSize = m_texSize;

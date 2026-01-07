@@ -117,7 +117,7 @@ void OperationUI::Draw(RenderContext context)
 	if (m_textures->icon.texture)
 	{
 		context.spriteBatch->Draw(
-			m_textures->icon.texture,
+			m_textures->icon.texture.Get(),
 			m_iconPos,
 			nullptr,
 			DirectX::Colors::White,
@@ -134,7 +134,7 @@ void OperationUI::Draw(RenderContext context)
 
 		widget->Draw(
 			context.spriteBatch,
-			m_textures->keyText.texture,
+			m_textures->keyText.texture.Get(),
 			DirectX::SimpleMath::Vector2::Zero,
 			&rect,
 			0.0f

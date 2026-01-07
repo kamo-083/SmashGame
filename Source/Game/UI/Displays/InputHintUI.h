@@ -25,8 +25,8 @@ public:
 	// テクスチャ群
 	struct Textures
 	{
-		ID3D11ShaderResourceView* key;		// キー
-		ID3D11ShaderResourceView* action;	// 動作
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> key;		// キー
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> action;	// 動作
 	};
 
 

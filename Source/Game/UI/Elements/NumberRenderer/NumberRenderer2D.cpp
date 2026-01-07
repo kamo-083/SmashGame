@@ -19,7 +19,7 @@
  */
 NumberRenderer2D::NumberRenderer2D(
 	DirectX::SimpleMath::Vector2 spriteSize,
-	ID3D11ShaderResourceView* texture,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 	int digit)
 	: INumberRenderer(spriteSize, texture, digit)
 	, m_position{ DirectX::SimpleMath::Vector2::Zero }
@@ -88,7 +88,8 @@ void NumberRenderer2D::Draw(RenderContext& renderContext)
 			sourceX + static_cast<LONG>(SPRITE_SIZE.x), static_cast<LONG>(SPRITE_SIZE.y) };
 		DirectX::FXMVECTOR color = DirectX::Colors::White;
 
-		renderContext.spriteBatch->Draw(m_texture, pos, &rect,
+		renderContext.spriteBatch->Draw(
+			m_texture.Get(), pos, &rect,
 			color, 0.0f, halfSize,
 			m_scale, DirectX::SpriteEffects_None, 0.0f);
 

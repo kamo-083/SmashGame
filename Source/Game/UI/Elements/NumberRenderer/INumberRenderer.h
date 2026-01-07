@@ -34,13 +34,13 @@ protected:
 	int m_number;
 
 	// テクスチャ
-	ID3D11ShaderResourceView* m_texture;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
 public:
 	// コンストラクタ
-	INumberRenderer(DirectX::SimpleMath::Vector2 spriteSize, ID3D11ShaderResourceView* texture, int digit)
+	INumberRenderer(DirectX::SimpleMath::Vector2 spriteSize, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, int digit)
 		: SPRITE_SIZE(spriteSize)
 		, NUM_DIGIT(digit)
 		, m_texture(texture)

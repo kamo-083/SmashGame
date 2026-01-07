@@ -61,13 +61,13 @@ public:
 	bool LoadDDS(const std::string& key, const std::string& filename);
 
 	//テクスチャの取得
-	ID3D11ShaderResourceView* GetTexture(const std::string& key);
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetTexture(const std::string& key);
 
 	//PNGファイルの要求(キーがあったら渡す、無かったら読み込んでから渡す)
-	ID3D11ShaderResourceView* RequestPNG(const std::string& key, const std::string& filename);
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> RequestPNG(const std::string& key, const std::string& filename);
 
 	//DDSファイルの要求(キーがあったら渡す、無かったら読み込んでから渡す)
-	ID3D11ShaderResourceView* RequestDDS(const std::string& key, const std::string& filename);
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> RequestDDS(const std::string& key, const std::string& filename);
 
 	//モデルの読み込み
 	bool LoadSDKMESH(const std::string& key, const std::string& filename, bool anim = false);

@@ -34,10 +34,10 @@ public:
 
 	struct Textures
 	{
-		ID3D11ShaderResourceView* key;			// 操作テキスト
-		ID3D11ShaderResourceView* action;		// 動作テキスト
-		ID3D11ShaderResourceView* stamp_on;		// スタンプ(済)
-		ID3D11ShaderResourceView* stamp_off;	// スタンプ(空)
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> key;		// 操作テキスト
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> action;	// 動作テキスト
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> stamp_on;	// スタンプ(済)
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> stamp_off;	// スタンプ(空)
 		std::vector <std::unique_ptr<RenderTexture>> stagePanels;	// ステージパネル
 	};
 

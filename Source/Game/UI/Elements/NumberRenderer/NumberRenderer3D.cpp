@@ -31,7 +31,7 @@ const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
  */
 NumberRenderer3D::NumberRenderer3D(
 	DirectX::SimpleMath::Vector2 spriteSize,
-	ID3D11ShaderResourceView* texture,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 	int digit,
 	DX::DeviceResources* pDR,
 	float boardScale)
@@ -140,7 +140,8 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 			sourceX + static_cast<int>(SPRITE_SIZE.x), static_cast<int>(SPRITE_SIZE.y) };
 		DirectX::FXMVECTOR color = DirectX::Colors::White;
 
-		renderContext.spriteBatch->Draw(m_texture, pos, &rect,
+		renderContext.spriteBatch->Draw(
+			m_texture.Get(), pos, &rect,
 			color, 0.0f, DirectX::XMFLOAT2(0, 0),
 			SCALE, DirectX::SpriteEffects_None, 0.0f);
 

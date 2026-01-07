@@ -117,8 +117,7 @@ void StageResultUI::Draw(RenderContext context)
 
 	// クリアタイムの描画
 	// テキスト
-	//m_widget->Draw(context.spriteBatch, m_clearTimeTexture, m_clearTimeAdjustPosition);
-	context.spriteBatch->Draw(m_clearTimeTexture, m_clearTimePosition);
+	context.spriteBatch->Draw(m_clearTimeTexture.Get(), m_clearTimePosition);
 
 	// 数字
 	// 描画位置を初期化

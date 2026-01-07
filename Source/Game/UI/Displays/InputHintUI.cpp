@@ -92,7 +92,7 @@ void InputHintUI::Draw(RenderContext context)
 	for (RECT rect : m_keyTextRect)
 	{
 		context.spriteBatch->Draw(
-			m_textures->key, pos, &rect, DirectX::Colors::White, 0.0f, origin, m_scale);
+			m_textures->key.Get(), pos, &rect, DirectX::Colors::White, 0.0f, origin, m_scale);
 
 		// •\Ž¦ˆÊ’u‚ð‚¸‚ç‚·
 		float width = CalculateWidth(rect);
@@ -101,7 +101,7 @@ void InputHintUI::Draw(RenderContext context)
 
 	// “®ì
 	context.spriteBatch->Draw(
-		m_textures->action, pos, &m_actionTextRect, DirectX::Colors::White, 0.0f, origin, m_scale);
+		m_textures->action.Get(), pos, &m_actionTextRect, DirectX::Colors::White, 0.0f, origin, m_scale);
 }
 
 

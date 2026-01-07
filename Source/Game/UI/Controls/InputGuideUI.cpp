@@ -157,7 +157,7 @@ void InputGuideUI::Draw(RenderContext context)
 		rect = KeyAtlas::GetRect(key, m_textTextureInfo->size.x);
 
 		// •¶Žš‚Ì•`‰æ
-		m_widget->Draw(context.spriteBatch, m_textTextureInfo->texture, pos, &rect);
+		m_widget->Draw(context.spriteBatch, m_textTextureInfo->texture.Get(), pos, &rect);
 
 		// •\Ž¦ˆÊ’u‚ð‚¸‚ç‚·
 		pos.x += m_widget->GetTexSize().x;

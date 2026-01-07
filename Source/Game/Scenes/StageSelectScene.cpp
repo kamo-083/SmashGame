@@ -194,12 +194,12 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 		if (m_stageCleared[i])	// クリア済みかどうか
 		{
 			// スタンプ
-			context.spriteBatch->Draw(m_textures->stamp_on, stamp_pos, &stamp_rect, DirectX::Colors::Red, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
+			context.spriteBatch->Draw(m_textures->stamp_on.Get(), stamp_pos, &stamp_rect, DirectX::Colors::Red, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
 		}
 		else
 		{
 			// 枠のみ
-			context.spriteBatch->Draw(m_textures->stamp_off, stamp_pos, &stamp_rect, DirectX::Colors::Gray, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
+			context.spriteBatch->Draw(m_textures->stamp_off.Get(), stamp_pos, &stamp_rect, DirectX::Colors::Gray, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
 		}
 	}
 

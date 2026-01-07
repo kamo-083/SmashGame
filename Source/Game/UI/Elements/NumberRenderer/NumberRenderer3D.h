@@ -63,7 +63,7 @@ public:
 	// コンストラクタ
 	NumberRenderer3D(
 		DirectX::SimpleMath::Vector2 spriteSize,
-		ID3D11ShaderResourceView* texture,
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 		int digit,
 		DX::DeviceResources* pDR,
 		float boardScale = 1.f);

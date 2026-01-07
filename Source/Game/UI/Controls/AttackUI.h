@@ -29,11 +29,11 @@ public:
 	// 引数用構造体
 	struct AttackUIDesc
 	{
-		ID3D11ShaderResourceView* basicAtkTex;		// 通常攻撃画像
-		ID3D11ShaderResourceView* rollingAtkTex;	// 転がり攻撃画像
-		ID3D11ShaderResourceView* heavyAtkTex;		// 強攻撃画像
-		float texWidth;								// 画像の幅
-		float texHeight;							// 画像の高さ
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> basicAtkTex;	// 通常攻撃画像
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> rollingAtkTex;	// 転がり攻撃画像
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> heavyAtkTex;	// 強攻撃画像
+		float texWidth;		// 画像の幅
+		float texHeight;	// 画像の高さ
 	};
 
 	// スライド方向
@@ -80,7 +80,7 @@ private:
 	std::vector<LayoutData> m_layoutList;
 
 	// テクスチャ
-	std::vector<ID3D11ShaderResourceView*> m_textures;
+	std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_textures;
 
 	// ウィンドウサイズ
 	DirectX::SimpleMath::Vector2 m_windowSize;

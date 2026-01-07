@@ -28,7 +28,7 @@ private:
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// テクスチャ
-	ID3D11ShaderResourceView* m_texture;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
 
 	// UIのパラメータ
 	Tween2D::UIParams m_params;
@@ -53,7 +53,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(ID3D11ShaderResourceView* texture,
+	void Initialize(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 					const Tween2D::TweenData data,
 					DirectX::SimpleMath::Vector2 size,
 					bool play = true);
@@ -85,8 +85,8 @@ public:
 	Tween2D::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }	// 変化後のパラメータを取得
 	float GetEasingProgress() const { return m_tween->GetEasingProgress(); }		// イージング済みの進行度を取得
 	float GetLinearProgress() const { return m_tween->GetLinearProgress(); }		// 素の経過時間を取得
-	void SetTexture(ID3D11ShaderResourceView* texture) { m_texture = texture; }		// テクスチャの取得
 	DirectX::SimpleMath::Vector2 GetTexSize() const { return m_texSize; }			// テクスチャサイズの取得
+	void SetTexture(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture) { m_texture = texture; }		// テクスチャの設定
 
 	// 新しいパラメータをセット
 	void SetParam(Tween2D::UIParams start, Tween2D::UIParams delta);

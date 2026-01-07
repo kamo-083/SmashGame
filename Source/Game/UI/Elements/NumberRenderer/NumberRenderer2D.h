@@ -42,7 +42,7 @@ public:
 	// コンストラクタ
 	NumberRenderer2D(
 		DirectX::SimpleMath::Vector2 spriteSize,
-		ID3D11ShaderResourceView* texture,
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 		int digit);
 
 	// デストラクタ

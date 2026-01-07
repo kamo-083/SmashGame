@@ -73,7 +73,7 @@ private:
 	ShaderManager::GeometryShaderEntry* m_gs;
 
 	// テクスチャのポインタ
-	ID3D11ShaderResourceView* m_texture;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
 
 	DirectX::SimpleMath::Vector2 m_moveDirection;
 

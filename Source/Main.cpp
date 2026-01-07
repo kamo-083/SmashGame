@@ -88,6 +88,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
         GetClientRect(hwnd, &rc);
 
+        // ƒƒ‚ƒŠƒŠ[ƒNŒŸo
+        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
         g_game->Initialize(hwnd, rc.right - rc.left, rc.bottom - rc.top);
     }
 
