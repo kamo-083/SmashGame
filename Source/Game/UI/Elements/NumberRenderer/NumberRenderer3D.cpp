@@ -159,7 +159,7 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	float height = static_cast<float>(m_renderTexture->GetHeight());
 
 	// ’¸“_î•ñ
-	DirectX::VertexPositionTexture vertex[4];
+	DirectX::VertexPositionTexture vertex[4]{};
 	for (int j = 0; j < 4; j++)
 	{
 		vertex[j] = VERTECES[j];

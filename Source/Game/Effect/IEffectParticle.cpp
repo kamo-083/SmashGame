@@ -158,7 +158,7 @@ void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath
 	{
 		if (cameraDir.Dot(particle.GetPosition() - m_cameraPosition) < 0.0f) 	continue;
 
-		DirectX::VertexPositionColorTexture vPCT;
+		DirectX::VertexPositionColorTexture vPCT{};
 		vPCT.position = DirectX::XMFLOAT3(particle.GetPosition());
 		vPCT.color = DirectX::XMFLOAT4(particle.GetColor());
 		vPCT.textureCoordinate = DirectX::XMFLOAT2(particle.GetScale().x, particle.GetScale().y);

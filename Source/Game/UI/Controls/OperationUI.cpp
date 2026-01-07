@@ -130,7 +130,7 @@ void OperationUI::Draw(RenderContext context)
 	int loopTime = 0;
 	for (auto& widget : m_widgets)
 	{
-		RECT rect = KeyAtlas::GetRect(m_inputKeys[loopTime], m_textures->keyText.size.x);
+		RECT rect = KeyAtlas::GetRect(m_inputKeys[loopTime], static_cast<long>(m_textures->keyText.size.x));
 
 		widget->Draw(
 			context.spriteBatch,

@@ -102,11 +102,12 @@ void PauseUI::Draw(RenderContext context)
 	m_titleWidget->Draw(context.spriteBatch);	// タイトル
 
 	// 選択肢テキストの初期設定
-	float numHalf = std::floorf(static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM) / 2);		// 項目をずらす数を求める
-	DirectX::SimpleMath::Vector2 textPos = { 0,-(m_textures->optionsText.size.y * numHalf) };	// 真ん中の項目がウィンドウの中央に来るように位置をずらす
+	float numHalf = std::floorf(static_cast<float>(PAUSE_OPTIONS::OPTIONS_NUM) / 2.0f);		// 項目をずらす数を求める
+	DirectX::SimpleMath::Vector2 textPos = 
+	{ 0,-(static_cast<LONG>(m_textures->optionsText.size.y) * numHalf) };	// 真ん中の項目がウィンドウの中央に来るように位置をずらす
 	RECT rect = { 0,0,0,0 };
-	rect.right = m_textures->optionsText.size.x;
-	rect.bottom = m_textures->optionsText.size.y;
+	rect.right = static_cast<LONG>(m_textures->optionsText.size.x);
+	rect.bottom = static_cast<LONG>(m_textures->optionsText.size.y);
 	DirectX::SimpleMath::Color color = { 1,1,1,0 };
 
 	// 項目数だけ回す
@@ -123,9 +124,9 @@ void PauseUI::Draw(RenderContext context)
 			textPos, &rect, FLT_MAX, color);
 
 		// 表示位置をずらす
-		textPos.y += m_textures->optionsText.size.y;
-		rect.top += m_textures->optionsText.size.y;
-		rect.bottom += m_textures->optionsText.size.y;
+		textPos.y += static_cast<LONG>(m_textures->optionsText.size.y);
+		rect.top += static_cast<LONG>(m_textures->optionsText.size.y);
+		rect.bottom += static_cast<LONG>(m_textures->optionsText.size.y);
 	}
 }
 

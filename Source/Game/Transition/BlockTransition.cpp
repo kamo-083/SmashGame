@@ -137,8 +137,8 @@ void BlockTransition::Draw(RenderContext context)
 	context.deviceContext->PSSetShader(m_ps->ps.Get(), nullptr, 0);
 	context.deviceContext->GSSetShader(m_gs->gs.Get(), nullptr, 0);
 
-	//	ピクセルシェーダにテクスチャを登録する。
-	context.deviceContext->PSSetShaderResources(0, 1, &m_texture);
+	//	ピクセルシェーダにテクスチャを登録する
+	context.deviceContext->PSSetShaderResources(0, 1, m_texture.GetAddressOf());
 
 	//	インプットレイアウトの登録
 	context.deviceContext->IASetInputLayout(m_vs->inputLayout.Get());

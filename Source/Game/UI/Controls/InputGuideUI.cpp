@@ -154,7 +154,7 @@ void InputGuideUI::Draw(RenderContext context)
 		m_widget->Draw(context.spriteBatch, nullptr, pos);
 
 		// 文字テクスチャの切り取り範囲を計算
-		rect = KeyAtlas::GetRect(key, m_textTextureInfo->size.x);
+		rect = KeyAtlas::GetRect(key, static_cast<long>(m_textTextureInfo->size.x));
 
 		// 文字の描画
 		m_widget->Draw(context.spriteBatch, m_textTextureInfo->texture.Get(), pos, &rect);

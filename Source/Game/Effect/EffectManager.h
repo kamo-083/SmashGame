@@ -76,7 +76,7 @@ public:
 		{}
 
 		// oŒ»‚³‚¹‚é
-		void Spawn()
+		void Spawn() const
 		{
 			effect->SpawnParticleEffect(
 				*position,

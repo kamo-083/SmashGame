@@ -141,9 +141,9 @@ public:
 	GroundEnemy_Bounce* GetState_Bounce() { return m_bouncingState.get(); };	// 跳ね返り状態のポインタを取得
 	GroundEnemy_Attack* GetState_Attack() { return m_attackingState.get(); };	// 攻撃状態のポインタを取得
 
-	PlayerRelationData GetPlayerRelativeData() { return m_playerRelationData; }	// プレイヤーとの位置関係を取得
-	SphereCollider* GetAttackCollider() { return &m_attackCollider; }			// 攻撃の当たり判定を取得
-	float GetAttackDistance() const { return ATTACK_DISTANCE; }					// 攻撃の距離を取得
+	PlayerRelationData GetPlayerRelativeData() const { return m_playerRelationData; }	// プレイヤーとの位置関係を取得
+	SphereCollider* GetAttackCollider() { return &m_attackCollider; }					// 攻撃の当たり判定を取得
+	float GetAttackDistance() const { return ATTACK_DISTANCE; }							// 攻撃の距離を取得
 
 	DirectX::Model* GetModel() { return m_model; }				// モデルのポインタの取得
 	Animations* GetAnimation() { return m_animations.get(); }	// アニメーションのポインタ群の取得

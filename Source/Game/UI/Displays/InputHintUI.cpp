@@ -17,6 +17,9 @@
  * @param Ç»Çµ
  */
 InputHintUI::InputHintUI()
+	: m_textSize(0)
+	, m_scale(1.0f)
+	, m_actionTextRect{}
 {
 
 }
@@ -152,7 +155,7 @@ float InputHintUI::GetWidth()
  *
  * @return ïù
  */
-float InputHintUI::CalculateWidth(const RECT rect)
+float InputHintUI::CalculateWidth(const RECT rect) const
 {
 	return (rect.right - rect.left) * m_scale;
 }

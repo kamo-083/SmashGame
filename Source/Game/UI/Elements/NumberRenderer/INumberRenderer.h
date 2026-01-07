@@ -81,7 +81,7 @@ public:
 	 * 
 	 * @return	スプライトの大きさ
 	 */
-	DirectX::SimpleMath::Vector2  GetSpriteSize()
+	DirectX::SimpleMath::Vector2  GetSpriteSize() const
 	{
 		return SPRITE_SIZE;
 	}

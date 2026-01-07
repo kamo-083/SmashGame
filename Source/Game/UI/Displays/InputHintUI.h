@@ -86,5 +86,5 @@ public:
 // “à•”À‘•
 private:
 	// •‚ğZo
-	float CalculateWidth(const RECT rect);
+	float CalculateWidth(const RECT rect) const;
 };
