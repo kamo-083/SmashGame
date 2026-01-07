@@ -20,7 +20,6 @@ InputGuideUI::InputGuideUI()
 	: UIElement()
 	, m_pKbTracker(nullptr)
 	, m_pressed(false)
-	, m_textTexture(nullptr)
 {
 
 }
@@ -32,7 +31,7 @@ InputGuideUI::InputGuideUI()
  */
 InputGuideUI::~InputGuideUI()
 {
-
+	m_textTextureInfo.reset();
 }
 
 
@@ -40,21 +39,16 @@ InputGuideUI::~InputGuideUI()
 /**
  * @brief 初期化処理
  *
- * @param textTexture	文字テクスチャのポインタ
- * @param baseTexture	背景テクスチャのポインタ
+ * @param textures		テクスチャ情報
  * @param pos			表示位置
- * @param size			テクスチャのサイズ
  * @param key			対応キー
  * @param pKbTracker	キーボードトラッカーのポインタ
  *
  * @return なし
  */
 void InputGuideUI::Initialize(
-	ID3D11ShaderResourceView* textTexture,
-	ID3D11ShaderResourceView* baseTexture,
+	Textures textures,
 	DirectX::SimpleMath::Vector2 pos,
-	DirectX::SimpleMath::Vector2 size,
-	int textWidth,
 	std::vector<DirectX::Keyboard::Keys> keys,
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
@@ -71,7 +65,7 @@ void InputGuideUI::Initialize(
 	};
 	// ウィジェットの作成
 	m_widget = std::make_unique<UIWidget>();
-	m_widget->Initialize(baseTexture, data, size, false);
+	m_widget->Initialize(textures.base.texture, data, textures.base.size, false);
 
 	// 対応キーを登録
 	m_inputKeys = keys;
@@ -83,10 +77,7 @@ void InputGuideUI::Initialize(
 	m_pressed = false;
 
 	// 文字テクスチャを登録
-	m_textTexture = textTexture;
-
-	// テキスト画像の1文字分の幅を設定
-	m_textWidth = textWidth;
+	m_textTextureInfo = std::make_unique<TextureInfo>(textures.text);
 	
 	// キー押下状態記録用配列を作成
 	for (int i = 0; i < m_inputKeys.size(); i++)
@@ -163,10 +154,10 @@ void InputGuideUI::Draw(RenderContext context)
 		m_widget->Draw(context.spriteBatch, nullptr, pos);
 
 		// 文字テクスチャの切り取り範囲を計算
-		RECT rect = KeyAtlas::GetRect(key, m_textWidth);
+		rect = KeyAtlas::GetRect(key, m_textTextureInfo->size.x);
 
 		// 文字の描画
-		m_widget->Draw(context.spriteBatch, m_textTexture, pos, &rect);
+		m_widget->Draw(context.spriteBatch, m_textTextureInfo->texture, pos, &rect);
 
 		// 表示位置をずらす
 		pos.x += m_widget->GetTexSize().x;
@@ -184,7 +175,7 @@ void InputGuideUI::Draw(RenderContext context)
  */
 void InputGuideUI::Finalize()
 {
-	m_textTexture = nullptr;
+	m_textTextureInfo.reset();
 
 	if (m_widget) m_widget->Finalize();
 	m_widget.reset();

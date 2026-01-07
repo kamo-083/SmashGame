@@ -19,7 +19,6 @@
 OperationUI::OperationUI()
 	: m_active{ false }
 	, m_scale{ 0.0f }
-	, m_textWidth{ 0 }
 {
 
 };
@@ -51,12 +50,6 @@ void OperationUI::Initialize(
 	float arrowInterval,
 	bool active)
 {
-	// 各サイズの設定
-	m_arrowSizeNormal = desc.arrowNormalSize;	// 通常矢印
-	m_arrowSizeRotate = desc.arrowRotateSize;	// 回転矢印
-	m_textWidth = desc.textWidth;				// テキストの1文字分の幅
-	m_iconSize = desc.iconSize;					// アイコン
-
 	// 有効・無効の設定
 	m_active = active;
 
@@ -80,9 +73,9 @@ void OperationUI::Initialize(
 	SetupWidgets(desc, centerPos, arrowInterval);
 
 	// アイコン位置の設定(アイコンが必要な場合)
-	if (m_textures->icon)
+	if (m_textures->icon.texture)
 	{
-		m_iconPos = centerPos - (desc.iconSize * m_scale * 0.5f) + desc.iconAdjustPos;
+		m_iconPos = centerPos - (m_textures->icon.size * m_scale * 0.5f) + desc.iconAdjustPos;
 	}
 }
 
@@ -121,10 +114,10 @@ void OperationUI::Draw(RenderContext context)
 	}
 
 	// 画像があればアイコンを描画
-	if (m_textures->icon)
+	if (m_textures->icon.texture)
 	{
 		context.spriteBatch->Draw(
-			m_textures->icon,
+			m_textures->icon.texture,
 			m_iconPos,
 			nullptr,
 			DirectX::Colors::White,
@@ -137,11 +130,11 @@ void OperationUI::Draw(RenderContext context)
 	int loopTime = 0;
 	for (auto& widget : m_widgets)
 	{
-		RECT rect = KeyAtlas::GetRect(m_inputKeys[loopTime], m_textWidth);
+		RECT rect = KeyAtlas::GetRect(m_inputKeys[loopTime], m_textures->keyText.size.x);
 
 		widget->Draw(
 			context.spriteBatch,
-			m_textures->keyText,
+			m_textures->keyText.texture,
 			DirectX::SimpleMath::Vector2::Zero,
 			&rect,
 			0.0f
@@ -223,7 +216,7 @@ void OperationUI::SetupWidgets(
 		Easing::EaseType::Linear,
 		Easing::PlaybackMode::Once
 	};
-	widget->Initialize(m_textures->rotateArrow, data, m_arrowSizeRotate, false);
+	widget->Initialize(m_textures->rotateArrow.texture, data, m_textures->rotateArrow.size, false);
 	ChangeParam(!m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::CENTER)] = std::move(widget);
 
@@ -234,7 +227,7 @@ void OperationUI::SetupWidgets(
 	vector2 leftPos = vector2(centerPos.x - interval, centerPos.y);
 	data.start.pos = leftPos;
 	data.start.rotation = DirectX::XM_PI;
-	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeNormal, false);
+	widget->Initialize(m_textures->nomalArrow.texture, data, m_textures->nomalArrow.size, false);
 	ChangeParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::LEFT)] = std::move(widget);
 
@@ -243,7 +236,7 @@ void OperationUI::SetupWidgets(
 	vector2 rightPos = vector2(centerPos.x + interval, centerPos.y);
 	data.start.pos = rightPos;
 	data.start.rotation = 0.0f;
-	widget->Initialize(m_textures->nomalArrow, data, m_arrowSizeNormal, false);
+	widget->Initialize(m_textures->nomalArrow.texture, data, m_textures->nomalArrow.size, false);
 	ChangeParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
 }

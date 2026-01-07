@@ -53,7 +53,6 @@ private:
 		TextureInfo arrow_rotate;
 
 		// 文字
-		TextureInfo text_operation;
 		TextureInfo text_conditions;
 		TextureInfo text_keys;
 		TextureInfo text_pauseOptions;
@@ -75,10 +74,9 @@ private:
 	DirectX::SimpleMath::Vector2 TEX_SIZE_WINDOW_PAUSE = { 350.0f, 267.0f };	// ポーズウィンドウ
 	DirectX::SimpleMath::Vector2 TEX_SIZE_ARROW_NOMAL = { 200.0f, 100.0f };		// 矢印(通常)
 	DirectX::SimpleMath::Vector2 TEX_SIZE_ARROW_ROTATE = { 200.0f, 200.0f };	// 矢印(回転)
-	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_OPERATION = { 50.0f, 100.0f };	// 操作キーテキスト
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_CONDITION = { 300.0f, 90.0f };	// クリア条件テキスト
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_KEYS = { 120.0f, 120.0f };		// 入力キーテキスト(1文字分)
-	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_OPTION = { 350.0f, 200.0f };		// ポーズ選択肢テキスト
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_OPTION = { 350.0f, 60 };			// ポーズ選択肢テキスト(1行分)
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_TITLE = { 350.0f, 70.0f };		// ポーズタイトルテキスト
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_NUMBER = { 48.0f,72.0f };		// 数字(1文字分)
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_CLEARTIME = { 480.0f,144.0f };	// クリアタイムテキスト

@@ -11,6 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/UIElement.h"
+#include"Source/Game/Data/TextureData.h"
 
 
 // クラスの定義 ===============================================================
@@ -35,26 +36,16 @@ public:
 	// テクスチャ群
 	struct Textures
 	{
-		ID3D11ShaderResourceView* window;		// 背景
-		ID3D11ShaderResourceView* titleText;	// タイトルのテキスト
-		ID3D11ShaderResourceView* optionsText;	// 選択肢のテキスト
-	};
-
-	// 引数用構造体
-	struct PauseUIDesc
-	{
-		DirectX::SimpleMath::Vector2 windowTexSize;	// ウィンドウ画像サイズ
-		DirectX::SimpleMath::Vector2 titleTexSize;	// タイトル画像サイズ
+		TextureInfo window;			// 背景
+		TextureInfo titleText;		// タイトルのテキスト
+		TextureInfo optionsText;	// 選択肢のテキスト
 	};
 
 	// 選択肢テキストの色
 	static constexpr DirectX::SimpleMath::Color SELECTED_COLOR = { 1,1,0,1 };			// 選択時
 	static constexpr DirectX::SimpleMath::Color UNSELECTED_COLOR = { 0.9,0.9,0.9,1 };	// 非選択時
 
-	static constexpr LONG OPTIONS_HEIGHT = 60;	// 選択肢テキスト画像1行分の高さ
-	static constexpr LONG OPTIONS_WIDTH = 350;	// 選択肢テキスト画像の横幅
-
-	static constexpr float TEXT_TITLE_MOVE = -5.0f;	// タイトル画像が動く幅
+	static constexpr float TEXT_TITLE_MOVE = -5.0f;	// タイトル画像が動く量
 
 	static constexpr float TITLE_POS_ADJUST = 170.0f;	// タイトル画像位置の調整
 
@@ -95,8 +86,7 @@ public:
 	// 初期化処理
 	void Initialize(
 		const DirectX::SimpleMath::Vector2& windowSize,
-		const Textures& textures,
-		const PauseUIDesc& desc);
+		const Textures& textures);
 
 	// 更新処理
 	void Update(float elapsedTime) override;
@@ -132,5 +122,5 @@ public:
 	// 内部実装
 private:
 	// ウィジェットの初期設定
-	void SetupWidget(const PauseUIDesc& desc);
+	void SetupWidget();
 };

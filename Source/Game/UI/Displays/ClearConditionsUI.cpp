@@ -38,17 +38,15 @@ ClearConditionsUI::~ClearConditionsUI()
  * @brief 初期化処理
  *
  * @param windowSize	ウィンドウサイズ
- * @param textTex		テキストの画像
- * @param textSize		テキストの画像の大きさ(1行分)
+ * @param textureInfo	テクスチャ情報
  *
  * @return なし
  */
 void ClearConditionsUI::Initialize(
 	DirectX::SimpleMath::Vector2 windowSize,
-	ID3D11ShaderResourceView* textTex,
-	DirectX::SimpleMath::Vector2 textSize)
+	TextureInfo textureInfo)
 {
-	m_textSize = textSize;
+	m_textSize = textureInfo.size;
 
 	// 開始位置の計算
 	DirectX::SimpleMath::Vector2 startPos = DirectX::SimpleMath::Vector2
@@ -74,7 +72,7 @@ void ClearConditionsUI::Initialize(
 		Easing::EaseType::OutInQuart,
 		Easing::PlaybackMode::Once
 	};
-	m_widget->Initialize(textTex, data, m_textSize);		
+	m_widget->Initialize(textureInfo.texture, data, m_textSize);
 }
 
 

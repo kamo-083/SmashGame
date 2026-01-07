@@ -12,6 +12,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/UserResources.h"
 #include"Source/Game/UI/Elements/UIWidget.h"
+#include"Source/Game/Data/TextureData.h"
 
 
 // クラスの定義 ===============================================================
@@ -25,10 +26,10 @@ public:
 	// テクスチャ群
 	struct Textures
 	{
-		ID3D11ShaderResourceView* nomalArrow = nullptr;		// 通常矢印
-		ID3D11ShaderResourceView* rotateArrow = nullptr;	// 回転矢印
-		ID3D11ShaderResourceView* keyText = nullptr;		// 操作キー
-		ID3D11ShaderResourceView* icon = nullptr;			// アイコン(必要なら)
+		TextureInfo nomalArrow;		// 通常矢印
+		TextureInfo rotateArrow;	// 回転矢印
+		TextureInfo keyText;		// 操作キー
+		TextureInfo icon;			// アイコン(必要なら)
 	};
 
 	// 操作キー
@@ -53,11 +54,7 @@ public:
 	struct OperationUIDesc
 	{
 		InputKeys keys;												 // 操作キー
-		Textures textures;											 // テクスチャ群
-		DirectX::SimpleMath::Vector2 arrowNormalSize;				 // 通常矢印の画像サイズ
-		DirectX::SimpleMath::Vector2 arrowRotateSize;				 // 回転矢印の画像サイズ
-		int textWidth;												// テキスト画像の1文字分の幅
-		DirectX::SimpleMath::Vector2 iconSize;						 // アイコン画像のサイズ(アイコン使用時)
+		Textures textures;											 // テクスチャ情報
 		DirectX::SimpleMath::Vector2 arrowRotateAdjustPos = { 0,0 }; // 回転矢印の位置調整
 		DirectX::SimpleMath::Vector2 iconAdjustPos = {0,0};			 // アイコン画像の位置調整
 		float UIScale = 1.0f;										 // UI全体のスケール
@@ -84,18 +81,8 @@ private:
 	// UI全体のスケール
 	float m_scale;
 
-	// 通常矢印画像の大きさ
-	DirectX::SimpleMath::Vector2 m_arrowSizeNormal;
-	// 回転矢印画像の大きさ
-	DirectX::SimpleMath::Vector2 m_arrowSizeRotate;
-
-	// テキスト画像の1文字の幅
-	int m_textWidth;
-
 	// アイコン表示位置
 	DirectX::SimpleMath::Vector2 m_iconPos;
-	// アイコン画像サイズ
-	DirectX::SimpleMath::Vector2 m_iconSize;
 
 
 	// メンバ関数の宣言 -------------------------------------------------

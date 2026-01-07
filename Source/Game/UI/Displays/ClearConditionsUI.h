@@ -12,6 +12,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/UIElement.h"
 #include"Source/Game/Common/ResourceManager.h"
+#include"Source/Game/Data/TextureData.h"
 
 
 // クラスの定義 ===============================================================
@@ -58,8 +59,7 @@ public:
 	// 初期化処理
 	void Initialize(
 		DirectX::SimpleMath::Vector2 windowSize,
-		ID3D11ShaderResourceView* textTex,
-		DirectX::SimpleMath::Vector2 textSize);
+		TextureInfo textureInfo);
 
 	// 更新処理
 	void Update(float elapsedTime) override;

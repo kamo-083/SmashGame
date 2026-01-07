@@ -39,15 +39,13 @@ PauseUI::~PauseUI()
  * @brief 初期化処理
  *
  * @param windowSize	ウィンドウサイズ
- * @param textures		テクスチャ群のポインタ
- * @param desc			引数用構造体
+ * @param textures		テクスチャ情報
  *
  * @return なし
  */
 void PauseUI::Initialize(
 	const DirectX::SimpleMath::Vector2& windowSize,
-	const Textures& textures,
-	const PauseUIDesc& desc)
+	const Textures& textures)
 {
 	// 開かれているかのフラグを初期化
 	m_isOpen = false;
@@ -65,7 +63,7 @@ void PauseUI::Initialize(
 	m_textures->optionsText = textures.optionsText;
 
 	// ウィジェットの作成
-	SetupWidget(desc);
+	SetupWidget();
 }
 
 
@@ -105,10 +103,10 @@ void PauseUI::Draw(RenderContext context)
 
 	// 選択肢テキストの初期設定
 	float numHalf = std::floorf(static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM) / 2);		// 項目をずらす数を求める
-	DirectX::SimpleMath::Vector2 textPos = { 0,-(static_cast<float>(OPTIONS_HEIGHT) * numHalf) };	// 真ん中の項目がウィンドウの中央に来るように位置をずらす
+	DirectX::SimpleMath::Vector2 textPos = { 0,-(m_textures->optionsText.size.y * numHalf) };	// 真ん中の項目がウィンドウの中央に来るように位置をずらす
 	RECT rect = { 0,0,0,0 };
-	rect.right = OPTIONS_WIDTH;
-	rect.bottom = OPTIONS_HEIGHT;
+	rect.right = m_textures->optionsText.size.x;
+	rect.bottom = m_textures->optionsText.size.y;
 	DirectX::SimpleMath::Color color = { 1,1,1,0 };
 
 	// 項目数だけ回す
@@ -121,13 +119,13 @@ void PauseUI::Draw(RenderContext context)
 		// 選択肢テキストを描画
 		m_widget->Draw(
 			context.spriteBatch,
-			m_textures->optionsText,
+			m_textures->optionsText.texture,
 			textPos, &rect, FLT_MAX, color);
 
 		// 表示位置をずらす
-		textPos.y += OPTIONS_HEIGHT;
-		rect.top += OPTIONS_HEIGHT;
-		rect.bottom += OPTIONS_HEIGHT;
+		textPos.y += m_textures->optionsText.size.y;
+		rect.top += m_textures->optionsText.size.y;
+		rect.bottom += m_textures->optionsText.size.y;
 	}
 }
 
@@ -241,7 +239,7 @@ void PauseUI::SelectDown()
  *
  * @return なし
  */
-void PauseUI::SetupWidget(const PauseUIDesc& desc)
+void PauseUI::SetupWidget()
 {
 	// 背景
 	m_widget = std::make_unique<UIWidget>();
@@ -261,7 +259,7 @@ void PauseUI::SetupWidget(const PauseUIDesc& desc)
 		Easing::EaseType::OutBack,
 		Easing::PlaybackMode::Once
 	};
-	m_widget->Initialize(m_textures->window, params_back, desc.windowTexSize, false);
+	m_widget->Initialize(m_textures->window.texture, params_back, m_textures->window.size, false);
 
 	// タイトル
 	m_titleWidget = std::make_unique<UIWidget>();
@@ -281,5 +279,5 @@ void PauseUI::SetupWidget(const PauseUIDesc& desc)
 		Easing::EaseType::InOutSine,
 		Easing::PlaybackMode::PingPong
 	};
-	m_titleWidget->Initialize(m_textures->titleText, params_title, desc.titleTexSize, false);
+	m_titleWidget->Initialize(m_textures->titleText.texture, params_title, m_textures->titleText.size, false);
 }

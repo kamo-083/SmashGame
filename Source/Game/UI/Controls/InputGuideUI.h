@@ -11,6 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/UIElement.h"
+#include"Source/Game/Data/TextureData.h"
 
 
 // クラスの定義 ===============================================================
@@ -20,8 +21,12 @@
 class InputGuideUI :public UIElement
 {
 	// クラス定数の宣言 -------------------------------------------------
-private:
-
+public:
+	struct Textures
+	{
+		TextureInfo base;	// アイコンのベース
+		TextureInfo text;	// テキスト
+	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -37,11 +42,8 @@ private:
 	// 対応キー全体の以前の押下状態
 	std::vector<bool> m_keyLastStates;
 
-	// 文字テクスチャのポインタ
-	ID3D11ShaderResourceView* m_textTexture;
-
-	// テキスト画像の1文字分の幅
-	int m_textWidth;
+	// テキスト画像情報
+	std::unique_ptr<TextureInfo> m_textTextureInfo;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -58,11 +60,8 @@ public:
 public:
 	// 初期化処理
 	void Initialize(
-		ID3D11ShaderResourceView* textTexture,
-		ID3D11ShaderResourceView* baseTexture,
+		Textures textures,
 		DirectX::SimpleMath::Vector2 pos,
-		DirectX::SimpleMath::Vector2 size,
-		int textWidth,
 		std::vector<DirectX::Keyboard::Keys> keys,
 		DirectX::Keyboard::KeyboardStateTracker* pKbTracker
 	);
