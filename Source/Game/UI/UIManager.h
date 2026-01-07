@@ -11,6 +11,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/Data/TextureData.h"
 #include "Source/Game/Data/InputKeyLoader.h"
 #include "Source/Game/UI/Controls/OperationUI.h"
 #include "Source/Game/UI/Displays/ClearConditionsUI.h"
@@ -34,39 +35,34 @@ class UIManager
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-	// テクスチャ情報
-	struct TextureDesc
-	{
-		ID3D11ShaderResourceView* texture = nullptr;	// ポインタ
-		DirectX::SimpleMath::Vector2 size;				// 画像サイズ
-	};
-
 	// テクスチャ群
 	struct UITextures
 	{
 		// アイコン
-		TextureDesc icon_attackBasic;
-		TextureDesc icon_attackRolling;
-		TextureDesc icon_attackHeavy;
-		TextureDesc icon_camera;
+		TextureInfo icon_attackBasic;
+		TextureInfo icon_attackRolling;
+		TextureInfo icon_attackHeavy;
+		TextureInfo icon_camera;
 
 		// ウィンドウ
-		TextureDesc window_result;
-		TextureDesc window_pause;
+		TextureInfo window_result;
+		TextureInfo window_pause;
 
 		// 矢印
-		TextureDesc arrow_normal;
-		TextureDesc arrow_rotate;
+		TextureInfo arrow_normal;
+		TextureInfo arrow_rotate;
 
 		// 文字
-		TextureDesc text_operation;
-		TextureDesc text_conditions;
-		TextureDesc text_keys;
-		TextureDesc text_pauseOptions;
-		TextureDesc text_pauseTitle;
+		TextureInfo text_operation;
+		TextureInfo text_conditions;
+		TextureInfo text_keys;
+		TextureInfo text_pauseOptions;
+		TextureInfo text_pauseTitle;
+		TextureInfo text_number;
+		TextureInfo text_clearTime;
 
 		// その他
-		TextureDesc base_key;
+		TextureInfo base_key;
 	};
 
 	// ディマーの暗さ
@@ -84,6 +80,8 @@ private:
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_KEYS = { 120.0f, 120.0f };		// 入力キーテキスト(1文字分)
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_OPTION = { 350.0f, 200.0f };		// ポーズ選択肢テキスト
 	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_TITLE = { 350.0f, 70.0f };		// ポーズタイトルテキスト
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_NUMBER = { 48.0f,72.0f };		// 数字(1文字分)
+	DirectX::SimpleMath::Vector2 TEX_SIZE_TEXT_CLEARTIME = { 480.0f,144.0f };	// クリアタイムテキスト
 	DirectX::SimpleMath::Vector2 TEX_SIZE_KEY_BASE = { 150.0f, 150.0f };		// キーアイコンのベース
 
 
@@ -172,6 +170,9 @@ public:
 
 // 内部実装
 private:
+	// テクスチャの読み込み
+	void LoadTextures();
+
 	// ディマーの描画
 	void DrawDimmer(UIElement* ui, RenderContext context);
 

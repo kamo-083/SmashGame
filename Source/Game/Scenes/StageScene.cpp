@@ -41,6 +41,7 @@ StageScene::StageScene(
 	, CLEAR_CONDITIONS{ clearCondition }
 	, STAGE_NUM{ stageNum }
 	, m_keyMode{ false }
+	, m_timer{ 0.0f }
 	, m_stageFilePath{ path }
 	, m_overlayMode{ Overlay::NONE }
 	, m_keyConfig{}
@@ -471,6 +472,9 @@ void StageScene::UpdateGameplay(float elapsedTime)
 		ChangeKeyMode();
 	}
 
+	// 経過時間の加算
+	m_timer += elapsedTime;
+
 	// プレイヤーの更新
 	m_player->Update(elapsedTime);
 
@@ -503,6 +507,7 @@ void StageScene::UpdateGameplay(float elapsedTime)
 		PlaySE("clearSE");
 
 		// リザルトUIの有効化
+		m_UIManager->GetResultUI()->SetClearTime(m_timer);
 		m_UIManager->GetResultUI()->Enable();
 
 		m_overlayMode = Overlay::RESULT;

@@ -71,6 +71,10 @@ public:
 	// スプライトバッチのBegin/Endをするかの設定
 	void SetUseBeginEnd(bool use = true) { m_useBeginEnd = use; }
 
+	// 全体の幅を取得
+	float GetWidth() { return SPRITE_SIZE.x * NUM_DIGIT * m_scale; }
+
+
 	// 内部実装
 private:
 

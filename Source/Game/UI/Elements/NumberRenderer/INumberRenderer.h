@@ -73,4 +73,18 @@ public:
 	{
 		m_number = number; 
 	}
+
+	/**
+	 * @brief スプライトの大きさを取得
+	 *
+	 * @param なし
+	 * 
+	 * @return	スプライトの大きさ
+	 */
+	DirectX::SimpleMath::Vector2  GetSpriteSize()
+	{
+		return SPRITE_SIZE;
+	}
+
+
 };

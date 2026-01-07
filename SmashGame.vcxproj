@@ -203,6 +203,7 @@
     <ClInclude Include="Source\Game\Data\InputKeyLoader.h" />
     <ClInclude Include="Source\Game\Data\PlayerInfoLoader.h" />
     <ClInclude Include="Source\Game\Data\StageLoader.h" />
+    <ClInclude Include="Source\Game\Data\TextureData.h" />
     <ClInclude Include="Source\Game\Effect\Area\AreaEffect.h" />
     <ClInclude Include="Source\Game\Effect\Circle\CircleParticle.h" />
     <ClInclude Include="Source\Game\Effect\EffectManager.h" />

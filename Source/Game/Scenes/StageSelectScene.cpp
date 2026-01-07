@@ -493,8 +493,8 @@ void StageSelectScene::SetupInputUI()
 
 	// ‘I‘ğ
 	// ƒL[‚ğİ’è
-	keys.push_back(DirectX::Keyboard::Keys::Up);
-	keys.push_back(DirectX::Keyboard::Keys::Down);
+	keys.push_back(DirectX::Keyboard::Keys::Left);
+	keys.push_back(DirectX::Keyboard::Keys::Right);
 	// UI‚ğì¬
 	inputUI = std::make_unique<InputHintUI>();
 	inputUI->Initialize(

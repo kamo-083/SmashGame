@@ -23,7 +23,7 @@ NumberRenderer2D::NumberRenderer2D(
 	int digit)
 	: INumberRenderer(spriteSize, texture, digit)
 	, m_position{ DirectX::SimpleMath::Vector2::Zero }
-	, m_useBeginEnd{ true }
+	, m_useBeginEnd{ false }
 	, m_scale{ 1.0f }
 {
 

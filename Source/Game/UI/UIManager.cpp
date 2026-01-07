@@ -65,63 +65,18 @@ void UIManager::SetupStageUI(
 	m_dimmer = std::make_unique<UIDimmer>(pDR);
 
 	// テクスチャの取得
-	m_textures = std::make_unique<UITextures>();
-	// アイコン
-	m_textures->icon_attackBasic = {
-		m_pRM->RequestPNG("attack_basic", "UI/basicAtk.png"),
-		TEX_SIZE_ICON_ATK };
-	m_textures->icon_attackRolling = {
-		m_pRM->RequestPNG("attack_rolling", "UI/rollingAtk.png"),
-		TEX_SIZE_ICON_ATK };
-	m_textures->icon_attackHeavy = {
-		m_pRM->RequestPNG("attack_heavy", "UI/heavyAtk.png"),
-		TEX_SIZE_ICON_ATK };
-	m_textures->icon_camera = {
-		m_pRM->RequestPNG("camera", "UI/camera.png"),
-		TEX_SIZE_ICON_CAM };
-	// ウィンドウ
-	m_textures->window_result = {
-		m_pRM->RequestPNG("resultPanel", "UI/resultPanel.png"),
-		TEX_SIZE_WINDOW_RESULT };
-	m_textures->window_pause = {
-		m_pRM->RequestPNG("pauseWindow", "UI/pauseWindow.png"),
-		TEX_SIZE_WINDOW_PAUSE };
-	// 矢印
-	m_textures->arrow_normal = {
-		m_pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png"),
-		TEX_SIZE_ARROW_NOMAL };
-	m_textures->arrow_rotate = {
-		m_pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png"),
-		TEX_SIZE_ARROW_ROTATE };
-	// 文字
-	m_textures->text_operation = {
-		m_pRM->RequestPNG("operationText", "Resources/Textures/text/operationText.png"),
-		TEX_SIZE_TEXT_OPERATION };
-	m_textures->text_conditions = {
-		m_pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
-		TEX_SIZE_TEXT_CONDITION };
-	m_textures->text_keys = {
-		m_pRM->RequestPNG("keysText", "Text/keysText.png"),
-		TEX_SIZE_TEXT_KEYS };
-	m_textures->text_pauseOptions = {
-		m_pRM->RequestPNG("pauseOptionsText", "Text/pauseOptionsText.png"),
-		TEX_SIZE_TEXT_OPTION };
-	m_textures->text_pauseTitle = {
-		m_pRM->RequestPNG("pauseTitleText", "Text/pauseTitleText.png"),
-		TEX_SIZE_TEXT_TITLE };
-	// その他
-	m_textures->base_key = {
-		m_pRM->RequestPNG("keyBase", "UI/key.png"),
-		TEX_SIZE_KEY_BASE };
-
+	LoadTextures();
 
 	// UIの作成
 	// リザルト
 	CreateResultUI();
+
 	// クリア条件
 	CreateClearConditionUI(conditionsType);
+
 	// ポーズ画面
 	CreatePauseUI();
+
 	// 操作ガイド
 	// 攻撃
 	std::vector<DirectX::Keyboard::Keys> attack_keys;
@@ -146,6 +101,7 @@ void UIManager::SetupStageUI(
 	std::vector<DirectX::Keyboard::Keys> right_keys;
 	right_keys.push_back(keyConfig.move_right);
 	CreateKeyGuideUI({ base_pos.x + adjust_pos, base_pos.y }, right_keys, pKbTracker);
+
 	// 攻撃方法
 	OperationUI::Textures opTextures;	// テクスチャ
 	opTextures.nomalArrow = m_textures->arrow_normal.texture;
@@ -168,6 +124,7 @@ void UIManager::SetupStageUI(
 	opUIDesc.arrowRotateAdjustPos = DirectX::SimpleMath::Vector2(0.0f, -30.0f);
 	opUIDesc.UIScale = 0.8f;
 	CreateAttackUI(opUIDesc);
+
 	// カメラ回転
 	opTextures.icon = m_textures->icon_camera.texture;
 	opUIDesc.textures = opTextures;
@@ -294,6 +251,78 @@ void UIManager::Finalize()
 
 
 /**
+ * @brief テクスチャの読み込み
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void UIManager::LoadTextures()
+{
+	m_textures = std::make_unique<UITextures>();
+
+	// アイコン
+	m_textures->icon_attackBasic = {
+		m_pRM->RequestPNG("attack_basic", "UI/basicAtk.png"),
+		TEX_SIZE_ICON_ATK };
+	m_textures->icon_attackRolling = {
+		m_pRM->RequestPNG("attack_rolling", "UI/rollingAtk.png"),
+		TEX_SIZE_ICON_ATK };
+	m_textures->icon_attackHeavy = {
+		m_pRM->RequestPNG("attack_heavy", "UI/heavyAtk.png"),
+		TEX_SIZE_ICON_ATK };
+	m_textures->icon_camera = {
+		m_pRM->RequestPNG("camera", "UI/camera.png"),
+		TEX_SIZE_ICON_CAM };
+
+	// ウィンドウ
+	m_textures->window_result = {
+		m_pRM->RequestPNG("resultPanel", "UI/resultPanel.png"),
+		TEX_SIZE_WINDOW_RESULT };
+	m_textures->window_pause = {
+		m_pRM->RequestPNG("pauseWindow", "UI/pauseWindow.png"),
+		TEX_SIZE_WINDOW_PAUSE };
+
+	// 矢印
+	m_textures->arrow_normal = {
+		m_pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png"),
+		TEX_SIZE_ARROW_NOMAL };
+	m_textures->arrow_rotate = {
+		m_pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png"),
+		TEX_SIZE_ARROW_ROTATE };
+
+	// 文字
+	m_textures->text_operation = {
+		m_pRM->RequestPNG("operationText", "Resources/Textures/text/operationText.png"),
+		TEX_SIZE_TEXT_OPERATION };
+	m_textures->text_conditions = {
+		m_pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
+		TEX_SIZE_TEXT_CONDITION };
+	m_textures->text_keys = {
+		m_pRM->RequestPNG("keysText", "Text/keysText.png"),
+		TEX_SIZE_TEXT_KEYS };
+	m_textures->text_pauseOptions = {
+		m_pRM->RequestPNG("pauseOptionsText", "Text/pauseOptionsText.png"),
+		TEX_SIZE_TEXT_OPTION };
+	m_textures->text_pauseTitle = {
+		m_pRM->RequestPNG("pauseTitleText", "Text/pauseTitleText.png"),
+		TEX_SIZE_TEXT_TITLE };
+	m_textures->text_number = {
+		m_pRM->RequestPNG("number", "Text/number_48.png"),
+		TEX_SIZE_TEXT_NUMBER };
+	m_textures->text_clearTime = {
+		m_pRM->RequestPNG("clearTimeText", "Text/clearTimeText.png"),
+		TEX_SIZE_TEXT_CLEARTIME };
+
+	// その他
+	m_textures->base_key = {
+		m_pRM->RequestPNG("keyBase", "UI/key.png"),
+		TEX_SIZE_KEY_BASE };
+}
+
+
+
+/**
  * @brief ディマーを描画
  *
  * @param ui	  ディマーを使用するUI
@@ -320,11 +349,16 @@ void UIManager::DrawDimmer(UIElement* ui, RenderContext context)
  */
 void UIManager::CreateResultUI()
 {
+	// テクスチャ情報を設定
+	StageResultUI::Textures textures;
+	textures.result = m_textures->window_result;
+	textures.clearTime = m_textures->text_clearTime;
+	textures.number = m_textures->text_number;
+
 	// UIを作成
 	m_resultUI = std::make_unique<StageResultUI>();
 	m_resultUI->Initialize(
-		m_textures->window_result.texture,
-		m_textures->window_result.size,
+		textures,
 		m_windowSize
 	);
 }
@@ -471,7 +505,7 @@ void UIManager::CreatePauseUI()
 void UIManager::CreateInputHintUI()
 {
 
-
+	// UIを作成
 	std::unique_ptr<InputHintUI> inputUI = std::make_unique<InputHintUI>();
 	//inputUI->Initialize();
 	m_inputHintUI.push_back(std::move(inputUI));

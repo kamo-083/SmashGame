@@ -11,6 +11,11 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/UIElement.h"
+#include"Source/Game/Data/TextureData.h"
+
+
+// クラスの宣言 ===============================================================
+class NumberRenderer2D;
 
 
 // クラスの定義 ===============================================================
@@ -21,12 +26,46 @@ class StageResultUI :public UIElement
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
+	// アニメーション時間
 	static constexpr float ANIM_TIME = 0.25f;
+
+	// クリアタイムの桁数
+	static constexpr int TIME_DIGIT = 2;
+
+	// クリアタイムの表示間隔の調査用倍率
+	static constexpr float NUMBER_WIDTH_SCALE = 1.25f;
+
+	// テクスチャ群
+	struct Textures
+	{
+		TextureInfo result;
+		TextureInfo clearTime;
+		TextureInfo number;
+	};
+
+	// 時間
+	struct Time
+	{
+		int minute;		// 分
+		int second;		// 秒
+	};
 
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// 有効
 	bool m_enable;
+
+	// 数字描画機能
+	std::unique_ptr<NumberRenderer2D> m_number;
+
+	// クリアタイム
+	Time m_clearTime;
+
+	// クリアタイムのテキスト画像のポインタ
+	ID3D11ShaderResourceView* m_clearTimeTexture;
+
+	// クリアタイムの表示位置
+	DirectX::SimpleMath::Vector2 m_clearTimePosition;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -42,8 +81,8 @@ public:
 	// 操作
 public:
 	// 初期化処理
-	void Initialize(ID3D11ShaderResourceView* texture,
-		DirectX::SimpleMath::Vector2 texSize,
+	void Initialize(
+		Textures textures,
 		DirectX::SimpleMath::Vector2 windowSize);
 
 	// 更新処理
@@ -63,6 +102,9 @@ public:
 public:
 	// 有効かどうかを返す
 	bool IsEnable() const { return m_enable; }
+
+	// クリアタイムの設定
+	void SetClearTime(float time);
 
 	// 内部実装
 private:

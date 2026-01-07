@@ -73,6 +73,9 @@ private:
 	// 切り替え操作のモード true:攻撃 false:カメラ
 	bool m_keyMode;
 
+	// 経過時間
+	float m_timer;
+
 	// 当たり判定マネージャー
 	std::unique_ptr<CollisionManager> m_collisionManager;
 
