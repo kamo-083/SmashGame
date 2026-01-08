@@ -73,7 +73,7 @@ Background::~Background()
 /**
  * @brief XVˆ—
  *
- * @param ‚È‚µ
+ * @param elapsedTime Œo‰ßŠÔ
  *
  * @return ‚È‚µ
  */

@@ -595,9 +595,6 @@
     <None Include="Resources\Json\inputKeyInfo.json">
       <Filter>Json</Filter>
     </None>
-    <None Include="Resources\Json\stageTest.json">
-      <Filter>Json</Filter>
-    </None>
     <None Include="Shaders\Area\Area.hlsli">
       <Filter>Shader\Area</Filter>
     </None>

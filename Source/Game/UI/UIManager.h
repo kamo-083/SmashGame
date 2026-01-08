@@ -70,7 +70,7 @@ private:
 	// 画像サイズ
 	DirectX::SimpleMath::Vector2 TEX_SIZE_ICON_ATK = { 200.0f,200.0f };			// 攻撃UIアイコン
 	DirectX::SimpleMath::Vector2 TEX_SIZE_ICON_CAM = { 200.0f,135.0f };			// カメラアイコン
-	DirectX::SimpleMath::Vector2 TEX_SIZE_WINDOW_RESULT = { 350.0f, 400.0f };	// リザルトウィンドウ
+	DirectX::SimpleMath::Vector2 TEX_SIZE_WINDOW_RESULT = { 500.0f, 400.0f };	// リザルトウィンドウ
 	DirectX::SimpleMath::Vector2 TEX_SIZE_WINDOW_PAUSE = { 350.0f, 267.0f };	// ポーズウィンドウ
 	DirectX::SimpleMath::Vector2 TEX_SIZE_ARROW_NOMAL = { 200.0f, 100.0f };		// 矢印(通常)
 	DirectX::SimpleMath::Vector2 TEX_SIZE_ARROW_ROTATE = { 200.0f, 200.0f };	// 矢印(回転)

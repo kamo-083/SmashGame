@@ -212,7 +212,7 @@ void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath
 	for (int i = 0; i < m_texture.size(); i++)
 	{
 		//	for文で一気に設定する
-		context->PSSetShaderResources(i, 1, &m_texture[i]);
+		context->PSSetShaderResources(i, 1, m_texture[i].GetAddressOf());
 	}
 
 	//	インプットレイアウトの登録

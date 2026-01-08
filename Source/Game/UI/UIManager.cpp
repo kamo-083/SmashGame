@@ -107,7 +107,7 @@ void UIManager::SetupStageUI(
 	opTextures.nomalArrow = m_textures->arrow_normal;
 	opTextures.rotateArrow = m_textures->arrow_rotate;
 	opTextures.keyText = m_textures->text_keys;
-	OperationUI::InputKeys opKeys;		// 操作キー
+	OperationUI::InputKeys opKeys{};		// 操作キー
 	opKeys.change = keyConfig.mode_switch;
 	opKeys.left = keyConfig.rotate_left;
 	opKeys.right = keyConfig.rotate_right;
@@ -267,7 +267,7 @@ void UIManager::LoadTextures()
 
 	// ウィンドウ
 	m_textures->window_result = {
-		m_pRM->RequestPNG("resultPanel", "UI/resultPanel.png"),
+		m_pRM->RequestPNG("resultWindow", "UI/resultWindow.png"),
 		TEX_SIZE_WINDOW_RESULT };
 	m_textures->window_pause = {
 		m_pRM->RequestPNG("pauseWindow", "UI/pauseWindow.png"),
@@ -487,6 +487,8 @@ void UIManager::CreatePauseUI()
  */
 void UIManager::CreateInputHintUI()
 {
+
+
 	// UIを作成
 	std::unique_ptr<InputHintUI> inputUI = std::make_unique<InputHintUI>();
 	//inputUI->Initialize();

@@ -52,7 +52,7 @@ void Game::Initialize(HWND window, int width, int height)
     
     // 各シーンの作成
     m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_userResources.get()));
-    m_sceneManager->Register("StageSelectScene", std::make_unique<StageSelectScene>(m_sceneManager.get(), m_userResources.get(), 3));
+    m_sceneManager->Register("StageSelectScene", std::make_unique<StageSelectScene>(m_sceneManager.get(), m_userResources.get(), STAGES));
 
     int stageNum = 1;
     m_sceneManager->Register("Stage1Scene", std::make_unique<StageScene>(
@@ -67,7 +67,6 @@ void Game::Initialize(HWND window, int width, int height)
     // 開始シーンの設定
     m_sceneManager->SetStartScene("TitleScene");
     //m_sceneManager->SetStartScene("Stage1Scene");
-
 }
 
 #pragma region Frame Update
@@ -120,7 +119,7 @@ void Game::Render()
     auto context = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Add your rendering code here.
-
+    
     RenderContext renderContext
     {
         SimpleMath::Matrix::Identity,

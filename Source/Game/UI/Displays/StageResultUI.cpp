@@ -19,6 +19,7 @@
 StageResultUI::StageResultUI()
 	: UIElement()
 	, m_enable(false)
+	, m_clearTime{}
 {
 
 }
@@ -76,7 +77,7 @@ void StageResultUI::Initialize(
 	// ƒNƒŠƒAƒ^ƒCƒ€‚Ì•\Ž¦ˆÊ’u‚ð‰Šú‰»
 	m_clearTimePosition = m_widget->GetParam().pos;
 	m_clearTimePosition.x -= textures.clearTime.size.x * 0.5f;
-	m_clearTimePosition.y -= textures.number.size.y;
+	m_clearTimePosition.y -= textures.number.size.y * 0.5f;
 
 	// –³Œø‰»
 	m_enable = false;
@@ -123,6 +124,7 @@ void StageResultUI::Draw(RenderContext context)
 	// •`‰æˆÊ’u‚ð‰Šú‰»
 	DirectX::SimpleMath::Vector2 numberPos = m_widget->GetParam().pos;
 	numberPos.x -= m_number->GetWidth();
+	numberPos.y += m_number->GetSpriteSize().y * 0.5f;
 
 	// •\Ž¦ŠÔŠu‚ðÝ’è (•ª‚Æ•b‚ÌŠÔŠu)
 	float numberWidth = m_number->GetSpriteSize().x * NUMBER_WIDTH_SCALE;

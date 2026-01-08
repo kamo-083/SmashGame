@@ -46,8 +46,8 @@ public:
 	// 時間
 	struct Time
 	{
-		int minute;		// 分
-		int second;		// 秒
+		int minute = 0;		// 分
+		int second = 0;		// 秒
 	};
 
 	// データメンバの宣言 -----------------------------------------------

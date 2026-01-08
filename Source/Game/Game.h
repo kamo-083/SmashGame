@@ -70,6 +70,9 @@ private:
     // Rendering loop timer.
     DX::StepTimer                           m_timer;
 
+    // ステージ数
+    static constexpr int STAGES = 3;
+
     //共通ステートへのポインタ
     std::unique_ptr<DirectX::CommonStates> m_states;
 
@@ -99,4 +102,5 @@ private:
 
     // キーボードトラッカー
     std::unique_ptr<DirectX::Keyboard::KeyboardStateTracker> m_kbTracker;
+
 };
