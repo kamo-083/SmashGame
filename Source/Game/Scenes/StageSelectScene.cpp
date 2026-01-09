@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "StageSelectScene.h"
 #include "Source/Game/Common/SceneManager.h"
+#include "Source/Game/UI/UITextureCatalog.h"
 #include "Source/Game/Transition/BlockTransition.h"
 #include "Source/Game/UI/Displays/Button.h"
 #include "Source/Game/UI/Elements/NumberRenderer/NumberRenderer2D.h"
@@ -27,6 +28,7 @@
 StageSelectScene::StageSelectScene(SceneManager* pSM, UserResources* pUR, int stages)
 	: Scene{ pSM,pUR }
 	, STAGES{ stages }
+	, m_textureCatalog(pSM->GetUITextureCatalog())
 	, m_selectStage{ 0 }
 	, m_transitionStage{ -1 }
 {
@@ -60,21 +62,17 @@ void StageSelectScene::Initialize()
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
-	ResourceManager* pRM = m_userResources->GetResourceManager();
-
 	// ステージ選択パネルの作成
-	SetupPanel(windowSize, pRM);
+	SetupPanel(windowSize);
 
 	// ステージ番号表示オブジェクトの作成
-	SetupNumberBoard(pRM);
+	SetupNumberBoard();
 
 	// 背景の作成
 	SetupBackground(
 		m_userResources->GetDeviceResources(), m_userResources->GetShaderManager(),
-		pRM, windowSize
+		m_userResources->GetResourceManager(), windowSize
 	);
-	// テクスチャの読み込み
-	SetupTextures(pRM);
 
 	// 音声の設定
 	AudioManager* pAM = m_userResources->GetAudioManager();
@@ -149,7 +147,6 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 		context.states->LinearClamp());
 
 	// 操作方法の描画
-	//context.spriteBatch->Draw(m_textures->key, DirectX::SimpleMath::Vector2::Zero, &KEY_RECT);
 	for (auto& inputUI : m_inputHintUI)
 	{
 		inputUI->Draw(context);
@@ -168,9 +165,10 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 	);
 
 	// スタンプ画像の描画範囲 (画像全体をそのまま)
+	DirectX::SimpleMath::Vector2 stamp_size = m_textureCatalog->GetTextures().icon_stampOn.size;
 	RECT stamp_rect = {};
-	stamp_rect.right = static_cast<LONG>(STAMP_TEX_SIZE.x);
-	stamp_rect.bottom = static_cast<LONG>(STAMP_TEX_SIZE.y);
+	stamp_rect.right = static_cast<LONG>(stamp_size.x);
+	stamp_rect.bottom = static_cast<LONG>(stamp_size.y);
 
 	// ステージ番号・スタンプの描画
 	for (int i = 0; i < STAGES; i++)
@@ -190,16 +188,21 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 
 		// スタンプ
 		DirectX::SimpleMath::Vector2 stamp_pos = m_stagePanels[i]->GetParam().pos;
-		stamp_pos.y += STAMP_TEX_SIZE.y * 0.25f;
 		if (m_stageCleared[i])	// クリア済みかどうか
 		{
 			// スタンプ
-			context.spriteBatch->Draw(m_textures->stamp_on.Get(), stamp_pos, &stamp_rect, DirectX::Colors::Red, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
+			stamp_pos.y += stamp_size.y * 0.25f;
+			context.spriteBatch->Draw(
+				m_textureCatalog->GetTextures().icon_stampOn.texture.Get(),
+				stamp_pos, &stamp_rect, DirectX::Colors::Red, 0.0f, stamp_size * 0.5f, scale);
 		}
 		else
 		{
 			// 枠のみ
-			context.spriteBatch->Draw(m_textures->stamp_off.Get(), stamp_pos, &stamp_rect, DirectX::Colors::Gray, 0.0f, STAMP_TEX_SIZE * 0.5f, scale);
+			stamp_pos.y += stamp_size.y * 0.25f;
+			context.spriteBatch->Draw(
+				m_textureCatalog->GetTextures().icon_stampOff.texture.Get(), 
+				stamp_pos, &stamp_rect, DirectX::Colors::Gray, 0.0f, stamp_size * 0.5f, scale);
 		}
 	}
 
@@ -335,11 +338,10 @@ void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* 
  * @brief ステージパネルの設定
  *
  * @param windowSize	ウィンドウサイズ
- * @param pRM			リソースマネージャーのポインタ	
  *
  * @return なし
  */
-void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize, ResourceManager* pRM)
+void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize)
 {
 	// ステージ数分設定
 	for (int i = 0; i < STAGES; i++)
@@ -365,8 +367,8 @@ void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize, Resou
 		// パネルを作成・追加
 		std::unique_ptr<Button> panel = std::make_unique<Button>();
 		panel->Initialize(
-			pRM->RequestPNG("stagePanel", "UI/stagePanel.png"),
-			data, PANEL_TEX_SIZE,
+			m_textureCatalog->GetTextures().window_stageSelect.texture,
+			data, m_textureCatalog->GetTextures().window_stageSelect.size,
 			[this, i]() {
 				BlockTransition* transition = m_sceneManager->GetTransition();
 				if (transition->IsOpen())
@@ -387,15 +389,15 @@ void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize, Resou
 /**
  * @brief ステージ番号表示の設定
  *
- * @param pRM	リソースマネージャーのポインタ
+ * @param なし
  *
  * @return なし
  */
-void StageSelectScene::SetupNumberBoard(ResourceManager* pRM)
+void StageSelectScene::SetupNumberBoard()
 {
 	m_numberBoard = std::make_unique<NumberRenderer2D>(
-		NUMBER_SIZE,
-		pRM->RequestPNG("number", "Text/number_48.png"),
+		m_textureCatalog->GetTextures().text_number.size,
+		m_textureCatalog->GetTextures().text_number.texture,
 		1);
 	m_numberBoard->SetUseBeginEnd(false);
 }
@@ -426,23 +428,6 @@ void StageSelectScene::SetupBackground(
 		Background::ResourcesDesc{ "background_stripes", "Others/stripes_pattern.png" },
 		windowSize, Background::MoveDirection::RIGHT
 	);
-}
-
-
-/**
- * @brief テクスチャの設定
- *
- * @param pRM	リソースマネージャーのポインタ
- *
- * @return なし
- */
-void StageSelectScene::SetupTextures(ResourceManager* pRM)
-{
-	m_textures = std::make_unique<Textures>();
-	m_textures->key = pRM->RequestPNG("keysText", "Text/keysText.png");
-	m_textures->action = pRM->RequestPNG("actionText", "Text/actionText.png");
-	m_textures->stamp_on = pRM->RequestPNG("stamp_on", "UI/stamp_on.png");
-	m_textures->stamp_off = pRM->RequestPNG("stamp_off", "UI/stamp_off.png");
 }
 
 
@@ -482,14 +467,17 @@ void StageSelectScene::SetupInputUI()
 
 	// 画像を設定
 	InputHintUI::Textures textures;
-	textures.key = m_textures->key;
-	textures.action = m_textures->action;
+	textures.key = m_textureCatalog->GetTextures().text_keys.texture;
+	textures.action = m_textureCatalog->GetTextures().text_keyAction.texture;
 
 	// 操作キー配列
 	std::vector<DirectX::Keyboard::Keys> keys;
 
 	// 表示位置の初期設定
 	DirectX::SimpleMath::Vector2 pos = INPUT_TEXT_POS;
+
+	// キーの文字サイズを取得
+	long keyTextSize = static_cast<long>(m_textureCatalog->GetTextures().text_keys.size.y);
 
 	// 選択
 	// キーを設定
@@ -498,7 +486,7 @@ void StageSelectScene::SetupInputUI()
 	// UIを作成
 	inputUI = std::make_unique<InputHintUI>();
 	inputUI->Initialize(
-		textures, pos, INPUT_TEXT_SCALE, INPUT_TEXT_SIZE, keys,
+		textures, pos, INPUT_TEXT_SCALE, keyTextSize, keys,
 		ActionAtlas::ActionType::SELECT);
 	// 表示位置をずらす
 	pos.x += inputUI->GetWidth() + INPUT_TEXT_POS_ADJUST;
@@ -512,7 +500,7 @@ void StageSelectScene::SetupInputUI()
 	// UIを作成
 	inputUI = std::make_unique<InputHintUI>();
 	inputUI->Initialize(
-		textures, pos, INPUT_TEXT_SCALE, INPUT_TEXT_SIZE, keys,
+		textures, pos, INPUT_TEXT_SCALE, keyTextSize, keys,
 		ActionAtlas::ActionType::DECIDE);
 	// 表示位置をずらす
 	pos.x += inputUI->GetWidth() + INPUT_TEXT_POS_ADJUST;
@@ -526,7 +514,7 @@ void StageSelectScene::SetupInputUI()
 	// UIを作成
 	inputUI = std::make_unique<InputHintUI>();
 	inputUI->Initialize(
-		textures, pos, INPUT_TEXT_SCALE, INPUT_TEXT_SIZE, keys,
+		textures, pos, INPUT_TEXT_SCALE, keyTextSize, keys,
 		ActionAtlas::ActionType::TO_TITLE);
 	// 配列に追加
 	m_inputHintUI.push_back(std::move(inputUI));

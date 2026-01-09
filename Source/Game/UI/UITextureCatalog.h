@@ -29,12 +29,16 @@ private:
 	struct UITextures
 	{
 		// アイコン
+		TextureInfo icon_key;
 		TextureInfo icon_attackBasic;
 		TextureInfo icon_attackRolling;
 		TextureInfo icon_attackHeavy;
 		TextureInfo icon_camera;
+		TextureInfo icon_stampOn;		// スタンプ(有)
+		TextureInfo icon_stampOff;		// スタンプ(無)
 
 		// ウィンドウ
+		TextureInfo window_stageSelect;
 		TextureInfo window_result;
 		TextureInfo window_pause;
 
@@ -48,26 +52,26 @@ private:
 		TextureInfo text_titleExit;		// ゲーム終了
 		TextureInfo text_keyAction;		// 操作
 		TextureInfo text_conditions;	// キーの動作
-		TextureInfo text_keys;
+		TextureInfo text_keys;			// キー
 		TextureInfo text_pauseOptions;
 		TextureInfo text_pauseTitle;
 		TextureInfo text_number;
 		TextureInfo text_clearTime;
-
-		// その他
-		TextureInfo base_key;
 	};
 
 	// 画像サイズ
 	struct TexturesSize
 	{
 		// アイコン
-		static constexpr DirectX::SimpleMath::Vector2 ICON_ATK = { 200.0f,200.0f };			// 攻撃UIアイコン
+		static constexpr DirectX::SimpleMath::Vector2 ICON_ATTACK = { 200.0f,200.0f };		// 攻撃UIアイコン
 		static constexpr DirectX::SimpleMath::Vector2 ICON_CAM = { 200.0f,135.0f };			// カメラアイコン
+		static constexpr DirectX::SimpleMath::Vector2 ICON_KEY = { 150.0f, 150.0f };		// キーアイコンのベース
+		static constexpr DirectX::SimpleMath::Vector2 ICON_STAMP = { 250.0f,250.0f };		// スタンプアイコン
 
 		// ウィンドウ
-		static constexpr DirectX::SimpleMath::Vector2 WINDOW_RESULT = { 500.0f, 400.0f };	// リザルトウィンドウ
-		static constexpr DirectX::SimpleMath::Vector2 WINDOW_PAUSE = { 350.0f, 267.0f };	// ポーズウィンドウ
+		static constexpr DirectX::SimpleMath::Vector2 WINDOW_STAGESELECT = { 350.0f,400.0f };	// ステージ選択ウィンドウ
+		static constexpr DirectX::SimpleMath::Vector2 WINDOW_RESULT = { 500.0f, 400.0f };		// リザルトウィンドウ
+		static constexpr DirectX::SimpleMath::Vector2 WINDOW_PAUSE = { 350.0f, 267.0f };		// ポーズウィンドウ
 
 		// 矢印
 		static constexpr DirectX::SimpleMath::Vector2 ARROW_NOMAL = { 200.0f, 100.0f };		// 矢印(通常)
@@ -83,10 +87,6 @@ private:
 		static constexpr DirectX::SimpleMath::Vector2 TEXT_KEYS = { 120.0f, 120.0f };		// 入力キーテキスト(1文字分)
 		static constexpr DirectX::SimpleMath::Vector2 TEXT_PAUSEOPTION = { 350.0f, 60 };	// ポーズ選択肢テキスト(1行分)
 		static constexpr DirectX::SimpleMath::Vector2 TEXT_NUMBER = { 48.0f,72.0f };		// 数字(1文字分)
-
-		// その他
-		static constexpr DirectX::SimpleMath::Vector2 KEY_BASE = { 150.0f, 150.0f };		// キーアイコンのベース
-
 	};
 
 

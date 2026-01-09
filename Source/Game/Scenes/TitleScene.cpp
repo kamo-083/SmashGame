@@ -409,7 +409,8 @@ void TitleScene::SetupInputUI()
 	// 表示位置の初期設定
 	DirectX::SimpleMath::Vector2 pos = INPUT_TEXT_POS;
 
-	long inputTextSize = static_cast<long>(m_textureCatalog->GetTextures().text_keys.size.y);
+	// キーの文字サイズを取得
+	long keyTextSize = static_cast<long>(m_textureCatalog->GetTextures().text_keys.size.y);
 
 	// 選択
 	// キーを設定
@@ -418,7 +419,7 @@ void TitleScene::SetupInputUI()
 	// UIを作成
 	inputUI = std::make_unique<InputHintUI>();
 	inputUI->Initialize(
-		textures, pos, INPUT_TEXT_SCALE, inputTextSize, keys,
+		textures, pos, INPUT_TEXT_SCALE, keyTextSize, keys,
 		ActionAtlas::ActionType::SELECT);
 	// 表示位置をずらす
 	pos.x += inputUI->GetWidth() + INPUT_TEXT_POS_ADJUST;
@@ -432,7 +433,7 @@ void TitleScene::SetupInputUI()
 	// UIを作成
 	inputUI = std::make_unique<InputHintUI>();
 	inputUI->Initialize(
-		textures, pos, INPUT_TEXT_SCALE, inputTextSize, keys,
+		textures, pos, INPUT_TEXT_SCALE, keyTextSize, keys,
 		ActionAtlas::ActionType::DECIDE);
 	// 配列に追加
 	m_inputHintUI.push_back(std::move(inputUI));

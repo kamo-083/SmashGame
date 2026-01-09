@@ -317,7 +317,7 @@ void UIManager::CreateKeyGuideUI(
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	InputGuideUI::Textures textures;
-	textures.base = m_textureCatalog->GetTextures().base_key;
+	textures.base = m_textureCatalog->GetTextures().icon_key;
 	textures.text = m_textureCatalog->GetTextures().text_keys;
 
 	// UI‚ğì¬

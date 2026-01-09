@@ -51,18 +51,30 @@ void UITextureCatalog::Load(ResourceManager* pRM)
 	// アイコン
 	m_textures->icon_attackBasic = {
 		pRM->RequestPNG("attack_basic", "UI/basicAtk.png"),
-		TexturesSize::ICON_ATK };
+		TexturesSize::ICON_ATTACK };
 	m_textures->icon_attackRolling = {
 		pRM->RequestPNG("attack_rolling", "UI/rollingAtk.png"),
-		TexturesSize::ICON_ATK };
+		TexturesSize::ICON_ATTACK };
 	m_textures->icon_attackHeavy = {
 		pRM->RequestPNG("attack_heavy", "UI/heavyAtk.png"),
-		TexturesSize::ICON_ATK };
+		TexturesSize::ICON_ATTACK };
 	m_textures->icon_camera = {
 		pRM->RequestPNG("camera", "UI/camera.png"),
 		TexturesSize::ICON_CAM };
+	m_textures->icon_key = {
+		pRM->RequestPNG("keyBase", "UI/key.png"),
+		TexturesSize::ICON_KEY };
+	m_textures->icon_stampOn = {
+		pRM->RequestPNG("stamp_on", "UI/stamp_on.png"),
+		TexturesSize::ICON_STAMP };
+	m_textures->icon_stampOff = {
+		pRM->RequestPNG("stamp_off", "UI/stamp_off.png"),
+		TexturesSize::ICON_STAMP };
 
 	// ウィンドウ
+	m_textures->window_stageSelect = {
+		pRM->RequestPNG("stagePanel", "UI/stagePanel.png"),
+		TexturesSize::WINDOW_STAGESELECT };
 	m_textures->window_result = {
 		pRM->RequestPNG("resultWindow", "UI/resultWindow.png"),
 		TexturesSize::WINDOW_RESULT };
@@ -109,11 +121,6 @@ void UITextureCatalog::Load(ResourceManager* pRM)
 	m_textures->text_clearTime = {
 		pRM->RequestPNG("clearTimeText", "Text/clearTimeText.png"),
 		TexturesSize::TEXT_CLEARTIME };
-
-	// その他
-	m_textures->base_key = {
-		pRM->RequestPNG("keyBase", "UI/key.png"),
-		TexturesSize::KEY_BASE };
 
 	// 読み込み済みに設定
 	m_loaded = true;

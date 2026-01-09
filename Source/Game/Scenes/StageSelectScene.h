@@ -15,6 +15,7 @@
 
 
 // クラスの宣言 ===============================================================
+class UITextureCatalog;
 class Button;
 class NumberRenderer2D;
 class RenderTexture;
@@ -32,18 +33,6 @@ class StageSelectScene : public Scene
 public:
 	const int STAGES;	// ステージ数
 
-	struct Textures
-	{
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> key;		// 操作テキスト
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> action;	// 動作テキスト
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> stamp_on;	// スタンプ(済)
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> stamp_off;	// スタンプ(空)
-		std::vector <std::unique_ptr<RenderTexture>> stagePanels;	// ステージパネル
-	};
-
-	// スプライト数字の1文字分のサイズ
-	static constexpr DirectX::SimpleMath::Vector2 NUMBER_SIZE = { 48.0f,72.0f };
-
 	// パネルの間隔調整
 	static constexpr float PANEL_ADJUST_INTERVAL = 210.0f;
 	// ステージ番号の間隔調整
@@ -55,14 +44,6 @@ public:
 	static constexpr float INPUT_TEXT_POS_ADJUST = 15.0f;
 	// 操作テキストのスケール
 	static constexpr float INPUT_TEXT_SCALE = 0.25f;
-	// 操作テキストの1文字のサイズ
-	static constexpr long INPUT_TEXT_SIZE = 120;
-
-	// パネル画像サイズ
-	static constexpr DirectX::SimpleMath::Vector2 PANEL_TEX_SIZE = { 350.0f,400.0f };
-
-	// スタンプ画像サイズ
-	static constexpr DirectX::SimpleMath::Vector2 STAMP_TEX_SIZE = { 250.0f,250.0f };
 
 	// パネルのトゥイーン関連
 	// アニメーションの時間
@@ -77,8 +58,8 @@ public:
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
-	// テクスチャ群
-	std::unique_ptr<Textures> m_textures;
+	// UI使用画像のカタログ
+	std::shared_ptr<UITextureCatalog> m_textureCatalog;
 
 	// 選択中のステージ番号
 	int m_selectStage;
@@ -92,6 +73,9 @@ private:
 
 	// ステージパネル
 	std::vector<std::unique_ptr<Button>> m_stagePanels;
+
+	// ステージパネルのレンダーテクスチャ
+	std::vector <std::unique_ptr<RenderTexture>> m_panelTextures;
 
 	// ステージクリア情報
 	std::vector<bool> m_stageCleared;
@@ -145,10 +129,10 @@ private:
 
 	// 初期設定関連
 	// ステージパネルの設定
-	void SetupPanel(DirectX::SimpleMath::Vector2 windowSize, ResourceManager* pRM);
+	void SetupPanel(DirectX::SimpleMath::Vector2 windowSize);
 
 	// ステージ番号表示の設定
-	void SetupNumberBoard(ResourceManager* pRM);
+	void SetupNumberBoard();
 
 	// 背景の設定
 	void SetupBackground(
@@ -156,9 +140,6 @@ private:
 		ShaderManager* pSM,
 		ResourceManager* pRM,
 		DirectX::SimpleMath::Vector2 windowSize);
-
-	// テクスチャの設定
-	void SetupTextures(ResourceManager* pRM);
 
 	// 音声の設定
 	void SetupAudios(AudioManager* pAM);
