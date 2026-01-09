@@ -79,6 +79,18 @@ void UITextureCatalog::Load(ResourceManager* pRM)
 		TexturesSize::ARROW_ROTATE };
 
 	// •¶Žš
+	m_textures->text_titleLogo = {
+		pRM->RequestPNG("titleLogo", "Text/titleLogo.png"),
+		TexturesSize::TEXT_TITLELOGO };
+	m_textures->text_titleStart = {
+		pRM->RequestPNG("startText", "Text/startText.png"),
+		TexturesSize::TEXT_TITLEOPTION };
+	m_textures->text_titleExit = {
+		pRM->RequestPNG("exitText", "Text/exitText.png"),
+		TexturesSize::TEXT_TITLEOPTION };
+	m_textures->text_keyAction = {
+		pRM->RequestPNG("actionText", "Text/actionText.png"),
+		TexturesSize::TEXT_KEYACTION };
 	m_textures->text_conditions = {
 		pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
 		TexturesSize::TEXT_CONDITION };
@@ -87,7 +99,7 @@ void UITextureCatalog::Load(ResourceManager* pRM)
 		TexturesSize::TEXT_KEYS };
 	m_textures->text_pauseOptions = {
 		pRM->RequestPNG("pauseOptionsText", "Text/pauseOptionsText.png"),
-		TexturesSize::TEXT_OPTION };
+		TexturesSize::TEXT_PAUSEOPTION };
 	m_textures->text_pauseTitle = {
 		pRM->RequestPNG("pauseTitleText", "Text/pauseTitleText.png"),
 		TexturesSize::TEXT_TITLE };

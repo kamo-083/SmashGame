@@ -8,8 +8,10 @@
 #include "pch.h"
 #include "TitleScene.h"
 #include "Source/Game/Common/SceneManager.h"
+#include "Source/Game/UI/UITextureCatalog.h"
 #include "Source/Game/Transition/BlockTransition.h"
 #include "Source/Game/GameObjects/Background.h"
+#include "Source/Game/UI/UITextureCatalog.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Displays/Button.h"
 #include "Source/Game/UI/Displays/InputHintUI.h"
@@ -19,11 +21,13 @@
 /**
  * @brief コンストラクタ
  *
- * @param pSM    シーンを管理しているマネージャ
- * @param pUR	 リソースを管理しているマネージャ
+ * @param pSM				シーンを管理しているマネージャ
+ * @param pUR				リソースを管理しているマネージャ
  */
-TitleScene::TitleScene(SceneManager* pSM, UserResources* pUR)
+TitleScene::TitleScene(
+	SceneManager* pSM, UserResources* pUR)
 	: Scene{ pSM,pUR }
+	, m_textureCatalog(pSM->GetUITextureCatalog())
 	, m_selectButton{ 0 }
 {
 
@@ -50,11 +54,6 @@ TitleScene::~TitleScene()
  */
 void TitleScene::Initialize()
 {
-	ResourceManager* pRM = m_userResources->GetResourceManager();
-
-	// テクスチャの読み込み
-	SetupTexture(pRM);
-	
 	// ウィンドウサイズの取得
 	RECT windowSize = m_userResources->GetDeviceResources()->GetOutputSize();
 	float halfWidth = windowSize.right / 2.0f;
@@ -71,7 +70,10 @@ void TitleScene::Initialize()
 		Easing::EaseType::OutBounce,
 		Easing::PlaybackMode::Once
 	};
-	m_titleLogo->Initialize(m_textures->logo, data, LOGO_SIZE);
+	m_titleLogo->Initialize(
+		m_textureCatalog->GetTextures().text_titleLogo.texture,
+		data,
+		m_textureCatalog->GetTextures().text_titleLogo.size);
 
 	// 選択ボタンを作成
 	SetupBotton(halfWidth);
@@ -82,7 +84,7 @@ void TitleScene::Initialize()
 	// 背景の作成
 	SetupBackground(
 		m_userResources->GetDeviceResources(), m_userResources->GetShaderManager(),
-		pRM,
+		m_userResources->GetResourceManager(),
 		DirectX::SimpleMath::Vector2{ static_cast<float>(windowSize.right), static_cast<float>(windowSize.bottom) }
 	);
 
@@ -219,8 +221,6 @@ void TitleScene::Finalize()
 	m_inputHintUI.clear();
 
 	m_background.reset();
-
-	m_textures.reset();
 }
 
 
@@ -303,7 +303,9 @@ void TitleScene::SetupBotton(float windowHalfWidth)
 		Easing::PlaybackMode::PingPong
 	};
 	start->Initialize(
-		m_textures->start, data, TEXT_SIZE,
+		m_textureCatalog->GetTextures().text_titleStart.texture,
+		data,
+		m_textureCatalog->GetTextures().text_titleStart.size,
 		[this]() {
 			// シーン遷移演出
 			BlockTransition* transition = m_sceneManager->GetTransition();
@@ -323,7 +325,9 @@ void TitleScene::SetupBotton(float windowHalfWidth)
 	// パラメータの表示位置を変更
 	data.start.pos = DirectX::SimpleMath::Vector2(windowHalfWidth, TEXT_POS_Y + TEXT_INTERVAL);
 	exit->Initialize(
-		m_textures->exit, data, TEXT_SIZE,
+		m_textureCatalog->GetTextures().text_titleExit.texture,
+		data,
+		m_textureCatalog->GetTextures().text_titleExit.size,
 		[this]() {
 			if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
 			PostQuitMessage(0);
@@ -363,25 +367,6 @@ void TitleScene::SetupBackground(
 
 
 /**
- * @brief テクスチャの設定
- *
- * @param pRM リソースマネージャーのポインタ
- *
- * @return なし
- */
-void TitleScene::SetupTexture(ResourceManager* pRM)
-{
-	m_textures = std::make_unique<Textures>();
-	m_textures->logo = pRM->RequestPNG("titleLogo", "Text/titleLogo.png");
-	m_textures->start = pRM->RequestPNG("startText", "Text/startText.png");
-	m_textures->exit = pRM->RequestPNG("exitText", "Text/exitText.png");
-	m_textures->key = pRM->RequestPNG("keysText", "Text/keysText.png");
-	m_textures->action = pRM->RequestPNG("actionText", "Text/actionText.png");
-}
-
-
-
-/**
  * @brief 音声の設定
  *
  * @param pAM オーディオマネージャーのポインタ
@@ -415,14 +400,16 @@ void TitleScene::SetupInputUI()
 
 	// 画像を設定
 	InputHintUI::Textures textures;
-	textures.key = m_textures->key;
-	textures.action = m_textures->action;
+	textures.key = m_textureCatalog->GetTextures().text_keys.texture;
+	textures.action = m_textureCatalog->GetTextures().text_keyAction.texture;
 
 	// 操作キー配列
 	std::vector<DirectX::Keyboard::Keys> keys;
 
 	// 表示位置の初期設定
 	DirectX::SimpleMath::Vector2 pos = INPUT_TEXT_POS;
+
+	long inputTextSize = static_cast<long>(m_textureCatalog->GetTextures().text_keys.size.y);
 
 	// 選択
 	// キーを設定
@@ -431,7 +418,7 @@ void TitleScene::SetupInputUI()
 	// UIを作成
 	inputUI = std::make_unique<InputHintUI>();
 	inputUI->Initialize(
-		textures, pos, INPUT_TEXT_SCALE, INPUT_TEXT_SIZE, keys,
+		textures, pos, INPUT_TEXT_SCALE, inputTextSize, keys,
 		ActionAtlas::ActionType::SELECT);
 	// 表示位置をずらす
 	pos.x += inputUI->GetWidth() + INPUT_TEXT_POS_ADJUST;
@@ -445,7 +432,7 @@ void TitleScene::SetupInputUI()
 	// UIを作成
 	inputUI = std::make_unique<InputHintUI>();
 	inputUI->Initialize(
-		textures, pos, INPUT_TEXT_SCALE, INPUT_TEXT_SIZE, keys,
+		textures, pos, INPUT_TEXT_SCALE, inputTextSize, keys,
 		ActionAtlas::ActionType::DECIDE);
 	// 配列に追加
 	m_inputHintUI.push_back(std::move(inputUI));

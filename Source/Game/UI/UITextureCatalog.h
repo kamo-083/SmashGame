@@ -43,7 +43,11 @@ private:
 		TextureInfo arrow_rotate;
 
 		// 文字
-		TextureInfo text_conditions;
+		TextureInfo text_titleLogo;		// ロゴ
+		TextureInfo text_titleStart;	// ゲーム開始
+		TextureInfo text_titleExit;		// ゲーム終了
+		TextureInfo text_keyAction;		// 操作
+		TextureInfo text_conditions;	// キーの動作
 		TextureInfo text_keys;
 		TextureInfo text_pauseOptions;
 		TextureInfo text_pauseTitle;
@@ -70,11 +74,14 @@ private:
 		static constexpr DirectX::SimpleMath::Vector2 ARROW_ROTATE = { 200.0f, 200.0f };	// 矢印(回転)
 
 		// テキスト
+		static constexpr DirectX::SimpleMath::Vector2 TEXT_TITLELOGO = { 640.0f,360.0f };	// タイトルロゴ
+		static constexpr DirectX::SimpleMath::Vector2 TEXT_TITLEOPTION = { 400.0f,67.0f };	// タイトル選択肢テキスト
 		static constexpr DirectX::SimpleMath::Vector2 TEXT_CONDITION = { 300.0f, 90.0f };	// クリア条件テキスト
 		static constexpr DirectX::SimpleMath::Vector2 TEXT_TITLE = { 350.0f, 70.0f };		// ポーズタイトルテキスト
 		static constexpr DirectX::SimpleMath::Vector2 TEXT_CLEARTIME = { 480.0f,144.0f };	// クリアタイムテキスト
+		static constexpr DirectX::SimpleMath::Vector2 TEXT_KEYACTION = { 600.0f, 120.0f };	// タイトル・ステージ選択操作テキスト(1行分)
 		static constexpr DirectX::SimpleMath::Vector2 TEXT_KEYS = { 120.0f, 120.0f };		// 入力キーテキスト(1文字分)
-		static constexpr DirectX::SimpleMath::Vector2 TEXT_OPTION = { 350.0f, 60 };			// ポーズ選択肢テキスト(1行分)
+		static constexpr DirectX::SimpleMath::Vector2 TEXT_PAUSEOPTION = { 350.0f, 60 };	// ポーズ選択肢テキスト(1行分)
 		static constexpr DirectX::SimpleMath::Vector2 TEXT_NUMBER = { 48.0f,72.0f };		// 数字(1文字分)
 
 		// その他

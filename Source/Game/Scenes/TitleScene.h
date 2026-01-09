@@ -14,6 +14,7 @@
 
 
 // クラスの宣言 ===============================================================
+class UITextureCatalog;
 class UIWidget;
 class Button;
 class Background;
@@ -28,16 +29,6 @@ class TitleScene : public Scene
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	// 画像の構造体
-	struct Textures
-	{
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> logo;		// ロゴ
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> start;		// ゲーム開始テキスト
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> exit;		// ゲーム終了テキスト
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> key;		// 操作テキスト
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> action;	// 動作テキスト
-	};
-
 	static constexpr int BUTTONS = 2;	// ボタン数
 
 	// タイトルロゴの表示位置
@@ -54,13 +45,6 @@ public:
 	// 操作テキストのスケール
 	static constexpr float INPUT_TEXT_SCALE = 0.25f;
 
-	// タイトルロゴの画像サイズ
-	static constexpr DirectX::SimpleMath::Vector2 LOGO_SIZE = { 640.0f,360.0f };
-	// 選択肢テキストの画像サイズ
-	static constexpr DirectX::SimpleMath::Vector2 TEXT_SIZE = { 400.0f,67.0f };
-	// 操作テキストの1文字のサイズ
-	static constexpr long INPUT_TEXT_SIZE = 120;
-
 	// トゥイーンアニメーション関連
 	// スケール変化量
 	static constexpr float TWEEN_DELTA_SCALE = 0.1f;
@@ -74,8 +58,8 @@ public:
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
-	// テクスチャ群
-	std::unique_ptr<Textures> m_textures;
+	// UI使用画像のカタログ
+	std::shared_ptr<UITextureCatalog> m_textureCatalog;
 
 	// オブジェクト関連
 	// タイトルロゴ
@@ -142,9 +126,6 @@ private:
 		ShaderManager* pSM,
 		ResourceManager* pRM,
 		DirectX::SimpleMath::Vector2 windowSize);
-
-	// テクスチャの設定
-	void SetupTexture(ResourceManager* pRM);
 
 	// 音声の設定
 	void SetupAudio(AudioManager* pAM);
