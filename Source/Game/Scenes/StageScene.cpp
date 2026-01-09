@@ -117,7 +117,7 @@ void StageScene::Initialize()
 	m_keyConfig = keyConfig;
 
 	// UIマネージャーの作成
-	m_UIManager = std::make_unique<UIManager>(windowSize, pRM);
+	m_UIManager = std::make_unique<UIManager>(windowSize, m_sceneManager->GetUITextureCatalog());
 	m_UIManager->SetupStageUI(pDR, m_userResources->GetKeyboardTracker(), CLEAR_CONDITIONS, keyConfig);
 
 	// 深度ステンシルステートの作成

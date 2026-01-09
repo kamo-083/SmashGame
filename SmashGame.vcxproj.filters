@@ -359,6 +359,9 @@
     <ClInclude Include="Source\Game\Data\TextureData.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\UI\UITextureCatalog.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -557,6 +560,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\Elements\Atlas\KeyAtlas.cpp">
       <Filter>UI\Elements\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\UI\UITextureCatalog.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

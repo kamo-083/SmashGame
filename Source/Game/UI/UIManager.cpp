@@ -7,8 +7,8 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "UIManager.h"
-#include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Common/KeyConverter.h"
+#include "Source/Game/UI/UITextureCatalog.h"
 #include "Source/Game/UI/Elements/UIDimmer.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
 #include "Source/Game/UI/Controls/AttackUI.h"
@@ -26,9 +26,9 @@
  */
 UIManager::UIManager(
 	DirectX::SimpleMath::Vector2 windowSize,
-	ResourceManager* pRM)
+	std::shared_ptr<UITextureCatalog> textureCatalog)
 	: m_windowSize(windowSize)
-	, m_pRM(pRM)
+	, m_textureCatalog(textureCatalog)
 {
 
 }
@@ -40,7 +40,7 @@ UIManager::UIManager(
  */
 UIManager::~UIManager()
 {
-	m_textures.reset();
+
 }
 
 
@@ -63,9 +63,6 @@ void UIManager::SetupStageUI(
 {
 	// ディマーを作成
 	m_dimmer = std::make_unique<UIDimmer>(pDR);
-
-	// テクスチャの取得
-	LoadTextures();
 
 	// UIの作成
 	// リザルト
@@ -104,9 +101,9 @@ void UIManager::SetupStageUI(
 
 	// 攻撃方法
 	OperationUI::Textures opTextures;	// テクスチャ情報
-	opTextures.nomalArrow = m_textures->arrow_normal;
-	opTextures.rotateArrow = m_textures->arrow_rotate;
-	opTextures.keyText = m_textures->text_keys;
+	opTextures.nomalArrow = m_textureCatalog->GetTextures().arrow_normal;
+	opTextures.rotateArrow = m_textureCatalog->GetTextures().arrow_rotate;
+	opTextures.keyText = m_textureCatalog->GetTextures().text_keys;
 	OperationUI::InputKeys opKeys{};		// 操作キー
 	opKeys.change = keyConfig.mode_switch;
 	opKeys.left = keyConfig.rotate_left;
@@ -117,7 +114,7 @@ void UIManager::SetupStageUI(
 	CreateAttackUI(opUIDesc);
 
 	// カメラ回転
-	opUIDesc.textures.icon = m_textures->icon_camera;
+	opUIDesc.textures.icon = m_textureCatalog->GetTextures().icon_camera;
 	opUIDesc.arrowRotateAdjustPos = DirectX::SimpleMath::Vector2(0.0f, -70.0f);
 	opUIDesc.UIScale = 0.8f;
 	CreateCameraUI(opUIDesc, DirectX::SimpleMath::Vector2(1080.0f, 130.0f));
@@ -174,16 +171,16 @@ void UIManager::Draw(RenderContext context)
 	}
 
 	// 攻撃方法UIの描画
-	m_attackUI->Draw(context);
+	if (m_attackUI) m_attackUI->Draw(context);
 
 	// カメラ回転UIの描画
-	m_cameraUI->Draw(context);
+	if (m_cameraUI) m_cameraUI->Draw(context);
 
 	context.spriteBatch->End();
 
 	// ディマーを描画
-	if (m_resultUI->IsEnable()) DrawDimmer(m_resultUI.get(), context);
-	if (m_pauseUI->IsOpen()) DrawDimmer(m_pauseUI.get(), context);
+	if (m_resultUI)	if (m_resultUI->IsEnable()) DrawDimmer(m_resultUI.get(), context);
+	if (m_pauseUI) if (m_pauseUI->IsOpen()) DrawDimmer(m_pauseUI.get(), context);
 
 	// ディマーより上
 	context.spriteBatch->Begin(
@@ -192,10 +189,10 @@ void UIManager::Draw(RenderContext context)
 		context.states->LinearClamp());
 
 	// リザルトUIの描画
-	m_resultUI->Draw(context);
+	if (m_resultUI) m_resultUI->Draw(context);
 
 	// ポーズ画面UIの描画
-	m_pauseUI->Draw(context);
+	if (m_pauseUI) m_pauseUI->Draw(context);
 
 	context.spriteBatch->End();
 }
@@ -241,75 +238,6 @@ void UIManager::Finalize()
 
 
 /**
- * @brief テクスチャの読み込み
- *
- * @param なし
- *
- * @return なし
- */
-void UIManager::LoadTextures()
-{
-	m_textures = std::make_unique<UITextures>();
-
-	// アイコン
-	m_textures->icon_attackBasic = {
-		m_pRM->RequestPNG("attack_basic", "UI/basicAtk.png"),
-		TEX_SIZE_ICON_ATK };
-	m_textures->icon_attackRolling = {
-		m_pRM->RequestPNG("attack_rolling", "UI/rollingAtk.png"),
-		TEX_SIZE_ICON_ATK };
-	m_textures->icon_attackHeavy = {
-		m_pRM->RequestPNG("attack_heavy", "UI/heavyAtk.png"),
-		TEX_SIZE_ICON_ATK };
-	m_textures->icon_camera = {
-		m_pRM->RequestPNG("camera", "UI/camera.png"),
-		TEX_SIZE_ICON_CAM };
-
-	// ウィンドウ
-	m_textures->window_result = {
-		m_pRM->RequestPNG("resultWindow", "UI/resultWindow.png"),
-		TEX_SIZE_WINDOW_RESULT };
-	m_textures->window_pause = {
-		m_pRM->RequestPNG("pauseWindow", "UI/pauseWindow.png"),
-		TEX_SIZE_WINDOW_PAUSE };
-
-	// 矢印
-	m_textures->arrow_normal = {
-		m_pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png"),
-		TEX_SIZE_ARROW_NOMAL };
-	m_textures->arrow_rotate = {
-		m_pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png"),
-		TEX_SIZE_ARROW_ROTATE };
-
-	// 文字
-	m_textures->text_conditions = {
-		m_pRM->RequestPNG("conditionsText", "Text/conditionsText.png"),
-		TEX_SIZE_TEXT_CONDITION };
-	m_textures->text_keys = {
-		m_pRM->RequestPNG("keysText", "Text/keysText.png"),
-		TEX_SIZE_TEXT_KEYS };
-	m_textures->text_pauseOptions = {
-		m_pRM->RequestPNG("pauseOptionsText", "Text/pauseOptionsText.png"),
-		TEX_SIZE_TEXT_OPTION };
-	m_textures->text_pauseTitle = {
-		m_pRM->RequestPNG("pauseTitleText", "Text/pauseTitleText.png"),
-		TEX_SIZE_TEXT_TITLE };
-	m_textures->text_number = {
-		m_pRM->RequestPNG("number", "Text/number_48.png"),
-		TEX_SIZE_TEXT_NUMBER };
-	m_textures->text_clearTime = {
-		m_pRM->RequestPNG("clearTimeText", "Text/clearTimeText.png"),
-		TEX_SIZE_TEXT_CLEARTIME };
-
-	// その他
-	m_textures->base_key = {
-		m_pRM->RequestPNG("keyBase", "UI/key.png"),
-		TEX_SIZE_KEY_BASE };
-}
-
-
-
-/**
  * @brief ディマーを描画
  *
  * @param ui	  ディマーを使用するUI
@@ -338,9 +266,9 @@ void UIManager::CreateResultUI()
 {
 	// テクスチャ情報を設定
 	StageResultUI::Textures textures;
-	textures.result = m_textures->window_result;
-	textures.clearTime = m_textures->text_clearTime;
-	textures.number = m_textures->text_number;
+	textures.result = m_textureCatalog->GetTextures().window_result;
+	textures.clearTime = m_textureCatalog->GetTextures().text_clearTime;
+	textures.number = m_textureCatalog->GetTextures().text_number;
 
 	// UIを作成
 	m_resultUI = std::make_unique<StageResultUI>();
@@ -365,7 +293,7 @@ void UIManager::CreateClearConditionUI(ClearConditionsUI::ConditionsType type)
 	std::unique_ptr<ClearConditionsUI> conditionUI = std::make_unique<ClearConditionsUI>(type);
 	conditionUI->Initialize(
 		m_windowSize,
-		m_textures->text_conditions
+		m_textureCatalog->GetTextures().text_conditions
 	);
 
 	// 配列に追加
@@ -385,12 +313,12 @@ void UIManager::CreateClearConditionUI(ClearConditionsUI::ConditionsType type)
  */
 void UIManager::CreateKeyGuideUI(
 	DirectX::SimpleMath::Vector2 position,
-	std::vector<DirectX::Keyboard::Keys> keys, 
+	std::vector<DirectX::Keyboard::Keys> keys,
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
 	InputGuideUI::Textures textures;
-	textures.base = m_textures->base_key;
-	textures.text = m_textures->text_keys;
+	textures.base = m_textureCatalog->GetTextures().base_key;
+	textures.text = m_textureCatalog->GetTextures().text_keys;
 
 	// UIを作成
 	std::unique_ptr<InputGuideUI> guideUI = std::make_unique<InputGuideUI>();
@@ -418,11 +346,11 @@ void UIManager::CreateAttackUI(OperationUI::OperationUIDesc opUIDesc)
 {
 	AttackUI::AttackUIDesc atkUIDesc =
 	{
-		m_textures->icon_attackBasic.texture,
-		m_textures->icon_attackRolling.texture,
-		m_textures->icon_attackHeavy.texture,
-		m_textures->icon_attackBasic.size.x,
-		m_textures->icon_attackBasic.size.y
+		m_textureCatalog->GetTextures().icon_attackBasic.texture,
+		m_textureCatalog->GetTextures().icon_attackRolling.texture,
+		m_textureCatalog->GetTextures().icon_attackHeavy.texture,
+		m_textureCatalog->GetTextures().icon_attackBasic.size.x,
+		m_textureCatalog->GetTextures().icon_attackBasic.size.y
 	};
 
 	// UIを作成
@@ -441,7 +369,7 @@ void UIManager::CreateAttackUI(OperationUI::OperationUIDesc opUIDesc)
  * @return なし
  */
 void UIManager::CreateCameraUI(
-	OperationUI::OperationUIDesc opUIDesc, 
+	OperationUI::OperationUIDesc opUIDesc,
 	DirectX::SimpleMath::Vector2 position)
 {
 	// UIを作成
@@ -466,9 +394,9 @@ void UIManager::CreateCameraUI(
 void UIManager::CreatePauseUI()
 {
 	PauseUI::Textures pauseTex{
-		m_textures->window_pause,
-		m_textures->text_pauseTitle,
-		m_textures->text_pauseOptions
+		m_textureCatalog->GetTextures().window_pause,
+		m_textureCatalog->GetTextures().text_pauseTitle,
+		m_textureCatalog->GetTextures().text_pauseOptions
 	};
 
 	// UIを作成
@@ -487,7 +415,9 @@ void UIManager::CreatePauseUI()
  */
 void UIManager::CreateInputHintUI()
 {
-
+	InputHintUI::Textures textures;
+	textures.action;
+	textures.key = m_textureCatalog->GetTextures().text_keys.texture;
 
 	// UIを作成
 	std::unique_ptr<InputHintUI> inputUI = std::make_unique<InputHintUI>();

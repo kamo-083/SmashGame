@@ -65,8 +65,8 @@ void Game::Initialize(HWND window, int width, int height)
         m_sceneManager.get(), m_userResources.get(), stageNum, "Resources/Json/stage3.json", ClearConditionsUI::ConditionsType::GATHER));
 
     // 開始シーンの設定
-    m_sceneManager->SetStartScene("TitleScene");
-    //m_sceneManager->SetStartScene("Stage1Scene");
+    //m_sceneManager->SetStartScene("TitleScene");
+    m_sceneManager->SetStartScene("Stage1Scene");
 }
 
 #pragma region Frame Update

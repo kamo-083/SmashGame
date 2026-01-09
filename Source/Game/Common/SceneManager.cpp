@@ -9,6 +9,7 @@
 #include "Source/Game/Common/SceneManager.h"
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Transition/BlockTransition.h"
+#include "Source/Game/UI/UITextureCatalog.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -23,10 +24,16 @@ SceneManager::SceneManager(UserResources* pUserResources)
 	, m_pRequestedScene{ nullptr }
 	, m_userResources{ pUserResources }
 {
-	// シーン遷移演出の作成
+	// UIの仕様画像カタログを作成
+	m_UITextureCatalog = std::make_shared<UITextureCatalog>();
+	// 画像を読み込み
+	m_UITextureCatalog->Load(pUserResources->GetResourceManager());
+
+	// ウィンドウサイズを取得
 	DirectX::SimpleMath::Vector2 windowSize ={ 
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom) };
+	// シーン遷移演出の作成
 	m_transition = std::make_unique<BlockTransition>(
 		m_userResources->GetDeviceResources(), 
 		m_userResources->GetShaderManager(),
@@ -51,6 +58,7 @@ SceneManager::~SceneManager()
 
 	m_shaerdData.clear();
 	m_scenes.clear();
+	m_UITextureCatalog.reset();
 }
 
 

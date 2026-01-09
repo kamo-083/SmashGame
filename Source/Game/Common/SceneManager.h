@@ -23,6 +23,7 @@
 // クラスの宣言 ===============================================================
 class Scene;
 class BlockTransition;
+class UITextureCatalog;
 
 
 // クラスの定義 ===============================================================
@@ -52,6 +53,9 @@ private:
 
 	// ユーザーリソースのポインタ
 	UserResources* m_userResources;	
+
+	// UI使用画像のカタログ
+	std::shared_ptr<UITextureCatalog> m_UITextureCatalog;
 
 	// シーン遷移演出
 	std::unique_ptr<BlockTransition> m_transition;
@@ -95,6 +99,9 @@ public:
 
 	// シーン遷移演出の取得
 	BlockTransition* GetTransition() { return m_transition.get(); }
+
+	// UI仕様画像のカタログの取得
+	std::shared_ptr<UITextureCatalog> GetUITextureCatalog() { return m_UITextureCatalog; }
 
 	// 共有データの登録
 	void SetSharedData(std::string name, std::string data);

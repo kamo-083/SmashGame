@@ -81,7 +81,7 @@ void InputHintUI::Initialize(
 /**
  * @brief •`‰æˆ—
  *
- * @param ‚È‚µ
+ * @param context •`‰æ—p\‘¢‘Ì
  *
  * @return ‚È‚µ
  */

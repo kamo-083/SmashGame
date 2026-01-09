@@ -266,6 +266,7 @@
     <ClInclude Include="Source\Game\UI\Elements\UIElement.h" />
     <ClInclude Include="Source\Game\UI\Elements\UIWidget.h" />
     <ClInclude Include="Source\Game\UI\UIManager.h" />
+    <ClInclude Include="Source\Game\UI\UITextureCatalog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -340,6 +341,7 @@
     <ClCompile Include="Source\Game\UI\Elements\UIDimmer.cpp" />
     <ClCompile Include="Source\Game\UI\Elements\UIWidget.cpp" />
     <ClCompile Include="Source\Game\UI\UIManager.cpp" />
+    <ClCompile Include="Source\Game\UI\UITextureCatalog.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
