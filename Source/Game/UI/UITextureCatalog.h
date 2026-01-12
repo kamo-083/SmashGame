@@ -29,43 +29,43 @@ private:
 	struct UITextures
 	{
 		// アイコン
-		TextureInfo icon_key;
-		TextureInfo icon_attackBasic;
-		TextureInfo icon_attackRolling;
-		TextureInfo icon_attackHeavy;
-		TextureInfo icon_camera;
+		TextureInfo icon_key;			// 操作キーのベース
+		TextureInfo icon_attackBasic;	// 通常攻撃
+		TextureInfo icon_attackRolling;	// 転がり攻撃
+		TextureInfo icon_attackHeavy;	// 重量攻撃
+		TextureInfo icon_camera;		// カメラ
 		TextureInfo icon_stampOn;		// スタンプ(有)
 		TextureInfo icon_stampOff;		// スタンプ(無)
 
 		// ウィンドウ
-		TextureInfo window_stageSelect;
-		TextureInfo window_result;
-		TextureInfo window_pause;
+		TextureInfo window_stageSelect;	// ステージ選択
+		TextureInfo window_result;		// リザルト
+		TextureInfo window_pause;		// ポーズ
 
 		// 矢印
-		TextureInfo arrow_normal;
-		TextureInfo arrow_rotate;
+		TextureInfo arrow_normal;	// 通常
+		TextureInfo arrow_rotate;	// 回転
 
 		// 文字
-		TextureInfo text_titleLogo;		// ロゴ
+		TextureInfo text_titleLogo;		// タイトルロゴ
 		TextureInfo text_titleStart;	// ゲーム開始
 		TextureInfo text_titleExit;		// ゲーム終了
-		TextureInfo text_keyAction;		// 操作
-		TextureInfo text_conditions;	// キーの動作
+		TextureInfo text_keyAction;		// キーの動作
+		TextureInfo text_conditions;	// ゴール開放条件
 		TextureInfo text_keys;			// キー
-		TextureInfo text_pauseOptions;
-		TextureInfo text_pauseTitle;
-		TextureInfo text_number;
-		TextureInfo text_clearTime;
+		TextureInfo text_pauseOptions;	// ポーズの選択肢
+		TextureInfo text_pauseTitle;	// ポーズのタイトル
+		TextureInfo text_number;		// 数字
+		TextureInfo text_clearTime;		// クリアタイム
 	};
 
 	// 画像サイズ
 	struct TexturesSize
 	{
 		// アイコン
-		static constexpr DirectX::SimpleMath::Vector2 ICON_ATTACK = { 200.0f,200.0f };		// 攻撃UIアイコン
+		static constexpr DirectX::SimpleMath::Vector2 ICON_ATTACK = { 200.0f,200.0f };		// 攻撃アイコン
 		static constexpr DirectX::SimpleMath::Vector2 ICON_CAM = { 200.0f,135.0f };			// カメラアイコン
-		static constexpr DirectX::SimpleMath::Vector2 ICON_KEY = { 150.0f, 150.0f };		// キーアイコンのベース
+		static constexpr DirectX::SimpleMath::Vector2 ICON_KEY = { 150.0f, 150.0f };		// 操作キーのベース
 		static constexpr DirectX::SimpleMath::Vector2 ICON_STAMP = { 250.0f,250.0f };		// スタンプアイコン
 
 		// ウィンドウ

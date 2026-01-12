@@ -13,6 +13,7 @@
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Data/TextureData.h"
 #include "Source/Game/Data/InputKeyLoader.h"
+#include "Source/Game/UI/Elements/Atlas/ActionAtlas.h"
 #include "Source/Game/UI/Controls/OperationUI.h"
 #include "Source/Game/UI/Displays/ClearConditionsUI.h"
 
@@ -37,6 +38,28 @@ class UIManager
 private:
 	// ディマーの暗さ
 	static constexpr float DIMMER_DARKNESS = 0.5f;
+
+	// ステージのUI関連
+	struct StageUI
+	{
+		// 移動・攻撃
+		static constexpr DirectX::SimpleMath::Vector2 ATTACK_KEY_POS = { 900.0f, 600.0f };
+		static constexpr DirectX::SimpleMath::Vector2 MOVE_KEY_POS = { 1130.0f, 600.0f };
+		static constexpr float MOVE_KEY_ADJUST = 80.0f;
+
+		// 攻撃変更
+		static constexpr DirectX::SimpleMath::Vector2 ATTACK_ARROW_ADJUST = { 0.0f, -30.0f };
+		static constexpr float ATTACK_SCALE = 0.8f;
+		
+		// カメラ回転
+		static constexpr DirectX::SimpleMath::Vector2 CAMERA_POS = { 1080.0f, 130.0f };
+		static constexpr DirectX::SimpleMath::Vector2 CAMERA_ARROW_ADJUST = { 0.0f, -70.0f };
+		static constexpr float CAMERA_SCALE = 0.8f;
+
+		// 操作方法テキスト
+		static constexpr DirectX::SimpleMath::Vector2 TEXT_POS = { 1150.0f, 200.0f };
+		static constexpr float TEXT_SCALE = 0.25f;
+	};
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -150,5 +173,9 @@ private:
 	void CreatePauseUI();
 
 	// 操作方法UIの作成
-	void CreateInputHintUI();
+	void CreateInputHintUI(
+		DirectX::SimpleMath::Vector2 position,
+		float scale,
+		std::vector<DirectX::Keyboard::Keys> keys,
+		ActionAtlas::ActionType action);
 };

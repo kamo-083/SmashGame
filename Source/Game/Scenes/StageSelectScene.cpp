@@ -21,8 +21,8 @@
 /**
  * @brief コンストラクタ
  *
- * @param pSM		シーンを管理しているマネージャ
- * @param pUR		リソースを管理しているマネージャ
+ * @param pSM		シーンマネージャのポインタ
+ * @param pUR		リソースマネージャのポインタ
  * @param stages	ステージ数
  */
 StageSelectScene::StageSelectScene(SceneManager* pSM, UserResources* pUR, int stages)
@@ -181,29 +181,32 @@ void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
 			windowSize.x / static_cast<float>(STAGES) * i + NUMBER_ADJUST_INTERVAL,
 			windowSize.y * 0.25f
 		);
+		// ステージ番号描画の設定
 		m_numberBoard->SetNumber(i + 1);
 		m_numberBoard->SetPosition(number_pos);
 		m_numberBoard->SetScale(scale);
+		// ステージ番号の描画
 		m_numberBoard->Draw(context);
 
-		// スタンプ
+		// スタンプ描画の設定
 		DirectX::SimpleMath::Vector2 stamp_pos = m_stagePanels[i]->GetParam().pos;
+		stamp_pos.y += stamp_size.y * 0.25f;
+		ID3D11ShaderResourceView* stamp_tex = nullptr;	// 画像のポインタ
+		DirectX::SimpleMath::Color stamp_color;			// 画像の色
 		if (m_stageCleared[i])	// クリア済みかどうか
 		{
 			// スタンプ
-			stamp_pos.y += stamp_size.y * 0.25f;
-			context.spriteBatch->Draw(
-				m_textureCatalog->GetTextures().icon_stampOn.texture.Get(),
-				stamp_pos, &stamp_rect, DirectX::Colors::Red, 0.0f, stamp_size * 0.5f, scale);
+			stamp_tex = m_textureCatalog->GetTextures().icon_stampOn.texture.Get();
+			stamp_color = DirectX::Colors::Red;
 		}
 		else
 		{
 			// 枠のみ
-			stamp_pos.y += stamp_size.y * 0.25f;
-			context.spriteBatch->Draw(
-				m_textureCatalog->GetTextures().icon_stampOff.texture.Get(), 
-				stamp_pos, &stamp_rect, DirectX::Colors::Gray, 0.0f, stamp_size * 0.5f, scale);
+			stamp_tex = m_textureCatalog->GetTextures().icon_stampOff.texture.Get();
+			stamp_color = DirectX::Colors::Gray;
 		}
+		// スタンプを描画
+		context.spriteBatch->Draw(stamp_tex, stamp_pos, &stamp_rect, stamp_color, 0.0f, stamp_size * 0.5f, scale);
 	}
 
 	context.spriteBatch->End();

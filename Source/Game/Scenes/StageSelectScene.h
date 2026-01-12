@@ -74,9 +74,6 @@ private:
 	// ステージパネル
 	std::vector<std::unique_ptr<Button>> m_stagePanels;
 
-	// ステージパネルのレンダーテクスチャ
-	std::vector <std::unique_ptr<RenderTexture>> m_panelTextures;
-
 	// ステージクリア情報
 	std::vector<bool> m_stageCleared;
 

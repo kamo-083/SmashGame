@@ -24,7 +24,7 @@ SceneManager::SceneManager(UserResources* pUserResources)
 	, m_pRequestedScene{ nullptr }
 	, m_userResources{ pUserResources }
 {
-	// UIの仕様画像カタログを作成
+	// UIの使用画像カタログを作成
 	m_UITextureCatalog = std::make_shared<UITextureCatalog>();
 	// 画像を読み込み
 	m_UITextureCatalog->Load(pUserResources->GetResourceManager());

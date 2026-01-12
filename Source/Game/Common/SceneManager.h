@@ -100,8 +100,8 @@ public:
 	// シーン遷移演出の取得
 	BlockTransition* GetTransition() { return m_transition.get(); }
 
-	// UI仕様画像のカタログの取得
-	std::shared_ptr<UITextureCatalog> GetUITextureCatalog() { return m_UITextureCatalog; }
+	// UI使用画像のカタログの取得
+	std::shared_ptr<UITextureCatalog>& GetUITextureCatalog() { return m_UITextureCatalog; }
 
 	// 共有データの登録
 	void SetSharedData(std::string name, std::string data);

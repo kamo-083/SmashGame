@@ -6,5 +6,6 @@
     "attack": "Space",
     "rotate_left": "Z",
     "rotate_right": "C",
-    "mode_switch": "X"
+    "mode_switch": "X",
+    "pause": "Q"
 }

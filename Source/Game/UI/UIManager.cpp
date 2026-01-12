@@ -7,7 +7,6 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "UIManager.h"
-#include "Source/Game/Common/KeyConverter.h"
 #include "Source/Game/UI/UITextureCatalog.h"
 #include "Source/Game/UI/Elements/UIDimmer.h"
 #include "Source/Game/UI/Elements/UIWidget.h"
@@ -22,7 +21,8 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param windowSize		ウィンドウサイズ
+ * @param textureCatalog	使用画像のカタログ
  */
 UIManager::UIManager(
 	DirectX::SimpleMath::Vector2 windowSize,
@@ -78,26 +78,25 @@ void UIManager::SetupStageUI(
 	// 攻撃
 	std::vector<DirectX::Keyboard::Keys> attack_keys;
 	attack_keys.push_back(keyConfig.attack);
-	CreateKeyGuideUI(DirectX::SimpleMath::Vector2(900, 600), attack_keys, pKbTracker);
+	CreateKeyGuideUI(StageUI::ATTACK_KEY_POS, attack_keys, pKbTracker);
 	// 移動
-	DirectX::SimpleMath::Vector2 base_pos = { 1130, 600 };
-	float adjust_pos = 80;
+	DirectX::SimpleMath::Vector2 base_pos = StageUI::MOVE_KEY_POS;
 	// 前
 	std::vector<DirectX::Keyboard::Keys> forward_keys;
 	forward_keys.push_back(keyConfig.move_forward);
-	CreateKeyGuideUI({ base_pos.x, base_pos.y - adjust_pos }, forward_keys, pKbTracker);
+	CreateKeyGuideUI({ base_pos.x, base_pos.y - StageUI::MOVE_KEY_ADJUST }, forward_keys, pKbTracker);
 	// 後ろ
 	std::vector<DirectX::Keyboard::Keys> backward_keys;
 	backward_keys.push_back(keyConfig.move_backward);
-	CreateKeyGuideUI({ base_pos.x, base_pos.y + adjust_pos }, backward_keys, pKbTracker);
+	CreateKeyGuideUI({ base_pos.x, base_pos.y + StageUI::MOVE_KEY_ADJUST }, backward_keys, pKbTracker);
 	// 左
 	std::vector<DirectX::Keyboard::Keys> left_keys;
 	left_keys.push_back(keyConfig.move_left);
-	CreateKeyGuideUI({ base_pos.x - adjust_pos, base_pos.y }, left_keys, pKbTracker);
+	CreateKeyGuideUI({ base_pos.x - StageUI::MOVE_KEY_ADJUST, base_pos.y }, left_keys, pKbTracker);
 	// 右
 	std::vector<DirectX::Keyboard::Keys> right_keys;
 	right_keys.push_back(keyConfig.move_right);
-	CreateKeyGuideUI({ base_pos.x + adjust_pos, base_pos.y }, right_keys, pKbTracker);
+	CreateKeyGuideUI({ base_pos.x + StageUI::MOVE_KEY_ADJUST, base_pos.y }, right_keys, pKbTracker);
 
 	// 攻撃方法
 	OperationUI::Textures opTextures;	// テクスチャ情報
@@ -109,15 +108,24 @@ void UIManager::SetupStageUI(
 	opKeys.left = keyConfig.rotate_left;
 	opKeys.right = keyConfig.rotate_right;
 	OperationUI::OperationUIDesc opUIDesc = { opKeys, opTextures };
-	opUIDesc.arrowRotateAdjustPos = DirectX::SimpleMath::Vector2(0.0f, -30.0f);
-	opUIDesc.UIScale = 0.8f;
+	opUIDesc.arrowRotateAdjustPos = StageUI::CAMERA_ARROW_ADJUST;
+	opUIDesc.UIScale = StageUI::ATTACK_SCALE;
 	CreateAttackUI(opUIDesc);
 
 	// カメラ回転
 	opUIDesc.textures.icon = m_textureCatalog->GetTextures().icon_camera;
-	opUIDesc.arrowRotateAdjustPos = DirectX::SimpleMath::Vector2(0.0f, -70.0f);
-	opUIDesc.UIScale = 0.8f;
-	CreateCameraUI(opUIDesc, DirectX::SimpleMath::Vector2(1080.0f, 130.0f));
+	opUIDesc.arrowRotateAdjustPos = StageUI::CAMERA_ARROW_ADJUST;
+	opUIDesc.UIScale = StageUI::CAMERA_SCALE;
+	CreateCameraUI(opUIDesc, StageUI::CAMERA_POS);
+
+	// 操作説明
+	// ポーズ
+	std::vector<DirectX::Keyboard::Keys> openPauseKey;
+	openPauseKey.push_back(keyConfig.pause);
+	CreateInputHintUI(
+		StageUI::TEXT_POS, StageUI::TEXT_SCALE,
+		openPauseKey, ActionAtlas::ActionType::OPEN_PAUSE
+	);
 }
 
 
@@ -170,6 +178,12 @@ void UIManager::Draw(RenderContext context)
 		ui->Draw(context);
 	}
 
+	// 操作方法UIの描画
+	for (auto& inputUI : m_inputHintUI)
+	{
+		inputUI->Draw(context);
+	}
+
 	// 攻撃方法UIの描画
 	if (m_attackUI) m_attackUI->Draw(context);
 
@@ -212,9 +226,17 @@ void UIManager::Finalize()
 	for (auto& ui : m_elements)
 	{
 		ui->Finalize();
+		ui.reset();
 	}
 	m_elements.clear();
 
+	// 操作方法UIの終了
+	for (auto& inputUI : m_inputHintUI)
+	{
+		inputUI->Finalize();
+		inputUI.reset();
+	}
+	m_inputHintUI.clear();
 	// リザルトUIの終了
 	if (m_resultUI) m_resultUI->Finalize();
 	m_resultUI.reset();
@@ -409,18 +431,29 @@ void UIManager::CreatePauseUI()
 /**
  * @brief 操作方法UIの作成
  *
- * @param なし
+ * @param position	表示位置
+ * @param scale		大きさ 
+ * @param keys		対応キー
+ * @param action	動作
  *
  * @return なし
  */
-void UIManager::CreateInputHintUI()
+void UIManager::CreateInputHintUI(
+	DirectX::SimpleMath::Vector2 position,
+	float scale,
+	std::vector<DirectX::Keyboard::Keys> keys,
+	ActionAtlas::ActionType action)
 {
+	// 画像を設定
 	InputHintUI::Textures textures;
-	textures.action;
+	textures.action = m_textureCatalog->GetTextures().text_keyAction.texture;
 	textures.key = m_textureCatalog->GetTextures().text_keys.texture;
 
 	// UIを作成
 	std::unique_ptr<InputHintUI> inputUI = std::make_unique<InputHintUI>();
-	//inputUI->Initialize();
+	inputUI->Initialize(
+		textures, position, scale,
+		static_cast<long>(m_textureCatalog->GetTextures().text_keys.size.x),
+		keys, action);
 	m_inputHintUI.push_back(std::move(inputUI));
 }

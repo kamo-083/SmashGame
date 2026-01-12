@@ -39,6 +39,8 @@ public:
 		DirectX::Keyboard::Keys rotate_left;	// 攻撃・カメラの左回転
 		DirectX::Keyboard::Keys rotate_right;	// 攻撃・カメラの右回転
 		DirectX::Keyboard::Keys mode_switch;	// 攻撃・カメラのモード切替
+
+		DirectX::Keyboard::Keys pause;			// ポーズ
 	};
 
 
@@ -120,6 +122,11 @@ public:
 		if (j.contains("mode_switch") && j["mode_switch"].is_string())
 		{
 			data.mode_switch = KeyConverter::ConvertToKeys(j["mode_switch"]);
+		}
+		
+		if (j.contains("pause") && j["pause"].is_string())
+		{
+			data.pause = KeyConverter::ConvertToKeys(j["pause"]);
 		}
 
 		// 情報を登録

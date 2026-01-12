@@ -21,11 +21,10 @@
 /**
  * @brief コンストラクタ
  *
- * @param pSM				シーンを管理しているマネージャ
- * @param pUR				リソースを管理しているマネージャ
+ * @param pSM	シーンマネージャのポインタ
+ * @param pUR	リソースマネージャのポインタ
  */
-TitleScene::TitleScene(
-	SceneManager* pSM, UserResources* pUR)
+TitleScene::TitleScene(SceneManager* pSM, UserResources* pUR)
 	: Scene{ pSM,pUR }
 	, m_textureCatalog(pSM->GetUITextureCatalog())
 	, m_selectButton{ 0 }
