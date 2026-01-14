@@ -619,7 +619,7 @@ void StageScene::UpdateResult(float elapsedTime)
 	if (transition->IsClose() && transition->IsEnd())
 	{
 		// クリア情報を登録
-		m_sceneManager->SetSharedData("cleared" + std::to_string(STAGE_NUM), "cleared");
+		m_sceneManager->SetSharedData("cleared" + std::to_string(STAGE_NUM), "true");
 		// BGMの停止
 		m_userResources->GetAudioManager()->Stop("stageBGM");
 		// シーン移動

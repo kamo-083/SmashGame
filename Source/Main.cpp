@@ -17,6 +17,7 @@ using namespace DirectX;
 namespace
 {
     std::unique_ptr<Game> g_game;
+    bool g_startFullscreen = false;
 }
 
 LPCWSTR g_szAppName = L"スマッシュラッシュ";
@@ -64,7 +65,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         wcex.hIconSm = LoadIconW(wcex.hInstance, L"IDI_ICON");
         if (!RegisterClassExW(&wcex))
             return 1;
-
+        
         // Create window
         int w, h;
         g_game->GetDefaultSize(w, h);
@@ -87,6 +88,29 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         // TODO: Change nCmdShow to SW_SHOWMAXIMIZED to default to fullscreen.
 
         GetClientRect(hwnd, &rc);
+
+        static bool s_fullscreen = false;
+
+        // 画面モード選択
+        int winMode = MessageBoxW(nullptr, L"フルスクリーンにしますか？", L"画面モード設定", MB_YESNO);
+
+        if (winMode == IDYES)
+        {
+            // フルスクリーン
+            g_startFullscreen = true;
+            SetWindowLongPtr(hwnd, GWL_STYLE, WS_POPUP);
+            SetWindowLongPtr(hwnd, GWL_EXSTYLE, WS_EX_TOPMOST);
+
+            SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+            ShowWindow(hwnd, SW_SHOWMAXIMIZED);
+        }
+        else
+        {
+            // ウィンドウ
+            g_startFullscreen = false;
+            ShowWindow(hwnd, nCmdShow);
+        }
 
         // メモリリーク検出
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -146,8 +170,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     static bool s_in_sizemove = false;
     static bool s_in_suspend = false;
     static bool s_minimized = false;
-    static bool s_fullscreen = false;
-    // TODO: Set s_fullscreen to true if defaulting to fullscreen.
+    static bool s_fullscreen = g_startFullscreen;
 
     auto game = reinterpret_cast<Game*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
@@ -287,8 +310,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 SetWindowLongPtr(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
                 SetWindowLongPtr(hWnd, GWL_EXSTYLE, 0);
 
-                int width = 800;
-                int height = 600;
+                int width = 1280;
+                int height = 720;
                 if (game)
                     game->GetDefaultSize(width, height);
 

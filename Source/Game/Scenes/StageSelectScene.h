@@ -143,4 +143,7 @@ private:
 
 	// 操作UIの設定
 	void SetupInputUI();
+
+	// ステージ状態のリセット
+	void ResetStages();
 };

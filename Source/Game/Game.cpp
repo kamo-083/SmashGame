@@ -118,7 +118,7 @@ void Game::Render()
     auto context = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Add your rendering code here.
-    
+
     RenderContext renderContext
     {
         SimpleMath::Matrix::Identity,

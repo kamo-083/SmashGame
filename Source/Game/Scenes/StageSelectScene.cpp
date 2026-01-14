@@ -91,8 +91,8 @@ void StageSelectScene::Initialize()
 	for (int i = 0; i < STAGES; i++)
 	{
 		std::string data = m_sceneManager->GetSharedData("cleared" + std::to_string(i + 1));
-		if (data == "cleared")	m_stageCleared[i] = true;
-		else					m_stageCleared[i] = false;
+		if (data == "true")	m_stageCleared[i] = true;
+		else				m_stageCleared[i] = false;
 	}
 }
 
@@ -108,6 +108,9 @@ void StageSelectScene::Initialize()
 void StageSelectScene::Update(float elapsedTime)
 {
 	DirectX::Keyboard::KeyboardStateTracker* kb = m_userResources->GetKeyboardTracker();
+
+	// Pキーでクリア状況をリセット
+	if (kb->pressed.P) ResetStages();
 
 	// 選択ステージ切り替え
 	ChangeSelectStage(kb);
@@ -521,4 +524,24 @@ void StageSelectScene::SetupInputUI()
 		ActionAtlas::ActionType::TO_TITLE);
 	// 配列に追加
 	m_inputHintUI.push_back(std::move(inputUI));
+}
+
+
+
+/**
+ * @brief ステージ状態のリセット
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageSelectScene::ResetStages()
+{
+	for (int i = 0; i < STAGES; i++)
+	{
+		std::string data = m_sceneManager->GetSharedData("cleared" + std::to_string(i + 1));
+		if (data == "true")	m_sceneManager->SetSharedData("cleared" + std::to_string(i + 1), "empty");
+			
+		m_stageCleared[i] = false;
+	}
 }
