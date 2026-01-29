@@ -16,8 +16,9 @@
  * @param ‚È‚µ
  */
 Sky::Sky()
-	: m_skyDome{ nullptr }
-	, m_pPosition{ nullptr }
+	:
+	m_skyDome{ nullptr },
+	m_pPosition{ nullptr }
 {
 
 }

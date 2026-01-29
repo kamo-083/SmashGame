@@ -20,14 +20,15 @@
 Player_AttackHeavy::Player_AttackHeavy(
 	Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 	const AttackParam& param)
-	: ATTACK_TIME(param.time)
-	, ATTACK_SIZE(param.size)
-	, ATTACK_FORCE(param.force)
-	, COOL_TIME(param.cool)
-	, m_pPlayer{ Player }
-	, m_pKbTracker{ kbTracker }
-	, m_attackTime{ 0.0f }
-	, m_stateType{ StateType::Attack }
+	:
+	ATTACK_TIME(param.time),
+	ATTACK_SIZE(param.size),
+	ATTACK_FORCE(param.force),
+	COOL_TIME(param.cool),
+	m_pPlayer{ Player },
+	m_pKbTracker{ kbTracker },
+	m_attackTime{ 0.0f },
+	m_stateType{ StateType::Attack }
 {
 
 }
@@ -118,7 +119,7 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
  *
  * @return Ç»Çµ
  */
-void Player_AttackHeavy::Render(RenderContext& context)
+void Player_AttackHeavy::Render(const RenderContext& context)
 {
 	// ÉèÅ[ÉãÉhçsóÒÇÃçÏê¨
 	DirectX::SimpleMath::Matrix world;

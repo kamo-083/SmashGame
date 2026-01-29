@@ -20,8 +20,9 @@
  * @param pUserResources ユーザーリソースのポインタ
  */
 Scene::Scene(SceneManager* pSceneManager, UserResources* pUserResources)
-	: m_sceneManager{ pSceneManager }
-	, m_userResources{ pUserResources }
+	:
+	m_sceneManager{ pSceneManager },
+	m_userResources{ pUserResources }
 {
 
 }

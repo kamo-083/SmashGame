@@ -17,8 +17,9 @@
  * @param ‚È‚µ
  */
 OperationUI::OperationUI()
-	: m_active{ false }
-	, m_scale{ 0.0f }
+	: 
+	m_active{ false },
+	m_scale{ 0.0f }
 {
 
 };
@@ -46,7 +47,7 @@ OperationUI::~OperationUI()
  */
 void OperationUI::Initialize(
 	const OperationUIDesc& desc,
-	DirectX::SimpleMath::Vector2 centerPos,
+	const DirectX::SimpleMath::Vector2& centerPos,
 	float arrowInterval,
 	bool active)
 {
@@ -105,7 +106,7 @@ void OperationUI::Update(float elapsedTime)
  *
  * @return ‚È‚µ
  */
-void OperationUI::Draw(RenderContext context)
+void OperationUI::Draw(const RenderContext& context)
 {
 	// –îˆó‚ð•`‰æ
 	for (auto& widget : m_widgets)

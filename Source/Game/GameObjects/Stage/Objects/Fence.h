@@ -76,12 +76,12 @@ public:
 		ResourceManager* pRM,
 		CollisionManager* pCM,
 		int num,
-		DirectX::SimpleMath::Vector3 position = CENTER_POS,
-		DirectX::SimpleMath::Vector3 scale = DEFAULT_SCALE,
-		DirectX::SimpleMath::Vector3 angle = ANGLE);
+		const DirectX::SimpleMath::Vector3& position = CENTER_POS,
+		const DirectX::SimpleMath::Vector3& scale = DEFAULT_SCALE,
+		const DirectX::SimpleMath::Vector3& angle = ANGLE);
 
 	// ï`âÊèàóù
-	void Draw(RenderContext& context);
+	void Draw(const RenderContext& context);
 
 	// èIóπèàóù
 	void Finalize();

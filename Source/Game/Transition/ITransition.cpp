@@ -37,15 +37,16 @@ ITransition::ITransition(
 	ShaderManager* pSM,
 	ResourceManager* pRM,
 	const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs, const ResourcesDesc& tex,
-	DirectX::SimpleMath::Vector2 windowSize, float interval)
-	: m_windowSize(windowSize)
-	, m_interval(interval)
-	, m_rate(0.0f)
-	, m_open(true)
-	, m_vs(nullptr)
-	, m_ps(nullptr)
-	, m_gs(nullptr)
-	, m_texture(nullptr)
+	const DirectX::SimpleMath::Vector2& windowSize, float interval)
+	:
+	m_windowSize(windowSize),
+	m_interval(interval),
+	m_rate(0.0f),
+	m_open(true),
+	m_vs(nullptr),
+	m_ps(nullptr),
+	m_gs(nullptr),
+	m_texture(nullptr)
 {
 	// プリミティブバッチの作成
 	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(pDR->GetD3DDeviceContext());

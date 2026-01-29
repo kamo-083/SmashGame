@@ -31,7 +31,7 @@ public:
 	* @param ‚È‚µ
 	*/	
 	ExternalForce()
-		:m_externalForceValue{ DirectX::SimpleMath::Vector3::Zero }
+		: m_externalForceValue{ DirectX::SimpleMath::Vector3::Zero }
 	{
 
 	}
@@ -63,7 +63,7 @@ public:
 	*
 	* @return ‚È‚µ
 	*/
-	void Set(DirectX::SimpleMath::Vector3 force)
+	void Set(const DirectX::SimpleMath::Vector3& force)
 	{
 		m_externalForceValue = force;
 	}
@@ -76,7 +76,7 @@ public:
 	*
 	* @return ‚È‚µ
 	*/
-	void Add(DirectX::SimpleMath::Vector3 force)
+	void Add(const DirectX::SimpleMath::Vector3& force)
 	{
 		m_externalForceValue += force;
 	}

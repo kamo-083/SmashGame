@@ -25,7 +25,7 @@ private:
 public:
 	//コンストラクタ・デストラクタ
 	SphereCollider();
-	SphereCollider(DirectX::SimpleMath::Vector3 center,float radius);
+	SphereCollider(const DirectX::SimpleMath::Vector3& center,float radius);
 	~SphereCollider() = default;
 
 	//取得
@@ -33,7 +33,7 @@ public:
 	float GetRadius() const { return m_radius; }						//半径の取得
 
 	//設定
-	void SetCenter(DirectX::SimpleMath::Vector3 center) { m_center = center; }	//中心位置の設定
+	void SetCenter(const DirectX::SimpleMath::Vector3& center) { m_center = center; }	//中心位置の設定
 	void SetRadius(float radius) { m_radius = radius; }							//半径の設定
 };
 
@@ -65,9 +65,9 @@ private:
 public:
 	//コンストラクタ・デストラクタ
 	OBBCollider();
-	OBBCollider(DirectX::SimpleMath::Vector3 center,
-				DirectX::SimpleMath::Quaternion rotation,
-				DirectX::SimpleMath::Vector3 halfLength);
+	OBBCollider(const DirectX::SimpleMath::Vector3& center,
+				const DirectX::SimpleMath::Quaternion& rotation,
+				const DirectX::SimpleMath::Vector3& halfLength);
 	~OBBCollider() = default;
 
 	//取得
@@ -80,9 +80,9 @@ public:
 	DirectX::SimpleMath::Quaternion GetRotation() const { return m_obb.rotation; }	//回転の取得
 
 	//設定
-	void SetCenter(DirectX::SimpleMath::Vector3 center) { m_obb.center = center; }					//中心位置の設定
-	void SetHalfLength(DirectX::SimpleMath::Vector3 halfLength) { m_obb.halfLength = halfLength; }  //中心座標から面までの長さの設定
-	void SetRotation(DirectX::SimpleMath::Quaternion rotation);										//回転の設定
+	void SetCenter(const DirectX::SimpleMath::Vector3& center) { m_obb.center = center; }					//中心位置の設定
+	void SetHalfLength(const DirectX::SimpleMath::Vector3& halfLength) { m_obb.halfLength = halfLength; }  //中心座標から面までの長さの設定
+	void SetRotation(const DirectX::SimpleMath::Quaternion& rotation);										//回転の設定
 };
 
 //球と球の当たり判定
@@ -123,16 +123,16 @@ bool TryAxis(
 
 // 指定された軸上での2つのOBBの投影半径を計算
 float CalculateProjectionRadius(
-	DirectX::SimpleMath::Vector3 axisA,
-	DirectX::SimpleMath::Vector3 extentA,
-	DirectX::SimpleMath::Vector3 extentB[3]);
+	const DirectX::SimpleMath::Vector3& axisA,
+	const DirectX::SimpleMath::Vector3& extentA,
+	const DirectX::SimpleMath::Vector3 extentB[3]);
 
 // 分離軸に対するOBBの投影半径を算出
 float LenSegOnSeparateAxis(
-	DirectX::SimpleMath::Vector3* sep,
-	DirectX::SimpleMath::Vector3* e1,
-	DirectX::SimpleMath::Vector3* e2,
-	DirectX::SimpleMath::Vector3* e3 = 0);
+	const DirectX::SimpleMath::Vector3& sep,
+	const DirectX::SimpleMath::Vector3& e1,
+	const DirectX::SimpleMath::Vector3& e2,
+	const DirectX::SimpleMath::Vector3& e3 = DirectX::SimpleMath::Vector3::Zero);
 
 // 3点から平面を算出する
 DirectX::SimpleMath::Plane CalculatePlane(

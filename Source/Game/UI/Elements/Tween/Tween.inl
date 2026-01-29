@@ -21,12 +21,13 @@
  */
 template<typename TVec, typename TRot>
 Tween<TVec,TRot>::Tween(typename Tween<TVec, TRot>::TweenData data)
-	: m_data{ data }
-	, m_elapsedTime{ 0.0f }
-	, m_playing{ false }
-	, m_finished{ false }
-	, m_played{ false }
-	, m_reverse{ false }
+	:
+	m_data{ data },
+	m_elapsedTime{ 0.0f },
+	m_playing{ false },
+	m_finished{ false },
+	m_played{ false },
+	m_reverse{ false }
 {
 	if (m_data.loop == Easing::PlaybackMode::Once_Reverse)
 	{

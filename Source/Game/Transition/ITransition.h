@@ -76,7 +76,7 @@ public:
 		ShaderManager* pSM,
 		ResourceManager* pRM,
 		const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs, const ResourcesDesc& tex,
-		DirectX::SimpleMath::Vector2 windowSize, float interval);
+		const DirectX::SimpleMath::Vector2& windowSize, float interval);
 
 	// デストラクタ
 	~ITransition();
@@ -88,7 +88,7 @@ public:
 	virtual void Update(float elapsedTime) = 0;
 
 	// 描画処理
-	virtual void Draw(RenderContext context) = 0;
+	virtual void Draw(const RenderContext& context) = 0;
 
 	// 開く
 	void Open();

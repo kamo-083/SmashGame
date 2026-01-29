@@ -82,14 +82,14 @@ public:
 public:
 	// ‰Šú‰»ˆ—
 	void Initialize(
-		Textures textures,
-		DirectX::SimpleMath::Vector2 windowSize);
+		const Textures& textures,
+		const DirectX::SimpleMath::Vector2& windowSize);
 
 	// XVˆ—
 	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
-	void Draw(RenderContext context) override;
+	void Draw(const RenderContext& context) override;
 
 	// I—¹ˆ—
 	void Finalize() override;

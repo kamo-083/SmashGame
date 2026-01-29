@@ -20,13 +20,14 @@
  * @param pScene	シーンのポインタ
  */
 Goal::Goal(ID3D11DeviceContext* context, StageScene* pScene)
-	: m_position{ DirectX::SimpleMath::Vector3::Zero }
-	, m_goalCollider{}
-	, m_tableCollider{}
-	, m_isGoal{ false }
-	, m_canGoal{ false }
-	, m_pScene{ pScene }
-	, m_tweenParam{}
+	:
+	m_position{ DirectX::SimpleMath::Vector3::Zero },
+	m_goalCollider{},
+	m_tableCollider{},
+	m_isGoal{ false },
+	m_canGoal{ false },
+	m_pScene{ pScene },
+	m_tweenParam{}
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -55,7 +56,7 @@ Goal::~Goal()
 void Goal::Initialize(
 	ResourceManager* pRM,
 	CollisionManager* pCM, 
-	DirectX::SimpleMath::Vector3 position)
+	const DirectX::SimpleMath::Vector3& position)
 {
 	// 位置の設定
 	m_position = position;
@@ -101,7 +102,7 @@ void Goal::Update(float elapsedTime)
  *
  * @return なし
  */
-void Goal::Draw(RenderContext& context, DebugFont* debugFont)
+void Goal::Draw(const RenderContext& context, DebugFont* debugFont)
 {
 	// モデルの描画
 	// サカナのテーブル

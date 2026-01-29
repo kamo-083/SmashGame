@@ -54,7 +54,7 @@ public:
 // ‘€ì
 public:
 	// •`‰æˆ—
-	void Draw(RenderContext context);
+	void Draw(const RenderContext& context);
 
 
 // æ“¾/İ’è

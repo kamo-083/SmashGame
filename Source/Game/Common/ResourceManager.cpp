@@ -21,7 +21,7 @@
  * @param ‚È‚µ
  */
 ResourceManager::ResourceManager(ID3D11Device* pDevice)
-	:m_pDevice{ pDevice }
+	: m_pDevice{ pDevice }
 {
 }
 
@@ -361,7 +361,7 @@ DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, 
  *
  * @return •ÏŠ·Œã‚Ì•¶Žš—ñ
  */
-std::wstring ResourceManager::StringToWchar(std::string str)
+std::wstring ResourceManager::StringToWchar(const std::string& str)
 {
 	return std::wstring(str.begin(), str.end());
 }

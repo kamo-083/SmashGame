@@ -81,14 +81,14 @@ public:
 public:
 	// 出現処理
 	void Spawn(
-		DirectX::SimpleMath::Vector3 spawnPos,
-		DirectX::SimpleMath::Vector3 goalPos);
+		const DirectX::SimpleMath::Vector3& spawnPos,
+		const DirectX::SimpleMath::Vector3& goalPos);
 
 	// 更新処理
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(RenderContext& context, DebugFont* debugFont);
+	void Draw(const RenderContext& context, DebugFont* debugFont);
 
 	// 終了処理
 	void Finalize();
@@ -101,7 +101,7 @@ public:
 // 内部実装
 private:
 	// 出現時のアニメーションを設定
-	void SetupSpawnAnim(DirectX::SimpleMath::Vector3 startPos);
+	void SetupSpawnAnim(const DirectX::SimpleMath::Vector3& startPos);
 
 	// 移動時のアニメーションを設定
 	void SetupFlyingAnim();

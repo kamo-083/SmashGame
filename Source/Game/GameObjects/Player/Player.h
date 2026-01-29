@@ -189,13 +189,13 @@ public:
 	// 操作
 public:
 	// 初期化処理
-	void Initialize(PlayerParams param, InputKeyLoader::InputKeyInfo keyConfig);
+	void Initialize(const PlayerParams& param, const InputKeyLoader::InputKeyInfo& keyConfig);
 
 	// 更新処理
 	void Update(const float& elapsedTime);
 
 	// 描画処理
-	void Draw(RenderContext& context, DebugFont* debugFont);
+	void Draw(const RenderContext& context, DebugFont* debugFont);
 
 	// 終了処理
 	void Finalize();
@@ -233,9 +233,9 @@ public:
 	bool PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* kb) const;
 
 	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }				// 位置の取得
-	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }		// 位置の設定
+	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }		// 位置の設定
 	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				// 移動速度の取得
-	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }		// 移動速度の設定
+	void SetVelocity(const DirectX::SimpleMath::Vector3& vel) { m_velocity = vel; }		// 移動速度の設定
 	float GetRadius() const { return RADIUS; }										// 半径サイズの取得
 	float GetMass() const { return MASS; }											// 質量の取得
 	float GetMaxSpeed() const { return MAX_SPEED; }									// 最高移動速度の取得

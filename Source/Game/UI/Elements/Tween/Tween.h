@@ -114,7 +114,7 @@ public:
 	TweenData GetTweenData() const { return m_data; }
 
 	// トゥイーン情報を設定
-	void SetTweenData(TweenData data) { m_data = data; }
+	void SetTweenData(const TweenData& data) { m_data = data; }
 
 	// イージング済みの進行度を取得
 	float GetEasingProgress() const { return Easing::EaseValue(m_data.ease, m_elapsedTime / m_data.duration); }

@@ -21,18 +21,19 @@
 Player_AttackRolling::Player_AttackRolling(
 	Player* Player, Camera* camera,
 	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-	AttackParam param)
-	: ATTACK_TIME(param.time)
-	, ATTACK_SIZE(param.size)
-	, ATTACK_FORCE(param.force)
-	, GROUND_SPEED(param.groundSpeed)
-	, AIR_SPEED(param.airSpeed)
-	, m_pPlayer{ Player }
-	, m_pKbTracker{ kbTracker }
-	, m_pCamera{ camera }
-	, m_attackTime{ 0.0f }
-	, m_moveForce{ DirectX::SimpleMath::Vector3::Zero }
-	, m_stateType{ StateType::Attack }
+	const AttackParam& param)
+	: 
+	ATTACK_TIME(param.time),
+	ATTACK_SIZE(param.size),
+	ATTACK_FORCE(param.force),
+	GROUND_SPEED(param.groundSpeed),
+	AIR_SPEED(param.airSpeed),
+	m_pPlayer{ Player },
+	m_pKbTracker{ kbTracker },
+	m_pCamera{ camera },
+	m_attackTime{ 0.0f },
+	m_moveForce{ DirectX::SimpleMath::Vector3::Zero },
+	m_stateType{ StateType::Attack }
 {
 
 }
@@ -126,7 +127,7 @@ void Player_AttackRolling::Update(const float& elapsedTime)
  *
  * @return Ç»Çµ
  */
-void Player_AttackRolling::Render(RenderContext& context)
+void Player_AttackRolling::Render(const RenderContext& context)
 {
 	// ÉèÅ[ÉãÉhçsóÒÇÃçÏê¨
 	DirectX::SimpleMath::Matrix world;

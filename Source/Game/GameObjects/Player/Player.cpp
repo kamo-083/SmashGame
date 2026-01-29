@@ -23,27 +23,28 @@
 Player::Player(
 	UserResources* pUR, EffectManager* pEM,
 	StageScene* pScene, const PlayerInfoLoader::PlayerInfo& info)
-	: RADIUS{ info.radius }
-	, MASS{ info.mass }
-	, MAX_SPEED{ info.max_speed }
-	, DYNAMIC_FRICTION_FORCE{ info.dynamic_friction }
-	, STATIC_FRICTION_FORCE{ info.static_friction }
-	, m_pScene{ pScene }
-	, m_rotY{ 0.0f }
-	, m_isBounce{ false }
-	, m_model{ nullptr }
-	, m_pResourceManager{ nullptr }
-	, m_collider{}
-	, m_attackForce{ 0.0f }
-	, m_isAttack{ false }
-	, m_attackCollider{}
-	, m_attackType{}
-	, m_pAttackUI{ nullptr }
-	, m_currentState{ nullptr }
-	, m_pKeyMode{ nullptr }
-	, m_pCollisionManager{ nullptr }
-	, m_handleBody{ 0 }
-	, m_handleAttack{ 0 }
+	:
+	RADIUS{ info.radius },
+	MASS{ info.mass },
+	MAX_SPEED{ info.max_speed },
+	DYNAMIC_FRICTION_FORCE{ info.dynamic_friction },
+	STATIC_FRICTION_FORCE{ info.static_friction },
+	m_pScene{ pScene },
+	m_rotY{ 0.0f },
+	m_isBounce{ false },
+	m_model{ nullptr },
+	m_pResourceManager{ nullptr },
+	m_collider{},
+	m_attackForce{ 0.0f },
+	m_isAttack{ false },
+	m_attackCollider{},
+	m_attackType{},
+	m_pAttackUI{ nullptr },
+	m_currentState{ nullptr },
+	m_pKeyMode{ nullptr },
+	m_pCollisionManager{ nullptr },
+	m_handleBody{ 0 },
+	m_handleAttack{ 0 }
 {
 	// 当たり判定のデバッグ描画用球
 	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUR->GetDeviceResources()->GetD3DDeviceContext());
@@ -81,7 +82,7 @@ Player::~Player()
  *
  * @return なし
  */
-void Player::Initialize(PlayerParams param, InputKeyLoader::InputKeyInfo keyConfig)
+void Player::Initialize(const PlayerParams& param, const InputKeyLoader::InputKeyInfo& keyConfig)
 {
 	// 位置の初期化
 	m_position = START_POS;
@@ -150,7 +151,7 @@ void Player::Update(const float& elapsedTime)
  *
  * @return なし
  */
-void Player::Draw(RenderContext& context, DebugFont* debugFont)
+void Player::Draw(const RenderContext& context, DebugFont* debugFont)
 {
 	// 現在の状態を描画する
 	m_currentState->Render(context);

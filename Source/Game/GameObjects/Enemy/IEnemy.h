@@ -110,24 +110,25 @@ protected:
 public:
 	// コンストラクタ
 	IEnemy(EnemyInfoLoader::EnemyInfo info, StageScene* pScene)
-		: RADIUS{ info.radius }
-		, SPEED{ info.move_speed }
-		, MASS{ info.mass }
-		, MAX_SPEED{ info.max_speed }
-		, STATIC_FRICTION{ info.static_friction }
-		, DYNAMIC_FRICTION{ info.dynamic_friction }
-		, RESTITUTION{ info.restitution }
-		, m_pScene{ pScene }
-		, m_currentState{ nullptr }
-		, m_rotY{ 0.0f }
-		, m_isAttack{ false }
-		, m_attackForce{ 0.0f }
-		, m_dropRespawn{ false }
-		, m_model{ nullptr }
-		, m_pCollisionManager{ nullptr }
-		, m_pResourceManager{ nullptr }
-		, m_handleBody{ 0 }
-		, m_handleAttack{ 0 }
+		:
+		RADIUS{ info.radius },
+		SPEED{ info.move_speed },
+		MASS{ info.mass },
+		MAX_SPEED{ info.max_speed },
+		STATIC_FRICTION{ info.static_friction },
+		DYNAMIC_FRICTION{ info.dynamic_friction },
+		RESTITUTION{ info.restitution },
+		m_pScene{ pScene },
+		m_currentState{ nullptr },
+		m_rotY{ 0.0f },
+		m_isAttack{ false },
+		m_attackForce{ 0.0f },
+		m_dropRespawn{ false },
+		m_model{ nullptr },
+		m_pCollisionManager{ nullptr },
+		m_pResourceManager{ nullptr },
+		m_handleBody{ 0 },
+		m_handleAttack{ 0 }
 	{}
 
 	// デストラクタ
@@ -149,7 +150,7 @@ public:
 	virtual void Update(float elapsedTime) = 0;
 
 	// 描画処理
-	virtual void Draw(RenderContext& context, DebugFont* debugFont) = 0;
+	virtual void Draw(const RenderContext& context, DebugFont* debugFont) = 0;
 
 	// 終了処理
 	virtual void Finalize() = 0;
@@ -158,7 +159,7 @@ public:
 	virtual void Respawn() = 0;
 
 	// プレイヤーとの距離を計算
-	virtual void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius) = 0;
+	virtual void CalculatePlayerRelationData(const DirectX::SimpleMath::Vector3& pos, float radius) = 0;
 
 	// 攻撃の当たり判定の有効設定
 	void SetAttackCollisionEnabled(bool enabled) 
@@ -170,9 +171,9 @@ public:
 	StateType GetStateType() { return m_currentState->GetStateType(); }			// 現在のステートの種類を取得
 	IState* GetNowState() { return m_currentState; }							// 現在のステートへのポインタを取得
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_position; }			// 座標を取得
-	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }	// 座標を設定
-	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }			// 移動速度を取得
-	void SetVelocity(DirectX::SimpleMath::Vector3 vel) { m_velocity = vel; }	// 移動速度を設定
+	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }	// 座標を設定
+	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				// 移動速度を取得
+	void SetVelocity(const DirectX::SimpleMath::Vector3& vel) { m_velocity = vel; }	// 移動速度を設定
 	SphereCollider* GetCollider() { return &m_collider; }						// 当たり判定を取得
 	PhysicsObject* GetPhysics() { return m_physics.get(); }						// 物理演算オブジェクトを取得 
 	float GetMass()  const { return MASS; }										// 質量を取得

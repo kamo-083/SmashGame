@@ -58,7 +58,7 @@ UIDimmer::~UIDimmer()
  *
  * @return ‚È‚µ
  */
-void UIDimmer::Draw(RenderContext context)
+void UIDimmer::Draw(const RenderContext& context)
 {
 	context.deviceContext->OMSetBlendState(context.states->NonPremultiplied(), nullptr, 0xFFFFFFFF);
 	context.deviceContext->OMSetDepthStencilState(context.states->DepthNone(), 0);

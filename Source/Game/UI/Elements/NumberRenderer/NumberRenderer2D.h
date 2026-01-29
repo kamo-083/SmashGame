@@ -55,7 +55,7 @@ public:
 	void Initialize(const int& number) override;
 
 	// 描画処理
-	void Draw(RenderContext& renderContext) override;
+	void Draw(const RenderContext& renderContext) override;
 
 	// 終了処理
 	void Finalize() override;
@@ -63,7 +63,7 @@ public:
 	// 取得/設定
 public:
 	// 表示位置を設定
-	void SetPosition(const DirectX::SimpleMath::Vector2 pos) { m_position = pos; }
+	void SetPosition(const DirectX::SimpleMath::Vector2& pos) { m_position = pos; }
 
 	// スケールを設定
 	void SetScale(const float scale) { m_scale = scale; }

@@ -14,8 +14,9 @@
  * @brief コンストラクタ
  */
 SphereCollider::SphereCollider()
-	: m_center{ 0.0f,0.0f,0.0f }
-	, m_radius{ 0.0f }
+	:
+	m_center{ 0.0f,0.0f,0.0f },
+	m_radius{ 0.0f }
 {
 }
 
@@ -25,9 +26,10 @@ SphereCollider::SphereCollider()
  * @param center 球の中心座標
  * @param radius 球の半径
  */
-SphereCollider::SphereCollider(DirectX::SimpleMath::Vector3 center, float radius)
-	: m_center{ center }
-	, m_radius{ radius }
+SphereCollider::SphereCollider(const DirectX::SimpleMath::Vector3& center, float radius)
+	: 
+	m_center{ center },
+	m_radius{ radius }
 {
 }
 
@@ -55,9 +57,9 @@ OBBCollider::OBBCollider()
  * @param halfLength OBBの中心座標から面までの長さ
  */
 OBBCollider::OBBCollider(
-	DirectX::SimpleMath::Vector3 center,
-	DirectX::SimpleMath::Quaternion rotation,
-	DirectX::SimpleMath::Vector3 halfLength)
+	const DirectX::SimpleMath::Vector3& center,
+	const DirectX::SimpleMath::Quaternion& rotation,
+	const DirectX::SimpleMath::Vector3& halfLength)
 {
 	m_obb.center = center;
 	m_obb.halfLength = halfLength;
@@ -105,7 +107,7 @@ float OBBCollider::GetHalfLength(int n) const
 	return 0.0f;
 }
 
-void OBBCollider::SetRotation(DirectX::SimpleMath::Quaternion rotation)
+void OBBCollider::SetRotation(const DirectX::SimpleMath::Quaternion& rotation)
 {
 	m_obb.rotation = rotation;
 	AxisFromQuaternion(m_obb.rotation, m_obb.axis);
@@ -213,7 +215,7 @@ bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB)
  */
 bool IsHit(const OBBCollider& obb, const SphereCollider& sphere)
 {
-	DirectX::SimpleMath::Vector3 vec{ 0.0f,0.0f,0.0f };
+	DirectX::SimpleMath::Vector3 vec{ 0.0f, 0.0f, 0.0f };
 	DirectX::SimpleMath::Vector3 delta = sphere.GetCenter() - obb.GetCenter();
 
 	//各軸についてはみ出た部分のベクトルを算出
@@ -510,12 +512,13 @@ bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
  *
  * @return 2つのOBBを指定軸に投影した際の合計半径
  */
-float CalculateProjectionRadius(DirectX::SimpleMath::Vector3 axisA, 
-								DirectX::SimpleMath::Vector3 extentA, 
-								DirectX::SimpleMath::Vector3 extentB[3])
+float CalculateProjectionRadius(
+	const DirectX::SimpleMath::Vector3& axisA,
+	const DirectX::SimpleMath::Vector3& extentA,
+	const DirectX::SimpleMath::Vector3  extentB[3])
 {
 	float rA = extentA.Length();
-	float rB = LenSegOnSeparateAxis(&axisA, &extentB[0], &extentB[1], &extentB[2]);
+	float rB = LenSegOnSeparateAxis(axisA, extentB[0], extentB[1], extentB[2]);
 
 	return rA + rB;
 }
@@ -527,21 +530,21 @@ float CalculateProjectionRadius(DirectX::SimpleMath::Vector3 axisA,
  * @param sep 分離軸（標準化済みの単位ベクトル）
  * @param e1  OBBの第1軸ベクトル（正規化済み×半径）
  * @param e2  OBBの第2軸ベクトル（正規化済み×半径）
- * @param e3  OBBの第3軸ベクトル（正規化済み×半径）※nullptr可
+ * @param e3  OBBの第3軸ベクトル（正規化済み×半径）※ 0でも可
  *
  * @return 分離軸上でのOBBの投影半径（線分長の半分）
  */
 float LenSegOnSeparateAxis(
-	DirectX::SimpleMath::Vector3* sep,
-	DirectX::SimpleMath::Vector3* e1,
-	DirectX::SimpleMath::Vector3* e2,
-	DirectX::SimpleMath::Vector3* e3)
+	const DirectX::SimpleMath::Vector3& sep,
+	const DirectX::SimpleMath::Vector3& e1,
+	const DirectX::SimpleMath::Vector3& e2,
+	const DirectX::SimpleMath::Vector3& e3)
 {
 	//3つの内積の絶対値の和で投影線分長を計算
 	//分離軸Sepは標準化されていること
-	float r1 = fabs(sep->Dot(*e1));
-	float r2 = fabs(sep->Dot(*e2));
-	float r3 = e3 ? (fabs(sep->Dot(*e3))) : 0.0f;
+	float r1 = fabs(sep.Dot(e1));
+	float r2 = fabs(sep.Dot(e2));
+	float r3 = e3 != DirectX::SimpleMath::Vector3::Zero ? (fabs(sep.Dot(e3))) : 0.0f;
 
 	return r1 + r2 + r3;
 }

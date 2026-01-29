@@ -27,10 +27,8 @@ private:
 
 	// “®–€CŒW”
 	float m_dynamicFriction;
-
 	// Ã~–€CŒW”
 	float m_staticFriction;
-
 	// ˆÚ“®ó‘Ôƒtƒ‰ƒO
 	bool m_moving;
 
@@ -42,9 +40,10 @@ public:
 	* @param staticF  Ã~–€CŒW”
 	*/
 	Friction(float dynamicF = GLOBAL_DYNAMIC_FLICTION, float staticF = GLOBAL_STATIC_FLICTION)
-		:m_dynamicFriction{ dynamicF }
-		,m_staticFriction{ staticF }
-		,m_moving{false}
+		:
+		m_dynamicFriction{ dynamicF },
+		m_staticFriction{ staticF },
+		m_moving{false}
 	{
 
 	}

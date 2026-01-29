@@ -62,7 +62,7 @@ private:
 public:
 	// コンストラクタ
 	NumberRenderer3D(
-		DirectX::SimpleMath::Vector2 spriteSize,
+		const DirectX::SimpleMath::Vector2& spriteSize,
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 		int digit,
 		DX::DeviceResources* pDR,
@@ -78,22 +78,22 @@ public:
 	void Initialize(const int& number) override;
 
 	// 描画処理
-	void Draw(RenderContext& renderContext) override;
+	void Draw(const RenderContext& renderContext) override;
 
 	// 終了処理
 	void Finalize() override;
 
 	// ビルボード行列を作成
 	void CreateBillboard(
-		DirectX::SimpleMath::Vector3 eye,
-		DirectX::SimpleMath::Vector3 up
+		const DirectX::SimpleMath::Vector3& eye,
+		const DirectX::SimpleMath::Vector3& up
 	);
 
 
 	// 取得/設定
 public:
 	// 座標を設定
-	void SetPosition(DirectX::SimpleMath::Vector3 pos) { m_position = pos; }
+	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }
 
 	// スケールを取得
 	float GetScale() const { return SCALE; }

@@ -31,8 +31,9 @@
 StageManager::StageManager(
 	StageScene* pScene,
 	ID3D11DepthStencilState* pDepthStencilState)
-	: m_pScene{ pScene }
-	, m_depthStencilState{ pDepthStencilState }
+	:
+	m_pScene{ pScene },
+	m_depthStencilState{ pDepthStencilState }
 {
 }
 
@@ -64,8 +65,9 @@ StageManager::~StageManager()
  *
  * @return なし
  */
-void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyManager* pEnM, EffectManager* pEfM,
-							   const std::string& path)
+void StageManager::CreateStage(
+	UserResources* pUR, CollisionManager* pCM, EnemyManager* pEnM, EffectManager* pEfM,
+	const std::string& path)
 {
 
 	// データの読み込み
@@ -163,7 +165,7 @@ void StageManager::CreateStage(UserResources* pUR, CollisionManager* pCM, EnemyM
  *
  * @return なし
  */
-void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp)
+void StageManager::Update(float elapsedTime, const DirectX::SimpleMath::Vector3& cameraPos, const DirectX::SimpleMath::Vector3& cameraUp)
 {
 	// 的の更新
 	for (auto& box : m_targetBoxes)
@@ -198,7 +200,7 @@ void StageManager::Update(float elapsedTime, DirectX::SimpleMath::Vector3 camera
  *
  * @return なし
  */
-void StageManager::Draw(RenderContext context, DebugFont* debugFont)
+void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 {
 	// 地面の描画
 	for (auto& ground : m_grounds)
@@ -235,7 +237,7 @@ void StageManager::Draw(RenderContext context, DebugFont* debugFont)
  *
  * @return なし
  */
-void StageManager::DrawTranslucent(RenderContext context, DebugFont* debugFont)
+void StageManager::DrawTranslucent(const RenderContext& context, DebugFont* debugFont)
 {
 	// エリアの描画
 	for (auto& area : m_areas)
@@ -297,7 +299,7 @@ void StageManager::Finalize()
 void StageManager::CreateOperate(
 	std::function<void()>& outOperate,
 	StageLoader::AreaActionDesc& desc,
-	DirectX::SimpleMath::Vector3 position)
+	const DirectX::SimpleMath::Vector3& position)
 {
 	if (desc.command == "EnableGoal")	// ゴールを可能にする
 	{

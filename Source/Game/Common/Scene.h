@@ -55,7 +55,7 @@ public:
 	virtual void Update(float elapsedTime) = 0;
 
 	// •`‰æˆ—
-	virtual void Render(RenderContext context, DebugFont* debugFont) = 0;
+	virtual void Render(RenderContext& context, DebugFont* debugFont) = 0;
 
 	// I—¹ˆ—
 	virtual void Finalize() = 0;

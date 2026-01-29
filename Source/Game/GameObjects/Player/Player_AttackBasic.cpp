@@ -20,13 +20,14 @@
 Player_AttackBasic::Player_AttackBasic(
 	Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 	const AttackParam& param)
-	: ATTACK_TIME(param.time)
-	, ATTACK_SIZE(param.size)
-	, ATTACK_FORCE(param.force)
-	, m_pPlayer{ Player }
-	, m_pKbTracker{ kbTracker }
-	, m_attackTime{ 0.0f }
-	, m_stateType{ StateType::Attack }
+	:
+	ATTACK_TIME(param.time),
+	ATTACK_SIZE(param.size),
+	ATTACK_FORCE(param.force),
+	m_pPlayer{ Player },
+	m_pKbTracker{ kbTracker },
+	m_attackTime{ 0.0f },
+	m_stateType{ StateType::Attack }
 {
 
 }
@@ -106,7 +107,7 @@ void Player_AttackBasic::Update(const float& elapsedTime)
  *
  * @return なし
  */
-void Player_AttackBasic::Render(RenderContext& context)
+void Player_AttackBasic::Render(const RenderContext& context)
 {
 	// ワールド行列を計算
 	DirectX::SimpleMath::Matrix world;

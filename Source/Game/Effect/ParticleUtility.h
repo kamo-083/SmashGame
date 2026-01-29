@@ -44,8 +44,8 @@ private:
 public:
 	// コンストラクタ
 	ParticleUtility(
-		DirectX::SimpleMath::Vector3 position,
-		ParticleData params);
+		const DirectX::SimpleMath::Vector3& position,
+		const ParticleData& params);
 
 	// デストラクタ
 	~ParticleUtility() = default;

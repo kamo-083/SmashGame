@@ -90,13 +90,13 @@ public:
 	void Initialize(
 		ResourceManager* pRM,
 		CollisionManager* pCM, 
-		DirectX::SimpleMath::Vector3 position);
+		const DirectX::SimpleMath::Vector3& position);
 
 	// 更新処理
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(RenderContext& context, DebugFont* debugFont);
+	void Draw(const RenderContext& context, DebugFont* debugFont);
 
 	// 終了処理
 	void Finalize();
@@ -105,7 +105,7 @@ public:
 // 取得/設定
 public:
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_position; }
-	OBBCollider GetCollider(){ return m_goalCollider; }		// 当たり判定の取得
+	OBBCollider GetCollider() const { return m_goalCollider; }		// 当たり判定の取得
 	bool IsGoal() const { return m_isGoal; }						// ゴールフラグの取得
 	bool IsCanGoal() const { return m_canGoal; }					// ゴール可能フラグの取得
 

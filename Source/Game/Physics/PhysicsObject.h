@@ -64,7 +64,7 @@ public:
 	// 跳ね返り処理
 	void Reflection(
 		DirectX::SimpleMath::Vector3& velocity,
-		DirectX::SimpleMath::Vector3& normal,
+		const DirectX::SimpleMath::Vector3& normal,
 		float restitution = RESTITUTION_COEFFICIENT);
 
 	// 転がり処理
@@ -86,25 +86,22 @@ public:
 	void ResetGroundInfo();
 
 	// 法線が地面かどうかを取得
-	static bool IsGroundNormal(const DirectX::SimpleMath::Vector3 normal);
+	static bool IsGroundNormal(const DirectX::SimpleMath::Vector3& normal);
 
 	// 接地面情報の設定
-	void SetGroundInfo(const DirectX::SimpleMath::Vector3 normal);
-
-	// 接触面の法線ベクトルを取得
-	DirectX::SimpleMath::Vector3& GetGroundNormal() { return m_groundNormal; }
+	void SetGroundInfo(const DirectX::SimpleMath::Vector3& normal);
 
 	// 地面に振れているかを取得
 	bool IsOnGround() const { return m_onGround; }
 
 	// 角速度の加算
-	void AddAngVelocity(DirectX::SimpleMath::Vector3 angVel);
+	void AddAngVelocity(const DirectX::SimpleMath::Vector3& angVel);
 
 private:
 	// 反射ベクトルの計算
 	DirectX::SimpleMath::Vector3 CalculateReflectionVector(
-		DirectX::SimpleMath::Vector3 velocity,
-		DirectX::SimpleMath::Vector3 normal);
+		const DirectX::SimpleMath::Vector3& velocity,
+		const DirectX::SimpleMath::Vector3& normal);
 
 	// 角速度の減衰
 	void DampingAngularVelocity();

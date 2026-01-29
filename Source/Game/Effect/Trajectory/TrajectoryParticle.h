@@ -43,7 +43,7 @@ public:
 // ‘€ì
 public:
 	// XVˆ—
-	void Update(float elapsedTime, DirectX::SimpleMath::Vector3 pos, bool spawn, bool isRandom);
+	void Update(float elapsedTime, const DirectX::SimpleMath::Vector3& pos, bool spawn, bool isRandom);
 
 
 // æ“¾/İ’è

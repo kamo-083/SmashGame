@@ -45,8 +45,8 @@ Button::~Button()
  */
 void Button::Initialize(
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
-	const Tween2D::TweenData data,
-	DirectX::SimpleMath::Vector2 size,
+	const Tween2D::TweenData& data,
+	const DirectX::SimpleMath::Vector2& size,
 	std::function<void()> operate)
 {
 	// ウィジェットの作成
@@ -81,7 +81,7 @@ void Button::Update(float elapsedTime)
  *
  * @return なし
  */
-void Button::Draw(RenderContext context)
+void Button::Draw(const RenderContext& context)
 {
 	// ウィジェットの描画
 	m_widget->Draw(context.spriteBatch);

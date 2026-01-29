@@ -16,7 +16,7 @@
  * @param なし
  */
 UIWidget::UIWidget()
-	: m_texture{ nullptr }
+	:	m_texture{ nullptr }
 {
 
 }
@@ -43,10 +43,11 @@ UIWidget::~UIWidget()
  *
  * @return なし
  */
-void UIWidget::Initialize(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
-						  const Tween2D::TweenData data,
-						  DirectX::SimpleMath::Vector2 size,
-						  bool play)
+void UIWidget::Initialize(
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
+	const Tween2D::TweenData& data,
+	const DirectX::SimpleMath::Vector2& size,
+	bool play)
 {
 	// テクスチャ・アニメーションの設定
 	m_texture = texture;
@@ -83,7 +84,7 @@ void UIWidget::Update(float elapsedTime)
  *
  * @return なし
  */
-void UIWidget::Draw(RenderContext context)
+void UIWidget::Draw(const RenderContext& context)
 {
 	// 透明度・画像サイズの設定
 	DirectX::SimpleMath::Color color = { 1, 1, 1, m_params.opacity };
@@ -115,10 +116,10 @@ void UIWidget::Draw(RenderContext context)
 void UIWidget::Draw(
 	DirectX::SpriteBatch* spriteBatch,
 	ID3D11ShaderResourceView* texture,
-	DirectX::SimpleMath::Vector2 pos,
+	const DirectX::SimpleMath::Vector2& pos,
 	const RECT* rect,
 	float rot,
-	DirectX::SimpleMath::Color col)
+	const DirectX::SimpleMath::Color& col)
 {
 	// 各引数が初期値だった場合、既に登録済みのデータを使う
 	// テクスチャ
@@ -133,8 +134,9 @@ void UIWidget::Draw(
 	}
 
 	// 座標
-	if (pos == DirectX::SimpleMath::Vector2::Zero) pos = m_params.pos;
-	else										   pos = m_params.pos + pos * m_params.scale;
+	DirectX::SimpleMath::Vector2 position = pos;
+	if (position == DirectX::SimpleMath::Vector2::Zero) position = m_params.pos;
+	else												position = m_params.pos + position * m_params.scale;
 
 	// 回転
 	if (rot == FLT_MAX) rot = m_params.rotation;
@@ -145,7 +147,7 @@ void UIWidget::Draw(
 	// 透明度
 	DirectX::SimpleMath::Color color = { col.x, col.y, col.z, m_params.opacity };
 
-	spriteBatch->Draw(texture, pos, rect, color, rot, origin, m_params.scale);
+	spriteBatch->Draw(texture, position, rect, color, rot, origin, m_params.scale);
 }
 
 
@@ -193,7 +195,7 @@ void UIWidget::TweenReset(bool play)
  *
  * @return なし
  */
-void UIWidget::SetParam(Tween2D::UIParams start, Tween2D::UIParams delta)
+void UIWidget::SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams& delta)
 {
 	// 現在のパラメータを更新
 	m_params = start;

@@ -32,7 +32,7 @@ public:
 	* @param gravityValue	èdóÕ
 	*/
 	Gravity(float gravityValue = GLOBAL_GRAVITY)
-		:m_gravityValue{ gravityValue }
+		: m_gravityValue{ gravityValue }
 	{
 
 	}

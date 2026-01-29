@@ -116,7 +116,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// 描画処理
-	void Draw(RenderContext& context, DebugFont* debugFont) override;
+	void Draw(const RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
 	void Finalize() override;
@@ -131,7 +131,7 @@ public:
 	void LimitVelocity();
 
 	// プレイヤーの距離・向きの計算
-	void CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos,float radius);
+	void CalculatePlayerRelationData(const DirectX::SimpleMath::Vector3& pos,float radius);
 
 
 // 取得/設定
@@ -156,10 +156,10 @@ public:
 // 内部実装
 private:
 	// 攻撃を受けて吹っ飛ぶ
-	void SmashPlayerAttack(SphereCollider collider, float power);
+	void SmashPlayerAttack(const SphereCollider& collider, float power);
 
 	// 地面・壁との反射
-	void ReflectOnCollision(DirectX::SimpleMath::Vector3 normal);
+	void ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal);
 
 	// エフェクトの設定
 	void SetupEffects(EffectManager* pEM, ResourceManager* pRM);

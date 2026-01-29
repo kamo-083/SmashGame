@@ -90,7 +90,7 @@ public:
 		ShaderManager* pSM,
 		ResourceManager* pRM,
 		const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs, const ResourcesDesc& tex,
-		DirectX::SimpleMath::Vector2 windowSize, DirectX::SimpleMath::Vector2 moveDir);
+		const DirectX::SimpleMath::Vector2& windowSize, const DirectX::SimpleMath::Vector2& moveDir);
 
 	// デストラクタ
 	~Background();
@@ -102,7 +102,7 @@ public:
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(RenderContext context);
+	void Draw(const RenderContext& context);
 
 	// シェーダーの作成
 	void LoadShader(

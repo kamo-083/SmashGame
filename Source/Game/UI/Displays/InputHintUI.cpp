@@ -17,9 +17,10 @@
  * @param ‚È‚µ
  */
 InputHintUI::InputHintUI()
-	: m_textSize(0)
-	, m_scale(1.0f)
-	, m_actionTextRect{}
+	: 
+	m_textSize(0),
+	m_scale(1.0f),
+	m_actionTextRect{}
 {
 
 }
@@ -44,8 +45,8 @@ InputHintUI::~InputHintUI()
  * @return ‚È‚µ
  */
 void InputHintUI::Initialize(
-	Textures textures,
-	DirectX::SimpleMath::Vector2 position,
+	const Textures& textures,
+	const DirectX::SimpleMath::Vector2& position,
 	float scale,
 	long textSize,
 	std::vector<DirectX::Keyboard::Keys> keys,
@@ -85,7 +86,7 @@ void InputHintUI::Initialize(
  *
  * @return ‚È‚µ
  */
-void InputHintUI::Draw(RenderContext context)
+void InputHintUI::Draw(const RenderContext& context)
 {
 	DirectX::SimpleMath::Vector2 pos = m_position;
 	DirectX::SimpleMath::Vector2 origin{ m_textSize * 0.5f };

@@ -75,7 +75,7 @@ private:
 	std::unique_ptr<Background> m_background;
 
 	// ‘€ì•û–@UI
-	std::vector < std::unique_ptr<InputHintUI>> m_inputHintUI;
+	std::vector<std::unique_ptr<InputHintUI>> m_inputHintUI;
 
 
 // ƒƒ“ƒoŠÖ”‚ÌéŒ¾ -------------------------------------------------
@@ -97,7 +97,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
-	void Render(RenderContext context, DebugFont* debugFont) override;
+	void Render(RenderContext& context, DebugFont* debugFont) override;
 
 	// I—¹ˆ—
 	void Finalize() override;
@@ -125,7 +125,7 @@ private:
 		DX::DeviceResources* pDR,
 		ShaderManager* pSM,
 		ResourceManager* pRM,
-		DirectX::SimpleMath::Vector2 windowSize);
+		const DirectX::SimpleMath::Vector2& windowSize);
 
 	// ‰¹º‚Ìİ’è
 	void SetupAudio(AudioManager* pAM);

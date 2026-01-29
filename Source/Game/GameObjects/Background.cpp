@@ -29,14 +29,15 @@ Background::Background(
 	ShaderManager* pSM,
 	ResourceManager* pRM,
 	const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs, const ResourcesDesc& tex,
-	DirectX::SimpleMath::Vector2 windowSize, DirectX::SimpleMath::Vector2 moveDir)
-	: m_windowSize(windowSize)
-	, m_moveDirection(moveDir)
-	, m_vs(nullptr)
-	, m_ps(nullptr)
-	, m_gs(nullptr)
-	, m_texture(nullptr)
-	, m_timer(0.0f)
+	const DirectX::SimpleMath::Vector2& windowSize, const DirectX::SimpleMath::Vector2& moveDir)
+	:
+	m_windowSize(windowSize),
+	m_moveDirection(moveDir),
+	m_vs(nullptr),
+	m_ps(nullptr),
+	m_gs(nullptr),
+	m_texture(nullptr),
+	m_timer(0.0f)
 {
 	// プリミティブバッチの作成
 	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(pDR->GetD3DDeviceContext());
@@ -91,7 +92,7 @@ void Background::Update(float elapsedTime)
  *
  * @return なし
  */
-void Background::Draw(RenderContext context)
+void Background::Draw(const RenderContext& context)
 {
 	// 別名
 	using matrix = DirectX::SimpleMath::Matrix;

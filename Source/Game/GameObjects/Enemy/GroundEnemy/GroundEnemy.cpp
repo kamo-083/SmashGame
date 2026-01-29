@@ -23,7 +23,8 @@ GroundEnemy::GroundEnemy(
 	const EnemyInfoLoader::EnemyInfo& info,
 	UserResources* pUR, EffectManager* pEM,
 	StageScene* pScene)
-	: IEnemy{ info,pScene }
+	: 
+	IEnemy{ info,pScene }
 	, ATTACK_DISTANCE(RADIUS * info.attack.distance_raito)
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
@@ -124,7 +125,7 @@ void GroundEnemy::Update(float elapsedTime)
  *
  * @return なし
  */
-void GroundEnemy::Draw(RenderContext& context, DebugFont* debugFont)
+void GroundEnemy::Draw(const RenderContext& context, DebugFont* debugFont)
 {
 	m_currentState->Render(context);
 
@@ -253,7 +254,7 @@ void GroundEnemy::LimitVelocity()
  *
  * @return なし
  */
-void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, float radius)
+void GroundEnemy::CalculatePlayerRelationData(const DirectX::SimpleMath::Vector3& pos, float radius)
 {
 	// 自身からプレイヤーへの方向を計算
 	m_playerRelationData.direction = pos - m_position;
@@ -274,7 +275,7 @@ void GroundEnemy::CalculatePlayerRelationData(DirectX::SimpleMath::Vector3 pos, 
  *
  * @return なし
  */
-void GroundEnemy::SmashPlayerAttack(SphereCollider collider, float power)
+void GroundEnemy::SmashPlayerAttack(const SphereCollider& collider, float power)
 {
 	MTV mtv = CalculateMTV(collider, m_collider);
 
@@ -304,7 +305,7 @@ void GroundEnemy::SmashPlayerAttack(SphereCollider collider, float power)
  *
  * @return なし
  */
-void GroundEnemy::ReflectOnCollision(DirectX::SimpleMath::Vector3 normal)
+void GroundEnemy::ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal)
 {
 	if (m_currentState != m_bouncingState.get()) return;
 

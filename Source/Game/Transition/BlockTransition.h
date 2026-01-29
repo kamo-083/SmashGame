@@ -54,7 +54,7 @@ public:
 		ShaderManager* pSM,
 		ResourceManager* pRM,
 		const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs, const ResourcesDesc& tex,
-		DirectX::SimpleMath::Vector2 windowSize, float interval);
+		const DirectX::SimpleMath::Vector2& windowSize, float interval);
 
 	// デストラクタ
 	~BlockTransition();
@@ -66,7 +66,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// 描画処理
-	void Draw(RenderContext context) override;
+	void Draw(const RenderContext& context) override;
 
 	// 終了処理
 	void Finalize();

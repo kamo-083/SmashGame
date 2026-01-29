@@ -27,8 +27,9 @@
 UIManager::UIManager(
 	DirectX::SimpleMath::Vector2 windowSize,
 	std::shared_ptr<UITextureCatalog> textureCatalog)
-	: m_windowSize(windowSize)
-	, m_textureCatalog(textureCatalog)
+	: 
+	m_windowSize(windowSize),
+	m_textureCatalog(textureCatalog)
 {
 
 }
@@ -164,7 +165,7 @@ void UIManager::Update(float elapsedTime)
  *
  * @return なし
  */
-void UIManager::Draw(RenderContext context)
+void UIManager::Draw(const RenderContext& context)
 {
 	// ディマーより下
 	context.spriteBatch->Begin(

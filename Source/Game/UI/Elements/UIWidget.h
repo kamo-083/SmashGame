@@ -53,23 +53,24 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
-					const Tween2D::TweenData data,
-					DirectX::SimpleMath::Vector2 size,
-					bool play = true);
+	void Initialize(
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
+		const Tween2D::TweenData& data,
+		const DirectX::SimpleMath::Vector2& size,
+		bool play = true);
 
 	// 更新処理
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(RenderContext context);
+	void Draw(const RenderContext& context);
 	void Draw(
 		DirectX::SpriteBatch* spriteBatch,
 		ID3D11ShaderResourceView* texture = nullptr,
-		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero,
+		const DirectX::SimpleMath::Vector2& pos = DirectX::SimpleMath::Vector2::Zero,
 		const RECT* rect = nullptr,
 		float rot = FLT_MAX,
-		DirectX::SimpleMath::Color col = DirectX::SimpleMath::Color(1, 1, 1));
+		const DirectX::SimpleMath::Color& col = DirectX::SimpleMath::Color(1, 1, 1));
 
 	// 終了処理
 	void Finalize();
@@ -89,7 +90,7 @@ public:
 	void SetTexture(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture) { m_texture = texture; }		// テクスチャの設定
 
 	// 新しいパラメータをセット
-	void SetParam(Tween2D::UIParams start, Tween2D::UIParams delta);
+	void SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams& delta);
 
 // 内部実装
 private:

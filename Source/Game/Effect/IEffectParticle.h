@@ -117,17 +117,17 @@ public:
 		ID3D11VertexShader* vertexShader,
 		ID3D11PixelShader* pixelShader,
 		ID3D11GeometryShader* geometryShader,
-		ParticleUtility::ParticleData data);
+		const ParticleUtility::ParticleData& data);
 
 	// ビルボードを作成
 	void CreateBillboard(
-		DirectX::SimpleMath::Vector3 target,
-		DirectX::SimpleMath::Vector3 eye,
-		DirectX::SimpleMath::Vector3 up,
-		DirectX::SimpleMath::Vector3 forward);
+		const DirectX::SimpleMath::Vector3& target,
+		const DirectX::SimpleMath::Vector3& eye,
+		const DirectX::SimpleMath::Vector3& up,
+		const DirectX::SimpleMath::Vector3& forward);
 
 	// 描画処理
-	void Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj);
+	void Draw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj);
 
 	// 有効かどうか
 	bool IsActive() const { return m_isActive; }

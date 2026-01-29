@@ -17,12 +17,13 @@
  * @param pUR	ユーザーリソースのポインタ
  */
 CountArea::CountArea(UserResources* pUR)
-	: m_mode(TriggerMode::ReachCount)
-	, m_targetNum(0)
-	, m_isTrigger(false)
-	, m_armed(false)
-	, m_insideList()
-	, m_collisionHandle(0)
+	:
+	m_mode(TriggerMode::ReachCount),
+	m_targetNum(0),
+	m_isTrigger(false),
+	m_armed(false),
+	m_insideList(),
+	m_collisionHandle(0)
 {
 	DX::DeviceResources* dr = pUR->GetDeviceResources();
 	ResourceManager*	 rm = pUR->GetResourceManager();
@@ -69,8 +70,8 @@ CountArea::~CountArea()
  */
 void CountArea::Initialize(
 	CollisionManager* pCM,
-	DirectX::SimpleMath::Vector3 position, float x, float z,
-	std::function<void()> operation, TriggerMode mode, int targetNum)
+	const DirectX::SimpleMath::Vector3& position, float x, float z,
+	const std::function<void()>& operation, TriggerMode mode, int targetNum)
 {
 	// 位置を設定
 	DirectX::SimpleMath::Vector3 pos = { position.x,position.y + AREA_HALF_HEIGHT,position.z };
@@ -112,7 +113,7 @@ void CountArea::Initialize(
  *
  * @return なし
  */
-void CountArea::Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp)
+void CountArea::Update(float elapsedTime, const DirectX::SimpleMath::Vector3& cameraPos, const DirectX::SimpleMath::Vector3& cameraUp)
 {
 	// エフェクトの更新
 	m_effect->Update(elapsedTime);
@@ -131,7 +132,7 @@ void CountArea::Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos
  *
  * @return なし
  */
-void CountArea::Draw(RenderContext& context, DebugFont* debugFont)
+void CountArea::Draw(const RenderContext& context, DebugFont* debugFont)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Vector3 size = m_collider.GetHalfLength();
@@ -142,9 +143,6 @@ void CountArea::Draw(RenderContext& context, DebugFont* debugFont)
 
 	// 数字の描画
 	m_numberBorad->Draw(context);
-
-	// 囲いの描画
-	//DrawArea(context, world, size);
 
 	// エフェクトの描画
 	m_effect->Draw(context);

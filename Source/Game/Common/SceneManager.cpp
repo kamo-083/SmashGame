@@ -19,10 +19,11 @@
  * @param pUserResources ユーザーリソースのポインタ
  */
 SceneManager::SceneManager(UserResources* pUserResources)
-	: m_scenes{}
-	, m_pCurrentScene{ nullptr }
-	, m_pRequestedScene{ nullptr }
-	, m_userResources{ pUserResources }
+	:
+	m_scenes{},
+	m_pCurrentScene{ nullptr },
+	m_pRequestedScene{ nullptr },
+	m_userResources{ pUserResources }
 {
 	// UIの使用画像カタログを作成
 	m_UITextureCatalog = std::make_shared<UITextureCatalog>();
@@ -30,12 +31,12 @@ SceneManager::SceneManager(UserResources* pUserResources)
 	m_UITextureCatalog->Load(pUserResources->GetResourceManager());
 
 	// ウィンドウサイズを取得
-	DirectX::SimpleMath::Vector2 windowSize ={ 
+	DirectX::SimpleMath::Vector2 windowSize = {
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom) };
 	// シーン遷移演出の作成
 	m_transition = std::make_unique<BlockTransition>(
-		m_userResources->GetDeviceResources(), 
+		m_userResources->GetDeviceResources(),
 		m_userResources->GetShaderManager(),
 		m_userResources->GetResourceManager(),
 		ITransition::ResourcesDesc{ "blockVS","Resources/Shaders/Transition/TransitionVS.cso" },
@@ -108,7 +109,7 @@ void SceneManager::Update(float elapsedTime)
  *
  * @return なし
  */
-void SceneManager::Render(RenderContext context)
+void SceneManager::Render(RenderContext& context)
 {
 	// 現在のシーンを描画
 	if (m_pCurrentScene)
@@ -163,7 +164,7 @@ void SceneManager::RequestSceneChange(const std::string& requestSceneName)
  *
  * @return なし
  */
-void SceneManager::SetSharedData(std::string name, std::string data)
+void SceneManager::SetSharedData(const std::string& name, const std::string& data)
 {
 	m_shaerdData[name] = data;
 }
@@ -176,7 +177,7 @@ void SceneManager::SetSharedData(std::string name, std::string data)
  *
  * @return データ内容
  */
-std::string SceneManager::GetSharedData(std::string name)
+std::string SceneManager::GetSharedData(const std::string& name)
 {
 	// データを検索
 	auto it = m_shaerdData.find(name);

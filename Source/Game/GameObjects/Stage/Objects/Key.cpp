@@ -19,8 +19,9 @@
  * @param pEM		エフェクトマネージャーのポインタ
  */
 Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM)
-	: m_state(KeyState::NONE)
-	, m_model(nullptr)
+	:
+	m_state(KeyState::NONE),
+	m_model(nullptr)
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 
@@ -52,8 +53,8 @@ Key::~Key()
  * @return なし
  */
 void Key::Spawn(
-	DirectX::SimpleMath::Vector3 spawnPos,
-	DirectX::SimpleMath::Vector3 goalPos)
+	const DirectX::SimpleMath::Vector3& spawnPos,
+	const DirectX::SimpleMath::Vector3& goalPos)
 {
 	// 使用済みならここで終了
 	if (m_state != KeyState::NONE) return;
@@ -136,7 +137,7 @@ void Key::Update(float elapsedTime)
  *
  * @return なし
  */
-void Key::Draw(RenderContext& context, DebugFont* debugFont)
+void Key::Draw(const RenderContext& context, DebugFont* debugFont)
 {
 	// 出現状態または移動状態なら描画
 	if (m_state == KeyState::SPAWN || m_state==KeyState::FLYING)
@@ -191,7 +192,7 @@ void Key::Finalize()
  *
  * @return なし
  */
-void Key::SetupSpawnAnim(DirectX::SimpleMath::Vector3 startPos)
+void Key::SetupSpawnAnim(const DirectX::SimpleMath::Vector3& startPos)
 {
 	// 開始
 	Tween3D::UIParams start = {

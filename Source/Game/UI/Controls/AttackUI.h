@@ -110,7 +110,7 @@ public:
 	void Update(float elapsedTime);
 
 	// ï`âÊ
-	void Draw(RenderContext context);
+	void Draw(const RenderContext& context);
 
 	// èIóπ
 	void Finalize();

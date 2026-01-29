@@ -97,14 +97,14 @@ public:
 	// ‰Šú‰»ˆ—
 	void Initialize(
 		CollisionManager* pCM,
-		DirectX::SimpleMath::Vector3 position, float x, float z,
-		std::function<void()> operation, TriggerMode mode, int targetNum = 0);
+		const DirectX::SimpleMath::Vector3& position, float x, float z,
+		const std::function<void()>& operation, TriggerMode mode, int targetNum = 0);
 
 	// XVˆ—
-	void Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);
+	void Update(float elapsedTime, const DirectX::SimpleMath::Vector3& cameraPos, const DirectX::SimpleMath::Vector3& cameraUp);
 
 	// •`‰æˆ—
-	void Draw(RenderContext& context, DebugFont* debugFont);
+	void Draw(const RenderContext& context, DebugFont* debugFont);
 
 	// I—¹ˆ—
 	void Finalize();

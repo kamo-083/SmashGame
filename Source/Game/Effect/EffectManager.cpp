@@ -12,9 +12,9 @@
 // インプットレイアウトを設定
 const std::vector<D3D11_INPUT_ELEMENT_DESC> EffectManager::INPUT_LAYOUT =
 {
-	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0,							 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0,	0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, sizeof(DirectX::SimpleMath::Vector3) + sizeof(DirectX::SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0,  sizeof(DirectX::SimpleMath::Vector3) + sizeof(DirectX::SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
 
 
@@ -26,11 +26,12 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> EffectManager::INPUT_LAYOUT =
  * @param states		  共通ステートのポインタ
  */
 EffectManager::EffectManager(DX::DeviceResources* deviceResources, DirectX::CommonStates* states)
-	: m_pDeviceResources{ deviceResources }
-	, m_pCamera{ nullptr }
-	, m_vs{ nullptr }
-	, m_ps{ nullptr }
-	, m_gs{ nullptr }
+	:
+	m_pDeviceResources{ deviceResources },
+	m_pCamera{ nullptr },
+	m_vs{ nullptr },
+	m_ps{ nullptr },
+	m_gs{ nullptr }
 {
 	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(m_pDeviceResources->GetD3DDeviceContext());
 	m_states = states;
@@ -144,7 +145,7 @@ void EffectManager::Update(float elapsedTime)
  *
  * @return なし
  */
-void EffectManager::Draw(DirectX::SimpleMath::Matrix proj)
+void EffectManager::Draw(const DirectX::SimpleMath::Matrix& proj)
 {
 	// 軌跡エフェクトの描画
 	for (std::unique_ptr<TrajectoryParticleData>& trajectory : m_trajectory)
@@ -196,7 +197,7 @@ void EffectManager::Finalize()
  * @return 軌跡エフェクトのポインタ
  */
 EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, ParticleUtility::ParticleData particleData,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, const ParticleUtility::ParticleData& particleData,
 	DirectX::SimpleMath::Vector3* position, bool random)
 {
 	// 軌跡エフェクトの作成
@@ -245,7 +246,7 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
  * @return 円形エフェクトのポインタ
  */
 EffectManager::CircleParticleData* EffectManager::CreateCircle(
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, ParticleUtility::ParticleData particleData,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, const ParticleUtility::ParticleData& particleData,
 	DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal)
 {
 	// 円形エフェクトの作成

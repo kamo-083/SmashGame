@@ -18,9 +18,10 @@
  * @param groundEnemy 敵のポインタ
  */
 GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info)
-	: MOVE_SPEED(info.move_speed)
-	, m_pGroundEnemy{ groundEnemy }
-	, m_stateType{ StateType::Walk }
+	: 
+	MOVE_SPEED(info.move_speed),
+	m_pGroundEnemy{ groundEnemy },
+	m_stateType{ StateType::Walk }
 {
 
 }
@@ -113,7 +114,7 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
  *
  * @return なし
  */
-void GroundEnemy_Walk::Render(RenderContext& context)
+void GroundEnemy_Walk::Render(const RenderContext& context)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;

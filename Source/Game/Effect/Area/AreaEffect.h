@@ -77,7 +77,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	AreaEffect(UserResources* pUR, SetupDesc desc);
+	AreaEffect(UserResources* pUR, const SetupDesc& desc);
 	AreaEffect(UserResources* pUR);
 
 	// デストラクタ
@@ -90,7 +90,7 @@ public:
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(RenderContext& context);
+	void Draw(const RenderContext& context);
 
 	// 終了処理
 	void Finalize();

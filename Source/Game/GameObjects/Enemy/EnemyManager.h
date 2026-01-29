@@ -105,7 +105,7 @@ public:
 	void Update(float elapsedTime, Player* pPlayer);
 
 	// •`‰æˆ—
-	void Draw(RenderContext& context);
+	void Draw(const RenderContext& context);
 
 	// I—¹ˆ—
 	void Finalize();

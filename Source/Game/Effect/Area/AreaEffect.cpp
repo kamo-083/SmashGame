@@ -22,7 +22,7 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> AreaEffect::INPUT_LAYOUT =
  * @param pUR	ユーザーリソースのポインタ
  * @param desc	初期設定の引数群
  */
-AreaEffect::AreaEffect(UserResources* pUR, SetupDesc desc)
+AreaEffect::AreaEffect(UserResources* pUR, const SetupDesc& desc)
 	: m_timer(0.0f)
 {
 	DX::DeviceResources* dr = pUR->GetDeviceResources();
@@ -92,7 +92,7 @@ void AreaEffect::Update(float elapsedTime)
  *
  * @return なし
  */
-void AreaEffect::Draw(RenderContext& context)
+void AreaEffect::Draw(const RenderContext& context)
 {
 	ConstBuffer cbuff;
 	cbuff.matView = context.view.Transpose();

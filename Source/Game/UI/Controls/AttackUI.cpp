@@ -19,8 +19,9 @@
  * @param windowHeight	ウィンドウの高さ
  */
 AttackUI::AttackUI(float windowWidth, float windowHeight)
-	: m_windowSize(windowWidth, windowHeight)
-	, m_lastDirection{ Direction::NONE }
+	:
+	m_windowSize(windowWidth, windowHeight),
+	m_lastDirection{ Direction::NONE }
 {
 	m_attackList.resize(static_cast<int>(AttackType::TYPE_NUM));
 	m_textures.resize(static_cast<int>(AttackType::TYPE_NUM));
@@ -144,7 +145,7 @@ void AttackUI::Update(float elapsedTime)
  *
  * @return なし
  */
-void AttackUI::Draw(RenderContext context)
+void AttackUI::Draw(const RenderContext& context)
 {
 	// 各攻撃アイコンの描画
 	for (auto& widget : m_widgets)

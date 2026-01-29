@@ -65,15 +65,15 @@ public:
 public:
 	// ‰Šú‰»ˆ—
 	void Initialize(
-		Textures textures,
-		DirectX::SimpleMath::Vector2 position,
+		const Textures& textures,
+		const DirectX::SimpleMath::Vector2& position,
 		float scale,
 		long textSize,
 		std::vector<DirectX::Keyboard::Keys> keys,
 		ActionAtlas::ActionType action);
 
 	// •`‰æˆ—
-	void Draw(RenderContext context);
+	void Draw(const RenderContext& context);
 
 	// I—¹ˆ—
 	void Finalize();

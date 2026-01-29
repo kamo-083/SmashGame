@@ -60,8 +60,8 @@ public:
 public:
 	// ‰Šú‰»ˆ—
 	void Initialize(
-		Textures textures,
-		DirectX::SimpleMath::Vector2 pos,
+		const Textures& textures,
+		const DirectX::SimpleMath::Vector2& pos,
 		std::vector<DirectX::Keyboard::Keys> keys,
 		DirectX::Keyboard::KeyboardStateTracker* pKbTracker
 	);
@@ -70,7 +70,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
-	void Draw(RenderContext context) override;
+	void Draw(const RenderContext& context) override;
 
 	// I—¹ˆ—
 	void Finalize() override;

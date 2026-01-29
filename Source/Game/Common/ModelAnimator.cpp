@@ -17,11 +17,12 @@
  * @param animation アニメーションのポインタ
  */
 ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animation)
-	: m_model{ model }
-	, m_animation{ animation }
-	, m_animElapsedTime{ 0.0f }
-	, m_animEndTime{ 0.0f }
-	, m_loop{ false }
+	:
+	m_model{ model },
+	m_animation{ animation },
+	m_animElapsedTime{ 0.0f },
+	m_animEndTime{ 0.0f },
+	m_loop{ false }
 
 {
 
@@ -101,7 +102,7 @@ void ModelAnimator::Update(float elapsedTime)
  *
  * @return なし
  */
-void ModelAnimator::Draw(RenderContext context, const DirectX::SimpleMath::Matrix& world)
+void ModelAnimator::Draw(const RenderContext& context, const DirectX::SimpleMath::Matrix& world)
 {
 	// ボーン数を取得する
 	size_t nbones = m_model->bones.size();

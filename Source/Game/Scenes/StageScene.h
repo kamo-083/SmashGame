@@ -136,7 +136,7 @@ public:
 	// コンストラクタ
 	StageScene(
 		SceneManager* pSM, UserResources* pUR, const int& stageNum,
-		std::string path, ClearConditionsUI::ConditionsType clearCondition);
+		const std::string& path, ClearConditionsUI::ConditionsType clearCondition);
 
 	// デストラクタ
 	~StageScene();
@@ -151,7 +151,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// 描画処理
-	void Render(RenderContext context, DebugFont* debugFont) override;
+	void Render(RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
 	void Finalize() override;
@@ -170,17 +170,17 @@ private:
 	void CreateDepthStencilState(ID3D11Device* device);
 
 	// 影の設定
-	void SetupShadow(RenderContext context);
+	void SetupShadow(const RenderContext& context);
 
 	// 影の描画
-	void DrawShadow(const DirectX::SimpleMath::Vector3 position, const float radius);
+	void DrawShadow(const DirectX::SimpleMath::Vector3& position, const float radius);
 
 	// 影用の頂点を作成
 	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> CreateVertexes(
-		const DirectX::SimpleMath::Vector3 position, const float radius);
+		const DirectX::SimpleMath::Vector3& position, const float radius);
 
 	// オブジェクトの影を描画
-	void DrawObjectsShadow(RenderContext context);
+	void DrawObjectsShadow(const RenderContext& context);
 
 	// ゲームプレイ中の更新
 	void UpdateGameplay(float elapsedTime);

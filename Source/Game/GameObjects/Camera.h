@@ -113,7 +113,7 @@ public:
 // 内部実装
 private:
 	// 指定座標を中心にカメラ位置を回転
-	DirectX::SimpleMath::Vector3 RotateEyeAroundPoint(DirectX::SimpleMath::Vector3 angle, DirectX::SimpleMath::Vector3 point) const;
+	DirectX::SimpleMath::Vector3 RotateEyeAroundPoint(const DirectX::SimpleMath::Vector3& angle, const DirectX::SimpleMath::Vector3& point) const;
 
 	// 角度の正規化
 	float NormalizeAngle(float angle);

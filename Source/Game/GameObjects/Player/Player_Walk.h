@@ -74,7 +74,7 @@ public:
 	void Update(const float& elapsedTime) override;
 
 	// •`‰æˆ—
-	void Render(RenderContext& context) override;
+	void Render(const RenderContext& context) override;
 
 	// I—¹ˆ—
 	void Finalize() override;

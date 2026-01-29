@@ -92,7 +92,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
-	void Draw(RenderContext context) override;
+	void Draw(const RenderContext& context) override;
 
 	// I—¹ˆ—
 	void Finalize() override;

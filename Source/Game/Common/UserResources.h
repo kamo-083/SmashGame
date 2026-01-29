@@ -54,16 +54,17 @@ public:
 
 	// コンストラクタ
 	UserResources()
-		: m_timer(nullptr)
-		, m_deviceResources(nullptr)
-		, m_keyboardTracker(nullptr)
-		, m_mouseTracker(nullptr)
-		, m_debugFont(nullptr)
-		, m_states(nullptr)
-		, m_spriteBatch(nullptr)
-		, m_resourceManager(nullptr)
-		, m_audioManager(nullptr)
-		, m_shaderManager(nullptr)
+		:
+		m_timer(nullptr),
+		m_deviceResources(nullptr),
+		m_keyboardTracker(nullptr),
+		m_mouseTracker(nullptr),
+		m_debugFont(nullptr),
+		m_states(nullptr),
+		m_spriteBatch(nullptr),
+		m_resourceManager(nullptr),
+		m_audioManager(nullptr),
+		m_shaderManager(nullptr)
 	{
 	}
 

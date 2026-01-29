@@ -16,8 +16,9 @@
  * @param groundEnemy 敵のポインタ
  */
 GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
-	: m_pGroundEnemy{ groundEnemy }
-	, m_stateType{ StateType::Bounce }
+	:
+	m_pGroundEnemy{ groundEnemy },
+	m_stateType{ StateType::Bounce }
 {
 }
 
@@ -98,7 +99,7 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
  *
  * @return なし
  */
-void GroundEnemy_Bounce::Render(RenderContext& context)
+void GroundEnemy_Bounce::Render(const RenderContext& context)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;

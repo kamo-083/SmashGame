@@ -16,18 +16,19 @@
  * @param なし
  */
 IEffectParticle::IEffectParticle()
-	: m_pDR(nullptr)
-	, m_CBuffer(nullptr)
-	, m_inputLayout(nullptr)
-	, m_batch(nullptr)
-	, m_states(nullptr)
-	, m_texture()
-	, m_vertices()
-	, m_vertexShader(nullptr)
-	, m_pixelShader(nullptr)
-	, m_geometryShader(nullptr)
-	, m_timer(0.0f)
-	, m_isActive(false)
+	:
+	m_pDR(nullptr),
+	m_CBuffer(nullptr),
+	m_inputLayout(nullptr),
+	m_batch(nullptr),
+	m_states(nullptr),
+	m_texture(),
+	m_vertices(),
+	m_vertexShader(nullptr),
+	m_pixelShader(nullptr),
+	m_geometryShader(nullptr),
+	m_timer(0.0f),
+	m_isActive(false)
 {
 
 }
@@ -59,7 +60,7 @@ void IEffectParticle::Create(
 	ID3D11VertexShader* vertexShader,
 	ID3D11PixelShader* pixelShader, 
 	ID3D11GeometryShader* geometryShader,
-	ParticleUtility::ParticleData data)
+	const ParticleUtility::ParticleData& data)
 {
 	{
 		// デバイスリソースの設定
@@ -102,10 +103,10 @@ void IEffectParticle::Create(
  * @return なし
  */
 void IEffectParticle::CreateBillboard(
-	DirectX::SimpleMath::Vector3 target,
-	DirectX::SimpleMath::Vector3 eye, 
-	DirectX::SimpleMath::Vector3 up,
-	DirectX::SimpleMath::Vector3 forward)
+	const DirectX::SimpleMath::Vector3& target,
+	const DirectX::SimpleMath::Vector3& eye, 
+	const DirectX::SimpleMath::Vector3& up,
+	const DirectX::SimpleMath::Vector3& forward)
 {
 	// 右ベクトルを計算する
 	DirectX::SimpleMath::Vector3 camRight = up.Cross(forward);
@@ -138,7 +139,7 @@ void IEffectParticle::CreateBillboard(
  *
  * @return なし
  */
-void IEffectParticle::Draw(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
+void IEffectParticle::Draw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
 {
 	ID3D11DeviceContext1* context = m_pDR->GetD3DDeviceContext();
 

@@ -48,7 +48,7 @@ public:
 
 	// エフェクトを発生させる
 	void SpawnParticleEffect(
-		DirectX::SimpleMath::Vector3 pos,
+		const DirectX::SimpleMath::Vector3& pos,
 		float range,
 		bool isRandom,
 		bool isHorizontal,

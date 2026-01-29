@@ -20,7 +20,6 @@
  */
 float Easing::EaseValue(EaseType ease, float t)
 {
-
 	switch (ease)
 	{
 	case Easing::EaseType::Linear:

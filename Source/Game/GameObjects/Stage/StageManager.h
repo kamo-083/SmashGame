@@ -87,11 +87,11 @@ public:
 		const std::string& path);
 
 	// 更新処理
-	void Update(float elapsedTime, DirectX::SimpleMath::Vector3 cameraPos, DirectX::SimpleMath::Vector3 cameraUp);
+	void Update(float elapsedTime, const DirectX::SimpleMath::Vector3& cameraPos, const DirectX::SimpleMath::Vector3& cameraUp);
 
 	// 描画処理
-	void Draw(RenderContext context, DebugFont* debugFont);
-	void DrawTranslucent(RenderContext context, DebugFont* debugFont);	// 半透明オブジェクト用
+	void Draw(const RenderContext& context, DebugFont* debugFont);
+	void DrawTranslucent(const RenderContext& context, DebugFont* debugFont);	// 半透明オブジェクト用
 
 	// 終了処理
 	void Finalize();
@@ -100,7 +100,7 @@ public:
 	void CreateOperate(
 		std::function<void()>& outOperate,
 		StageLoader::AreaActionDesc& desc,
-		DirectX::SimpleMath::Vector3 position);
+		const DirectX::SimpleMath::Vector3& position);
 
 
 // 取得/設定

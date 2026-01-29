@@ -34,8 +34,10 @@ TrajectoryParticle::TrajectoryParticle()
  *
  * @return なし
  */
-void TrajectoryParticle::Update(float elapsedTime, DirectX::SimpleMath::Vector3 pos, bool spawn, bool isRandom)
+void TrajectoryParticle::Update(float elapsedTime, const DirectX::SimpleMath::Vector3& pos, bool spawn, bool isRandom)
 {
+	DirectX::SimpleMath::Vector3 position = pos;
+
 	//パーティクルの生成
 	m_timer += elapsedTime;
 	if (m_timer > 0.1f && spawn)
@@ -52,12 +54,12 @@ void TrajectoryParticle::Update(float elapsedTime, DirectX::SimpleMath::Vector3 
 
 			float x = cosf(angle) * range;
 			float z = sinf(angle) * range;
-			pos += DirectX::SimpleMath::Vector3(x, 0.0f, z);
+			position += DirectX::SimpleMath::Vector3(x, 0.0f, z);
 		}
 
 		//設定
 		ParticleUtility particleUtility{
-			pos,
+			position,
 			m_particleData
 		};
 		m_particleUtility.push_back(particleUtility);

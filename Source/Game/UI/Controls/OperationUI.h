@@ -100,7 +100,7 @@ public:
 	// ‰Šú‰»ˆ—
 	void Initialize(
 		const OperationUIDesc& desc,
-		DirectX::SimpleMath::Vector2 centerPos,
+		const DirectX::SimpleMath::Vector2& centerPos,
 		float arrowInterval,
 		bool active
 	);
@@ -109,7 +109,7 @@ public:
 	void Update(float elapsedTime);
 
 	// •`‰æˆ—
-	void Draw(RenderContext context);
+	void Draw(const RenderContext& context);
 
 	// I—¹ˆ—
 	void Finalize();

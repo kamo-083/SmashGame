@@ -256,7 +256,7 @@ bool ShaderManager::LoadFile(const wchar_t* filePath, std::vector<uint8_t>& out)
  *
  * @return •ÏŠ·Œã‚Ì•¶Žš—ñ
  */
-std::wstring ShaderManager::StringToWchar(std::string str)
+std::wstring ShaderManager::StringToWchar(const std::string& str)
 {
 	return std::wstring(str.begin(), str.end());
 }

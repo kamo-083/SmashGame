@@ -13,11 +13,12 @@
  * @brief コンストラクタ
  */
 PhysicsObject::PhysicsObject()
-	: m_gravity{}
-	, m_externalForce{}
-	, m_friction{}
-	, m_onGround{ false }
-	, m_groundNormal{ DirectX::SimpleMath::Vector3::UnitY }
+	:
+	m_gravity{},
+	m_externalForce{},
+	m_friction{},
+	m_onGround{ false },
+	m_groundNormal{ DirectX::SimpleMath::Vector3::UnitY }
 {
 }
 
@@ -81,15 +82,16 @@ void PhysicsObject::CalculateForce(
  */
 void PhysicsObject::Reflection(
 	DirectX::SimpleMath::Vector3& velocity,
-	DirectX::SimpleMath::Vector3& normal,
+	const DirectX::SimpleMath::Vector3& normal,
 	float restitution)
 {
 	using vector3 = DirectX::SimpleMath::Vector3;
 
-	if (normal == vector3::Zero) normal = m_groundNormal;
-
 	vector3 v = velocity;
+	
 	vector3 n = normal;
+	if (n == vector3::Zero) n = m_groundNormal;
+
 	vector3 reflectionVector = CalculateReflectionVector(v, n);
 	velocity = reflectionVector * restitution;
 
@@ -162,7 +164,7 @@ void PhysicsObject::ResetGroundInfo()
  *
  * @return なし
  */
-bool PhysicsObject::IsGroundNormal(const DirectX::SimpleMath::Vector3 normal)
+bool PhysicsObject::IsGroundNormal(const DirectX::SimpleMath::Vector3& normal)
 {
 	const float groundCos = std::cos(DirectX::XMConvertToRadians(GROUND_COS_THRESHOLD));
 	if (normal.y >= groundCos) return true;
@@ -177,7 +179,7 @@ bool PhysicsObject::IsGroundNormal(const DirectX::SimpleMath::Vector3 normal)
  *
  * @return なし
  */
-void PhysicsObject::SetGroundInfo(const DirectX::SimpleMath::Vector3 normal)
+void PhysicsObject::SetGroundInfo(const DirectX::SimpleMath::Vector3& normal)
 {
 	if (IsGroundNormal(normal))
 	{
@@ -194,7 +196,7 @@ void PhysicsObject::SetGroundInfo(const DirectX::SimpleMath::Vector3 normal)
  *
  * @return なし
  */
-void PhysicsObject::AddAngVelocity(DirectX::SimpleMath::Vector3 angVel)
+void PhysicsObject::AddAngVelocity(const DirectX::SimpleMath::Vector3& angVel)
 {
 	m_angularVelocity += angVel;
 	ClampAngularVelocity();
@@ -210,8 +212,8 @@ void PhysicsObject::AddAngVelocity(DirectX::SimpleMath::Vector3 angVel)
  * @return なし
  */
 DirectX::SimpleMath::Vector3 PhysicsObject::CalculateReflectionVector(
-	DirectX::SimpleMath::Vector3 velocity,
-	DirectX::SimpleMath::Vector3 normal)
+	const DirectX::SimpleMath::Vector3& velocity,
+	const DirectX::SimpleMath::Vector3& normal)
 {
 	return velocity - 2.0f * (velocity * normal) * normal;
 }

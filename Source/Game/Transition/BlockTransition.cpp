@@ -25,7 +25,7 @@ BlockTransition::BlockTransition(
 	ShaderManager* pSM,
 	ResourceManager* pRM,
 	const ResourcesDesc& vs, const ResourcesDesc& ps, const ResourcesDesc& gs, const ResourcesDesc& tex,
-	DirectX::SimpleMath::Vector2 windowSize, float interval)
+	const DirectX::SimpleMath::Vector2& windowSize, float interval)	
 	: ITransition(pDR, pSM, pRM, vs, ps, gs, tex, windowSize, interval)
 {
 	//	シェーダーにデータを渡すためのコンスタントバッファ生成
@@ -82,7 +82,7 @@ void BlockTransition::Update(float elapsedTime)
  *
  * @return なし
  */
-void BlockTransition::Draw(RenderContext context)
+void BlockTransition::Draw(const RenderContext& context)
 {
 	if (m_rate == 0.0f) return;
 
@@ -152,7 +152,6 @@ void BlockTransition::Draw(RenderContext context)
 	context.deviceContext->VSSetShader(nullptr, nullptr, 0);
 	context.deviceContext->PSSetShader(nullptr, nullptr, 0);
 	context.deviceContext->GSSetShader(nullptr, nullptr, 0);
-
 }
 
 

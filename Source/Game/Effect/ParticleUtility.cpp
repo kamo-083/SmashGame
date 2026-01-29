@@ -23,8 +23,8 @@
  * @param params	パラメータ一覧
  */
 ParticleUtility::ParticleUtility(
-	DirectX::SimpleMath::Vector3 position,
-	ParticleData params)
+	const DirectX::SimpleMath::Vector3& position,
+	const ParticleData& params)
 {
 	// 出現位置・各パラメータの初期化
 	m_position = position;

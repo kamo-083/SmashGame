@@ -17,7 +17,8 @@
  * @param ‚È‚µ
  */
 UITextureCatalog::UITextureCatalog()
-	: m_loaded(false)
+	: 
+	m_loaded(false)
 {
 
 }

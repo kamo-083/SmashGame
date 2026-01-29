@@ -17,14 +17,15 @@
  * @param ‚È‚µ
  */
 Camera::Camera()
-	: m_eye{ CAMERA_DEFAULT_EYE }
-	, m_target{ CAMERA_DEFAULT_TARGET }
-	, m_angle{ DirectX::SimpleMath::Vector3::Zero }
-	, m_followTargetPos{ nullptr }
-	, m_isRotation{ false }
-	, m_rotProgress{ 0.0f }
-	, m_startAngle{ 0.0f }
-	, m_endAngle{ 0.0f }
+	:
+	m_eye{ CAMERA_DEFAULT_EYE },
+	m_target{ CAMERA_DEFAULT_TARGET },
+	m_angle{ DirectX::SimpleMath::Vector3::Zero },
+	m_followTargetPos{ nullptr },
+	m_isRotation{ false },
+	m_rotProgress{ 0.0f },
+	m_startAngle{ 0.0f },
+	m_endAngle{ 0.0f }
 {
 
 }
@@ -210,7 +211,9 @@ DirectX::SimpleMath::Vector3 Camera::GetForward()
  *
  * @return ‰ñ“]Œã‚ÌƒJƒƒ‰ˆÊ’u
  */
-DirectX::SimpleMath::Vector3 Camera::RotateEyeAroundPoint(DirectX::SimpleMath::Vector3 angle, DirectX::SimpleMath::Vector3 point) const
+DirectX::SimpleMath::Vector3 Camera::RotateEyeAroundPoint(
+	const DirectX::SimpleMath::Vector3& angle,
+	const DirectX::SimpleMath::Vector3& point) const
 {
 	DirectX::SimpleMath::Vector3 rotatedEye = { 0.0f,0.0f,0.0f };
 	float radian_x = DirectX::XMConvertToRadians(angle.y);	//m_angle‚ğ‘€ì‚·‚é‚Æ‚«‚É•ª‚©‚è‚â‚·‚¢‚æ‚¤‚Éx‚Æy‚ğ‹t‚É‚µ‚ÄŒvZ

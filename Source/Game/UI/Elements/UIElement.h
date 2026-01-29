@@ -48,7 +48,7 @@ public:
 	virtual void Update(float elapsedTime) = 0;
 
 	// •`‰æˆ—
-	virtual void Draw(RenderContext context) = 0;
+	virtual void Draw(const RenderContext& context) = 0;
 
 	// I—¹ˆ—
 	virtual void Finalize() = 0;

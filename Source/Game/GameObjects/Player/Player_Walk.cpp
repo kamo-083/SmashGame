@@ -24,12 +24,13 @@ Player_Walk::Player_Walk(
 	Player* player, Camera* camera,
 	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 	float groundSpeed, float airSpeed)
-	: GROUND_SPEED(groundSpeed)
-	, AIR_SPEED(airSpeed)
-	, m_pPlayer{ player }
-	, m_pKbTracker{ kbTracker }
-	, m_pCamera{ camera }
-	, m_stateType{ StateType::Walk }
+	:
+	GROUND_SPEED(groundSpeed),
+	AIR_SPEED(airSpeed),
+	m_pPlayer{ player },
+	m_pKbTracker{ kbTracker },
+	m_pCamera{ camera },
+	m_stateType{ StateType::Walk }
 {
 
 }
@@ -112,7 +113,7 @@ void Player_Walk::Update(const float& elapsedTime)
  *
  * @return Ç»Çµ
  */
-void Player_Walk::Render(RenderContext& context)
+void Player_Walk::Render(const RenderContext& context)
 {
 	// ÉèÅ[ÉãÉhçsóÒÇÃçÏê¨
 	DirectX::SimpleMath::Matrix world;

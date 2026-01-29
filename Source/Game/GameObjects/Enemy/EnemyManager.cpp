@@ -25,11 +25,12 @@ EnemyManager::EnemyManager(
 	CollisionManager* pCM,
 	EffectManager* pEM,
 	StageScene* pScene)
-	: m_pScene{ pScene }
-	, m_pUserResources{ pUR }
-	, m_pCollisionManager{ pCM }
-	, m_pEffectManager{ pEM }
-	, m_nextID{ 0 }
+	:
+	m_pScene{ pScene },
+	m_pUserResources{ pUR },
+	m_pCollisionManager{ pCM },
+	m_pEffectManager{ pEM },
+	m_nextID{ 0 }
 {
 
 }
@@ -114,7 +115,7 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
  *
  * @return ‚È‚µ
  */
-void EnemyManager::Draw(RenderContext& context)
+void EnemyManager::Draw(const RenderContext& context)
 {
 	// Še“G‚Ì•`‰æ
 	for (auto& e : m_enemies)

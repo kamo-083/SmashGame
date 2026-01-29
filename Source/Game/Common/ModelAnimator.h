@@ -94,7 +94,7 @@ public:
 	void Update(float elapsedTime);
 
 	// •`‰æˆ—
-	void Draw(RenderContext context, const DirectX::SimpleMath::Matrix& world);
+	void Draw(const RenderContext& context, const DirectX::SimpleMath::Matrix& world);
 
 	// I—¹ˆ—
 	void Finalize();

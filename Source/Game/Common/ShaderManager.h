@@ -87,6 +87,6 @@ private:
 	bool LoadFile(const wchar_t* filePath, std::vector<uint8_t>& out);
 
 	// stringŒ^‚ðwchar_tŒ^‚Ö•ÏŠ·
-	std::wstring StringToWchar(std::string str);
+	std::wstring StringToWchar(const std::string& str);
 
 };

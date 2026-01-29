@@ -91,7 +91,7 @@ public:
 // 内部実装
 private:
 	// string型をwchar_t型へ変換
-	std::wstring StringToWchar(std::string str);
+	std::wstring StringToWchar(const std::string& str);
 
 	// ファイルパスの作成
 	std::string ResolveFilePath_Tex(const std::string& filename);		// テクスチャ用

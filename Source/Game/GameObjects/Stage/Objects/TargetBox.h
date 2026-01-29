@@ -84,16 +84,16 @@ public:
 		ResourceManager* pRM,
 		CollisionManager* pCM,
 		EnemyManager* pEM,
-		std::function<void()> operation,
-		DirectX::SimpleMath::Vector3 position,
-		DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
-		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero);
+		const std::function<void()>& operation,
+		const DirectX::SimpleMath::Vector3& position,
+		const DirectX::SimpleMath::Vector3& halfLength = HALF_LENGTH,
+		const DirectX::SimpleMath::Vector3& angle = DirectX::SimpleMath::Vector3::Zero);
 
 	// XVˆ—
 	void Update(float elapsedTime);
 
 	// •`‰æˆ—
-	void Draw(RenderContext& context);
+	void Draw(const RenderContext& context);
 
 	// I—¹ˆ—
 	void Finalize();

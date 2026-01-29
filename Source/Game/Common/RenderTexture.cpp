@@ -16,10 +16,11 @@
  * @param ‚È‚µ
  */
 RenderTexture::RenderTexture()
-	: m_width(0)
-	, m_height(0)
-	, m_defaultRTV(nullptr)
-	, m_defaultDSV(nullptr)
+	:
+	m_width(0),
+	m_height(0),
+	m_defaultRTV(nullptr),
+	m_defaultDSV(nullptr)
 {
 
 }

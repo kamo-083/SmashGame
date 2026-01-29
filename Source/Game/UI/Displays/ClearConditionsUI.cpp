@@ -16,8 +16,9 @@
  * @param clearCondition	ƒNƒŠƒAğŒ
  */
 ClearConditionsUI::ClearConditionsUI(ConditionsType clearCondition)
-	: UIElement()
-	, CONDITIONS_TYPE{ clearCondition }
+	: 
+	UIElement(),
+	CONDITIONS_TYPE{ clearCondition }
 {
 
 }
@@ -43,8 +44,8 @@ ClearConditionsUI::~ClearConditionsUI()
  * @return ‚È‚µ
  */
 void ClearConditionsUI::Initialize(
-	DirectX::SimpleMath::Vector2 windowSize,
-	TextureInfo textureInfo)
+	const DirectX::SimpleMath::Vector2& windowSize,
+	const TextureInfo& textureInfo)
 {
 	m_textSize = textureInfo.size;
 
@@ -99,7 +100,7 @@ void ClearConditionsUI::Update(float elapsedTime)
  *
  * @return ‚È‚µ
  */
-void ClearConditionsUI::Draw(RenderContext context)
+void ClearConditionsUI::Draw(const RenderContext& context)
 {
 	// ‰æ‘œ‚ÌØ‚èæ‚è”ÍˆÍ‚ğİ’è
 	LONG height = static_cast<LONG>(m_textSize.y) * static_cast<LONG>(CONDITIONS_TYPE);

@@ -57,10 +57,10 @@ void TargetBox::Initialize(
 	ResourceManager* pRM,
 	CollisionManager* pCM,
 	EnemyManager* pEM,
-	std::function<void()> operation,
-	DirectX::SimpleMath::Vector3 position,
-	DirectX::SimpleMath::Vector3 halfLength,
-	DirectX::SimpleMath::Vector3 angle)
+	const std::function<void()>& operation,
+	const DirectX::SimpleMath::Vector3& position,
+	const DirectX::SimpleMath::Vector3& halfLength,
+	const DirectX::SimpleMath::Vector3& angle)
 {
 	// 位置・大きさ(1辺の半分)・回転を設定
 	m_position = position;
@@ -136,7 +136,7 @@ void TargetBox::Update(float elapsedTime)
  *
  * @return なし
  */
-void TargetBox::Draw(RenderContext& context)
+void TargetBox::Draw(const RenderContext& context)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;

@@ -17,9 +17,10 @@
  * @param ‚È‚µ
  */
 StageResultUI::StageResultUI()
-	: UIElement()
-	, m_enable(false)
-	, m_clearTime{}
+	:
+	UIElement(),
+	m_enable(false),
+	m_clearTime{}
 {
 
 }
@@ -45,8 +46,8 @@ StageResultUI::~StageResultUI()
  * @return ‚È‚µ
  */
 void StageResultUI::Initialize(
-	Textures textures,
-	DirectX::SimpleMath::Vector2 windowSize)
+	const Textures& textures,
+	const DirectX::SimpleMath::Vector2& windowSize)
 {
 	// •\Ž¦ˆÊ’u‚ÌŒvŽZ
 	DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2
@@ -109,7 +110,7 @@ void StageResultUI::Update(float elapsedTime)
  *
  * @return ‚È‚µ
  */
-void StageResultUI::Draw(RenderContext context)
+void StageResultUI::Draw(const RenderContext& context)
 {
 	if (!m_enable) return;
 

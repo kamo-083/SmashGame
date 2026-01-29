@@ -17,13 +17,14 @@
  * @param info		  敵の情報(攻撃関連情報取得のため)
  */
 GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info)
-	: m_pGroundEnemy{ groundEnemy }
-	, ATTACK_TIME{ info.attack.time }
-	, ATTACK_SIZE{ info.attack.size }
-	, ATTACK_FORCE{ info.attack.force }
-	, DISTANCE_RAITO{ info.attack.distance_raito }
-	, m_attackTime{ 0.0f }
-	, m_stateType{ StateType::Attack }
+	:
+	m_pGroundEnemy{ groundEnemy },
+	ATTACK_TIME{ info.attack.time },
+	ATTACK_SIZE{ info.attack.size },
+	ATTACK_FORCE{ info.attack.force },
+	DISTANCE_RAITO{ info.attack.distance_raito },
+	m_attackTime{ 0.0f },
+	m_stateType{ StateType::Attack }
 {
 
 }
@@ -107,7 +108,7 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
  *
  * @return なし
  */
-void GroundEnemy_Attack::Render(RenderContext& context)
+void GroundEnemy_Attack::Render(const RenderContext& context)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;

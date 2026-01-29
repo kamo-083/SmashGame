@@ -30,17 +30,18 @@ const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
  * @param boardScale	スケール
  */
 NumberRenderer3D::NumberRenderer3D(
-	DirectX::SimpleMath::Vector2 spriteSize,
+	const DirectX::SimpleMath::Vector2& spriteSize,
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 	int digit,
 	DX::DeviceResources* pDR,
 	float boardScale)
-	: INumberRenderer(spriteSize, texture, digit)
-	, DIGITS_WIDTH{ spriteSize.x * digit }
-	, SCALE{ boardScale }
-	, m_position{ DirectX::SimpleMath::Vector3::Zero }
-	, m_isBillboard{ false }
-	, m_billboard{ DirectX::SimpleMath::Matrix::Identity }
+	:
+	INumberRenderer(spriteSize, texture, digit),
+	DIGITS_WIDTH{ spriteSize.x * digit },
+	SCALE{ boardScale },
+	m_position{ DirectX::SimpleMath::Vector3::Zero },
+	m_isBillboard{ false },
+	m_billboard{ DirectX::SimpleMath::Matrix::Identity }
 {
 	ID3D11Device1* device = pDR->GetD3DDevice();
 	ID3D11DeviceContext* context = pDR->GetD3DDeviceContext();
@@ -114,7 +115,7 @@ void NumberRenderer3D::Initialize(const int& number)
  *
  * @return なし
  */
-void NumberRenderer3D::Draw(RenderContext& renderContext)
+void NumberRenderer3D::Draw(const RenderContext& renderContext)
 {
 	// オフスクリーンに数字を描画
 	m_renderTexture->SetRTVTexture(renderContext.deviceContext, nullptr);
@@ -128,7 +129,6 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 	float y = m_position.y;
 
 	renderContext.spriteBatch->Begin();
-
 	// 1の位から順に描画
 	for (int i = 0; i < NUM_DIGIT; i++)
 	{
@@ -148,7 +148,6 @@ void NumberRenderer3D::Draw(RenderContext& renderContext)
 		data /= 10;
 		x -= size.x;
 	}
-
 	renderContext.spriteBatch->End();
 
 	// 通常の画面に切り替え
@@ -245,18 +244,14 @@ void NumberRenderer3D::Finalize()
  * @return なし
  */
 void NumberRenderer3D::CreateBillboard(
-	DirectX::SimpleMath::Vector3 eye,
-	DirectX::SimpleMath::Vector3 up)
+	const DirectX::SimpleMath::Vector3& eye,
+	const DirectX::SimpleMath::Vector3& up)
 {
 	//ビルボード状態にする
 	m_isBillboard = true;
 
 	// 行列を作成
-	m_billboard = DirectX::SimpleMath::Matrix::CreateBillboard(
-		m_position,
-		eye,
-		up
-	);
+	m_billboard = DirectX::SimpleMath::Matrix::CreateBillboard(m_position, eye, up);
 
 	//Y軸を180度回転させる
 	DirectX::SimpleMath::Matrix rotY = DirectX::SimpleMath::Matrix::Identity;

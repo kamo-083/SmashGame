@@ -18,13 +18,14 @@
  * @param context	デバイスコンテキストのポインタ
  */
 Fence::Fence(ID3D11DeviceContext* context)
-	: m_position{ DirectX::SimpleMath::Vector3::Zero }
-	, m_scale{ DirectX::SimpleMath::Vector3::Zero }
-	, m_angle{ DirectX::SimpleMath::Vector3::Zero }
-	, m_collider{}
-	, m_collisionHandle{ 0 }
-	, m_model{ nullptr }
-	, m_num{ 0 }
+	:
+	m_position{ DirectX::SimpleMath::Vector3::Zero },
+	m_scale{ DirectX::SimpleMath::Vector3::Zero },
+	m_angle{ DirectX::SimpleMath::Vector3::Zero },
+	m_collider{},
+	m_collisionHandle{ 0 },
+	m_model{ nullptr },
+	m_num{ 0 }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -56,9 +57,9 @@ void Fence::Initialize(
 	ResourceManager* pRM,
 	CollisionManager* pCM,
 	int num,
-	DirectX::SimpleMath::Vector3 position,
-	DirectX::SimpleMath::Vector3 scale,
-	DirectX::SimpleMath::Vector3 angle)
+	const DirectX::SimpleMath::Vector3& position,
+	const DirectX::SimpleMath::Vector3& scale,
+	const DirectX::SimpleMath::Vector3& angle)
 {
 	// 位置・スケール・回転・柵数を設定
 	m_position = position;
@@ -104,7 +105,7 @@ void Fence::Initialize(
  *
  * @return なし
  */
-void Fence::Draw(RenderContext& context)
+void Fence::Draw(const RenderContext& context)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_scale);

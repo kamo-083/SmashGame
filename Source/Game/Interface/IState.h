@@ -21,7 +21,7 @@ public:
 	// XV
 	virtual void Update(const float& elapsedTime) = 0;
 	// •`‰æ
-	virtual void Render(RenderContext& context) = 0;
+	virtual void Render(const RenderContext& context) = 0;
 	// Œãˆ—
 	virtual void Finalize() = 0;	
 

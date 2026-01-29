@@ -63,7 +63,7 @@ void CircleParticle::Update(float elapsedTime)
  * @return ‚È‚µ
  */
 void CircleParticle::SpawnParticleEffect(
-	DirectX::SimpleMath::Vector3 pos,
+	const DirectX::SimpleMath::Vector3& pos,
 	float range,
 	bool isRandom,
 	bool isHorizontal,

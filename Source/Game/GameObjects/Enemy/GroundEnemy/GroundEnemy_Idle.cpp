@@ -16,8 +16,9 @@
  * @param groundEnemy 敵のポインタ
  */
 GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
-	: m_pGroundEnemy{ groundEnemy }
-	, m_stateType{ StateType::Idle }
+	:
+	m_pGroundEnemy{ groundEnemy },
+	m_stateType{ StateType::Idle }
 {
 
 }
@@ -85,7 +86,7 @@ void GroundEnemy_Idle::Update(const float& elapsedTime)
  *
  * @return なし
  */
-void GroundEnemy_Idle::Render(RenderContext& context)
+void GroundEnemy_Idle::Render(const RenderContext& context)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;

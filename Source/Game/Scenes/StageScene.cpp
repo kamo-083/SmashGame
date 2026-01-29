@@ -36,15 +36,16 @@
  */
 StageScene::StageScene(
 	SceneManager* pSM, UserResources* pUR, const int& stageNum,
-	std::string path, ClearConditionsUI::ConditionsType clearCondition)
-	: Scene{ pSM,pUR }
-	, CLEAR_CONDITIONS{ clearCondition }
-	, STAGE_NUM{ stageNum }
-	, m_keyMode{ false }
-	, m_timer{ 0.0f }
-	, m_stageFilePath{ path }
-	, m_overlayMode{ Overlay::NONE }
-	, m_keyConfig{}
+	const std::string& path, ClearConditionsUI::ConditionsType clearCondition)
+	:
+	Scene{ pSM,pUR },
+	CLEAR_CONDITIONS{ clearCondition },
+	STAGE_NUM{ stageNum },
+	m_keyMode{ false },
+	m_timer{ 0.0f },
+	m_stageFilePath{ path },
+	m_overlayMode{ Overlay::NONE },
+	m_keyConfig{}
 {
 	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();
 
@@ -191,7 +192,7 @@ void StageScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void StageScene::Render(RenderContext context, DebugFont* debugFont)
+void StageScene::Render(RenderContext& context, DebugFont* debugFont)
 {
 	// デバッグ情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageScene");
@@ -334,7 +335,7 @@ void StageScene::CreateDepthStencilState(ID3D11Device* device)
  *
  * @return なし
  */
-void StageScene::SetupShadow(RenderContext context)
+void StageScene::SetupShadow(const RenderContext& context)
 {
 	// エフェクトの設定・適応
 	m_basicEffect->SetWorld(DirectX::SimpleMath::Matrix::Identity);
@@ -370,7 +371,7 @@ void StageScene::SetupShadow(RenderContext context)
  *
  * @return なし
  */
-void StageScene::DrawShadow(const DirectX::SimpleMath::Vector3 position, const float radius)
+void StageScene::DrawShadow(const DirectX::SimpleMath::Vector3& position, const float radius)
 {
 	// 頂点の設定
 	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> vertexes = CreateVertexes(position, radius);
@@ -395,7 +396,7 @@ void StageScene::DrawShadow(const DirectX::SimpleMath::Vector3 position, const f
  * @return 頂点
  */
 std::array<DirectX::VertexPositionTexture, StageScene::SHADOW_VERTEX_NUM> StageScene::CreateVertexes(
-	const DirectX::SimpleMath::Vector3 position, const float radius)
+	const DirectX::SimpleMath::Vector3& position, const float radius)
 {
 	// 4頂点を作成
 	std::array<DirectX::VertexPositionTexture, SHADOW_VERTEX_NUM> vertexes =
@@ -424,7 +425,7 @@ std::array<DirectX::VertexPositionTexture, StageScene::SHADOW_VERTEX_NUM> StageS
  *
  * @return なし
  */
-void StageScene::DrawObjectsShadow(RenderContext context)
+void StageScene::DrawObjectsShadow(const RenderContext& context)
 {
 	// 影の設定
 	SetupShadow(context);

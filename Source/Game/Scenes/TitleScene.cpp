@@ -25,9 +25,10 @@
  * @param pUR	リソースマネージャのポインタ
  */
 TitleScene::TitleScene(SceneManager* pSM, UserResources* pUR)
-	: Scene{ pSM,pUR }
-	, m_textureCatalog(pSM->GetUITextureCatalog())
-	, m_selectButton{ 0 }
+	:
+	Scene{ pSM,pUR },
+	m_textureCatalog(pSM->GetUITextureCatalog()),
+	m_selectButton{ 0 }
 {
 
 }
@@ -162,7 +163,7 @@ void TitleScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void TitleScene::Render(RenderContext context, DebugFont* debugFont)
+void TitleScene::Render(RenderContext& context, DebugFont* debugFont)
 {
 	// デバッグ用情報追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"TitleScene");
@@ -280,7 +281,7 @@ void TitleScene::SelectButtonDown()
 /**
  * @brief ボタンの設定
  *
- * @param なし
+ * @param windowHalfWidth ウィンドウの幅の半分
  * 
  * @return なし
  */
@@ -351,7 +352,7 @@ void TitleScene::SetupBackground(
 	DX::DeviceResources* pDR,
 	ShaderManager* pSM,
 	ResourceManager* pRM,
-	DirectX::SimpleMath::Vector2 windowSize)
+	const DirectX::SimpleMath::Vector2& windowSize)
 {
 	m_background = std::make_unique<Background>(
 		pDR, pSM, pRM,

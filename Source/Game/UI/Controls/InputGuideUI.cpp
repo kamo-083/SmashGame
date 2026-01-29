@@ -17,9 +17,10 @@
  * @param ‚È‚µ
  */
 InputGuideUI::InputGuideUI()
-	: UIElement()
-	, m_pKbTracker(nullptr)
-	, m_pressed(false)
+	:
+	UIElement(),
+	m_pKbTracker(nullptr),
+	m_pressed(false)
 {
 
 }
@@ -47,8 +48,8 @@ InputGuideUI::~InputGuideUI()
  * @return ‚È‚µ
  */
 void InputGuideUI::Initialize(
-	Textures textures,
-	DirectX::SimpleMath::Vector2 pos,
+	const Textures& textures,
+	const DirectX::SimpleMath::Vector2& pos,
 	std::vector<DirectX::Keyboard::Keys> keys,
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
 {
@@ -143,7 +144,7 @@ void InputGuideUI::Update(float elapsedTime)
  *
  * @return ‚È‚µ
  */
-void InputGuideUI::Draw(RenderContext context)
+void InputGuideUI::Draw(const RenderContext& context)
 {
 	RECT rect;
 	DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero;

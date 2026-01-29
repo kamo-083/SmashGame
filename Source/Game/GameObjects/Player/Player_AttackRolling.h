@@ -80,7 +80,7 @@ public:
 	Player_AttackRolling(
 		Player* Player, Camera* camera,
 		DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-		AttackParam param);
+		const AttackParam& param);
 
 	// デストラクタ
 	~Player_AttackRolling() = default;
@@ -95,7 +95,7 @@ public:
 	void Update(const float& elapsedTime) override;
 
 	// 描画処理
-	void Render(RenderContext& context) override;
+	void Render(const RenderContext& context) override;
 
 	// 終了処理
 	void Finalize() override;

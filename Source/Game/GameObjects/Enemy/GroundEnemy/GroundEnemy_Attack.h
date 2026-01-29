@@ -55,7 +55,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	GroundEnemy_Attack(GroundEnemy* groundEnemy,const EnemyInfoLoader::EnemyInfo& info);
+	GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info);
 
 	// デストラクタ
 	~GroundEnemy_Attack() = default;
@@ -70,7 +70,7 @@ public:
 	void Update(const float& elapsedTime) override;
 
 	// 描画処理
-	void Render(RenderContext& context) override;
+	void Render(const RenderContext& context) override;
 
 	// 終了処理
 	void Finalize() override;

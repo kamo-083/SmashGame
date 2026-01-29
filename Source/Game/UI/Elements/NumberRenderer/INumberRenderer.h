@@ -40,7 +40,7 @@ protected:
 	// メンバ関数の宣言 -------------------------------------------------
 public:
 	// コンストラクタ
-	INumberRenderer(DirectX::SimpleMath::Vector2 spriteSize, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, int digit)
+	INumberRenderer(const DirectX::SimpleMath::Vector2& spriteSize, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, int digit)
 		: SPRITE_SIZE(spriteSize)
 		, NUM_DIGIT(digit)
 		, m_texture(texture)
@@ -57,7 +57,7 @@ public:
 	virtual void Initialize(const int& number) = 0;
 
 	// 描画処理
-	virtual void Draw(RenderContext& renderContext) = 0;
+	virtual void Draw(const RenderContext& renderContext) = 0;
 
 	// 終了処理
 	virtual void Finalize() = 0;

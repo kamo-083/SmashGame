@@ -19,12 +19,13 @@
  * @param pRM		リソースマネージャーのポインタ
  */
 Ground::Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS, ResourceManager* pRM)
-	: m_position{ DirectX::SimpleMath::Vector3::Zero }
-	, m_halfLength{ DirectX::SimpleMath::Vector3::Zero }
-	, m_angle{ DirectX::SimpleMath::Vector3::Zero }
-	, m_collider{}
-	, m_collisionHandle{ 0 }
-	, m_depthStencilState{ pDSS }
+	: 
+	m_position{ DirectX::SimpleMath::Vector3::Zero },
+	m_halfLength{ DirectX::SimpleMath::Vector3::Zero },
+	m_angle{ DirectX::SimpleMath::Vector3::Zero },
+	m_collider{},
+	m_collisionHandle{ 0 },
+	m_depthStencilState{ pDSS }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 
@@ -56,9 +57,9 @@ Ground::~Ground()
  */
 void Ground::Initialize(
 	CollisionManager* pCM,
-	DirectX::SimpleMath::Vector3 position,
-	DirectX::SimpleMath::Vector3 halfLength,
-	DirectX::SimpleMath::Vector3 angle)
+	const DirectX::SimpleMath::Vector3& position,
+	const DirectX::SimpleMath::Vector3& halfLength,
+	const DirectX::SimpleMath::Vector3& angle)
 {
 	m_position = position;
 	m_halfLength = halfLength;
@@ -92,7 +93,7 @@ void Ground::Initialize(
  *
  * @return なし
  */
-void Ground::Draw(RenderContext& context)
+void Ground::Draw(const RenderContext& context)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
@@ -165,7 +166,7 @@ DirectX::SimpleMath::Vector3 Ground::GetHeight() const
  * @return なし
  */
 void Ground::DrawGroundGrid(
-	RenderContext context,
+	const RenderContext& context,
 	const int& tilesX, const int& tilesZ,
 	const DirectX::SimpleMath::Matrix& rot)
 {

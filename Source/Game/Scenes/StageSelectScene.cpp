@@ -26,11 +26,12 @@
  * @param stages	ステージ数
  */
 StageSelectScene::StageSelectScene(SceneManager* pSM, UserResources* pUR, int stages)
-	: Scene{ pSM,pUR }
-	, STAGES{ stages }
-	, m_textureCatalog(pSM->GetUITextureCatalog())
-	, m_selectStage{ 0 }
-	, m_transitionStage{ -1 }
+	: 
+	Scene{ pSM,pUR },
+	STAGES{ stages },
+	m_textureCatalog(pSM->GetUITextureCatalog()),
+	m_selectStage{ 0 },
+	m_transitionStage{ -1 }
 {
 	m_stageCleared.resize(STAGES);
 }
@@ -135,7 +136,7 @@ void StageSelectScene::Update(float elapsedTime)
  *
  * @return なし
  */
-void StageSelectScene::Render(RenderContext context, DebugFont* debugFont)
+void StageSelectScene::Render(RenderContext& context, DebugFont* debugFont)
 {
 	// デバッグ用情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageSelectScene");
@@ -347,7 +348,7 @@ void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* 
  *
  * @return なし
  */
-void StageSelectScene::SetupPanel(DirectX::SimpleMath::Vector2 windowSize)
+void StageSelectScene::SetupPanel(const DirectX::SimpleMath::Vector2& windowSize)
 {
 	// ステージ数分設定
 	for (int i = 0; i < STAGES; i++)

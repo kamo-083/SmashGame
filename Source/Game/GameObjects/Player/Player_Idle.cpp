@@ -17,9 +17,10 @@
  * @param kbTracker キーボードトラッカーのポインタ
  */
 Player_Idle::Player_Idle(Player* player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
-	: m_pPlayer{ player }
-	, m_pKbTracker{ kbTracker }
-	, m_stateType{ StateType::Idle }
+	: 
+	m_pPlayer{ player },
+	m_pKbTracker{ kbTracker },
+	m_stateType{ StateType::Idle }
 {
 
 }
@@ -111,7 +112,7 @@ void Player_Idle::Update(const float& elapsedTime)
  *
  * @return なし
  */
-void Player_Idle::Render(RenderContext& context)
+void Player_Idle::Render(const RenderContext& context)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;

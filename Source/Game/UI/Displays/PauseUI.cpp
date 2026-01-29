@@ -16,9 +16,10 @@
  * @param Ç»Çµ
  */
 PauseUI::PauseUI()
-	: UIElement()
-	, m_isOpen(false)
-	, m_options(PAUSE_OPTIONS::NONE)
+	: 
+	UIElement(),
+	m_isOpen(false),
+	m_options(PAUSE_OPTIONS::NONE)
 {
 
 }
@@ -93,7 +94,7 @@ void PauseUI::Update(float elapsedTime)
  *
  * @return Ç»Çµ
  */
-void PauseUI::Draw(RenderContext context)
+void PauseUI::Draw(const RenderContext& context)
 {
 	if (!m_isOpen) return;	// äJÇ¢ÇƒÇ¢Ç»Ç©Ç¡ÇΩÇÁèIóπ
 

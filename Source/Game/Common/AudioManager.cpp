@@ -16,8 +16,9 @@
  * @param なし
  */
 AudioManager::AudioManager()
-	:m_pXAudio2{nullptr}
-	,m_pMasteringVoice{nullptr}
+	:
+	m_pXAudio2{nullptr},
+	m_pMasteringVoice{nullptr}
 {
 	HRESULT result;
 
@@ -97,7 +98,7 @@ bool AudioManager::LoadWAV(const std::string& key, const std::string& filename)
 	}
 
 	//ヘッダー情報を読み込む
-	WAVHeader header;
+	WAVHeader header{};
 	file.read(reinterpret_cast<char*>(&header), sizeof(WAVHeader));
 	if (header.audio_format != 1) 
 	{

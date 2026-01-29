@@ -103,7 +103,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// 描画処理
-	void Render(RenderContext context, DebugFont* debugFont) override;
+	void Render(RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
 	void Finalize() override;
@@ -126,7 +126,7 @@ private:
 
 	// 初期設定関連
 	// ステージパネルの設定
-	void SetupPanel(DirectX::SimpleMath::Vector2 windowSize);
+	void SetupPanel(const DirectX::SimpleMath::Vector2& windowSize);
 
 	// ステージ番号表示の設定
 	void SetupNumberBoard();

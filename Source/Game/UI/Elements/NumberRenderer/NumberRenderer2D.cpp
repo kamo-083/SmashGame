@@ -21,10 +21,11 @@ NumberRenderer2D::NumberRenderer2D(
 	DirectX::SimpleMath::Vector2 spriteSize,
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 	int digit)
-	: INumberRenderer(spriteSize, texture, digit)
-	, m_position{ DirectX::SimpleMath::Vector2::Zero }
-	, m_useBeginEnd{ false }
-	, m_scale{ 1.0f }
+	: 
+	INumberRenderer(spriteSize, texture, digit),
+	m_position{ DirectX::SimpleMath::Vector2::Zero },
+	m_useBeginEnd{ false },
+	m_scale{ 1.0f }
 {
 
 }
@@ -62,7 +63,7 @@ void NumberRenderer2D::Initialize(const int& number)
  *
  * @return ‚È‚µ
  */
-void NumberRenderer2D::Draw(RenderContext& renderContext)
+void NumberRenderer2D::Draw(const RenderContext& renderContext)
 {
 	// •\¦”š‚ğæ“¾
 	int data = m_number;

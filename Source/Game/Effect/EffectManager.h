@@ -145,19 +145,19 @@ public:
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Draw(DirectX::SimpleMath::Matrix proj);
+	void Draw(const DirectX::SimpleMath::Matrix& proj);
 
 	// 終了処理
 	void Finalize();
 
 	// 軌跡エフェクトの作成
 	TrajectoryParticleData* CreateTrajectory(
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, ParticleUtility::ParticleData particleData,
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, const ParticleUtility::ParticleData& particleData,
 		DirectX::SimpleMath::Vector3* position, bool random);
 
 	// 円形エフェクトの作成
 	CircleParticleData* CreateCircle(
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, ParticleUtility::ParticleData particleData,
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, const ParticleUtility::ParticleData& particleData,
 		DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal);
 
 

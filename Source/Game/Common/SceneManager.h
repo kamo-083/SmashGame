@@ -83,7 +83,7 @@ public:
 	void Update(float elapsedTime);
 
 	// 描画処理
-	void Render(RenderContext context);
+	void Render(RenderContext& context);
 
 	// 開始シーンの設定
 	void SetStartScene(const std::string& startSceneName);
@@ -104,10 +104,10 @@ public:
 	std::shared_ptr<UITextureCatalog>& GetUITextureCatalog() { return m_UITextureCatalog; }
 
 	// 共有データの登録
-	void SetSharedData(std::string name, std::string data);
+	void SetSharedData(const std::string& name, const std::string& data);
 
 	// 共有データの取得
-	std::string GetSharedData(std::string name);
+	std::string GetSharedData(const std::string& name);
 
 
 // 内部実装

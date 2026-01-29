@@ -71,12 +71,12 @@ public:
 	// 初期化処理
 	void Initialize(
 		CollisionManager* pCM,
-		DirectX::SimpleMath::Vector3 position = CENTER_POS,
-		DirectX::SimpleMath::Vector3 halfLength = HALF_LENGTH,
-		DirectX::SimpleMath::Vector3 angle = ANGLE);
+		const DirectX::SimpleMath::Vector3& position = CENTER_POS,
+		const DirectX::SimpleMath::Vector3& halfLength = HALF_LENGTH,
+		const DirectX::SimpleMath::Vector3& angle = ANGLE);
 
 	// 描画処理
-	void Draw(RenderContext& context);
+	void Draw(const RenderContext& context);
 
 	// 終了処理
 	void Finalize();
@@ -85,7 +85,7 @@ public:
 // 取得/設定
 public:
 	// 当たり判定の取得
-	OBBCollider GetCollider(){ return m_collider; }
+	OBBCollider GetCollider() const { return m_collider; }
 
 	// 地面の位置と高さを取得
 	DirectX::SimpleMath::Vector3 GetHeight() const;
@@ -94,7 +94,7 @@ public:
 private:
 	// 地面のグリッド描画
 	void DrawGroundGrid(
-		RenderContext context,
+		const RenderContext& context,
 		const int& tilesX, const int& tilesZ,
 		const DirectX::SimpleMath::Matrix& rot
 	);

@@ -17,7 +17,7 @@
  * @param ‚È‚µ
  */
 CollisionManager::CollisionManager()
-	:m_next{ 1 }
+	: m_next{ 1 }
 {
 
 }
