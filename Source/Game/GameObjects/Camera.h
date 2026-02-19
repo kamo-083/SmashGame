@@ -8,8 +8,6 @@
 #pragma once
 
 
-
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Data/InputKeyLoader.h"

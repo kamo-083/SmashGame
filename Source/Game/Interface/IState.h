@@ -1,14 +1,21 @@
+
+
+// 多重インクルードの防止 =====================================================
 #pragma once
 
+
+// ヘッダファイルの読み込み
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/ResourceManager.h"
 
+
+// 状態の種類
 enum class StateType
 {
-	Idle,
-	Walk,
-	Attack,
-	Bounce,
+	Idle,		// 待機
+	Walk,		// 移動
+	Attack,		// 攻撃
+	Bounce,		// 跳ね返り
 };
 
 class IState

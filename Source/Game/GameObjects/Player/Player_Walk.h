@@ -8,8 +8,6 @@
 #pragma once
 
 
-
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"

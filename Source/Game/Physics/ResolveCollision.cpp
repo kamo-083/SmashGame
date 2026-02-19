@@ -31,7 +31,7 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 	MTV mtv = CalculateMTV(*obb, *sphere);
 
 	if ((a.desc.isTrigger || b.desc.isTrigger) ||
-		(mtv.distance <= 0.0f || mtv.direction.LengthSquared() <= 0.00001f))
+		(mtv.distance <= 0.0f || mtv.direction.LengthSquared() <= FLT_EPSILON))
 	{
 		a.overlapsNow.insert(b.handle);
 		b.overlapsNow.insert(a.handle);
@@ -147,7 +147,7 @@ void ResolveSphereVsSphere(CollisionManager::Node& a, CollisionManager::Node& b)
 	MTV mtv = CalculateMTV(*sphereA, *sphereB);
 
 	if ((a.desc.isTrigger || b.desc.isTrigger) ||
-		(mtv.distance <= 0.0f || mtv.direction.LengthSquared() <= 0.00001f))
+		(mtv.distance <= 0.0f || mtv.direction.LengthSquared() <= FLT_EPSILON))
 	{
 		a.overlapsNow.insert(b.handle);
 		b.overlapsNow.insert(a.handle);
@@ -241,7 +241,7 @@ void ResolveOBBVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 	MTV mtv = CalculateMTV(*obbB, *obbA);
 
 	if ((a.desc.isTrigger || b.desc.isTrigger) ||
-		(mtv.distance <= 0.0f || mtv.direction.LengthSquared() <= 0.00001f))
+		(mtv.distance <= 0.0f || mtv.direction.LengthSquared() <= FLT_EPSILON))
 	{
 		a.overlapsNow.insert(b.handle);
 		b.overlapsNow.insert(a.handle);

@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Transition/ITransition.h"
 #include "Source/Game/Common/ShaderManager.h"

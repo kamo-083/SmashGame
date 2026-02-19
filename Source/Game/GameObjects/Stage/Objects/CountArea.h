@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
 #include"Source/Debug/DebugFont.h"

@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/Elements/Tween/Tween.h"
@@ -22,7 +21,6 @@ class UIWidget
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-
 
 
 	// データメンバの宣言 -----------------------------------------------

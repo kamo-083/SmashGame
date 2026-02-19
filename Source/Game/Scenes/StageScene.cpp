@@ -96,6 +96,9 @@ void StageScene::Initialize()
 	ResourceManager* pRM = m_userResources->GetResourceManager();		// リソースマネージャー
 	AudioManager* pAM = m_userResources->GetAudioManager();				// オーディオマネージャー
 
+	// 経過時間の初期化
+	m_timer = 0.0f;
+
 	// 当たり判定マネージャーの作成
 	m_collisionManager = std::make_unique<CollisionManager>();
 

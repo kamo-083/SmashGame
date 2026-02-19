@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Source/Game/Common/StepTimer.h"

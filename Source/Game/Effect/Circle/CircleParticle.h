@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Effect/IEffectParticle.h"
 #include "Source/Game/Effect/ParticleUtility.h"
@@ -28,7 +27,6 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-
 
 
 	// メンバ関数の宣言 -------------------------------------------------

@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Effect/EffectManager.h"

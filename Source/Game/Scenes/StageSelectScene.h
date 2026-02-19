@@ -8,8 +8,6 @@
 #pragma once
 
 
-
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
 

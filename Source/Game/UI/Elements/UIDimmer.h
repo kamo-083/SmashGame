@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/DeviceResources.h"
 #include "Source/Game/Common/RenderContext.h"
@@ -23,7 +22,6 @@ class UIDimmer
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
-
 
 
 	// データメンバの宣言 -----------------------------------------------

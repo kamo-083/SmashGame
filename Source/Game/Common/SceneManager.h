@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include <memory>
 #include <string>
@@ -16,7 +15,6 @@
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Common/UserResources.h"
-
 #include "Source/Debug/DebugFont.h"
 
 

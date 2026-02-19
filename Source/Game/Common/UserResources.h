@@ -3,7 +3,10 @@
  *
  * @brief  ユーザーリソースのヘッダファイル
  */
+
+ // 多重インクルードの防止 =====================================================
 #pragma once
+
 
 // ヘッダファイルのインクルード
 #include "pch.h"
@@ -18,7 +21,6 @@
 class UserResources
 {
 private:
-
 	// ステップタイマー
 	DX::StepTimer* m_timer;
 

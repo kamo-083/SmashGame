@@ -8,7 +8,6 @@
 #pragma once
 
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/NumberRenderer/INumberRenderer.h"
 
@@ -21,7 +20,6 @@ class NumberRenderer2D :public INumberRenderer
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-
 
 
 	// データメンバの宣言 -----------------------------------------------
