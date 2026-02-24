@@ -65,6 +65,9 @@ private:
 	// 遷移先のステージ番号(未登録：-1)
 	int m_transitionStage;
 
+	// レンダーテクスチャ（パネル合成用）
+	std::unique_ptr<RenderTexture> m_renderTexture;
+
 	// オブジェクト関連
 	// 数字表示ボード
 	std::unique_ptr<NumberRenderer2D> m_numberBoard;
@@ -79,7 +82,7 @@ private:
 	std::unique_ptr<Background> m_background;
 
 	// 操作方法UI
-	std::vector < std::unique_ptr<InputHintUI>> m_inputHintUI;
+	std::vector<std::unique_ptr<InputHintUI>> m_inputHintUI;
 
 
 // メンバ関数の宣言 -------------------------------------------------
@@ -121,6 +124,12 @@ private:
 
 	// シーンを移動
 	void TransitionScene(DirectX::Keyboard::KeyboardStateTracker* kb);
+
+	// スタンプを押すかどうかを判定
+	void SelectStamp(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Color& color, const int stage);
+
+	// パネルの合成
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> PanelSynthesis(RenderContext& context, const int stage);
 
 	// 初期設定関連
 	// ステージパネルの設定

@@ -107,6 +107,9 @@
     <Filter Include="UI\Elements\Atlas">
       <UniqueIdentifier>{dbda96bf-790c-46d8-8d92-c1e1c318386d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{ca10b9c9-ecc0-4d91-99d4-11b4c7a885b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -362,6 +365,15 @@
     <ClInclude Include="Source\Game\UI\UITextureCatalog.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Event\Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Event\EventBas.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Interface\IEventHandler.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -563,6 +575,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\UI\UITextureCatalog.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Event\EventBas.cpp">
+      <Filter>Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

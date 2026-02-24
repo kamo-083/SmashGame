@@ -231,9 +231,9 @@ public:
 	bool PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* kb) const;
 
 	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }				// 位置の取得
-	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }		// 位置の設定
+	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }	// 位置の設定
 	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				// 移動速度の取得
-	void SetVelocity(const DirectX::SimpleMath::Vector3& vel) { m_velocity = vel; }		// 移動速度の設定
+	void SetVelocity(const DirectX::SimpleMath::Vector3& vel) { m_velocity = vel; }	// 移動速度の設定
 	float GetRadius() const { return RADIUS; }										// 半径サイズの取得
 	float GetMass() const { return MASS; }											// 質量の取得
 	float GetMaxSpeed() const { return MAX_SPEED; }									// 最高移動速度の取得
@@ -253,8 +253,8 @@ public:
 	float GetScale() const { return SCALE; }												// スケールの取得
 	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }	// 軌跡エフェクトの取得
 	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }				// 円形エフェクトの取得
-	Animations* GetAnimation() { return m_animations.get(); }							// アニメーション群の取得
-	float GetKillHeight() const { return KILL_HEIGHT; }									// 落下判定高度の取得
+	Animations* GetAnimation() { return m_animations.get(); }						// アニメーション群の取得
+	float GetKillHeight() const { return KILL_HEIGHT; }								// 落下判定高度の取得
 	InputKeyLoader::InputKeyInfo& GetKeyConfig() { return m_keyConfig; }			// 操作キー設定の取得
 
 	Player_Idle* GetState_Idle() { return m_idlingState.get(); }								// 待機状態の取得

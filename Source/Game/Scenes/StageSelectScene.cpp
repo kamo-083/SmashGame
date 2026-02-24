@@ -63,6 +63,18 @@ void StageSelectScene::Initialize()
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
+	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();
+	DirectX::SimpleMath::Vector2 panelSize = m_textureCatalog->GetTextures().window_stageSelect.size;
+	
+	// レンダーテクスチャの作成
+	m_renderTexture = std::make_unique<RenderTexture>();
+	m_renderTexture->Initialize(
+		pDR->GetD3DDevice(),
+		panelSize.x, panelSize.y,
+		pDR->GetRenderTargetView(),
+		pDR->GetDepthStencilView()
+	);
+
 	// ステージ選択パネルの作成
 	SetupPanel(windowSize);
 
@@ -337,6 +349,68 @@ void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* 
 			ChangeScene("TitleScene");	// タイトルへ
 		}
 	}
+}
+
+
+
+/**
+ * @brief スタンプを押すかどうかを判定
+ *
+ * @param texture	テクスチャの渡し先
+ * @param color		色の渡し先
+ * @param stage		ステージ番号
+ *
+ * @return なし
+ */
+void StageSelectScene::SelectStamp(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Color& color, const int stage)
+{
+	// クリア済みかどうか
+	if (m_stageCleared[stage])
+	{
+		// スタンプ
+		texture = m_textureCatalog->GetTextures().icon_stampOn.texture.Get();
+		color = DirectX::Colors::Red;
+	}
+	else
+	{
+		// 枠のみ
+		texture = m_textureCatalog->GetTextures().icon_stampOff.texture.Get();
+		color = DirectX::Colors::Gray;
+	}
+}
+
+
+
+/**
+ * @brief パネルの合成
+ *
+ * @param context 描画用構造体
+ * @param stage	  ステージ番号
+ *
+ * @return なし
+ */
+Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> StageSelectScene::PanelSynthesis(RenderContext& context, const int stage)
+{
+	// レンダーテクスチャのリセット
+	const float rtCrear[4] = { 0,0,0,0 };	// レンダーテクスチャのクリア用
+	m_renderTexture->Clear(context.deviceContext, rtCrear);
+
+	// オフスクリーン描画に設定
+	m_renderTexture->SetRTVTexture(context.deviceContext, nullptr);
+
+	// パネルのベース
+
+	// ステージ番号
+	m_numberBoard->SetNumber(stage);
+	m_numberBoard->Draw(context);
+
+	// クリア済みスタンプ
+	
+
+	// 元に戻す
+	m_renderTexture->SetRTVDefault(context.deviceContext, nullptr);
+
+	return m_renderTexture->GetSRV();
 }
 
 
