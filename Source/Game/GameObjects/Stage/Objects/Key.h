@@ -101,7 +101,6 @@ public:
 private:
 	// 出現時のアニメーションを設定
 	void SetupSpawnAnim(const DirectX::SimpleMath::Vector3& startPos);
-
 	// 移動時のアニメーションを設定
 	void SetupFlyingAnim();
 

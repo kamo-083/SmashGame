@@ -14,12 +14,10 @@
  * @brief コンストラクタ
  *
  * @param player	プレイヤーのポインタ
- * @param kbTracker キーボードトラッカーのポインタ
  */
-Player_Idle::Player_Idle(Player* player, DirectX::Keyboard::KeyboardStateTracker* kbTracker)
+Player_Idle::Player_Idle(Player* player)
 	: 
 	m_pPlayer{ player },
-	m_pKbTracker{ kbTracker },
 	m_stateType{ StateType::Idle }
 {
 
@@ -67,9 +65,6 @@ void Player_Idle::Update(const float& elapsedTime)
 	// 当たり判定の更新
 	m_pPlayer->GetCollider()->SetCenter(m_pPlayer->GetPosition());
 
-	// 攻撃の切り替え
-	m_pPlayer->ChangeAttack(m_pKbTracker);
-
 	// 吹っ飛ばされ状態
 	if (m_pPlayer->GetIsBounce())
 	{
@@ -90,18 +85,6 @@ void Player_Idle::Update(const float& elapsedTime)
 
 	// アニメーションの更新
 	m_modelAnimator->Update(elapsedTime);
-
-	// 歩き状態に切り替え
-	if (m_pPlayer->PressMoveKey(m_pKbTracker))
-	{
-		m_pPlayer->ChangeState(m_pPlayer->GetState_Walk());
-	}
-
-	// 攻撃状態に切り替え
-	if (m_pKbTracker->IsKeyPressed(m_pPlayer->GetKeyConfig().attack))
-	{
-		m_pPlayer->Attack();
-	}
 }
 
 
@@ -146,4 +129,36 @@ void Player_Idle::Finalize()
 {
 	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
+}
+
+
+
+/**
+ * @brief メッセージを処理
+ *
+ * @param messageID メッセージID
+ *
+ * @return なし
+ */
+void Player_Idle::OnMessage(Message::MessageID messageID)
+{
+	switch (messageID)
+	{
+	case Message::MessageID::PLAYER_MOVE_FORWARD:
+	case Message::MessageID::PLAYER_MOVE_BACKWARD:
+	case Message::MessageID::PLAYER_MOVE_LEFT:
+	case Message::MessageID::PLAYER_MOVE_RIGHT:
+		// 吹っ飛ばされていなければ移動
+		if(!m_pPlayer->GetIsBounce()) m_pPlayer->ChangeState(m_pPlayer->GetState_Walk());
+		break;
+	case Message::MessageID::PLAYER_ATTACK:
+		// 吹っ飛ばされていなければ攻撃
+		if (!m_pPlayer->GetIsBounce()) m_pPlayer->Attack();
+		break;
+	case Message::MessageID::ATTACK_CHANGE_LEFT:
+	case Message::MessageID::ATTACK_CHANGE_RIGHT:
+		// 攻撃変更
+		m_pPlayer->ChangeAttack(messageID);
+		break;
+	}
 }

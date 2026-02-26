@@ -9,6 +9,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include"Source/Game/Object/Object.h"
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Data/InputKeyLoader.h"
 
@@ -17,7 +18,7 @@
 /**
  * @brief カメラ
  */
-class Camera
+class Camera	: public Object
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -87,6 +88,9 @@ public:
 
 	// 回転の補間
 	void SmoothCameraRotation(float elapsedTime);
+
+	// イベントの受信
+	void OnMessageAccepted(Message::MessageID messageID) override;
 
 // 取得/設定
 public:

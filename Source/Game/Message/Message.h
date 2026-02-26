@@ -1,7 +1,7 @@
 /**
- * @file   Event.h
+ * @file   Message.h
  *
- * @brief  イベントに関するヘッダファイル
+ * @brief  メッセージに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -13,22 +13,23 @@
 
 // クラスの定義 ===============================================================
 /**
- * @brief Event
+ * @brief Message
  */
-class Event
+class Message
 {
 public:
 
 	// イベントID
-	enum class EventID
+	enum class MessageID
 	{
 		// プレイヤー
-		PLAYER_MOVE_UP,		// 移動・上
-		PLAYER_MOVE_DOWN,	// 移動・下
-		PLAYER_MOVE_LEFT,	// 移動・左
-		PLAYER_MOVE_RIGHT,	// 移動・右
-		PLAYER_ATTACK,		// 攻撃
-		PLAYER_KNOCKBACK,	// 吹っ飛ぶ
+		PLAYER_IDLE,			// 待機
+		PLAYER_MOVE_FORWARD,	// 移動・上
+		PLAYER_MOVE_BACKWARD,	// 移動・下
+		PLAYER_MOVE_LEFT,		// 移動・左
+		PLAYER_MOVE_RIGHT,		// 移動・右
+		PLAYER_ATTACK,			// 攻撃
+		PLAYER_KNOCKBACK,		// 吹っ飛ぶ
 
 		// 敵
 		ENEMY_ATTACK,		// 攻撃

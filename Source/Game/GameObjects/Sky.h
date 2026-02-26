@@ -55,6 +55,7 @@ public:
 
 // 取得/設定
 public:
+	// 中心座標のポインタを設定
 	void SetPosition(DirectX::SimpleMath::Vector3* pos) { m_pPosition = pos; }
 
 // 内部実装

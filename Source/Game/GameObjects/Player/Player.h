@@ -9,6 +9,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include"Source/Game/Object/Object.h"
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/UserResources.h"
 #include"Source/Game/Common/ResourceManager.h"
@@ -43,7 +44,7 @@ class AttackUI;
 /**
  * @brief プレイヤー
  */
-class Player
+class Player	: public Object
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -78,13 +79,11 @@ public:
 	// 初期化時の引数
 	struct PlayerParams
 	{
-		ResourceManager* pRM;
-		CollisionManager* pCM;
-		DirectX::Keyboard::KeyboardStateTracker* pKbTracker;
-		Camera* pCamera;
-		AttackUI* pAttackUI;
-		bool* pKeyMode;
-		const PlayerInfoLoader::PlayerInfo& info;
+		ResourceManager* pRM;	// リソースマネージャのポインタ
+		CollisionManager* pCM;	// 当たり判定マネージャのポインタ
+		Camera* pCamera;		// カメラのポインタ
+		AttackUI* pAttackUI;	// 攻撃UIのポインタ
+		const PlayerInfoLoader::PlayerInfo& info;	// 外部ファイルからの情報
 	};
 
 
@@ -150,9 +149,6 @@ private:
 	//判定表示用の球
 	std::unique_ptr<DirectX::GeometricPrimitive> m_sphere;
 
-	// キー操作のモードのポインタ
-	bool* m_pKeyMode;
-
 	// 当たり判定マネージャー
 	CollisionManager* m_pCollisionManager;
 
@@ -202,7 +198,7 @@ public:
 	void ChangeState(IState* newState);
 
 	// 攻撃変更
-	void ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker);
+	void ChangeAttack(Message::MessageID messageID);
 
 	// 攻撃
 	void Attack();
@@ -210,9 +206,11 @@ public:
 	// リスポーン
 	void Respawn();
 
+	// イベントの受信
+	void OnMessageAccepted(Message::MessageID messageID) override;
+
 	// 移動の方向と回転
-	DirectX::SimpleMath::Vector3 MoveDirection(DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
-											   Camera* camera);
+	DirectX::SimpleMath::Vector3 MoveDirection(Message::MessageID messageID, Camera* camera);
 
 	// 移動速度の制限
 	void LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max);
@@ -230,38 +228,76 @@ public:
 	// 移動キーが押されているか
 	bool PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* kb) const;
 
-	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }				// 位置の取得
-	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }	// 位置の設定
-	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				// 移動速度の取得
-	void SetVelocity(const DirectX::SimpleMath::Vector3& vel) { m_velocity = vel; }	// 移動速度の設定
-	float GetRadius() const { return RADIUS; }										// 半径サイズの取得
-	float GetMass() const { return MASS; }											// 質量の取得
-	float GetMaxSpeed() const { return MAX_SPEED; }									// 最高移動速度の取得
-	float GetRotY() const { return m_rotY; }										// 向きの取得
-	void SetRotY(float rotY) { m_rotY = rotY; }										// 向きの設定
-	PhysicsObject* GetPhysics() { return m_physics.get(); }							// 物理演算オブジェクトの取得
-	SphereCollider* GetCollider() { return &m_collider; };							// 当たり判定の取得
-	SphereCollider* GetAttackCollider() { return &m_attackCollider; }				// 攻撃判定の取得
-	float GetAttackForce() const { return m_attackForce; }							// 攻撃力の取得
-	void SetAttackForce(float attackForce) { m_attackForce = attackForce; }			// 攻撃力の設定
-	bool GetIsAttack() const { return m_isAttack; }									// 攻撃中フラグの取得
-	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }						// 攻撃中フラグの設定
-	AttackType GetAttackType() const { return m_attackType; }						// 攻撃種類の取得
-	bool GetIsBounce() const { return m_isBounce; }									// 跳ね返りフラグの取得
-	void SetIsBounce(bool isBounce) { m_isBounce = isBounce; }						// 跳ね返りフラグの設定
-	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }	// デバッグ用球の取得
-	float GetScale() const { return SCALE; }												// スケールの取得
-	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }	// 軌跡エフェクトの取得
-	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }				// 円形エフェクトの取得
-	Animations* GetAnimation() { return m_animations.get(); }						// アニメーション群の取得
-	float GetKillHeight() const { return KILL_HEIGHT; }								// 落下判定高度の取得
-	InputKeyLoader::InputKeyInfo& GetKeyConfig() { return m_keyConfig; }			// 操作キー設定の取得
+	// 位置の設定・取得
+	DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }				
+	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }
 
-	Player_Idle* GetState_Idle() { return m_idlingState.get(); }								// 待機状態の取得
-	Player_Walk* GetState_Walk() { return m_walkingState.get(); }								// 移動状態の取得
-	Player_AttackBasic* GetState_AttackBasic() { return m_basicAttackingState.get(); }			// 通常攻撃状態の取得
-	Player_AttackRolling* GetState_AttackRolling() { return m_rollingAttackingState.get(); }	// 転がり攻撃状態の取得
-	Player_AttackHeavy* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }			// 強攻撃状態の取得
+	// 移動速度の取得
+	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				
+	void SetVelocity(const DirectX::SimpleMath::Vector3& vel) { m_velocity = vel; }
+
+	// 半径サイズの取得
+	float GetRadius() const { return RADIUS; }
+
+	// 質量の取得
+	float GetMass() const { return MASS; }
+
+	// 最高移動速度の取得
+	float GetMaxSpeed() const { return MAX_SPEED; }
+
+	// 向きの取得・設定
+	float GetRotY() const { return m_rotY; }
+	void SetRotY(float rotY) { m_rotY = rotY; }
+
+	// 物理演算オブジェクトの取得
+	PhysicsObject* GetPhysics() { return m_physics.get(); }
+
+	// 当たり判定の取得
+	SphereCollider* GetCollider() { return &m_collider; };
+	// 攻撃判定の取得
+	SphereCollider* GetAttackCollider() { return &m_attackCollider; }
+
+	// 攻撃力の取得・設定
+	float GetAttackForce() const { return m_attackForce; }
+	void SetAttackForce(float attackForce) { m_attackForce = attackForce; }
+
+	// 攻撃中フラグの取得・設定
+	bool GetIsAttack() const { return m_isAttack; }
+	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
+
+	// 攻撃種類の取得
+	AttackType GetAttackType() const { return m_attackType; }
+
+	// 跳ね返りフラグの取得・設定
+	bool GetIsBounce() const { return m_isBounce; }
+	void SetIsBounce(bool isBounce) { m_isBounce = isBounce; }
+
+	// デバッグ用球の取得
+	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
+
+	// スケールの取得
+	float GetScale() const { return SCALE; }
+
+	// 軌跡エフェクトの取得
+	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }
+	// 円形エフェクトの取得
+	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }
+
+	// アニメーション群の取得
+	Animations* GetAnimation() { return m_animations.get(); }
+
+	// 落下判定高度の取得
+	float GetKillHeight() const { return KILL_HEIGHT; }
+
+	// 操作キー設定の取得
+	InputKeyLoader::InputKeyInfo& GetKeyConfig() { return m_keyConfig; }
+
+	// 状態の取得
+	Player_Idle* GetState_Idle() { return m_idlingState.get(); }								// 待機
+	Player_Walk* GetState_Walk() { return m_walkingState.get(); }								// 移動
+	Player_AttackBasic* GetState_AttackBasic() { return m_basicAttackingState.get(); }			// 通常攻撃
+	Player_AttackRolling* GetState_AttackRolling() { return m_rollingAttackingState.get(); }	// 転がり攻撃
+	Player_AttackHeavy* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }			// 強攻撃
 
 
 	// 内部実装
@@ -279,7 +315,5 @@ private:
 	void SetupModels(ResourceManager* pRM, const PlayerInfoLoader::PlayerInfo& info);
 
 	// 状態の設定
-	void SetupState(
-		DirectX::Keyboard::KeyboardStateTracker* pKeyboard, Camera* pCamera,
-		const PlayerInfoLoader::PlayerInfo& info);
+	void SetupState(Camera* pCamera, const PlayerInfoLoader::PlayerInfo& info);
 };

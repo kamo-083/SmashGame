@@ -134,18 +134,17 @@ public:
 	// 除外
 	void Remove(uint32_t handle);
 
-	// 判定有効化設定
-	void SetEnabled(uint32_t handle, bool enabled);
-
-	// 判定有効フラグを取得
-	bool IsEnabled(uint32_t handle);
-		
-	// 連続ヒット有効化設定
-	void SetMultiHit(uint32_t handle, bool maltiHit);
-
 
 // 取得/設定
 public:
+	// 判定有効化設定
+	void SetEnabled(uint32_t handle, bool enabled);
+	// 判定有効フラグを取得
+	bool IsEnabled(uint32_t handle);
+
+	// 連続ヒット有効化設定
+	void SetMultiHit(uint32_t handle, bool maltiHit);
+
 	// 当たり判定情報の取得
 	const Desc* GetDesc(uint32_t handle) const;
 

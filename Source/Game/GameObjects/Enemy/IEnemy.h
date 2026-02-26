@@ -166,25 +166,47 @@ public:
 
 // 取得/設定
 public:
-	StateType GetStateType() { return m_currentState->GetStateType(); }			// 現在のステートの種類を取得
-	IState* GetNowState() { return m_currentState; }							// 現在のステートへのポインタを取得
-	DirectX::SimpleMath::Vector3 GetPosition() const { return m_position; }			// 座標を取得
-	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }	// 座標を設定
-	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }				// 移動速度を取得
-	void SetVelocity(const DirectX::SimpleMath::Vector3& vel) { m_velocity = vel; }	// 移動速度を設定
-	SphereCollider* GetCollider() { return &m_collider; }						// 当たり判定を取得
-	PhysicsObject* GetPhysics() { return m_physics.get(); }						// 物理演算オブジェクトを取得 
-	float GetMass()  const { return MASS; }										// 質量を取得
-	bool GetIsAttack() const { return m_isAttack; }								// 攻撃中フラグを取得
-	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }					// 攻撃中フラグを設定
-	float GetAttackForce() const { return m_attackForce; }						// 攻撃力を取得
-	void SetAttackForce(float force) { m_attackForce = force; }					// 攻撃力を設定
-	float  GetScale() const { return SCALE; }									// 大きさを取得
-	float GetRadius() const { return RADIUS; }									// 半径サイズの取得
-	float GetRotY() const { return m_rotY; }									// 回転の取得
-	void SetRotY(float royY) { m_rotY = royY; }									// 回転の設定
-	bool IsRespawn() const { return m_dropRespawn; }							// 落下時のリスポーン有無を取得
+	// 現在のステートの種類を取得
+	StateType GetStateType() { return m_currentState->GetStateType(); }	
+	// 現在のステートへのポインタを取得
+	IState* GetNowState() { return m_currentState; }
 
+	// 座標を取得・設定
+	DirectX::SimpleMath::Vector3 GetPosition() const { return m_position; }
+	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }
+
+	// 移動速度を取得・設定
+	DirectX::SimpleMath::Vector3& GetVelocity() { return m_velocity; }
+	void SetVelocity(const DirectX::SimpleMath::Vector3& vel) { m_velocity = vel; }
+
+	// 当たり判定を取得
+	SphereCollider* GetCollider() { return &m_collider; }
+
+	// 物理演算オブジェクトを取得
+	PhysicsObject* GetPhysics() { return m_physics.get(); }	 
+	// 質量を取得
+	float GetMass()  const { return MASS; }
+
+	// 攻撃中フラグを取得・設定
+	bool GetIsAttack() const { return m_isAttack; }
+	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
+
+	// 攻撃力を取得・設定
+	float GetAttackForce() const { return m_attackForce; }
+	void SetAttackForce(float force) { m_attackForce = force; }
+
+	// 大きさを取得
+	float  GetScale() const { return SCALE; }
+
+	// 半径サイズの取得
+	float GetRadius() const { return RADIUS; }
+
+	// 回転の取得・設定
+	float GetRotY() const { return m_rotY; }
+	void SetRotY(float royY) { m_rotY = royY; }
+
+	// 落下時のリスポーン有無を取得
+	bool IsRespawn() const { return m_dropRespawn; }
 
 // 内部実装
 private:

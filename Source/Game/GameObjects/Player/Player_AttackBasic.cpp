@@ -14,18 +14,14 @@
  * @brief コンストラクタ
  *
  * @param player	プレイヤーのポインタ
- * @param kbTracker キーボードトラッカーのポインタ
  * @param param		定数初期化用パラメータ
  */
-Player_AttackBasic::Player_AttackBasic(
-	Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-	const AttackParam& param)
+Player_AttackBasic::Player_AttackBasic(Player* player,	const AttackParam& param)
 	:
 	ATTACK_TIME(param.time),
 	ATTACK_SIZE(param.size),
 	ATTACK_FORCE(param.force),
-	m_pPlayer{ Player },
-	m_pKbTracker{ kbTracker },
+	m_pPlayer{ player },
 	m_attackTime{ 0.0f },
 	m_stateType{ StateType::Attack }
 {

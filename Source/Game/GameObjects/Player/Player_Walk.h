@@ -13,6 +13,7 @@
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/ModelAnimator.h"
+#include"Source/Game/Message/Message.h"
 #include"Source/Game/GameObjects/Camera.h"
 
 
@@ -37,9 +38,6 @@ private:
 	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
 
-	// キーボードトラッカーのポインタ
-	DirectX::Keyboard::KeyboardStateTracker* m_pKbTracker;
-
 	// モデルアニメーター
 	std::unique_ptr<ModelAnimator> m_modelAnimator;
 
@@ -49,6 +47,9 @@ private:
 	// 状態の種類
 	StateType m_stateType;
 
+	// 入力による移動速度
+	DirectX::SimpleMath::Vector3 m_inputVelocity;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -56,7 +57,6 @@ public:
 	// コンストラクタ
 	Player_Walk(
 		Player* player, Camera* camera,
-		DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 		float groundSpeed, float airSpeed);
 
 	// デストラクタ
@@ -76,6 +76,10 @@ public:
 
 	// 終了処理
 	void Finalize() override;
+
+	// メッセージを処理
+	void OnMessage(Message::MessageID messageID) override;
+
 
 // 取得/設定
 public:

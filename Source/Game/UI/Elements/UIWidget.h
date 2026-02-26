@@ -79,13 +79,23 @@ public:
 
 // 取得/設定
 public:
-	Tween2D* GetTween() { return m_tween.get(); }				// トゥイーンの取得
-	Tween2D::UIParams GetParam () const { return m_params; }	// 現在のパラメータの取得
-	Tween2D::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }	// 変化後のパラメータを取得
-	float GetEasingProgress() const { return m_tween->GetEasingProgress(); }		// イージング済みの進行度を取得
-	float GetLinearProgress() const { return m_tween->GetLinearProgress(); }		// 素の経過時間を取得
-	DirectX::SimpleMath::Vector2 GetTexSize() const { return m_texSize; }			// テクスチャサイズの取得
-	void SetTexture(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture) { m_texture = texture; }		// テクスチャの設定
+	// トゥイーンの取得
+	Tween2D* GetTween() { return m_tween.get(); }
+	
+	//現在のパラメータの取得
+	Tween2D::UIParams GetParam() const { return m_params; }
+	// 変化後のパラメータを取得
+	Tween2D::UIParams GetDelta () const { return m_tween->GetTweenData().delta; }
+
+	// イージング済みの進行度を取得
+	float GetEasingProgress() const { return m_tween->GetEasingProgress(); }
+	// 素の経過時間を取得
+	float GetLinearProgress() const { return m_tween->GetLinearProgress(); }
+
+	// テクスチャサイズの取得
+	DirectX::SimpleMath::Vector2 GetTexSize() const { return m_texSize; }
+	// テクスチャの設定
+	void SetTexture(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture) { m_texture = texture; }
 
 	// 新しいパラメータをセット
 	void SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams& delta);

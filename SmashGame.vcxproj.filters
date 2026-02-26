@@ -107,8 +107,11 @@
     <Filter Include="UI\Elements\Atlas">
       <UniqueIdentifier>{dbda96bf-790c-46d8-8d92-c1e1c318386d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Event">
+    <Filter Include="Message">
       <UniqueIdentifier>{ca10b9c9-ecc0-4d91-99d4-11b4c7a885b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object">
+      <UniqueIdentifier>{f71384a0-f84a-4ee9-83af-4978bd87be98}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -365,14 +368,17 @@
     <ClInclude Include="Source\Game\UI\UITextureCatalog.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Event\Event.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Event\EventBas.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Interface\IEventHandler.h">
+    <ClInclude Include="Source\Game\Interface\IMessageListener.h">
       <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Message\Message.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Message\Messenger.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Object\Object.h">
+      <Filter>Game\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -576,8 +582,11 @@
     <ClCompile Include="Source\Game\UI\UITextureCatalog.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Event\EventBas.cpp">
-      <Filter>Event</Filter>
+    <ClCompile Include="Source\Game\Message\Messenger.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Object\Object.cpp">
+      <Filter>Game\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

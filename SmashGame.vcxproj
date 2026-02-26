@@ -210,8 +210,6 @@
     <ClInclude Include="Source\Game\Effect\IEffectParticle.h" />
     <ClInclude Include="Source\Game\Effect\ParticleUtility.h" />
     <ClInclude Include="Source\Game\Effect\Trajectory\TrajectoryParticle.h" />
-    <ClInclude Include="Source\Game\Event\Event.h" />
-    <ClInclude Include="Source\Game\Event\EventBas.h" />
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\GameObjects\Background.h" />
     <ClInclude Include="Source\Game\GameObjects\Camera.h" />
@@ -236,8 +234,11 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Key.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\TargetBox.h" />
     <ClInclude Include="Source\Game\GameObjects\Stage\StageManager.h" />
-    <ClInclude Include="Source\Game\Interface\IEventHandler.h" />
+    <ClInclude Include="Source\Game\Interface\IMessageListener.h" />
     <ClInclude Include="Source\Game\Interface\IState.h" />
+    <ClInclude Include="Source\Game\Message\Message.h" />
+    <ClInclude Include="Source\Game\Message\Messenger.h" />
+    <ClInclude Include="Source\Game\Object\Object.h" />
     <ClInclude Include="Source\Game\Physics\Collision.h" />
     <ClInclude Include="Source\Game\Physics\CollisionManager.h" />
     <ClInclude Include="Source\Game\Physics\ExternalForce.h" />
@@ -293,7 +294,6 @@
     <ClCompile Include="Source\Game\Effect\IEffectParticle.cpp" />
     <ClCompile Include="Source\Game\Effect\ParticleUtility.cpp" />
     <ClCompile Include="Source\Game\Effect\Trajectory\TrajectoryParticle.cpp" />
-    <ClCompile Include="Source\Game\Event\EventBas.cpp" />
     <ClCompile Include="Source\Game\Game.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
@@ -320,6 +320,8 @@
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Key.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\TargetBox.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\StageManager.cpp" />
+    <ClCompile Include="Source\Game\Message\Messenger.cpp" />
+    <ClCompile Include="Source\Game\Object\Object.cpp" />
     <ClCompile Include="Source\Game\Physics\Collision.cpp" />
     <ClCompile Include="Source\Game\Physics\CollisionManager.cpp" />
     <ClCompile Include="Source\Game\Physics\PhysicsObject.cpp" />

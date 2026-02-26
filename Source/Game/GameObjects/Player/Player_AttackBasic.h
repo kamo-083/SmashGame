@@ -46,9 +46,6 @@ private:
 	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
 
-	// キーボードトラッカーのポインタ
-	DirectX::Keyboard::KeyboardStateTracker* m_pKbTracker;
-
 	// モデルアニメーター
 	std::unique_ptr<ModelAnimator> m_modelAnimator;
 
@@ -63,9 +60,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Player_AttackBasic(
-		Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker,
-		const AttackParam& param);
+	Player_AttackBasic(Player* player, const AttackParam& param);
 
 	// デストラクタ
 	~Player_AttackBasic() = default;

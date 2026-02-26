@@ -12,12 +12,12 @@
 #include"Source/Game/Physics/Gravity.h"
 #include"Source/Game/Physics/ExternalForce.h"
 #include"Source/Game/Physics/Friction.h"
-
 #include"Source/Debug/DebugFont.h"
 
 
 class PhysicsObject
 {
+// クラス定数の宣言 -------------------------------------------------
 private:
 	static constexpr float RESTITUTION_COEFFICIENT = 1.0f;	// 反発係数のデフォルト値
 
@@ -30,6 +30,9 @@ private:
 
 	static constexpr float ROLLING_ACCELERATION_COEFF = 5.0f / 7.0f; // 転がりによる加速度の低下係数
 
+
+// データメンバの宣言 -----------------------------------------------
+private:
 	// 重力
 	Gravity m_gravity;
 
@@ -50,11 +53,17 @@ private:
 	DirectX::SimpleMath::Vector3 m_inertia;
 
 
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
-	// コンストラクタ・デストラクタ
+	// コンストラクタ
 	PhysicsObject();
+
+	// デストラクタ
 	~PhysicsObject() = default;
 
+// 操作
+public:
 	// 速度に加える力の計算
 	void CalculateForce(
 		DirectX::SimpleMath::Vector3& velocity,
@@ -73,11 +82,16 @@ public:
 		DirectX::SimpleMath::Vector3& normal,
 		float elapsedTime);
 
-	// 取得
-	ExternalForce& GetExternalForce() { return m_externalForce; }	// 外力
-	Gravity& GetGravity() { return m_gravity; }						// 重力
-	Friction& GetFriction() { return m_friction; }					// 摩擦力
-	DirectX::SimpleMath::Vector3 GetAngVelocity() { return m_angularVelocity; }		// 角速度
+// 取得/設定
+public:
+	// 外力を取得
+	ExternalForce& GetExternalForce() { return m_externalForce; }
+	// 重力を取得
+	Gravity& GetGravity() { return m_gravity; }	
+	// 摩擦力を取得
+	Friction& GetFriction() { return m_friction; }
+	// 角速度を取得
+	DirectX::SimpleMath::Vector3 GetAngVelocity() { return m_angularVelocity; }
 
 	// デバッグフォントの描画
 	void DrawDebugFont(DebugFont* debugFont, int y);
@@ -97,6 +111,7 @@ public:
 	// 角速度の加算
 	void AddAngVelocity(const DirectX::SimpleMath::Vector3& angVel);
 
+// 内部実装
 private:
 	// 反射ベクトルの計算
 	DirectX::SimpleMath::Vector3 CalculateReflectionVector(

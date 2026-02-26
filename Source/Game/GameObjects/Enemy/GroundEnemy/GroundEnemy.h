@@ -134,22 +134,31 @@ public:
 
 // 取得/設定
 public:
-	GroundEnemy_Idle* GetState_Idle() { return m_idlingState.get(); };			// 待機状態のポインタを取得
-	GroundEnemy_Walk* GetState_Walk() { return m_walkingState.get(); };			// 移動状態のポインタを取得
-	GroundEnemy_Bounce* GetState_Bounce() { return m_bouncingState.get(); };	// 跳ね返り状態のポインタを取得
-	GroundEnemy_Attack* GetState_Attack() { return m_attackingState.get(); };	// 攻撃状態のポインタを取得
+	// 状態のポインタを取得
+	GroundEnemy_Idle* GetState_Idle() { return m_idlingState.get(); };			// 待機
+	GroundEnemy_Walk* GetState_Walk() { return m_walkingState.get(); };			// 移動
+	GroundEnemy_Bounce* GetState_Bounce() { return m_bouncingState.get(); };	// 跳ね返り
+	GroundEnemy_Attack* GetState_Attack() { return m_attackingState.get(); };	// 攻撃
 
-	PlayerRelationData GetPlayerRelativeData() const { return m_playerRelationData; }	// プレイヤーとの位置関係を取得
-	SphereCollider* GetAttackCollider() { return &m_attackCollider; }					// 攻撃の当たり判定を取得
-	float GetAttackDistance() const { return ATTACK_DISTANCE; }							// 攻撃の距離を取得
+	// プレイヤーとの位置関係を取得
+	PlayerRelationData GetPlayerRelativeData() const { return m_playerRelationData; }
 
-	DirectX::Model* GetModel() { return m_model; }				// モデルのポインタの取得
-	Animations* GetAnimation() { return m_animations.get(); }	// アニメーションのポインタ群の取得
+	// 攻撃の当たり判定を取得
+	SphereCollider* GetAttackCollider() { return &m_attackCollider; }
+	// 攻撃の距離を取得
+	float GetAttackDistance() const { return ATTACK_DISTANCE; }	
 
-	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }	// 軌跡エフェクトのポインタの取得
-	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }				// 円形エフェクトのポインタの取得
+	// モデルのポインタの取得
+	DirectX::Model* GetModel() { return m_model; }
+	// アニメーションのポインタ群の取得
+	Animations* GetAnimation() { return m_animations.get(); }
 
-	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }	// デバッグ用球の取得
+	// エフェクトのポインタを取得
+	EffectManager::TrajectoryParticleData* GetTrajectoryParticle() { return m_trajectory; }	// 軌跡
+	EffectManager::CircleParticleData* GetCircleParticle() { return m_circle; }				// 円形
+
+	// デバッグ用球の取得
+	DirectX::GeometricPrimitive* GetSpherePrimitive() { return m_sphere.get(); }
 
 // 内部実装
 private:

@@ -7,6 +7,7 @@
 // ヘッダファイルの読み込み
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Message/Message.h"
 
 
 // 状態の種類
@@ -34,4 +35,10 @@ public:
 
 	// 状態の種類を取得
 	virtual StateType GetStateType() const = 0;
+
+	// メッセージを処理
+	virtual void OnMessage(Message::MessageID messageID)
+	{
+		UNREFERENCED_PARAMETER(messageID);
+	};
 };

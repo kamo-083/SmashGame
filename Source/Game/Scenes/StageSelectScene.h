@@ -125,12 +125,6 @@ private:
 	// シーンを移動
 	void TransitionScene(DirectX::Keyboard::KeyboardStateTracker* kb);
 
-	// スタンプを押すかどうかを判定
-	void SelectStamp(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Color& color, const int stage);
-
-	// パネルの合成
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> PanelSynthesis(RenderContext& context, const int stage);
-
 	// 初期設定関連
 	// ステージパネルの設定
 	void SetupPanel(const DirectX::SimpleMath::Vector2& windowSize);

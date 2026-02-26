@@ -124,8 +124,10 @@ public:
 private:
 	// スライド処理
 	void Slide(Direction dir);
+	
 	// パラメータの作成
 	void MakeParam(UIWidget& widget, const LayoutData& to);
+
 	// 攻撃リストとUI画像を一致させる
 	void BindAttackSlots();
 };

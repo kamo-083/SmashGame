@@ -59,7 +59,6 @@ public:
 
 	// アニメーションのイージング済みの進行度を取得
 	float GetAnimEasingProgress() const { return m_widget->GetEasingProgress(); }
-
 	// アニメーションの素の進行度を取得
 	float GetAnimLinearProgress() const { return m_widget->GetLinearProgress(); }
 

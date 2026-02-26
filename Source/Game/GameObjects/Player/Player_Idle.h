@@ -36,9 +36,6 @@ private:
 	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
 
-	// キーボードトラッカーのポインタ
-	DirectX::Keyboard::KeyboardStateTracker* m_pKbTracker;
-
 	// モデルアニメーター
 	std::unique_ptr<ModelAnimator> m_modelAnimator;
 
@@ -50,7 +47,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Player_Idle(Player* Player, DirectX::Keyboard::KeyboardStateTracker* kbTracker);
+	Player_Idle(Player* player);
 
 	// デストラクタ
 	~Player_Idle() = default;
@@ -69,6 +66,9 @@ public:
 
 	// 終了処理
 	void Finalize() override;
+
+	// メッセージを処理
+	void OnMessage(Message::MessageID messageID) override;
 
 // 取得/設定
 public:

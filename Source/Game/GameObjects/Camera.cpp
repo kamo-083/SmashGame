@@ -187,6 +187,41 @@ void Camera::SmoothCameraRotation(float elapsedTime)
 
 
 /**
+ * @brief イベントの受信
+ *
+ * @param messageID メッセージID
+ *
+ * @return なし
+ */
+void Camera::OnMessageAccepted(Message::MessageID messageID)
+{
+	using MessageID = Message::MessageID;
+
+	if (m_isRotation) return;
+
+	// 回転終了角度を設定
+	switch (messageID)
+	{
+	case MessageID::CAMERA_ROTATE_LEFT:
+		m_endAngle = NormalizeAngle(m_endAngle) - CAMERA_ROTATE_ANGLE;
+		break;
+	case MessageID::CAMERA_ROTATE_RIGHT:
+		m_endAngle = NormalizeAngle(m_endAngle) + CAMERA_ROTATE_ANGLE;
+		break;
+	default: return;
+	}
+
+	// 現在の角度を回転開始角度に設定
+	m_startAngle = m_angle.x;
+
+	// 回転中に設定
+	m_isRotation = true;
+	m_rotProgress = 0.0f;
+}
+
+
+
+/**
  * @brief カメラの前方向ベクトルの取得
  *
  * @param なし

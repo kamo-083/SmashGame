@@ -20,22 +20,21 @@ struct MTV
 class SphereCollider
 {
 private:
-	DirectX::SimpleMath::Vector3 m_center;	//中心座標
-	float m_radius;							//半径
+	DirectX::SimpleMath::Vector3 m_center;	// 中心座標
+	float m_radius;							// 半径
 
 public:
-	//コンストラクタ・デストラクタ
+	// コンストラクタ・デストラクタ
 	SphereCollider();
 	SphereCollider(const DirectX::SimpleMath::Vector3& center,float radius);
 	~SphereCollider() = default;
 
-	//取得
-	DirectX::SimpleMath::Vector3 GetCenter() const { return m_center; }	//中心座標の取得
-	float GetRadius() const { return m_radius; }						//半径の取得
+	// 取得・設定
+	DirectX::SimpleMath::Vector3 GetCenter() const { return m_center; }					// 中心座標の取得
+	void SetCenter(const DirectX::SimpleMath::Vector3& center) { m_center = center; }	// 中心位置の設定
 
-	//設定
-	void SetCenter(const DirectX::SimpleMath::Vector3& center) { m_center = center; }	//中心位置の設定
-	void SetRadius(float radius) { m_radius = radius; }							//半径の設定
+	float GetRadius() const { return m_radius; }		// 半径の取得
+	void SetRadius(float radius) { m_radius = radius; }	// 半径の設定
 };
 
 // OBBの当たり判定
@@ -44,10 +43,10 @@ class OBBCollider
 public:
 	struct OBB
 	{
-		DirectX::SimpleMath::Vector3 center;		//中心座標
-		DirectX::SimpleMath::Vector3 axis[3];		//方向ベクトル
-		DirectX::SimpleMath::Vector3 halfLength;	//中心座標から面までの長さ
-		DirectX::SimpleMath::Quaternion rotation;	//回転
+		DirectX::SimpleMath::Vector3 center;		// 中心座標
+		DirectX::SimpleMath::Vector3 axis[3];		// 方向ベクトル
+		DirectX::SimpleMath::Vector3 halfLength;	// 中心座標から面までの長さ
+		DirectX::SimpleMath::Quaternion rotation;	// 回転
 	};
 
 	// コライダーの種類(主にステージの地形に使用)
@@ -64,26 +63,32 @@ private:
 	MTV m_mtv;
 
 public:
-	//コンストラクタ・デストラクタ
+	// コンストラクタ・デストラクタ
 	OBBCollider();
 	OBBCollider(const DirectX::SimpleMath::Vector3& center,
 				const DirectX::SimpleMath::Quaternion& rotation,
 				const DirectX::SimpleMath::Vector3& halfLength);
 	~OBBCollider() = default;
 
-	//取得
-	DirectX::SimpleMath::Vector3 GetCenter() const { return m_obb.center; }			//中心座標の取得
+	// 取得・設定
+	// 中心座標の取得・設定
+	DirectX::SimpleMath::Vector3 GetCenter() const { return m_obb.center; }	
 	float GetCenter(int n) const;
-	DirectX::SimpleMath::Vector3 GetHalfLength() const { return m_obb.halfLength; }	//中心座標から面までの長さの取得
-	float GetHalfLength(int n) const;
-	DirectX::SimpleMath::Vector3* GetAxis() { return m_obb.axis; }					//方向ベクトルの取得
-	DirectX::SimpleMath::Vector3 GetAxis(int n) const { return m_obb.axis[n]; }
-	DirectX::SimpleMath::Quaternion GetRotation() const { return m_obb.rotation; }	//回転の取得
+	void SetCenter(const DirectX::SimpleMath::Vector3& center) { m_obb.center = center; }
 
-	//設定
-	void SetCenter(const DirectX::SimpleMath::Vector3& center) { m_obb.center = center; }					//中心位置の設定
-	void SetHalfLength(const DirectX::SimpleMath::Vector3& halfLength) { m_obb.halfLength = halfLength; }  //中心座標から面までの長さの設定
-	void SetRotation(const DirectX::SimpleMath::Quaternion& rotation);										//回転の設定
+	// 中心座標から面までの長さの取得・設定
+	DirectX::SimpleMath::Vector3 GetHalfLength() const { return m_obb.halfLength; }
+	float GetHalfLength(int n) const;
+	void SetHalfLength(const DirectX::SimpleMath::Vector3& halfLength) { m_obb.halfLength = halfLength; }
+
+	// 方向ベクトルの取得
+	DirectX::SimpleMath::Vector3* GetAxis() { return m_obb.axis; }
+	DirectX::SimpleMath::Vector3 GetAxis(int n) const { return m_obb.axis[n]; }
+
+	// 回転の取得・設定
+	DirectX::SimpleMath::Quaternion GetRotation() const { return m_obb.rotation; }
+	void SetRotation(const DirectX::SimpleMath::Quaternion& rotation);
+
 };
 
 //球と球の当たり判定

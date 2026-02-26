@@ -52,9 +52,6 @@ private:
 	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
 
-	// キーボードトラッカーのポインタ
-	DirectX::Keyboard::KeyboardStateTracker* m_pKbTracker;
-
 	// モデルアニメーター
 	std::unique_ptr<ModelAnimator> m_modelAnimator;
 
@@ -77,7 +74,6 @@ public:
 	// コンストラクタ
 	Player_AttackRolling(
 		Player* Player, Camera* camera,
-		DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 		const AttackParam& param);
 
 	// デストラクタ
@@ -97,6 +93,10 @@ public:
 
 	// 終了処理
 	void Finalize() override;
+
+	// メッセージを処理
+	void OnMessage(Message::MessageID messageID) override;
+
 
 // 取得/設定
 public:

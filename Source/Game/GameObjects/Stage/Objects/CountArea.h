@@ -121,7 +121,6 @@ private:
 
 	// エリアに入った敵をリストに追加・条件判定
 	void EnterEnemy(CollisionManager* pCM, uint32_t handle);
-
 	// エリアを出た敵をリストから除外・条件判定
 	void ExitEnemy(CollisionManager* pCM, uint32_t handle);
 

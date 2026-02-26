@@ -7,7 +7,7 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player_Walk.h"
-#include"Player.h"
+#include "Player.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -16,19 +16,16 @@
  *
  * @param player	  プレイヤーのポインタ
  * @param camera	  カメラのポインタ
- * @param kbTracker	  キーボードトラッカーのポインタ
  * @param groundSpeed 地上の移動速度
  * @param airSpeed    空中の移動速度
  */
 Player_Walk::Player_Walk(
 	Player* player, Camera* camera,
-	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
 	float groundSpeed, float airSpeed)
 	:
 	GROUND_SPEED(groundSpeed),
 	AIR_SPEED(airSpeed),
 	m_pPlayer{ player },
-	m_pKbTracker{ kbTracker },
 	m_pCamera{ camera },
 	m_stateType{ StateType::Walk }
 {
@@ -67,18 +64,11 @@ void Player_Walk::Initialize(ResourceManager* pRM)
  */
 void Player_Walk::Update(const float& elapsedTime)
 {
-	DirectX::SimpleMath::Vector3 inputVelocity = DirectX::SimpleMath::Vector3::Zero;
-
-	//入力による移動速度
-	inputVelocity = m_pPlayer->MoveDirection(m_pKbTracker, m_pCamera);
-	if (m_pPlayer->GetPhysics()->IsOnGround())	inputVelocity *= GROUND_SPEED;
-	else										inputVelocity *= AIR_SPEED;
-
 	// 入力が無いときは以前の速度を入れる
-	if (inputVelocity.LengthSquared() == 0.0f) inputVelocity = m_pPlayer->GetVelocity();
+	if (m_inputVelocity.LengthSquared() == 0.0f) m_inputVelocity = m_pPlayer->GetVelocity();
 
 	// 位置の更新
-	m_pPlayer->SetVelocity({ inputVelocity.x, m_pPlayer->GetVelocity().y, inputVelocity.z });
+	m_pPlayer->SetVelocity({ m_inputVelocity.x, m_pPlayer->GetVelocity().y, m_inputVelocity.z });
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
 	m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetVelocity() * elapsedTime);
@@ -86,23 +76,8 @@ void Player_Walk::Update(const float& elapsedTime)
 	// 当たり判定の更新
 	m_pPlayer->GetCollider()->SetCenter(m_pPlayer->GetPosition());
 
-	// 攻撃の切り替え
-	m_pPlayer->ChangeAttack(m_pKbTracker);
-
 	// アニメーションの更新
 	m_modelAnimator->Update(elapsedTime);
-
-	// 待機状態に切り替え
-	if (!m_pPlayer->PressMoveKey(m_pKbTracker))
-	{
-		m_pPlayer->ChangeState(m_pPlayer->GetState_Idle());
-	}
-
-	// 攻撃状態に切り替え
-	if (m_pKbTracker->IsKeyPressed(m_pPlayer->GetKeyConfig().attack))
-	{
-		m_pPlayer->Attack();
-	}
 }
 
 
@@ -147,4 +122,45 @@ void Player_Walk::Finalize()
 {
 	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
+}
+
+
+
+/**
+ * @brief メッセージを処理
+ *
+ * @param messageID メッセージID
+ *
+ * @return なし
+ */
+void Player_Walk::OnMessage(Message::MessageID messageID)
+{
+	switch (messageID)
+	{
+	case Message::MessageID::PLAYER_IDLE:
+		// 待機
+		m_inputVelocity = DirectX::SimpleMath::Vector3::Zero;
+		m_pPlayer->ChangeState(m_pPlayer->GetState_Idle());
+		break;
+	case Message::MessageID::PLAYER_MOVE_FORWARD:
+	case Message::MessageID::PLAYER_MOVE_BACKWARD:
+	case Message::MessageID::PLAYER_MOVE_LEFT:
+	case Message::MessageID::PLAYER_MOVE_RIGHT:
+		// 移動方向を決定
+		m_inputVelocity = m_pPlayer->MoveDirection(messageID, m_pCamera);
+		// 速度を計算
+		if (m_pPlayer->GetPhysics()->IsOnGround())	m_inputVelocity *= GROUND_SPEED;
+		else										m_inputVelocity *= AIR_SPEED;
+		break;
+	case Message::MessageID::PLAYER_ATTACK:
+		// 攻撃
+		m_inputVelocity = DirectX::SimpleMath::Vector3::Zero;
+		m_pPlayer->Attack();
+		break;
+	case Message::MessageID::ATTACK_CHANGE_LEFT:
+	case Message::MessageID::ATTACK_CHANGE_RIGHT:
+		// 攻撃変更
+		m_pPlayer->ChangeAttack(messageID);
+		break;
+	}
 }

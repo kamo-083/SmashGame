@@ -15,12 +15,10 @@
  *
  * @param player	  プレイヤーのポインタ
  * @param camera	  カメラのポインタ
- * @param kbTracker   キーボードトラッカーのポインタ
  * @param param		  定数初期化用パラメータ
  */
 Player_AttackRolling::Player_AttackRolling(
-	Player* Player, Camera* camera,
-	DirectX::Keyboard::KeyboardStateTracker* kbTracker,
+	Player* player, Camera* camera,
 	const AttackParam& param)
 	: 
 	ATTACK_TIME(param.time),
@@ -28,8 +26,7 @@ Player_AttackRolling::Player_AttackRolling(
 	ATTACK_FORCE(param.force),
 	GROUND_SPEED(param.groundSpeed),
 	AIR_SPEED(param.airSpeed),
-	m_pPlayer{ Player },
-	m_pKbTracker{ kbTracker },
+	m_pPlayer{ player },
 	m_pCamera{ camera },
 	m_attackTime{ 0.0f },
 	m_moveForce{ DirectX::SimpleMath::Vector3::Zero },
@@ -85,15 +82,15 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 {
 	m_attackTime -= elapsedTime;
 
-	DirectX::SimpleMath::Vector3 inputVelocity = DirectX::SimpleMath::Vector3::Zero;
+	//DirectX::SimpleMath::Vector3 inputVelocity = DirectX::SimpleMath::Vector3::Zero;
 
-	//入力による移動速度
-	inputVelocity = m_pPlayer->MoveDirection(m_pKbTracker, m_pCamera);
-	if (m_pPlayer->GetPhysics()->IsOnGround())	inputVelocity *= GROUND_SPEED;
-	else										inputVelocity *= AIR_SPEED;
-	m_pPlayer->LimitVelocity(inputVelocity, m_pPlayer->GetMaxSpeed());
+	////入力による移動速度
+	//inputVelocity = m_pPlayer->MoveDirection(m_pKbTracker, m_pCamera);
+	//if (m_pPlayer->GetPhysics()->IsOnGround())	inputVelocity *= GROUND_SPEED;
+	//else										inputVelocity *= AIR_SPEED;
+	//m_pPlayer->LimitVelocity(inputVelocity, m_pPlayer->GetMaxSpeed());
 
-	if (inputVelocity.LengthSquared() != 0.0f) m_moveForce = inputVelocity;
+	//if (inputVelocity.LengthSquared() != 0.0f) m_moveForce = inputVelocity;
 
 	// 位置の更新
 	m_pPlayer->SetVelocity({ m_moveForce.x, m_pPlayer->GetVelocity().y, m_moveForce.z });
@@ -161,4 +158,30 @@ void Player_AttackRolling::Finalize()
 {
 	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
+}
+
+
+
+/**
+ * @brief メッセージを処理
+ *
+ * @param messageID メッセージID
+ *
+ * @return なし
+ */
+void Player_AttackRolling::OnMessage(Message::MessageID messageID)
+{
+	switch (messageID)
+	{
+	case Message::MessageID::PLAYER_MOVE_FORWARD:
+	case Message::MessageID::PLAYER_MOVE_BACKWARD:
+	case Message::MessageID::PLAYER_MOVE_LEFT:
+	case Message::MessageID::PLAYER_MOVE_RIGHT:
+		// 移動方向を決定
+		m_moveForce = m_pPlayer->MoveDirection(messageID, m_pCamera);
+		// 速度を計算
+		if (m_pPlayer->GetPhysics()->IsOnGround())	m_moveForce *= GROUND_SPEED;
+		else										m_moveForce *= AIR_SPEED;
+		break;
+	}
 }

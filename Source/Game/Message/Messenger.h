@@ -1,7 +1,7 @@
 /**
- * @file   EventBas.h
+ * @file   Messenger.h
  *
- * @brief  イベントの送受信に関するヘッダファイル
+ * @brief  メッセンジャーに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -9,15 +9,16 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Event/Event.h"
-#include"Source/Game/Interface/IEventHandler.h"
+#include "Source/Game/Message/Message.h"
+#include "Source/Game/Interface/IMessageListener.h"
+#include <unordered_map>
 
 
 // クラスの定義 ===============================================================
 /**
- * @brief イベントの送受信
+ * @brief メッセンジャー
  */
-class EventBas
+class Messenger
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -27,26 +28,26 @@ private:
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// オブジェクトのポインタ群
-	std::vector<IEventHandler*> m_handlers;
-		
+	std::unordered_map<int, IMessageListener*> m_listeners;
+
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	EventBas();
+	Messenger();
 
 	// デストラクタ
-	~EventBas() = default;
+	~Messenger() = default;
 
 
-// 操作
+	// 操作
 public:
 	// オブジェクトを登録
-	void AddHandler(IEventHandler* handler);
+	void AddObject(int listenerID, IMessageListener* listener);
 
 	// イベントを送信
-	void Notify( Event::EventID eventID);
+	void Notify(int listenerID, Message::MessageID messageID);
 
 
 // 取得/設定

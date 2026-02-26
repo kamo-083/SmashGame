@@ -85,6 +85,4 @@ public:
 	{
 		return SPRITE_SIZE;
 	}
-
-
 };

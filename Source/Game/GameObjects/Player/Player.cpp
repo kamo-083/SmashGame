@@ -41,7 +41,6 @@ Player::Player(
 	m_attackType{},
 	m_pAttackUI{ nullptr },
 	m_currentState{ nullptr },
-	m_pKeyMode{ nullptr },
 	m_pCollisionManager{ nullptr },
 	m_handleBody{ 0 },
 	m_handleAttack{ 0 }
@@ -72,10 +71,7 @@ Player::~Player()
  * 
  * pRM			リソースマネージャーのポインタ
  * pCM			当たり判定マネージャーのポインタ
- * pKbTracker	キーボードトラッカーのポインタ
  * pCamera		カメラのポインタ
- * pAttackUI	攻撃UIのポインタ
- * pKeyMode		キー入力モードのポインタ
  * info			外部ファイルからの情報
  * 
  * @param keyConfig	操作キー設定
@@ -108,9 +104,6 @@ void Player::Initialize(const PlayerParams& param, const InputKeyLoader::InputKe
 	// モデル・アニメーションの取得
 	SetupModels(param.pRM, param.info);
 
-	// キー操作のモードのポインタの設定
-	m_pKeyMode = param.pKeyMode;
-
 	// 操作キー設定の保存
 	m_keyConfig = keyConfig;
 
@@ -123,7 +116,7 @@ void Player::Initialize(const PlayerParams& param, const InputKeyLoader::InputKe
 	SetupCollision(param.pCM);
 
 	// 状態の設定
-	SetupState(param.pKbTracker, param.pCamera, param.info);
+	SetupState(param.pCamera, param.info);
 }
 
 
@@ -216,6 +209,9 @@ void Player::Finalize()
  */
 void Player::ChangeState(IState* newState)
 {
+	// 同じだったらそのまま
+	if (m_currentState == newState) return;
+
 	// 新規の状態を現在の状態に設定する
 	m_currentState = newState;
 
@@ -228,27 +224,22 @@ void Player::ChangeState(IState* newState)
 /**
  * @brief 攻撃の切り替え
  *
- * @param pKbTracker キーボードトラッカーのポインタ
+ * @param messageID メッセージID
  *
  * @return なし
  */
-void Player::ChangeAttack(DirectX::Keyboard::KeyboardStateTracker* pKbTracker)
+void Player::ChangeAttack(Message::MessageID messageID)
 {
-	if (!(*m_pKeyMode)) return;
-
-	// キーボードの状態を取得
-	DirectX::Keyboard::State keyState = pKbTracker->GetLastState();
-
-	if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_right))
+	if (messageID==Message::MessageID::ATTACK_CHANGE_LEFT)
 	{
-		++m_attackType;
+		--m_attackType;
 
 		// SEの再生
 		m_pScene->PlaySE("cursorSE");
 	}
-	else if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_left))
+	else if (messageID == Message::MessageID::ATTACK_CHANGE_RIGHT)
 	{
-		--m_attackType;
+		++m_attackType;
 
 		// SEの再生
 		m_pScene->PlaySE("cursorSE");
@@ -293,8 +284,6 @@ void Player::Attack()
 		// 状態の変更
 		ChangeState(m_heavyAttackingState.get());
 		break;
-	default:
-		break;
 	}
 }
 
@@ -333,38 +322,49 @@ void Player::Respawn()
 
 
 /**
+ * @brief イベントの受信
+ *
+ * @param messageID メッセージID
+ *
+ * @return なし
+ */
+void Player::OnMessageAccepted(Message::MessageID messageID)
+{
+	// 現在の状態にメッセージを渡す
+	m_currentState->OnMessage(messageID);
+}
+
+
+
+/**
  * @brief 移動方向を計算
  *
- * @param pKbTracker キーボードトラッカーのポインタ
+ * @param messageID  メッセージID
  * @param camera	 カメラのポインタ
  *
  * @return 移動方向
  */
 DirectX::SimpleMath::Vector3 Player::MoveDirection(
-	DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
-	Camera* camera)
+	Message::MessageID messageID, Camera* camera)
 {
 	DirectX::SimpleMath::Vector3 forward = camera->GetForward();
 	DirectX::SimpleMath::Vector3 right = forward.Cross(camera->GetUp());
 	DirectX::SimpleMath::Vector3 direction = DirectX::SimpleMath::Vector3::Zero;
 
-	// キーボードの状態を取得
-	DirectX::Keyboard::State keyState = pKbTracker->GetLastState();
-
 	//移動
-	if (keyState.IsKeyDown(m_keyConfig.move_backward))	// 後ろ
+	if (messageID == Message::MessageID::PLAYER_MOVE_BACKWARD)	// 後ろ
 	{
 		direction += -forward;
 	}
-	else if (keyState.IsKeyDown(m_keyConfig.move_forward))	// 前
+	else if (messageID == Message::MessageID::PLAYER_MOVE_FORWARD)	// 前
 	{
 		direction -= -forward;
 	}
-	if (keyState.IsKeyDown(m_keyConfig.move_right))	// 右
+	if (messageID == Message::MessageID::PLAYER_MOVE_RIGHT)	// 右
 	{
 		direction += right;
 	}
-	else if (keyState.IsKeyDown(m_keyConfig.move_left))	// 左
+	else if (messageID == Message::MessageID::PLAYER_MOVE_LEFT)	// 左
 	{
 		direction -= right;
 	}
@@ -604,22 +604,19 @@ void Player::SetupCollision(CollisionManager* pCM)
 /**
  * @brief 状態の設定
  *
- * @param pKeyboard	キーボードトラッカーのポインタ
  * @param pCamera	カメラのポインタ
  * @param info		外部ファイルからの情報
  *
  * @return なし
  */
-void Player::SetupState(
-	DirectX::Keyboard::KeyboardStateTracker* pKeyboard, Camera* pCamera,
-	const PlayerInfoLoader::PlayerInfo& info)
+void Player::SetupState(Camera* pCamera, const PlayerInfoLoader::PlayerInfo& info)
 {
 	// 待機状態を生成
-	m_idlingState = std::make_unique<Player_Idle>(this, pKeyboard);
+	m_idlingState = std::make_unique<Player_Idle>(this);
 
 	// 歩き状態を生成
 	m_walkingState = std::make_unique<Player_Walk>(
-		this, pCamera, pKeyboard, info.walk_speed, info.walk_speed * 0.5f);
+		this, pCamera, info.walk_speed, info.walk_speed * 0.5f);
 
 	// 通常攻撃状態を生成
 	Player_AttackBasic::AttackParam basicParam =
@@ -628,8 +625,7 @@ void Player::SetupState(
 		info.attack[static_cast<int>(AttackType::BASIC)].size,
 		info.attack[static_cast<int>(AttackType::BASIC)].force,
 	};
-	m_basicAttackingState = std::make_unique<Player_AttackBasic>(
-		this, pKeyboard,basicParam);
+	m_basicAttackingState = std::make_unique<Player_AttackBasic>(this, basicParam);
 
 	// 転がり攻撃状態を生成
 	Player_AttackRolling::AttackParam rollingParam =
@@ -640,7 +636,7 @@ void Player::SetupState(
 		info.dash_speed, info.dash_speed * 0.5f
 	};
 	m_rollingAttackingState = std::make_unique<Player_AttackRolling>(
-		this, pCamera, pKeyboard, rollingParam);
+		this, pCamera, rollingParam);
 
 	// 強攻撃状態を生成
 	Player_AttackHeavy::AttackParam heavyParam =
@@ -650,8 +646,7 @@ void Player::SetupState(
 		info.attack[static_cast<int>(AttackType::HEAVY)].force,
 		info.heavy_cooldown
 	};
-	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(
-		this, pKeyboard, heavyParam);
+	m_heavyAttackingState = std::make_unique<Player_AttackHeavy>(this, heavyParam);
 
 	// 初期状態を設定する
 	m_currentState = m_idlingState.get();

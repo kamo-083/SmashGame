@@ -99,6 +99,9 @@ void StageScene::Initialize()
 	// 経過時間の初期化
 	m_timer = 0.0f;
 
+	// メッセンジャーの作成
+	m_messenger = std::make_unique<Messenger>();
+
 	// 当たり判定マネージャーの作成
 	m_collisionManager = std::make_unique<CollisionManager>();
 
@@ -107,6 +110,8 @@ void StageScene::Initialize()
 
 	// カメラの作成
 	m_camera = std::make_unique<Camera>();
+	// メッセンジャーに登録
+	m_messenger->AddObject(m_camera->GetObjectNumber(), m_camera.get());
 
 	// エフェクトマネージャーの作成
 	SetupEffects(pDR);
@@ -476,17 +481,23 @@ void StageScene::UpdateGameplay(float elapsedTime)
 		ChangeKeyMode();
 	}
 
+	// キー入力による操作
+	KeyOperation();
+
 	// 経過時間の加算
 	m_timer += elapsedTime;
 
 	// プレイヤーの更新
-	m_player->Update(elapsedTime);
+	m_player->Update(elapsedTime);	
 
 	// 敵の更新
 	m_enemyManager->Update(elapsedTime, m_player.get());
 
 	// カメラの更新
-	if (!m_keyMode) m_camera->Rotation(m_userResources->GetKeyboardTracker(), m_keyConfig);
+	//if (!m_keyMode)
+	//{
+	//	m_camera->Rotation(m_userResources->GetKeyboardTracker(), m_keyConfig);
+	//}
 	m_camera->Update(elapsedTime);
 
 	// ステージの更新
@@ -634,6 +645,91 @@ void StageScene::UpdateResult(float elapsedTime)
 
 
 /**
+ * @brief キー入力による操作
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageScene::KeyOperation()
+{	
+	using MessageID = Message::MessageID;
+
+	// キーボードの状態を取得
+	DirectX::Keyboard::KeyboardStateTracker* pKbTracker = m_userResources->GetKeyboardTracker();	// キーボードトラッカーのポインタ
+	DirectX::Keyboard::State keyLastState = pKbTracker->GetLastState();								// 最後の状態
+
+	// プレイヤー
+	// 待機フラグ
+	bool player_idle = true;
+	// 前移動
+	if (keyLastState.IsKeyDown(m_keyConfig.move_forward))
+	{
+		player_idle = false;
+		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_MOVE_FORWARD);
+	}
+	// 後ろ移動
+	else if (keyLastState.IsKeyDown(m_keyConfig.move_backward))
+	{
+		player_idle = false;
+		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_MOVE_BACKWARD);
+	}
+	// 左移動
+	if (keyLastState.IsKeyDown(m_keyConfig.move_left))
+	{
+		player_idle = false;
+		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_MOVE_LEFT);
+	}
+	// 右移動
+	else if (keyLastState.IsKeyDown(m_keyConfig.move_right))
+	{
+		player_idle = false;
+		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_MOVE_RIGHT);
+	}
+	// 移動操作が無ければ待機
+	if (player_idle)
+	{
+		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_IDLE);
+	}
+	// 攻撃
+	if (pKbTracker->IsKeyPressed(m_keyConfig.attack))
+	{
+		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_ATTACK);
+	}
+
+	// 攻撃変更
+	if (m_keyMode)
+	{
+		// 左側の攻撃にする
+		if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_left))
+		{
+			m_messenger->Notify(m_player->GetObjectNumber(), MessageID::ATTACK_CHANGE_LEFT);
+		}
+		// 右側の攻撃にする
+		else if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_right))
+		{
+			m_messenger->Notify(m_player->GetObjectNumber(), MessageID::ATTACK_CHANGE_RIGHT);
+		}
+	}
+	// カメラ
+	else
+	{
+		// 左回転
+		if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_left))
+		{
+			m_messenger->Notify(m_camera->GetObjectNumber(), Message::MessageID::CAMERA_ROTATE_LEFT);
+		}
+		// 右回転
+		else if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_right))
+		{
+			m_messenger->Notify(m_camera->GetObjectNumber(), Message::MessageID::CAMERA_ROTATE_RIGHT);
+		}
+	}
+}
+
+
+
+/**
  * @brief キー操作モードの切り替え
  *
  * @param なし
@@ -711,14 +807,13 @@ void StageScene::SetupPlayer(ResourceManager* pRM)
 	{
 			pRM,
 			m_collisionManager.get(),
-			m_userResources->GetKeyboardTracker(),
 			m_camera.get(),
 			m_UIManager->GetAttackUI(),
-			&m_keyMode,
 			info
 	};
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this, info);
 	m_player->Initialize(param, m_keyConfig);
+	m_messenger->AddObject(m_player->GetObjectNumber(), m_player.get());
 }
 
 

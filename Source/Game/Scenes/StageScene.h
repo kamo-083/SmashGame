@@ -10,6 +10,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
+#include "Source/Game/Message/Messenger.h"
 #include "Source/Game/Data/InputKeyLoader.h"
 #include "Source/Game/UI/Displays/ClearConditionsUI.h"
 
@@ -80,6 +81,9 @@ private:
 
 	// エフェクトマネージャー
 	std::unique_ptr<EffectManager> m_effectManager;
+
+	// メッセンジャー
+	std::unique_ptr<Messenger> m_messenger;
 
 	// オーバーレイ
 	Overlay m_overlayMode;
@@ -189,6 +193,9 @@ private:
 
 	// リザルト中の更新
 	void UpdateResult(float elapsedTime);
+
+	// キー入力による操作
+	void KeyOperation();
 
 	// キー操作モードの切り替え
 	void ChangeKeyMode();
