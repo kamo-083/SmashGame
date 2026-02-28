@@ -52,9 +52,6 @@ private:
 	// レンダーテクスチャ
 	std::unique_ptr<RenderTexture> m_renderTexture;
 
-	// 深度ステンシルステート
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthDisable;
-
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ

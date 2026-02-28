@@ -97,8 +97,10 @@ public:
 	// テクスチャの設定
 	void SetTexture(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture) { m_texture = texture; }
 
-	// 新しいパラメータをセット
+	// パラメータを設定
 	void SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams& delta);
+	// イージングの種類を設定
+	void SetEaseType(const Easing::EaseType type);
 
 // 内部実装
 private:

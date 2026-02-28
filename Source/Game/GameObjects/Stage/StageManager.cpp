@@ -225,25 +225,13 @@ void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 
 	// ゴールの描画
 	if(m_goal) m_goal->Draw(context, debugFont);
-}
 
-
-
-/**
- * @brief 描画処理(半透明オブジェクト)
- *
- * @param context	描画用構造体
- * @param debugFont デバッグ用フォント
- *
- * @return なし
- */
-void StageManager::DrawTranslucent(const RenderContext& context, DebugFont* debugFont)
-{
 	// エリアの描画
 	for (auto& area : m_areas)
 	{
 		area->Draw(context, debugFont);
 	}
+
 }
 
 

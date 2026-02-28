@@ -188,7 +188,7 @@ void UIWidget::TweenReset(bool play)
 
 
 /**
- * @brief 新しいパラメータの設定
+ * @brief パラメータの設定
  *
  * @param start	開始時のパラメータ
  * @param delta	パラメータの変化量
@@ -205,4 +205,19 @@ void UIWidget::SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams&
 	data.start = start;
 	data.delta = delta;
 	m_tween->SetTweenData(data);
+}
+
+
+/**
+ * @brief イージングの種類を設定
+ *
+ * @param type イージングの種類
+ *
+ * @return なし
+ */
+void UIWidget::SetEaseType(const Easing::EaseType type)
+{
+	Tween2D::TweenData data = m_tween->GetTweenData();
+	data.ease = type;
+	m_tween->SetTweenData(data);	
 }

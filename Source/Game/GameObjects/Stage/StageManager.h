@@ -90,7 +90,6 @@ public:
 
 	// 描画処理
 	void Draw(const RenderContext& context, DebugFont* debugFont);
-	void DrawTranslucent(const RenderContext& context, DebugFont* debugFont);	// 半透明オブジェクト用
 
 	// 終了処理
 	void Finalize();

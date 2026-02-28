@@ -30,17 +30,36 @@ public:
 		GATHER		// 集める
 	};
 
+	// アニメーションのパラメータ
+	struct AnimationParam
+	{
+		DirectX::SimpleMath::Vector2 start;	// 開始位置
+		DirectX::SimpleMath::Vector2 delta;	// 変化値
+	};
+
 	// 設定されているクリア条件の種類
 	const ConditionsType CONDITIONS_TYPE;
 
 	// トゥイーンアニメーションの時間
 	static constexpr float ANIM_TIME = 2.0f;
 
+	// 画面端の時のサイズ
+	static constexpr float TEXT_SIZE_CORNER = 0.75f;
+	static constexpr float TEXT_MARGIN_CORNER = 0.5f;
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// 画像テキストの1列分の大きさ
 	DirectX::SimpleMath::Vector2 m_textSize;
+
+	// 開始直後のパラメータ
+	AnimationParam m_introParam;
+	// 画面端へのパラメータ
+	AnimationParam m_cornerParam;
+	
+	// 開始後のアニメーションは再生済みか
+	bool m_isIntroPlayed;
 
 
 	// メンバ関数の宣言 -------------------------------------------------

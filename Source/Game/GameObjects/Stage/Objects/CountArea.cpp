@@ -141,11 +141,11 @@ void CountArea::Draw(const RenderContext& context, DebugFont* debugFont)
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(size.x * 2.0f, size.y * 2.0f, size.z * 2.0f);
 	world = scale * trans;
 
-	// 数字の描画
-	m_numberBorad->Draw(context);
-
 	// エフェクトの描画
 	m_effect->Draw(context);
+
+	// 数字の描画
+	m_numberBorad->Draw(context);
 
 	// 当たり判定のデバッグ描画
 	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Magenta, nullptr, true);

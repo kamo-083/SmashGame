@@ -228,9 +228,6 @@ void StageScene::Render(RenderContext& context, DebugFont* debugFont)
 	// エフェクトの描画
 	m_effectManager->Draw(context.proj);
 
-	// ステージの描画(半透明オブジェクト)
-	m_stageManager->DrawTranslucent(context, debugFont);
-
 	// カメラの描画(デバッグフォント)
 	m_camera->Draw(debugFont);
 
@@ -494,10 +491,6 @@ void StageScene::UpdateGameplay(float elapsedTime)
 	m_enemyManager->Update(elapsedTime, m_player.get());
 
 	// カメラの更新
-	//if (!m_keyMode)
-	//{
-	//	m_camera->Rotation(m_userResources->GetKeyboardTracker(), m_keyConfig);
-	//}
 	m_camera->Update(elapsedTime);
 
 	// ステージの更新

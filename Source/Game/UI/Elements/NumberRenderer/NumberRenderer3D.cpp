@@ -72,12 +72,6 @@ NumberRenderer3D::NumberRenderer3D(
 		pDR->GetRenderTargetView(),
 		pDR->GetDepthStencilView()
 	);
-
-	// 深度ステンシルステートの作成
-	D3D11_DEPTH_STENCIL_DESC depthDesc = {};
-	depthDesc.DepthEnable = false;
-	m_depthDisable = nullptr;
-	device->CreateDepthStencilState(&depthDesc, &m_depthDisable);
 }
 
 
@@ -179,7 +173,7 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 	renderContext.deviceContext->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
 
 	// 深度テストの無効化
-	renderContext.deviceContext->OMSetDepthStencilState(m_depthDisable.Get(), 0);
+	renderContext.deviceContext->OMSetDepthStencilState(renderContext.states->DepthRead(), 0);
 
 	// カリングの設定
 	renderContext.deviceContext->RSSetState(renderContext.states->CullNone());
