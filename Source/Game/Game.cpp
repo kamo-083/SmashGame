@@ -45,11 +45,6 @@ void Game::Initialize(HWND window, int width, int height)
     m_timer.SetTargetElapsedSeconds(1.0 / 60);
     */
 
-    auto context = m_deviceResources->GetD3DDeviceContext();
-
-    // スプライトバッチの作成
-    m_spriteBatch = std::make_unique<SpriteBatch>(context);
-    
     // 各シーンの作成
     m_sceneManager->Register("TitleScene", std::make_unique<TitleScene>(m_sceneManager.get(), m_userResources.get()));
     m_sceneManager->Register("StageSelectScene", std::make_unique<StageSelectScene>(m_sceneManager.get(), m_userResources.get(), STAGES));
@@ -66,6 +61,7 @@ void Game::Initialize(HWND window, int width, int height)
 
     // 開始シーンの設定
     m_sceneManager->SetStartScene("TitleScene");
+    //m_sceneManager->SetStartScene("StageSelectScene");
 }
 
 #pragma region Frame Update
@@ -266,6 +262,9 @@ void Game::CreateDeviceDependentResources()
     // 共通ステートの作成
     m_states = std::make_unique<CommonStates>(device);
 
+    // スプライトバッチの作成
+    m_spriteBatch = std::make_unique<SpriteBatch>(context);
+
     // キーボードトラッカーの作成
     m_kbTracker = std::make_unique<Keyboard::KeyboardStateTracker>();
 
@@ -290,6 +289,7 @@ void Game::CreateDeviceDependentResources()
     m_userResources->SetKeyboardTracker(m_kbTracker.get());
     m_userResources->SetDebugFont(m_debugFont.get());
     m_userResources->SetStates(m_states.get());
+    m_userResources->SetSpriteBatch(m_spriteBatch.get());
     m_userResources->SetResourceManager(m_resourceManager.get());
     m_userResources->SetAudioManager(m_audioManager.get());
     m_userResources->SetShaderManager(m_shaderManager.get());

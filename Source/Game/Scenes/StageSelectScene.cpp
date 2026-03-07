@@ -63,23 +63,19 @@ void StageSelectScene::Initialize()
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
 	);
 
-	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();
-	DirectX::SimpleMath::Vector2 panelSize = m_textureCatalog->GetTextures().window_stageSelect.size;
-	
-	// レンダーテクスチャの作成
-	m_renderTexture = std::make_unique<RenderTexture>();
-	m_renderTexture->Initialize(
-		pDR->GetD3DDevice(),
-		panelSize.x, panelSize.y,
-		pDR->GetRenderTargetView(),
-		pDR->GetDepthStencilView()
-	);
-
-	// ステージ選択パネルの作成
-	SetupPanel(windowSize);
+	// ステージのクリア状況を設定
+	for (int i = 0; i < STAGES; i++)
+	{
+		std::string data = m_sceneManager->GetSharedData("cleared" + std::to_string(i + 1));
+		if (data == "true")	m_stageCleared[i] = true;	// クリア済み
+		else				m_stageCleared[i] = false;	// 未クリア
+	}
 
 	// ステージ番号表示オブジェクトの作成
 	SetupNumberBoard();
+
+	// ステージ選択パネルの作成
+	SetupPanel(windowSize);
 
 	// 背景の作成
 	SetupBackground(
@@ -100,13 +96,6 @@ void StageSelectScene::Initialize()
 
 	// 遷移先のステージ番号を初期化
 	m_transitionStage = -1;
-
-	for (int i = 0; i < STAGES; i++)
-	{
-		std::string data = m_sceneManager->GetSharedData("cleared" + std::to_string(i + 1));
-		if (data == "true")	m_stageCleared[i] = true;
-		else				m_stageCleared[i] = false;
-	}
 }
 
 
@@ -152,7 +141,7 @@ void StageSelectScene::Render(RenderContext& context, DebugFont* debugFont)
 {
 	// デバッグ用情報の追加
 	debugFont->AddString(0, 30, DirectX::Colors::White, L"StageSelectScene");
-	debugFont->AddString(0, 60, DirectX::Colors::Yellow, L"Select:%d",m_selectStage);
+	debugFont->AddString(0, 60, DirectX::Colors::Yellow, L"Select:%d", m_selectStage);
 
 	// 背景の描画
 	m_background->Draw(context);
@@ -174,6 +163,7 @@ void StageSelectScene::Render(RenderContext& context, DebugFont* debugFont)
 		panel->Draw(context);
 	}
 
+	/*
 	// ウィンドウサイズの取得
 	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
 		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
@@ -224,6 +214,7 @@ void StageSelectScene::Render(RenderContext& context, DebugFont* debugFont)
 		// スタンプを描画
 		context.spriteBatch->Draw(stamp_tex, stamp_pos, &stamp_rect, stamp_color, 0.0f, stamp_size * 0.5f, scale);
 	}
+	*/
 
 	context.spriteBatch->End();
 }
@@ -250,6 +241,12 @@ void StageSelectScene::Finalize()
 		inputUI->Finalize();
 	}
 	m_inputHintUI.clear();
+
+	for (auto& renderTexture : m_renderTextures)
+	{
+		renderTexture->Finalize();
+	}
+	m_renderTextures.clear();
 
 	m_background.reset();
 }
@@ -354,6 +351,108 @@ void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* 
 
 
 /**
+ * @brief パネルの画像を合成
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageSelectScene::PanelTextureSynthesis()
+{
+	// 構造体を設定
+	RenderContext context;
+	context.deviceContext = m_userResources->GetDeviceResources()->GetD3DDeviceContext();
+	context.states = m_userResources->GetStates();
+	context.spriteBatch = m_userResources->GetSpriteBatch();
+
+	// ウィンドウサイズの取得
+	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
+		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
+	);
+
+	// ベース描画の設定
+	DirectX::SimpleMath::Vector2 base_size = m_textureCatalog->GetTextures().window_stageSelect.size;
+	DirectX::SimpleMath::Vector2 base_pos = base_size * 0.5f;
+	RECT base_rect = {};
+	base_rect.right = static_cast<LONG>(base_size.x);
+	base_rect.bottom = static_cast<LONG>(base_size.y);
+
+	// スタンプ画像の描画範囲 (画像全体をそのまま)
+	DirectX::SimpleMath::Vector2 stamp_size = m_textureCatalog->GetTextures().icon_stampOn.size;
+	RECT stamp_rect = {};
+	stamp_rect.right = static_cast<LONG>(stamp_size.x);
+	stamp_rect.bottom = static_cast<LONG>(stamp_size.y);
+
+	// レンダーターゲット初期化用
+	const float clear[4] = { 0,0,0,0 };
+
+	// 各要素の合成
+	for (int i = 0; i < STAGES; i++)
+	{
+		// レンダーターゲットを初期化
+		m_renderTextures[i]->Clear(context.deviceContext, clear);
+
+		// オフスクリーンに設定
+		m_renderTextures[i]->SetRTVTexture(context.deviceContext, nullptr);
+
+		// パネルのスケールを取得
+		float scale = m_stagePanels[i]->GetParam().scale.x;
+
+		// ステージ番号
+		DirectX::SimpleMath::Vector2 number_pos = DirectX::SimpleMath::Vector2(
+			base_size.x * 0.5f + NUMBER_ADJUST_INTERVAL,
+			NUMBER_ADJUST_HEIGHT
+		);
+		// ステージ番号描画の設定
+		m_numberBoard->SetNumber(i + 1);
+		m_numberBoard->SetPosition(number_pos);
+		m_numberBoard->SetScale(scale);
+
+		// スタンプ描画の設定
+		DirectX::SimpleMath::Vector2 stamp_pos = base_pos;
+		stamp_pos.y += stamp_size.y * 0.25f;
+		ID3D11ShaderResourceView* stamp_tex = nullptr;	// 画像のポインタ
+		DirectX::SimpleMath::Color stamp_color;			// 画像の色
+		if (m_stageCleared[i])	// クリア済みかどうか
+		{
+			// スタンプ
+			stamp_tex = m_textureCatalog->GetTextures().icon_stampOn.texture.Get();
+			stamp_color = DirectX::Colors::Red;
+		}
+		else
+		{
+			// 枠のみ
+			stamp_tex = m_textureCatalog->GetTextures().icon_stampOff.texture.Get();
+			stamp_color = DirectX::Colors::Gray;
+		}
+
+		context.spriteBatch->Begin(
+			DirectX::SpriteSortMode_Deferred,
+			context.states->NonPremultiplied(),
+			context.states->LinearClamp());
+		// ベースを描画
+		context.spriteBatch->Draw(
+		m_textureCatalog->GetTextures().window_stageSelect.texture.Get(),
+		base_pos, &base_rect, DirectX::Colors::White, 0.0f, base_size * 0.5f, scale);
+		// ステージ番号を描画
+		m_numberBoard->Draw(context);
+		// スタンプを描画
+		context.spriteBatch->Draw(stamp_tex, stamp_pos, &stamp_rect, stamp_color, 0.0f, stamp_size * 0.5f, scale);
+		context.spriteBatch->End();
+
+		// 通常の画面に設定
+		m_renderTextures[i]->SetRTVDefault(context.deviceContext, nullptr);
+
+		// パネルに画像を設定
+		m_stagePanels[i]->SetTexture(m_renderTextures[i]->GetSRV());
+	}
+
+}
+
+
+
+/**
  * @brief ステージパネルの設定
  *
  * @param windowSize	ウィンドウサイズ
@@ -362,6 +461,9 @@ void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* 
  */
 void StageSelectScene::SetupPanel(const DirectX::SimpleMath::Vector2& windowSize)
 {
+	DX::DeviceResources* pDR = m_userResources->GetDeviceResources();
+	DirectX::SimpleMath::Vector2 panelSize = m_textureCatalog->GetTextures().window_stageSelect.size;
+
 	// ステージ数分設定
 	for (int i = 0; i < STAGES; i++)
 	{
@@ -400,7 +502,19 @@ void StageSelectScene::SetupPanel(const DirectX::SimpleMath::Vector2& windowSize
 				}
 			});
 		m_stagePanels.push_back(std::move(panel));
+
+		// 合成用レンダーテクスチャの作成
+		std::unique_ptr<RenderTexture> renderTexture = std::make_unique<RenderTexture>();
+		renderTexture->Initialize(
+			pDR->GetD3DDevice(),
+			panelSize.x, panelSize.y,
+			pDR->GetRenderTargetView(),
+			pDR->GetDepthStencilView()
+		);
+		m_renderTextures.push_back(std::move(renderTexture));
 	}
+
+	PanelTextureSynthesis();
 }
 
 

@@ -94,8 +94,11 @@ public:
 
 	// テクスチャサイズの取得
 	DirectX::SimpleMath::Vector2 GetTexSize() const { return m_texSize; }
+	// テクスチャサイズの設定
+	void SetTexSize(const DirectX::SimpleMath::Vector2& texSize) { m_texSize = texSize; }
 	// テクスチャの設定
 	void SetTexture(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture) { m_texture = texture; }
+
 
 	// パラメータを設定
 	void SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams& delta);

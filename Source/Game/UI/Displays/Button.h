@@ -65,6 +65,9 @@ public:
 
 	// æ“¾/İ’è
 public:
+	void SetTexture(
+		ID3D11ShaderResourceView* texture, 
+		const DirectX::SimpleMath::Vector2& size = DirectX::SimpleMath::Vector2::Zero);
 
 	// “à•”À‘•
 private:

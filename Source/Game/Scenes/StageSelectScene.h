@@ -34,7 +34,9 @@ public:
 	// パネルの間隔調整
 	static constexpr float PANEL_ADJUST_INTERVAL = 210.0f;
 	// ステージ番号の間隔調整
-	static constexpr float NUMBER_ADJUST_INTERVAL = 230.0f;
+	static constexpr float NUMBER_ADJUST_INTERVAL = 10.0f;
+	// ステージ番号の高さ調整
+	static constexpr float NUMBER_ADJUST_HEIGHT = 25.0f;
 
 	// 操作テキストの表示位置
 	static constexpr DirectX::SimpleMath::Vector2 INPUT_TEXT_POS = { 450,700 };
@@ -65,15 +67,15 @@ private:
 	// 遷移先のステージ番号(未登録：-1)
 	int m_transitionStage;
 
-	// レンダーテクスチャ（パネル合成用）
-	std::unique_ptr<RenderTexture> m_renderTexture;
-
 	// オブジェクト関連
 	// 数字表示ボード
 	std::unique_ptr<NumberRenderer2D> m_numberBoard;
 
 	// ステージパネル
 	std::vector<std::unique_ptr<Button>> m_stagePanels;
+
+	// レンダーテクスチャ（パネル合成用）
+	std::vector < std::unique_ptr<RenderTexture>> m_renderTextures;
 
 	// ステージクリア情報
 	std::vector<bool> m_stageCleared;
@@ -124,6 +126,9 @@ private:
 
 	// シーンを移動
 	void TransitionScene(DirectX::Keyboard::KeyboardStateTracker* kb);
+
+	// パネルの画像を合成
+	void PanelTextureSynthesis();
 
 	// 初期設定関連
 	// ステージパネルの設定

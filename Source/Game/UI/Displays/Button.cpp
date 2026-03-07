@@ -131,3 +131,27 @@ void Button::Reset()
 {
 	m_widget->TweenReset();
 }
+
+
+
+/**
+ * @brief テクスチャの設定
+ *
+ * @param texture テクスチャのポインタ
+ * @param size	  テクスチャのサイズ (同じ場合は入力無し)
+ *
+ * @return なし
+ */
+void Button::SetTexture(
+	ID3D11ShaderResourceView* texture,
+	const DirectX::SimpleMath::Vector2& size)
+{
+	// テクスチャを設定
+	m_widget->SetTexture(texture);
+
+	// サイズに変化があった場合は設定
+	if (size != DirectX::SimpleMath::Vector2::Zero)
+	{
+		m_widget->SetTexSize(size);
+	}
+}

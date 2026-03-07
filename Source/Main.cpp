@@ -91,6 +91,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
         static bool s_fullscreen = false;
 
+        /*
         // 画面モード選択
         int winMode = MessageBoxW(nullptr, L"フルスクリーンにしますか？", L"画面モード設定", MB_YESNO);
 
@@ -111,6 +112,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
             g_startFullscreen = false;
             ShowWindow(hwnd, nCmdShow);
         }
+        */
 
         // メモリリーク検出
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
