@@ -23,7 +23,6 @@ GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfo
 	ATTACK_SIZE{ info.attack.size },
 	ATTACK_FORCE{ info.attack.force },
 	DISTANCE_RAITO{ info.attack.distance_raito },
-	m_attackTime{ 0.0f },
 	m_stateType{ StateType::Attack }
 {
 
@@ -51,10 +50,10 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 			m_pGroundEnemy->GetAnimation()->attack
 		);
 	}
-	m_modelAnimator->Initialize(ATTACK_TIME);
+	m_modelAnimator->Initialize(ATTACK_TIME, false, ANIMATION_SPEED);
+	m_modelAnimator->Play();
 
-	// UŒ‚ŠÔEUŒ‚—Í‚ğ‰Šú‰»
-	m_attackTime = ATTACK_TIME;
+	// UŒ‚—Í‚ğ‰Šú‰»
 	m_pGroundEnemy->SetAttackForce(ATTACK_FORCE);
 
 	// UŒ‚”»’è‚Ìİ’è
@@ -74,8 +73,6 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
  */
 void GroundEnemy_Attack::Update(const float& elapsedTime)
 {
-	m_attackTime -= elapsedTime;
-
 	// ˆÊ’u‚ÌXV
 	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime);
 	m_pGroundEnemy->SetPosition(m_pGroundEnemy->GetPosition() + m_pGroundEnemy->GetVelocity() * elapsedTime);
@@ -92,7 +89,7 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 	m_modelAnimator->Update(elapsedTime);
 
 	// ‘Ò‹@ó‘Ô‚ÉØ‚è‘Ö‚¦
-	if (m_attackTime <= 0.0f)
+	if (!m_modelAnimator->IsPlaying())
 	{
 		m_pGroundEnemy->SetIsAttack(false);
 		m_pGroundEnemy->SetAttackCollisionEnabled(false);

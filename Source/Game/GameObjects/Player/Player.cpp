@@ -9,6 +9,11 @@
 #include "Player.h"
 #include "Source/Game/Scenes/StageScene.h"
 #include "Source/Game/UI/Controls/AttackUI.h"
+#include"Source/Game/GameObjects/Player/Player_Idle.h"
+#include"Source/Game/GameObjects/Player/Player_Walk.h"
+#include"Source/Game/GameObjects/Player/Player_AttackBasic.h"
+#include"Source/Game/GameObjects/Player/Player_AttackRolling.h"
+#include"Source/Game/GameObjects/Player/Player_AttackHeavy.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -230,20 +235,17 @@ void Player::ChangeState(IState* newState)
  */
 void Player::ChangeAttack(Message::MessageID messageID)
 {
-	if (messageID==Message::MessageID::ATTACK_CHANGE_LEFT)
+	if (messageID==Message::MessageID::ATTACK_CHANGE_LEFT)	// 左へ
 	{
 		--m_attackType;
-
-		// SEの再生
-		m_pScene->PlaySE("cursorSE");
 	}
-	else if (messageID == Message::MessageID::ATTACK_CHANGE_RIGHT)
+	else if (messageID == Message::MessageID::ATTACK_CHANGE_RIGHT)	// 右へ
 	{
 		++m_attackType;
-
-		// SEの再生
-		m_pScene->PlaySE("cursorSE");
 	}
+
+	// SEの再生
+	m_pScene->PlaySE("cursorSE");
 
 	// UIに変更を反映
 	m_pAttackUI->ChangeAttack(m_attackType);
@@ -339,35 +341,21 @@ void Player::OnMessageAccepted(Message::MessageID messageID)
 /**
  * @brief 移動方向を計算
  *
- * @param messageID  メッセージID
- * @param camera	 カメラのポインタ
+ * @param x		 左右の方向	(-1:左、1:右)
+ * @param z		 前後の方向	(-1:前、1:後)
+ * @param camera カメラのポインタ
  *
  * @return 移動方向
  */
-DirectX::SimpleMath::Vector3 Player::MoveDirection(
-	Message::MessageID messageID, Camera* camera)
+DirectX::SimpleMath::Vector3 Player::MoveDirection(int x, int z, Camera* camera)
 {
 	DirectX::SimpleMath::Vector3 forward = camera->GetForward();
 	DirectX::SimpleMath::Vector3 right = forward.Cross(camera->GetUp());
 	DirectX::SimpleMath::Vector3 direction = DirectX::SimpleMath::Vector3::Zero;
 
-	//移動
-	if (messageID == Message::MessageID::PLAYER_MOVE_BACKWARD)	// 後ろ
-	{
-		direction += -forward;
-	}
-	else if (messageID == Message::MessageID::PLAYER_MOVE_FORWARD)	// 前
-	{
-		direction -= -forward;
-	}
-	if (messageID == Message::MessageID::PLAYER_MOVE_RIGHT)	// 右
-	{
-		direction += right;
-	}
-	else if (messageID == Message::MessageID::PLAYER_MOVE_LEFT)	// 左
-	{
-		direction -= right;
-	}
+	// 移動方向を決定
+	if (z == -1 || z == 1) direction += -forward * static_cast<float>(z);	// 前後
+	if (x == -1 || x == 1) direction += right * static_cast<float>(x);		// 左右
 
 	direction.y = 0.0f;
 	if (direction.Length() > 0.0f)
@@ -375,7 +363,7 @@ DirectX::SimpleMath::Vector3 Player::MoveDirection(
 		direction.Normalize();
 	}
 
-	//回転
+	// 回転
 	if (direction.x != 0.0f || direction.z != 0.0f)
 	{
 		m_rotY = std::atan2f(-direction.x, -direction.z);

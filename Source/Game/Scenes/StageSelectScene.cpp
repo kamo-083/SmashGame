@@ -163,59 +163,6 @@ void StageSelectScene::Render(RenderContext& context, DebugFont* debugFont)
 		panel->Draw(context);
 	}
 
-	/*
-	// ウィンドウサイズの取得
-	DirectX::SimpleMath::Vector2 windowSize = DirectX::SimpleMath::Vector2(
-		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().right),
-		static_cast<float>(m_userResources->GetDeviceResources()->GetOutputSize().bottom)
-	);
-
-	// スタンプ画像の描画範囲 (画像全体をそのまま)
-	DirectX::SimpleMath::Vector2 stamp_size = m_textureCatalog->GetTextures().icon_stampOn.size;
-	RECT stamp_rect = {};
-	stamp_rect.right = static_cast<LONG>(stamp_size.x);
-	stamp_rect.bottom = static_cast<LONG>(stamp_size.y);
-
-	// ステージ番号・スタンプの描画
-	for (int i = 0; i < STAGES; i++)
-	{
-		// パネルのスケールを取得
-		float scale = m_stagePanels[i]->GetParam().scale.x;
-
-		// ステージ番号
-		DirectX::SimpleMath::Vector2 number_pos = DirectX::SimpleMath::Vector2(
-			windowSize.x / static_cast<float>(STAGES) * i + NUMBER_ADJUST_INTERVAL,
-			windowSize.y * 0.25f
-		);
-		// ステージ番号描画の設定
-		m_numberBoard->SetNumber(i + 1);
-		m_numberBoard->SetPosition(number_pos);
-		m_numberBoard->SetScale(scale);
-		// ステージ番号の描画
-		m_numberBoard->Draw(context);
-
-		// スタンプ描画の設定
-		DirectX::SimpleMath::Vector2 stamp_pos = m_stagePanels[i]->GetParam().pos;
-		stamp_pos.y += stamp_size.y * 0.25f;
-		ID3D11ShaderResourceView* stamp_tex = nullptr;	// 画像のポインタ
-		DirectX::SimpleMath::Color stamp_color;			// 画像の色
-		if (m_stageCleared[i])	// クリア済みかどうか
-		{
-			// スタンプ
-			stamp_tex = m_textureCatalog->GetTextures().icon_stampOn.texture.Get();
-			stamp_color = DirectX::Colors::Red;
-		}
-		else
-		{
-			// 枠のみ
-			stamp_tex = m_textureCatalog->GetTextures().icon_stampOff.texture.Get();
-			stamp_color = DirectX::Colors::Gray;
-		}
-		// スタンプを描画
-		context.spriteBatch->Draw(stamp_tex, stamp_pos, &stamp_rect, stamp_color, 0.0f, stamp_size * 0.5f, scale);
-	}
-	*/
-
 	context.spriteBatch->End();
 }
 
@@ -507,7 +454,7 @@ void StageSelectScene::SetupPanel(const DirectX::SimpleMath::Vector2& windowSize
 		std::unique_ptr<RenderTexture> renderTexture = std::make_unique<RenderTexture>();
 		renderTexture->Initialize(
 			pDR->GetD3DDevice(),
-			panelSize.x, panelSize.y,
+			static_cast<int>(panelSize.x), static_cast<int>(panelSize.y),
 			pDR->GetRenderTargetView(),
 			pDR->GetDepthStencilView()
 		);

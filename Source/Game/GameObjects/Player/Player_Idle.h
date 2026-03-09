@@ -13,7 +13,6 @@
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/ModelAnimator.h"
-#include"Player.h"
 
 
 // ƒNƒ‰ƒX‚ÌéŒ¾ ===============================================================

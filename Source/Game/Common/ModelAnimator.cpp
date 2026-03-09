@@ -22,8 +22,9 @@ ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animat
 	m_animation{ animation },
 	m_animElapsedTime{ 0.0f },
 	m_animEndTime{ 0.0f },
-	m_loop{ false }
-
+	m_loop{ false },
+	m_isPlaying{ false },
+	m_playbackSpeed{ 1.0f }
 {
 
 }
@@ -42,12 +43,13 @@ ModelAnimator::~ModelAnimator()
 /**
  * @brief 初期化処理
  *
- * @param endTime アニメーションの終了時間
- * @param loop	  アニメーションをループさせるか
+ * @param endTime		アニメーションの終了時間
+ * @param loop			ループさせるか
+ * @param playbackSpeed	再生速度
  *
  * @return なし
  */
-void ModelAnimator::Initialize(float endTime, bool loop)
+void ModelAnimator::Initialize(float endTime, bool loop, float playbackSpeed)
 {
 	// アニメーションとモデルをバインドする
 	m_animation->Bind(*m_model);
@@ -66,6 +68,12 @@ void ModelAnimator::Initialize(float endTime, bool loop)
 
 	// ループを設定
 	m_loop = loop;
+
+	// 再生フラグを初期化
+	m_isPlaying = false;
+
+	// 再生速度を設定
+	m_playbackSpeed = playbackSpeed;
 }
 
 
@@ -78,18 +86,28 @@ void ModelAnimator::Initialize(float endTime, bool loop)
  */
 void ModelAnimator::Update(float elapsedTime)
 {
-	if (m_animElapsedTime >= m_animEndTime) return;
+	if (!m_isPlaying) return;
 
-	m_animElapsedTime += elapsedTime;
+	float deltaTime = elapsedTime * m_playbackSpeed;
+
+	m_animElapsedTime += deltaTime;
 
 	// アニメーションの更新
-	m_animation->Update(elapsedTime);
-
-	// ループ処理
-	if (m_loop && m_animElapsedTime >= m_animEndTime)
+	m_animation->Update(deltaTime);
+	
+	if (m_animElapsedTime >= m_animEndTime)
 	{
-		m_animation->ResetTime();
-		m_animElapsedTime = 0.0f;
+		if(m_loop)
+		{
+			// ループ処理
+			m_animation->ResetTime();
+			m_animElapsedTime = 0.0f;
+		}
+		else
+		{
+			// 再生終了
+			m_isPlaying = false;
+		}
 	}
 }
 
@@ -163,4 +181,18 @@ void ModelAnimator::Finalize()
 {
 	m_model = nullptr;
 	m_animation = nullptr;
+}
+
+
+/**
+ * @brief 再生
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void ModelAnimator::Play()
+{
+	m_isPlaying = true;
+	m_animElapsedTime = 0.0f;
 }

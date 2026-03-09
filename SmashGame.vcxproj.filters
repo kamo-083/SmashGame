@@ -380,6 +380,9 @@
     <ClInclude Include="Source\Game\Object\Object.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Data\PlayerInputData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />

@@ -49,6 +49,7 @@ void GroundEnemy_Walk::Initialize(ResourceManager* pRM)
 		);
 	}
 	m_modelAnimator->Initialize();
+	m_modelAnimator->Play();
 }
 
 

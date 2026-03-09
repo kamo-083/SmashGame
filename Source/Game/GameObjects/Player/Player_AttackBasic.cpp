@@ -7,6 +7,7 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player_AttackBasic.h"
+#include"Player.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -22,7 +23,6 @@ Player_AttackBasic::Player_AttackBasic(Player* player,	const AttackParam& param)
 	ATTACK_SIZE(param.size),
 	ATTACK_FORCE(param.force),
 	m_pPlayer{ player },
-	m_attackTime{ 0.0f },
 	m_stateType{ StateType::Attack }
 {
 
@@ -47,11 +47,11 @@ void Player_AttackBasic::Initialize(ResourceManager* pRM)
 			m_pPlayer->GetAnimation()->atk_basic
 		);
 	}
-	m_modelAnimator->Initialize(ATTACK_TIME);
+	m_modelAnimator->Initialize(ATTACK_TIME, false, ANIMATION_SPEED);
+	m_modelAnimator->Play();
 
-	// 攻撃力・攻撃時間の初期化
+	// 攻撃力の初期化
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);
-	m_attackTime = ATTACK_TIME;
 
 	// 攻撃判定の設定
 	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3(sinf(m_pPlayer->GetRotY()), 0.0f, cosf(m_pPlayer->GetRotY()));
@@ -69,8 +69,6 @@ void Player_AttackBasic::Initialize(ResourceManager* pRM)
  */
 void Player_AttackBasic::Update(const float& elapsedTime)
 {
-	m_attackTime -= elapsedTime;
-
 	// 位置の更新
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
 	m_pPlayer->LimitVelocity(m_pPlayer->GetVelocity(), m_pPlayer->GetMaxSpeed());
@@ -87,7 +85,7 @@ void Player_AttackBasic::Update(const float& elapsedTime)
 	m_modelAnimator->Update(elapsedTime);
 
 	// 待機状態に切り替え
-	if (m_attackTime <= 0.0f)
+	if (!m_modelAnimator->IsPlaying())
 	{
 		m_pPlayer->SetIsAttack(false);
 		m_pPlayer->SetAttackCollisionEnabled(false);

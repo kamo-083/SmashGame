@@ -44,6 +44,7 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
 		);
 	}
 	m_modelAnimator->Initialize();
+	m_modelAnimator->Play();
 
 	// UŒ‚ó‘Ô‚ð‰ðœ
 	m_pGroundEnemy->SetIsAttack(false);

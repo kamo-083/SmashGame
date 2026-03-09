@@ -70,8 +70,14 @@ private:
 	// アニメーション終了時間
 	float m_animEndTime;
 
+	// 再生速度
+	float m_playbackSpeed;
+
 	// ループさせるか
 	bool m_loop;
+
+	// 再生中か
+	bool m_isPlaying;
 
 
 	// メンバ関数の宣言 -------------------------------------------------
@@ -87,7 +93,7 @@ public:
 // 操作
 public:
 	// 初期化処理
-	void Initialize(float endTime = FLT_MAX, bool loop = true);
+	void Initialize(float endTime = FLT_MAX, bool loop = true, float playbackSpeed = 1.0f);
 
 	// 更新処理
 	void Update(float elapsedTime);
@@ -98,8 +104,14 @@ public:
 	// 終了処理
 	void Finalize();
 
+	// 再生
+	void Play();
+
+
 // 取得/設定
 public:
+	// 再生中か
+	bool IsPlaying() const { return m_isPlaying; }
 
 // 内部実装
 private:

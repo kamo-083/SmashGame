@@ -7,6 +7,7 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player_Idle.h"
+#include"Player.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -43,6 +44,7 @@ void Player_Idle::Initialize(ResourceManager* pRM)
 		);
 	}
 	m_modelAnimator->Initialize();
+	m_modelAnimator->Play();
 }
 
 

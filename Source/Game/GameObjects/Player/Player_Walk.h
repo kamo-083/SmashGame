@@ -15,6 +15,7 @@
 #include"Source/Game/Common/ModelAnimator.h"
 #include"Source/Game/Message/Message.h"
 #include"Source/Game/GameObjects/Camera.h"
+#include"Source/Game/Data/PlayerInputData.h"
 
 
 // クラスの宣言 ===============================================================
@@ -31,6 +32,8 @@ class Player_Walk :public IState
 private:
 	const float GROUND_SPEED;	// 移動速度(地面)
 	const float AIR_SPEED;		// 移動速度(空中)
+
+	static constexpr float ANIMATION_SPEED = 2.0f;	// アニメーションの再生速度
 
 
 	// データメンバの宣言 -----------------------------------------------
@@ -49,6 +52,9 @@ private:
 
 	// 入力による移動速度
 	DirectX::SimpleMath::Vector3 m_inputVelocity;
+
+	// 移動方向
+	InputDirection m_direction;
 
 
 	// メンバ関数の宣言 -------------------------------------------------

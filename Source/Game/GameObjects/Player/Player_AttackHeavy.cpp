@@ -7,6 +7,7 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player_AttackHeavy.h"
+#include"Player.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -48,7 +49,8 @@ void Player_AttackHeavy::Initialize(ResourceManager* pRM)
 			m_pPlayer->GetAnimation()->atk_heavy
 		);
 	}
-	m_modelAnimator->Initialize(ATTACK_TIME + COOL_TIME);
+	m_modelAnimator->Initialize(ATTACK_TIME + COOL_TIME, false, ANIMATION_SPEED);
+	m_modelAnimator->Play();
 
 	// 攻撃力・攻撃時間の初期化
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);
@@ -74,7 +76,8 @@ void Player_AttackHeavy::Initialize(ResourceManager* pRM)
  */
 void Player_AttackHeavy::Update(const float& elapsedTime)
 {
-	m_attackTime -= elapsedTime;
+	// 攻撃時間の更新
+	m_attackTime -= elapsedTime * ANIMATION_SPEED;
 
 	// 位置の更新
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);
@@ -100,7 +103,7 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	m_modelAnimator->Update(elapsedTime);
 
 	// 待機状態に切り替え
-	if (m_attackTime <= 0.0f)
+	if (!m_modelAnimator->IsPlaying())
 	{
 		m_pPlayer->SetIsAttack(false);
 		m_pPlayer->ChangeState(m_pPlayer->GetState_Walk());

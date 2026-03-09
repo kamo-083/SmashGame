@@ -7,6 +7,7 @@
  // ヘッダファイルの読み込み ==================================================
 #include "pch.h"
 #include "Player_AttackRolling.h"
+#include"Player.h"
 
 
 // メンバ関数の定義 ===========================================================
@@ -30,7 +31,8 @@ Player_AttackRolling::Player_AttackRolling(
 	m_pCamera{ camera },
 	m_attackTime{ 0.0f },
 	m_moveForce{ DirectX::SimpleMath::Vector3::Zero },
-	m_stateType{ StateType::Attack }
+	m_stateType{ StateType::Attack },
+	m_direction{}
 {
 
 }
@@ -54,7 +56,8 @@ void Player_AttackRolling::Initialize(ResourceManager* pRM)
 			m_pPlayer->GetAnimation()->atk_rolling
 		);
 	}
-	m_modelAnimator->Initialize(ANIM_TIME);
+	m_modelAnimator->Initialize(ANIM_TIME, true, ANIMATION_SPEED);
+	m_modelAnimator->Play();
 
 	// 攻撃力・攻撃時間の初期化
 	m_pPlayer->SetAttackForce(ATTACK_FORCE);
@@ -80,17 +83,27 @@ void Player_AttackRolling::Initialize(ResourceManager* pRM)
  */
 void Player_AttackRolling::Update(const float& elapsedTime)
 {
+	// 攻撃時間を更新
 	m_attackTime -= elapsedTime;
 
-	//DirectX::SimpleMath::Vector3 inputVelocity = DirectX::SimpleMath::Vector3::Zero;
+	// 移動方向
+	int move_x = 0;	// 左右
+	int move_z = 0;	// 前後
+	// 前後
+	if (m_direction.forward)	   move_z--;
+	else if (m_direction.backward) move_z++;
+	// 左右
+	if (m_direction.left)	    move_x--;
+	else if (m_direction.right) move_x++;
 
-	////入力による移動速度
-	//inputVelocity = m_pPlayer->MoveDirection(m_pKbTracker, m_pCamera);
-	//if (m_pPlayer->GetPhysics()->IsOnGround())	inputVelocity *= GROUND_SPEED;
-	//else										inputVelocity *= AIR_SPEED;
-	//m_pPlayer->LimitVelocity(inputVelocity, m_pPlayer->GetMaxSpeed());
-
-	//if (inputVelocity.LengthSquared() != 0.0f) m_moveForce = inputVelocity;
+	if (move_x != 0 || move_z != 0)
+	{
+		// 移動方向を決定
+		m_moveForce = m_pPlayer->MoveDirection(move_x, move_z, m_pCamera);
+		// 速度を計算
+		if (m_pPlayer->GetPhysics()->IsOnGround())	m_moveForce *= GROUND_SPEED;
+		else										m_moveForce *= AIR_SPEED;
+	}
 
 	// 位置の更新
 	m_pPlayer->SetVelocity({ m_moveForce.x, m_pPlayer->GetVelocity().y, m_moveForce.z });
@@ -114,6 +127,9 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 		m_pPlayer->SetAttackCollisionEnabled(false);
 		m_pPlayer->ChangeState(m_pPlayer->GetState_Walk());
 	}
+
+	// 入力情報を初期化
+	m_direction.Reset();
 }
 
 
@@ -174,14 +190,20 @@ void Player_AttackRolling::OnMessage(Message::MessageID messageID)
 	switch (messageID)
 	{
 	case Message::MessageID::PLAYER_MOVE_FORWARD:
+		// 前へ
+		m_direction.forward = true;
+		break;
 	case Message::MessageID::PLAYER_MOVE_BACKWARD:
+		// 後ろへ
+		m_direction.backward = true;
+		break;
 	case Message::MessageID::PLAYER_MOVE_LEFT:
+		// 左へ
+		m_direction.left = true;
+		break;
 	case Message::MessageID::PLAYER_MOVE_RIGHT:
-		// 移動方向を決定
-		m_moveForce = m_pPlayer->MoveDirection(messageID, m_pCamera);
-		// 速度を計算
-		if (m_pPlayer->GetPhysics()->IsOnGround())	m_moveForce *= GROUND_SPEED;
-		else										m_moveForce *= AIR_SPEED;
+		// 右へ
+		m_direction.right = true;
 		break;
 	}
 }

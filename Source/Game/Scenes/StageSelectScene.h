@@ -77,7 +77,7 @@ private:
 	// レンダーテクスチャ（パネル合成用）
 	std::vector < std::unique_ptr<RenderTexture>> m_renderTextures;
 
-	// ステージクリア情報
+	// ステージクリア状況
 	std::vector<bool> m_stageCleared;
 
 	// 背景

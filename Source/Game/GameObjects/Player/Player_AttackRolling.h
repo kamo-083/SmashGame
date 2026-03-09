@@ -14,7 +14,7 @@
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/ModelAnimator.h"
 #include"Source/Game/GameObjects/Camera.h"
-#include"Player.h"
+#include"Source/Game/Data/PlayerInputData.h"
 
 
 // クラスの宣言 ===============================================================
@@ -34,7 +34,9 @@ private:
 	const float ATTACK_FORCE;	// 攻撃力
 	const float GROUND_SPEED;	// 移動速度(地面)
 	const float AIR_SPEED;		// 移動速度(空中)
+
 	static constexpr float ANIM_TIME = 1.5f;			// アニメーション1ループの時間
+	static constexpr float ANIMATION_SPEED = 2.0f;	// アニメーションの再生速度
 	
 public:
 	// 定数設定パラメータ
@@ -66,6 +68,12 @@ private:
 
 	// 状態の種類
 	StateType m_stateType;
+
+	// 入力による移動速度
+	DirectX::SimpleMath::Vector3 m_inputVelocity;
+
+	// 移動方向
+	InputDirection m_direction;
 
 
 	// メンバ関数の宣言 -------------------------------------------------

@@ -33,6 +33,8 @@ private:
 	const float ATTACK_SIZE;	// 攻撃判定サイズ
 	const float DISTANCE_RAITO;	// 体から攻撃判定の中心距離を求める際の倍率
 
+	static constexpr float ANIMATION_SPEED = 2.0f;	// アニメーションの再生速度
+
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -41,9 +43,6 @@ private:
 
 	// モデルアニメーター
 	std::unique_ptr<ModelAnimator> m_modelAnimator;
-
-	// 攻撃時間
-	float m_attackTime;
 
 	// 状態の種類
 	StateType m_stateType;

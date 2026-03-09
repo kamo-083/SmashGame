@@ -23,11 +23,6 @@
 #include"Source/Game/Data/InputKeyLoader.h"
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/GameObjects/Camera.h"
-#include"Source/Game/GameObjects/Player/Player_Idle.h"
-#include"Source/Game/GameObjects/Player/Player_Walk.h"
-#include"Source/Game/GameObjects/Player/Player_AttackBasic.h"
-#include"Source/Game/GameObjects/Player/Player_AttackRolling.h"
-#include"Source/Game/GameObjects/Player/Player_AttackHeavy.h"
 
 
 // ƒNƒ‰ƒX‚ÌéŒ¾ ===============================================================
@@ -132,19 +127,19 @@ private:
 	IState* m_currentState;
 
 	// ‘Ò‹@ó‘Ô
-	std::unique_ptr<Player_Idle> m_idlingState;
+	std::unique_ptr<IState> m_idlingState;
 
 	// •à‚«ó‘Ô
-	std::unique_ptr<Player_Walk> m_walkingState;
+	std::unique_ptr<IState> m_walkingState;
 
 	// UŒ‚ó‘Ô(’Êí)
-	std::unique_ptr<Player_AttackBasic> m_basicAttackingState;
+	std::unique_ptr<IState> m_basicAttackingState;
 
 	// UŒ‚ó‘Ô(“]‚ª‚è)
-	std::unique_ptr<Player_AttackRolling> m_rollingAttackingState;
+	std::unique_ptr<IState> m_rollingAttackingState;
 
 	// UŒ‚ó‘Ô(d—Ê)
-	std::unique_ptr<Player_AttackHeavy> m_heavyAttackingState;
+	std::unique_ptr<IState> m_heavyAttackingState;
 
 	//”»’è•\¦—p‚Ì‹…
 	std::unique_ptr<DirectX::GeometricPrimitive> m_sphere;
@@ -210,7 +205,7 @@ public:
 	void OnMessageAccepted(Message::MessageID messageID) override;
 
 	// ˆÚ“®‚Ì•ûŒü‚Æ‰ñ“]
-	DirectX::SimpleMath::Vector3 MoveDirection(Message::MessageID messageID, Camera* camera);
+	DirectX::SimpleMath::Vector3 MoveDirection(int x, int z, Camera* camera);
 
 	// ˆÚ“®‘¬“x‚Ì§ŒÀ
 	void LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max);
@@ -293,11 +288,11 @@ public:
 	InputKeyLoader::InputKeyInfo& GetKeyConfig() { return m_keyConfig; }
 
 	// ó‘Ô‚Ìæ“¾
-	Player_Idle* GetState_Idle() { return m_idlingState.get(); }								// ‘Ò‹@
-	Player_Walk* GetState_Walk() { return m_walkingState.get(); }								// ˆÚ“®
-	Player_AttackBasic* GetState_AttackBasic() { return m_basicAttackingState.get(); }			// ’ÊíUŒ‚
-	Player_AttackRolling* GetState_AttackRolling() { return m_rollingAttackingState.get(); }	// “]‚ª‚èUŒ‚
-	Player_AttackHeavy* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }			// ‹­UŒ‚
+	IState* GetState_Idle() { return m_idlingState.get(); }								// ‘Ò‹@
+	IState* GetState_Walk() { return m_walkingState.get(); }								// ˆÚ“®
+	IState* GetState_AttackBasic() { return m_basicAttackingState.get(); }			// ’ÊíUŒ‚
+	IState* GetState_AttackRolling() { return m_rollingAttackingState.get(); }	// “]‚ª‚èUŒ‚
+	IState* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }			// ‹­UŒ‚
 
 
 	// “à•”À‘•

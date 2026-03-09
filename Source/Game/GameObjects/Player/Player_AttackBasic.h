@@ -13,7 +13,6 @@
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/ModelAnimator.h"
-#include"Player.h"
 
 
 // クラスの宣言 ===============================================================
@@ -32,6 +31,8 @@ private:
 	const float ATTACK_SIZE;	// 攻撃判定サイズ
 	const float ATTACK_FORCE;	// 攻撃力
 
+	static constexpr float ANIMATION_SPEED = 2.0f;	// アニメーションの再生速度
+
 public:
 	// 定数設定パラメータ
 	struct AttackParam
@@ -48,9 +49,6 @@ private:
 
 	// モデルアニメーター
 	std::unique_ptr<ModelAnimator> m_modelAnimator;
-
-	// 攻撃時間
-	float m_attackTime;
 
 	// 状態の種類
 	StateType m_stateType;

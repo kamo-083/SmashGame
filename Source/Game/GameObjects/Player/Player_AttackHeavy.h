@@ -13,7 +13,6 @@
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/ModelAnimator.h"
-#include"Player.h"
 
 
 // クラスの宣言 ===============================================================
@@ -33,6 +32,8 @@ private:
 	const float ATTACK_FORCE;	// 攻撃力
 	const float COOL_TIME;		// 反動時間
 	static constexpr float COLLIDER_POS_ADJUST = 0.1f;	// 攻撃判定位置の調整
+
+	static constexpr float ANIMATION_SPEED = 2.0f;	// アニメーションの再生速度
 
 public:
 	// 定数設定パラメータ
