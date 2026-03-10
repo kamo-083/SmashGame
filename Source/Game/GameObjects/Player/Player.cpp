@@ -8,12 +8,17 @@
 #include "pch.h"
 #include "Player.h"
 #include "Source/Game/Scenes/StageScene.h"
+#include "Source/Game/Common/UserResources.h"
+#include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/UI/Controls/AttackUI.h"
-#include"Source/Game/GameObjects/Player/Player_Idle.h"
-#include"Source/Game/GameObjects/Player/Player_Walk.h"
-#include"Source/Game/GameObjects/Player/Player_AttackBasic.h"
-#include"Source/Game/GameObjects/Player/Player_AttackRolling.h"
-#include"Source/Game/GameObjects/Player/Player_AttackHeavy.h"
+#include "Source/Game/GameObjects/Camera.h"
+#include "Source/Game/GameObjects/Player/Player_Idle.h"
+#include "Source/Game/GameObjects/Player/Player_Walk.h"
+#include "Source/Game/GameObjects/Player/Player_AttackBasic.h"
+#include "Source/Game/GameObjects/Player/Player_AttackRolling.h"
+#include "Source/Game/GameObjects/Player/Player_AttackHeavy.h"
+#include "Source/Debug/DebugFont.h"
 
 
 // ÉÅÉìÉoä÷êîÇÃíËã` ===========================================================

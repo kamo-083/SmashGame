@@ -60,8 +60,7 @@ void Game::Initialize(HWND window, int width, int height)
         m_sceneManager.get(), m_userResources.get(), stageNum, "Resources/Json/stage3.json", ClearConditionsUI::ConditionsType::GATHER));
 
     // 開始シーンの設定
-    m_sceneManager->SetStartScene("TitleScene");
-    //m_sceneManager->SetStartScene("StageSelectScene");
+    m_sceneManager->SetStartScene("TitleScene");\
 }
 
 #pragma region Frame Update
@@ -123,6 +122,7 @@ void Game::Render()
         m_states.get(),
         m_spriteBatch.get()
     };
+
 
     // シーンマネージャの描画
     m_sceneManager->Render(renderContext);

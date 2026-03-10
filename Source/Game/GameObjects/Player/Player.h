@@ -9,30 +9,30 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Object/Object.h"
-#include"Source/Game/Interface/IState.h"
-#include"Source/Game/Common/UserResources.h"
-#include"Source/Game/Common/ResourceManager.h"
-#include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/Physics/CollisionManager.h"
-#include"Source/Game/Physics/Collision.h"
-#include"Source/Game/Physics/PhysicsObject.h"
-#include"Source/Game/Effect/EffectManager.h"
-#include"Source/Game/Data/AttackData.h"
-#include"Source/Game/Data/PlayerInfoLoader.h"
-#include"Source/Game/Data/InputKeyLoader.h"
-#include"Source/Debug/DebugFont.h"
-#include"Source/Game/GameObjects/Camera.h"
+#include "Source/Game/Object/Object.h"
+#include "Source/Game/Interface/IState.h"
+#include "Source/Game/Common/RenderContext.h"
+#include "Source/Game/Physics/Collision.h"
+#include "Source/Game/Physics/PhysicsObject.h"
+#include "Source/Game/Effect/EffectManager.h"
+#include "Source/Game/Data/AttackData.h"
+#include "Source/Game/Data/PlayerInfoLoader.h"
+#include "Source/Game/Data/InputKeyLoader.h"
 
 
 // クラスの宣言 ===============================================================
 class StageScene;
+class ResourceManager;
+class CollisionManager;
+class UserResources;
+class AttackUI;
+class Camera;
 class Player_Idle;
 class Player_Walk;
 class Player_AttackBasic;
 class Player_AttackRolling;
 class Player_AttackHeavy;
-class AttackUI;
+class DebugFont;
 
 
 // クラスの定義 ===============================================================

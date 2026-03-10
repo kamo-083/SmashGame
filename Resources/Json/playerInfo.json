@@ -10,7 +10,7 @@
     "attack": [
         {
             "atkType": "Basic",
-            "atkParam": [ 1.0, 0.5, 5000.0 ]
+            "atkParam": [ 1.0, 1.0, 6000.0 ]
         },
         {
             "atkType": "Heavy",

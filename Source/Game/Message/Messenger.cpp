@@ -46,8 +46,12 @@ void Messenger::AddObject(int listenerID, IMessageListener* listener)
  */
 void Messenger::Notify(int listenerID, Message::MessageID messageID)
 {
+	// 送信先を検索
+	auto it = m_listeners.find(listenerID);
+	if (it == m_listeners.end() || it->second == nullptr) return;
+
 	// イベントを送信
-	m_listeners.at(listenerID)->OnMessageAccepted(messageID);
+	it->second->OnMessageAccepted(messageID);
 	
 }
 
