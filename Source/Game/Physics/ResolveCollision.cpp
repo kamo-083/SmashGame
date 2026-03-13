@@ -42,7 +42,8 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 	// •ûŒü‚ğ³‹K‰»
 	DirectX::SimpleMath::Vector3 normal = mtv.direction;
 	normal.Normalize();
-	if (b.desc.layer == CollisionManager::Layer::Stage && normal.y < 0.0f)
+	// –@ü‚ª— Œü‚«‚¾‚Á‚½‚ç”½“]
+	if (b.desc.layer == CollisionManager::Layer::Stage && normal.y < -0.9f)
 	{
 		normal = -normal;
 	}
@@ -84,6 +85,10 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 		if (!isGround)
 		{
 			normal.y = 0.0f;
+			if (normal.LengthSquared() > FLT_EPSILON)
+			{
+				normal.Normalize();
+			}
 		}
 
 		SlideVelocity(a.desc.velocity, normal);

@@ -34,7 +34,8 @@ public:
 		Ground,		// 地面
 		TargetBox,	// 的
 		Area,		// エリア
-		Fence		// 柵
+		Fence,		// 柵
+		Bridge,		// 橋
 	};
 
 	// エリア設定情報
@@ -55,6 +56,7 @@ public:
 		bool active = true;			// 有効化フラグ
 		AreaActionDesc areaAction;	// エリア設定(CountAreaの時)
 		int fenceNum = 0;			// 柵を並べる数(Fenceの時)
+		float bridgeAngle = 0.0f;	// 橋の向き(Bridgeの時)
 	};
 	
 	// 敵の情報
@@ -119,6 +121,7 @@ public:
 			else if (typeStr == "Area") data.type = ObjectType::Area;
 			else if (typeStr == "Goal") data.type = ObjectType::Goal;
 			else if (typeStr == "Fence") data.type = ObjectType::Fence;
+			else if (typeStr == "Bridge") data.type = ObjectType::Bridge;
 
 			// 座標
 			if (element.contains("pos") && element["pos"].is_array() && element["pos"].size() >= 3)
@@ -163,6 +166,14 @@ public:
 
 				// 数
 				data.fenceNum = element["num"].get<int>();
+			}
+			
+			// 橋の向き
+			if (data.type == ObjectType::Bridge &&
+				element.contains("angle") && element["angle"].is_number())
+			{
+				// 回転
+				data.bridgeAngle = element["angle"].get<float>();
 			}
 
 			// 有効化

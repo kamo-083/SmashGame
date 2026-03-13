@@ -102,8 +102,9 @@ public:
 	// 各辺の長さを設定
 	void SetLength(const DirectX::SimpleMath::Vector3& length) { m_length = length; }
 
-	// 色を設定
+	// 色を設定・取得
 	void SetColor(const DirectX::SimpleMath::Color& color) { m_color = color; }
+	DirectX::SimpleMath::Color GetColor() { return m_color; }
 
 
 // 内部実装

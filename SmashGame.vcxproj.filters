@@ -383,6 +383,9 @@
     <ClInclude Include="Source\Game\Data\PlayerInputData.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Bridge.h">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -590,6 +593,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Object\Object.cpp">
       <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Bridge.cpp">
+      <Filter>Game\GameObjects\Stage\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -26,6 +26,7 @@ class TargetBox;
 class Goal;
 class CountArea;
 class Fence;
+class Bridge;
 class Key;
 
 
@@ -58,6 +59,9 @@ private:
 
 	// çÚ
 	std::vector<std::unique_ptr<Fence>> m_fences;
+
+	// ã¥
+	std::vector<std::unique_ptr<Bridge>> m_bridges;
 
 	// ÉSÅ[Éã
 	std::unique_ptr<Goal> m_goal;

@@ -2,6 +2,7 @@
     "objects": [        
         { "type": "Goal", "pos": [ 3, 0.93, 3 ]},
         { "type": "Ground", "pos": [ 0, -1, 0 ], "scale": [ 6, 1, 6 ]},
+        { "type": "Ground", "pos": [ 0, -1, 0 ], "scale": [ 6, 1, 6 ]},
         { "type": "TargetBox", "pos": [ -3, 0.8, -3 ], "scale": [ 0.8, 0.8, 0.8 ]},
         { "type": "Fence", "pos": [ 0, 0.5, 5.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 11},
         { "type": "Fence", "pos": [ 0, 0.5, -5.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 11},

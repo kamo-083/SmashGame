@@ -18,6 +18,7 @@
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
 #include "Source/Game/GameObjects/Stage/Objects/CountArea.h"
 #include "Source/Game/GameObjects/Stage/Objects/Fence.h"
+#include "Source/Game/GameObjects/Stage/Objects/Bridge.h"
 #include "Source/Game/GameObjects/Stage/Objects/Key.h"
 
 
@@ -48,6 +49,7 @@ StageManager::~StageManager()
 	m_targetBoxes.clear();
 	m_areas.clear();
 	m_fences.clear();
+	m_bridges.clear();
 	m_goal.reset();
 	m_pScene = nullptr;
 }
@@ -127,6 +129,13 @@ void StageManager::CreateStage(
 				data.position, data.scale, data.angle);
 			break;
 		}
+		// 橋
+		case StageLoader::ObjectType::Bridge:
+		{
+			m_bridges.push_back(std::move(std::make_unique<Bridge>(pUR)));
+			m_bridges.back()->Initialize(pRM, pCM, pEnM, data.position, data.bridgeAngle);
+			break;
+		}
 		// ゴール
 		case StageLoader::ObjectType::Goal:
 		{
@@ -178,6 +187,12 @@ void StageManager::Update(float elapsedTime, const DirectX::SimpleMath::Vector3&
 	{
 		area->Update(elapsedTime, cameraPos, cameraUp);
 	}
+	
+	// 橋の更新
+	for (auto& bridge : m_bridges)
+	{
+		bridge->Update(elapsedTime);
+	}
 
 	// 鍵の更新
 	if (m_key)
@@ -218,6 +233,12 @@ void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 	for (auto& fences : m_fences)
 	{
 		fences->Draw(context);
+	}
+	
+	// 橋の描画
+	for (auto& bridge : m_bridges)
+	{
+		bridge->Draw(context);
 	}
 
 	// 鍵の描画
@@ -267,6 +288,12 @@ void StageManager::Finalize()
 	for (auto& fences : m_fences)
 	{
 		fences->Finalize();
+	}
+
+	// 橋の終了
+	for (auto& bridge : m_bridges)
+	{
+		bridge->Finalize();
 	}
 
 	// ゴールの終了
