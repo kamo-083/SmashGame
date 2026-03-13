@@ -78,7 +78,8 @@ private:
 
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
-	std::unique_ptr<NumberRenderer3D> m_numberBorad;	// “à•”‚Ì“G”•`‰æ
+	// “à•”‚Ì“G”•`‰æ
+	std::unique_ptr<NumberRenderer3D> m_numberBorad;
 
 
 	// ƒƒ“ƒoŠÖ”‚ÌéŒ¾ -------------------------------------------------

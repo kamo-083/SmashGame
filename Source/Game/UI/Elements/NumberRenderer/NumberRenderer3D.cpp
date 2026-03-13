@@ -159,7 +159,7 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 
 		// 位置の設定
 		vertex[j].position.x = vertex[j].position.x * (1.f + width / height);
-		vertex[j].position.y = vertex[j].position.y * (1.f + height / width);
+		vertex[j].position.y = vertex[j].position.y * (1.f + height / width) + m_position.y;
 	}
 
 	// テクスチャサンプラーの設定
@@ -179,9 +179,7 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 	renderContext.deviceContext->RSSetState(renderContext.states->CullNone());
 
 	// ワールド行列の作成
-	DirectX::SimpleMath::Matrix world =
-		DirectX::SimpleMath::Matrix::CreateScale(SCALE) *
-		DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
+	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(SCALE);
 
 	// ビルボードの回転
 	if (m_isBillboard)

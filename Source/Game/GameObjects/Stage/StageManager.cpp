@@ -252,7 +252,6 @@ void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 	{
 		area->Draw(context, debugFont);
 	}
-
 }
 
 

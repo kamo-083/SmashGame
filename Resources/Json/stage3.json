@@ -1,6 +1,7 @@
 {
     "objects": [        
         { "type": "Goal", "pos": [ 4.0, 0.93, -10.0 ]},
+        { "type": "Area", "pos": [ 0, 0, -15.0 ], "scale": [ 3, 1, 2 ], "mode": "ReachCount", "command": "EnableGoal", "target": 6},
         { "type": "Ground", "pos": [ 0, -1, 0 ], "scale": [ 5, 1, 4 ]},
         { "type": "Ground", "pos": [ 0, -1, -13.0 ], "scale": [ 9, 1, 6 ]},
         { "type": "Bridge", "pos": [ 0, 0, -4 ], "angle": 180.0},        
@@ -13,8 +14,7 @@
         { "type": "Fence", "pos": [ -5, 0.5, -7.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 7},
         { "type": "Fence", "pos": [ 0, 0.5, -18.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 17},
         { "type": "Fence", "pos": [ 8.5, 0.5, -13.0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 11},
-        { "type": "Fence", "pos": [ -8.5, 0.5, -13.0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 11},
-        { "type": "Area", "pos": [ 0, 0, -15.0 ], "scale": [ 3, 1, 2 ], "mode": "ReachCount", "command": "EnableGoal", "target": 6}
+        { "type": "Fence", "pos": [ -8.5, 0.5, -13.0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 11}
     ],
 
     "enemies": [
