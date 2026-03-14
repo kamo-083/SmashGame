@@ -73,7 +73,7 @@ void Bridge::Initialize(
 	CalculateBridgeAxis(angle, rotAxis);
 
 	// モデルの読み込み
-	m_model = pRM->RequestSDKMESH("box", "box.sdkmesh");	// ← 要変更!!!
+	m_model = pRM->RequestSDKMESH("bridge", "bridge.sdkmesh");
 
 	// エフェクトの設定
 	SetupEffect();
@@ -130,12 +130,11 @@ void Bridge::Draw(const RenderContext& context)
 	Matrix world;
 	Matrix rootTrans = Matrix::CreateTranslation(m_rootPosition);
 	Matrix bridgeTrans = Matrix::CreateTranslation(m_bridgePosition);
-	Matrix scale = Matrix::CreateScale(m_halfLength * 2.0f);
 	Matrix rot = Matrix::CreateFromQuaternion(m_tweenParams.rotation);
-	world = scale * bridgeTrans * rot * rootTrans;
+	world = bridgeTrans * rot * rootTrans;
 
 	// モデルの描画
-	//m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
+	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 
 	// エフェクトの描画
 	if (!m_isDowned)
@@ -144,7 +143,9 @@ void Bridge::Draw(const RenderContext& context)
 	}
 
 	// 当たり判定の描画(デバッグ用)
-	m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow, nullptr, true);
+	//Matrix scale = Matrix::CreateScale(m_halfLength * 2.0f);
+	//world = scale * bridgeTrans * rot * rootTrans;
+	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow, nullptr, true);
 }
 
 

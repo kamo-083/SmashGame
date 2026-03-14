@@ -88,7 +88,7 @@ public:
 // æ“¾/İ’è
 public:
 	// “–‚½‚è”»’è‚Ìæ“¾
-	OBBCollider GetCollider(){ return m_collider; }	
+	OBBCollider GetCollider() const { return m_collider; }
 
 
 // “à•”À‘•

@@ -202,5 +202,6 @@ void Ground::DrawGroundGrid(
 		}
 	}
 
+	// 深度ステンシルステートを元に戻す
 	context.deviceContext->OMSetDepthStencilState(nullptr, 0);
 }

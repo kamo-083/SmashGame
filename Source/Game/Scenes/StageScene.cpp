@@ -439,21 +439,31 @@ void StageScene::DrawObjectsShadow(const RenderContext& context)
 	m_primitiveBatch->Begin();
 
 	// プレイヤー
-	DrawShadow(
-		DirectX::SimpleMath::Vector3(m_player->GetPosition().x, groundHeight, m_player->GetPosition().z),
-		m_player->GetRadius());
+		// Y座標が地面以上なら描画
+	if (m_player->GetPosition().y >= groundHeight)
+	{
+		DrawShadow(
+			DirectX::SimpleMath::Vector3(m_player->GetPosition().x, groundHeight, m_player->GetPosition().z),
+			m_player->GetRadius());
+	}
 
 	// 敵
 	for (int i = 1; i <= m_enemyManager->GetEnemyNum(); i++)
 	{
+		// 敵のポインタを取得
+		IEnemy* enemy = m_enemyManager->GetEnemyByID(i);
+
 		// 対象が存在しなかったら飛ばす
-		if (!m_enemyManager->GetEnemyByID(i)) continue;
+		if (!enemy) continue;
+
+		// Y座標が地面未満なら飛ばす
+		if (enemy->GetPosition().y < groundHeight) continue;
 
 		// 座標を取得
-		DirectX::SimpleMath::Vector3 enemyPos = m_enemyManager->GetEnemyByID(i)->GetPosition();
+		DirectX::SimpleMath::Vector3 enemyPos = enemy->GetPosition();
 		enemyPos.y = groundHeight;
 		// 半径を取得
-		float enemyRadius = m_enemyManager->GetEnemyByID(i)->GetRadius();
+		float enemyRadius = enemy->GetRadius();
 		// 影を描画
 		DrawShadow(enemyPos, enemyRadius);
 	}
