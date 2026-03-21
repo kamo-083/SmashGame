@@ -28,13 +28,16 @@ public:
 	// 表示する数値全体の幅
 	const float DIGITS_WIDTH;
 
-	// スケール
-	const float SCALE;
-
 	// データメンバの宣言 -----------------------------------------------
 private:
+	// デバイスリソースのポインタ
+	DX::DeviceResources* m_pDR;
+
 	// 表示座標
 	DirectX::SimpleMath::Vector3 m_position;
+
+	// 大きさ
+	float m_scale;
 
 	// ビルボード関連
 	bool m_isBillboard;
@@ -58,6 +61,7 @@ private:
 public:
 	// コンストラクタ
 	NumberRenderer3D(
+		DisplayMode mode,
 		const DirectX::SimpleMath::Vector2& spriteSize,
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 		int digit,
@@ -92,13 +96,14 @@ public:
 	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }
 
 	// スケールを取得
-	float GetScale() const { return SCALE; }
+	float GetScale() const { return m_scale; }
 
-	// 表示する数値を設定
-	void SetNumber(int num) { m_number = num; }
+	// 表示形式を設定
+	void SetDisplayMode(INumberRenderer::DisplayMode mode) override;
 
 
 	// 内部実装
 private:
-
+	// レンダーテクスチャの作成
+	void CreateRenderTexture();
 };

@@ -23,6 +23,7 @@ const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
 /**
  * @brief コンストラクタ
  *
+ * @param mode			表示形式
  * @param spriteSize	スプライトのサイズ
  * @param texture		テクスチャのポインタ
  * @param digit			表示桁数
@@ -30,21 +31,25 @@ const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
  * @param boardScale	スケール
  */
 NumberRenderer3D::NumberRenderer3D(
+	DisplayMode mode,
 	const DirectX::SimpleMath::Vector2& spriteSize,
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 	int digit,
 	DX::DeviceResources* pDR,
 	float boardScale)
 	:
-	INumberRenderer(spriteSize, texture, digit),
+	INumberRenderer(mode, spriteSize, texture, digit),
 	DIGITS_WIDTH{ spriteSize.x * digit },
-	SCALE{ boardScale },
+	m_scale{ boardScale },
 	m_position{ DirectX::SimpleMath::Vector3::Zero },
 	m_isBillboard{ false },
 	m_billboard{ DirectX::SimpleMath::Matrix::Identity }
 {
 	ID3D11Device1* device = pDR->GetD3DDevice();
 	ID3D11DeviceContext* context = pDR->GetD3DDeviceContext();
+
+	// デバイスリソースのポインタを設定
+	m_pDR = pDR;
 
 	//エフェクトの作成
 	m_batchEffect = std::make_unique<DirectX::AlphaTestEffect>(device);
@@ -65,13 +70,7 @@ NumberRenderer3D::NumberRenderer3D(
 	m_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionTexture>>(context);
 
 	// レンダーテクスチャの作成
-	m_renderTexture = std::make_unique<RenderTexture>();
-	m_renderTexture->Initialize(
-		pDR->GetD3DDevice(),
-		static_cast<int>(DIGITS_WIDTH * SCALE), static_cast<int>(spriteSize.y * SCALE),
-		pDR->GetRenderTargetView(),
-		pDR->GetDepthStencilView()
-	);
+	CreateRenderTexture();
 }
 
 
@@ -116,32 +115,52 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 	const float clear[4] = { 0,0,0,0 };
 	m_renderTexture->Clear(renderContext.deviceContext, clear);
 
-	DirectX::SimpleMath::Vector2 size = SPRITE_SIZE * SCALE;
+	DirectX::SimpleMath::Vector2 size = SPRITE_SIZE * m_scale;
 
 	int data = m_number;
-	float x = (m_position.x + (NUM_DIGIT - 1)) * size.x;
-	float y = m_position.y;
+
+	// スプライトサイズの半分
+	DirectX::SimpleMath::Vector2 halfSize = SPRITE_SIZE * 0.5f;
+
+	// 描画位置
+	float x = 0.0f;
+	float y = 0.0f;
 
 	renderContext.spriteBatch->Begin();
-	// 1の位から順に描画
-	for (int i = 0; i < NUM_DIGIT; i++)
+
+	switch (m_mode)
 	{
-		int number = data % 10;
-		int sourceX = number * static_cast<int>(SPRITE_SIZE.x);
-		DirectX::SimpleMath::Vector2 pos = { x, y };
-		RECT rect = {
-			sourceX, 0,
-			sourceX + static_cast<int>(SPRITE_SIZE.x), static_cast<int>(SPRITE_SIZE.y) };
-		DirectX::FXMVECTOR color = DirectX::Colors::White;
+	case INumberRenderer::DisplayMode::Default:		// 通常
+		DrawNumber(
+			data, x, y, m_scale,
+			DirectX::SimpleMath::Vector2::Zero,
+			renderContext.spriteBatch);
+		break;
+	case INumberRenderer::DisplayMode::Fraction:	// 分数
+		// 分子を描画
+		x += (NUM_DIGIT - 1) * SPRITE_SIZE.x * m_scale;
+		DrawNumber(
+			m_fraction.numerator, x, y, m_scale,
+			DirectX::SimpleMath::Vector2::Zero,
+			renderContext.spriteBatch);
 
-		renderContext.spriteBatch->Draw(
-			m_texture.Get(), pos, &rect,
-			color, 0.0f, DirectX::XMFLOAT2(0, 0),
-			SCALE, DirectX::SpriteEffects_None, 0.0f);
+		// スラッシュを描画
+		x += SPRITE_SIZE.x * m_scale;
+		DrawSlash(
+			x, y, m_scale,
+			DirectX::SimpleMath::Vector2::Zero,
+			renderContext.spriteBatch);
 
-		data /= 10;
-		x -= size.x;
+		// 表示位置を計算
+		x += NUM_DIGIT * SPRITE_SIZE.x * m_scale;
+		// 分母を描画
+		DrawNumber(
+			m_fraction.denominator, x, y, m_scale,
+			DirectX::SimpleMath::Vector2::Zero,
+			renderContext.spriteBatch);
+		break;
 	}
+
 	renderContext.spriteBatch->End();
 
 	// 通常の画面に切り替え
@@ -150,6 +169,8 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 	// 画像の幅と高さを取得
 	float width = static_cast<float>(m_renderTexture->GetWidth());
 	float height = static_cast<float>(m_renderTexture->GetHeight());
+	// アスペクト比
+	float aspect = width / height;
 
 	// 頂点情報
 	DirectX::VertexPositionTexture vertex[4]{};
@@ -158,8 +179,8 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 		vertex[j] = VERTECES[j];
 
 		// 位置の設定
-		vertex[j].position.x = vertex[j].position.x * (1.f + width / height);
-		vertex[j].position.y = vertex[j].position.y * (1.f + height / width) + m_position.y;
+		vertex[j].position.x *= aspect;
+		//vertex[j].position.y += m_position.y;
 	}
 
 	// テクスチャサンプラーの設定
@@ -179,7 +200,7 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 	renderContext.deviceContext->RSSetState(renderContext.states->CullNone());
 
 	// ワールド行列の作成
-	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(SCALE);
+	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(m_scale);
 
 	// ビルボードの回転
 	if (m_isBillboard)
@@ -252,5 +273,56 @@ void NumberRenderer3D::CreateBillboard(
 
 	//ビルボードを回転させる
 	m_billboard = rotY * m_billboard;
+}
+
+
+
+/**
+ * @brief 表示形式を設定
+ *
+ * @param mode 表示形式
+ *
+ * @return なし
+ */
+void NumberRenderer3D::SetDisplayMode(INumberRenderer::DisplayMode mode)
+{
+	// モードを設定
+	m_mode = mode;
+
+	// レンダーテクスチャを作成
+	CreateRenderTexture();
+}
+
+
+
+/**
+ * @brief レンダーテクスチャの作成
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void NumberRenderer3D::CreateRenderTexture()
+{
+	// レンダーテクスチャの幅を設定
+	int width = 0;
+	switch (m_mode)
+	{
+	case INumberRenderer::DisplayMode::Default:
+		width = static_cast<int>(DIGITS_WIDTH * m_scale);
+		break;
+	case INumberRenderer::DisplayMode::Fraction:
+		width = (DIGITS_WIDTH * 2 + SPRITE_SIZE.x) * m_scale;
+		break;
+	}
+
+	// レンダーテクスチャの作成
+	m_renderTexture = std::make_unique<RenderTexture>();
+	m_renderTexture->Initialize(
+		m_pDR->GetD3DDevice(),
+		width, static_cast<int>(SPRITE_SIZE.y * m_scale),
+		m_pDR->GetRenderTargetView(),
+		m_pDR->GetDepthStencilView()
+	);
 }
 

@@ -31,7 +31,8 @@ class CountArea
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
-	static constexpr float AREA_HALF_HEIGHT = 1.0f;	// エリアの高さ(半分)
+	static constexpr float AREA_HALF_HEIGHT = 1.0f;			// エリアの高さ(半分)
+	static constexpr float NUMBER_HEIGHT_ADJUST = 1.25f;	// 数字表示の高さ調整倍率
 
 	// 条件
 	enum class TriggerMode

@@ -31,11 +31,12 @@ CountArea::CountArea(UserResources* pUR)
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(dr->GetD3DDeviceContext(), { 1.0f, 1.0f, 1.0f }, true);
 
 	m_numberBorad = std::make_unique<NumberRenderer3D>(
+		INumberRenderer::DisplayMode::Default,
 		NUMBER_SIZE,
 		rm->RequestPNG("number", "Text/number_48.png"),
 		1,
 		dr,
-		0.5f
+		1.0f
 	);
 
 	// エフェクトの作成
@@ -96,8 +97,22 @@ void CountArea::Initialize(
 
 	// 数字UIの作成
 	m_numberBorad->Initialize(static_cast<int>(m_insideList.size()));
-	DirectX::SimpleMath::Vector3 boradPos = { m_position.x, m_position.y + AREA_HALF_HEIGHT * 0.5f, m_position.z };
+	// 表示位置を設定
+	DirectX::SimpleMath::Vector3 boradPos = 
+	{ m_position.x, m_position.y + AREA_HALF_HEIGHT * NUMBER_HEIGHT_ADJUST, m_position.z };
 	m_numberBorad->SetPosition(boradPos);
+	// モードごとに数字の表示を設定
+	switch (m_mode)
+	{
+	case CountArea::TriggerMode::ReachCount:	// 目標数以上入れる場合
+		m_numberBorad->SetDisplayMode(INumberRenderer::DisplayMode::Fraction);
+		m_numberBorad->SetFraction(0, m_targetNum);
+		break;
+	case CountArea::TriggerMode::AllOut:		// すべて追い出す場合
+		m_numberBorad->SetDisplayMode(INumberRenderer::DisplayMode::Default);
+		m_numberBorad->SetNumber(m_targetNum);
+		break;
+	}
 
 	// 当たり判定の設定
 	SetupCollider(pCM, x, z);
@@ -255,7 +270,16 @@ void CountArea::EnterEnemy(CollisionManager* pCM, uint32_t handle)
 	}
 
 	// 表示する数字の更新
-	m_numberBorad->SetNumber(static_cast<int>(m_insideList.size()));
+	int number = static_cast<int>(m_insideList.size());
+	switch (m_mode)
+	{
+	case CountArea::TriggerMode::ReachCount:	// 目標数以上入れる場合
+		m_numberBorad->SetFraction(number);
+		break;
+	case CountArea::TriggerMode::AllOut:		// すべて追い出す場合
+		m_numberBorad->SetNumber(number);
+		break;
+	}
 }
 
 
@@ -293,7 +317,16 @@ void CountArea::ExitEnemy(CollisionManager* pCM, uint32_t handle)
 	}
 
 	// 表示する数字の更新
-	m_numberBorad->SetNumber(static_cast<int>(m_insideList.size()));
+	int number = static_cast<int>(m_insideList.size());
+	switch (m_mode)
+	{
+	case CountArea::TriggerMode::ReachCount:	// 目標数以上入れる場合
+		m_numberBorad->SetFraction(number);
+		break;
+	case CountArea::TriggerMode::AllOut:		// すべて追い出す場合
+		m_numberBorad->SetNumber(number);
+		break;
+	}
 }
 
 

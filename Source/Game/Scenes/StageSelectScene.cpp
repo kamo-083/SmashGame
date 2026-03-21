@@ -348,7 +348,7 @@ void StageSelectScene::PanelTextureSynthesis()
 
 		// ステージ番号
 		DirectX::SimpleMath::Vector2 number_pos = DirectX::SimpleMath::Vector2(
-			base_size.x * 0.5f + NUMBER_ADJUST_INTERVAL,
+			base_size.x * 0.75f,
 			NUMBER_ADJUST_HEIGHT
 		);
 		// ステージ番号描画の設定
@@ -476,6 +476,7 @@ void StageSelectScene::SetupPanel(const DirectX::SimpleMath::Vector2& windowSize
 void StageSelectScene::SetupNumberBoard()
 {
 	m_numberBoard = std::make_unique<NumberRenderer2D>(
+		INumberRenderer::DisplayMode::Default,
 		m_textureCatalog->GetTextures().text_number.size,
 		m_textureCatalog->GetTextures().text_number.texture,
 		1);

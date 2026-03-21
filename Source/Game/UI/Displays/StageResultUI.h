@@ -32,7 +32,7 @@ public:
 	static constexpr int TIME_DIGIT = 2;
 
 	// クリアタイムの表示間隔の調査用倍率
-	static constexpr float NUMBER_WIDTH_SCALE = 1.25f;
+	static constexpr float NUMBER_WIDTH_SCALE = 1.5f;
 
 	// テクスチャ群
 	struct Textures

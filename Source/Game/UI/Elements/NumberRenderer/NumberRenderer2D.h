@@ -39,6 +39,7 @@ private:
 public:
 	// コンストラクタ
 	NumberRenderer2D(
+		DisplayMode mode,
 		DirectX::SimpleMath::Vector2 spriteSize,
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 		int digit);

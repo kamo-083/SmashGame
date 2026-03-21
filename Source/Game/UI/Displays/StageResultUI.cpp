@@ -22,7 +22,7 @@ StageResultUI::StageResultUI()
 	m_enable(false),
 	m_clearTime{}
 {
-
+	
 }
 
 
@@ -70,7 +70,8 @@ void StageResultUI::Initialize(
 	m_widget->Initialize(textures.result.texture, data, textures.result.size);
 
 	// 数字描画機能
-	m_number = std::make_unique<NumberRenderer2D>(textures.number.size, textures.number.texture, TIME_DIGIT);
+	m_number = std::make_unique<NumberRenderer2D>(
+		INumberRenderer::DisplayMode::Default, textures.number.size, textures.number.texture, TIME_DIGIT);
 
 	// クリアタイムのテキスト画像のポインタを初期化
 	m_clearTimeTexture = textures.clearTime.texture;
@@ -124,8 +125,8 @@ void StageResultUI::Draw(const RenderContext& context)
 	// 数字
 	// 描画位置を初期化
 	DirectX::SimpleMath::Vector2 numberPos = m_widget->GetParam().pos;
-	numberPos.x -= m_number->GetWidth();
-	numberPos.y += m_number->GetSpriteSize().y * 0.5f;
+	numberPos.x += m_number->GetSpriteSize().x * 0.5f;
+	numberPos.y += m_number->GetSpriteSize().y;
 
 	// 表示間隔を設定 (分と秒の間隔)
 	float numberWidth = m_number->GetSpriteSize().x * NUMBER_WIDTH_SCALE;

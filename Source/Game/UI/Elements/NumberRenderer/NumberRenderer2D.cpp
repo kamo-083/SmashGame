@@ -13,21 +13,22 @@
 /**
  * @brief コンストラクタ
  *
+ * @param mode			表示形式
  * @param spriteSize	スプライトのサイズ
  * @param texture		テクスチャのポインタ
  * @param digit			表示桁数
  */
 NumberRenderer2D::NumberRenderer2D(
+	DisplayMode mode,
 	DirectX::SimpleMath::Vector2 spriteSize,
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
 	int digit)
 	: 
-	INumberRenderer(spriteSize, texture, digit),
+	INumberRenderer(mode, spriteSize, texture, digit),
 	m_position{ DirectX::SimpleMath::Vector2::Zero },
 	m_useBeginEnd{ false },
 	m_scale{ 1.0f }
 {
-
 }
 
 
@@ -65,37 +66,43 @@ void NumberRenderer2D::Initialize(const int& number)
  */
 void NumberRenderer2D::Draw(const RenderContext& renderContext)
 {
-	// 表示数字を取得
-	int data = m_number;
-
-	// 表示位置を計算
-	float x = m_position.x + NUM_DIGIT * SPRITE_SIZE.x;
+	// 表示位置を取得
+	float x = m_position.x;
 	float y = m_position.y;
+	// スプライトサイズの半分
+	DirectX::SimpleMath::Vector2 halfSize = SPRITE_SIZE * 0.5f;
 
 	if(m_useBeginEnd) renderContext.spriteBatch->Begin();
 
-	// 1の位から順に描画
-	for (int i = 0; i < NUM_DIGIT; i++)
+	switch (m_mode)
 	{
-		int num = data % 10;
-		int sourceX = num * static_cast<int>(SPRITE_SIZE.x);
-		// スプライトサイズの半分
-		DirectX::SimpleMath::Vector2 halfSize = SPRITE_SIZE * 0.5f;
-		// 表示位置
-		DirectX::SimpleMath::Vector2 pos = { x + halfSize.x, y + halfSize.y };
-		// 切り取り範囲
-		RECT rect = {
-			sourceX, 0,
-			sourceX + static_cast<LONG>(SPRITE_SIZE.x), static_cast<LONG>(SPRITE_SIZE.y) };
-		DirectX::FXMVECTOR color = DirectX::Colors::White;
+	case INumberRenderer::DisplayMode::Default:		// 通常
+		// 数字を描画
+		DrawNumber(
+			m_number, x, y, m_scale, halfSize,
+			renderContext.spriteBatch);
+		break;
+	case INumberRenderer::DisplayMode::Fraction:	// 分数
+		float base_x = x;
+		// スラッシュを描画
+		DrawSlash(
+			base_x, y, m_scale, halfSize,
+			renderContext.spriteBatch);
 
-		renderContext.spriteBatch->Draw(
-			m_texture.Get(), pos, &rect,
-			color, 0.0f, halfSize,
-			m_scale, DirectX::SpriteEffects_None, 0.0f);
+		// 表示位置を計算
+		x = base_x + NUM_DIGIT * SPRITE_SIZE.x;
+		// 分母を描画
+		DrawNumber(
+			m_fraction.denominator, x, y, m_scale, halfSize,
+			renderContext.spriteBatch);
 
-		data /= 10;
-		x -= SPRITE_SIZE.x;
+		// 表示位置を計算
+		x = base_x - SPRITE_SIZE.x;
+		// 分子を描画
+		DrawNumber(
+			m_fraction.numerator, x, y, m_scale, halfSize,
+			renderContext.spriteBatch);
+		break;
 	}
 
 	if (m_useBeginEnd) renderContext.spriteBatch->End();

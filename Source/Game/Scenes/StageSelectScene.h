@@ -33,10 +33,8 @@ public:
 
 	// パネルの間隔調整
 	static constexpr float PANEL_ADJUST_INTERVAL = 210.0f;
-	// ステージ番号の間隔調整
-	static constexpr float NUMBER_ADJUST_INTERVAL = 10.0f;
 	// ステージ番号の高さ調整
-	static constexpr float NUMBER_ADJUST_HEIGHT = 25.0f;
+	static constexpr float NUMBER_ADJUST_HEIGHT = 60.0f;
 
 	// 操作テキストの表示位置
 	static constexpr DirectX::SimpleMath::Vector2 INPUT_TEXT_POS = { 450,700 };
