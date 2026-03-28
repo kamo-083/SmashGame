@@ -240,6 +240,7 @@
     <ClInclude Include="Source\Game\Interface\IState.h" />
     <ClInclude Include="Source\Game\Message\Message.h" />
     <ClInclude Include="Source\Game\Message\Messenger.h" />
+    <ClInclude Include="Source\Game\Object\AudioListener.h" />
     <ClInclude Include="Source\Game\Object\Object.h" />
     <ClInclude Include="Source\Game\Physics\Collision.h" />
     <ClInclude Include="Source\Game\Physics\CollisionManager.h" />
@@ -323,7 +324,9 @@
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Key.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\TargetBox.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Stage\StageManager.cpp" />
+    <ClCompile Include="Source\Game\Interface\IMessageListener.cpp" />
     <ClCompile Include="Source\Game\Message\Messenger.cpp" />
+    <ClCompile Include="Source\Game\Object\AudioListener.cpp" />
     <ClCompile Include="Source\Game\Object\Object.cpp" />
     <ClCompile Include="Source\Game\Physics\Collision.cpp" />
     <ClCompile Include="Source\Game\Physics\CollisionManager.cpp" />

@@ -9,6 +9,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include"Source/Game/Object/AudioListener.h"
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
@@ -25,7 +26,7 @@ class StageScene;
 /**
  * @brief ゴール
  */
-class Goal
+class Goal	: public AudioListener
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -47,9 +48,6 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// シーンへのポインタ
-	StageScene* m_pScene;
-
 	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
 
@@ -76,7 +74,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Goal(ID3D11DeviceContext* context, StageScene* pScene);
+	Goal(ID3D11DeviceContext* context, AudioManager* pAudio);
 
 	// デストラクタ
 	~Goal();

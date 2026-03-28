@@ -9,6 +9,7 @@
 
 
 // ヘッダファイルの読み込み ===================================================
+#include "Source/Game/Object/AudioListener.h"
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Physics/PhysicsObject.h"
@@ -26,7 +27,7 @@ class AreaEffect;
 /**
  * @brief 橋
  */
-class Bridge
+class Bridge	: public AudioListener
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:

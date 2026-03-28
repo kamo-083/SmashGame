@@ -17,16 +17,16 @@
  * @brief コンストラクタ
  *
  * @param context	デバイスコンテキストのポインタ
- * @param pScene	シーンのポインタ
+ * @param pAudio	オーディオマネージャーのポインタ
  */
-Goal::Goal(ID3D11DeviceContext* context, StageScene* pScene)
+Goal::Goal(ID3D11DeviceContext* context, AudioManager* pAudio)
 	:
+	AudioListener(pAudio),
 	m_position{ DirectX::SimpleMath::Vector3::Zero },
 	m_goalCollider{},
 	m_tableCollider{},
 	m_isGoal{ false },
 	m_canGoal{ false },
-	m_pScene{ pScene },
 	m_tweenParam{}
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
@@ -139,7 +139,6 @@ void Goal::Draw(const RenderContext& context, DebugFont* debugFont)
  */
 void Goal::Finalize()
 {
-	m_pScene = nullptr;
 	m_geometricPrimitive.reset();
 	m_models.reset();
 }
@@ -158,7 +157,8 @@ void Goal::OpenGoal()
 	if (!m_tweenAnim->IsPlayed())
 	{
 		// SEの再生
-		m_pScene->PlaySE("canGoalSE");
+		OnMessageAccepted(Message::MessageID::SE_GOAL_OPEN);
+
 		// アニメーションの再生
 		m_tweenAnim->Play();
 	}

@@ -111,7 +111,7 @@ void StageScene::Initialize()
 	// カメラの作成
 	m_camera = std::make_unique<Camera>();
 	// メッセンジャーに登録
-	m_messenger->AddObject(m_camera->GetObjectNumber(), m_camera.get());
+	m_messenger->AddObject(m_camera->GetListenerID(), m_camera.get());
 
 	// エフェクトマネージャーの作成
 	SetupEffects(pDR);
@@ -669,35 +669,35 @@ void StageScene::KeyOperation()
 	if (keyLastState.IsKeyDown(m_keyConfig.move_forward))
 	{
 		player_idle = false;
-		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_MOVE_FORWARD);
+		m_messenger->Notify(m_player->GetListenerID(), MessageID::PLAYER_MOVE_FORWARD);
 	}
 	// 後ろ移動
 	else if (keyLastState.IsKeyDown(m_keyConfig.move_backward))
 	{
 		player_idle = false;
-		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_MOVE_BACKWARD);
+		m_messenger->Notify(m_player->GetListenerID(), MessageID::PLAYER_MOVE_BACKWARD);
 	}
 	// 左移動
 	if (keyLastState.IsKeyDown(m_keyConfig.move_left))
 	{
 		player_idle = false;
-		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_MOVE_LEFT);
+		m_messenger->Notify(m_player->GetListenerID(), MessageID::PLAYER_MOVE_LEFT);
 	}
 	// 右移動
 	else if (keyLastState.IsKeyDown(m_keyConfig.move_right))
 	{
 		player_idle = false;
-		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_MOVE_RIGHT);
+		m_messenger->Notify(m_player->GetListenerID(), MessageID::PLAYER_MOVE_RIGHT);
 	}
 	// 移動操作が無ければ待機
 	if (player_idle)
 	{
-		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_IDLE);
+		m_messenger->Notify(m_player->GetListenerID(), MessageID::PLAYER_IDLE);
 	}
 	// 攻撃
 	if (pKbTracker->IsKeyPressed(m_keyConfig.attack))
 	{
-		m_messenger->Notify(m_player->GetObjectNumber(), MessageID::PLAYER_ATTACK);
+		m_messenger->Notify(m_player->GetListenerID(), MessageID::PLAYER_ATTACK);
 	}
 
 	// 攻撃変更
@@ -706,12 +706,12 @@ void StageScene::KeyOperation()
 		// 左側の攻撃にする
 		if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_left))
 		{
-			m_messenger->Notify(m_player->GetObjectNumber(), MessageID::ATTACK_CHANGE_LEFT);
+			m_messenger->Notify(m_player->GetListenerID(), MessageID::ATTACK_CHANGE_LEFT);
 		}
 		// 右側の攻撃にする
 		else if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_right))
 		{
-			m_messenger->Notify(m_player->GetObjectNumber(), MessageID::ATTACK_CHANGE_RIGHT);
+			m_messenger->Notify(m_player->GetListenerID(), MessageID::ATTACK_CHANGE_RIGHT);
 		}
 	}
 	// カメラ
@@ -720,12 +720,12 @@ void StageScene::KeyOperation()
 		// 左回転
 		if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_left))
 		{
-			m_messenger->Notify(m_camera->GetObjectNumber(), Message::MessageID::CAMERA_ROTATE_LEFT);
+			m_messenger->Notify(m_camera->GetListenerID(), Message::MessageID::CAMERA_ROTATE_LEFT);
 		}
 		// 右回転
 		else if (pKbTracker->IsKeyPressed(m_keyConfig.rotate_right))
 		{
-			m_messenger->Notify(m_camera->GetObjectNumber(), Message::MessageID::CAMERA_ROTATE_RIGHT);
+			m_messenger->Notify(m_camera->GetListenerID(), Message::MessageID::CAMERA_ROTATE_RIGHT);
 		}
 	}
 }
@@ -816,7 +816,7 @@ void StageScene::SetupPlayer(ResourceManager* pRM)
 	};
 	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this, info);
 	m_player->Initialize(param, m_keyConfig);
-	m_messenger->AddObject(m_player->GetObjectNumber(), m_player.get());
+	m_messenger->AddObject(m_player->GetListenerID(), m_player.get());
 }
 
 
@@ -846,7 +846,7 @@ void StageScene::SetupEnemy()
  */
 void StageScene::SetupStage()
 {
-	m_stageManager = std::make_unique<StageManager>(this, m_depthStencilState_stage.Get());
+	m_stageManager = std::make_unique<StageManager>(m_depthStencilState_stage.Get());
 	m_stageManager->CreateStage(
 		m_userResources, m_collisionManager.get(), m_enemyManager.get(), m_effectManager.get(),
 		m_stageFilePath);
@@ -902,6 +902,8 @@ void StageScene::SetupSounds(AudioManager* pAM)
 	pAM->LoadMP3("clearSE", "SE/one08.mp3");
 	pAM->LoadMP3("attackSE", "SE/hit01.mp3");
 	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
+	pAM->LoadMP3("keySpawnSE", "SE/button15.mp3");
+	pAM->LoadMP3("gimmicSolveSE", "SE/button43.mp3");
 
 	// BGM・SEの音量変更
 	pAM->SetVolume("stageBGM", BGM_VOLUME);

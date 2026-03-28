@@ -10,10 +10,6 @@
 #include "Source/Game/Message/Message.h"
 
 
-// オブジェクト番号
-int Object::s_objectNumber = -1;
-
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -22,7 +18,6 @@ int Object::s_objectNumber = -1;
  */
 Object::Object()
 	:
-	m_objectNumber{ CountUpNumber() },
 	m_currentState{},
 	m_currentMessage{}
 {

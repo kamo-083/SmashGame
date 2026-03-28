@@ -48,5 +48,10 @@ public:
 
 		// ポーズの開閉
 		PAUSE_OPEN_CLOSE,
+
+		// SEの再生
+		SE_GIMMIC_SOLVE,	// ギミックを解いた
+		SE_KEY_SPAWN,		// カギの出現
+		SE_GOAL_OPEN,		// ゴールの開放
 	};
 };

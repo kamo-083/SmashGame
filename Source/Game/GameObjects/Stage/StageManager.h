@@ -13,7 +13,6 @@
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Data/StageLoader.h"
 
-
 // クラスの宣言	===============================================================
 class DebugFont;
 class StageScene;
@@ -21,6 +20,7 @@ class UserResources;
 class CollisionManager;
 class EffectManager;
 class EnemyManager;
+class AudioManager;
 class Ground;
 class TargetBox;
 class Goal;
@@ -28,7 +28,6 @@ class CountArea;
 class Fence;
 class Bridge;
 class Key;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -42,9 +41,6 @@ public:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// シーンへのポインタ
-	StageScene* m_pScene;
-
 	// 深度ステンシルステート(各ステージオブジェクトに渡すため保持)
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState;
 
@@ -74,9 +70,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	StageManager(
-		StageScene* pScene,
-		ID3D11DepthStencilState* pDepthStencilState);
+	StageManager(ID3D11DepthStencilState* pDepthStencilState);
 
 	// デストラクタ
 	~StageManager();
@@ -102,7 +96,8 @@ public:
 	void CreateOperate(
 		std::function<void()>& outOperate,
 		StageLoader::AreaActionDesc& desc,
-		const DirectX::SimpleMath::Vector3& position);
+		const DirectX::SimpleMath::Vector3& position,
+		AudioManager* pAM);
 
 
 // 取得/設定

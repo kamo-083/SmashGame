@@ -13,6 +13,7 @@
 #include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
+#include "Source/Game/Common/AudioManager.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/GameObjects/Stage/Objects/Ground.h"
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
@@ -26,15 +27,10 @@
 /**
  * @brief コンストラクタ
  *
- * @param pScene				シーンのポインタ
  * @param pDepthStencilState	深度ステンシルステートのポインタ
  */
-StageManager::StageManager(
-	StageScene* pScene,
-	ID3D11DepthStencilState* pDepthStencilState)
-	:
-	m_pScene{ pScene },
-	m_depthStencilState{ pDepthStencilState }
+StageManager::StageManager(ID3D11DepthStencilState* pDepthStencilState)
+	: m_depthStencilState{ pDepthStencilState }
 {
 }
 
@@ -51,7 +47,6 @@ StageManager::~StageManager()
 	m_fences.clear();
 	m_bridges.clear();
 	m_goal.reset();
-	m_pScene = nullptr;
 }
 
 
@@ -80,6 +75,7 @@ void StageManager::CreateStage(
 
 	// よく使用するポインタを取得
 	ResourceManager* pRM = pUR->GetResourceManager();
+	AudioManager* pAM = pUR->GetAudioManager();
 	ID3D11DeviceContext* context = pUR->GetDeviceResources()->GetD3DDeviceContext();
 
 	// ステージオブジェクトの生成
@@ -97,7 +93,11 @@ void StageManager::CreateStage(
 		// 的
 		case StageLoader::ObjectType::TargetBox:
 		{
-			std::function<void()> operate = [this, data](){ m_key->Spawn(data.position, m_goal->GetPosition()); };
+			std::function<void()> operate = [this, data, pAM]()
+				{
+					m_key->Spawn(data.position, m_goal->GetPosition());
+					pAM->Play("keySpawnSE", false);
+				};
 			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(pUR)));
 			m_targetBoxes.back()->Initialize(pRM, pCM, pEnM, operate, data.position, data.scale);
 			break;
@@ -107,7 +107,7 @@ void StageManager::CreateStage(
 		{
 			// 操作を設定
 			std::function<void()> operate;
-			CreateOperate(operate, data.areaAction, data.position);
+			CreateOperate(operate, data.areaAction, data.position, pAM);
 
 			// モードを設定
 			CountArea::TriggerMode mode{};
@@ -139,11 +139,10 @@ void StageManager::CreateStage(
 		// ゴール
 		case StageLoader::ObjectType::Goal:
 		{
-			m_goal = std::make_unique<Goal>(context, m_pScene);
+			m_goal = std::make_unique<Goal>(context, pAM);
 			m_goal->Initialize(pRM, pCM, data.position);
 			break;
 		}
-
 		}
 	}
 	// 鍵
@@ -307,18 +306,21 @@ void StageManager::Finalize()
  * @param outOperate 処理出力用
  * @param desc		 ギミック情報
  * @param position	 位置
+ * @param pAM		 オーディオマネージャーのポインタ
  *
  * @return なし
  */
 void StageManager::CreateOperate(
 	std::function<void()>& outOperate,
 	StageLoader::AreaActionDesc& desc,
-	const DirectX::SimpleMath::Vector3& position)
+	const DirectX::SimpleMath::Vector3& position,
+	AudioManager* pAM)
 {
 	if (desc.command == "EnableGoal")	// ゴールを可能にする
 	{
-		outOperate = [this, position]()
+		outOperate = [this, position, pAM]()
 			{
+				pAM->Play("keySpawnSE", false);
 				m_key->Spawn(position, m_goal->GetPosition());
 			};
 

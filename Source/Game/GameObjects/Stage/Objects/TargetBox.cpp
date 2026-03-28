@@ -20,6 +20,7 @@
 TargetBox::TargetBox(UserResources* pUR)
 	: m_collisionHandle{ 0 }
 	, m_model(nullptr)
+	, m_isHit(false)
 {
 	ID3D11DeviceContext* context = pUR->GetDeviceResources()->GetD3DDeviceContext();
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
@@ -66,6 +67,8 @@ void TargetBox::Initialize(
 	m_position = position;
 	m_halfLength = halfLength;
 	m_angle = angle;
+	// 当たったかどうかの判定を初期化
+	m_isHit = false;
 
 	// モデルの読み込み
 	m_model = pRM->RequestSDKMESH("box", "box.sdkmesh");
@@ -104,9 +107,10 @@ void TargetBox::Initialize(
 			IEnemy* enemy = pEM->GetEnemyByID(pCM->GetDesc(other)->userId);
 
 			// 当たった敵が跳ね返り状態なら処理を呼び出す
-			if (enemy->GetStateType() == StateType::Bounce)
+			if (enemy->GetStateType() == StateType::Bounce && !m_isHit)
 			{
 				m_operation();
+				m_isHit = true;
 			}
 		};
 	m_collisionHandle = pCM->Add(desc);
@@ -123,8 +127,11 @@ void TargetBox::Initialize(
  */
 void TargetBox::Update(float elapsedTime)
 {
-	// エフェクトの更新
-	m_effect->Update(elapsedTime);
+	if (!m_isHit)
+	{
+		// エフェクトの更新
+		m_effect->Update(elapsedTime);
+	}
 }
 
 
@@ -154,8 +161,11 @@ void TargetBox::Draw(const RenderContext& context)
 	// モデルの描画
 	m_model->Draw(context.deviceContext, *context.states, world, context.view, context.proj);
 
-	// エフェクトの描画
-	m_effect->Draw(context);
+	if (!m_isHit)
+	{
+		// エフェクトの描画
+		m_effect->Draw(context);
+	}
 
 	// 当たり判定の描画(デバッグ用)
 	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);

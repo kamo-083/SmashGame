@@ -19,7 +19,8 @@
  * @param pUR ユーザーリソースのポインタ
  */
 Bridge::Bridge(UserResources* pUR)
-	: m_collisionHandle{ 0 }
+	: AudioListener{ pUR->GetAudioManager() }
+	, m_collisionHandle{ 0 }
 	, m_model(nullptr)
 	, m_isDowned(false)
 {
@@ -279,7 +280,10 @@ void Bridge::SetupCollider(CollisionManager* pCM, EnemyManager* pEM)
 			if (enemy->GetStateType() == StateType::Bounce && !m_isDowned)
 			{
 				m_isDowned = true;
+				// アニメーションを再生
 				m_tween->Play();
+				// SEを再生
+				OnMessageAccepted(Message::MessageID::SE_GIMMIC_SOLVE);
 			}
 		};
 	m_collisionHandle = pCM->Add(desc);

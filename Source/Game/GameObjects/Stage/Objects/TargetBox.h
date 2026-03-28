@@ -10,12 +10,12 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
-#include"Source/Game/Common/UserResources.h"
+#include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Physics/PhysicsObject.h"
 #include "Source/Game/Physics/Collision.h"
-#include"Source/Game/Physics/CollisionManager.h"
-#include"Source/Game/GameObjects/Enemy/EnemyManager.h"
+#include "Source/Game/Physics/CollisionManager.h"
+#include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/Interface/IState.h"
 
@@ -49,6 +49,9 @@ private:
 
 	// 当たり判定
 	OBBCollider m_collider;
+
+	// ぶつかったかどうか
+	bool m_isHit;
 
 	// ぶつけた時の処理
 	std::function<void()> m_operation;

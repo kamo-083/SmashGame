@@ -386,6 +386,9 @@
     <ClInclude Include="Source\Game\GameObjects\Stage\Objects\Bridge.h">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Object\AudioListener.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -596,6 +599,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\Stage\Objects\Bridge.cpp">
       <Filter>Game\GameObjects\Stage\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Object\AudioListener.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Interface\IMessageListener.cpp">
+      <Filter>Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
