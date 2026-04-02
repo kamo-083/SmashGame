@@ -50,6 +50,7 @@ public:
 		PAUSE_OPEN_CLOSE,
 
 		// SEの再生
+		SE_BOUNCE,			// 跳ね返る
 		SE_ATTACK,			// 攻撃
 		SE_CHANGE_ATTACK,	// 攻撃の種類を変更
 		SE_CURSOR,			// カーソル移動

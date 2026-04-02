@@ -17,17 +17,17 @@
  * @brief コンストラクタ
  *
  * @param context	デバイスコンテキストのポインタ
- * @param pAudio	オーディオマネージャーのポインタ
+ * @param pAM		オーディオマネージャーのポインタ
  */
-Goal::Goal(ID3D11DeviceContext* context, AudioManager* pAudio)
+Goal::Goal(ID3D11DeviceContext* context, AudioManager* pAM)
 	:
-	AudioListener(pAudio),
 	m_position{ DirectX::SimpleMath::Vector3::Zero },
 	m_goalCollider{},
 	m_tableCollider{},
 	m_isGoal{ false },
 	m_canGoal{ false },
-	m_tweenParam{}
+	m_tweenParam{},
+	m_audio{ pAM }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
@@ -157,8 +157,7 @@ void Goal::OpenGoal()
 	if (!m_tweenAnim->IsPlayed())
 	{
 		// SEの再生
-		OnMessageAccepted(Message::MessageID::SE_GOAL_OPEN);
-
+		m_audio.OnMessageAccepted(Message::MessageID::SE_GOAL_OPEN);
 		// アニメーションの再生
 		m_tweenAnim->Play();
 	}

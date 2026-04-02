@@ -9,7 +9,6 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include "Source/Game/Object/AudioListener.h"
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Physics/PhysicsObject.h"
@@ -17,6 +16,7 @@
 #include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/UI/Elements/Tween/Tween.h"
+#include "Source/Game/Object/AudioListener.h"
 
 
 // クラスの宣言 ===============================================================
@@ -27,7 +27,7 @@ class AreaEffect;
 /**
  * @brief 橋
  */
-class Bridge	: public AudioListener
+class Bridge
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -76,6 +76,8 @@ private:
 	// 降りた状態
 	bool m_isDowned;
 
+	// 音声再生機能
+	AudioListener m_audio;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ

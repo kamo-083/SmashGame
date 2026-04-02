@@ -70,6 +70,9 @@ void AudioListener::OnMessageAccepted(Message::MessageID messageID)
 	// SE‚ðÄ¶
 	switch (messageID)
 	{
+	case Message::MessageID::SE_BOUNCE:			// ’µ‚Ë•Ô‚é
+		m_pAudio->Play("bounceSE", false);
+		break;
 	case Message::MessageID::SE_ATTACK:			// UŒ‚
 		m_pAudio->Play("attackSE", false);
 		break;

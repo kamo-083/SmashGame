@@ -318,6 +318,8 @@ void GroundEnemy::ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal)
 		m_physics->Reflection(m_velocity, normal, RESTITUTION);
 		// 円形エフェクトを発生
 		m_circle->Spawn();
+		// 効果音を再生
+		m_audio.OnMessageAccepted(Message::MessageID::SE_BOUNCE);
 		break;
 	}
 }

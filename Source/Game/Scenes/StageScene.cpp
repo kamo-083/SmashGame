@@ -880,6 +880,7 @@ void StageScene::SetupSounds(AudioManager* pAM)
 	pAM->LoadMP3("cursorSE", "SE/button68.mp3");
 	pAM->LoadMP3("keySpawnSE", "SE/button15.mp3");
 	pAM->LoadMP3("gimmicSolveSE", "SE/button43.mp3");
+	pAM->LoadMP3("bounceSE", "SE/bounce03.mp3");
 
 	// BGM・SEの音量変更
 	pAM->SetVolume("stageBGM", BGM_VOLUME);

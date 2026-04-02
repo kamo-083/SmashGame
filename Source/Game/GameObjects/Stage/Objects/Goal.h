@@ -9,24 +9,22 @@
 
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Object/AudioListener.h"
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
 #include "Source/Game/UI/Elements/Tween/Tween.h"
+#include"Source/Game/Object/AudioListener.h"
 
-
-// クラスの定義 ===============================================================
+// クラスの宣言 ===============================================================
 class CollisionManager;
 class ResourceManager;
 class StageScene;
-
 
 // クラスの定義 ===============================================================
 /**
  * @brief ゴール
  */
-class Goal	: public AudioListener
+class Goal
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -69,12 +67,14 @@ private:
 	std::unique_ptr<Tween3D> m_tweenAnim;
 	Tween3D::UIParams m_tweenParam;
 
+	// 音声再生機能
+	AudioListener m_audio;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Goal(ID3D11DeviceContext* context, AudioManager* pAudio);
+	Goal(ID3D11DeviceContext* context, AudioManager* pAM);
 
 	// デストラクタ
 	~Goal();

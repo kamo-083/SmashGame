@@ -17,11 +17,13 @@
  * @param context	デバイスコンテキストのポインタ
  * @param pRM		リソースマネージャーのポインタ
  * @param pEM		エフェクトマネージャーのポインタ
+ * @param pAM		オーディオマネージャーのポインタ
  */
-Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM)
+Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM, AudioManager* pAM)
 	:
 	m_state(KeyState::NONE),
-	m_model(nullptr)
+	m_model(nullptr),
+	m_audio{ pAM }
 {
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 
@@ -67,6 +69,9 @@ void Key::Spawn(
 
 	// アニメーションの開始
 	m_tweenAnim->Play();
+
+	// SEの再生
+	m_audio.OnMessageAccepted(Message::MessageID::SE_KEY_SPAWN);
 
 	// 状態の設定
 	m_state = KeyState::SPAWN;

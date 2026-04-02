@@ -96,8 +96,7 @@ public:
 	void CreateOperate(
 		std::function<void()>& outOperate,
 		StageLoader::AreaActionDesc& desc,
-		const DirectX::SimpleMath::Vector3& position,
-		AudioManager* pAM);
+		const DirectX::SimpleMath::Vector3& position);
 
 
 // æ“¾/İ’è

@@ -490,6 +490,36 @@ void Player::SmashEnemyAttack(const uint32_t& handle)
 
 
 /**
+ * @brief 地面や壁との反射
+ *
+ * @param normal 法線ベクトル
+ *
+ * @return なし
+ */
+void Player::ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal)
+{
+	if (!m_isBounce) return;
+
+	switch (DetermineCollisionType(normal))
+	{
+	case OBBCollider::CollisionType::Ground:
+		// 円形エフェクトを発生
+		m_circle->Spawn();
+		break;
+	case OBBCollider::CollisionType::Wall:
+		// 反射
+		m_physics->Reflection(m_velocity, normal, RESTITUTION);
+		// 円形エフェクトを発生
+		m_circle->Spawn();
+		// 効果音を再生
+		m_audio.OnMessageAccepted(Message::MessageID::SE_BOUNCE);
+		break;
+	}
+}
+
+
+
+/**
  * @brief エフェクトの設定
  *
  * @param pEM	エフェクトマネージャーのポインタ
@@ -565,15 +595,15 @@ void Player::SetupCollision(CollisionManager* pCM)
 	bodyDesc.restitution = RESTITUTION;
 	bodyDesc.mass = MASS;
 	bodyDesc.callback.onResolved =
-		[this](uint32_t, const DirectX::SimpleMath::Vector3& n, float)	// 接地面の法線を渡す
+		[this](uint32_t, const DirectX::SimpleMath::Vector3& n, float)
 		{
-			m_physics->SetGroundInfo(n);
+			m_physics->SetGroundInfo(n);	// 接地面の法線を渡す
+			ReflectOnCollision(n);			// 跳ね返り
 		};
 	bodyDesc.callback.onEnter =
-		[this](uint32_t, uint32_t other)		// 敵の攻撃で吹っ飛ぶ
+		[this](uint32_t, uint32_t other)	// 敵の攻撃で吹っ飛ぶ
 		{
 			if (m_pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyAttack) return;
-
 			SmashEnemyAttack(other);
 		};
 	m_handleBody = m_pCollisionManager->Add(bodyDesc);

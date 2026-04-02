@@ -19,10 +19,11 @@
  * @param pUR ユーザーリソースのポインタ
  */
 Bridge::Bridge(UserResources* pUR)
-	: AudioListener{ pUR->GetAudioManager() }
-	, m_collisionHandle{ 0 }
-	, m_model(nullptr)
-	, m_isDowned(false)
+	:
+	m_collisionHandle{ 0 },
+	m_model(nullptr),
+	m_isDowned(false),
+	m_audio{ pUR->GetAudioManager() }
 {
 	ID3D11DeviceContext* context = pUR->GetDeviceResources()->GetD3DDeviceContext();
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
@@ -283,7 +284,7 @@ void Bridge::SetupCollider(CollisionManager* pCM, EnemyManager* pEM)
 				// アニメーションを再生
 				m_tween->Play();
 				// SEを再生
-				OnMessageAccepted(Message::MessageID::SE_GIMMIC_SOLVE);
+				m_audio.OnMessageAccepted(Message::MessageID::SE_GIMMIC_SOLVE);
 			}
 		};
 	m_collisionHandle = pCM->Add(desc);

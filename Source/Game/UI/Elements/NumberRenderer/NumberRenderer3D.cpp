@@ -312,7 +312,7 @@ void NumberRenderer3D::CreateRenderTexture()
 		width = static_cast<int>(DIGITS_WIDTH * m_scale);
 		break;
 	case INumberRenderer::DisplayMode::Fraction:
-		width = (DIGITS_WIDTH * 2 + SPRITE_SIZE.x) * m_scale;
+		width = static_cast<int>((DIGITS_WIDTH * 2 + SPRITE_SIZE.x) * m_scale);
 		break;
 	}
 

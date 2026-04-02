@@ -93,10 +93,9 @@ void StageManager::CreateStage(
 		// 的
 		case StageLoader::ObjectType::TargetBox:
 		{
-			std::function<void()> operate = [this, data, pAM]()
+			std::function<void()> operate = [this, data]()
 				{
 					m_key->Spawn(data.position, m_goal->GetPosition());
-					pAM->Play("keySpawnSE", false);
 				};
 			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(pUR)));
 			m_targetBoxes.back()->Initialize(pRM, pCM, pEnM, operate, data.position, data.scale);
@@ -107,7 +106,7 @@ void StageManager::CreateStage(
 		{
 			// 操作を設定
 			std::function<void()> operate;
-			CreateOperate(operate, data.areaAction, data.position, pAM);
+			CreateOperate(operate, data.areaAction, data.position);
 
 			// モードを設定
 			CountArea::TriggerMode mode{};
@@ -146,7 +145,7 @@ void StageManager::CreateStage(
 		}
 	}
 	// 鍵
-	m_key = std::make_unique<Key>(context, pRM, pEfM);
+	m_key = std::make_unique<Key>(context, pRM, pEfM, pAM);
 
 	// 敵の生成
 	for (StageLoader::EnemyData data : enemyData)
@@ -306,21 +305,18 @@ void StageManager::Finalize()
  * @param outOperate 処理出力用
  * @param desc		 ギミック情報
  * @param position	 位置
- * @param pAM		 オーディオマネージャーのポインタ
  *
  * @return なし
  */
 void StageManager::CreateOperate(
 	std::function<void()>& outOperate,
 	StageLoader::AreaActionDesc& desc,
-	const DirectX::SimpleMath::Vector3& position,
-	AudioManager* pAM)
+	const DirectX::SimpleMath::Vector3& position)
 {
 	if (desc.command == "EnableGoal")	// ゴールを可能にする
 	{
-		outOperate = [this, position, pAM]()
+		outOperate = [this, position]()
 			{
-				pAM->Play("keySpawnSE", false);
 				m_key->Spawn(position, m_goal->GetPosition());
 			};
 

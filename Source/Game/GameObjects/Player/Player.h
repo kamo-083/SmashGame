@@ -298,6 +298,9 @@ private:
 	// 敵の攻撃で吹っ飛ぶ
 	void SmashEnemyAttack(const uint32_t& handle);
 
+	// 地面・壁との反射
+	void ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal);
+
 	// エフェクトの設定
 	void SetupEffects(EffectManager* pEM, ResourceManager* pRM);
 

@@ -12,11 +12,10 @@
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
-
+#include "Source/Game/Object/AudioListener.h"
 
 // クラスの宣言 ===============================================================
 class ResourceManager;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -65,12 +64,14 @@ private:
 	// 軌跡エフェクト
 	std::vector<EffectManager::TrajectoryParticleData*> m_trajectorys;	
 
+	// 音声再生機能
+	AudioListener m_audio;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM);
+	Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM, AudioManager* pAM);
 
 	// デストラクタ
 	~Key();
