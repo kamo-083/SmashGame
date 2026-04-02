@@ -195,6 +195,8 @@ public:
 
 	// 攻撃
 	void Attack();
+	// 攻撃終了
+	void AttackCancel();
 
 	// リスポーン
 	void Respawn();

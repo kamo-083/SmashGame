@@ -325,4 +325,3 @@ void NumberRenderer3D::CreateRenderTexture()
 		m_pDR->GetDepthStencilView()
 	);
 }
-

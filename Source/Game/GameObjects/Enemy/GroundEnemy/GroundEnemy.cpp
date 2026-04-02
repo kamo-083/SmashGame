@@ -221,6 +221,8 @@ void GroundEnemy::Respawn()
  */
 void GroundEnemy::ChangeState(IState* newState)
 {
+	if (!newState) return;
+
 	// V‹K‚Ìó‘Ô‚ğŒ»İ‚Ìó‘Ô‚Éİ’è‚·‚é
 	m_currentState = newState;
 

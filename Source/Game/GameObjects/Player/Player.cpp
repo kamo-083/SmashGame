@@ -218,6 +218,8 @@ void Player::Finalize()
  */
 void Player::ChangeState(IState* newState)
 {
+	if (!newState) return;
+
 	// 同じだったらそのまま
 	if (m_currentState == newState) return;
 
@@ -292,6 +294,22 @@ void Player::Attack()
 
 
 /**
+ * @brief 攻撃終了
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void Player::AttackCancel()
+{
+	m_isAttack = false;
+	m_attackForce = 0.0f;
+	SetAttackCollisionEnabled(false);
+	SetAttackCollisionMultiHit(false);
+}
+
+
+/**
  * @brief リスポーン
  *
  * @param なし
@@ -311,6 +329,9 @@ void Player::Respawn()
 
 	// 吹っ飛ばされ状態
 	m_isBounce = false;
+
+	// 攻撃終了
+	AttackCancel();
 
 	// 軌跡エフェクトをオフ
 	m_trajectory->SetSpawn(false);
@@ -480,6 +501,9 @@ void Player::SmashEnemyAttack(const uint32_t& handle)
 
 	// 角速度の設定
 	m_physics->AddAngVelocity(DirectX::SimpleMath::Vector3(ANGULAR_VELOCITY, 0.0f, 0.0f));
+
+	// 攻撃判定を無効化
+	AttackCancel();
 
 	// 跳ね返り状態に遷移
 	m_isBounce = true;

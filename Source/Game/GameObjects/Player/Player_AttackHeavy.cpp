@@ -105,7 +105,7 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	// ‘Ò‹@ó‘Ô‚ÉØ‚è‘Ö‚¦
 	if (!m_modelAnimator->IsPlaying())
 	{
-		m_pPlayer->SetIsAttack(false);
+		m_pPlayer->AttackCancel();
 		m_pPlayer->ChangeState(m_pPlayer->GetState_Walk());
 	}
 }
