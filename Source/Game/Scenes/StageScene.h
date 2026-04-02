@@ -159,10 +159,6 @@ public:
 	// I—¹ˆ—
 	void Finalize() override;
 	
-	// SE‚ÌÄ¶
-	void PlaySE(std::string seName);
-
-
 // æ“¾/İ’è
 public:
 

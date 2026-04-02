@@ -18,15 +18,12 @@
  * @param pUR		ユーザーリソースのポインタ
  * @param pCM		当たり判定マネージャーのポインタ
  * @param pEM		エフェクトマネージャーのポインタ
- * @param pScene	シーンのポインタ
  */
 EnemyManager::EnemyManager(
 	UserResources* pUR,
 	CollisionManager* pCM,
-	EffectManager* pEM,
-	StageScene* pScene)
+	EffectManager* pEM)
 	:
-	m_pScene{ pScene },
 	m_pUserResources{ pUR },
 	m_pCollisionManager{ pCM },
 	m_pEffectManager{ pEM },
@@ -207,6 +204,5 @@ std::unique_ptr<IEnemy> EnemyManager::Create(EnemyType type)
 {
 	return std::make_unique<GroundEnemy>(
 		m_enemyInfo[static_cast<int>(type)],
-		m_pUserResources, m_pEffectManager,
-		m_pScene);
+		m_pUserResources, m_pEffectManager);
 }

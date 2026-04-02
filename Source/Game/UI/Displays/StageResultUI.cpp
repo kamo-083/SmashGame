@@ -14,15 +14,16 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param pAM	オーディオマネージャーのポインタ
  */
-StageResultUI::StageResultUI()
+StageResultUI::StageResultUI(AudioManager* pAM)
 	:
 	UIElement(),
 	m_enable(false),
-	m_clearTime{}
+	m_clearTime{},
+	m_audio{ pAM }
 {
-	
+
 }
 
 
@@ -161,6 +162,23 @@ void StageResultUI::Finalize()
 {
 	if (m_widget) m_widget->Finalize();
 	m_widget.reset();
+}
+
+
+
+/**
+ * @brief リザルト画面を表示
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void StageResultUI::OpenResult()
+{
+	// 有効化
+	m_enable = true;
+	// SEの再生
+	m_audio.OnMessageAccepted(Message::MessageID::SE_STAGE_CLEAR);
 }
 
 

@@ -224,6 +224,9 @@ void StageSelectScene::ResetPanel(int panelNum)
  */
 void StageSelectScene::ChangeSelectStage(DirectX::Keyboard::KeyboardStateTracker* kb)
 {
+	// オーディオマネージャーのポインタを取得
+	AudioManager* pAM = m_userResources->GetAudioManager();
+
 	if (kb->pressed.Right)	// 右へ
 	{
 		// 前に選択していたステージのパネルをリセット
@@ -233,7 +236,7 @@ void StageSelectScene::ChangeSelectStage(DirectX::Keyboard::KeyboardStateTracker
 		if (m_selectStage == STAGES) m_selectStage = 0;
 
 		// SEの再生
-		m_userResources->GetAudioManager()->Play("cursorSE", false);
+		pAM->Play("cursorSE", false);
 	}
 	else if (kb->pressed.Left)	// 左へ
 	{
@@ -244,7 +247,7 @@ void StageSelectScene::ChangeSelectStage(DirectX::Keyboard::KeyboardStateTracker
 		if (m_selectStage < 0) m_selectStage = STAGES - 1;
 
 		// SEの再生
-		m_userResources->GetAudioManager()->Play("cursorSE", false);
+		pAM->Play("cursorSE", false);
 	}
 }
 
@@ -261,6 +264,8 @@ void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* 
 {
 	// シーン遷移演出クラスのポインタを取得
 	BlockTransition* transition = m_sceneManager->GetTransition();
+	// オーディオマネージャーのポインタを取得
+	AudioManager* pAM = m_userResources->GetAudioManager();
 
 	if (kb->pressed.Space)	// 各ステージへ
 	{
@@ -284,7 +289,7 @@ void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* 
 			// 番号からシーン名を作成
 			std::string stageName = "Stage" + std::to_string(m_transitionStage + 1) + "Scene";
 			// BGMの停止
-			if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
+			if (pAM->IsPlaying("title_selectBGM")) pAM->Stop("title_selectBGM");
 
 			ChangeScene(stageName);		// 各ステージへ
 		}

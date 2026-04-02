@@ -13,13 +13,14 @@
 /**
  * @brief コンストラクタ
  *
- * @param なし
+ * @param pAM	オーディオマネージャーのポインタ
  */
-PauseUI::PauseUI()
-	: 
+PauseUI::PauseUI(AudioManager* pAM)
+	:
 	UIElement(),
 	m_isOpen(false),
-	m_options(PAUSE_OPTIONS::NONE)
+	m_options(PAUSE_OPTIONS::NONE),
+	m_audio{ pAM }
 {
 
 }
@@ -210,6 +211,9 @@ void PauseUI::SelectUp()
 	{
 		m_options = static_cast<PAUSE_OPTIONS>(static_cast<int>(PAUSE_OPTIONS::OPTIONS_NUM) - 1);
 	}
+
+	// SEを生成
+	m_audio.OnMessageAccepted(Message::MessageID::SE_CURSOR);
 }
 
 
@@ -230,6 +234,9 @@ void PauseUI::SelectDown()
 	{
 		m_options = static_cast<PAUSE_OPTIONS>(static_cast<int>(PAUSE_OPTIONS::NONE) + 1);
 	}
+
+	// SEを生成
+	m_audio.OnMessageAccepted(Message::MessageID::SE_CURSOR);
 }
 
 

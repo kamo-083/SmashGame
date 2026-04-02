@@ -12,12 +12,11 @@
 #include"Source/Game/Data/AttackData.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/Controls/OperationUI.h"
-
+#include"Source/Game/Object/AudioListener.h"
 
 // クラスの宣言 ===============================================================
 class UIWidget;
 class ResourceManager;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -97,10 +96,12 @@ private:
 	// 操作方法UI
 	std::unique_ptr<OperationUI> m_operationUI;
 
+	// 音声再生機能
+	AudioListener m_audio;
 
 public:
 	// コンストラクタ・デストラクタ
-	AttackUI(float windowWidth, float windowHeight);
+	AttackUI(float windowWidth, float windowHeight, AudioManager* pAM);
 	~AttackUI();
 
 	// 初期化

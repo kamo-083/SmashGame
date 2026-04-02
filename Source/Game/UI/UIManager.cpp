@@ -50,6 +50,7 @@ UIManager::~UIManager()
  * @brief UIを初期化(ステージ用)
  *
  * @param pDR			 デバイスリソースのポインタ
+ * @param pAM			 オーディオマネージャーのポインタ
  * @param pKbTracker	 キーボードトラッカーのポインタ
  * @param conditionsType クリア条件
  * @param keyConfig		 操作キー設定
@@ -58,6 +59,7 @@ UIManager::~UIManager()
  */
 void UIManager::SetupStageUI(
 	DX::DeviceResources* pDR,
+	AudioManager* pAM,
 	DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 	ClearConditionsUI::ConditionsType conditionsType,
 	const InputKeyLoader::InputKeyInfo& keyConfig)
@@ -67,13 +69,13 @@ void UIManager::SetupStageUI(
 
 	// UIの作成
 	// リザルト
-	CreateResultUI();
+	CreateResultUI(pAM);
 
 	// クリア条件
 	CreateClearConditionUI(conditionsType);
 
 	// ポーズ画面
-	CreatePauseUI();
+	CreatePauseUI(pAM);
 
 	// 操作ガイド
 	// 攻撃
@@ -111,7 +113,7 @@ void UIManager::SetupStageUI(
 	OperationUI::OperationUIDesc opUIDesc = { opKeys, opTextures };
 	opUIDesc.arrowRotateAdjustPos = StageUI::CAMERA_ARROW_ADJUST;
 	opUIDesc.UIScale = StageUI::ATTACK_SCALE;
-	CreateAttackUI(opUIDesc);
+	CreateAttackUI(opUIDesc, pAM);
 
 	// カメラ回転
 	opUIDesc.textures.icon = m_textureCatalog->GetTextures().icon_camera;
@@ -120,7 +122,6 @@ void UIManager::SetupStageUI(
 	CreateCameraUI(opUIDesc, StageUI::CAMERA_POS);
 
 	// 操作説明
-	// ポーズ
 	std::vector<DirectX::Keyboard::Keys> openPauseKey;
 	openPauseKey.push_back(keyConfig.pause);
 	CreateInputHintUI(
@@ -281,11 +282,11 @@ void UIManager::DrawDimmer(UIElement* ui, RenderContext context)
 /**
  * @brief リザルトUIの作成
  *
- * @param なし
+ * @param pAM	オーディオマネージャーのポインタ
  *
  * @return なし
  */
-void UIManager::CreateResultUI()
+void UIManager::CreateResultUI(AudioManager* pAM)
 {
 	// テクスチャ情報を設定
 	StageResultUI::Textures textures;
@@ -294,7 +295,7 @@ void UIManager::CreateResultUI()
 	textures.number = m_textureCatalog->GetTextures().text_number;
 
 	// UIを作成
-	m_resultUI = std::make_unique<StageResultUI>();
+	m_resultUI = std::make_unique<StageResultUI>(pAM);
 	m_resultUI->Initialize(
 		textures,
 		m_windowSize
@@ -362,10 +363,11 @@ void UIManager::CreateKeyGuideUI(
  * @brief 攻撃方法UIの作成
  *
  * @param opUIDesc	操作UIの設定情報
+ * @param pAM	オーディオマネージャーのポインタ
  *
  * @return なし
  */
-void UIManager::CreateAttackUI(OperationUI::OperationUIDesc opUIDesc)
+void UIManager::CreateAttackUI(OperationUI::OperationUIDesc opUIDesc, AudioManager* pAM)
 {
 	AttackUI::AttackUIDesc atkUIDesc =
 	{
@@ -377,7 +379,7 @@ void UIManager::CreateAttackUI(OperationUI::OperationUIDesc opUIDesc)
 	};
 
 	// UIを作成
-	m_attackUI = std::make_unique<AttackUI>(m_windowSize.x, m_windowSize.y);
+	m_attackUI = std::make_unique<AttackUI>(m_windowSize.x, m_windowSize.y, pAM);
 	m_attackUI->Initialize(atkUIDesc, opUIDesc);
 }
 
@@ -410,11 +412,11 @@ void UIManager::CreateCameraUI(
 /**
  * @brief ポーズ画面UIの作成
  *
- * @param なし
+ * @param pAM	オーディオマネージャーのポインタ
  *
  * @return なし
  */
-void UIManager::CreatePauseUI()
+void UIManager::CreatePauseUI(AudioManager* pAM)
 {
 	PauseUI::Textures pauseTex{
 		m_textureCatalog->GetTextures().window_pause,
@@ -423,7 +425,7 @@ void UIManager::CreatePauseUI()
 	};
 
 	// UIを作成
-	m_pauseUI = std::make_unique<PauseUI>();
+	m_pauseUI = std::make_unique<PauseUI>(pAM);
 	m_pauseUI->Initialize(m_windowSize, pauseTex);
 }
 

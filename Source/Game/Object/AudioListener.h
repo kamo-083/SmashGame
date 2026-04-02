@@ -29,7 +29,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	AudioListener(AudioManager* pAudio);
+	AudioListener(AudioManager* pAM);
 
 	// デストラクタ
 	virtual ~AudioListener();

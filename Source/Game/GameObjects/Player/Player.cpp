@@ -27,19 +27,17 @@
  *
  * @param pUR		ユーザーリソースのポインタ
  * @param pEM		エフェクトマネージャーのポインタ
- * @param pScene	シーンへのポインタ
  * @param info		外部ファイルからの情報
  */
 Player::Player(
 	UserResources* pUR, EffectManager* pEM,
-	StageScene* pScene, const PlayerInfoLoader::PlayerInfo& info)
+	const PlayerInfoLoader::PlayerInfo& info)
 	:
 	RADIUS{ info.radius },
 	MASS{ info.mass },
 	MAX_SPEED{ info.max_speed },
 	DYNAMIC_FRICTION_FORCE{ info.dynamic_friction },
 	STATIC_FRICTION_FORCE{ info.static_friction },
-	m_pScene{ pScene },
 	m_rotY{ 0.0f },
 	m_isBounce{ false },
 	m_model{ nullptr },
@@ -53,7 +51,8 @@ Player::Player(
 	m_currentState{ nullptr },
 	m_pCollisionManager{ nullptr },
 	m_handleBody{ 0 },
-	m_handleAttack{ 0 }
+	m_handleAttack{ 0 },
+	m_audio{ pUR->GetAudioManager() }
 {
 	// 当たり判定のデバッグ描画用球
 	//m_sphere = DirectX::GeometricPrimitive::CreateSphere(pUR->GetDeviceResources()->GetD3DDeviceContext());
@@ -248,9 +247,6 @@ void Player::ChangeAttack(Message::MessageID messageID)
 	{
 		++m_attackType;
 	}
-
-	// SEの再生
-	m_pScene->PlaySE("cursorSE");
 
 	// UIに変更を反映
 	m_pAttackUI->ChangeAttack(m_attackType);
@@ -480,7 +476,7 @@ void Player::SmashEnemyAttack(const uint32_t& handle)
 	m_physics->GetExternalForce().Add(force);
 
 	// SEの再生
-	m_pScene->PlaySE("attackSE");
+	m_audio.OnMessageAccepted(Message::MessageID::SE_ATTACK);
 
 	// 角速度の設定
 	m_physics->AddAngVelocity(DirectX::SimpleMath::Vector3(ANGULAR_VELOCITY, 0.0f, 0.0f));

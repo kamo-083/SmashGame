@@ -127,7 +127,7 @@ void StageScene::Initialize()
 
 	// UIマネージャーの作成
 	m_UIManager = std::make_unique<UIManager>(windowSize, m_sceneManager->GetUITextureCatalog());
-	m_UIManager->SetupStageUI(pDR, m_userResources->GetKeyboardTracker(), CLEAR_CONDITIONS, keyConfig);
+	m_UIManager->SetupStageUI(pDR, pAM, m_userResources->GetKeyboardTracker(), CLEAR_CONDITIONS, keyConfig);
 
 	// 深度ステンシルステートの作成
 	CreateDepthStencilState(pDR->GetD3DDevice());
@@ -268,20 +268,6 @@ void StageScene::Finalize()
 	m_collisionManager.reset();
 
 	m_textures.reset();
-}
-
-
-
-/**
- * @brief SEの再生
- *
- * @param seName 再生するSEの名前
- *
- * @return なし
- */
-void StageScene::PlaySE(std::string seName)
-{
-	m_userResources->GetAudioManager()->Play(seName, false);
 }
 
 
@@ -521,12 +507,9 @@ void StageScene::UpdateGameplay(float elapsedTime)
 	// リザルトの表示　
 	if (m_stageManager->IsGoal())
 	{
-		// SEの再生
-		PlaySE("clearSE");
-
 		// リザルトUIの有効化
 		m_UIManager->GetResultUI()->SetClearTime(m_timer);
-		m_UIManager->GetResultUI()->Enable();
+		m_UIManager->GetResultUI()->OpenResult();
 
 		m_overlayMode = Overlay::RESULT;
 	}
@@ -558,15 +541,11 @@ void StageScene::UpdatePause(float elapsedTime)
 	// 選択項目を切り替え
 	if (kbTracker->pressed.Up)
 	{
-		// SEの再生
-		PlaySE("cursorSE");
 		// 選択項目を上へ
 		m_UIManager->GetPauseUI()->SelectUp();
 	}
 	else if (kbTracker->pressed.Down)
 	{
-		// SEの再生
-		PlaySE("cursorSE");
 		// 選択項目を下へ
 		m_UIManager->GetPauseUI()->SelectDown();
 	}
@@ -747,9 +726,6 @@ void StageScene::ChangeKeyMode()
 	// UI切り替え
 	m_UIManager->GetCameraUI()->Active(!m_UIManager->GetCameraUI()->IsActive());
 	m_UIManager->GetAttackUI()->SwitchUIMode();
-
-	// SEの再生
-	PlaySE("cursorSE");
 }
 
 
@@ -814,7 +790,7 @@ void StageScene::SetupPlayer(ResourceManager* pRM)
 			m_UIManager->GetAttackUI(),
 			info
 	};
-	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), this, info);
+	m_player = std::make_unique<Player>(m_userResources, m_effectManager.get(), info);
 	m_player->Initialize(param, m_keyConfig);
 	m_messenger->AddObject(m_player->GetListenerID(), m_player.get());
 }
@@ -831,7 +807,7 @@ void StageScene::SetupPlayer(ResourceManager* pRM)
 void StageScene::SetupEnemy()
 {
 	m_enemyManager = std::make_unique<EnemyManager>(
-		m_userResources, m_collisionManager.get(), m_effectManager.get(), this);
+		m_userResources, m_collisionManager.get(), m_effectManager.get());
 	m_enemyManager->Initialize();
 }
 
@@ -910,7 +886,6 @@ void StageScene::SetupSounds(AudioManager* pAM)
 
 	// BGMの再生
 	pAM->Play("stageBGM", true);
-
 	// スタートSEの再生
-	PlaySE("startSE");
+	pAM->Play("startSE", false);
 }

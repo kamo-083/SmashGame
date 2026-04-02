@@ -11,7 +11,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/UIElement.h"
 #include"Source/Game/Data/TextureData.h"
-
+#include"Source/Game/Object/AudioListener.h"
 
 // クラスの定義 ===============================================================
 /**
@@ -69,16 +69,17 @@ private:
 	// 開かれているか
 	bool m_isOpen;
 
+	// 音声再生機能
+	AudioListener m_audio;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	PauseUI();
+	PauseUI(AudioManager* pAM);
 
 	// デストラクタ
 	~PauseUI();
-
 
 	// 操作
 public:

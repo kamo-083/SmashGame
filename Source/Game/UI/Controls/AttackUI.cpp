@@ -17,11 +17,13 @@
  *
  * @param windowWidth	ウィンドウの幅
  * @param windowHeight	ウィンドウの高さ
+ * @param pAM			オーディオマネージャーのポインタ
  */
-AttackUI::AttackUI(float windowWidth, float windowHeight)
+AttackUI::AttackUI(float windowWidth, float windowHeight, AudioManager* pAM)
 	:
 	m_windowSize(windowWidth, windowHeight),
-	m_lastDirection{ Direction::NONE }
+	m_lastDirection{ Direction::NONE },
+	m_audio{ pAM }
 {
 	m_attackList.resize(static_cast<int>(AttackType::TYPE_NUM));
 	m_textures.resize(static_cast<int>(AttackType::TYPE_NUM));
@@ -219,6 +221,9 @@ void AttackUI::ChangeAttack(AttackType type)
 		if (dir == Direction::LEFT) ++l;
 		else						--l;
 	}
+
+	// SEの再生
+	m_audio.OnMessageAccepted(Message::MessageID::SE_CHANGE_ATTACK);
 }
 
 
@@ -233,6 +238,9 @@ void AttackUI::ChangeAttack(AttackType type)
 void AttackUI::SwitchUIMode()
 {
 	m_operationUI->Active(!m_operationUI->IsActive());
+
+	// SEの再生
+	m_audio.OnMessageAccepted(Message::MessageID::SE_CHANGE_ATTACK);
 }
 
 

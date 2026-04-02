@@ -11,11 +11,10 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/UIElement.h"
 #include"Source/Game/Data/TextureData.h"
-
+#include"Source/Game/Object/AudioListener.h"
 
 // クラスの宣言 ===============================================================
 class NumberRenderer2D;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -66,12 +65,14 @@ private:
 	// クリアタイムの表示位置
 	DirectX::SimpleMath::Vector2 m_clearTimePosition;
 
+	// 音声再生機能
+	AudioListener m_audio;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	StageResultUI();
+	StageResultUI(AudioManager* pAM);
 
 	// デストラクタ
 	~StageResultUI();
@@ -93,9 +94,8 @@ public:
 	// 終了処理
 	void Finalize() override;
 
-	// 有効化
-	void Enable() { m_enable = true; }
-
+	// リザルト画面を表示
+	void OpenResult();
 
 	// 取得/設定
 public:

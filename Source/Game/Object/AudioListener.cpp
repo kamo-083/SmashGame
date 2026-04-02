@@ -16,8 +16,8 @@
  *
  * @param なし
  */
-AudioListener::AudioListener(AudioManager* pAudio)
-	: m_pAudio{ pAudio }
+AudioListener::AudioListener(AudioManager* pAM)
+	: m_pAudio{ pAM }
 {
 }
 
@@ -70,6 +70,15 @@ void AudioListener::OnMessageAccepted(Message::MessageID messageID)
 	// SEを再生
 	switch (messageID)
 	{
+	case Message::MessageID::SE_ATTACK:			// 攻撃
+		m_pAudio->Play("attackSE", false);
+		break;
+	case Message::MessageID::SE_CHANGE_ATTACK:	// 攻撃の種類を変更
+		m_pAudio->Play("cursorSE", false);
+		break;
+	case Message::MessageID::SE_CURSOR:			// カーソル移動
+		m_pAudio->Play("cursorSE", false);
+		break;
 	case Message::MessageID::SE_GIMMIC_SOLVE:	// ギミックを解いた
 		m_pAudio->Play("gimmicSolveSE", false);
 		break;
@@ -78,6 +87,9 @@ void AudioListener::OnMessageAccepted(Message::MessageID messageID)
 		break;
 	case Message::MessageID::SE_GOAL_OPEN:		// ゴールの開放
 		m_pAudio->Play("canGoalSE", false);
+		break;
+	case Message::MessageID::SE_STAGE_CLEAR:	// ステージクリア
+		m_pAudio->Play("clearSE", false);
 		break;
 	}
 }

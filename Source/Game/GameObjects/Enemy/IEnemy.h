@@ -17,12 +17,11 @@
 #include"Source/Game/Physics/PhysicsObject.h"
 #include"Source/Game/Effect/EffectManager.h"
 #include"Source/Game/Data/EnemyInfoLoader.h"
+#include"Source/Game/Object/AudioListener.h"
 #include"Source/Debug/DebugFont.h"
-
 
 // クラスの宣言 ===============================================================
 class StageScene;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -30,9 +29,9 @@ class StageScene;
  */
 class IEnemy
 {
-// クラス定数の宣言 -------------------------------------------------
-public:	
-// プレイヤーの距離・向き
+	// クラス定数の宣言 -------------------------------------------------
+public:
+	// プレイヤーの距離・向き
 	struct PlayerRelationData
 	{
 		DirectX::SimpleMath::Vector3 direction;
@@ -52,11 +51,8 @@ protected:
 	static constexpr float SCALE = 0.005f;				// モデルのスケール
 
 
-// データメンバの宣言 -----------------------------------------------
+	// データメンバの宣言 -----------------------------------------------
 protected:
-	// シーンへのポインタ
-	StageScene* m_pScene;
-
 	// 現在の状態へのポインタ
 	IState* m_currentState;
 
@@ -102,12 +98,14 @@ protected:
 	// 衝突判定のハンドル(攻撃)
 	uint32_t m_handleAttack;
 
+	// 音声再生機能
+	AudioListener m_audio;
 
-// メンバ関数の宣言 -------------------------------------------------
-// コンストラクタ/デストラクタ
+	// メンバ関数の宣言 -------------------------------------------------
+	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	IEnemy(EnemyInfoLoader::EnemyInfo info, StageScene* pScene)
+	IEnemy(EnemyInfoLoader::EnemyInfo info, AudioManager* pAM)
 		:
 		RADIUS{ info.radius },
 		SPEED{ info.move_speed },
@@ -116,7 +114,6 @@ public:
 		STATIC_FRICTION{ info.static_friction },
 		DYNAMIC_FRICTION{ info.dynamic_friction },
 		RESTITUTION{ info.restitution },
-		m_pScene{ pScene },
 		m_currentState{ nullptr },
 		m_rotY{ 0.0f },
 		m_isAttack{ false },
@@ -126,7 +123,8 @@ public:
 		m_pCollisionManager{ nullptr },
 		m_pResourceManager{ nullptr },
 		m_handleBody{ 0 },
-		m_handleAttack{ 0 }
+		m_handleAttack{ 0 },
+		m_audio{ pAM }
 	{}
 
 	// デストラクタ

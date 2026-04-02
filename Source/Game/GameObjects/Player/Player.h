@@ -18,7 +18,7 @@
 #include "Source/Game/Data/AttackData.h"
 #include "Source/Game/Data/PlayerInfoLoader.h"
 #include "Source/Game/Data/InputKeyLoader.h"
-
+#include "Source/Game/Object/AudioListener.h"
 
 // クラスの宣言 ===============================================================
 class StageScene;
@@ -33,7 +33,6 @@ class Player_AttackBasic;
 class Player_AttackRolling;
 class Player_AttackHeavy;
 class DebugFont;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -84,9 +83,6 @@ public:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// シーンへのポインタ
-	StageScene* m_pScene;
-
 	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
 
@@ -162,6 +158,8 @@ private:
 	// 操作キー設定
 	InputKeyLoader::InputKeyInfo m_keyConfig;
 
+	// 音声再生機能
+	AudioListener m_audio;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -169,7 +167,7 @@ public:
 	// コンストラクタ
 	Player(
 		UserResources* pUR,	EffectManager* pEM,
-		StageScene* pScene, const PlayerInfoLoader::PlayerInfo& info);
+		const PlayerInfoLoader::PlayerInfo& info);
 
 	// デストラクタ
 	~Player();

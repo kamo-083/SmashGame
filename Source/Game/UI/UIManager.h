@@ -25,7 +25,7 @@ class AttackUI;
 class PauseUI;
 class InputHintUI;
 class UIDimmer;
-
+class AudioManager;
 
 // クラスの定義 ===============================================================
 /**
@@ -108,6 +108,7 @@ public:
 	// UIの初期化(ステージ用)
 	void SetupStageUI(
 		DX::DeviceResources* pDR,
+		AudioManager* pAM,
 		DirectX::Keyboard::KeyboardStateTracker* pKbTracker,
 		ClearConditionsUI::ConditionsType conditionsType,
 		const InputKeyLoader::InputKeyInfo& keyConfig
@@ -147,7 +148,7 @@ private:
 	void DrawDimmer(UIElement* ui, RenderContext context);
 
 	// リザルトUIの作成
-	void CreateResultUI();
+	void CreateResultUI(AudioManager* pAM);
 
 	// クリア条件UIの作成
 	void CreateClearConditionUI(ClearConditionsUI::ConditionsType type);
@@ -160,7 +161,7 @@ private:
 	);
 
 	// 攻撃方法UIの作成
-	void CreateAttackUI(OperationUI::OperationUIDesc opUIDesc);
+	void CreateAttackUI(OperationUI::OperationUIDesc opUIDesc, AudioManager* pAM);
 
 	// カメラ回転UIの作成
 	void CreateCameraUI(
@@ -169,7 +170,7 @@ private:
 	);
 
 	// ポーズ画面UIの作成
-	void CreatePauseUI();
+	void CreatePauseUI(AudioManager* pAM);
 
 	// 操作方法UIの作成
 	void CreateInputHintUI(

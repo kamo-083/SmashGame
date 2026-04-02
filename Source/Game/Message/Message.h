@@ -50,8 +50,12 @@ public:
 		PAUSE_OPEN_CLOSE,
 
 		// SEの再生
+		SE_ATTACK,			// 攻撃
+		SE_CHANGE_ATTACK,	// 攻撃の種類を変更
+		SE_CURSOR,			// カーソル移動
 		SE_GIMMIC_SOLVE,	// ギミックを解いた
 		SE_KEY_SPAWN,		// カギの出現
 		SE_GOAL_OPEN,		// ゴールの開放
+		SE_STAGE_CLEAR,		// ステージクリア
 	};
 };

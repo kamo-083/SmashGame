@@ -287,6 +287,9 @@ void TitleScene::SelectButtonDown()
  */
 void TitleScene::SetupBotton(float windowHalfWidth)
 {
+	// オーディオマネージャーのポインタを取得
+	AudioManager* pAM = m_userResources->GetAudioManager();
+
 	m_buttons.reserve(BUTTONS);
 	// ゲーム開始のボタン
 	// トゥイーンアニメーションのパラメータ作成
@@ -306,13 +309,13 @@ void TitleScene::SetupBotton(float windowHalfWidth)
 		m_textureCatalog->GetTextures().text_titleStart.texture,
 		data,
 		m_textureCatalog->GetTextures().text_titleStart.size,
-		[this]() {
+		[this, pAM]() {
 			// シーン遷移演出
 			BlockTransition* transition = m_sceneManager->GetTransition();
 			if (transition->IsOpen())
 			{
 				// SEの再生
-				m_userResources->GetAudioManager()->Play("cursorSE", false);
+				pAM->Play("cursorSE", false);
 				// シーンを閉じる
 				transition->Close();
 			}
@@ -328,8 +331,8 @@ void TitleScene::SetupBotton(float windowHalfWidth)
 		m_textureCatalog->GetTextures().text_titleExit.texture,
 		data,
 		m_textureCatalog->GetTextures().text_titleExit.size,
-		[this]() {
-			if (m_userResources->GetAudioManager()->IsPlaying("title_selectBGM")) m_userResources->GetAudioManager()->Stop("title_selectBGM");
+		[this, pAM]() {
+			if (pAM->IsPlaying("title_selectBGM")) pAM->Stop("title_selectBGM");
 			PostQuitMessage(0);
 		}
 	);

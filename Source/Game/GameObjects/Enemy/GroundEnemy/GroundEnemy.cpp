@@ -17,14 +17,12 @@
  * @param info		出現する敵の情報
  * @param pUR		ユーザーリソースのポインタ
  * @param pEM		エフェクトマネージャーのポインタ
- * @param pScene	シーンのポインタ
  */
 GroundEnemy::GroundEnemy(
 	const EnemyInfoLoader::EnemyInfo& info,
-	UserResources* pUR, EffectManager* pEM,
-	StageScene* pScene)
+	UserResources* pUR, EffectManager* pEM)
 	: 
-	IEnemy{ info,pScene }
+	IEnemy{ info,pUR->GetAudioManager()}
 	, ATTACK_DISTANCE(RADIUS * info.attack.distance_raito)
 	, m_playerRelationData{ DirectX::SimpleMath::Vector3::Zero,0.0f }
 	, m_trajectory{ nullptr }
@@ -288,7 +286,7 @@ void GroundEnemy::SmashPlayerAttack(const SphereCollider& collider, float power)
 	m_physics->GetExternalForce().Add(force);
 
 	// SEの再生
-	m_pScene->PlaySE("attackSE");
+	m_audio.OnMessageAccepted(Message::MessageID::SE_ATTACK);
 
 	// 角速度の加算
 	m_physics->AddAngVelocity(DirectX::SimpleMath::Vector3(ANGULAR_VELOCITY, 0.0f, 0.0f));
