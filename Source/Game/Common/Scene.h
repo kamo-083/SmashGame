@@ -7,16 +7,13 @@
 // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/UserResources.h"
 #include"Source/Debug/DebugFont.h"
 
-
 // クラスの宣言 ===============================================================
 class SceneManager;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -25,15 +22,12 @@ class SceneManager;
 class Scene
 {
 // データメンバの宣言 -----------------------------------------------
-private:
-
 protected:
 	// シーンマネージャのポインタ
 	SceneManager* m_sceneManager;
 
 	// ユーザーリソースのポインタ
 	UserResources* m_userResources;
-
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
@@ -43,7 +37,6 @@ public:
 
 	// デストラクタ
 	virtual ~Scene();
-
 
 // 操作
 public:
@@ -61,7 +54,6 @@ public:
 
 // 取得
 public:
-
 
 // 内部実装
 protected:

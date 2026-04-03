@@ -1,14 +1,10 @@
-
-
 // 多重インクルードの防止 =====================================================
 #pragma once
-
 
 // ヘッダファイルの読み込み
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Message/Message.h"
-
 
 // 状態の種類
 enum class StateType
@@ -19,11 +15,17 @@ enum class StateType
 	Bounce,		// 跳ね返り
 };
 
+// クラスの定義 ===============================================================
+/**
+ * @brief 状態のインターフェース
+ */
 class IState
 {
+// メンバ関数の宣言 -------------------------------------------------
 public:
 	// デストラクタ
 	virtual ~IState() = default;
+
 	// 初期化
 	virtual void Initialize(ResourceManager* pRM) = 0;
 	// 更新

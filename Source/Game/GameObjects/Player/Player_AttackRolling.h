@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"
@@ -16,10 +15,8 @@
 #include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/Data/PlayerInputData.h"
 
-
 // クラスの宣言 ===============================================================
 class Player;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -27,7 +24,7 @@ class Player;
  */
 class Player_AttackRolling :public IState
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	const float ATTACK_TIME;	// 攻撃持続時間
 	const float ATTACK_SIZE;	// 攻撃判定サイズ
@@ -49,7 +46,7 @@ public:
 		float airSpeed;
 	};
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
@@ -75,9 +72,8 @@ private:
 	// 移動方向
 	InputDirection m_direction;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Player_AttackRolling(
@@ -86,7 +82,6 @@ public:
 
 	// デストラクタ
 	~Player_AttackRolling() = default;
-
 
 // 操作
 public:
@@ -105,12 +100,10 @@ public:
 	// メッセージを処理
 	void OnMessage(Message::MessageID messageID) override;
 
-
 // 取得/設定
 public:
 	// 状態の種類を取得
 	StateType GetStateType() const override { return m_stateType; }
-
 
 // 内部実装
 private:

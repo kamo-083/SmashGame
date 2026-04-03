@@ -9,7 +9,6 @@
 #include "BlockTransition.h"
 #include "Source/Game/Common/DeviceResources.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -38,17 +37,12 @@ BlockTransition::BlockTransition(
 	pDR->GetD3DDevice()->CreateBuffer(&bd, nullptr, &m_CBuffer);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
 BlockTransition::~BlockTransition()
 {
-
 }
-
-
 
 /**
  * @brief 更新処理
@@ -72,8 +66,6 @@ void BlockTransition::Update(float elapsedTime)
 		if (m_rate > 1.0f) m_rate = 1.0f;
 	}
 }
-
-
 
 /**
  * @brief 描画処理
@@ -154,8 +146,6 @@ void BlockTransition::Draw(const RenderContext& context)
 	context.deviceContext->GSSetShader(nullptr, nullptr, 0);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -165,5 +155,4 @@ void BlockTransition::Draw(const RenderContext& context)
  */
 void BlockTransition::Finalize()
 {
-
 }

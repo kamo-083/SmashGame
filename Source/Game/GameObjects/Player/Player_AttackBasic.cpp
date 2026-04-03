@@ -9,7 +9,6 @@
 #include "Player_AttackBasic.h"
 #include"Player.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -25,10 +24,7 @@ Player_AttackBasic::Player_AttackBasic(Player* player,	const AttackParam& param)
 	m_pPlayer{ player },
 	m_stateType{ StateType::Attack }
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -58,7 +54,6 @@ void Player_AttackBasic::Initialize(ResourceManager* pRM)
 	m_pPlayer->GetAttackCollider()->SetCenter(m_pPlayer->GetPosition() - forward * m_pPlayer->GetRadius());
 	m_pPlayer->GetAttackCollider()->SetRadius(m_pPlayer->GetRadius() * ATTACK_SIZE);
 }
-
 
 /**
  * @brief 更新処理
@@ -92,7 +87,6 @@ void Player_AttackBasic::Update(const float& elapsedTime)
 	}
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -121,7 +115,6 @@ void Player_AttackBasic::Render(const RenderContext& context)
 		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, DirectX::Colors::Blue, nullptr, true);
 	}
 }
-
 
 /**
  * @brief 終了処理

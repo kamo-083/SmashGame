@@ -11,7 +11,6 @@
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Scenes/StageScene.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -32,8 +31,6 @@ Goal::Goal(ID3D11DeviceContext* context, AudioManager* pAM)
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -41,8 +38,6 @@ Goal::~Goal()
 {
 	m_geometricPrimitive.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -77,8 +72,6 @@ void Goal::Initialize(
 	m_isGoal = false;
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -91,8 +84,6 @@ void Goal::Update(float elapsedTime)
 	// アニメーションの更新
 	if (m_tweenAnim->IsPlaying()) m_tweenAnim->Update(elapsedTime, m_tweenParam);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -128,8 +119,6 @@ void Goal::Draw(const RenderContext& context, DebugFont* debugFont)
 	debugFont->AddString(100, 140, DirectX::Colors::Yellow, L"goal = %d", m_isGoal);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -142,8 +131,6 @@ void Goal::Finalize()
 	m_geometricPrimitive.reset();
 	m_models.reset();
 }
-
-
 
 /**
  * @brief ゴールを開放
@@ -168,8 +155,6 @@ void Goal::OpenGoal()
 		m_canGoal = true;
 	}
 }
-
-
 
 /**
  * @brief 当たり判定の初期設定
@@ -212,8 +197,6 @@ void Goal::SetupCollider(CollisionManager* pCM)
 		};
 	pCM->Add(desc);
 }
-
-
 
 /**
  * @brief アニメーションの初期設定

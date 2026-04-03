@@ -9,7 +9,6 @@
 #include "Object.h"
 #include "Source/Game/Message/Message.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -23,16 +22,12 @@ Object::Object()
 {
 }
 
-
-
 /**
  * @brief デストラクタ
  */
 Object::~Object()
 {
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -45,8 +40,6 @@ void Object::Initialize()
 { 
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -58,8 +51,6 @@ void Object::Update(const float& elapsedTime)
 {
 	UNREFERENCED_PARAMETER(elapsedTime);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -74,8 +65,6 @@ void Object::Draw(const RenderContext& context, DebugFont* debugFont)
 	UNREFERENCED_PARAMETER(context);
 	UNREFERENCED_PARAMETER(debugFont);
 }
-
-
 
 /**
  * @brief 終了処理

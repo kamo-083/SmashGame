@@ -9,7 +9,6 @@
 #include "CountArea.h"
 #include "Source/Game/Effect/Area/AreaEffect.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -43,8 +42,6 @@ CountArea::CountArea(UserResources* pUR)
 	m_effect = std::make_unique<AreaEffect>(pUR);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -53,8 +50,6 @@ CountArea::~CountArea()
 	m_effect.reset();
 	m_geometricPrimitive.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -118,8 +113,6 @@ void CountArea::Initialize(
 	SetupCollider(pCM, x, z);
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -136,8 +129,6 @@ void CountArea::Update(float elapsedTime, const DirectX::SimpleMath::Vector3& ca
 	// 数字UIのビルボードの作成
 	m_numberBorad->CreateBillboard(cameraPos, cameraUp);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -171,8 +162,6 @@ void CountArea::Draw(const RenderContext& context, DebugFont* debugFont)
 	debugFont->AddString(110, 170, DirectX::Colors::Magenta, L"trigger = %d", m_isTrigger);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -187,8 +176,6 @@ void CountArea::Finalize()
 	if (m_numberBorad) m_numberBorad->Finalize();
 	m_numberBorad.reset();
 }
-
-
 
 /**
  * @brief 当たり判定の初期設定
@@ -228,8 +215,6 @@ void CountArea::SetupCollider(CollisionManager* pCM, float x, float z)
 		};
 	m_collisionHandle = pCM->Add(desc);
 }
-
-
 
 /**
  * @brief エリアに入った敵をリストに追加・条件判定
@@ -282,8 +267,6 @@ void CountArea::EnterEnemy(CollisionManager* pCM, uint32_t handle)
 	}
 }
 
-
-
 /**
  * @brief エリアを出た敵をリストから除外・条件判定
  *
@@ -328,8 +311,6 @@ void CountArea::ExitEnemy(CollisionManager* pCM, uint32_t handle)
 		break;
 	}
 }
-
-
 
 /**
  * @brief トリガーを起動

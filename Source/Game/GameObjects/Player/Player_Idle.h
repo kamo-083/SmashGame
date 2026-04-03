@@ -7,17 +7,14 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Common/ModelAnimator.h"
 
-
 // クラスの宣言 ===============================================================
 class Player;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -25,12 +22,11 @@ class Player;
  */
 class Player_Idle :public IState
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	static constexpr float ANGULAR_VELOCITY_DAMPING = 0.9f;		// 角速度の減衰率
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
@@ -41,16 +37,14 @@ private:
 	// 状態の種類
 	StateType m_stateType;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Player_Idle(Player* player);
 
 	// デストラクタ
 	~Player_Idle() = default;
-
 
 // 操作
 public:
@@ -73,7 +67,6 @@ public:
 public:
 	// 状態の種類を取得
 	StateType GetStateType() const override { return m_stateType; }
-
 
 // 内部実装
 private:

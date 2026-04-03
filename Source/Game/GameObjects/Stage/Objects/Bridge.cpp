@@ -11,7 +11,6 @@
 #include "Source/Game/Effect/Area/AreaEffect.h"
 #include "Source/Game/Interface/IState.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -32,8 +31,6 @@ Bridge::Bridge(UserResources* pUR)
 	m_effect = std::make_unique<AreaEffect>(pUR);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -41,8 +38,6 @@ Bridge::~Bridge()
 {
 	m_effect.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -87,8 +82,6 @@ void Bridge::Initialize(
 	SetupAnimation(rotAxis);
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -114,8 +107,6 @@ void Bridge::Update(float elapsedTime)
 		m_effect->Update(elapsedTime);
 	}
 }
-
-
 
 /**
  * @brief 描画処理
@@ -150,8 +141,6 @@ void Bridge::Draw(const RenderContext& context)
 	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow, nullptr, true);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -163,8 +152,6 @@ void Bridge::Finalize()
 {
 	m_model = nullptr;
 }
-
-
 
 /**
  * @brief 橋を倒す方向・軸を計算
@@ -200,8 +187,6 @@ void Bridge::CalculateBridgeAxis(float angle, DirectX::SimpleMath::Vector3& outA
 	outAxis = rotAxis;
 }
 
-
-
 /**
  * @brief 橋の当たり判定を更新
  *
@@ -219,8 +204,6 @@ void Bridge::UpdateBridgeCollider()
 	m_collider.SetCenter(pos + m_rootPosition);
 	m_collider.SetRotation(m_tweenParams.rotation);
 }
-
-
 
 /**
  * @brief エフェクトの設定
@@ -242,8 +225,6 @@ void Bridge::SetupEffect()
 	m_effect->SetLength(effectLength);
 	m_effect->SetColor(DirectX::Colors::Yellow.v);
 }
-
-
 
 /**
  * @brief 当たり判定の設定
@@ -289,8 +270,6 @@ void Bridge::SetupCollider(CollisionManager* pCM, EnemyManager* pEM)
 		};
 	m_collisionHandle = pCM->Add(desc);
 }
-
-
 
 /**
  * @brief アニメーションの設定

@@ -16,7 +16,6 @@
 #include "Source/Game/UI/Displays/PauseUI.h"
 #include "Source/Game/UI/Displays/InputHintUI.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -31,20 +30,14 @@ UIManager::UIManager(
 	m_windowSize(windowSize),
 	m_textureCatalog(textureCatalog)
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 UIManager::~UIManager()
 {
-
 }
-
-
 
 /**
  * @brief UIを初期化(ステージ用)
@@ -130,8 +123,6 @@ void UIManager::SetupStageUI(
 	);
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -156,8 +147,6 @@ void UIManager::Update(float elapsedTime)
 	// カメラ回転UIの更新
 	if (m_cameraUI) m_cameraUI->Update(elapsedTime);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -213,8 +202,6 @@ void UIManager::Draw(const RenderContext& context)
 	context.spriteBatch->End();
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -259,8 +246,6 @@ void UIManager::Finalize()
 	m_dimmer.reset();
 }
 
-
-
 /**
  * @brief ディマーを描画
  *
@@ -276,8 +261,6 @@ void UIManager::DrawDimmer(UIElement* ui, RenderContext context)
 	// ディマーを描画
 	m_dimmer->Draw(context);
 }
-
-
 
 /**
  * @brief リザルトUIの作成
@@ -302,8 +285,6 @@ void UIManager::CreateResultUI(AudioManager* pAM)
 	);
 }
 
-
-
 /**
  * @brief クリア条件UIの作成
  *
@@ -323,8 +304,6 @@ void UIManager::CreateClearConditionUI(ClearConditionsUI::ConditionsType type)
 	// 配列に追加
 	m_elements.push_back(std::move(conditionUI));
 }
-
-
 
 /**
  * @brief 操作ガイドUIの作成
@@ -357,8 +336,6 @@ void UIManager::CreateKeyGuideUI(
 	m_elements.push_back(std::move(guideUI));
 }
 
-
-
 /**
  * @brief 攻撃方法UIの作成
  *
@@ -383,8 +360,6 @@ void UIManager::CreateAttackUI(OperationUI::OperationUIDesc opUIDesc, AudioManag
 	m_attackUI->Initialize(atkUIDesc, opUIDesc);
 }
 
-
-
 /**
  * @brief カメラ回転UIの作成
  *
@@ -407,8 +382,6 @@ void UIManager::CreateCameraUI(
 	);
 }
 
-
-
 /**
  * @brief ポーズ画面UIの作成
  *
@@ -428,8 +401,6 @@ void UIManager::CreatePauseUI(AudioManager* pAM)
 	m_pauseUI = std::make_unique<PauseUI>(pAM);
 	m_pauseUI->Initialize(m_windowSize, pauseTex);
 }
-
-
 
 /**
  * @brief 操作方法UIの作成

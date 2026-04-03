@@ -9,7 +9,6 @@
 #include "Key.h"
 #include "Source/Game/Common/ResourceManager.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -34,8 +33,6 @@ Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM,
 	SetupEffect(pRM, pEM);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -43,8 +40,6 @@ Key::~Key()
 {
 	m_trajectorys.clear();
 }
-
-
 
 /**
  * @brief 出現処理
@@ -76,8 +71,6 @@ void Key::Spawn(
 	// 状態の設定
 	m_state = KeyState::SPAWN;
 }
-
-
 
 /**
  * @brief 更新処理
@@ -132,8 +125,6 @@ void Key::Update(float elapsedTime)
 	}
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -174,8 +165,6 @@ void Key::Draw(const RenderContext& context, DebugFont* debugFont)
 	}
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -187,8 +176,6 @@ void Key::Finalize()
 {
 	m_model = nullptr;
 }
-
-
 
 /**
  * @brief 出現時のアニメーションを設定
@@ -224,8 +211,6 @@ void Key::SetupSpawnAnim(const DirectX::SimpleMath::Vector3& startPos)
 	m_tweenParam = start;
 }
 
-
-
 /**
  * @brief 移動時のアニメーションを設定
  *
@@ -252,8 +237,6 @@ void Key::SetupFlyingAnim()
 	};
 	m_tweenAnim->SetTweenData(data);
 }
-
-
 
 /**
  * @brief エフェクトを設定

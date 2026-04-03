@@ -11,7 +11,6 @@
 #include "Source/Game/Transition/BlockTransition.h"
 #include "Source/Game/UI/UITextureCatalog.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -46,7 +45,6 @@ SceneManager::SceneManager(UserResources* pUserResources)
 		windowSize, TRANSITION_INTERVAL);
 }
 
-
 /**
  * @brief デストラクタ
  */
@@ -62,7 +60,6 @@ SceneManager::~SceneManager()
 	m_UITextureCatalog.reset();
 }
 
-
 /**
  * @brief シーンの登録
  *
@@ -75,7 +72,6 @@ void SceneManager::Register(const std::string& sceneName, std::unique_ptr<Scene>
 {
 	m_scenes.emplace(sceneName, std::move(scene));
 }
-
 
 /**
  * @brief 更新処理
@@ -101,7 +97,6 @@ void SceneManager::Update(float elapsedTime)
 	}
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -121,7 +116,6 @@ void SceneManager::Render(RenderContext& context)
 	// デバッグ情報の追加
 	m_userResources->GetDebugFont()->AddString(100, 0, DirectX::Colors::White, L"transition:%0.2f", m_transition->GetRate());
 }
-
 	
 /**
  * @brief 開始シーンの設定
@@ -136,7 +130,6 @@ void SceneManager::SetStartScene(const std::string& startSceneName)
 
 	m_pCurrentScene = m_scenes[startSceneName].get();
 }
-
 
 /**
  * @brief シーン変更の要求
@@ -155,7 +148,6 @@ void SceneManager::RequestSceneChange(const std::string& requestSceneName)
 	m_pRequestedScene = m_scenes[requestSceneName].get();
 }
 
-
 /**
  * @brief 共有データの登録
  *
@@ -168,7 +160,6 @@ void SceneManager::SetSharedData(const std::string& name, const std::string& dat
 {
 	m_shaerdData[name] = data;
 }
-
 
 /**
  * @brief 共有データの取得
@@ -191,7 +182,6 @@ std::string SceneManager::GetSharedData(const std::string& name)
 	// 内容を返す
 	return m_shaerdData[name];
 }
-
 
 /**
  * @brief シーンの変更

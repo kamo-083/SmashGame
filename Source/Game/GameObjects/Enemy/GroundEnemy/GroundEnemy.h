@@ -7,7 +7,6 @@
 // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/GameObjects/Enemy/IEnemy.h"
 #include"Source/Game/Common/UserResources.h"
@@ -17,20 +16,17 @@
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Bounce.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Attack.h"
 
-
 // クラスの宣言 ===============================================================
 class GroundEnemy_Idle;
 class GroundEnemy_Walk;
 class GroundEnemy_Bounce;
 class GroundEnemy_Attack;
 
-
 // クラスの定義 ===============================================================
 /**
  * @brief 地上の敵
  */
 class GroundEnemy	:public IEnemy
-
 {
 // クラス定数の宣言 -------------------------------------------------
 public:
@@ -53,7 +49,6 @@ public:
 	static constexpr float TRAJECTORY_LIFE = 2.0f;	// 軌跡エフェクトの寿命
 	static constexpr float CIRCLE_SCALE = 0.75f;	// 円形エフェクトのスケール
 	static constexpr float CIRCLE_LIFE = 1.0f;		// 円形エフェクトの寿命
-
 
 // データメンバの宣言 -----------------------------------------------
 private:
@@ -84,7 +79,6 @@ private:
 	//判定表示用の球
 	std::unique_ptr<DirectX::GeometricPrimitive> m_sphere;
 
-
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
@@ -95,7 +89,6 @@ public:
 
 	// デストラクタ
 	~GroundEnemy();
-
 
 // 操作
 public:
@@ -128,7 +121,6 @@ public:
 
 	// プレイヤーの距離・向きの計算
 	void CalculatePlayerRelationData(const DirectX::SimpleMath::Vector3& pos,float radius);
-
 
 // 取得/設定
 public:

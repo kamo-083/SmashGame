@@ -10,7 +10,6 @@
 #include <fstream>
 #include <assert.h>
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -20,9 +19,7 @@
 ShaderManager::ShaderManager(ID3D11Device1* device)
 	: m_pDevice{ device }
 {
-
 }
-
 
 /**
  * @brief デストラクタ
@@ -33,7 +30,6 @@ ShaderManager::~ShaderManager()
 	m_pixelShaders.clear();
 	m_geometryShaders.clear();
 }
-
 
 /**
  * @brief 頂点シェーダーの作成
@@ -86,7 +82,6 @@ bool ShaderManager::CreateVS(
 	return true;
 }
 
-
 /**
  * @brief ピクセルシェーダーの作成
  *
@@ -119,7 +114,6 @@ bool ShaderManager::CreatePS(const std::string& name, const std::string& filePat
 
 	return true;
 }
-
 
 /**
  * @brief ジオメトリシェーダーの作成
@@ -154,7 +148,6 @@ bool ShaderManager::CreateGS(const std::string& name, const std::string& filePat
 	return true;
 }
 
-
 /**
  * @brief 頂点シェーダーの取得
  *
@@ -174,7 +167,6 @@ ShaderManager::VertexShaderEntry* ShaderManager::GetVS(const std::string& name)
 
 	return &it->second;
 }
-
 
 /**
  * @brief ピクセルシェーダーの取得
@@ -196,7 +188,6 @@ ShaderManager::PixelShaderEntry* ShaderManager::GetPS(const std::string& name)
 	return &it->second;
 }
 
-
 /**
  * @brief ジオメトリシェーダーの取得
  *
@@ -216,7 +207,6 @@ ShaderManager::GeometryShaderEntry* ShaderManager::GetGS(const std::string& name
 
 	return &it->second;
 }
-
 
 /**
  * @brief ファイルの読み込み
@@ -246,8 +236,6 @@ bool ShaderManager::LoadFile(const wchar_t* filePath, std::vector<uint8_t>& out)
 
 	return static_cast<bool>(ifs);
 }
-
-
 
 /**
  * @brief string型をwchar_t型へ変換

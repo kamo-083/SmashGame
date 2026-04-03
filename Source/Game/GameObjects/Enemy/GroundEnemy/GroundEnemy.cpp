@@ -9,7 +9,6 @@
 #include "GroundEnemy.h"
 #include "Source/Game/Scenes/StageScene.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -34,7 +33,6 @@ GroundEnemy::GroundEnemy(
 	SetupEffects(pEM, pUR->GetResourceManager());
 }
 
-
 /**
  * @brief デストラクタ
  */
@@ -42,7 +40,6 @@ GroundEnemy::~GroundEnemy()
 {
 	m_sphere.reset();
 }
-
 
 /**
  * @brief 初期化処理
@@ -101,7 +98,6 @@ void GroundEnemy::Initialize(
 	SetupState(pRM, info);
 }
 
-
 /**
  * @brief 更新処理
  *
@@ -113,7 +109,6 @@ void GroundEnemy::Update(float elapsedTime)
 {
 	m_currentState->Update(elapsedTime);
 }
-
 
 /**
  * @brief 描画処理
@@ -134,7 +129,6 @@ void GroundEnemy::Draw(const RenderContext& context, DebugFont* debugFont)
 	//debugFont->AddString(0, 260, DirectX::Colors::Blue, L"effect  = %d", m_trajectory->spawn);
 	debugFont->AddString(0, 230, DirectX::Colors::Blue, L"state= %d", GetStateType());
 }
-
 
 /**
  * @brief 終了処理
@@ -188,7 +182,6 @@ void GroundEnemy::Finalize()
 	}
 }
 
-
 /**
  * @brief リスポーン
  *
@@ -211,7 +204,6 @@ void GroundEnemy::Respawn()
 	ChangeState(m_idlingState.get());
 }
 
-
 /**
  * @brief 状態の切り替え
  *
@@ -230,7 +222,6 @@ void GroundEnemy::ChangeState(IState* newState)
 	m_currentState->Initialize(m_pResourceManager);
 }
 
-
 /**
  * @brief 移動速度の制限
  *
@@ -244,7 +235,6 @@ void GroundEnemy::LimitVelocity()
 	m_velocity.y = std::min(std::max(m_velocity.y, -MAX_SPEED), MAX_SPEED);
 	m_velocity.z = std::min(std::max(m_velocity.z, -MAX_SPEED), MAX_SPEED);
 }
-
 
 /**
  * @brief プレイヤーとの位置関係を計算
@@ -265,7 +255,6 @@ void GroundEnemy::CalculatePlayerRelationData(const DirectX::SimpleMath::Vector3
 	m_playerRelationData.distance = std::fabs(radiusSum - centerDistance);
 	m_playerRelationData.direction.Normalize();
 }
-
 
 /**
  * @brief 攻撃を受けて吹っ飛ぶ
@@ -297,7 +286,6 @@ void GroundEnemy::SmashPlayerAttack(const SphereCollider& collider, float power)
 	ChangeState(m_bouncingState.get());
 }
 
-
 /**
  * @brief 地面や壁との反射
  *
@@ -325,8 +313,6 @@ void GroundEnemy::ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal)
 		break;
 	}
 }
-
-
 
 /**
  * @brief エフェクトの設定
@@ -374,8 +360,6 @@ void GroundEnemy::SetupEffects(EffectManager* pEM, ResourceManager* pRM)
 	);
 }
 
-
-
 /**
  * @brief モデル・アニメーションの設定
  *
@@ -395,8 +379,6 @@ void GroundEnemy::SetupModels(ResourceManager* pRM, const EnemyInfoLoader::Enemy
 	m_animations->walk = pRM->RequestAnimation(info.walkAnimPath, info.walkAnimPath);
 	m_animations->attack = pRM->RequestAnimation(info.attackAnimPath, info.attackAnimPath);
 }
-
-
 
 /**
  * @brief 当たり判定の設定
@@ -456,8 +438,6 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 	atkDesc.userData = &m_attackForce;
 	m_handleAttack = m_pCollisionManager->Add(atkDesc);
 }
-
-
 
 /**
  * @brief 状態の設定

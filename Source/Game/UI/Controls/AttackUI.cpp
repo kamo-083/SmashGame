@@ -10,7 +10,6 @@
 #include"Source/Game/Common/ResourceManager.h"
 #include"Source/Game/UI/Elements/UIWidget.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -29,8 +28,6 @@ AttackUI::AttackUI(float windowWidth, float windowHeight, AudioManager* pAM)
 	m_textures.resize(static_cast<int>(AttackType::TYPE_NUM));
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -38,8 +35,6 @@ AttackUI::~AttackUI()
 {
 	m_textures.clear();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -107,8 +102,6 @@ void AttackUI::Initialize(const AttackUIDesc& attackDesc, const OperationUI::Ope
 	);
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -138,8 +131,6 @@ void AttackUI::Update(float elapsedTime)
 	m_operationUI->Update(elapsedTime);
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -158,8 +149,6 @@ void AttackUI::Draw(const RenderContext& context)
 	// 操作方法UIの描画
 	m_operationUI->Draw(context);
 }
-
-
 
 /**
  * @brief 終了処理
@@ -187,8 +176,6 @@ void AttackUI::Finalize()
 	m_operationUI->Finalize();
 	m_operationUI.reset();
 }
-
-
 
 /**
  * @brief 攻撃方法の変更
@@ -226,8 +213,6 @@ void AttackUI::ChangeAttack(AttackType type)
 	m_audio.OnMessageAccepted(Message::MessageID::SE_CHANGE_ATTACK);
 }
 
-
-
 /**
  * @brief 操作方法UIの状態を切り替え
  *
@@ -242,8 +227,6 @@ void AttackUI::SwitchUIMode()
 	// SEの再生
 	m_audio.OnMessageAccepted(Message::MessageID::SE_CHANGE_ATTACK);
 }
-
-
 
 /**
  * @brief 全体をスライドする
@@ -281,8 +264,6 @@ void AttackUI::Slide(Direction dir)
 	}
 }
 
-
-
 /**
  * @brief スライドアニメーションのパラメータを作成
  *
@@ -304,8 +285,6 @@ void AttackUI::MakeParam(UIWidget& widget, const LayoutData& to)
 
 	widget.SetParam(from, delta);
 }
-
-
 
 /**
  * @brief 攻撃リストとUI画像を一致させる

@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
 #include "Source/Game/Common/RenderContext.h"
@@ -38,7 +37,6 @@ class StageManager
 	// クラス定数の宣言 -------------------------------------------------
 public:
 
-
 	// データメンバの宣言 -----------------------------------------------
 private:
 	// 深度ステンシルステート(各ステージオブジェクトに渡すため保持)
@@ -65,7 +63,6 @@ private:
 	// 鍵
 	std::unique_ptr<Key> m_key;
 
-
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
@@ -74,7 +71,6 @@ public:
 
 	// デストラクタ
 	~StageManager();
-
 
 // 操作
 public:
@@ -97,7 +93,6 @@ public:
 		std::function<void()>& outOperate,
 		StageLoader::AreaActionDesc& desc,
 		const DirectX::SimpleMath::Vector3& position);
-
 
 // 取得/設定
 public:

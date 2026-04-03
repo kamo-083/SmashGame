@@ -7,12 +7,10 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/UserResources.h"
 #include"Source/Game/UI/Elements/UIWidget.h"
 #include"Source/Game/Data/TextureData.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -20,7 +18,7 @@
  */
 class OperationUI
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// テクスチャ群
 	struct Textures
@@ -62,8 +60,7 @@ public:
 	// トゥイーン再生時間
 	static constexpr float TWEEN_TIME = 0.25f;
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// ウィジェット
 	std::vector<std::unique_ptr<UIWidget>> m_widgets;
@@ -83,9 +80,8 @@ private:
 	// アイコン表示位置
 	DirectX::SimpleMath::Vector2 m_iconPos;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	OperationUI();
@@ -93,8 +89,7 @@ public:
 	// デストラクタ
 	~OperationUI();
 
-
-	// 操作
+// 操作
 public:
 	// 初期化処理
 	void Initialize(
@@ -116,8 +111,7 @@ public:
 	// 有効化・無効化
 	void Active(bool active = true);
 
-
-	// 取得/設定
+// 取得/設定
 public:
 	// 有効かどうかを返す
 	bool IsActive() const { return m_active; }

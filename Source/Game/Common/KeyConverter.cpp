@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "KeyConverter.h"
 
-
 // クラス定数の定義 ===========================================================
 const std::unordered_map<std::string, DirectX::Keyboard::Keys> KeyConverter::KEY_MAP =
 {
@@ -45,7 +44,6 @@ const std::unordered_map<std::string, DirectX::Keyboard::Keys> KeyConverter::KEY
 	{"Space", DirectX::Keyboard::Keys::Space},
 };
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -54,10 +52,7 @@ const std::unordered_map<std::string, DirectX::Keyboard::Keys> KeyConverter::KEY
  */
 KeyConverter::KeyConverter()
 {
-
 }
-
-
 
 /**
  * @brief  文字列->Keysの変換
@@ -75,8 +70,6 @@ DirectX::Keyboard::Keys KeyConverter::ConvertToKeys(const std::string& name)
 	// 無かった場合
 	return DirectX::Keyboard::Keys::None;
 }
-
-
 
 /**
  * @brief  Keys->文字列の変換

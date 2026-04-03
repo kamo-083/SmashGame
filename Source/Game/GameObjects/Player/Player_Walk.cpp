@@ -9,7 +9,6 @@
 #include "Player_Walk.h"
 #include"Player.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -30,10 +29,7 @@ Player_Walk::Player_Walk(
 	m_stateType{ StateType::Walk },
 	m_direction{}
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -55,7 +51,6 @@ void Player_Walk::Initialize(ResourceManager* pRM)
 	m_modelAnimator->Initialize(FLT_MAX, true, ANIMATION_SPEED);
 	m_modelAnimator->Play();
 }
-
 
 /**
  * @brief 更新処理
@@ -103,7 +98,6 @@ void Player_Walk::Update(const float& elapsedTime)
 	m_direction.Reset();
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -133,7 +127,6 @@ void Player_Walk::Render(const RenderContext& context)
 	}
 }
 
-
 /**
  * @brief 終了処理
  *
@@ -146,8 +139,6 @@ void Player_Walk::Finalize()
 	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
 }
-
-
 
 /**
  * @brief メッセージを処理

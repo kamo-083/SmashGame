@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "GroundEnemy_Idle.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -20,10 +19,7 @@ GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
 	m_pGroundEnemy{ groundEnemy },
 	m_stateType{ StateType::Idle }
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -52,7 +48,6 @@ void GroundEnemy_Idle::Initialize(ResourceManager* pRM)
 	m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(false);
 }
 
-
 /**
  * @brief 更新処理
  *
@@ -79,7 +74,6 @@ void GroundEnemy_Idle::Update(const float& elapsedTime)
 	}
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -99,7 +93,6 @@ void GroundEnemy_Idle::Render(const RenderContext& context)
 	// モデルの描画
 	m_modelAnimator->Draw(context, world);
 }
-
 
 /**
  * @brief 終了処理

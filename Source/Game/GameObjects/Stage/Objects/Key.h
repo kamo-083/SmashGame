@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Effect/EffectManager.h"
@@ -23,7 +22,7 @@ class ResourceManager;
  */
 class Key
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// 鍵の状態
 	enum class KeyState
@@ -43,7 +42,7 @@ public:
 	static constexpr float EFFECT_SIZE_STAR = 0.5f;
 	static constexpr float EFFECT_SIZE_CIRCLE = 0.25f;
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// ゴールの位置
 	DirectX::SimpleMath::Vector3 m_goalPos;
@@ -67,15 +66,14 @@ private:
 	// 音声再生機能
 	AudioListener m_audio;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM, AudioManager* pAM);
 
 	// デストラクタ
 	~Key();
-
 
 // 操作
 public:

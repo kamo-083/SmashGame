@@ -16,7 +16,6 @@
 #include "Source/Game/Common/RenderTexture.h"
 #include "Source/Game/GameObjects/Background.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -36,17 +35,12 @@ StageSelectScene::StageSelectScene(SceneManager* pSM, UserResources* pUR, int st
 	m_stageCleared.resize(STAGES);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
 StageSelectScene::~StageSelectScene()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -98,8 +92,6 @@ void StageSelectScene::Initialize()
 	m_transitionStage = -1;
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -126,8 +118,6 @@ void StageSelectScene::Update(float elapsedTime)
 	// シーン移動
 	TransitionScene(kb);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -166,8 +156,6 @@ void StageSelectScene::Render(RenderContext& context, DebugFont* debugFont)
 	context.spriteBatch->End();
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -198,8 +186,6 @@ void StageSelectScene::Finalize()
 	m_background.reset();
 }
 
-
-
 /**
  * @brief 指定したステージパネルのアニメーションをリセット
  *
@@ -212,8 +198,6 @@ void StageSelectScene::ResetPanel(int panelNum)
 	m_stagePanels[panelNum]->Reset();
 	m_stagePanels[panelNum]->Update(0.0f);
 }
-
-
 
 /**
  * @brief 選択中のステージを切り替え
@@ -250,8 +234,6 @@ void StageSelectScene::ChangeSelectStage(DirectX::Keyboard::KeyboardStateTracker
 		pAM->Play("cursorSE", false);
 	}
 }
-
-
 
 /**
  * @brief シーンを移動
@@ -299,8 +281,6 @@ void StageSelectScene::TransitionScene(DirectX::Keyboard::KeyboardStateTracker* 
 		}
 	}
 }
-
-
 
 /**
  * @brief パネルの画像を合成
@@ -402,8 +382,6 @@ void StageSelectScene::PanelTextureSynthesis()
 
 }
 
-
-
 /**
  * @brief ステージパネルの設定
  *
@@ -469,8 +447,6 @@ void StageSelectScene::SetupPanel(const DirectX::SimpleMath::Vector2& windowSize
 	PanelTextureSynthesis();
 }
 
-
-
 /**
  * @brief ステージ番号表示の設定
  *
@@ -487,8 +463,6 @@ void StageSelectScene::SetupNumberBoard()
 		1);
 	m_numberBoard->SetUseBeginEnd(false);
 }
-
-
 
 /**
  * @brief 背景の設定
@@ -516,8 +490,6 @@ void StageSelectScene::SetupBackground(
 	);
 }
 
-
-
 /**
  * @brief 音声の設定
  *
@@ -537,8 +509,6 @@ void StageSelectScene::SetupAudios(AudioManager* pAM)
 	// BGMの再生
 	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
 }
-
-
 
 /**
  * @brief 操作UIの設定
@@ -605,8 +575,6 @@ void StageSelectScene::SetupInputUI()
 	// 配列に追加
 	m_inputHintUI.push_back(std::move(inputUI));
 }
-
-
 
 /**
  * @brief ステージ状態のリセット

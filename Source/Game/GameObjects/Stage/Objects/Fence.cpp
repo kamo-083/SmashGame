@@ -10,7 +10,6 @@
 #include"Source/Game/Physics/CollisionManager.h"
 #include"Source/Game/Common/ResourceManager.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -30,8 +29,6 @@ Fence::Fence(ID3D11DeviceContext* context)
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -39,8 +36,6 @@ Fence::~Fence()
 {
 	m_geometricPrimitive.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -96,8 +91,6 @@ void Fence::Initialize(
 	m_model = pRM->RequestSDKMESH("fence", "fence.sdkmesh");
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -145,8 +138,6 @@ void Fence::Draw(const RenderContext& context)
 	//world = scale * rot * trans;
 	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Orange, nullptr, true);
 }
-
-
 
 /**
  * @brief 終了処理

@@ -7,10 +7,8 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-
 
 // クラスの宣言 ===============================================================
 class UITextureCatalog;
@@ -20,16 +18,16 @@ class RenderTexture;
 class Background;
 class InputHintUI;
 
-
 // クラスの定義 ===============================================================
 /**
  * @brief ステージ選択シーン
  */
 class StageSelectScene : public Scene
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
-	const int STAGES;	// ステージ数
+	// ステージ数
+	const int STAGES;
 
 	// パネルの間隔調整
 	static constexpr float PANEL_ADJUST_INTERVAL = 210.0f;
@@ -52,8 +50,7 @@ public:
 	// BGMの音量
 	static constexpr float BGM_VOLUME = 0.5f;
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
 	// UI使用画像のカタログ
@@ -84,7 +81,6 @@ private:
 	// 操作方法UI
 	std::vector<std::unique_ptr<InputHintUI>> m_inputHintUI;
 
-
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
@@ -94,8 +90,7 @@ public:
 	// デストラクタ
 	~StageSelectScene();
 
-
-	// 操作
+// 操作
 public:
 	// 初期化処理
 	void Initialize() override;
@@ -110,11 +105,10 @@ public:
 	void Finalize() override;
 
 
-	// 取得/設定
+// 取得/設定
 public:
 
-
-	// 内部実装
+// 内部実装
 private:
 	// 指定したステージパネルをリセット
 	void ResetPanel(int panelNum);

@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Physics/Collision.h"
@@ -26,7 +25,7 @@ class StageScene;
  */
 class Goal
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	// モデル群
 	struct Models
@@ -43,8 +42,7 @@ private:
 	static constexpr float LID_MOVE_Y = 5.0f;		// フタのモデルが飛ぶ距離
 	static constexpr float TWEEN_ANIM_TIME = 1.25f;	// アニメーションの時間
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
@@ -70,15 +68,14 @@ private:
 	// 音声再生機能
 	AudioListener m_audio;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Goal(ID3D11DeviceContext* context, AudioManager* pAM);
 
 	// デストラクタ
 	~Goal();
-
 
 // 操作
 public:
@@ -97,7 +94,6 @@ public:
 	// 終了処理
 	void Finalize();
 
-
 // 取得/設定
 public:
 	// 位置の取得
@@ -113,7 +109,6 @@ public:
 
 	// ゴールを開放
 	void OpenGoal();
-
 
 // 内部実装
 private:

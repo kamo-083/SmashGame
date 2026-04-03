@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
 #include"Source/Debug/DebugFont.h"
@@ -22,14 +21,13 @@
 class ResourceManager;
 class AreaEffect;
 
-
 // クラスの定義 ===============================================================
 /**
  * @brief エリア
  */
 class CountArea
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	static constexpr float AREA_HALF_HEIGHT = 1.0f;			// エリアの高さ(半分)
 	static constexpr float NUMBER_HEIGHT_ADJUST = 1.25f;	// 数字表示の高さ調整倍率
@@ -44,8 +42,7 @@ public:
 	// スプライト数字の1文字分のサイズ
 	static constexpr DirectX::SimpleMath::Vector2 NUMBER_SIZE = { 48.0f,72.0f };
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
@@ -82,16 +79,14 @@ private:
 	// 内部の敵数描画
 	std::unique_ptr<NumberRenderer3D> m_numberBorad;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	CountArea(UserResources* pUR);
 
 	// デストラクタ
 	~CountArea();
-
 
 // 操作
 public:
@@ -109,7 +104,6 @@ public:
 
 	// 終了処理
 	void Finalize();
-
 
 // 取得/設定
 public:

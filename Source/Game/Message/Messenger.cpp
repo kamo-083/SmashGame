@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "Messenger.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -17,9 +16,7 @@
  */
 Messenger::Messenger()
 {
-
 }
-
 
 /**
  * @brief オブジェクトを登録
@@ -34,7 +31,6 @@ void Messenger::AddObject(int listenerID, IMessageListener* listener)
 	// オブジェクトを配列に追加
 	m_listeners[listenerID] = listener;
 }
-
 
 /**
  * @brief メッセージを送信
@@ -51,7 +47,5 @@ void Messenger::Notify(int listenerID, Message::MessageID messageID)
 	if (it == m_listeners.end() || it->second == nullptr) return;
 
 	// イベントを送信
-	it->second->OnMessageAccepted(messageID);
-	
+	it->second->OnMessageAccepted(messageID);	
 }
-

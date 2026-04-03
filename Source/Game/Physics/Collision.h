@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // 最小押し出しベクトル
 struct MTV
 {
@@ -15,21 +14,26 @@ struct MTV
 	float distance = 0.0f;					// 距離
 };
 
-
-// 球の当たり判定
+// クラスの定義 ===============================================================
+/**
+ * @brief 球の当たり判定
+ */ 
 class SphereCollider
 {
+// データメンバの宣言 -----------------------------------------------
 private:
 	DirectX::SimpleMath::Vector3 m_center;	// 中心座標
 	float m_radius;							// 半径
 
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
-	// コンストラクタ・デストラクタ
 	SphereCollider();
 	SphereCollider(const DirectX::SimpleMath::Vector3& center,float radius);
 	~SphereCollider() = default;
 
-	// 取得・設定
+// 取得・設定
+public:
 	DirectX::SimpleMath::Vector3 GetCenter() const { return m_center; }					// 中心座標の取得
 	void SetCenter(const DirectX::SimpleMath::Vector3& center) { m_center = center; }	// 中心位置の設定
 
@@ -37,9 +41,13 @@ public:
 	void SetRadius(float radius) { m_radius = radius; }	// 半径の設定
 };
 
-// OBBの当たり判定
+// クラスの定義 ===============================================================
+/**
+ * @brief OBBの当たり判定
+ */
 class OBBCollider
 {
+// クラス定数の宣言 -------------------------------------------------
 public:
 	struct OBB
 	{
@@ -58,19 +66,22 @@ public:
 		Others,	// その他
 	};
 
+// データメンバの宣言 -----------------------------------------------
 private:
 	OBB m_obb;
 	MTV m_mtv;
 
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
-	// コンストラクタ・デストラクタ
 	OBBCollider();
 	OBBCollider(const DirectX::SimpleMath::Vector3& center,
 				const DirectX::SimpleMath::Quaternion& rotation,
 				const DirectX::SimpleMath::Vector3& halfLength);
 	~OBBCollider() = default;
 
-	// 取得・設定
+// 取得・設定
+public:
 	// 中心座標の取得・設定
 	DirectX::SimpleMath::Vector3 GetCenter() const { return m_obb.center; }	
 	float GetCenter(int n) const;
@@ -88,7 +99,6 @@ public:
 	// 回転の取得・設定
 	DirectX::SimpleMath::Quaternion GetRotation() const { return m_obb.rotation; }
 	void SetRotation(const DirectX::SimpleMath::Quaternion& rotation);
-
 };
 
 //球と球の当たり判定

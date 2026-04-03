@@ -1,12 +1,11 @@
 /**
 * @file   PhysicsObject.h
 *
-* @brief  物理演算に関するヘッダファイル
+* @brief  物理オブジェクトに関するヘッダファイル
 */
 
 // 多重インクルードの防止 =====================================================
 #pragma once
-
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Physics/Gravity.h"
@@ -14,7 +13,10 @@
 #include"Source/Game/Physics/Friction.h"
 #include"Source/Debug/DebugFont.h"
 
-
+// クラスの定義 ===============================================================
+/**
+ * @brief 物理オブジェクト
+ */
 class PhysicsObject
 {
 // クラス定数の宣言 -------------------------------------------------
@@ -29,7 +31,6 @@ private:
 	static constexpr float ANGULAR_VELOCITY_MAX = 50.0f;	// 角速度の上限
 
 	static constexpr float ROLLING_ACCELERATION_COEFF = 5.0f / 7.0f; // 転がりによる加速度の低下係数
-
 
 // データメンバの宣言 -----------------------------------------------
 private:
@@ -51,7 +52,6 @@ private:
 	DirectX::SimpleMath::Vector3 m_angularVelocity;
 	// 慣性
 	DirectX::SimpleMath::Vector3 m_inertia;
-
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
@@ -124,4 +124,3 @@ private:
 	// 角速度の制限
 	void ClampAngularVelocity();
 };
-

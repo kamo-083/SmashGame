@@ -9,7 +9,6 @@
 #include "CircleParticle.h"
 #include<random>
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -19,10 +18,7 @@
 CircleParticle::CircleParticle()
 	: IEffectParticle{}
 {
-
 }
-
-
 
 /**
  * @brief 更新処理

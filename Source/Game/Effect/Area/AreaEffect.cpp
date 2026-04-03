@@ -56,8 +56,6 @@ AreaEffect::AreaEffect(UserResources* pUR)
 	LoadShaders(pUR->GetShaderManager(), dr->GetD3DDevice());
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -67,8 +65,6 @@ AreaEffect::~AreaEffect()
 	m_ps = nullptr;
 	m_gs = nullptr;
 }
-
-
 
 /**
  * @brief 更新処理
@@ -82,8 +78,6 @@ void AreaEffect::Update(float elapsedTime)
 	// 累計経過時間の更新
 	m_timer += elapsedTime;
 }
-
-
 
 /**
  * @brief 描画処理
@@ -179,8 +173,6 @@ void AreaEffect::Draw(const RenderContext& context)
 	context.deviceContext->GSSetShader(nullptr, nullptr, 0);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -190,10 +182,7 @@ void AreaEffect::Draw(const RenderContext& context)
  */
 void AreaEffect::Finalize()
 {
-
 }
-
-
 
 /**
  * @brief シェーダーの読み込み

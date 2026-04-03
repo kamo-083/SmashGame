@@ -7,11 +7,9 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Tween.h"
-
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -35,16 +33,13 @@ Tween<TVec,TRot>::Tween(typename Tween<TVec, TRot>::TweenData data)
 	}
 }
 
-
 /**
  * @brief デストラクタ
  */
 template<typename TVec, typename TRot>
 Tween<TVec, TRot>::~Tween()
 {
-
 }
-
 
 /**
  * @brief 更新処理
@@ -78,18 +73,22 @@ void Tween<TVec, TRot>::Update(float deltaTime, UIParams& params)
 	// 不透明度を補間
 	params.opacity = m_data.start.opacity + m_data.delta.opacity * n;
 
+	// 設定された時間まで再生したら
 	if (m_elapsedTime >= m_data.duration)
 	{
 		switch (m_data.loop)
 		{
+			// 再生終了
 		case Easing::PlaybackMode::Once:
 		case Easing::PlaybackMode::Once_Reverse:
 			m_finished = true;
 			m_playing = false;
 			break;
+			// 繰り返す
 		case Easing::PlaybackMode::Repeat:
 			m_elapsedTime = 0.0f;
 			break;
+			// 反復する
 		case Easing::PlaybackMode::PingPong:
 			m_reverse = !m_reverse;
 			m_elapsedTime = 0.0f;
@@ -97,7 +96,6 @@ void Tween<TVec, TRot>::Update(float deltaTime, UIParams& params)
 		}
 	}
 }
-
 
 /**
  * @brief 終了処理
@@ -111,8 +109,6 @@ void Tween<TVec, TRot>::Finalize()
 {
 
 }
-
-
 
 /**
  * @brief 再生
@@ -129,8 +125,6 @@ void Tween<TVec, TRot>::Play()
 	m_played = true;
 }
 
-
-
 /**
  * @brief 停止
  *
@@ -143,8 +137,6 @@ void Tween<TVec, TRot>::Stop()
 {
 	m_playing = false;
 }
-
-
 
 /**
  * @brief 再生の終了
@@ -161,8 +153,6 @@ inline void Tween<TVec, TRot>::End()
 	m_playing = false;
 }
 
-
-
 /**
  * @brief 再生時間のリセット
  *
@@ -178,8 +168,6 @@ void Tween<TVec, TRot>::ResetTime()
 	if (m_data.loop == Easing::PlaybackMode::Once_Reverse)	m_reverse = true;
 	else													m_reverse = false;
 }
-
-
 
 /**
  * @brief 回転の補間(2D)
@@ -199,8 +187,6 @@ inline void Tween<TVec, TRot>::Rotate(float& param, float t)
 
 	param = m_data.start.rotation + delta * t;
 }
-
-
 
 /**
  * @brief 回転の補間(3D)

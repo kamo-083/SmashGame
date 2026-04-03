@@ -7,7 +7,6 @@
 // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Data/AttackData.h"
 #include"Source/Game/Common/RenderContext.h"
@@ -24,6 +23,7 @@ class ResourceManager;
  */
 class AttackUI
 {
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// 引数用構造体
 	struct AttackUIDesc
@@ -70,7 +70,7 @@ public:
 	static constexpr DirectX::SimpleMath::Vector2 UI_POS_ADJUST_SCALE = { 1.5f,0.6f };	// 中心位置の調整
 	static constexpr float OFFSET_X_ADJUST_SCALE = 1.1f;	// 中心位置の調整
 
-
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 攻撃方法リスト
 	std::vector<AttackType> m_attackList;
@@ -99,11 +99,16 @@ private:
 	// 音声再生機能
 	AudioListener m_audio;
 
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
-	// コンストラクタ・デストラクタ
+	// コンストラクタ
 	AttackUI(float windowWidth, float windowHeight, AudioManager* pAM);
+
+	// デストラクタ
 	~AttackUI();
 
+// 操作
 	// 初期化
 	void Initialize(const AttackUIDesc& attackDesc, const OperationUI::OperationUIDesc& operationDesc);
 
@@ -122,6 +127,10 @@ public:
 	// 操作方法UIの状態を切り替え
 	void SwitchUIMode();
 
+// 取得/設定
+public:
+
+// 内部実装
 private:
 	// スライド処理
 	void Slide(Direction dir);
@@ -132,4 +141,3 @@ private:
 	// 攻撃リストとUI画像を一致させる
 	void BindAttackSlots();
 };
-

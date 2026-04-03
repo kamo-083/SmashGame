@@ -23,7 +23,6 @@ const std::vector<std::string> KeyAtlas::KEY_INDEX =
 	"Space",
 };
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -32,10 +31,7 @@ const std::vector<std::string> KeyAtlas::KEY_INDEX =
  */
 KeyAtlas::KeyAtlas()
 {
-
 }
-
-
 
 /**
  * @brief  切り取り範囲を取得
@@ -95,8 +91,6 @@ RECT KeyAtlas::GetRect(DirectX::Keyboard::Keys key, long size)
 	return rect;
 }
 
-
-
 /**
  * @brief  文字列からキー番号を取得
  *
@@ -112,8 +106,6 @@ int KeyAtlas::GetIndex(const std::string& name)
 
 	return static_cast<int>(std::distance(KEY_INDEX.begin(), it));
 }
-
-
 
 /**
  * @brief  Keysからキー番号を取得

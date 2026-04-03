@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "ActionAtlas.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -17,10 +16,7 @@
  */
 ActionAtlas::ActionAtlas()
 {
-
 }
-
-
 
 /**
  * @brief 切り取り範囲を取得

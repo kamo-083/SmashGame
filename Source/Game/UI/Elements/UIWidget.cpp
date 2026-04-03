@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "UIWidget.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -18,20 +17,14 @@
 UIWidget::UIWidget()
 	:	m_texture{ nullptr }
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 UIWidget::~UIWidget()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -60,8 +53,6 @@ void UIWidget::Initialize(
 	if (play) m_tween->Play();
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -74,8 +65,6 @@ void UIWidget::Update(float elapsedTime)
 	// パラメータの更新
 	m_tween->Update(elapsedTime, m_params);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -150,7 +139,6 @@ void UIWidget::Draw(
 	spriteBatch->Draw(texture, position, rect, color, rot, origin, m_params.scale);
 }
 
-
 /**
  * @brief 終了処理
  *
@@ -165,7 +153,6 @@ void UIWidget::Finalize()
 	m_tween->Finalize();
 	m_tween.reset();
 }
-
 
 /**
  * @brief トゥイーンのリセット
@@ -186,7 +173,6 @@ void UIWidget::TweenReset(bool play)
 	else	  m_tween->End();
 }
 
-
 /**
  * @brief パラメータの設定
  *
@@ -206,7 +192,6 @@ void UIWidget::SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams&
 	data.delta = delta;
 	m_tween->SetTweenData(data);
 }
-
 
 /**
  * @brief イージングの種類を設定

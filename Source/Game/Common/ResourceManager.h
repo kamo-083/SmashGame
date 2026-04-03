@@ -7,12 +7,10 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "DeviceResources.h"
 #include "Source/Game/Common/Animation.h"
 #include <unordered_map>
-
 
 // クラスの定義 ===============================================================
 /**
@@ -20,11 +18,10 @@
  */
 class ResourceManager
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	//デバイスリソース
 	ID3D11Device* m_pDevice;
@@ -38,16 +35,14 @@ private:
 	//アニメーション
 	std::unordered_map<std::string, std::unique_ptr<DX::AnimationSDKMESH>> m_animations;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	ResourceManager(ID3D11Device* pDevice);
 
 	// デストラクタ
 	~ResourceManager();
-
 
 // 操作
 public:
@@ -83,7 +78,6 @@ public:
 	
 	//アニメーションの要求(キーがあったら渡す、無かったら読み込んでから渡す)
 	DX::AnimationSDKMESH* RequestAnimation(const std::string& key, const std::string& filename);
-
 
 // 内部実装
 private:

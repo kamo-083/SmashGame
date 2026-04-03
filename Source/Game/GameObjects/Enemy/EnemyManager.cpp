@@ -10,7 +10,6 @@
 #include "Source/Game/GameObjects/Player/Player.h"
 #include "Source/Game/Scenes/StageScene.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -29,10 +28,7 @@ EnemyManager::EnemyManager(
 	m_pEffectManager{ pEM },
 	m_nextID{ 0 }
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
@@ -41,7 +37,6 @@ EnemyManager::~EnemyManager()
 {
 	m_enemies.clear();
 }
-
 
 /**
  * @brief 初期化処理
@@ -56,7 +51,6 @@ void EnemyManager::Initialize()
 	EnemyInfoLoader loader;
 	loader.LoadData("Resources/Json/enemyInfo.json", m_enemyInfo);
 }
-
 
 /**
  * @brief 更新処理
@@ -104,7 +98,6 @@ void EnemyManager::Update(float elapsedTime, Player* pPlayer)
 		m_enemies.end());
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -121,7 +114,6 @@ void EnemyManager::Draw(const RenderContext& context)
 	}
 }
 
-
 /**
  * @brief 終了処理
  *
@@ -137,7 +129,6 @@ void EnemyManager::Finalize()
 	}
 	m_enemies.clear();
 }
-
 
 /**
  * @brief 敵を出現させる
@@ -173,7 +164,6 @@ EnemyManager::EnemyData* EnemyManager::Spawn(const SpawnData& spawnData)
 	return m_enemies.back().get();
 }
 
-
 /**
  * @brief IDから敵を取得
  *
@@ -191,7 +181,6 @@ IEnemy* EnemyManager::GetEnemyByID(uint32_t id) const
 
 	return nullptr;
 }
-
 
 /**
  * @brief 敵を生成

@@ -7,10 +7,8 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/Tween/Easing.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -19,7 +17,7 @@
 template<typename TVec, typename TRot>
 class Tween
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// アニメーションのパラメータ
 	struct UIParams
@@ -40,7 +38,7 @@ public:
 		Easing::PlaybackMode loop;	// 再生方法
 	};
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// Tween用の情報
 	TweenData m_data;
@@ -60,16 +58,14 @@ private:
 	// 反転フラグ
 	bool m_reverse;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Tween(TweenData data);
 
 	// デストラクタ
 	~Tween();
-
 
 // 操作
 public:
@@ -93,7 +89,6 @@ public:
 
 	// 再生済みフラグのリセット
 	void ResetPlayed() { m_played = false; }
-
 
 // 取得/設定
 public:
@@ -119,13 +114,11 @@ public:
 	// 素の進行度を取得
 	float GetLinearProgress() const { return m_elapsedTime / m_data.duration; }
 
-
 // 内部実装
 private:
 	// 回転の補間
 	void Rotate(float& param, float t);								// 2D
 	void Rotate(DirectX::SimpleMath::Quaternion& param, float t);	// 3D
-
 };
 
 // 関数内部を分離したファイルのインクルード

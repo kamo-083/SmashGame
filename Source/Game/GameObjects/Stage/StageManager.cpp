@@ -22,7 +22,6 @@
 #include "Source/Game/GameObjects/Stage/Objects/Bridge.h"
 #include "Source/Game/GameObjects/Stage/Objects/Key.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -33,8 +32,6 @@ StageManager::StageManager(ID3D11DepthStencilState* pDepthStencilState)
 	: m_depthStencilState{ pDepthStencilState }
 {
 }
-
-
 
 /**
  * @brief デストラクタ
@@ -48,8 +45,6 @@ StageManager::~StageManager()
 	m_bridges.clear();
 	m_goal.reset();
 }
-
-
 
 /**
  * @brief ステージ生成
@@ -161,8 +156,6 @@ void StageManager::CreateStage(
 	}
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -202,8 +195,6 @@ void StageManager::Update(float elapsedTime, const DirectX::SimpleMath::Vector3&
 	// ゴールの更新
 	if(m_goal) m_goal->Update(elapsedTime);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -252,8 +243,6 @@ void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 	}
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -297,8 +286,6 @@ void StageManager::Finalize()
 	if(m_goal) m_goal->Finalize();
 }
 
-
-
 /**
  * @brief ギミック処理生成
  *
@@ -324,8 +311,6 @@ void StageManager::CreateOperate(
 	}
 }
 
-
-
 /**
  * @brief ゴールしているか
  *
@@ -338,8 +323,6 @@ bool StageManager::IsGoal() const
 {
 	return m_goal->IsGoal();
 }
-
-
 
 /**
  * @brief ゴールできるか

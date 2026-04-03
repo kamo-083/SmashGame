@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/UIElement.h"
 #include"Source/Game/Data/TextureData.h"
@@ -22,7 +21,7 @@ class NumberRenderer2D;
  */
 class StageResultUI :public UIElement
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// アニメーション時間
 	static constexpr float ANIM_TIME = 0.25f;
@@ -48,7 +47,7 @@ public:
 		int second = 0;		// 秒
 	};
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 有効
 	bool m_enable;
@@ -68,8 +67,8 @@ private:
 	// 音声再生機能
 	AudioListener m_audio;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	StageResultUI(AudioManager* pAM);
@@ -78,7 +77,7 @@ public:
 	~StageResultUI();
 
 
-	// 操作
+// 操作
 public:
 	// 初期化処理
 	void Initialize(
@@ -97,7 +96,7 @@ public:
 	// リザルト画面を表示
 	void OpenResult();
 
-	// 取得/設定
+// 取得/設定
 public:
 	// 有効かどうかを返す
 	bool IsEnable() const { return m_enable; }
@@ -105,7 +104,7 @@ public:
 	// クリアタイムの設定
 	void SetClearTime(float time);
 
-	// 内部実装
+// 内部実装
 private:
 
 };

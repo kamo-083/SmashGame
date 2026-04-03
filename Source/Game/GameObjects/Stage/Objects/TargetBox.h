@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
 #include "Source/Game/Common/UserResources.h"
@@ -19,10 +18,8 @@
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/Interface/IState.h"
 
-
 // クラスの宣言 ===============================================================
 class AreaEffect;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -34,7 +31,6 @@ class TargetBox
 private:
 	// 各辺の長さの半分
 	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 0.5f,0.5f,0.5f };
-
 
 	// データメンバの宣言 -----------------------------------------------
 private:
@@ -68,7 +64,6 @@ private:
 	// エフェクト
 	std::unique_ptr<AreaEffect> m_effect;
 
-
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
 public:
@@ -77,7 +72,6 @@ public:
 
 	// デストラクタ
 	~TargetBox();
-
 
 // 操作
 public:
@@ -99,7 +93,6 @@ public:
 
 	// 終了処理
 	void Finalize();
-
 
 // 取得/設定
 public:

@@ -9,7 +9,6 @@
 #include "InputGuideUI.h"
 #include "Source/Game/UI/Elements/Atlas/KeyAtlas.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -22,10 +21,7 @@ InputGuideUI::InputGuideUI()
 	m_pKbTracker(nullptr),
 	m_pressed(false)
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
@@ -34,8 +30,6 @@ InputGuideUI::~InputGuideUI()
 {
 	m_textTextureInfo.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -87,8 +81,6 @@ void InputGuideUI::Initialize(
 	}
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -135,8 +127,6 @@ void InputGuideUI::Update(float elapsedTime)
 	m_widget->Update(elapsedTime);
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -164,8 +154,6 @@ void InputGuideUI::Draw(const RenderContext& context)
 		pos.x += m_widget->GetTexSize().x;
 	}
 }
-
-
 
 /**
  * @brief 終了処理

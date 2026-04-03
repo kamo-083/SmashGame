@@ -7,12 +7,10 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Object/Object.h"
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Data/InputKeyLoader.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -20,7 +18,7 @@
  */
 class Camera	: public Object
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	// カメラのデフォルト設定
 	static constexpr DirectX::SimpleMath::Vector3 CAMERA_DEFAULT_EYE    = { 0.0f,4.0f,8.0f };	// 位置
@@ -31,8 +29,7 @@ private:
 	static constexpr float CAMERA_ROTATE_ANGLE = 45.0f;		// キー1回分の回転角度
 	static constexpr float CAMERA_ROTATE_SPEED = 200.0f;	// 回転速度
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// ビュー行列
 	DirectX::SimpleMath::Matrix m_view;
@@ -60,15 +57,14 @@ private:
 	float m_startAngle;
 	float m_endAngle;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Camera();
 
 	// デストラクタ
 	~Camera();
-
 
 // 操作
 public:

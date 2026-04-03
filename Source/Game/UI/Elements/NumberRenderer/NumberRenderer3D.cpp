@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "NumberRenderer3D.h"
 
-
 // 頂点位置・各頂点のUV座標
 const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
 {
@@ -17,7 +16,6 @@ const DirectX::VertexPositionTexture NumberRenderer3D::VERTECES[4] =
 	DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3(-0.5f, -0.5f, 0.0f), DirectX::SimpleMath::Vector2(0.0f, 1.0f)),   // 3:右下
 	DirectX::VertexPositionTexture(DirectX::SimpleMath::Vector3(-0.5f,  0.5f, 0.0f), DirectX::SimpleMath::Vector2(0.0f, 0.0f)),   // 2:左下
 };
-
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -73,8 +71,6 @@ NumberRenderer3D::NumberRenderer3D(
 	CreateRenderTexture();
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -84,8 +80,6 @@ NumberRenderer3D::~NumberRenderer3D()
 	m_batchEffect.reset();
 	m_inputLayout.Reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -98,8 +92,6 @@ void NumberRenderer3D::Initialize(const int& number)
 {
 	m_number = number;
 }
-
-
 
 /**
  * @brief 描画処理
@@ -232,8 +224,6 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 	//renderContext.spriteBatch->End();
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -245,8 +235,6 @@ void NumberRenderer3D::Finalize()
 {
 	m_texture = nullptr;
 }
-
-
 
 /**
  * @brief ビルボードの作成
@@ -275,8 +263,6 @@ void NumberRenderer3D::CreateBillboard(
 	m_billboard = rotY * m_billboard;
 }
 
-
-
 /**
  * @brief 表示形式を設定
  *
@@ -292,8 +278,6 @@ void NumberRenderer3D::SetDisplayMode(INumberRenderer::DisplayMode mode)
 	// レンダーテクスチャを作成
 	CreateRenderTexture();
 }
-
-
 
 /**
  * @brief レンダーテクスチャの作成

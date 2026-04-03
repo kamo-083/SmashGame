@@ -24,7 +24,6 @@
 #include "Source/Game/UI/Displays/StageResultUI.h"
 #include "Source/Game/UI/Displays/PauseUI.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -69,8 +68,6 @@ StageScene::StageScene(
 	);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -79,8 +76,6 @@ StageScene::~StageScene()
 	m_primitiveBatch.reset();
 	m_basicEffect.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -164,8 +159,6 @@ void StageScene::Initialize()
 	if (transition->IsClose())	transition->Open();
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -189,8 +182,6 @@ void StageScene::Update(float elapsedTime)
 		break;
 	}
 }
-
-
 
 /**
  * @brief 描画処理
@@ -235,8 +226,6 @@ void StageScene::Render(RenderContext& context, DebugFont* debugFont)
 	m_UIManager->Draw(context);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -269,8 +258,6 @@ void StageScene::Finalize()
 
 	m_textures.reset();
 }
-
-
 
 /**
  * @brief 深度ステンシルステートの作成
@@ -317,8 +304,6 @@ void StageScene::CreateDepthStencilState(ID3D11Device* device)
 	device->CreateDepthStencilState(&desc, m_depthStencilState_shadow.ReleaseAndGetAddressOf());
 }
 
-
-
 /**
  * @brief 影の設定
  *
@@ -352,8 +337,6 @@ void StageScene::SetupShadow(const RenderContext& context)
 	context.deviceContext->RSSetState(context.states->CullNone());
 }
 
-
-
 /**
  * @brief 影の描画
  *
@@ -375,8 +358,6 @@ void StageScene::DrawShadow(const DirectX::SimpleMath::Vector3& position, const 
 		vertexes.data(), vertexes.size()
 	);
 }
-
-
 
 /**
  * @brief 影用の頂点の作成
@@ -406,8 +387,6 @@ std::array<DirectX::VertexPositionTexture, StageScene::SHADOW_VERTEX_NUM> StageS
 
 	return vertexes;
 }
-
-
 
 /**
  * @brief オブジェクトの影を描画
@@ -456,8 +435,6 @@ void StageScene::DrawObjectsShadow(const RenderContext& context)
 
 	m_primitiveBatch->End();
 }
-
-
 
 /**
  * @brief ゲームプレイ中の更新
@@ -522,8 +499,6 @@ void StageScene::UpdateGameplay(float elapsedTime)
 		m_UIManager->GetPauseUI()->OpenPause();
 	}
 }
-
-
 
 /**
  * @brief ポーズ中の更新
@@ -593,8 +568,6 @@ void StageScene::UpdatePause(float elapsedTime)
 	}
 }
 
-
-
 /**
  * @brief リザルト中の更新
  *
@@ -623,8 +596,6 @@ void StageScene::UpdateResult(float elapsedTime)
 		ChangeScene("StageSelectScene");
 	}
 }
-
-
 
 /**
  * @brief キー入力による操作
@@ -709,8 +680,6 @@ void StageScene::KeyOperation()
 	}
 }
 
-
-
 /**
  * @brief キー操作モードの切り替え
  *
@@ -727,8 +696,6 @@ void StageScene::ChangeKeyMode()
 	m_UIManager->GetCameraUI()->Active(!m_UIManager->GetCameraUI()->IsActive());
 	m_UIManager->GetAttackUI()->SwitchUIMode();
 }
-
-
 
 /**
  * @brief 当たり判定のレイヤーフィルターの設定
@@ -752,8 +719,6 @@ void StageScene::SetupCollitionLayer()
 	M.matrix[(int)CollisionManager::Layer::EnemyBody][(int)CollisionManager::Layer::Trigger] = true;		// 敵とトリガー
 }
 
-
-
 /**
  * @brief エフェクトマネージャーの設定
  *
@@ -767,8 +732,6 @@ void StageScene::SetupEffects(DX::DeviceResources* pDR)
 	m_effectManager->LoadShaders(m_userResources->GetShaderManager());
 	m_effectManager->SetCamera(m_camera.get());
 }
-
-
 
 /**
  * @brief プレイヤーの設定
@@ -795,8 +758,6 @@ void StageScene::SetupPlayer(ResourceManager* pRM)
 	m_messenger->AddObject(m_player->GetListenerID(), m_player.get());
 }
 
-
-
 /**
  * @brief 敵の設定
  *
@@ -810,8 +771,6 @@ void StageScene::SetupEnemy()
 		m_userResources, m_collisionManager.get(), m_effectManager.get());
 	m_enemyManager->Initialize();
 }
-
-
 
 /**
  * @brief ステージの設定
@@ -828,8 +787,6 @@ void StageScene::SetupStage()
 		m_stageFilePath);
 }
 
-
-
 /**
  * @brief スカイドームの設定
  *
@@ -844,8 +801,6 @@ void StageScene::SetupSkydome()
 	m_sky->SetPosition(&m_player->GetPosition());
 }
 
-
-
 /**
  * @brief テクスチャの設定
  *
@@ -859,8 +814,6 @@ void StageScene::SetupTextures(ResourceManager* pRM)
 	m_textures = std::make_unique<Textures>();
 	m_textures->shadow = pRM->RequestDDS("shadow", "Others/shadow.dds");
 }
-
-
 
 /**
  * @brief 音声の設定

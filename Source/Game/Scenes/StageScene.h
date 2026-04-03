@@ -7,13 +7,11 @@
 // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
 #include "Source/Game/Message/Messenger.h"
 #include "Source/Game/Data/InputKeyLoader.h"
 #include "Source/Game/UI/Displays/ClearConditionsUI.h"
-
 
 // クラスの宣言 ===============================================================
 class Camera;
@@ -30,14 +28,13 @@ class StageResultUI;
 class OperationUI;
 class InputGuideUI;
 
-
 // クラスの定義 ===============================================================
 /**
  * @brief ステージシーン
  */
 class StageScene : public Scene
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// シーンの状態
 	enum class Overlay
@@ -66,8 +63,7 @@ public:
 	// 影用の高さ調整
 	static constexpr float SHADOW_HEIGHT_ADJUST = 0.01f;
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連	
 	// 切り替え操作のモード true:攻撃 false:カメラ
@@ -132,7 +128,6 @@ private:
 	// スカイドーム
 	std::unique_ptr<Sky> m_sky;
 
-
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
@@ -143,7 +138,6 @@ public:
 
 	// デストラクタ
 	~StageScene();
-
 
 // 操作
 public:
@@ -161,7 +155,6 @@ public:
 	
 // 取得/設定
 public:
-
 
 // 内部実装
 private:
@@ -195,7 +188,6 @@ private:
 
 	// キー操作モードの切り替え
 	void ChangeKeyMode();
-
 
 // 初期設定関連
 	// 当たり判定のレイヤーフィルターの設定

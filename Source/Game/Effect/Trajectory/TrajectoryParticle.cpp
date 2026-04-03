@@ -9,7 +9,6 @@
 #include "TrajectoryParticle.h"
 #include <random>
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -19,10 +18,7 @@
 TrajectoryParticle::TrajectoryParticle()
 	: IEffectParticle{}
 {
-
 }
-
-
 
 /**
  * @brief 更新処理

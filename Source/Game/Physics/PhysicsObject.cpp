@@ -1,9 +1,8 @@
 /**
  * @file   PhysicsObject.cpp
  *
- * @brief  物理演算に関するソースファイル
+ * @brief  物理オブジェクトに関するソースファイル
  */
-
 
 // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
@@ -21,7 +20,6 @@ PhysicsObject::PhysicsObject()
 	m_groundNormal{ DirectX::SimpleMath::Vector3::UnitY }
 {
 }
-
 
 /**
  * @brief 速度に加える力の計算
@@ -70,7 +68,6 @@ void PhysicsObject::CalculateForce(
 	ResetGroundInfo();
 }
 
-
 /**
  * @brief 跳ね返り処理
  *
@@ -99,7 +96,6 @@ void PhysicsObject::Reflection(
 	AddAngVelocity(n);
 }
 
-
 /**
  * @brief 転がり処理
  *
@@ -123,7 +119,6 @@ void PhysicsObject::RollDown(
 	velocity += acceleration * elapsedTime;
 }
 
-
 /**
  * @brief 表示するデバッグ情報の追加
  *
@@ -142,7 +137,6 @@ void PhysicsObject::DrawDebugFont(DebugFont* debugFont, int y)
 	debugFont->AddString(0, y, DirectX::Colors::White, L"externalForce = %f,%f,%f", m_externalForce.Get().x, m_externalForce.Get().y, m_externalForce.Get().z);
 }
 
-
 /**
  * @brief 接地面情報のリセット
  *
@@ -155,7 +149,6 @@ void PhysicsObject::ResetGroundInfo()
 	m_onGround = false;
 	m_groundNormal = DirectX::SimpleMath::Vector3::UnitY;
 }
-
 
 /**
  * @brief 法線が地面がどうかを返す
@@ -170,7 +163,6 @@ bool PhysicsObject::IsGroundNormal(const DirectX::SimpleMath::Vector3& normal)
 	if (normal.y >= groundCos) return true;
 	return false;
 }
-
 
 /**
  * @brief 接地面情報のリセット
@@ -188,7 +180,6 @@ void PhysicsObject::SetGroundInfo(const DirectX::SimpleMath::Vector3& normal)
 	}
 }
 
-
 /**
  * @brief 角速度の加算
  *
@@ -201,7 +192,6 @@ void PhysicsObject::AddAngVelocity(const DirectX::SimpleMath::Vector3& angVel)
 	m_angularVelocity += angVel;
 	ClampAngularVelocity();
 }
-
 
 /**
  * @brief 反射ベクトルの計算
@@ -217,7 +207,6 @@ DirectX::SimpleMath::Vector3 PhysicsObject::CalculateReflectionVector(
 {
 	return velocity - 2.0f * (velocity * normal) * normal;
 }
-
 
 /**
  * @brief 角速度の減衰
@@ -237,7 +226,6 @@ void PhysicsObject::DampingAngularVelocity()
 	if (m_angularVelocity.y < 0.01f) m_angularVelocity.y = 0.0f;
 	if (m_angularVelocity.z < 0.01f) m_angularVelocity.z = 0.0f;
 }
-
 
 /**
  * @brief 角速度の制限

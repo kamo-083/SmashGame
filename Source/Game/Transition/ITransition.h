@@ -7,16 +7,13 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/ShaderManager.h"
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Common/RenderContext.h"
 
-
 // クラスの宣言 ===============================================================
 class DeviceResources;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -24,7 +21,7 @@ class DeviceResources;
  */
 class ITransition
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// インプットレイアウト
 	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
@@ -36,8 +33,7 @@ public:
 		std::string path;	// ファイルパス
 	};
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 protected:
 	// ウィンドウサイズ
 	DirectX::SimpleMath::Vector2 m_windowSize;
@@ -65,9 +61,8 @@ protected:
 	// テクスチャのポインタ
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	ITransition(
@@ -79,7 +74,6 @@ public:
 
 	// デストラクタ
 	~ITransition();
-
 
 // 操作
 public:
@@ -94,7 +88,6 @@ public:
 
 	// 閉じる
 	void Close();
-
 
 // 取得/設定
 public:
@@ -117,7 +110,6 @@ public:
 
 	// 進行割合を返す
 	float GetRate() const;
-
 
 // 内部実装
 private:

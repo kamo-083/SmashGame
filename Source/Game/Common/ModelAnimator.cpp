@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "ModelAnimator.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -26,9 +25,7 @@ ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animat
 	m_isPlaying{ false },
 	m_playbackSpeed{ 1.0f }
 {
-
 }
-
 
 /**
  * @brief デストラクタ
@@ -38,7 +35,6 @@ ModelAnimator::~ModelAnimator()
 	m_model = nullptr;
 	m_animation = nullptr;
 }
-
 
 /**
  * @brief 初期化処理
@@ -76,7 +72,6 @@ void ModelAnimator::Initialize(float endTime, bool loop, float playbackSpeed)
 	m_playbackSpeed = playbackSpeed;
 }
 
-
 /**
  * @brief 更新処理
  *
@@ -110,7 +105,6 @@ void ModelAnimator::Update(float elapsedTime)
 		}
 	}
 }
-
 
 /**
  * @brief 描画処理
@@ -169,7 +163,6 @@ void ModelAnimator::Draw(const RenderContext& context, const DirectX::SimpleMath
 	);
 }
 
-
 /**
  * @brief 終了処理
  *
@@ -182,7 +175,6 @@ void ModelAnimator::Finalize()
 	m_model = nullptr;
 	m_animation = nullptr;
 }
-
 
 /**
  * @brief 再生

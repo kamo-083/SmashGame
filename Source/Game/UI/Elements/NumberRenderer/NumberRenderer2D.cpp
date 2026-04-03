@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "NumberRenderer2D.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -31,17 +30,12 @@ NumberRenderer2D::NumberRenderer2D(
 {
 }
 
-
-
 /**
  * @brief デストラクタ
  */
 NumberRenderer2D::~NumberRenderer2D()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -54,8 +48,6 @@ void NumberRenderer2D::Initialize(const int& number)
 {
 	m_number = number;
 }
-
-
 
 /**
  * @brief 描画処理
@@ -107,8 +99,6 @@ void NumberRenderer2D::Draw(const RenderContext& renderContext)
 
 	if (m_useBeginEnd) renderContext.spriteBatch->End();
 }
-
-
 
 /**
  * @brief 終了処理

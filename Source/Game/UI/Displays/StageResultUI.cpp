@@ -9,7 +9,6 @@
 #include "StageResultUI.h"
 #include "Source/Game/UI/Elements/NumberRenderer/NumberRenderer2D.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -23,20 +22,14 @@ StageResultUI::StageResultUI(AudioManager* pAM)
 	m_clearTime{},
 	m_audio{ pAM }
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 StageResultUI::~StageResultUI()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -86,8 +79,6 @@ void StageResultUI::Initialize(
 	m_enable = false;
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -102,8 +93,6 @@ void StageResultUI::Update(float elapsedTime)
 	// ウィジェットの更新
 	m_widget->Update(elapsedTime);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -149,8 +138,6 @@ void StageResultUI::Draw(const RenderContext& context)
 	m_number->Draw(context);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -163,8 +150,6 @@ void StageResultUI::Finalize()
 	if (m_widget) m_widget->Finalize();
 	m_widget.reset();
 }
-
-
 
 /**
  * @brief リザルト画面を表示
@@ -181,8 +166,6 @@ void StageResultUI::OpenResult()
 	m_audio.OnMessageAccepted(Message::MessageID::SE_STAGE_CLEAR);
 }
 
-
-
 /**
  * @brief クリアタイムの設定
  *
@@ -197,4 +180,3 @@ void StageResultUI::SetClearTime(float time)
 	m_clearTime.minute = totalSeconds / 60;	// 分
 	m_clearTime.second = totalSeconds % 60;	// 秒
 }
-

@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Object/Object.h"
 #include "Source/Game/Interface/IState.h"
@@ -40,7 +39,7 @@ class DebugFont;
  */
 class Player	: public Object
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	const float RADIUS;					//半径の大きさ
 	const float MAX_SPEED;				//最高速度
@@ -80,8 +79,7 @@ public:
 		const PlayerInfoLoader::PlayerInfo& info;	// 外部ファイルからの情報
 	};
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
@@ -161,8 +159,8 @@ private:
 	// 音声再生機能
 	AudioListener m_audio;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Player(
@@ -172,8 +170,7 @@ public:
 	// デストラクタ
 	~Player();
 
-
-	// 操作
+// 操作
 public:
 	// 初期化処理
 	void Initialize(const PlayerParams& param, const InputKeyLoader::InputKeyInfo& keyConfig);
@@ -210,8 +207,7 @@ public:
 	// 移動速度の制限
 	void LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max);
 
-
-	// 取得/設定
+// 取得/設定
 public:
 	// 攻撃の当たり判定の有効設定・取得
 	void SetAttackCollisionEnabled(bool enabled);
@@ -293,7 +289,6 @@ public:
 	IState* GetState_AttackBasic() { return m_basicAttackingState.get(); }			// 通常攻撃
 	IState* GetState_AttackRolling() { return m_rollingAttackingState.get(); }	// 転がり攻撃
 	IState* GetState_AttackHeavy() { return m_heavyAttackingState.get(); }			// 強攻撃
-
 
 	// 内部実装
 private:

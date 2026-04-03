@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "ClearConditionsUI.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -21,20 +20,14 @@ ClearConditionsUI::ClearConditionsUI(ConditionsType clearCondition)
 	CONDITIONS_TYPE{ clearCondition },
 	m_isIntroPlayed(false)
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 ClearConditionsUI::~ClearConditionsUI()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -82,8 +75,6 @@ void ClearConditionsUI::Initialize(
 	m_widget->Initialize(textureInfo.texture, data, m_textSize);
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -114,8 +105,6 @@ void ClearConditionsUI::Update(float elapsedTime)
 	}
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -144,8 +133,6 @@ void ClearConditionsUI::Draw(const RenderContext& context)
 	);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -158,4 +145,3 @@ void ClearConditionsUI::Finalize()
 	if (m_widget) m_widget->Finalize();
 	m_widget.reset();
 }
-

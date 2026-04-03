@@ -9,7 +9,6 @@
 #include "Ground.h"
 #include "Source/Game/Common/ResourceManager.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -33,8 +32,6 @@ Ground::Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS, Reso
 	m_model = pRM->RequestSDKMESH("ground", "ground.sdkmesh");
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -42,8 +39,6 @@ Ground::~Ground()
 {
 	m_geometricPrimitive.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -84,8 +79,6 @@ void Ground::Initialize(
 	m_collisionHandle = pCM->Add(desc);
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -122,8 +115,6 @@ void Ground::Draw(const RenderContext& context)
 	//	});	
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -136,8 +127,6 @@ void Ground::Finalize()
 	m_model = nullptr;
 	m_depthStencilState.Reset();
 }
-
-
 
 /**
  * @brief 高さを考慮した位置を返す
@@ -152,8 +141,6 @@ DirectX::SimpleMath::Vector3 Ground::GetHeight() const
 	pos.y += m_halfLength.y;
 	return pos;
 }
-
-
 
 /**
  * @brief 地面のグリッド描画

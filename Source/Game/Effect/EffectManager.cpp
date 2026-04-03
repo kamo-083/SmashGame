@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "EffectManager.h"
 
-
 // インプットレイアウトを設定
 const std::vector<D3D11_INPUT_ELEMENT_DESC> EffectManager::INPUT_LAYOUT =
 {
@@ -16,7 +15,6 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> EffectManager::INPUT_LAYOUT =
 	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0,  sizeof(DirectX::SimpleMath::Vector3) + sizeof(DirectX::SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
-
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -43,7 +41,6 @@ EffectManager::EffectManager(DX::DeviceResources* deviceResources, DirectX::Comm
 	alpha->SetPrivateData(WKPDID_D3DDebugObjectName, 26, "Effect.CommonStates.Alpha");
 }
 
-
 /**
  * @brief デストラクタ
  */
@@ -63,8 +60,6 @@ EffectManager::~EffectManager()
 	m_CBuffer.Reset();
 	m_states = nullptr;
 }
-
-
 
 /**
  * @brief シェーダーの読み込み
@@ -96,8 +91,6 @@ void EffectManager::LoadShaders(ShaderManager* shaderManager)
 	bd.CPUAccessFlags = 0;
 	m_pDeviceResources->GetD3DDevice()->CreateBuffer(&bd, nullptr, &m_CBuffer);
 }
-
-
 
 /**
  * @brief 更新処理
@@ -137,7 +130,6 @@ void EffectManager::Update(float elapsedTime)
 	}
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -159,7 +151,6 @@ void EffectManager::Draw(const DirectX::SimpleMath::Matrix& proj)
 		circle->effect->Draw(m_pCamera->GetView(), proj);
 	}
 }
-
 
 /**
  * @brief 終了処理
@@ -184,7 +175,6 @@ void EffectManager::Finalize()
 	m_CBuffer.Reset();
 	m_states = nullptr;
 }
-
 
 /**
  * @brief 軌跡エフェクトの生成
@@ -230,7 +220,6 @@ EffectManager::TrajectoryParticleData* EffectManager::CreateTrajectory(
 	// 作成したエフェクトのポインタを返す
 	return m_trajectory.back().get();
 }
-
 
 /**
  * @brief 円形エフェクトの生成

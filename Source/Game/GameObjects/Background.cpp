@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "Background.h"
 
-
 // インプットレイアウトを設定
 const std::vector<D3D11_INPUT_ELEMENT_DESC> Background::INPUT_LAYOUT =
 {
@@ -16,7 +15,6 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> Background::INPUT_LAYOUT =
 	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, sizeof(DirectX::SimpleMath::Vector3) + sizeof(DirectX::SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
-
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -58,8 +56,6 @@ Background::Background(
 	LoadTexture(pRM, tex);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -68,8 +64,6 @@ Background::~Background()
 	m_CBuffer.Reset();
 	m_batch.reset();
 }
-
-
 
 /**
  * @brief 更新処理
@@ -82,8 +76,6 @@ void Background::Update(float elapsedTime)
 {
 	m_timer += elapsedTime;
 }
-
-
 
 /**
  * @brief 描画処理
@@ -164,8 +156,6 @@ void Background::Draw(const RenderContext& context)
 	context.deviceContext->GSSetShader(nullptr, nullptr, 0);
 }
 
-
-
 /**
  * @brief シェーダーの読み込み
  *
@@ -192,8 +182,6 @@ void Background::LoadShader(
 	pSM->CreateGS(gs.key, gs.path);
 	m_gs = pSM->GetGS(gs.key);
 }
-
-
 
 /**
  * @brief テクスチャの読み込み

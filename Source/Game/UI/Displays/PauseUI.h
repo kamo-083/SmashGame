@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/UIElement.h"
 #include"Source/Game/Data/TextureData.h"
@@ -19,7 +18,7 @@
  */
 class PauseUI :public UIElement
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// 選択項目
 	enum class PAUSE_OPTIONS
@@ -52,7 +51,7 @@ public:
 	static constexpr float WINDOW_ANIM_TIME = 0.15f;	// ウィンドウ
 	static constexpr float TITLE_ANIM_TIME = 1.0f;		// タイトル
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// ウィンドウサイズ
 	DirectX::SimpleMath::Vector2 m_windowSize;
@@ -72,8 +71,8 @@ private:
 	// 音声再生機能
 	AudioListener m_audio;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	PauseUI(AudioManager* pAM);
@@ -81,7 +80,7 @@ public:
 	// デストラクタ
 	~PauseUI();
 
-	// 操作
+// 操作
 public:
 	// 初期化処理
 	void Initialize(
@@ -109,8 +108,7 @@ public:
 	// 選択項目を下に動かす
 	void SelectDown();
 
-
-	// 取得/設定
+// 取得/設定
 public:
 	// 選択中の項目を返す
 	PauseUI::PAUSE_OPTIONS& GetNowOption() { return m_options; }
@@ -118,8 +116,7 @@ public:
 	// 開いているかを返す
 	bool IsOpen() const { return m_isOpen; }
 
-
-	// 内部実装
+// 内部実装
 private:
 	// ウィジェットの初期設定
 	void SetupWidget();

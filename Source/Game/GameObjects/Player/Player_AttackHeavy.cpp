@@ -9,7 +9,6 @@
 #include "Player_AttackHeavy.h"
 #include"Player.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -27,10 +26,7 @@ Player_AttackHeavy::Player_AttackHeavy(Player* player, const AttackParam& param)
 	m_attackTime{ 0.0f },
 	m_stateType{ StateType::Attack }
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -65,7 +61,6 @@ void Player_AttackHeavy::Initialize(ResourceManager* pRM)
 		m_pPlayer->GetPosition().z - forward.z * m_pPlayer->GetRadius()));
 	m_pPlayer->GetAttackCollider()->SetRadius(m_pPlayer->GetRadius() * ATTACK_SIZE);
 }
-
 
 /**
  * @brief 更新処理
@@ -110,7 +105,6 @@ void Player_AttackHeavy::Update(const float& elapsedTime)
 	}
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -139,7 +133,6 @@ void Player_AttackHeavy::Render(const RenderContext& context)
 		m_pPlayer->GetSpherePrimitive()->Draw(world, context.view, context.proj, DirectX::Colors::Red, nullptr, true);
 	}
 }
-
 
 /**
  * @brief 終了処理

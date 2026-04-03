@@ -7,7 +7,6 @@
 // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include <memory>
 #include <string>
@@ -17,12 +16,10 @@
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Debug/DebugFont.h"
 
-
 // クラスの宣言 ===============================================================
 class Scene;
 class BlockTransition;
 class UITextureCatalog;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -30,13 +27,12 @@ class UITextureCatalog;
  */
 class SceneManager
 {
-// 定数の宣言 ---------------------------------------------------
+// クラス定数の宣言 ---------------------------------------------------
 private:
 	// シーン配列
 	using SceneCollection = std::unordered_map<std::string, std::unique_ptr<Scene>>;
 
 	static constexpr float TRANSITION_INTERVAL = 0.25f;
-
 
 // データメンバの宣言 -----------------------------------------------
 private:
@@ -61,7 +57,6 @@ private:
 	// シーン間の共有データ
 	std::unordered_map<std::string, std::string> m_shaerdData;
 
-
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
@@ -70,7 +65,6 @@ public:
 
 	// デストラクタ
 	~SceneManager();
-
 
 // 操作
 public:
@@ -89,7 +83,6 @@ public:
 	// シーン変更の要求
 	void RequestSceneChange(const std::string& nextSceneName);
 
-
 // 取得/設定
 public:
 	// ユーザーリソースのポインタの取得
@@ -106,7 +99,6 @@ public:
 
 	// 共有データの取得
 	std::string GetSharedData(const std::string& name);
-
 
 // 内部実装
 private:

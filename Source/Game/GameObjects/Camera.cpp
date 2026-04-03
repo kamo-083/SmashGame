@@ -9,7 +9,6 @@
 #include "Camera.h"
 #include "Source/Game/UI/Elements/Tween/Easing.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -27,20 +26,14 @@ Camera::Camera()
 	m_startAngle{ 0.0f },
 	m_endAngle{ 0.0f }
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 Camera::~Camera()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -72,8 +65,6 @@ void Camera::Initialize(DirectX::SimpleMath::Vector3* followTargetPos)
 	m_rotProgress= m_startAngle = m_endAngle = 0.0f;
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -99,8 +90,6 @@ void Camera::Update(float elapsedTime)
 	m_view = DirectX::SimpleMath::Matrix::CreateLookAt(m_eye, m_target, CAMERA_DEFAULT_UP);
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -118,8 +107,6 @@ void Camera::Draw(DebugFont* debugFont)
 	debugFont->AddString(820, 100, DirectX::Colors::White, L"rotation = %d", m_isRotation);
 	debugFont->AddString(970, 100, DirectX::Colors::White, L"leap = %f", m_rotProgress);
 }
-
-
 
 /**
  * @brief 回転操作
@@ -154,8 +141,6 @@ void Camera::Rotation(
 	m_rotProgress = 0.0f;
 }
 
-
-
 /**
  * @brief 回転の補間
  *
@@ -183,8 +168,6 @@ void Camera::SmoothCameraRotation(float elapsedTime)
 		m_angle.x = NormalizeAngle(m_angle.x);
 	}
 }
-
-
 
 /**
  * @brief イベントの受信
@@ -219,8 +202,6 @@ void Camera::OnMessageAccepted(Message::MessageID messageID)
 	m_rotProgress = 0.0f;
 }
 
-
-
 /**
  * @brief カメラの前方向ベクトルの取得
  *
@@ -235,8 +216,6 @@ DirectX::SimpleMath::Vector3 Camera::GetForward()
 
 	return m_forward;
 }
-
-
 
 /**
  * @brief 指定座標を中心にカメラ位置を回転
@@ -269,8 +248,6 @@ DirectX::SimpleMath::Vector3 Camera::RotateEyeAroundPoint(
 
 	return rotatedEye;
 }
-
-
 
 /**
  * @brief 角度の正規化

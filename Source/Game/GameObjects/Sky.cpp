@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "Sky.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -20,20 +19,14 @@ Sky::Sky()
 	m_skyDome{ nullptr },
 	m_pPosition{ nullptr }
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 Sky::~Sky()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -47,8 +40,6 @@ void Sky::Initialize(UserResources* pUR)
 	// スカイドームの読み込み
 	m_skyDome = pUR->GetResourceManager()->RequestSDKMESH("skyDome", "skyDome.sdkmesh");
 }
-
-
 
 /**
  * @brief 描画処理
@@ -85,8 +76,6 @@ void Sky::Draw(const RenderContext& context)
 		}
 	);
 }
-
-
 
 /**
  * @brief 終了処理

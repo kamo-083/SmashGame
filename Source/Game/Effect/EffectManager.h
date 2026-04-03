@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/DeviceResources.h"
 #include "Source/Game/GameObjects/Camera.h"
@@ -15,14 +14,13 @@
 #include "Source/Game/Effect/Trajectory/TrajectoryParticle.h"
 #include "Source/Game/Effect/Circle/CircleParticle.h"
 
-
 // クラスの定義 ===============================================================
 /**
  * @brief エフェクトマネージャー
  */
 class EffectManager
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// 軌跡エフェクトのデータ
 	struct TrajectoryParticleData
@@ -99,7 +97,7 @@ public:
 		DirectX::SimpleMath::Vector4 Diffuse;	// 基本色
 	};
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// ユーザーリソースのポインタ
 	DX::DeviceResources* m_pDeviceResources;
@@ -124,16 +122,14 @@ private:
 	ShaderManager::PixelShaderEntry* m_ps;		// ピクセルシェーダー
 	ShaderManager::GeometryShaderEntry* m_gs;	// ジオメトリシェーダー
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	EffectManager(DX::DeviceResources* deviceResources, DirectX::CommonStates* states);
 
 	// デストラクタ
 	~EffectManager();
-
 
 // 操作
 public:
@@ -158,7 +154,6 @@ public:
 	CircleParticleData* CreateCircle(
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture, const ParticleUtility::ParticleData& particleData,
 		DirectX::SimpleMath::Vector3* position, float range, int num, bool random, bool horizontal);
-
 
 // 取得/設定
 public:

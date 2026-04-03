@@ -14,13 +14,11 @@
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Debug/DebugFont.h"
 
-
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
 class Game final : public DX::IDeviceNotify
 {
 public:
-
     Game() noexcept(false);
     ~Game() = default;
 
@@ -55,7 +53,6 @@ public:
     void Shutdown();
 
 private:
-
     void Update(DX::StepTimer const& timer);
     void Render();
 

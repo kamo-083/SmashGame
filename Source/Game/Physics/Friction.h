@@ -7,10 +7,8 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"pch.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -18,11 +16,17 @@
  */
 class Friction
 {
+// クラス定数の宣言 -------------------------------------------------
 private:
-	static constexpr float GLOBAL_DYNAMIC_FLICTION = 0.95f;	// 動摩擦係数のデフォルト値
-	static constexpr float GLOBAL_STATIC_FLICTION = 1.0f;	// 静止摩擦係数のデフォルト値
-	static constexpr float EPSILON = 0.001f;				// 極端に小さな値
+	// 動摩擦係数のデフォルト値
+	static constexpr float GLOBAL_DYNAMIC_FLICTION = 0.95f;
+	// 静止摩擦係数のデフォルト値
+	static constexpr float GLOBAL_STATIC_FLICTION = 1.0f;
+	// 極端に小さな値
+	static constexpr float EPSILON = 0.001f;
 
+// データメンバの宣言 -----------------------------------------------
+private:
 	// 動摩擦係数
 	float m_dynamicFriction;
 	// 静止摩擦係数
@@ -30,6 +34,8 @@ private:
 	// 移動状態フラグ
 	bool m_moving;
 
+// メンバ関数の定義 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	/**
 	* @brief コンストラクタ
@@ -43,16 +49,15 @@ public:
 		m_staticFriction{ staticF },
 		m_moving{false}
 	{
-
 	}
-
 
 	/**
 	* @brief デストラクタ
 	*/
 	~Friction() = default;
 
-
+// 操作
+public:
 	/**
 	* @brief 外力に対して摩擦力を加算
 	*
@@ -100,7 +105,6 @@ public:
 		}
 	}
 
-
 	/**
 	* @brief 移動に対して摩擦力を加算
 	*
@@ -134,33 +138,6 @@ public:
 		}
 	}
 
-	
-	/**
-	* @brief 動摩擦係数を設定
-	*
-	* @param dynamicF	設定値
-	*	
-	* @return なし
-	*/
-	void SetDynamicFriction(float dynamicF)
-	{
-		m_dynamicFriction = dynamicF;
-	}
-
-
-	/**
-	* @brief 静止摩擦係数を設定
-	*
-	* @param staticF	設定値
-	*
-	* @return なし
-	*/
-	void SetStaticFriction(float staticF)
-	{
-		m_staticFriction = staticF;
-	}
-
-
 	/**
 	* @brief 動摩擦係数を基本値にリセット
 	*
@@ -173,6 +150,31 @@ public:
 		m_dynamicFriction = GLOBAL_DYNAMIC_FLICTION;
 	}
 
+// 取得/設定
+public:
+	/**
+	* @brief 動摩擦係数を設定
+	*
+	* @param dynamicF	設定値
+	*	
+	* @return なし
+	*/
+	void SetDynamicFriction(float dynamicF)
+	{
+		m_dynamicFriction = dynamicF;
+	}
+
+	/**
+	* @brief 静止摩擦係数を設定
+	*
+	* @param staticF	設定値
+	*
+	* @return なし
+	*/
+	void SetStaticFriction(float staticF)
+	{
+		m_staticFriction = staticF;
+	}
 
 	/**
 	* @brief 動摩擦係数を取得

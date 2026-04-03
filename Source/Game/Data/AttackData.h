@@ -1,7 +1,6 @@
 // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // 攻撃の種類
 enum class AttackType
 {
@@ -11,7 +10,6 @@ enum class AttackType
 
 	TYPE_NUM	// 種類数
 };
-
 
 inline AttackType& operator ++ (AttackType& type)
 {

@@ -9,7 +9,6 @@
 #include "InputHintUI.h"
 #include "Source/Game/UI/Elements/Atlas/KeyAtlas.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -22,10 +21,7 @@ InputHintUI::InputHintUI()
 	m_scale(1.0f),
 	m_actionTextRect{}
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
@@ -34,8 +30,6 @@ InputHintUI::~InputHintUI()
 {
 	m_textures.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -77,8 +71,6 @@ void InputHintUI::Initialize(
 	m_actionTextRect = ActionAtlas::GetRect(action, textSize);
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -108,8 +100,6 @@ void InputHintUI::Draw(const RenderContext& context)
 		m_textures->action.Get(), pos, &m_actionTextRect, DirectX::Colors::White, 0.0f, origin, m_scale);
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -119,10 +109,7 @@ void InputHintUI::Draw(const RenderContext& context)
  */
 void InputHintUI::Finalize()
 {
-
 }
-
-
 
 /**
  * @brief UI全体の横幅を取得
@@ -146,8 +133,6 @@ float InputHintUI::GetWidth()
 
 	return width;
 }
-
-
 
 /**
  * @brief 幅を算出

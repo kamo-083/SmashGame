@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "GroundEnemy_Attack.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -25,10 +24,7 @@ GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfo
 	DISTANCE_RAITO{ info.attack.distance_raito },
 	m_stateType{ StateType::Attack }
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -63,7 +59,6 @@ void GroundEnemy_Attack::Initialize(ResourceManager* pRM)
 	m_pGroundEnemy->GetAttackCollider()->SetRadius(ATTACK_SIZE);
 }
 
-
 /**
  * @brief 更新処理
  *
@@ -97,7 +92,6 @@ void GroundEnemy_Attack::Update(const float& elapsedTime)
 	}
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -126,7 +120,6 @@ void GroundEnemy_Attack::Render(const RenderContext& context)
 		m_pGroundEnemy->GetSpherePrimitive()->Draw(world, context.view, context.proj, DirectX::Colors::Red, nullptr, true);
 	}
 }
-
 
 /**
  * @brief 終了処理

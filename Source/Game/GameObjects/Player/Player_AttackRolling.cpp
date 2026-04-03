@@ -9,7 +9,6 @@
 #include "Player_AttackRolling.h"
 #include"Player.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -34,10 +33,7 @@ Player_AttackRolling::Player_AttackRolling(
 	m_stateType{ StateType::Attack },
 	m_direction{}
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -72,7 +68,6 @@ void Player_AttackRolling::Initialize(ResourceManager* pRM)
 	forward.Normalize();
 	m_moveForce = forward * GROUND_SPEED;
 }
-
 
 /**
  * @brief 更新処理
@@ -131,7 +126,6 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 	m_direction.Reset();
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -161,7 +155,6 @@ void Player_AttackRolling::Render(const RenderContext& context)
 	}
 }
 
-
 /**
  * @brief 終了処理
  *
@@ -174,8 +167,6 @@ void Player_AttackRolling::Finalize()
 	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
 }
-
-
 
 /**
  * @brief メッセージを処理

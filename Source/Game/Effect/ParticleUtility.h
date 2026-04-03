@@ -4,13 +4,20 @@
  * @brief  パーティクルユーティリティに関するヘッダファイル
  */
 
+ // 多重インクルードの防止 =====================================================
 #pragma once
 
+// ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/StepTimer.h"
 #include "Source/Game/Common/DeviceResources.h"
 
+// クラスの定義 ===============================================================
+/**
+ * @brief パーティクルユーティリティ
+ */
 class ParticleUtility
 {
+// クラス定数の宣言 -------------------------------------------------
 public:
 	struct EffectParam
 	{
@@ -25,6 +32,7 @@ public:
 		float life = 0.0f;
 	};
 
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
@@ -41,6 +49,8 @@ private:
 	// パラメータ一覧
 	ParticleData m_params;
 
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	ParticleUtility(
@@ -50,9 +60,13 @@ public:
 	// デストラクタ
 	~ParticleUtility() = default;
 
+// 操作
+public:
 	// 更新
 	bool Update(float elapsedTime);
 
+// 取得/設定
+public:
 	// 座標の取得
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_position; }
 	// 寿命の取得

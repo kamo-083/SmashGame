@@ -4,7 +4,6 @@
  * @brief  衝突判定のめり込み解決に関するソースファイル
  */
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "ResolveCollision.h"
@@ -130,7 +129,6 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 	}
 }
 
-
 /**
  * @brief 球と球の衝突を解決する
  *
@@ -223,7 +221,6 @@ void ResolveSphereVsSphere(CollisionManager::Node& a, CollisionManager::Node& b)
 		b.desc.callback.onResolved(b.handle, normal, mtv.distance);
 	}
 }
-
 
 /**
  * @brief OBBとOBBの衝突を解決する

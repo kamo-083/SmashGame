@@ -7,10 +7,8 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/Scene.h"
-
 
 // クラスの宣言 ===============================================================
 class UITextureCatalog;
@@ -19,14 +17,13 @@ class Button;
 class Background;
 class InputHintUI;
 
-
 // クラスの定義 ===============================================================
 /**
  * @brief タイトルシーン
  */
 class TitleScene : public Scene
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	static constexpr int BUTTONS = 2;	// ボタン数
 
@@ -53,8 +50,7 @@ public:
 	// BGMの音量
 	static constexpr float BGM_VOLUME = 0.5f;
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// システム関連
 	// UI使用画像のカタログ
@@ -76,7 +72,6 @@ private:
 	// 操作方法UI
 	std::vector<std::unique_ptr<InputHintUI>> m_inputHintUI;
 
-
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
@@ -86,8 +81,7 @@ public:
 	// デストラクタ
 	~TitleScene();
 
-
-	// 操作
+// 操作
 public:
 	// 初期化処理
 	void Initialize() override;
@@ -101,12 +95,10 @@ public:
 	// 終了処理
 	void Finalize() override;
 
-
-	// 取得/設定
+// 取得/設定
 public:
 
-
-	// 内部実装
+// 内部実装
 private:
 	// 指定したボタンのリセット
 	void ButtonReset(int buttonNum);

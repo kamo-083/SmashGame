@@ -4,6 +4,7 @@
  * @brief  パーティクルユーティリティに関するソースファイル
  */
 
+ // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "ParticleUtility.h"
 #include <SimpleMath.h>
@@ -13,7 +14,6 @@
 #include <WICTextureLoader.h>
 #include <CommonStates.h>
 #include <vector>
-
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -33,8 +33,6 @@ ParticleUtility::ParticleUtility(
 	m_color = params.start.color;
 	m_params = params;
 }
-
-
 
 /**
  * @brief 更新処理

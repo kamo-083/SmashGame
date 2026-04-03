@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "GroundEnemy_Bounce.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -21,8 +20,6 @@ GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
 	m_stateType{ StateType::Bounce }
 {
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -53,7 +50,6 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
 	// 軌跡エフェクトの出現をオンにする
 	m_pGroundEnemy->GetTrajectoryParticle()->SetSpawn(true);
 }
-
 
 /**
  * @brief 更新処理
@@ -92,7 +88,6 @@ void GroundEnemy_Bounce::Update(const float& elapsedTime)
 	}
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -112,7 +107,6 @@ void GroundEnemy_Bounce::Render(const RenderContext& context)
 	// モデルの描画
 	m_modelAnimator->Draw(context, world);
 }
-
 
 /**
  * @brief 終了処理

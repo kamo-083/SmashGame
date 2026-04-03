@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"
@@ -17,10 +16,8 @@
 #include"Source/Game/GameObjects/Camera.h"
 #include"Source/Game/Data/PlayerInputData.h"
 
-
 // クラスの宣言 ===============================================================
 class Player;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -28,15 +25,14 @@ class Player;
  */
 class Player_Walk :public IState
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	const float GROUND_SPEED;	// 移動速度(地面)
 	const float AIR_SPEED;		// 移動速度(空中)
 
 	static constexpr float ANIMATION_SPEED = 2.0f;	// アニメーションの再生速度
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// プレイヤー本体へのポインタ
 	Player* m_pPlayer;
@@ -56,9 +52,8 @@ private:
 	// 移動方向
 	InputDirection m_direction;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Player_Walk(
@@ -67,7 +62,6 @@ public:
 
 	// デストラクタ
 	~Player_Walk() = default;
-
 
 // 操作
 public:
@@ -86,12 +80,10 @@ public:
 	// メッセージを処理
 	void OnMessage(Message::MessageID messageID) override;
 
-
 // 取得/設定
 public:
 	// 状態の種類を取得
 	StateType GetStateType() const override { return m_stateType; }
-
 
 // 内部実装
 private:

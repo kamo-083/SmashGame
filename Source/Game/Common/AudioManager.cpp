@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "AudioManager.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -55,8 +54,6 @@ AudioManager::AudioManager()
 	}
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -73,7 +70,6 @@ AudioManager::~AudioManager()
 	MFShutdown();
 	CoUninitialize();
 }
-
 
 /**
  * @brief WAVファイルの読み込み
@@ -160,7 +156,6 @@ bool AudioManager::LoadWAV(const std::string& key, const std::string& filename)
 
 	return true;
 }
-
 
 /**
  * @brief MP3ファイルの読み込み
@@ -290,7 +285,6 @@ bool AudioManager::LoadMP3(const std::string& key, const std::string& filename)
 	return true;
 }
 
-
 /**
  * @brief 音声ファイルの再生
  *
@@ -330,7 +324,6 @@ void AudioManager::Play(const std::string& key, bool loop)
 	std::cout << "再生中: " << key << std::endl;
 }
 
-
 /**
  * @brief 音声ファイルの再生停止
  *
@@ -361,8 +354,6 @@ void AudioManager::Stop(const std::string& key)
 	std::cout << "停止: " << key << std::endl;
 }
 
-
-
 /**
  * @brief 音声ファイルの再生が再生されているか
  *
@@ -386,8 +377,6 @@ bool AudioManager::IsPlaying(const std::string& key) const
 
 	return state.BuffersQueued > 0;
 }
-
-
 
 /**
  * @brief 音量の設定
@@ -413,8 +402,6 @@ void AudioManager::SetVolume(const std::string& key, const float volume)
 
 	audio.pSourceVoice->FlushSourceBuffers();
 }
-
-
 
 /**
  * @brief ファイルパスの作成

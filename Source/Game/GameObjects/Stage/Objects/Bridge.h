@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
@@ -18,10 +17,8 @@
 #include "Source/Game/UI/Elements/Tween/Tween.h"
 #include "Source/Game/Object/AudioListener.h"
 
-
 // クラスの宣言 ===============================================================
 class AreaEffect;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -29,7 +26,7 @@ class AreaEffect;
  */
 class Bridge
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	// 各辺の長さの半分
 	static constexpr DirectX::SimpleMath::Vector3 HALF_LENGTH = { 1.0f, 1.5f, 0.25f };
@@ -40,8 +37,7 @@ private:
 	// アニメーションの再生時間
 	static constexpr float ANIMATION_TIME = 2.0f;
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 根本の座標
 	DirectX::SimpleMath::Vector3 m_rootPosition;
@@ -79,15 +75,14 @@ private:
 	// 音声再生機能
 	AudioListener m_audio;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Bridge(UserResources* pUR);
 
 	// デストラクタ
 	~Bridge();
-
 
 // 操作
 public:
@@ -107,7 +102,6 @@ public:
 
 	// 終了処理
 	void Finalize();
-
 
 // 取得/設定
 public:

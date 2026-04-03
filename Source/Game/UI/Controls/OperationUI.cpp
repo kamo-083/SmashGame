@@ -9,7 +9,6 @@
 #include "OperationUI.h"
 #include "Source/Game/UI/Elements/Atlas/KeyAtlas.h"	
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -21,19 +20,14 @@ OperationUI::OperationUI()
 	m_active{ false },
 	m_scale{ 0.0f }
 {
-
-};
-
+}
 
 /**
  * @brief デストラクタ
  */
 OperationUI::~OperationUI()
-{
-	
+{	
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -80,7 +74,6 @@ void OperationUI::Initialize(
 	}
 }
 
-
 /**
  * @brief 更新処理
  *
@@ -96,8 +89,6 @@ void OperationUI::Update(float elapsedTime)
 		widget->Update(elapsedTime);
 	}
 }
-
-
 
 /**
  * @brief 描画処理
@@ -145,8 +136,6 @@ void OperationUI::Draw(const RenderContext& context)
 	}
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -164,8 +153,6 @@ void OperationUI::Finalize()
 	}
 	m_widgets.clear();
 }
-
-
 
 /**
  * @brief 有効/無効化
@@ -185,8 +172,6 @@ void OperationUI::Active(bool active)
 	ChangeParam(m_active, *m_widgets[1].get());
 	ChangeParam(m_active, *m_widgets[2].get());
 }
-
-
 
 /**
  * @brief ウィジェットの初期設定
@@ -241,8 +226,6 @@ void OperationUI::SetupWidgets(
 	ChangeParam(m_active, *widget.get());
 	m_widgets[static_cast<int>(Layout::RIGHT)] = std::move(widget);
 }
-
-
 
 /**
  * @brief パラメータの切り替え

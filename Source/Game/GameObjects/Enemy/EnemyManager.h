@@ -7,8 +7,7 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
-// ヘッダファイルの読み込み ===================================================
+ // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/Effect/EffectManager.h"
@@ -17,11 +16,9 @@
 #include "Source/Game/GameObjects/Enemy/IEnemy.h"
 #include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
-
 // クラスの定義 ===============================================================
 class Player;
 class StageScene;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -29,7 +26,7 @@ class StageScene;
  */
 class EnemyManager
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// 出現時の設定データ
 	struct SpawnData
@@ -57,7 +54,7 @@ public:
 
 	static constexpr float KILL_HEIGHT = -50.0f;	// 落下判定する高さ
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// ユーザーリソースのポインタ
 	UserResources* m_pUserResources;
@@ -77,9 +74,8 @@ private:
 	// 種類ごとの情報
 	std::vector<EnemyInfoLoader::EnemyInfo> m_enemyInfo;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	EnemyManager(
@@ -89,7 +85,6 @@ public:
 
 	// デストラクタ
 	~EnemyManager();
-
 
 // 操作
 public:
@@ -108,7 +103,6 @@ public:
 	// 出現
 	EnemyData* Spawn(const SpawnData& spawnData);
 
-
 // 取得/設定
 public:	
 	// IDから敵を取得
@@ -117,10 +111,8 @@ public:
 	// 敵の数を取得
 	int GetEnemyNum() const { return static_cast<int>(m_enemies.size()); }
 
-
 // 内部実装
 private:
 	// 敵の生成
 	std::unique_ptr<IEnemy> Create(EnemyType type);
-
 };

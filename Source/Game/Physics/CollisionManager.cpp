@@ -9,7 +9,6 @@
 #include "CollisionManager.h"
 #include "Source/Game/Physics/ResolveCollision.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -19,9 +18,7 @@
 CollisionManager::CollisionManager()
 	: m_next{ 1 }
 {
-
 }
-
 
 /**
  * @brief 更新処理
@@ -170,7 +167,6 @@ void CollisionManager::Update()
 	}
 }
 
-
 /**
  * @brief 管理する当たり判定の追加
  *
@@ -200,7 +196,6 @@ uint32_t CollisionManager::Add(const Desc& desc)
 	return h;
 }
 
-
 /**
  * @brief 管理している当たり判定の除外
  *
@@ -216,7 +211,6 @@ void CollisionManager::Remove(uint32_t handle)
 		it->second.alive = false;
 	}
 }
-
 
 /**
  * @brief 指定した当たり判定の有効/無効化を設定
@@ -234,7 +228,6 @@ void CollisionManager::SetEnabled(uint32_t handle, bool enabled)
 		it->second.enabled = enabled;
 	}
 }
-
 
 /**
  * @brief 指定した当たり判定の有効/無効を取得
@@ -254,7 +247,6 @@ bool CollisionManager::IsEnabled(uint32_t handle)
 	return false;
 }
 
-
 /**
  * @brief 指定した当たり判定の連続ヒットの有効/無効を設定
  *
@@ -271,7 +263,6 @@ void CollisionManager::SetMultiHit(uint32_t handle, bool multiHit)
 		it->second.desc.isMultiHit = multiHit;
 	}
 }
-
 
 /**
  * @brief 指定した当たり判定の情報のポインタを取得

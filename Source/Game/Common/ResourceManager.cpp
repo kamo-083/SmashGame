@@ -13,7 +13,6 @@
 #include <fstream>
 #include <string>
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -24,8 +23,6 @@ ResourceManager::ResourceManager(ID3D11Device* pDevice)
 	: m_pDevice{ pDevice }
 {
 }
-
-
 
 /**
  * @brief デストラクタ
@@ -38,7 +35,6 @@ ResourceManager::~ResourceManager()
 	m_models.clear();
 	m_animations.clear();
 }
-
 
 /**
  * @brief PNGファイルの読み込み
@@ -80,7 +76,6 @@ bool ResourceManager::LoadPNG(const std::string& key, const std::string& filenam
 	return true;
 }
 
-
 /**
  * @brief DDSファイルの読み込み
  *
@@ -121,7 +116,6 @@ bool ResourceManager::LoadDDS(const std::string& key, const std::string& filenam
 	return true;
 }
 
-
 /**
  * @brief テクスチャの取得(PNG)
  * 
@@ -145,7 +139,6 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ResourceManager::RequestPNG(con
 	//キーに対応したテクスチャのポインタを返す
 	return m_textures[key].Get();
 }
-
 
 /**
  * @brief テクスチャの取得(DDS)
@@ -171,7 +164,6 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ResourceManager::RequestDDS(con
 	return m_textures[key].Get();
 }
 
-
 /**
  * @brief テクスチャの取得
  *
@@ -192,7 +184,6 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ResourceManager::GetTexture(con
 	//キーに対応したテクスチャのポインタを返す
 	return m_textures[key].Get();
 }
-
 
 /**
  * @brief SDKMESHファイルの読み込み
@@ -228,7 +219,6 @@ bool ResourceManager::LoadSDKMESH(const std::string& key, const std::string& fil
 	return true;
 }
 
-
 /**
  * @brief モデルの取得
  *
@@ -249,8 +239,6 @@ DirectX::Model* ResourceManager::GetModel(const std::string& key)
 	//キーに対応したモデルのポインタを返す
 	return m_models[key].get();
 }
-
-
 
 /**
  * @brief モデルの取得
@@ -275,7 +263,6 @@ DirectX::Model* ResourceManager::RequestSDKMESH(const std::string& key, const st
 	//キーに対応したモデルのポインタを返す
 	return m_models[key].get();
 }
-
 
 /**
  * @brief アニメーションファイルの読み込み
@@ -305,7 +292,6 @@ bool ResourceManager::LoadAnimation(const std::string& key, const std::string& f
 	return true;
 }
 
-
 /**
  * @brief アニメーションの取得
  *
@@ -326,8 +312,6 @@ DX::AnimationSDKMESH* ResourceManager::GetAnimation(const std::string& key)
 	//キーに対応したモデルのポインタを返す
 	return m_animations[key].get();
 }
-
-
 
 /**
  * @brief アニメーションの取得
@@ -353,7 +337,6 @@ DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, 
 	return m_animations[key].get();
 }
 
-
 /**
  * @brief string型をwchar_t型へ変換
  *
@@ -365,8 +348,6 @@ std::wstring ResourceManager::StringToWchar(const std::string& str)
 {
 	return std::wstring(str.begin(), str.end());
 }
-
-
 
 /**
  * @brief ファイルパスの作成(テクスチャ用)
@@ -390,8 +371,6 @@ std::string ResourceManager::ResolveFilePath_Tex(const std::string& filename)
 	return filePath;
 }
 
-
-
 /**
  * @brief ファイルパスの作成(モデル用)
  *
@@ -413,8 +392,6 @@ std::string ResourceManager::ResolveFilePath_Model(const std::string& filename)
 	}
 	return filePath;
 }
-
-
 
 /**
  * @brief ファイルパスの作成(アニメーション用)

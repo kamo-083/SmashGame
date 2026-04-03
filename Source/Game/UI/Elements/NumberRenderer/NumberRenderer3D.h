@@ -4,15 +4,13 @@
  * @brief  3Dのスプライト数字に関するヘッダファイル
  */
 
- // 多重インクルードの防止 =====================================================
+// 多重インクルードの防止 =====================================================
 #pragma once
-
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/UI/Elements/NumberRenderer/INumberRenderer.h"
 #include"Source/Game/Common/DeviceResources.h"
 #include"Source/Game/Common/RenderTexture.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -20,7 +18,7 @@
  */
 class NumberRenderer3D :public INumberRenderer
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// 頂点の配列
 	const static DirectX::VertexPositionTexture VERTECES[4];
@@ -28,7 +26,7 @@ public:
 	// 表示する数値全体の幅
 	const float DIGITS_WIDTH;
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// デバイスリソースのポインタ
 	DX::DeviceResources* m_pDR;
@@ -55,9 +53,8 @@ private:
 	// レンダーテクスチャ
 	std::unique_ptr<RenderTexture> m_renderTexture;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	NumberRenderer3D(
@@ -71,8 +68,7 @@ public:
 	// デストラクタ
 	~NumberRenderer3D();
 
-
-	// 操作
+// 操作
 public:
 	// 初期化処理
 	void Initialize(const int& number) override;
@@ -89,8 +85,7 @@ public:
 		const DirectX::SimpleMath::Vector3& up
 	);
 
-
-	// 取得/設定
+// 取得/設定
 public:
 	// 座標を設定
 	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_position = pos; }
@@ -101,8 +96,7 @@ public:
 	// 表示形式を設定
 	void SetDisplayMode(INumberRenderer::DisplayMode mode) override;
 
-
-	// 内部実装
+// 内部実装
 private:
 	// レンダーテクスチャの作成
 	void CreateRenderTexture();

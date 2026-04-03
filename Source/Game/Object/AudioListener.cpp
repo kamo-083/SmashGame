@@ -9,7 +9,6 @@
 #include "AudioListener.h"
 #include "Source/Game/Message/Message.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -21,16 +20,12 @@ AudioListener::AudioListener(AudioManager* pAM)
 {
 }
 
-
-
 /**
  * @brief デストラクタ
  */
 AudioListener::~AudioListener()
 {
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -43,8 +38,6 @@ void AudioListener::Initialize()
 {
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -55,8 +48,6 @@ void AudioListener::Initialize()
 void AudioListener::Finalize()
 { 
 }
-
-
 
 /**
  * @brief メッセージの受信

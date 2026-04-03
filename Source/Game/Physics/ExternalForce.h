@@ -7,10 +7,8 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"pch.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -18,10 +16,16 @@
  */
 class ExternalForce
 {
+// クラス定数の宣言 -------------------------------------------------
+private:
+
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 外力の値
 	DirectX::SimpleMath::Vector3 m_externalForceValue;
 
+// メンバ関数の定義 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	/**
 	* @brief コンストラクタ
@@ -31,16 +35,15 @@ public:
 	ExternalForce()
 		: m_externalForceValue{ DirectX::SimpleMath::Vector3::Zero }
 	{
-
 	}
-
 	
 	/**
 	* @brief デストラクタ
 	*/
 	~ExternalForce() = default;
 
-
+// 操作
+public:
 	/**
 	* @brief 対象に外力を加算
 	*
@@ -52,20 +55,6 @@ public:
 	{
 		force += m_externalForceValue;
 	}
-
-
-	/**
-	* @brief 外力の設定
-	*
-	* @param force	設定値
-	*
-	* @return なし
-	*/
-	void Set(const DirectX::SimpleMath::Vector3& force)
-	{
-		m_externalForceValue = force;
-	}
-
 
 	/**
 	* @brief 外力の加算
@@ -90,6 +79,20 @@ public:
 		m_externalForceValue = DirectX::SimpleMath::Vector3::Zero;
 	}
 
+
+// 取得/設定
+public:
+	/**
+	* @brief 外力の設定
+	*
+	* @param force	設定値
+	*
+	* @return なし
+	*/
+	void Set(const DirectX::SimpleMath::Vector3& force)
+	{
+		m_externalForceValue = force;
+	}
 
 	/**
 	* @brief 外力の値を取得

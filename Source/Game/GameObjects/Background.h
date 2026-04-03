@@ -7,12 +7,10 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/ResourceManager.h"
 #include"Source/Game/Common/ShaderManager.h"
 #include"Source/Game/Common/RenderContext.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -54,8 +52,7 @@ private:
 		DirectX::SimpleMath::Vector3 Dummy;
 	};
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// バッファ
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_CBuffer;
@@ -79,9 +76,8 @@ private:
 	// 経過時間
 	float m_timer;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Background(
@@ -93,7 +89,6 @@ public:
 
 	// デストラクタ
 	~Background();
-
 
 // 操作
 public:
@@ -110,7 +105,6 @@ public:
 
 	// テクスチャの読み込み
 	void LoadTexture(ResourceManager* pRM, const ResourcesDesc& desc);
-
 
 // 取得/設定
 public:

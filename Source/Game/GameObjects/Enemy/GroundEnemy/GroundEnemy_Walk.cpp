@@ -10,7 +10,6 @@
 #include "Source/Game/GameObjects/Enemy/IEnemy.h"
 #include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -23,10 +22,7 @@ GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy, const EnemyInfoLoad
 	m_pGroundEnemy{ groundEnemy },
 	m_stateType{ StateType::Walk }
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -51,7 +47,6 @@ void GroundEnemy_Walk::Initialize(ResourceManager* pRM)
 	m_modelAnimator->Initialize();
 	m_modelAnimator->Play();
 }
-
 
 /**
  * @brief 更新処理
@@ -107,7 +102,6 @@ void GroundEnemy_Walk::Update(const float& elapsedTime)
 	}
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -127,7 +121,6 @@ void GroundEnemy_Walk::Render(const RenderContext& context)
 	// モデルの描画
 	m_modelAnimator->Draw(context, world);
 }
-
 
 /**
  * @brief 終了処理

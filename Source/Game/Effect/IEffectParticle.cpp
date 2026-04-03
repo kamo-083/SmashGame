@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "IEffectParticle.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -30,9 +29,7 @@ IEffectParticle::IEffectParticle()
 	m_timer(0.0f),
 	m_isActive(false)
 {
-
 }
-
 
 /**
  * @brief エフェクトの作成
@@ -91,7 +88,6 @@ void IEffectParticle::Create(
 	};
 }
 
-
 /**
  * @brief ビルボードの作成
  *
@@ -128,8 +124,6 @@ void IEffectParticle::CreateBillboard(
 	m_cameraPosition = eye;
 	m_cameraTarget = target;
 }
-
-
 
 /**
  * @brief 描画処理

@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include <iostream>
 #include <fstream>
@@ -26,14 +25,13 @@
 
 #include <unordered_map>
 
-
 // クラスの定義 ===============================================================
 /**
  * @brief 音声の読込/操作
  */
 class AudioManager
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	struct WAVHeader {
 		char riff[4];            //"RIFF"文字列
@@ -60,23 +58,21 @@ private:
 		IXAudio2SourceVoice* pSourceVoice = nullptr;	//再生用のソースボイス
 	};
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	IXAudio2* m_pXAudio2;						//XAudio2エンジンのポインタ
 	IXAudio2MasteringVoice* m_pMasteringVoice;	//マスタリングボイス
 
 	std::unordered_map<std::string, AudioData> m_sounds;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	AudioManager();
 
 	// デストラクタ
 	~AudioManager();
-
 
 // 操作
 public:
@@ -98,10 +94,8 @@ public:
 	// 音量の設定
 	void SetVolume(const std::string& key, const float volume);
 
-
 // 内部実装
 private:
 	// ファイルパスの作成
 	std::string ResolveFilePath(const std::string& filename);
-
 };

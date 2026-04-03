@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "Button.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -18,20 +17,14 @@
 Button::Button()
 	: UIElement()
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 Button::~Button()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -57,8 +50,6 @@ void Button::Initialize(
 	m_operate = operate;
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -72,8 +63,6 @@ void Button::Update(float elapsedTime)
 	m_widget->Update(elapsedTime);
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -86,8 +75,6 @@ void Button::Draw(const RenderContext& context)
 	// ウィジェットの描画
 	m_widget->Draw(context.spriteBatch);
 }
-
-
 
 /**
  * @brief 終了処理
@@ -104,8 +91,6 @@ void Button::Finalize()
 	m_operate = nullptr;
 }
 
-
-
 /**
  * @brief 押された時の処理
  *
@@ -118,8 +103,6 @@ void Button::Press()
 	if (m_operate) m_operate();
 }
 
-
-
 /**
  * @brief トゥイーンアニメーションのリセット
  *
@@ -131,8 +114,6 @@ void Button::Reset()
 {
 	m_widget->TweenReset();
 }
-
-
 
 /**
  * @brief テクスチャの設定

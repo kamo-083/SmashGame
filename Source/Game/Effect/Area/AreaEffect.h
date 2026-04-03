@@ -7,12 +7,10 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/UserResources.h"
 #include"Source/Game/Common/ShaderManager.h"
 #include"Source/Game/Common/RenderContext.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -20,7 +18,7 @@
  */
 class AreaEffect
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	// インプットレイアウト
 	static const std::vector<D3D11_INPUT_ELEMENT_DESC> INPUT_LAYOUT;
@@ -45,8 +43,7 @@ private:
 		DirectX::SimpleMath::Color color;		// 色
 	};
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 中心位置
 	DirectX::SimpleMath::Vector3 m_position;
@@ -71,9 +68,8 @@ private:
 	// 色
 	DirectX::SimpleMath::Color m_color;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	AreaEffect(UserResources* pUR, const SetupDesc& desc);
@@ -81,7 +77,6 @@ public:
 
 	// デストラクタ
 	~AreaEffect();
-
 
 // 操作
 public:
@@ -106,10 +101,8 @@ public:
 	void SetColor(const DirectX::SimpleMath::Color& color) { m_color = color; }
 	DirectX::SimpleMath::Color GetColor() { return m_color; }
 
-
 // 内部実装
 private:
 	// シェーダーの読み込み
 	void LoadShaders(ShaderManager* shaderManager, ID3D11Device* device);
-
 };

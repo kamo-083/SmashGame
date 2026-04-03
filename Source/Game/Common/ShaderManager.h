@@ -7,12 +7,10 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include<unordered_map>
 #include<string>
 #include<vector>
-
 
 // クラスの定義 ===============================================================
 /**
@@ -20,7 +18,7 @@
  */
 class ShaderManager
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// 頂点シェーダーの情報
 	struct VertexShaderEntry
@@ -43,7 +41,7 @@ public:
 	};
 
 
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// デバイスのポインタ
 	ID3D11Device1* m_pDevice;
@@ -54,8 +52,8 @@ private:
 	std::unordered_map<std::string, GeometryShaderEntry> m_geometryShaders;	// ジオメトリシェーダー
 
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	ShaderManager(ID3D11Device1* device);
@@ -72,7 +70,6 @@ public:
 	bool CreatePS(const std::string& name, const std::string& filePath);	// ピクセルシェーダー
 	bool CreateGS(const std::string& name, const std::string& filePath);	// ジオメトリシェーダー
 
-
 // 取得/設定
 public:
 	// シェーダーの取得
@@ -87,5 +84,4 @@ private:
 
 	// string型をwchar_t型へ変換
 	std::wstring StringToWchar(const std::string& str);
-
 };

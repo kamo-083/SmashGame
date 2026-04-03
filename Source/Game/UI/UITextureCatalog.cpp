@@ -9,7 +9,6 @@
 #include "UITextureCatalog.h"
 #include "Source/Game/Common/ResourceManager.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -20,9 +19,7 @@ UITextureCatalog::UITextureCatalog()
 	: 
 	m_loaded(false)
 {
-
 }
-
 
 
 /**
@@ -32,7 +29,6 @@ UITextureCatalog::~UITextureCatalog()
 {
 	m_textures.reset();
 }
-
 
 
 /**

@@ -16,7 +16,6 @@
 #include "Source/Game/UI/Displays/Button.h"
 #include "Source/Game/UI/Displays/InputHintUI.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -30,20 +29,14 @@ TitleScene::TitleScene(SceneManager* pSM, UserResources* pUR)
 	m_textureCatalog(pSM->GetUITextureCatalog()),
 	m_selectButton{ 0 }
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 TitleScene::~TitleScene()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -100,8 +93,6 @@ void TitleScene::Initialize()
 	if (transition->IsClose())	transition->Open();
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -153,8 +144,6 @@ void TitleScene::Update(float elapsedTime)
 	}
 }
 
-
-
 /**
  * @brief 描画処理
  *
@@ -194,8 +183,6 @@ void TitleScene::Render(RenderContext& context, DebugFont* debugFont)
 	context.spriteBatch->End();
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -223,8 +210,6 @@ void TitleScene::Finalize()
 	m_background.reset();
 }
 
-
-
 /**
  * @brief 指定したボタンのアニメーションをリセット
  *
@@ -237,8 +222,6 @@ void TitleScene::ButtonReset(int buttonNum)
 	m_buttons[buttonNum]->Reset();
 	m_buttons[buttonNum]->Update(0.0f);
 }
-
-
 
 /**
  * @brief 選択ボタンの変更(上)
@@ -257,8 +240,6 @@ void TitleScene::SelectButtonUp()
 	if (m_selectButton < 0) m_selectButton = BUTTONS - 1;
 }
 
-
-
 /**
  * @brief 選択ボタンの変更(下)
  *
@@ -275,8 +256,6 @@ void TitleScene::SelectButtonDown()
 	m_selectButton++;
 	if (m_selectButton == BUTTONS) m_selectButton = 0;
 }
-
-
 
 /**
  * @brief ボタンの設定
@@ -339,8 +318,6 @@ void TitleScene::SetupBotton(float windowHalfWidth)
 	m_buttons.push_back(std::move(exit));
 }
 
-
-
 /**
  * @brief 背景の設定
  *
@@ -367,8 +344,6 @@ void TitleScene::SetupBackground(
 	);
 }
 
-
-
 /**
  * @brief 音声の設定
  *
@@ -387,8 +362,6 @@ void TitleScene::SetupAudio(AudioManager* pAM)
 	// BGMの再生
 	if (!pAM->IsPlaying("title_selectBGM")) pAM->Play("title_selectBGM", true);
 }
-
-
 
 /**
  * @brief 操作UIの設定

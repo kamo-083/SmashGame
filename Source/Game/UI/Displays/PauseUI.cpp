@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "PauseUI.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -22,20 +21,14 @@ PauseUI::PauseUI(AudioManager* pAM)
 	m_options(PAUSE_OPTIONS::NONE),
 	m_audio{ pAM }
 {
-
 }
-
-
 
 /**
  * @brief デストラクタ
  */
 PauseUI::~PauseUI()
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -68,8 +61,6 @@ void PauseUI::Initialize(
 	SetupWidget();
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -85,8 +76,6 @@ void PauseUI::Update(float elapsedTime)
 	m_widget->Update(elapsedTime);			// 背景
 	m_titleWidget->Update(elapsedTime);		// タイトル
 }
-
-
 
 /**
  * @brief 描画処理
@@ -132,8 +121,6 @@ void PauseUI::Draw(const RenderContext& context)
 	}
 }
 
-
-
 /**
  * @brief 終了処理
  *
@@ -152,8 +139,6 @@ void PauseUI::Finalize()
 	m_textures.reset();
 }
 
-
-
 /**
  * @brief ポーズを開く
  *
@@ -170,8 +155,6 @@ void PauseUI::OpenPause()
 	// フラグを開いている状態に設定
 	m_isOpen = true;
 }
-
-
 
 /**
  * @brief ポーズを閉じる
@@ -192,8 +175,6 @@ void PauseUI::ClosePause()
 	// 選択項目を初期化
 	m_options = PAUSE_OPTIONS::RETURN_STAGE;
 }
-
-
 
 /**
  * @brief 選択項目を上に動かす
@@ -216,8 +197,6 @@ void PauseUI::SelectUp()
 	m_audio.OnMessageAccepted(Message::MessageID::SE_CURSOR);
 }
 
-
-
 /**
  * @brief 選択項目を下に動かす
  *
@@ -238,8 +217,6 @@ void PauseUI::SelectDown()
 	// SEを生成
 	m_audio.OnMessageAccepted(Message::MessageID::SE_CURSOR);
 }
-
-
 
 /**
  * @brief ウィジェットの初期設定

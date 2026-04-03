@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "UIDimmer.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -39,8 +38,6 @@ UIDimmer::UIDimmer(DX::DeviceResources* pDR)
 	CreateVertexes(pDR->GetOutputSize(), 0.0f);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -48,8 +45,6 @@ UIDimmer::~UIDimmer()
 {
 	m_batch.reset();
 }
-
-
 
 /**
  * @brief 描画処理
@@ -60,21 +55,18 @@ UIDimmer::~UIDimmer()
  */
 void UIDimmer::Draw(const RenderContext& context)
 {
+	// エフェクトを設定
 	context.deviceContext->OMSetBlendState(context.states->NonPremultiplied(), nullptr, 0xFFFFFFFF);
 	context.deviceContext->OMSetDepthStencilState(context.states->DepthNone(), 0);
 	context.deviceContext->RSSetState(context.states->CullNone());
-
 	m_basicEffect->Apply(context.deviceContext);
 	context.deviceContext->IASetInputLayout(m_inputLayout.Get());
 
+	// 描画
 	m_batch->Begin();
-
 	m_batch->DrawQuad(m_vertexes[0], m_vertexes[1], m_vertexes[2], m_vertexes[3]);
-
 	m_batch->End();
 }
-
-
 
 /**
  * @brief 不透明度の設定 (値を直接設定)
@@ -91,8 +83,6 @@ void UIDimmer::SetOpacity(float opacity)
 		v.color.w = std::min(std::max(opacity, 0.0f), 1.0f);	// ０～１に収める
 	}
 }
-
-
 
 /**
  * @brief 不透明度の設定 (イージングを使用)
@@ -116,8 +106,6 @@ void UIDimmer::SetOpacity(float time, Easing::EaseType type, float maxOpacity)
 		v.color.w = opacity;
 	}
 }
-
-
 
 /**
  * @brief 頂点データの作成

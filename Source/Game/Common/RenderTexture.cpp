@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "RenderTexture.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -22,9 +21,7 @@ RenderTexture::RenderTexture()
 	m_defaultRTV(nullptr),
 	m_defaultDSV(nullptr)
 {
-
 }
-
 
 /**
  * @brief デストラクタ
@@ -34,7 +31,6 @@ RenderTexture::~RenderTexture()
 	m_defaultRTV = nullptr;
 	m_defaultDSV = nullptr;
 }
-
 
 /**
  * @brief 初期化処理
@@ -106,7 +102,6 @@ bool RenderTexture::Initialize(
 	return true;
 }
 
-
 /**
  * @brief 終了処理
  *
@@ -116,9 +111,7 @@ bool RenderTexture::Initialize(
  */
 void RenderTexture::Finalize()
 {
-
 }
-
 
 /**
  * @brief レンダーテクスチャのRTVをレンダーターゲットに設定
@@ -135,7 +128,6 @@ void RenderTexture::SetRTVTexture(ID3D11DeviceContext* context, ID3D11DepthStenc
 	context->OMSetRenderTargets(1, &rtv, depthStencilView);
 }
 
-
 /**
  * @brief 通常のRTVをレンダーターゲットに設定
  *
@@ -151,7 +143,6 @@ void RenderTexture::SetRTVDefault(ID3D11DeviceContext* context, ID3D11DepthStenc
 	if (!depthStencilView) depthStencilView = m_defaultDSV;
 	context->OMSetRenderTargets(1, &rtv, depthStencilView);
 }
-
 
 /**
  * @brief レンダーターゲットのクリア

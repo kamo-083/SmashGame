@@ -20,7 +20,6 @@
 #include "Source/Game/GameObjects/Player/Player_AttackHeavy.h"
 #include "Source/Debug/DebugFont.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -61,8 +60,6 @@ Player::Player(
 	SetupEffects(pEM, pUR->GetResourceManager());
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -70,8 +67,6 @@ Player::~Player()
 {
 	m_sphere.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -128,8 +123,6 @@ void Player::Initialize(const PlayerParams& param, const InputKeyLoader::InputKe
 	SetupState(param.pCamera, param.info);
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -142,8 +135,6 @@ void Player::Update(const float& elapsedTime)
 	// 現在の状態を更新する
 	m_currentState->Update(elapsedTime);
 }
-
-
 
 /**
  * @brief 描画処理
@@ -164,8 +155,6 @@ void Player::Draw(const RenderContext& context, DebugFont* debugFont)
 	debugFont->AddString(0, 110, DirectX::Colors::Cyan, L"ground = %d", static_cast<int>(m_physics->IsOnGround()));
 	debugFont->AddString(140, 110, DirectX::Colors::Cyan, L"angVel = %f", m_physics->GetAngVelocity());
 }
-
-
 
 /**
  * @brief 終了処理
@@ -207,8 +196,6 @@ void Player::Finalize()
 	m_pCollisionManager = nullptr;
 }
 
-
-
 /**
  * @brief 状態の切り替え
  *
@@ -229,8 +216,6 @@ void Player::ChangeState(IState* newState)
 	// 状態を初期化
 	m_currentState->Initialize(m_pResourceManager);
 }
-
-
 
 /**
  * @brief 攻撃の切り替え
@@ -253,8 +238,6 @@ void Player::ChangeAttack(Message::MessageID messageID)
 	// UIに変更を反映
 	m_pAttackUI->ChangeAttack(m_attackType);
 }
-
-
 
 /**
  * @brief 攻撃処理
@@ -292,7 +275,6 @@ void Player::Attack()
 	}
 }
 
-
 /**
  * @brief 攻撃終了
  *
@@ -307,7 +289,6 @@ void Player::AttackCancel()
 	SetAttackCollisionEnabled(false);
 	SetAttackCollisionMultiHit(false);
 }
-
 
 /**
  * @brief リスポーン
@@ -343,8 +324,6 @@ void Player::Respawn()
 	ChangeState(m_idlingState.get());
 }
 
-
-
 /**
  * @brief イベントの受信
  *
@@ -357,8 +336,6 @@ void Player::OnMessageAccepted(Message::MessageID messageID)
 	// 現在の状態にメッセージを渡す
 	m_currentState->OnMessage(messageID);
 }
-
-
 
 /**
  * @brief 移動方向を計算
@@ -394,8 +371,6 @@ DirectX::SimpleMath::Vector3 Player::MoveDirection(int x, int z, Camera* camera)
 	return direction;
 }
 
-
-
 /**
  * @brief 移動速度の制限
  *
@@ -411,8 +386,6 @@ void Player::LimitVelocity(DirectX::SimpleMath::Vector3& velocity, float max)
 	velocity.z = std::min(std::max(velocity.z, -max), max);
 }
 
-
-
 /**
  * @brief 攻撃判定の有効/無効化
  *
@@ -424,8 +397,6 @@ void Player::SetAttackCollisionEnabled(bool enabled)
 {
 	m_pCollisionManager->SetEnabled(m_handleAttack, enabled);
 }
-
-
 
 /**
  * @brief 攻撃判定の有効/無効を取得
@@ -439,8 +410,6 @@ bool Player::GetAttackCollisionEnabled()
 	return m_pCollisionManager->IsEnabled(m_handleAttack);
 }
 
-
-
 /**
  * @brief 攻撃判定の連続ヒットの有効/無効化
  *
@@ -452,8 +421,6 @@ void Player::SetAttackCollisionMultiHit(bool multiHit)
 {
 	m_pCollisionManager->SetMultiHit(m_handleAttack, multiHit);
 }
-
-
 
 /**
  * @brief 移動キーが押されているか
@@ -472,8 +439,6 @@ bool Player::PressMoveKey(DirectX::Keyboard::KeyboardStateTracker* pKbTracker) c
 		   keyState.IsKeyDown(m_keyConfig.move_right) ||
 		   keyState.IsKeyDown(m_keyConfig.move_left);
 }
-
-
 
 /**
  * @brief 敵の攻撃で吹っ飛ぶ
@@ -511,8 +476,6 @@ void Player::SmashEnemyAttack(const uint32_t& handle)
 	ChangeState(m_idlingState.get());
 }
 
-
-
 /**
  * @brief 地面や壁との反射
  *
@@ -540,8 +503,6 @@ void Player::ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal)
 		break;
 	}
 }
-
-
 
 /**
  * @brief エフェクトの設定
@@ -588,8 +549,6 @@ void Player::SetupEffects(EffectManager* pEM, ResourceManager* pRM)
 		true
 	);
 }
-
-
 
 /**
  * @brief 当たり判定の設定
@@ -642,8 +601,6 @@ void Player::SetupCollision(CollisionManager* pCM)
 	m_pCollisionManager->SetEnabled(m_handleAttack, false);
 }
 
-
-
 /**
  * @brief 状態の設定
  *
@@ -695,8 +652,6 @@ void Player::SetupState(Camera* pCamera, const PlayerInfoLoader::PlayerInfo& inf
 	m_currentState = m_idlingState.get();
 	m_currentState->Initialize(m_pResourceManager);
 }
-
-
 
 /**
  * @brief モデル・アニメーションの設定

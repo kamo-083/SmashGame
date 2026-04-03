@@ -7,7 +7,6 @@
 // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Interface/IState.h"
 #include"Source/Game/Common/ResourceManager.h"
@@ -29,7 +28,7 @@ class StageScene;
  */
 class IEnemy
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 public:
 	// プレイヤーの距離・向き
 	struct PlayerRelationData
@@ -50,8 +49,7 @@ protected:
 	static constexpr float ANGULAR_VELOCITY = 10.0f;	// 角速度
 	static constexpr float SCALE = 0.005f;				// モデルのスケール
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 protected:
 	// 現在の状態へのポインタ
 	IState* m_currentState;
@@ -101,8 +99,8 @@ protected:
 	// 音声再生機能
 	AudioListener m_audio;
 
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	IEnemy(EnemyInfoLoader::EnemyInfo info, AudioManager* pAM)
@@ -129,7 +127,6 @@ public:
 
 	// デストラクタ
 	virtual ~IEnemy() = default;
-
 
 // 操作
 public:

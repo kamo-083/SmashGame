@@ -7,7 +7,6 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/Data/TextureData.h"
@@ -15,7 +14,6 @@
 #include "Source/Game/UI/Elements/Atlas/ActionAtlas.h"
 #include "Source/Game/UI/Controls/OperationUI.h"
 #include "Source/Game/UI/Displays/ClearConditionsUI.h"
-
 
 // クラスの宣言 ===============================================================
 class UITextureCatalog;
@@ -33,7 +31,7 @@ class AudioManager;
  */
 class UIManager
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	// ディマーの暗さ
 	static constexpr float DIMMER_DARKNESS = 0.5f;
@@ -60,8 +58,7 @@ private:
 		static constexpr float TEXT_SCALE = 0.25f;
 	};
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// ウィンドウサイズ
 	DirectX::SimpleMath::Vector2 m_windowSize;
@@ -90,9 +87,8 @@ private:
 	// 操作方法UI
 	std::vector<std::unique_ptr<InputHintUI>> m_inputHintUI;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	UIManager(
@@ -101,7 +97,6 @@ public:
 
 	// デストラクタ
 	~UIManager();
-
 
 // 操作
 public:
@@ -123,7 +118,6 @@ public:
 	// 終了処理
 	void Finalize();
 
-
 // 取得/設定
 public:
 	// ウィンドウサイズの設定
@@ -140,7 +134,6 @@ public:
 
 	// ポーズ画面UIの取得
 	PauseUI* GetPauseUI() { return m_pauseUI.get(); }
-
 
 // 内部実装
 private:

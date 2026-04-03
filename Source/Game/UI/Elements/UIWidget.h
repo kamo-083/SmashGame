@@ -7,11 +7,9 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/RenderContext.h"
 #include"Source/Game/UI/Elements/Tween/Tween.h"
-
 
 // クラスの定義 ===============================================================
 /**
@@ -19,11 +17,10 @@
  */
 class UIWidget
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// テクスチャ
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
@@ -37,16 +34,14 @@ private:
 	// トゥイーン
 	std::unique_ptr<Tween2D> m_tween;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	UIWidget();
 
 	// デストラクタ
 	~UIWidget();
-
 
 // 操作
 public:
@@ -76,7 +71,6 @@ public:
 	// トゥイーンをリセット
 	void TweenReset(bool play = true);
 
-
 // 取得/設定
 public:
 	// トゥイーンの取得
@@ -98,7 +92,6 @@ public:
 	void SetTexSize(const DirectX::SimpleMath::Vector2& texSize) { m_texSize = texSize; }
 	// テクスチャの設定
 	void SetTexture(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture) { m_texture = texture; }
-
 
 	// パラメータを設定
 	void SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams& delta);

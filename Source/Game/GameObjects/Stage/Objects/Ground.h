@@ -7,16 +7,13 @@
 // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Physics/CollisionManager.h"
 #include"Source/Game/Common/RenderContext.h"
 
-
 // クラスの宣言 ===============================================================
 class ResourceManager;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -53,7 +50,6 @@ private:
 	// 深度ステンシルステート
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState;
 
-
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
@@ -62,7 +58,6 @@ public:
 
 	// デストラクタ
 	~Ground();
-
 
 // 操作
 public:
@@ -78,7 +73,6 @@ public:
 
 	// 終了処理
 	void Finalize();
-
 
 // 取得/設定
 public:
@@ -96,5 +90,4 @@ private:
 		const int& tilesX, const int& tilesZ,
 		const DirectX::SimpleMath::Matrix& rot
 	);
-
 };

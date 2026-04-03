@@ -10,7 +10,6 @@
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Effect/Area/AreaEffect.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -29,8 +28,6 @@ TargetBox::TargetBox(UserResources* pUR)
 	m_effect = std::make_unique<AreaEffect>(pUR);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -38,8 +35,6 @@ TargetBox::~TargetBox()
 {
 	m_effect.reset();
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -116,8 +111,6 @@ void TargetBox::Initialize(
 	m_collisionHandle = pCM->Add(desc);
 }
 
-
-
 /**
  * @brief 更新処理
  *
@@ -133,8 +126,6 @@ void TargetBox::Update(float elapsedTime)
 		m_effect->Update(elapsedTime);
 	}
 }
-
-
 
 /**
  * @brief 描画処理
@@ -170,8 +161,6 @@ void TargetBox::Draw(const RenderContext& context)
 	// 当たり判定の描画(デバッグ用)
 	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);
 }
-
-
 
 /**
  * @brief 終了処理

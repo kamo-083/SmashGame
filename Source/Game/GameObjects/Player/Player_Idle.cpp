@@ -9,7 +9,6 @@
 #include "Player_Idle.h"
 #include"Player.h"
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -21,10 +20,7 @@ Player_Idle::Player_Idle(Player* player)
 	m_pPlayer{ player },
 	m_stateType{ StateType::Idle }
 {
-
 }
-
-
 
 /**
  * @brief 初期化処理
@@ -46,7 +42,6 @@ void Player_Idle::Initialize(ResourceManager* pRM)
 	m_modelAnimator->Initialize();
 	m_modelAnimator->Play();
 }
-
 
 /**
  * @brief 更新処理
@@ -89,7 +84,6 @@ void Player_Idle::Update(const float& elapsedTime)
 	m_modelAnimator->Update(elapsedTime);
 }
 
-
 /**
  * @brief 描画処理
  *
@@ -119,7 +113,6 @@ void Player_Idle::Render(const RenderContext& context)
 	}
 }
 
-
 /**
  * @brief 終了処理
  *
@@ -132,8 +125,6 @@ void Player_Idle::Finalize()
 	if (m_modelAnimator)m_modelAnimator->Finalize();
 	m_modelAnimator.reset();
 }
-
-
 
 /**
  * @brief メッセージを処理

@@ -7,16 +7,13 @@
  // 多重インクルードの防止 =====================================================
 #pragma once
 
-
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
 
-
 // クラスの宣言 ===============================================================
 class ResourceManager;
 class CollisionManager;
-
 
 // クラスの定義 ===============================================================
 /**
@@ -24,7 +21,7 @@ class CollisionManager;
  */
 class Fence
 {
-	// クラス定数の宣言 -------------------------------------------------
+// クラス定数の宣言 -------------------------------------------------
 private:
 	static constexpr DirectX::SimpleMath::Vector3 CENTER_POS = { 0.0f,0.0f,0.0f };		// 基本の中心位置
 	static constexpr DirectX::SimpleMath::Vector3 DEFAULT_SCALE = { 1.0f,1.0f,1.0f };	// 基本の大きさ
@@ -32,8 +29,7 @@ private:
 	static constexpr DirectX::SimpleMath::Vector3 FENCE_SIZE = { 0.25f,1.0f,1.0f };		// 柵1つ分の大きさ(x=厚さ、y=高さ、z=幅)
 	static constexpr float RESTITUTION = 0.5f;											// 反射係数
 
-
-	// データメンバの宣言 -----------------------------------------------
+// データメンバの宣言 -----------------------------------------------
 private:
 	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
@@ -56,16 +52,14 @@ private:
 	// 柵の数
 	int m_num;
 
-
-	// メンバ関数の宣言 -------------------------------------------------
-	// コンストラクタ/デストラクタ
+// メンバ関数の宣言 -------------------------------------------------
+// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Fence(ID3D11DeviceContext* context);
 
 	// デストラクタ
 	~Fence();
-
 
 // 操作
 public:
@@ -84,15 +78,12 @@ public:
 	// 終了処理
 	void Finalize();
 
-
 // 取得/設定
 public:
 	// 当たり判定の取得
 	OBBCollider GetCollider() const { return m_collider; }
 
-
 // 内部実装
 private:
-
 
 };

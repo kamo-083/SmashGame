@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "Collision.h"
 
-
 ////球のコライダー /////////////////////////////////////////
 /**
  * @brief コンストラクタ
@@ -32,8 +31,6 @@ SphereCollider::SphereCollider(const DirectX::SimpleMath::Vector3& center, float
 	m_radius{ radius }
 {
 }
-
-
 
 ////OBBのコライダー /////////////////////////////////////////
 /**
@@ -69,7 +66,6 @@ OBBCollider::OBBCollider(
 	m_mtv.direction = DirectX::SimpleMath::Vector3::Zero;
 	m_mtv.distance = 0.0f;
 }
-
 
 /**
  * @brief OBBの中心座標の取得
@@ -113,8 +109,6 @@ void OBBCollider::SetRotation(const DirectX::SimpleMath::Quaternion& rotation)
 	AxisFromQuaternion(m_obb.rotation, m_obb.axis);
 }
 
-
-
 ////当たり判定の処理 /////////////////////////////////////////
 /**
  * @brief 球と球の当たり判定
@@ -138,7 +132,6 @@ bool IsHit(const SphereCollider& sphereA, const SphereCollider& sphereB)
 
 	return false;
 }
-
 
 /**
  * @brief OBBの当たり判定
@@ -247,7 +240,6 @@ bool IsHit(const OBBCollider& obb, const SphereCollider& sphere)
 	return false;
 }
 
-
 /**
  * @brief 球と球の最短距離を計算
  *
@@ -264,7 +256,6 @@ float Distance(const SphereCollider& sphereA, const SphereCollider& sphereB)
 
 	return sqrtf(x * x + y * y + z * z);
 }
-
 
 /**
  * @brief 球と球の最小押し出しベクトル(MTV)を計算
@@ -287,7 +278,6 @@ MTV CalculateMTV(const SphereCollider& sphereA, const SphereCollider& sphereB)
 
 	return mtv;
 }
-
 
 /**
  * @brief OBBとOBBの最小押し出しベクトル(MTV)を計算
@@ -348,7 +338,6 @@ MTV CalculateMTV(const OBBCollider& obbA, const OBBCollider& obbB)
 
 	return mtv;
 }
-
 
 /**
  * @brief OBBと球の最小押し出しベクトル(MTV)を計算
@@ -423,7 +412,6 @@ MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere)
 	return mtv;
 }
 
-
 /**
  * @brief 平面と球の中心との距離の算出
  *
@@ -456,7 +444,6 @@ float Distance(const DirectX::SimpleMath::Plane& plane,
 
 	return numerator / denominator;
 }
-
 
 /**
  * @brief 指定された軸で分離軸を判定
@@ -502,7 +489,6 @@ bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
 	return true;
 }
 
-
 /**
  * @brief 指定された軸上での2つのOBBの投影半径を計算
  *
@@ -522,7 +508,6 @@ float CalculateProjectionRadius(
 
 	return rA + rB;
 }
-
 
 /**
  * @brief 分離軸に対するOBBの投影半径を算出
@@ -549,7 +534,6 @@ float LenSegOnSeparateAxis(
 	return r1 + r2 + r3;
 }
 
-
 /**
  * @brief 3点から平面を算出する
  *
@@ -574,7 +558,6 @@ DirectX::SimpleMath::Plane CalculatePlane(
 	return DirectX::SimpleMath::Plane(normal.x, normal.y, normal.z, D);
 }
 
-
 /**
  * @brief クォータニオンから各軸ベクトルを算出
  *
@@ -591,7 +574,6 @@ void AxisFromQuaternion(const DirectX::SimpleMath::Quaternion& rotation, DirectX
 	axis[1] = DirectX::SimpleMath::Vector3(rotMatrix._21, rotMatrix._22, rotMatrix._23);	// Y軸
 	axis[2] = DirectX::SimpleMath::Vector3(rotMatrix._31, rotMatrix._32, rotMatrix._33);	// Z軸
 }
-
 
 /**
  * @brief 衝突面の法線から衝突面の種類を判定

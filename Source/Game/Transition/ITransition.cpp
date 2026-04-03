@@ -17,7 +17,6 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> ITransition::INPUT_LAYOUT =
 	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, sizeof(DirectX::SimpleMath::Vector3) + sizeof(DirectX::SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
 
-
 // メンバ関数の定義 ===========================================================
 /**
  * @brief コンストラクタ
@@ -58,8 +57,6 @@ ITransition::ITransition(
 	LoadTexture(pRM, tex);
 }
 
-
-
 /**
  * @brief デストラクタ
  */
@@ -68,8 +65,6 @@ ITransition::~ITransition()
 	m_CBuffer.Reset();
 	m_batch.reset();
 }
-
-
 
 /**
  * @brief 開く
@@ -84,8 +79,6 @@ void ITransition::Open()
 	m_rate = 1.0f;
 }
 
-
-
 /**
  * @brief 閉じる
  *
@@ -98,8 +91,6 @@ void ITransition::Close()
 	m_open = false;
 	m_rate = 0.0f;
 }
-
-
 
 /**
  * @brief シェーダーの読み込み
@@ -128,8 +119,6 @@ void ITransition::LoadShader(
 	m_gs = pSM->GetGS(gs.key);
 }
 
-
-
 /**
  * @brief テクスチャの読み込み
  *
@@ -143,8 +132,6 @@ void ITransition::LoadTexture(ResourceManager* pRM, const ResourcesDesc& desc)
 	m_texture = pRM->RequestPNG(desc.key, desc.path);
 }
 
-
-
 /**
  * @brief 終了しているかを返す
  *
@@ -157,8 +144,6 @@ bool ITransition::IsEnd() const
 	if (GetRate() == 1.0f) return true;
 	else return false;
 }
-
-
 
 /**
  * @brief 進行割合を返す
