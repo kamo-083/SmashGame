@@ -23,6 +23,17 @@ Player_Idle::Player_Idle(Player* player)
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+Player_Idle::~Player_Idle()
+{
+	if (m_modelAnimator)m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -122,8 +133,6 @@ void Player_Idle::Render(const RenderContext& context)
  */
 void Player_Idle::Finalize()
 {
-	if (m_modelAnimator)m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }
 
 /**

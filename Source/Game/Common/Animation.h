@@ -30,6 +30,8 @@ namespace DX
         AnimationSDKMESH(AnimationSDKMESH const&) = delete;
         AnimationSDKMESH& operator= (AnimationSDKMESH const&) = delete;
 
+        AnimationSDKMESH(const uint8_t* animData, size_t animSize);    // ’Ç‰Á
+
         HRESULT Load(_In_z_ const wchar_t* fileName);
 
         void Release()
@@ -54,10 +56,24 @@ namespace DX
         // ’Ç‰Á
         void ResetTime();
 
-    private: 
+    public:
         // cpp‚©‚çˆÚ“®
+#pragma pack(push,8)
         static constexpr uint32_t SDKMESH_FILE_VERSION = 101;
         static constexpr uint32_t MAX_FRAME_NAME = 100;
+
+        struct SDKANIMATION_FILE_HEADER
+        {
+            uint32_t Version;
+            uint8_t  IsBigEndian;
+            uint32_t FrameTransformType;
+            uint32_t NumFrames;
+            uint32_t NumAnimationKeys;
+            uint32_t AnimationFPS;
+            uint64_t AnimationDataSize;
+            uint64_t AnimationDataOffset;
+        };
+        static_assert(sizeof(SDKANIMATION_FILE_HEADER) == 40, "SDK Mesh structure size incorrect");
 
         struct SDKANIMATION_DATA
         {
@@ -77,6 +93,7 @@ namespace DX
             };
         };
         static_assert(sizeof(SDKANIMATION_FRAME_DATA) == 112, "SDK Mesh structure size incorrect");
+#pragma pack(pop)
 
     private:
         double                              m_animTime;

@@ -46,7 +46,7 @@ public:
 	GroundEnemy_Bounce(GroundEnemy* groundEnemy);
 
 	// デストラクタ
-	~GroundEnemy_Bounce() = default;
+	~GroundEnemy_Bounce();
 
 // 操作
 public:

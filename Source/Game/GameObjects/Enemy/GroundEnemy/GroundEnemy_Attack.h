@@ -50,7 +50,7 @@ public:
 	GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info);
 
 	// デストラクタ
-	~GroundEnemy_Attack() = default;
+	~GroundEnemy_Attack();
 
 // 操作
 public:

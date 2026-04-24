@@ -36,6 +36,17 @@ Player_AttackRolling::Player_AttackRolling(
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+Player_AttackRolling::~Player_AttackRolling()
+{
+	if (m_modelAnimator)m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -164,8 +175,6 @@ void Player_AttackRolling::Render(const RenderContext& context)
  */
 void Player_AttackRolling::Finalize()
 {
-	if (m_modelAnimator)m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }
 
 /**

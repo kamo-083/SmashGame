@@ -389,6 +389,9 @@
     <ClInclude Include="Source\Game\Object\AudioListener.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />

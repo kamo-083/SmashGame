@@ -8,8 +8,8 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include "DeviceResources.h"
-#include "Source/Game/Common/Animation.h"
+#include"DeviceResources.h"
+#include"Source/Game/Data/AnimationData.h"
 #include <unordered_map>
 
 // クラスの定義 ===============================================================
@@ -19,7 +19,7 @@
 class ResourceManager
 {
 // クラス定数の宣言 -------------------------------------------------
-private:
+public:
 
 // データメンバの宣言 -----------------------------------------------
 private:
@@ -33,7 +33,7 @@ private:
 	std::unordered_map<std::string, std::unique_ptr<DirectX::Model>> m_models;
 
 	//アニメーション
-	std::unordered_map<std::string, std::unique_ptr<DX::AnimationSDKMESH>> m_animations;
+	std::unordered_map<std::string, std::unique_ptr<AnimationBinaryData>> m_animations;
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
@@ -74,10 +74,10 @@ public:
 	bool LoadAnimation(const std::string& key, const std::string& filename);
 
 	//アニメーションの取得
-	DX::AnimationSDKMESH* GetAnimation(const std::string& key);
-	
+	const AnimationBinaryData* GetAnimation(const std::string& key);
+
 	//アニメーションの要求(キーがあったら渡す、無かったら読み込んでから渡す)
-	DX::AnimationSDKMESH* RequestAnimation(const std::string& key, const std::string& filename);
+	const AnimationBinaryData* RequestAnimation(const std::string& key, const std::string& filename);
 
 // 内部実装
 private:
@@ -88,4 +88,7 @@ private:
 	std::string ResolveFilePath_Tex(const std::string& filename);		// テクスチャ用
 	std::string ResolveFilePath_Model(const std::string& filename);		// モデル用
 	std::string ResolveFilePath_Anim(const std::string& filename);		// アニメーション用
+
+	// アニメーションのバイナリデータを読み込む
+	bool LoadAnimationBinary(const std::string& filename, AnimationBinaryData& outData);
 };

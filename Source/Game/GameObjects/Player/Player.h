@@ -61,11 +61,11 @@ private:
 	// ƒAƒjƒ[ƒVƒ‡ƒ“ŒQ
 	struct Animations
 	{
-		DX::AnimationSDKMESH* idle;			// ‘Ò‹@
-		DX::AnimationSDKMESH* walk;			// ˆÚ“®
-		DX::AnimationSDKMESH* atk_basic;	// ’ÊíUŒ‚
-		DX::AnimationSDKMESH* atk_rolling;	// “]‚ª‚èUŒ‚
-		DX::AnimationSDKMESH* atk_heavy;	// ‹­UŒ‚
+		const AnimationBinaryData* idle;		// ‘Ò‹@
+		const AnimationBinaryData* walk;		// ˆÚ“®
+		const AnimationBinaryData* atk_basic;	// ’ÊíUŒ‚
+		const AnimationBinaryData* atk_rolling;	// “]‚ª‚èUŒ‚
+		const AnimationBinaryData* atk_heavy;	// ‹­UŒ‚
 	};
 
 public:

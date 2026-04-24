@@ -20,30 +20,19 @@ using namespace DirectX;
 //--------------------------------------------------------------------------------------
 // DirectX SDK SDKMESH animation
 //--------------------------------------------------------------------------------------
-namespace
-{
-#pragma pack(push,8)
-    struct SDKANIMATION_FILE_HEADER
-    {
-        uint32_t Version;
-        uint8_t  IsBigEndian;
-        uint32_t FrameTransformType;
-        uint32_t NumFrames;
-        uint32_t NumAnimationKeys;
-        uint32_t AnimationFPS;
-        uint64_t AnimationDataSize;
-        uint64_t AnimationDataOffset;
-    };
-
-    static_assert(sizeof(SDKANIMATION_FILE_HEADER) == 40, "SDK Mesh structure size incorrect");
-
-#pragma pack(pop)
-}
-
 AnimationSDKMESH::AnimationSDKMESH() noexcept :
     m_animTime(0.0),
     m_animSize(0)
 {
+}
+
+DX::AnimationSDKMESH::AnimationSDKMESH(const uint8_t* animData, size_t animSize)
+    : m_animTime(0.0)
+{
+    // アニメーションのデータとサイズをコピー
+    m_animData = std::make_unique<uint8_t[]>(animSize);
+    std::memcpy(m_animData.get(), animData, animSize);
+    m_animSize = animSize;
 }
 
 HRESULT AnimationSDKMESH::Load(_In_z_ const wchar_t* fileName)
@@ -409,7 +398,7 @@ void AnimationCMO::Apply(
     if (m_animTime >= m_startTime)
     {
         size_t k = 0;
-        for (auto kit : m_keys)
+        for (auto& kit : m_keys)
         {
             if (kit.second > m_animTime)
             {

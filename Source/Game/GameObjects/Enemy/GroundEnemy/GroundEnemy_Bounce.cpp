@@ -22,6 +22,17 @@ GroundEnemy_Bounce::GroundEnemy_Bounce(GroundEnemy* groundEnemy)
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+GroundEnemy_Bounce::~GroundEnemy_Bounce()
+{
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -117,6 +128,4 @@ void GroundEnemy_Bounce::Render(const RenderContext& context)
  */
 void GroundEnemy_Bounce::Finalize()
 {
-	if (m_modelAnimator) m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }

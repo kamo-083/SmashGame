@@ -27,6 +27,17 @@ GroundEnemy_Attack::GroundEnemy_Attack(GroundEnemy* groundEnemy, const EnemyInfo
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+GroundEnemy_Attack::~GroundEnemy_Attack()
+{
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -130,6 +141,4 @@ void GroundEnemy_Attack::Render(const RenderContext& context)
  */
 void GroundEnemy_Attack::Finalize()
 {
-	if (m_modelAnimator) m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }

@@ -61,7 +61,7 @@ public:
 		float groundSpeed, float airSpeed);
 
 	// デストラクタ
-	~Player_Walk() = default;
+	~Player_Walk();
 
 // 操作
 public:

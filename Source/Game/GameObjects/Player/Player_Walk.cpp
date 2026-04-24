@@ -32,6 +32,17 @@ Player_Walk::Player_Walk(
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+Player_Walk::~Player_Walk()
+{
+	if (m_modelAnimator)m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -136,8 +147,6 @@ void Player_Walk::Render(const RenderContext& context)
  */
 void Player_Walk::Finalize()
 {
-	if (m_modelAnimator)m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }
 
 /**

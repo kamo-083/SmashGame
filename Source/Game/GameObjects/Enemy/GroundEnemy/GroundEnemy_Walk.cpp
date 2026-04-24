@@ -25,6 +25,17 @@ GroundEnemy_Walk::GroundEnemy_Walk(GroundEnemy* groundEnemy, const EnemyInfoLoad
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+GroundEnemy_Walk::~GroundEnemy_Walk()
+{
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -131,6 +142,4 @@ void GroundEnemy_Walk::Render(const RenderContext& context)
  */
 void GroundEnemy_Walk::Finalize()
 {
-	if (m_modelAnimator) m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }

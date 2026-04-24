@@ -57,7 +57,7 @@ public:
 	Player_AttackBasic(Player* player, const AttackParam& param);
 
 	// デストラクタ
-	~Player_AttackBasic() = default;
+	~Player_AttackBasic();
 
 // 操作
 public:

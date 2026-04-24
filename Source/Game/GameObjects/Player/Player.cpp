@@ -210,6 +210,9 @@ void Player::ChangeState(IState* newState)
 	// “¯‚¶‚¾‚Á‚½‚ç‚»‚Ì‚Ü‚Ü
 	if (m_currentState == newState) return;
 
+	// Œ»İ‚Ìó‘Ô‚ğI—¹
+	m_currentState->Finalize();
+
 	// V‹K‚Ìó‘Ô‚ğŒ»İ‚Ìó‘Ô‚Éİ’è‚·‚é
 	m_currentState = newState;
 

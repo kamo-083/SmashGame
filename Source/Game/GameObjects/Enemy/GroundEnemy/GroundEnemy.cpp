@@ -215,6 +215,12 @@ void GroundEnemy::ChangeState(IState* newState)
 {
 	if (!newState) return;
 
+	// 同じだったらそのまま
+	if (m_currentState == newState) return;
+
+	// 現在の状態を終了
+	m_currentState->Finalize();
+
 	// 新規の状態を現在の状態に設定する
 	m_currentState = newState;
 
@@ -370,7 +376,7 @@ void GroundEnemy::SetupEffects(EffectManager* pEM, ResourceManager* pRM)
  */
 void GroundEnemy::SetupModels(ResourceManager* pRM, const EnemyInfoLoader::EnemyInfo& info)
 {
-	// モデルの読み込み		(キーがとりあえずパスになっているので変える)
+	// モデルの読み込み	(キーがとりあえずパスになっているので変える)
 	m_model = pRM->RequestSDKMESH(info.modelPath, info.modelPath, true);
 
 	// アニメーションの読み込み

@@ -44,7 +44,7 @@ public:
 	Player_Idle(Player* player);
 
 	// デストラクタ
-	~Player_Idle() = default;
+	~Player_Idle();
 
 // 操作
 public:

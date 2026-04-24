@@ -81,7 +81,7 @@ public:
 		const AttackParam& param);
 
 	// デストラクタ
-	~Player_AttackRolling() = default;
+	~Player_AttackRolling();
 
 // 操作
 public:

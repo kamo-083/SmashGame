@@ -63,7 +63,7 @@ public:
 	Player_AttackHeavy(Player* player, const AttackParam& param);
 
 	// デストラクタ
-	~Player_AttackHeavy() = default;
+	~Player_AttackHeavy();
 
 // 操作
 public:

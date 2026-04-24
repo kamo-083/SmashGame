@@ -9,6 +9,7 @@
 #include "ResourceManager.h"
 #include "DDSTextureLoader.h"
 #include "WICTextureLoader.h"
+#include "Animation.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -285,10 +286,15 @@ bool ResourceManager::LoadAnimation(const std::string& key, const std::string& f
 	// ファイルパスの作成
 	std::string filePath = ResolveFilePath_Anim(filename);
 
-	std::unique_ptr<DX::AnimationSDKMESH> anim = std::make_unique<DX::AnimationSDKMESH>();
-	anim->Load(StringToWchar(filePath).c_str());
-	m_animations[key] = std::move(anim);
+	// ファイルから読み込み
+	std::unique_ptr<AnimationBinaryData> anim = std::make_unique<AnimationBinaryData>();
+	if (!LoadAnimationBinary(filePath, *anim.get()))
+	{
+		std::cerr << "アニメーション読み込み失敗: " << filePath << std::endl;
+		return false;
+	}
 
+	m_animations[key] = std::move(anim);
 	return true;
 }
 
@@ -299,7 +305,7 @@ bool ResourceManager::LoadAnimation(const std::string& key, const std::string& f
  *
  * @return アニメーションのポインタ
  */
-DX::AnimationSDKMESH* ResourceManager::GetAnimation(const std::string& key)
+const AnimationBinaryData* ResourceManager::GetAnimation(const std::string& key)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_animations.find(key);
@@ -323,14 +329,15 @@ DX::AnimationSDKMESH* ResourceManager::GetAnimation(const std::string& key)
  *
  * @return アニメーションのポインタ
  */
-DX::AnimationSDKMESH* ResourceManager::RequestAnimation(const std::string& key, const std::string& filename)
+const AnimationBinaryData* ResourceManager::RequestAnimation(const std::string& key, const std::string& filename)
 {
 	//まだ登録されていないキーか確認
 	auto it = m_animations.find(key);
 	if (it == m_animations.end())
 	{
 		//登録されていなかったら読み込む
-		if (!LoadAnimation(key, filename)) return nullptr;
+		if (!LoadAnimation(key, filename)) 
+			return nullptr;
 	}
 
 	//キーに対応したアニメーションのポインタを返す
@@ -413,4 +420,65 @@ std::string ResourceManager::ResolveFilePath_Anim(const std::string& filename)
 		filePath = animPath + filename;
 	}
 	return filePath;
+}
+
+/**
+ * @brief アニメーションのバイナリデータを読み込む
+ *
+ * @param filename	外部から渡されたファイル名
+ * @param outData	データの出力用
+ *
+ * @return 作成したファイルパス
+ */
+bool ResourceManager::LoadAnimationBinary(const std::string& filename, AnimationBinaryData& outData)
+{
+	using AnimSDKMESH = DX::AnimationSDKMESH;
+
+	std::ifstream inFile(filename, std::ios::in | std::ios::binary | std::ios::ate);
+	if (!inFile)
+		return false;
+
+	const std::streampos len = inFile.tellg();
+	if (!inFile)
+		return false;
+
+	if (len > UINT32_MAX)
+		return false;
+
+	if (static_cast<size_t>(len) < sizeof(AnimSDKMESH::SDKANIMATION_FILE_HEADER))
+		return false;
+
+	std::unique_ptr<uint8_t[]> blob(new (std::nothrow) uint8_t[size_t(len)]);
+	if (!blob)
+		return false;
+
+	inFile.seekg(0, std::ios::beg);
+	if (!inFile)
+		return false;
+
+	inFile.read(reinterpret_cast<char*>(blob.get()), len);
+	if (!inFile)
+		return false;
+
+	inFile.close();
+
+	auto header = reinterpret_cast<const AnimSDKMESH::SDKANIMATION_FILE_HEADER*>(blob.get());
+
+	if (header->Version != DX::AnimationSDKMESH::SDKMESH_FILE_VERSION
+		|| header->IsBigEndian != 0
+		|| header->FrameTransformType != 0 /*FTT_RELATIVE*/
+		|| header->NumAnimationKeys == 0
+		|| header->NumFrames == 0
+		|| header->AnimationFPS == 0)
+		return false;
+
+	uint64_t dataSize = header->AnimationDataOffset + header->AnimationDataSize;
+	if (dataSize > uint64_t(len))
+		return false;
+
+	// ファイルから読み込んだアニメーションのバイナリデータを記録
+	outData.animData.swap(blob);
+	outData.animSize = static_cast<size_t>(len);
+
+	return true;
 }

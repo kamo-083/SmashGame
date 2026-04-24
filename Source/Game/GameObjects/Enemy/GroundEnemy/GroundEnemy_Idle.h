@@ -44,7 +44,7 @@ public:
 	GroundEnemy_Idle(GroundEnemy* groundEnemy);
 
 	// デストラクタ
-	~GroundEnemy_Idle() = default;
+	~GroundEnemy_Idle();
 
 // 操作
 public:

@@ -10,6 +10,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/Animation.h"
 #include"Source/Game/Common/RenderContext.h"
+#include"Source/Game/Data/AnimationData.h"
 
 // クラスの定義 ===============================================================
 /**
@@ -56,7 +57,7 @@ private:
 	DirectX::Model* m_model;
 
 	// アニメーション
-	DX::AnimationSDKMESH* m_animation;
+	DX::AnimationSDKMESH m_animation;
 
 	// ボーン配列
 	DirectX::ModelBone::TransformArray m_drawBones;
@@ -80,7 +81,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animation);
+	ModelAnimator(DirectX::Model* model, const AnimationBinaryData* animation);
 
 	// デストラクタ
 	~ModelAnimator();

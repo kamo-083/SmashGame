@@ -27,6 +27,17 @@ Player_AttackBasic::Player_AttackBasic(Player* player,	const AttackParam& param)
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+Player_AttackBasic::~Player_AttackBasic()
+{
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -125,6 +136,4 @@ void Player_AttackBasic::Render(const RenderContext& context)
  */
 void Player_AttackBasic::Finalize()
 {
-	if (m_modelAnimator)m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }

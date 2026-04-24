@@ -15,16 +15,19 @@
  * @param model		モデルのポインタ
  * @param animation アニメーションのポインタ
  */
-ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animation)
+ModelAnimator::ModelAnimator(DirectX::Model* model, const AnimationBinaryData* animation)
 	:
 	m_model{ model },
-	m_animation{ animation },
+	m_animation{},
 	m_animElapsedTime{ 0.0f },
 	m_animEndTime{ 0.0f },
 	m_loop{ false },
 	m_isPlaying{ false },
 	m_playbackSpeed{ 1.0f }
 {
+	// アニメーションの作成
+	m_animation = DX::AnimationSDKMESH(animation->animData.get(), animation->animSize);
+	m_animation.Bind(*model);
 }
 
 /**
@@ -33,7 +36,7 @@ ModelAnimator::ModelAnimator(DirectX::Model* model, DX::AnimationSDKMESH* animat
 ModelAnimator::~ModelAnimator()
 {
 	m_model = nullptr;
-	m_animation = nullptr;
+	m_animation.Release();
 }
 
 /**
@@ -48,13 +51,13 @@ ModelAnimator::~ModelAnimator()
 void ModelAnimator::Initialize(float endTime, bool loop, float playbackSpeed)
 {
 	// アニメーションとモデルをバインドする
-	m_animation->Bind(*m_model);
+	m_animation.Bind(*m_model);
 
 	// ボーン用のトランスフォーム配列を生成
 	m_drawBones = DirectX::ModelBone::MakeArray(m_model->bones.size());
 
 	// アニメーション時間をリセット
-	m_animation->ResetTime();
+	m_animation.ResetTime();
 
 	// 経過時間をリセット
 	m_animElapsedTime = 0.0f;
@@ -88,14 +91,14 @@ void ModelAnimator::Update(float elapsedTime)
 	m_animElapsedTime += deltaTime;
 
 	// アニメーションの更新
-	m_animation->Update(deltaTime);
+	m_animation.Update(deltaTime);
 	
 	if (m_animElapsedTime >= m_animEndTime)
 	{
 		if(m_loop)
 		{
 			// ループ処理
-			m_animation->ResetTime();
+			m_animation.ResetTime();
 			m_animElapsedTime = 0.0f;
 		}
 		else
@@ -120,7 +123,7 @@ void ModelAnimator::Draw(const RenderContext& context, const DirectX::SimpleMath
 	size_t nbones = m_model->bones.size();
 
 	// アニメーションにモデルを適用する
-	m_animation->Apply(*m_model, nbones, m_drawBones.get());
+	m_animation.Apply(*m_model, nbones, m_drawBones.get());
 
 	// ライトの設定
 	m_model->UpdateEffects([](DirectX::IEffect* effect)
@@ -173,7 +176,7 @@ void ModelAnimator::Draw(const RenderContext& context, const DirectX::SimpleMath
 void ModelAnimator::Finalize()
 {
 	m_model = nullptr;
-	m_animation = nullptr;
+	m_animation.Release();
 }
 
 /**

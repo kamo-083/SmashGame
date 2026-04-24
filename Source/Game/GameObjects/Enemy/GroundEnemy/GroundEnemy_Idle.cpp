@@ -22,6 +22,17 @@ GroundEnemy_Idle::GroundEnemy_Idle(GroundEnemy* groundEnemy)
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+GroundEnemy_Idle::~GroundEnemy_Idle()
+{
+	if (m_modelAnimator) m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -103,6 +114,4 @@ void GroundEnemy_Idle::Render(const RenderContext& context)
  */
 void GroundEnemy_Idle::Finalize()
 {
-	if (m_modelAnimator) m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }

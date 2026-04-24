@@ -45,7 +45,7 @@ public:
 	GroundEnemy_Walk(GroundEnemy* groundEnemy, const EnemyInfoLoader::EnemyInfo& info);
 
 	// デストラクタ
-	~GroundEnemy_Walk() = default;
+	~GroundEnemy_Walk();
 
 // 操作
 public:

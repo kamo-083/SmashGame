@@ -33,9 +33,9 @@ public:
 	// アニメーションのポインタ
 	struct Animations
 	{
-		DX::AnimationSDKMESH* idle;		// 待機
-		DX::AnimationSDKMESH* walk;		// 移動
-		DX::AnimationSDKMESH* attack;	// 攻撃
+		const AnimationBinaryData* idle;	// 待機
+		const AnimationBinaryData* walk;	// 移動
+		const AnimationBinaryData* attack;	// 攻撃
 	};
 
 	const float ATTACK_DISTANCE;		// 攻撃距離

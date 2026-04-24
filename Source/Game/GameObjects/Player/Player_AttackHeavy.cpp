@@ -29,6 +29,17 @@ Player_AttackHeavy::Player_AttackHeavy(Player* player, const AttackParam& param)
 }
 
 /**
+ * @brief デストラクタ
+ *
+ * @param なし
+ */
+Player_AttackHeavy::~Player_AttackHeavy()
+{
+	if (m_modelAnimator)m_modelAnimator->Finalize();
+	m_modelAnimator.reset();
+}
+
+/**
  * @brief 初期化処理
  *
  * @param pRM  リソースマネージャーのポインタ
@@ -143,6 +154,4 @@ void Player_AttackHeavy::Render(const RenderContext& context)
  */
 void Player_AttackHeavy::Finalize()
 {
-	if (m_modelAnimator)m_modelAnimator->Finalize();
-	m_modelAnimator.reset();
 }
