@@ -15,11 +15,12 @@
 #include "Source/Game/Physics/Collision.h"
 #include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
-#include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/Interface/IState.h"
 
 // クラスの宣言 ===============================================================
 class AreaEffect;
+class BillboardSprite;
+class GuideArrow;
 
 // クラスの定義 ===============================================================
 /**
@@ -36,33 +37,29 @@ private:
 private:
 	// 座標
 	DirectX::SimpleMath::Vector3 m_position;
-
 	// 傾き
 	DirectX::SimpleMath::Vector3 m_angle;
-
 	// 辺の半分の長さ
 	DirectX::SimpleMath::Vector3 m_halfLength;
 
 	// 当たり判定
 	OBBCollider m_collider;
-
-	// ぶつかったかどうか
-	bool m_isHit;
-
-	// ぶつけた時の処理
-	std::function<void()> m_operation;
-
 	// 衝突判定のハンドル
 	uint32_t m_collisionHandle;
 
+	// ぶつかったかどうか
+	bool m_isHit;
+	// ぶつけた時の処理
+	std::function<void()> m_operation;
+
 	// 四角形
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
-
 	// モデル
 	DirectX::Model* m_model;
-
 	// エフェクト
 	std::unique_ptr<AreaEffect> m_effect;
+	// 矢印
+	std::unique_ptr<GuideArrow> m_arrow;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -86,7 +83,10 @@ public:
 		const DirectX::SimpleMath::Vector3& angle = DirectX::SimpleMath::Vector3::Zero);
 
 	// 更新処理
-	void Update(float elapsedTime);
+	void Update(
+		float elapsedTime,
+		const DirectX::SimpleMath::Vector3& cameraPos, 
+		const DirectX::SimpleMath::Vector3& cameraUp);
 
 	// 描画処理
 	void Draw(const RenderContext& context);

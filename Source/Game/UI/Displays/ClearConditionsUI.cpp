@@ -66,8 +66,8 @@ void ClearConditionsUI::Initialize(
 	// トゥイーンパラメータの作成
 	Tween2D::TweenData data =
 	{
-		Tween2D::UIParams{m_introParam.start, DirectX::SimpleMath::Vector2::One, 0.0f, 1.0f},
-		Tween2D::UIParams{m_introParam.delta, DirectX::SimpleMath::Vector2::Zero, 0.0f, 0.0f},
+		Tween2D::TweenParams{m_introParam.start, DirectX::SimpleMath::Vector2::One, 0.0f, 1.0f},
+		Tween2D::TweenParams{m_introParam.delta, DirectX::SimpleMath::Vector2::Zero, 0.0f, 0.0f},
 		ANIM_TIME,
 		Easing::EaseType::OutInQuart,
 		Easing::PlaybackMode::Once
@@ -92,8 +92,8 @@ void ClearConditionsUI::Update(float elapsedTime)
 	{
 		// 画面端へのパラメータを設定
 		m_widget->SetParam(
-			Tween2D::UIParams{ m_cornerParam.start, DirectX::SimpleMath::Vector2(TEXT_SIZE_CORNER), 0.0f, 1.0f },
-			Tween2D::UIParams{ m_cornerParam.delta, DirectX::SimpleMath::Vector2::Zero, 0.0f, 0.0f }
+			Tween2D::TweenParams{ m_cornerParam.start, DirectX::SimpleMath::Vector2(TEXT_SIZE_CORNER), 0.0f, 1.0f },
+			Tween2D::TweenParams{ m_cornerParam.delta, DirectX::SimpleMath::Vector2::Zero, 0.0f, 0.0f }
 		);
 		// イージングの種類を設定
 		m_widget->SetEaseType(Easing::EaseType::OutQuart);

@@ -80,9 +80,6 @@
     <Filter Include="UI\Elements">
       <UniqueIdentifier>{bc536ba4-9889-4029-aa0c-3997e695b9cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Elements\Tween">
-      <UniqueIdentifier>{abf8bb37-cbe5-4da9-ac4d-0a7f59006bc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\Elements\NumberRenderer">
       <UniqueIdentifier>{af060d01-6dd9-4a00-b567-25ebf74f6f1f}</UniqueIdentifier>
     </Filter>
@@ -112,6 +109,12 @@
     </Filter>
     <Filter Include="Game\Object">
       <UniqueIdentifier>{f71384a0-f84a-4ee9-83af-4978bd87be98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Tween">
+      <UniqueIdentifier>{57aedc79-edbf-4625-9d0f-756fad439d51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Arrow">
+      <UniqueIdentifier>{8a974e60-e57b-467e-b7d2-289fa138b712}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -290,12 +293,6 @@
     <ClInclude Include="Source\Game\UI\Elements\UIWidget.h">
       <Filter>UI\Elements</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\UI\Elements\Tween\Tween.h">
-      <Filter>UI\Elements\Tween</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\UI\Elements\Tween\Easing.h">
-      <Filter>UI\Elements\Tween</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\UI\Elements\NumberRenderer\INumberRenderer.h">
       <Filter>UI\Elements\NumberRenderer</Filter>
     </ClInclude>
@@ -391,6 +388,21 @@
     </ClInclude>
     <ClInclude Include="AnimationData.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\Tween\Easing.h">
+      <Filter>Common\Tween</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\Tween\Tween.h">
+      <Filter>Common\Tween</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Common\Tween\TweenObject.h">
+      <Filter>Common\Tween</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Effect\BillboardSprite.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Effect\Arrow\GuideArrow.h">
+      <Filter>Effect\Arrow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -537,9 +549,6 @@
     <ClCompile Include="Source\Game\UI\Elements\UIWidget.cpp">
       <Filter>UI\Elements</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\UI\Elements\Tween\Easing.cpp">
-      <Filter>UI\Elements\Tween</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\UI\Elements\NumberRenderer\NumberRenderer2D.cpp">
       <Filter>UI\Elements\NumberRenderer</Filter>
     </ClCompile>
@@ -609,6 +618,15 @@
     <ClCompile Include="Source\Game\Interface\IMessageListener.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Common\Tween\Easing.cpp">
+      <Filter>Common\Tween</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Effect\BillboardSprite.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Effect\Arrow\GuideArrow.cpp">
+      <Filter>Effect\Arrow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\directx.ico">
@@ -640,9 +658,6 @@
     <None Include="Resources\Json\playerInfo.json">
       <Filter>Json</Filter>
     </None>
-    <None Include="Source\Game\UI\Elements\Tween\Tween.inl">
-      <Filter>UI\Elements\Tween</Filter>
-    </None>
     <None Include="Resources\Json\inputKeyInfo.json">
       <Filter>Json</Filter>
     </None>
@@ -657,6 +672,9 @@
     </None>
     <None Include="Shaders\Transition\Transition.hlsli">
       <Filter>Shader\Transition</Filter>
+    </None>
+    <None Include="Source\Game\Common\Tween\Tween.inl">
+      <Filter>Common\Tween</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

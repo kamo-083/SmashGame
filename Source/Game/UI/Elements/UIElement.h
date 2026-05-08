@@ -49,7 +49,7 @@ public:
 // 取得/設定
 public:
 	// 現在のパラメータの取得
-	Tween2D::UIParams GetParam() const { return m_widget->GetParam(); }
+	Tween2D::TweenParams GetParam() const { return m_widget->GetParam(); }
 
 	// アニメーションのイージング済みの進行度を取得
 	float GetAnimEasingProgress() const { return m_widget->GetEasingProgress(); }

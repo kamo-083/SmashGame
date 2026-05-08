@@ -14,7 +14,7 @@
 #include "Source/Game/Physics/Collision.h"
 #include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
-#include "Source/Game/UI/Elements/Tween/Tween.h"
+#include "Source/Game/Common/Tween/Tween.h"
 #include "Source/Game/Object/AudioListener.h"
 
 // クラスの宣言 ===============================================================
@@ -67,7 +67,7 @@ private:
 
 	// トゥイーン関連
 	std::unique_ptr<Tween3D> m_tween;
-	Tween3D::UIParams m_tweenParams;
+	Tween3D::TweenParams m_tweenParams;
 
 	// 降りた状態
 	bool m_isDowned;

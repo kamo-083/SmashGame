@@ -291,7 +291,7 @@ void Bridge::SetupAnimation(const DirectX::SimpleMath::Vector3& rotAxis)
 		1.0f
 	};
 	// •Ï‰»—Ê
-	Tween3D::UIParams delta =
+	Tween3D::TweenParams delta =
 	{
 		Vector3::Zero,
 		Vector3::Zero,

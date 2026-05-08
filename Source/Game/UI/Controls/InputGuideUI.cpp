@@ -50,8 +50,8 @@ void InputGuideUI::Initialize(
 	// ÉgÉDÉCÅ[ÉìÇÃê›íË
 	Tween2D::TweenData data =
 	{
-		Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(0.5f), 0.0f, 1.0f},
-		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f),
+		Tween2D::TweenParams{pos,DirectX::SimpleMath::Vector2(0.5f), 0.0f, 1.0f},
+		Tween2D::TweenParams{DirectX::SimpleMath::Vector2(0.0f),
 						  DirectX::SimpleMath::Vector2(-0.1f),
 						  0.0f, -0.2f},
 		0.2f,

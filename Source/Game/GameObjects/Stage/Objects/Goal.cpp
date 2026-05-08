@@ -215,7 +215,7 @@ void Goal::SetupAnimation()
 		1.0f
 	};
 	// •Ï‰»—Ê
-	Tween3D::UIParams delta = {
+	Tween3D::TweenParams delta = {
 		DirectX::SimpleMath::Vector3(0.0f, LID_MOVE_Y, 0.0f),
 		DirectX::SimpleMath::Vector3::Zero,
 		DirectX::SimpleMath::Quaternion::Identity,

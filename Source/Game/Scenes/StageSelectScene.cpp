@@ -406,8 +406,8 @@ void StageSelectScene::SetupPanel(const DirectX::SimpleMath::Vector2& windowSize
 		// アニメーションのパラメータを設定
 		Tween2D::TweenData data =
 		{
-			Tween2D::UIParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
-			Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
+			Tween2D::TweenParams{pos,DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
+			Tween2D::TweenParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
 							  DirectX::SimpleMath::Vector2(PANEL_DELTA_SCALE, PANEL_DELTA_SCALE),
 							  0.0f, 0.0f},
 			PANEL_ANIM_TIME,

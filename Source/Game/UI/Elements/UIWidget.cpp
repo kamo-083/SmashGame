@@ -15,7 +15,9 @@
  * @param なし
  */
 UIWidget::UIWidget()
-	:	m_texture{ nullptr }
+	:
+	TweenObject(),
+	m_params{}
 {
 }
 
@@ -181,7 +183,7 @@ void UIWidget::TweenReset(bool play)
  *
  * @return なし
  */
-void UIWidget::SetParam(const Tween2D::UIParams& start, const Tween2D::UIParams& delta)
+void UIWidget::SetParam(const Tween2D::TweenParams& start, const Tween2D::TweenParams& delta)
 {
 	// 現在のパラメータを更新
 	m_params = start;

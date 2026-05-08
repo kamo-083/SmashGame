@@ -116,12 +116,16 @@ void CountArea::Initialize(
 /**
  * @brief 更新処理
  *
- * @param cameraPos	カメラ位置
- * @param cameraUp	カメラ上ベクトル
+ * @param elapsedTime	経過時間
+ * @param cameraPos		カメラ位置
+ * @param cameraUp		カメラ上ベクトル
  *
  * @return なし
  */
-void CountArea::Update(float elapsedTime, const DirectX::SimpleMath::Vector3& cameraPos, const DirectX::SimpleMath::Vector3& cameraUp)
+void CountArea::Update(
+	float elapsedTime,
+	const DirectX::SimpleMath::Vector3& cameraPos,
+	const DirectX::SimpleMath::Vector3& cameraUp)
 {
 	// エフェクトの更新
 	m_effect->Update(elapsedTime);

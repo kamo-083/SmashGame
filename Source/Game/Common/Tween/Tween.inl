@@ -50,7 +50,7 @@ Tween<TVec, TRot>::~Tween()
  * @return ‚È‚µ
  */
 template<typename TVec, typename TRot>
-void Tween<TVec, TRot>::Update(float deltaTime, UIParams& params)
+void Tween<TVec, TRot>::Update(float deltaTime, TweenParams& params)
 {
 	if (!m_playing || m_finished) return;
 

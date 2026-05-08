@@ -187,14 +187,14 @@ void Key::Finalize()
 void Key::SetupSpawnAnim(const DirectX::SimpleMath::Vector3& startPos)
 {
 	// 開始
-	Tween3D::UIParams start = {
+	Tween3D::TweenParams start = {
 	startPos,
 	DirectX::SimpleMath::Vector3(1.0f),
 	DirectX::SimpleMath::Quaternion::Identity,
 	1.0f
 	};
 	// 変化量
-	Tween3D::UIParams delta = {
+	Tween3D::TweenParams delta = {
 		DirectX::SimpleMath::Vector3(0.0f,SPAWN_HEIGHT,0.0f),
 		DirectX::SimpleMath::Vector3(0.0f),
 		DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(
@@ -221,9 +221,9 @@ void Key::SetupSpawnAnim(const DirectX::SimpleMath::Vector3& startPos)
 void Key::SetupFlyingAnim()
 {
 	// 開始
-	Tween3D::UIParams start = m_tweenParam;
+	Tween3D::TweenParams start = m_tweenParam;
 	// 変化量
-	Tween3D::UIParams delta = {
+	Tween3D::TweenParams delta = {
 		m_goalPos - start.pos,
 		DirectX::SimpleMath::Vector3(0.0f),
 		DirectX::SimpleMath::Quaternion::Identity,

@@ -8,7 +8,7 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/Elements/Tween/Easing.h"
+#include"Source/Game/Common/Tween/Easing.h"
 
 // クラスの定義 ===============================================================
 /**
@@ -20,7 +20,7 @@ class Tween
 // クラス定数の宣言 -------------------------------------------------
 public:
 	// アニメーションのパラメータ
-	struct UIParams
+	struct TweenParams
 	{
 		TVec pos;				// 位置(Vector2/Vector3)
 		TVec scale;				// 大きさ(Vector2/Vector3)
@@ -31,14 +31,14 @@ public:
 	// トゥイーンに必要なデータ
 	struct TweenData
 	{
-		UIParams start;		// 初期値
-		UIParams delta;		// 全体の変化量
-		float duration;		// 再生時間
+		TweenParams start;			// 初期値
+		TweenParams delta;			// 全体の変化量
+		float duration;				// 再生時間
 		Easing::EaseType ease;		// 処理
 		Easing::PlaybackMode loop;	// 再生方法
 	};
 
-// データメンバの宣言 -----------------------------------------------
+	// データメンバの宣言 -----------------------------------------------
 private:
 	// Tween用の情報
 	TweenData m_data;
@@ -58,8 +58,8 @@ private:
 	// 反転フラグ
 	bool m_reverse;
 
-// メンバ関数の宣言 -------------------------------------------------
-// コンストラクタ/デストラクタ
+	// メンバ関数の宣言 -------------------------------------------------
+	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
 	Tween(TweenData data);
@@ -67,10 +67,10 @@ public:
 	// デストラクタ
 	~Tween();
 
-// 操作
+	// 操作
 public:
 	// 更新処理
-	void Update(float deltaTime, UIParams& params);
+	void Update(float deltaTime, TweenParams& params);
 
 	// 終了処理
 	void Finalize();
@@ -90,7 +90,7 @@ public:
 	// 再生済みフラグのリセット
 	void ResetPlayed() { m_played = false; }
 
-// 取得/設定
+	// 取得/設定
 public:
 	// 再生しているかを取得
 	bool IsPlaying() const { return  m_playing; }
@@ -102,7 +102,7 @@ public:
 	bool IsPlayed() const { return m_played; }
 
 	// 開始時のパラメータを取得
-	UIParams GetStartParams() const { return m_data.start; }
+	TweenParams GetStartParams() const { return m_data.start; }
 
 	// トゥイーン情報を取得
 	TweenData GetTweenData() const { return m_data; }
@@ -122,7 +122,7 @@ private:
 };
 
 // 関数内部を分離したファイルのインクルード
-#include"Source/Game/UI/Elements/Tween/Tween.inl"
+#include"Source/Game/Common/Tween/Tween.inl"
 
 // 別名
 using Tween2D = Tween<DirectX::SimpleMath::Vector2, float>;

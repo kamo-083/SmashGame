@@ -11,7 +11,7 @@
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
-#include "Source/Game/UI/Elements/Tween/Tween.h"
+#include "Source/Game/Common/Tween/Tween.h"
 #include"Source/Game/Object/AudioListener.h"
 
 // クラスの宣言 ===============================================================
@@ -63,7 +63,7 @@ private:
 
 	// トゥイーン関連
 	std::unique_ptr<Tween3D> m_tweenAnim;
-	Tween3D::UIParams m_tweenParam;
+	Tween3D::TweenParams m_tweenParam;
 
 	// 音声再生機能
 	AudioListener m_audio;

@@ -55,9 +55,9 @@ void TitleScene::Initialize()
 	m_titleLogo = std::make_unique<UIWidget>();
 	Tween2D::TweenData data =
 	{
-		Tween2D::UIParams{DirectX::SimpleMath::Vector2(halfWidth, 0.0f),
+		Tween2D::TweenParams{DirectX::SimpleMath::Vector2(halfWidth, 0.0f),
 						  DirectX::SimpleMath::Vector2(1.0f,1.0f),0.0f,1.0f},
-		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, LOGO_POS_Y),
+		Tween2D::TweenParams{DirectX::SimpleMath::Vector2(0.0f, LOGO_POS_Y),
 						  DirectX::SimpleMath::Vector2(0.0f,0.0f),0.0f,0.0f},
 		1.0f,
 		Easing::EaseType::OutBounce,
@@ -275,9 +275,9 @@ void TitleScene::SetupBotton(float windowHalfWidth)
 	std::unique_ptr<Button> start = std::make_unique<Button>();
 	Tween2D::TweenData data =
 	{
-		Tween2D::UIParams{DirectX::SimpleMath::Vector2(windowHalfWidth, TEXT_POS_Y),
+		Tween2D::TweenParams{DirectX::SimpleMath::Vector2(windowHalfWidth, TEXT_POS_Y),
 						  DirectX::SimpleMath::Vector2(1.0f,1.0f), 0.0f, 1.0f},
-		Tween2D::UIParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
+		Tween2D::TweenParams{DirectX::SimpleMath::Vector2(0.0f, 0.0f),
 						  DirectX::SimpleMath::Vector2(TWEEN_DELTA_SCALE, TWEEN_DELTA_SCALE),
 						  0.0f, 0.0f},
 		TWEEN_ANIM_TIME,

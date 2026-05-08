@@ -9,6 +9,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/RenderContext.h"
+#include "Source/Game/Common/Tween/Tween.h"
 #include "Source/Game/Effect/EffectManager.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/Object/AudioListener.h"
@@ -58,7 +59,7 @@ private:
 
 	// トゥイーン関連
 	std::unique_ptr<Tween3D> m_tweenAnim;
-	Tween3D::UIParams m_tweenParam;
+	Tween3D::TweenParams m_tweenParam;
 
 	// 軌跡エフェクト
 	std::vector<EffectManager::TrajectoryParticleData*> m_trajectorys;	

@@ -1,7 +1,7 @@
 /**
- * @file   UIWidget.h
+ * @file   BillboardSprite.h
  *
- * @brief  UIウィジェット(アニメーション付きUIのベース)に関するヘッダファイル
+ * @brief  BillboardSpriteに関するヘッダファイル
  */
 
  // 多重インクルードの防止 =====================================================
@@ -9,56 +9,70 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"Source/Game/Common/Tween/TweenObject.h"
+#include"Source/Game/Common/DeviceResources.h"
 
 // クラスの定義 ===============================================================
 /**
- * @brief UIウィジェット(アニメーション付きUIのベース)
+ * @brief BillboardSprite
  */
-class UIWidget	: public TweenObject
+class BillboardSprite	: public TweenObject
 {
 // クラス定数の宣言 -------------------------------------------------
 private:
+	// 頂点の配列
+	const static DirectX::VertexPositionTexture VERTECES[4];
 
 // データメンバの宣言 -----------------------------------------------
 private:
-	// UIのパラメータ
-	Tween2D::TweenParams m_params;
+	// トゥイーンのパラメータ
+	Tween3D::TweenParams m_params;
 	// トゥイーン
-	std::unique_ptr<Tween2D> m_tween;
+	std::unique_ptr<Tween3D> m_tween;
+
+	// ビルボードかどうか
+	bool m_isBillboard;
+	// ビルボード行列
+	DirectX::SimpleMath::Matrix m_billboard;
+
+	// 入力レイアウト
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+	// エフェクト
+	std::unique_ptr<DirectX::AlphaTestEffect> m_batchEffect;
+	// プリミティブバッチ
+	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionTexture>> m_primitiveBatch;
 
 // メンバ関数の宣言 -------------------------------------------------
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	UIWidget();
+	BillboardSprite(DX::DeviceResources* pDR);
 
 	// デストラクタ
-	~UIWidget();
+	~BillboardSprite();
+
 
 // 操作
 public:
 	// 初期化処理
 	void Initialize(
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture,
-		const Tween2D::TweenData& data,
-		const DirectX::SimpleMath::Vector2& size,
-		bool play = true);
+		const Tween3D::TweenData& data,
+		const DirectX::SimpleMath::Vector2& size);
 
 	// 更新処理
 	void Update(float elapsedTime) override;
 
 	// 描画処理
 	void Draw(const RenderContext& context) override;
-	void Draw(
-		DirectX::SpriteBatch* spriteBatch,
-		ID3D11ShaderResourceView* texture = nullptr,
-		const DirectX::SimpleMath::Vector2& pos = DirectX::SimpleMath::Vector2::Zero,
-		const RECT* rect = nullptr,
-		float rot = FLT_MAX,
-		const DirectX::SimpleMath::Color& col = DirectX::SimpleMath::Color(1, 1, 1));
 
 	// 終了処理
 	void Finalize();
+
+	// ビルボードの作成
+	void CreateBillboard(
+		const DirectX::SimpleMath::Vector3& eye,
+		const DirectX::SimpleMath::Vector3& up
+	);
 
 	// トゥイーンをリセット
 	void TweenReset(bool play = true);
@@ -66,12 +80,12 @@ public:
 // 取得/設定
 public:
 	// トゥイーンの取得
-	Tween2D* GetTween() { return m_tween.get(); }
-	
+	Tween3D* GetTween() { return m_tween.get(); }
+
 	//現在のパラメータの取得
-	Tween2D::TweenParams GetParam() const { return m_params; }
+	Tween3D::TweenParams GetParam() const { return m_params; }
 	// 変化後のパラメータを取得
-	Tween2D::TweenParams GetDelta () const { return m_tween->GetTweenData().delta; }
+	Tween3D::TweenParams GetDelta() const { return m_tween->GetTweenData().delta; }
 
 	// イージング済みの進行度を取得
 	float GetEasingProgress() const { return m_tween->GetEasingProgress(); }
@@ -79,7 +93,7 @@ public:
 	float GetLinearProgress() const { return m_tween->GetLinearProgress(); }
 
 	// パラメータを設定
-	void SetParam(const Tween2D::TweenParams& start, const Tween2D::TweenParams& delta);
+	void SetParam(const Tween3D::TweenParams& start, const Tween3D::TweenParams& delta);
 	// イージングの種類を設定
 	void SetEaseType(const Easing::EaseType type);
 

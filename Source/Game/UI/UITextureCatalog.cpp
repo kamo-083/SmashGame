@@ -81,10 +81,10 @@ void UITextureCatalog::Load(ResourceManager* pRM)
 
 	// –îˆó
 	m_textures->arrow_normal = {
-		pRM->RequestPNG("arrow", "Resources/Textures/UI/arrow_triangle.png"),
+		pRM->RequestPNG("arrow", "UI/arrow_triangle.png"),
 		TexturesSize::ARROW_NOMAL };
 	m_textures->arrow_rotate = {
-		pRM->RequestPNG("rotate", "Resources/Textures/UI/arrow_rotate.png"),
+		pRM->RequestPNG("rotate", "UI/arrow_rotate.png"),
 		TexturesSize::ARROW_ROTATE };
 
 	// •¶Žš

@@ -274,9 +274,9 @@ void AttackUI::Slide(Direction dir)
  */
 void AttackUI::MakeParam(UIWidget& widget, const LayoutData& to)
 {
-	Tween2D::UIParams from = widget.GetParam();
+	Tween2D::TweenParams from = widget.GetParam();
 
-	Tween2D::UIParams delta = {
+	Tween2D::TweenParams delta = {
 		to.pos - from.pos,
 		to.scale - from.scale,
 		from.rotation,
@@ -312,8 +312,8 @@ void AttackUI::BindAttackSlots()
 	// 各ウィジェットのパラメータをリセット
 	for (int i = 0; i < static_cast<int>(Layout::DisplayNum); ++i)
 	{
-		Tween2D::UIParams start{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity };
-		Tween2D::UIParams delta{ {},{},0,0 };
+		Tween2D::TweenParams start{ m_layoutList[i].pos, m_layoutList[i].scale, 0.0f, m_layoutList[i].opacity };
+		Tween2D::TweenParams delta{ {},{},0,0 };
 		m_widgets[i]->SetParam(start, delta);
 		m_widgets[i]->GetTween()->ResetTime();
 	}

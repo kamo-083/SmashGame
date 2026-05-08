@@ -229,12 +229,12 @@ void PauseUI::SetupWidget()
 {
 	// ”wŒi
 	m_widget = std::make_unique<UIWidget>();
-	Tween2D::UIParams start_back{
+	Tween2D::TweenParams start_back{
 		m_windowSize * 0.5f,
 		DirectX::SimpleMath::Vector2(1.0f, 0.0f),
 		0.0f,1.0f
 	};
-	Tween2D::UIParams delta_back{
+	Tween2D::TweenParams delta_back{
 		DirectX::SimpleMath::Vector2::Zero,
 		DirectX::SimpleMath::Vector2(0.0f, 1.0f),
 		0.0f,0.0f
@@ -249,12 +249,12 @@ void PauseUI::SetupWidget()
 
 	// ƒ^ƒCƒgƒ‹
 	m_titleWidget = std::make_unique<UIWidget>();
-	Tween2D::UIParams start_title{
+	Tween2D::TweenParams start_title{
 		DirectX::SimpleMath::Vector2(start_back.pos.x, start_back.pos.y - TITLE_POS_ADJUST),
 		DirectX::SimpleMath::Vector2(1.0f, 1.0f),
 		0.0f,1.0f
 	};
-	Tween2D::UIParams delta_title{
+	Tween2D::TweenParams delta_title{
 		DirectX::SimpleMath::Vector2(0.0f, TEXT_TITLE_MOVE),
 		DirectX::SimpleMath::Vector2(0.0f, 0.0f),
 		0.0f,0.0f

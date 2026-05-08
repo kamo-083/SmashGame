@@ -10,7 +10,7 @@
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Common/DeviceResources.h"
 #include "Source/Game/Common/RenderContext.h"
-#include "Source/Game/UI/Elements/Tween/Easing.h"
+#include "Source/Game/Common/Tween/Easing.h"
 
 // クラスの定義 ===============================================================
 /**

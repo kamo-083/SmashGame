@@ -9,6 +9,7 @@
 #include "TargetBox.h"
 #include "Source/Game/Common/ResourceManager.h"
 #include "Source/Game/Effect/Area/AreaEffect.h"
+#include "Source/Game/Effect/Arrow/GuideArrow.h"
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -26,6 +27,10 @@ TargetBox::TargetBox(UserResources* pUR)
 
 	// エフェクトの作成
 	m_effect = std::make_unique<AreaEffect>(pUR);
+
+	// 矢印の作成
+	m_arrow = std::make_unique<GuideArrow>(
+		pUR->GetDeviceResources(), pUR->GetResourceManager());
 }
 
 /**
@@ -76,6 +81,11 @@ void TargetBox::Initialize(
 	m_effect->SetLength(DirectX::SimpleMath::Vector3(m_halfLength.x * 2.5f, m_halfLength.y * 1.5f, m_halfLength.z * 2.5f));
 	m_effect->SetColor(DirectX::Colors::Yellow.v);
 
+	// 矢印を出現
+	m_arrow->Spawn(
+		DirectX::SimpleMath::Vector3(m_position.x, m_position.y + m_halfLength.y * 2.5f, m_position.z),
+		DirectX::SimpleMath::Vector3(0.0f, -m_halfLength.y * 0.5f, 0.0f));
+
 	// 当たり判定の作成
 	m_collider.SetCenter(m_position);
 	m_collider.SetHalfLength(m_halfLength);
@@ -106,6 +116,7 @@ void TargetBox::Initialize(
 			{
 				m_operation();
 				m_isHit = true;
+				m_arrow->Despawn();
 			}
 		};
 	m_collisionHandle = pCM->Add(desc);
@@ -115,16 +126,24 @@ void TargetBox::Initialize(
  * @brief 更新処理
  *
  * @param elapsedTime 経過時間
+ * @param cameraPos		カメラ位置
+ * @param cameraUp		カメラ上ベクトル
  *
  * @return なし
  */
-void TargetBox::Update(float elapsedTime)
+void TargetBox::Update(
+	float elapsedTime,
+	const DirectX::SimpleMath::Vector3& cameraPos,
+	const DirectX::SimpleMath::Vector3& cameraUp)
 {
 	if (!m_isHit)
 	{
 		// エフェクトの更新
 		m_effect->Update(elapsedTime);
 	}
+
+	// 矢印の更新
+	m_arrow->Update(elapsedTime, cameraPos, cameraUp);
 }
 
 /**
@@ -157,6 +176,8 @@ void TargetBox::Draw(const RenderContext& context)
 		// エフェクトの描画
 		m_effect->Draw(context);
 	}
+
+	m_arrow->Draw(context);
 
 	// 当たり判定の描画(デバッグ用)
 	//m_geometricPrimitive->Draw(world, context.view, context.proj, DirectX::Colors::Yellow);

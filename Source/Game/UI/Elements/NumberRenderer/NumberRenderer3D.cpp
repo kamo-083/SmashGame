@@ -166,13 +166,12 @@ void NumberRenderer3D::Draw(const RenderContext& renderContext)
 
 	// 頂点情報
 	DirectX::VertexPositionTexture vertex[4]{};
-	for (int j = 0; j < 4; j++)
+	for (int i = 0; i < 4; i++)
 	{
-		vertex[j] = VERTECES[j];
+		vertex[i] = VERTECES[i];
 
 		// 位置の設定
-		vertex[j].position.x *= aspect;
-		//vertex[j].position.y += m_position.y;
+		vertex[i].position.x *= aspect;
 	}
 
 	// テクスチャサンプラーの設定

@@ -170,7 +170,7 @@ void StageManager::Update(float elapsedTime, const DirectX::SimpleMath::Vector3&
 	// 的の更新
 	for (auto& box : m_targetBoxes)
 	{
-		box->Update(elapsedTime);
+		box->Update(elapsedTime, cameraPos, cameraUp);
 	}
 
 	// エリアの更新
@@ -212,12 +212,6 @@ void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 		ground->Draw(context);
 	}
 
-	// 的の描画
-	for (auto& targetBox : m_targetBoxes)
-	{
-		targetBox->Draw(context);
-	}
-
 	// 柵の描画
 	for (auto& fences : m_fences)
 	{
@@ -235,6 +229,12 @@ void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 
 	// ゴールの描画
 	if(m_goal) m_goal->Draw(context, debugFont);
+
+	// 的の描画
+	for (auto& targetBox : m_targetBoxes)
+	{
+		targetBox->Draw(context);
+	}
 
 	// エリアの描画
 	for (auto& area : m_areas)

@@ -7,7 +7,7 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "Camera.h"
-#include "Source/Game/UI/Elements/Tween/Easing.h"
+#include "Source/Game/Common/Tween/Easing.h"
 
 // メンバ関数の定義 ===========================================================
 /**
