@@ -45,6 +45,8 @@ private:
 
 	// 地面に触れているか
 	bool m_onGround;
+	// 直前の接地状態
+	bool m_wasOnGround;
 	// 接触面の法線ベクトル
 	DirectX::SimpleMath::Vector3 m_groundNormal;
 
@@ -64,6 +66,9 @@ public:
 
 // 操作
 public:
+	// 事前更新
+	void PrePhysicsUpdate();
+
 	// 速度に加える力の計算
 	void CalculateForce(
 		DirectX::SimpleMath::Vector3& velocity,
@@ -107,6 +112,8 @@ public:
 
 	// 地面に振れているかを取得
 	bool IsOnGround() const { return m_onGround; }
+	// 直前のフレームで地面に触れていたかを取得
+	bool WasOnGround() const { return m_wasOnGround; }
 
 	// 角速度の加算
 	void AddAngVelocity(const DirectX::SimpleMath::Vector3& angVel);

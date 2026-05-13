@@ -17,8 +17,22 @@ PhysicsObject::PhysicsObject()
 	m_externalForce{},
 	m_friction{},
 	m_onGround{ false },
+	m_wasOnGround{ false },
 	m_groundNormal{ DirectX::SimpleMath::Vector3::UnitY }
 {
+}
+
+/**
+ * @brief 事前更新
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void PhysicsObject::PrePhysicsUpdate()
+{
+	// 値のリセット
+	ResetGroundInfo();
 }
 
 /**
@@ -48,7 +62,7 @@ void PhysicsObject::CalculateForce(
 	m_externalForce.Calculate(totalForce);
 
 	//摩擦力(接地時)
-	if (m_onGround)
+	if (m_wasOnGround)
 	{
 		m_friction.ApplyToForce(totalForce, mass * m_gravity.Get());
 		m_friction.ApplyToVelocity(velocity, mass * m_gravity.Get(), elapsedTime);
@@ -63,9 +77,8 @@ void PhysicsObject::CalculateForce(
 	//加速度の反映
 	velocity += acceleration * elapsedTime;
 
-	//リセット
+	// 外力をリセット
 	m_externalForce.Reset();
-	ResetGroundInfo();
 }
 
 /**
@@ -146,6 +159,7 @@ void PhysicsObject::DrawDebugFont(DebugFont* debugFont, int y)
  */
 void PhysicsObject::ResetGroundInfo()
 {
+	m_wasOnGround = m_onGround;
 	m_onGround = false;
 	m_groundNormal = DirectX::SimpleMath::Vector3::UnitY;
 }

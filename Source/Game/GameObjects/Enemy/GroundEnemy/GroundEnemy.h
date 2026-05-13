@@ -42,8 +42,6 @@ public:
 
 	static constexpr float DITECTION_RANGE = 2.5f;	// プレイヤー感知範囲
 
-	static constexpr float RESPAWN_POS_HEIGHT = 1.0f;	// リスポーン時の高さ
-
 	// エフェクト関連
 	static constexpr float TRAJECTORY_SCALE = 0.5f;	// 軌跡エフェクトのスケール
 	static constexpr float TRAJECTORY_LIFE = 2.0f;	// 軌跡エフェクトの寿命

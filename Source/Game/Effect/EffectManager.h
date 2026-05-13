@@ -43,7 +43,8 @@ public:
 		{}
 
 		// 出現フラグの設定
-		void SetSpawn(bool inSpawn) { spawn = inSpawn; }
+		void SetSpawn(bool inSpawn) { 
+			spawn = inSpawn; }
 	};
 
 	// 円形エフェクトのデータ

@@ -98,7 +98,7 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 		if (invSum > 0.0f && vn < 0.0f)
 		{
 			// ƒCƒ“ƒpƒ‹ƒX
-			float e = std::min(a.desc.restitution, b.desc.restitution);
+			float e = BounceCombine(a.desc.restitution, b.desc.restitution);
 			float j = -(1.0f + e) * vn / invSum;
 			DirectX::SimpleMath::Vector3 impulse = j * normal;
 
@@ -192,7 +192,7 @@ void ResolveSphereVsSphere(CollisionManager::Node& a, CollisionManager::Node& b)
 
 	if (invSum > 0.0f && vn < 0.0f)
 	{
-		float e = std::min(a.desc.restitution, b.desc.restitution);
+		float e = BounceCombine(a.desc.restitution, b.desc.restitution);
 		float j = -(1.0f + e) * vn / invSum;
 		DirectX::SimpleMath::Vector3 impulse = j * normal;
 

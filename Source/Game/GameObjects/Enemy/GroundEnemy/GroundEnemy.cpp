@@ -72,7 +72,7 @@ void GroundEnemy::Initialize(
 
 	// リスポーン位置を設定
 	m_respawnPos = m_position;
-	m_respawnPos.y += RESPAWN_POS_HEIGHT;
+	m_respawnPos.y += RADIUS;
 
 	// リスポーン有無の設定
 	m_dropRespawn = dropRespawn;
@@ -91,11 +91,11 @@ void GroundEnemy::Initialize(
 	// 当たり判定の設定
 	SetupCollision(pCM, id);
 
-	// エフェクトを出現をオフ
-	m_trajectory->SetSpawn(false);
-
 	// 状態の設定
 	SetupState(pRM, info);
+
+	// エフェクトを出現をオフ
+	m_trajectory->SetSpawn(false);
 }
 
 /**
@@ -107,6 +107,9 @@ void GroundEnemy::Initialize(
  */
 void GroundEnemy::Update(float elapsedTime)
 {
+	// 物理の事前更新
+	m_physics->PrePhysicsUpdate();
+	// 現在の状態を更新
 	m_currentState->Update(elapsedTime);
 }
 
@@ -197,8 +200,14 @@ void GroundEnemy::Respawn()
 	m_isAttack = false;
 	m_collider.SetCenter(m_position);
 
-	// エフェクトの出現
+	// 奇跡エフェクトをオフ
+	m_trajectory->SetSpawn(false);
+
+	// 円形エフェクトの出現
 	m_circle->Spawn();
+
+	// 接地面情報のリセット
+	m_physics->ResetGroundInfo();
 
 	// 跳ね返り状態に設定
 	ChangeState(m_idlingState.get());

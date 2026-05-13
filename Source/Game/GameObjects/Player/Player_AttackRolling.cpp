@@ -107,7 +107,7 @@ void Player_AttackRolling::Update(const float& elapsedTime)
 		// ˆÚ“®•ûŒü‚ðŒˆ’è
 		m_moveForce = m_pPlayer->MoveDirection(move_x, move_z, m_pCamera);
 		// ‘¬“x‚ðŒvŽZ
-		if (m_pPlayer->GetPhysics()->IsOnGround())	m_moveForce *= GROUND_SPEED;
+		if (m_pPlayer->GetPhysics()->WasOnGround())	m_moveForce *= GROUND_SPEED;
 		else										m_moveForce *= AIR_SPEED;
 	}
 

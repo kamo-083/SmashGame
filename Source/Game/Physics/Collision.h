@@ -163,3 +163,6 @@ void AxisFromQuaternion(
 
 // Õ“Ë–Ê‚Ì–@ü‚©‚çÕ“Ë–Ê‚Ìí—Ş‚ğ”»’è
 OBBCollider::CollisionType DetermineCollisionType(const DirectX::SimpleMath::Vector3& normal);
+
+// ‚à‚Ì“¯m‚Ì”½”­‚ğˆ—‚·‚é
+float BounceCombine(const float bounceA, const float bounceB);

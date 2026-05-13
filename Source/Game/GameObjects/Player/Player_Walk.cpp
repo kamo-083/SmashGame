@@ -87,7 +87,7 @@ void Player_Walk::Update(const float& elapsedTime)
 		// 移動方向を決定
 		m_inputVelocity = m_pPlayer->MoveDirection(move_x, move_z, m_pCamera);
 		// 速度を計算
-		if (m_pPlayer->GetPhysics()->IsOnGround())	m_inputVelocity *= GROUND_SPEED;
+		if (m_pPlayer->GetPhysics()->WasOnGround())	m_inputVelocity *= GROUND_SPEED;
 		else										m_inputVelocity *= AIR_SPEED;
 	}
 	// 入力が無いときは以前の速度を入れる

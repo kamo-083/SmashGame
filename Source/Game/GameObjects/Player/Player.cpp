@@ -132,7 +132,9 @@ void Player::Initialize(const PlayerParams& param, const InputKeyLoader::InputKe
  */
 void Player::Update(const float& elapsedTime)
 {
-	// 現在の状態を更新する
+	// 物理の事前更新
+	m_physics->PrePhysicsUpdate();
+	// 現在の状態を更新
 	m_currentState->Update(elapsedTime);
 }
 

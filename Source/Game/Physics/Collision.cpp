@@ -598,3 +598,17 @@ OBBCollider::CollisionType DetermineCollisionType(const DirectX::SimpleMath::Vec
 	}
 	return OBBCollider::CollisionType::Others;
 }
+
+/**
+ * @brief オブジェクト同士の反発を処理する
+ *
+ * @param bounceA オブジェクトAの反発係数
+ * @param bounceB オブジェクトBの反発係数
+ *
+ * @return 処理後の反発係数
+ */
+float BounceCombine(float bounceA, float bounceB)
+{
+	// 反発係数を平均化
+	return (bounceA + bounceB) * 0.5f;
+}
