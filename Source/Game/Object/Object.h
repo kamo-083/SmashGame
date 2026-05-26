@@ -45,7 +45,7 @@ public:
 	virtual void Initialize();
 
 	// XVˆ—
-	virtual void Update(const float& elapsedTime);
+	virtual void Update(float elapsedTime);
 
 	// •`‰æˆ—
 	virtual void Draw(const RenderContext& context, DebugFont* debugFont);

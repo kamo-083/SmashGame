@@ -61,7 +61,7 @@ void Player_Idle::Initialize(ResourceManager* pRM)
  *
  * @return ‚È‚µ
  */
-void Player_Idle::Update(const float& elapsedTime)
+void Player_Idle::Update(float elapsedTime)
 {
 	PhysicsObject* physics = m_pPlayer->GetPhysics();
 

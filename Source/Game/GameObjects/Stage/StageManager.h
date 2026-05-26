@@ -9,6 +9,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include <functional>
+#include "Source/Game/Interface/IStageEventDispatcher.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Data/StageLoader.h"
 
@@ -20,6 +21,7 @@ class CollisionManager;
 class EffectManager;
 class EnemyManager;
 class AudioManager;
+class StageObject;
 class Ground;
 class TargetBox;
 class Goal;
@@ -32,7 +34,7 @@ class Key;
 /**
  * @brief ステージマネージャー
  */
-class StageManager
+class StageManager	: public IStageEventDispatcher
 {
 	// クラス定数の宣言 -------------------------------------------------
 public:
@@ -41,6 +43,9 @@ public:
 private:
 	// 深度ステンシルステート(各ステージオブジェクトに渡すため保持)
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState;
+
+	// ステージオブジェクトID群
+	std::unordered_map<std::string, StageObject*> m_stageObjectMap;
 
 	// 地面
 	std::vector<std::unique_ptr<Ground>> m_grounds;
@@ -93,6 +98,12 @@ public:
 		std::function<void()>& outOperate,
 		StageLoader::AreaActionDesc& desc,
 		const DirectX::SimpleMath::Vector3& position);
+
+	// イベントの受け取り
+	void DispatchEvent(const EventHandle& handle, const std::string& senderID) override;
+
+	// オブジェクトの位置の受け渡し
+	DirectX::SimpleMath::Vector3 DispatchPosition(const std::string& objectID) override;
 
 // 取得/設定
 public:

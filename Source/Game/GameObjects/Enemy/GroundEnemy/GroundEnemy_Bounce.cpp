@@ -69,7 +69,7 @@ void GroundEnemy_Bounce::Initialize(ResourceManager* pRM)
  *
  * @return ‚È‚µ
  */
-void GroundEnemy_Bounce::Update(const float& elapsedTime)
+void GroundEnemy_Bounce::Update(float elapsedTime)
 {
 	PhysicsObject* physics = m_pGroundEnemy->GetPhysics();
 

@@ -47,7 +47,7 @@ void Object::Initialize()
  *
  * @return ‚È‚µ
  */
-void Object::Update(const float& elapsedTime)
+void Object::Update(float elapsedTime)
 {
 	UNREFERENCED_PARAMETER(elapsedTime);
 }

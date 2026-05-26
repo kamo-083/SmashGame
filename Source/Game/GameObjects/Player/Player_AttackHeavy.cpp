@@ -80,7 +80,7 @@ void Player_AttackHeavy::Initialize(ResourceManager* pRM)
  *
  * @return ‚È‚µ
  */
-void Player_AttackHeavy::Update(const float& elapsedTime)
+void Player_AttackHeavy::Update(float elapsedTime)
 {
 	// UŒ‚ŠÔ‚ÌXV
 	m_attackTime -= elapsedTime * ANIMATION_SPEED;

@@ -386,9 +386,6 @@
     <ClInclude Include="Source\Game\Object\AudioListener.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationData.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Common\Tween\Easing.h">
       <Filter>Common\Tween</Filter>
     </ClInclude>
@@ -403,6 +400,18 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Effect\Arrow\GuideArrow.h">
       <Filter>Effect\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Stage\StageObject.h">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Data\StageEventData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Interface\IStageEventDispatcher.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Data\AnimationData.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -615,9 +624,6 @@
     <ClCompile Include="Source\Game\Object\AudioListener.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Interface\IMessageListener.cpp">
-      <Filter>Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Common\Tween\Easing.cpp">
       <Filter>Common\Tween</Filter>
     </ClCompile>
@@ -626,6 +632,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Effect\Arrow\GuideArrow.cpp">
       <Filter>Effect\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Stage\StageObject.cpp">
+      <Filter>Game\GameObjects\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Interface\IMessageListener.cpp">
+      <Filter>Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

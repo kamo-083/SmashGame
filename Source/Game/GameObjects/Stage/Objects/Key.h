@@ -8,10 +8,10 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
+#include "Source/Game/GameObjects/Stage/StageObject.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/Tween/Tween.h"
 #include "Source/Game/Effect/EffectManager.h"
-#include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/Object/AudioListener.h"
 
 // クラスの宣言 ===============================================================
@@ -21,7 +21,7 @@ class ResourceManager;
 /**
  * @brief 鍵
  */
-class Key
+class Key	: public StageObject
 {
 // クラス定数の宣言 -------------------------------------------------
 public:
@@ -71,7 +71,8 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM, AudioManager* pAM);
+	Key(const StageObjectDesc& desc, ID3D11DeviceContext* context, 
+		ResourceManager* pRM, EffectManager* pEM, AudioManager* pAM);
 
 	// デストラクタ
 	~Key();
@@ -84,13 +85,16 @@ public:
 		const DirectX::SimpleMath::Vector3& goalPos);
 
 	// 更新処理
-	void Update(float elapsedTime);
+	void Update(float elapsedTime) override;
 
 	// 描画処理
-	void Draw(const RenderContext& context, DebugFont* debugFont);
+	void Draw(const RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize();
+	void Finalize() override;
+
+	// イベントの受け取り
+	void OnStageEvent(StageEventContext context) override;
 
 // 取得/設定
 public:

@@ -54,7 +54,7 @@ public:
 	void Initialize(ResourceManager* pRM) override;
 
 	// XVˆ—
-	void Update(const float& elapsedTime) override;
+	void Update(float elapsedTime) override;
 
 	// •`‰æˆ—
 	void Render(const RenderContext& context) override;

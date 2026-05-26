@@ -34,6 +34,7 @@ public:
 		Area,		// エリア
 		Fence,		// 柵
 		Bridge,		// 橋
+		Key,		// 鍵
 	};
 
 	// エリア設定情報

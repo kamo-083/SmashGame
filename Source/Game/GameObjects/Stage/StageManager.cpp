@@ -14,6 +14,7 @@
 #include "Source/Game/Physics/CollisionManager.h"
 #include "Source/Game/GameObjects/Enemy/EnemyManager.h"
 #include "Source/Game/Common/AudioManager.h"
+#include "Source/Game/GameObjects/Stage/StageObject.h"
 #include "Source/Game/GameObjects/Stage/Objects/Goal.h"
 #include "Source/Game/GameObjects/Stage/Objects/Ground.h"
 #include "Source/Game/GameObjects/Stage/Objects/TargetBox.h"
@@ -133,14 +134,33 @@ void StageManager::CreateStage(
 		// ゴール
 		case StageLoader::ObjectType::Goal:
 		{
-			m_goal = std::make_unique<Goal>(context, pAM);
+			// イベントとオブジェクトIDの設定
+			std::vector<EventHandle> events;
+			StageObject::StageObjectDesc desc =
+			{
+				"Goal", events, this
+			};
+			// オブジェクトを作成
+			m_goal = std::make_unique<Goal>(desc, context, pAM);
 			m_goal->Initialize(pRM, pCM, data.position);
+			// オブジェクトを登録
+			m_stageObjectMap[desc.stageObject_ID] = m_goal.get();
 			break;
 		}
 		}
 	}
 	// 鍵
-	m_key = std::make_unique<Key>(context, pRM, pEfM, pAM);
+	std::vector<EventHandle> events;
+	EventHandle handle =
+	{
+		"Goal", StageEvent::Activate
+	};
+	events.push_back(handle);
+	StageObject::StageObjectDesc desc =
+	{
+		"key_01", events, this
+	};
+	m_key = std::make_unique<Key>(desc, context, pRM, pEfM, pAM);
 
 	// 敵の生成
 	for (StageLoader::EnemyData data : enemyData)
@@ -189,7 +209,7 @@ void StageManager::Update(float elapsedTime, const DirectX::SimpleMath::Vector3&
 	if (m_key)
 	{
 		m_key->Update(elapsedTime);
-		if (m_key->GetState() == Key::KeyState::FINISHED) m_goal->OpenGoal();
+		//if (m_key->GetState() == Key::KeyState::FINISHED) m_goal->OpenGoal();
 	}
 
 	// ゴールの更新
@@ -306,9 +326,38 @@ void StageManager::CreateOperate(
 			{
 				m_key->Spawn(position, m_goal->GetPosition());
 			};
-
-		return;
 	}
+}
+
+/**
+ * @brief イベントの受け取り
+ *
+ * @param event		イベントの情報
+ * @param senderID	送り主のオブジェクトID
+ *
+ * @return なし
+ */
+void StageManager::DispatchEvent(const EventHandle& handle,	const std::string& senderID)
+{
+	StageObject::StageEventContext context =
+	{
+		handle.event, handle.objectID, senderID
+	};
+
+	// IDからオブジェクトを探してイベントを発生させる
+	m_stageObjectMap.at(handle.objectID)->OnStageEvent(context);
+}
+
+/**
+ * @brief オブジェクトの位置の受け渡し
+ *
+ * @param objectID	対象オブジェクトのID
+ *
+ * @return 対象オブジェクトの位置
+ */
+DirectX::SimpleMath::Vector3 StageManager::DispatchPosition(const std::string& objectID)
+{
+	return m_stageObjectMap.at(objectID)->GetPosition();
 }
 
 /**

@@ -66,7 +66,7 @@ void GroundEnemy_Walk::Initialize(ResourceManager* pRM)
  *
  * @return ‚È‚µ
  */
-void GroundEnemy_Walk::Update(const float& elapsedTime)
+void GroundEnemy_Walk::Update(float elapsedTime)
 {
 	// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚Æ•ûŒü‚ðŽæ“¾
 	IEnemy::PlayerRelationData playerData = m_pGroundEnemy->GetPlayerRelativeData();

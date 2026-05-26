@@ -29,7 +29,7 @@ public:
 	// ‰Šú‰»
 	virtual void Initialize(ResourceManager* pRM) = 0;
 	// XV
-	virtual void Update(const float& elapsedTime) = 0;
+	virtual void Update(float elapsedTime) = 0;
 	// •`‰æ
 	virtual void Render(const RenderContext& context) = 0;
 	// Œãˆ—

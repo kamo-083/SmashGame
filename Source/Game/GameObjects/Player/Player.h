@@ -176,7 +176,7 @@ public:
 	void Initialize(const PlayerParams& param, const InputKeyLoader::InputKeyInfo& keyConfig);
 
 	// XVˆ—
-	void Update(const float& elapsedTime);
+	void Update(float elapsedTime);
 
 	// •`‰æˆ—
 	void Draw(const RenderContext& context, DebugFont* debugFont);

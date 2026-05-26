@@ -15,11 +15,13 @@
 /**
  * @brief コンストラクタ
  *
+ * @param desc		ステージオブジェクトの初期データ
  * @param context	デバイスコンテキストのポインタ
  * @param pAM		オーディオマネージャーのポインタ
  */
-Goal::Goal(ID3D11DeviceContext* context, AudioManager* pAM)
+Goal::Goal(const StageObjectDesc& desc, ID3D11DeviceContext* context, AudioManager* pAM)
 	:
+	StageObject(desc),
 	m_position{ DirectX::SimpleMath::Vector3::Zero },
 	m_goalCollider{},
 	m_tableCollider{},
@@ -81,8 +83,17 @@ void Goal::Initialize(
  */
 void Goal::Update(float elapsedTime)
 {
-	// アニメーションの更新
-	if (m_tweenAnim->IsPlaying()) m_tweenAnim->Update(elapsedTime, m_tweenParam);
+	if (m_tweenAnim->IsPlaying())
+	{
+		// アニメーションの更新
+		m_tweenAnim->Update(elapsedTime, m_tweenParam);
+
+		// アニメーションが半分以上終わっていたら、ゴール可能に設定
+		if (m_tweenAnim->GetEasingProgress() >= 0.5f)
+		{
+			m_canGoal = true;
+		}
+	}
 }
 
 /**
@@ -133,6 +144,21 @@ void Goal::Finalize()
 }
 
 /**
+ * @brief イベントの受け取り
+ *
+ * @param context イベントの情報
+ *
+ * @return なし
+ */
+void Goal::OnStageEvent(StageEventContext context)
+{
+	if (context.event == StageEvent::Activate)
+	{
+		OpenGoal();
+	}
+}
+
+/**
  * @brief ゴールを開放
  *
  * @param なし
@@ -147,12 +173,6 @@ void Goal::OpenGoal()
 		m_audio.OnMessageAccepted(Message::MessageID::SE_GOAL_OPEN);
 		// アニメーションの再生
 		m_tweenAnim->Play();
-	}
-
-	// アニメーションが半分以上終わっていたら、ゴール可能に設定
-	if (m_tweenAnim->GetEasingProgress() >= 0.5f)
-	{
-		m_canGoal = true;
 	}
 }
 

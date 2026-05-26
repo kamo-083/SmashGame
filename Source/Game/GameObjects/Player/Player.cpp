@@ -130,7 +130,7 @@ void Player::Initialize(const PlayerParams& param, const InputKeyLoader::InputKe
  *
  * @return ‚È‚µ
  */
-void Player::Update(const float& elapsedTime)
+void Player::Update(float elapsedTime)
 {
 	// •¨—‚ÌŽ–‘OXV
 	m_physics->PrePhysicsUpdate();

@@ -66,7 +66,7 @@ void GroundEnemy_Idle::Initialize(ResourceManager* pRM)
  *
  * @return ‚È‚µ
  */
-void GroundEnemy_Idle::Update(const float& elapsedTime)
+void GroundEnemy_Idle::Update(float elapsedTime)
 {
 	// ˆÊ’u‚ÌXV
 	m_pGroundEnemy->GetPhysics()->CalculateForce(m_pGroundEnemy->GetVelocity(), m_pGroundEnemy->GetMass(), elapsedTime);

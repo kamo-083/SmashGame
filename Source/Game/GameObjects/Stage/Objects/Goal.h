@@ -8,6 +8,7 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
+#include "Source/Game/GameObjects/Stage/StageObject.h"
 #include"Source/Debug/DebugFont.h"
 #include"Source/Game/Physics/Collision.h"
 #include"Source/Game/Common/RenderContext.h"
@@ -23,7 +24,7 @@ class StageScene;
 /**
  * @brief ゴール
  */
-class Goal
+class Goal	: public StageObject
 {
 // クラス定数の宣言 -------------------------------------------------
 private:
@@ -72,7 +73,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Goal(ID3D11DeviceContext* context, AudioManager* pAM);
+	Goal(const StageObjectDesc& desc, ID3D11DeviceContext* context, AudioManager* pAM);
 
 	// デストラクタ
 	~Goal();
@@ -86,13 +87,16 @@ public:
 		const DirectX::SimpleMath::Vector3& position);
 
 	// 更新処理
-	void Update(float elapsedTime);
+	void Update(float elapsedTime) override;
 
 	// 描画処理
-	void Draw(const RenderContext& context, DebugFont* debugFont);
+	void Draw(const RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize();
+	void Finalize() override;
+
+	// イベントの受け取り
+	void OnStageEvent(StageEventContext context) override;
 
 // 取得/設定
 public:

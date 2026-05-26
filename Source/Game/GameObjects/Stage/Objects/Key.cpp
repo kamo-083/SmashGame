@@ -13,13 +13,16 @@
 /**
  * @brief コンストラクタ
  *
+ * @param desc		ステージオブジェクトの初期データ
  * @param context	デバイスコンテキストのポインタ
  * @param pRM		リソースマネージャーのポインタ
  * @param pEM		エフェクトマネージャーのポインタ
  * @param pAM		オーディオマネージャーのポインタ
  */
-Key::Key(ID3D11DeviceContext* context, ResourceManager* pRM, EffectManager* pEM, AudioManager* pAM)
+Key::Key(const StageObjectDesc& desc, ID3D11DeviceContext* context,
+		 ResourceManager* pRM, EffectManager* pEM, AudioManager* pAM)
 	:
+	StageObject{desc},
 	m_state(KeyState::NONE),
 	m_model(nullptr),
 	m_audio{ pAM }
@@ -120,6 +123,8 @@ void Key::Update(float elapsedTime)
 
 			// 状態を変更
 			m_state = KeyState::FINISHED;
+			// イベント起動
+			FireEvent();
 		}
 		break;
 	}
@@ -175,6 +180,24 @@ void Key::Draw(const RenderContext& context, DebugFont* debugFont)
 void Key::Finalize()
 {
 	m_model = nullptr;
+}
+
+/**
+ * @brief イベントの受け取り
+ *
+ * @param context イベントの情報
+ *
+ * @return なし
+ */
+void Key::OnStageEvent(StageEventContext context)
+{
+	if (context.event == StageEvent::Activate)
+	{
+		Spawn(
+			m_pEventDispatcher->DispatchPosition(context.senderID),
+			m_pEventDispatcher->DispatchPosition(context.targetID)
+		);
+	}
 }
 
 /**

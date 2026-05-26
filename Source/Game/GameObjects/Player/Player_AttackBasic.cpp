@@ -73,7 +73,7 @@ void Player_AttackBasic::Initialize(ResourceManager* pRM)
  *
  * @return ‚È‚µ
  */
-void Player_AttackBasic::Update(const float& elapsedTime)
+void Player_AttackBasic::Update(float elapsedTime)
 {
 	// ˆÊ’u‚ÌXV
 	m_pPlayer->GetPhysics()->CalculateForce(m_pPlayer->GetVelocity(), m_pPlayer->GetMass(), elapsedTime);

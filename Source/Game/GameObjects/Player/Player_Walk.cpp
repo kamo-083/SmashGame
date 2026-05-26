@@ -70,7 +70,7 @@ void Player_Walk::Initialize(ResourceManager* pRM)
  *
  * @return ‚È‚µ
  */
-void Player_Walk::Update(const float& elapsedTime)
+void Player_Walk::Update(float elapsedTime)
 {
 	// ˆÚ“®•ûŒü
 	int move_x = 0;	// ¶‰E

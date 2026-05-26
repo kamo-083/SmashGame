@@ -29,6 +29,7 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 
 	MTV mtv = CalculateMTV(*obb, *sphere);
 
+	// イベントだけのオブジェクトがある or MTVの値が小さい場合、重なっている情報の登録をして終了
 	if ((a.desc.isTrigger || b.desc.isTrigger) ||
 		(mtv.distance <= 0.0f || mtv.direction.LengthSquared() <= FLT_EPSILON))
 	{

@@ -87,7 +87,7 @@ void Player_AttackRolling::Initialize(ResourceManager* pRM)
  *
  * @return ‚È‚µ
  */
-void Player_AttackRolling::Update(const float& elapsedTime)
+void Player_AttackRolling::Update(float elapsedTime)
 {
 	// UŒ‚ŠÔ‚ğXV
 	m_attackTime -= elapsedTime;

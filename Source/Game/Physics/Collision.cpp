@@ -136,8 +136,8 @@ bool IsHit(const SphereCollider& sphereA, const SphereCollider& sphereB)
 /**
  * @brief OBBの当たり判定
  *
- * @param sphereA 判定対象のOBB A
- * @param sphereB 判定対象のOBB B
+ * @param obbA 判定対象のOBB A
+ * @param obbB 判定対象のOBB B
  *
  * @retval true  衝突している
  * @retval false 衝突していない
@@ -218,7 +218,7 @@ bool IsHit(const OBBCollider& obb, const SphereCollider& sphere)
 
 		if (L <= 0) continue;
 
-		float s = delta.Dot(obb.GetAxis(i)) / L;	//投影距離/半径
+		float s = delta.Dot(obb.GetAxis(i)) / L;	// 投影距離/半径
 
 		s = fabs(s);
 
