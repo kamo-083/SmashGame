@@ -157,31 +157,38 @@ public:
 			}
 
 			// ëÄçÏ
-			if (data.type == ObjectType::Area)
+			if (data.type == ObjectType::Area && 
+				(element.contains("mode") && element["mode"].is_string()) &&
+				(element.contains("command") && element["command"].is_string()) &&
+				(element.contains("target") && element["target"].is_number()))
 			{
-				data.areaAction.mode = element.value("mode", "AllOut");
-				data.areaAction.command = element.value("command", "EnableGoal");
-				data.areaAction.target = element["target"];
+				data.areaAction.mode = element.get<std::string>();
+				data.areaAction.command = element.get<std::string>();
+				data.areaAction.target = element.get<int>();
 			}
 
 			// çÚÇÃâÒì]ÅEêî
 			if (data.type == ObjectType::Fence)
 			{
 				// âÒì]
-				data.angle = DirectX::SimpleMath::Vector3
+				if (element.contains("angle") && element["angle"].is_array() && element["angle"].size() >= 3)
 				{
-					element["angle"][0].get<float>(),
-					element["angle"][1].get<float>(),
-					element["angle"][2].get<float>()
-				};
-
+					data.angle = DirectX::SimpleMath::Vector3
+					{
+						element["angle"][0].get<float>(),
+						element["angle"][1].get<float>(),
+						element["angle"][2].get<float>()
+					};
+				}
 				// êî
-				data.fenceNum = element["num"].get<int>();
+				if (element.contains("num") && element["num"].is_number())
+				{
+					data.fenceNum = element["num"].get<int>();
+				}
 			}
 			
 			// ã¥ÇÃå¸Ç´
-			if (data.type == ObjectType::Bridge &&
-				element.contains("angle") && element["angle"].is_number())
+			if (data.type == ObjectType::Bridge && element.contains("angle") && element["angle"].is_number())
 			{
 				// âÒì]
 				data.bridgeAngle = element["angle"].get<float>();
@@ -227,7 +234,6 @@ public:
 			// éÌóﬁ
 			std::string typeStr = element.value("type", "Ground");
 			data.type = typeStr;
-
 			// ç¿ïW
 			if (element.contains("pos") && element["pos"].is_array() && element["pos"].size() >= 3)
 			{

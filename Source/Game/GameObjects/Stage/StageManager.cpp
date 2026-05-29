@@ -320,13 +320,17 @@ void StageManager::Finalize()
  */
 void StageManager::DispatchEvent(const EventHandle& handle,	const std::string& senderID)
 {
+	// IDが存在しているかを確認
+	auto it = m_stageObjectMap.find(handle.objectID);
+	if (it == m_stageObjectMap.end()) return;
+
 	StageObject::StageEventContext context =
 	{
 		handle.event, handle.objectID, senderID
 	};
 
-	// IDからオブジェクトを探してイベントを発生させる
-	m_stageObjectMap.at(handle.objectID)->OnStageEvent(context);
+	// IDから見つけたオブジェクトのイベントを発生させる
+	it->second->OnStageEvent(context);
 }
 
 /**
