@@ -15,12 +15,15 @@
 /**
  * @brief コンストラクタ
  *
- * @param pUR ユーザーリソースのポインタ
+ * @param desc	ステージオブジェクトの初期データ
+ * @param pUR	ユーザーリソースのポインタ
  */
-TargetBox::TargetBox(UserResources* pUR)
-	: m_collisionHandle{ 0 }
-	, m_model(nullptr)
-	, m_isHit(false)
+TargetBox::TargetBox(const StageObjectDesc& desc, UserResources* pUR)
+	: 
+	StageObject(desc),
+	m_collisionHandle{ 0 },
+	m_model(nullptr),
+	m_isHit(false)
 {
 	ID3D11DeviceContext* context = pUR->GetDeviceResources()->GetD3DDeviceContext();
 	m_geometricPrimitive = DirectX::GeometricPrimitive::CreateBox(context, { 1.0f, 1.0f, 1.0f }, true);
@@ -47,7 +50,6 @@ TargetBox::~TargetBox()
  * @param pRM			リソースマネージャーのポインタ
  * @param pCM			当たり判定マネージャーのポインタ
  * @param pEM			敵マネージャーのポインタ
- * @param operation		ぶつけた時の処理
  * @param position		位置
  * @param halfLength	大きさの半分
  * @param angle			回転角度
@@ -58,7 +60,6 @@ void TargetBox::Initialize(
 	ResourceManager* pRM,
 	CollisionManager* pCM,
 	EnemyManager* pEM,
-	const std::function<void()>& operation,
 	const DirectX::SimpleMath::Vector3& position,
 	const DirectX::SimpleMath::Vector3& halfLength,
 	const DirectX::SimpleMath::Vector3& angle)
@@ -72,9 +73,6 @@ void TargetBox::Initialize(
 
 	// モデルの読み込み
 	m_model = pRM->RequestSDKMESH("box", "box.sdkmesh");
-
-	// ぶつけた時の処理
-	m_operation = operation;
 
 	// エフェクトの設定
 	m_effect->SetPosition(DirectX::SimpleMath::Vector3(m_position.x, m_position.y - m_halfLength.y, m_position.z));
@@ -111,10 +109,10 @@ void TargetBox::Initialize(
 			// IDから敵を取得
 			IEnemy* enemy = pEM->GetEnemyByID(pCM->GetDesc(other)->userId);
 
-			// 当たった敵が跳ね返り状態なら処理を呼び出す
+			// 当たった敵が跳ね返り状態ならイベントを呼び出す
 			if (enemy->GetStateType() == StateType::Bounce && !m_isHit)
 			{
-				m_operation();
+				FireEvent();
 				m_isHit = true;
 				m_arrow->Despawn();
 			}
@@ -153,8 +151,10 @@ void TargetBox::Update(
  *
  * @return なし
  */
-void TargetBox::Draw(const RenderContext& context)
+void TargetBox::Draw(const RenderContext& context, DebugFont* debugFont)
 {
+	UNREFERENCED_PARAMETER(debugFont);
+
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
 	DirectX::SimpleMath::Matrix trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
@@ -193,4 +193,16 @@ void TargetBox::Draw(const RenderContext& context)
 void TargetBox::Finalize()
 {
 	m_model = nullptr;
+}
+
+/**
+ * @brief イベントの受け取り
+ *
+ * @param context イベントの情報
+ *
+ * @return なし
+ */
+void TargetBox::OnStageEvent(StageEventContext context)
+{
+	UNREFERENCED_PARAMETER(context);
 }

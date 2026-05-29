@@ -8,14 +8,13 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include <functional>
-#include"Source/Debug/DebugFont.h"
-#include"Source/Game/Common/UserResources.h"
-#include"Source/Game/Physics/Collision.h"
-#include"Source/Game/Physics/CollisionManager.h"
-#include"Source/Game/Common/ShaderManager.h"
-#include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/UI/Elements/NumberRenderer/NumberRenderer3D.h"
+#include "Source/Game/GameObjects/Stage/StageObject.h"
+#include "Source/Game/Common/UserResources.h"
+#include "Source/Game/Physics/Collision.h"
+#include "Source/Game/Physics/CollisionManager.h"
+#include "Source/Game/Common/ShaderManager.h"
+#include "Source/Game/Common/RenderContext.h"
+#include "Source/Game/UI/Elements/NumberRenderer/NumberRenderer3D.h"
 
 // クラスの宣言 ===============================================================
 class ResourceManager;
@@ -25,7 +24,7 @@ class AreaEffect;
 /**
  * @brief エリア
  */
-class CountArea
+class CountArea	: public StageObject
 {
 // クラス定数の宣言 -------------------------------------------------
 public:
@@ -44,9 +43,6 @@ public:
 
 // データメンバの宣言 -----------------------------------------------
 private:
-	// 座標
-	DirectX::SimpleMath::Vector3 m_position;
-
 	// モード
 	TriggerMode m_mode;
 
@@ -62,9 +58,6 @@ private:
 	// エリア内にいる敵IDのリスト
 	std::vector<uint32_t> m_insideList;
 
-	// 条件を達成したときの動作
-	std::function<void()> m_operation;
-
 	// 当たり判定
 	OBBCollider m_collider;
 
@@ -74,6 +67,7 @@ private:
 	// エフェクト
 	std::unique_ptr<AreaEffect> m_effect;
 
+	// 判定描画用
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
 	// 内部の敵数描画
@@ -83,7 +77,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	CountArea(UserResources* pUR);
+	CountArea(const StageObjectDesc& desc, UserResources* pUR);
 
 	// デストラクタ
 	~CountArea();
@@ -94,16 +88,19 @@ public:
 	void Initialize(
 		CollisionManager* pCM,
 		const DirectX::SimpleMath::Vector3& position, float x, float z,
-		const std::function<void()>& operation, TriggerMode mode, int targetNum = 0);
+		TriggerMode mode, int targetNum = 0);
 
 	// 更新処理
 	void Update(float elapsedTime, const DirectX::SimpleMath::Vector3& cameraPos, const DirectX::SimpleMath::Vector3& cameraUp);
 
 	// 描画処理
-	void Draw(const RenderContext& context, DebugFont* debugFont);
+	void Draw(const RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize();
+	void Finalize() override;
+
+	// イベントの受け取り
+	void OnStageEvent(StageEventContext context) override;
 
 // 取得/設定
 public:

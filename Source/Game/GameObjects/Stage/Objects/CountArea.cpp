@@ -13,10 +13,12 @@
 /**
  * @brief コンストラクタ
  *
+ * @param desc	ステージオブジェクトの初期データ
  * @param pUR	ユーザーリソースのポインタ
  */
-CountArea::CountArea(UserResources* pUR)
+CountArea::CountArea(const StageObjectDesc& desc, UserResources* pUR)
 	:
+	StageObject(desc),
 	m_mode(TriggerMode::ReachCount),
 	m_targetNum(0),
 	m_isTrigger(false),
@@ -58,7 +60,6 @@ CountArea::~CountArea()
  * @param position	位置
  * @param x			X方向の長さ
  * @param z			Z方向の長さ
- * @param operation	条件達成時の処理
  * @param mode		条件
  * @param targetNum	目標数
  *
@@ -67,14 +68,11 @@ CountArea::~CountArea()
 void CountArea::Initialize(
 	CollisionManager* pCM,
 	const DirectX::SimpleMath::Vector3& position, float x, float z,
-	const std::function<void()>& operation, TriggerMode mode, int targetNum)
+	TriggerMode mode, int targetNum)
 {
 	// 位置を設定
 	DirectX::SimpleMath::Vector3 pos = { position.x,position.y + AREA_HALF_HEIGHT,position.z };
 	m_position = pos;
-
-	// 条件達成時の処理を設定
-	m_operation = operation;
 
 	// 条件のモードを設定
 	m_mode = mode;
@@ -179,6 +177,18 @@ void CountArea::Finalize()
 
 	if (m_numberBorad) m_numberBorad->Finalize();
 	m_numberBorad.reset();
+}
+
+/**
+ * @brief イベントの受け取り
+ *
+ * @param context イベントの情報
+ *
+ * @return なし
+ */
+void CountArea::OnStageEvent(StageEventContext context)
+{
+	UNREFERENCED_PARAMETER(context);
 }
 
 /**
@@ -328,8 +338,8 @@ void CountArea::TriggerOn()
 	// トリガーをオン
 	m_isTrigger = true;
 
-	// 処理を実行
-	m_operation();
+	// イベントを呼び出す
+	FireEvent();
 
 	// 色を変更
 	m_effect->SetColor(DirectX::Colors::Blue.v);

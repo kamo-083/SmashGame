@@ -8,6 +8,7 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
+#include "Source/Game/GameObjects/Stage/StageObject.h"
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Physics/PhysicsObject.h"
@@ -24,7 +25,7 @@ class AreaEffect;
 /**
  * @brief 橋
  */
-class Bridge
+class Bridge	: public StageObject
 {
 // クラス定数の宣言 -------------------------------------------------
 private:
@@ -39,9 +40,7 @@ private:
 
 // データメンバの宣言 -----------------------------------------------
 private:
-	// 根本の座標
-	DirectX::SimpleMath::Vector3 m_rootPosition;
-	// 橋本体の座標
+	// 橋本体の座標 (当たり判定、描画に使用)
 	DirectX::SimpleMath::Vector3 m_bridgePosition;
 
 	// 橋の傾き
@@ -79,7 +78,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Bridge(UserResources* pUR);
+	Bridge(const StageObjectDesc& desc, UserResources* pUR);
 
 	// デストラクタ
 	~Bridge();
@@ -95,13 +94,16 @@ public:
 		const float angle = 0.0f);
 
 	// 更新処理
-	void Update(float elapsedTime);
+	void Update(float elapsedTime) override;
 
 	// 描画処理
-	void Draw(const RenderContext& context);
+	void Draw(const RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize();
+	void Finalize() override;
+
+	// イベントの受け取り
+	void OnStageEvent(StageEventContext context) override;
 
 // 取得/設定
 public:
@@ -110,6 +112,9 @@ public:
 
 // 内部実装
 private:
+	// 橋を倒す
+	void Down();
+
 	// 橋を倒す方向・軸を計算
 	void CalculateBridgeAxis(float angle, DirectX::SimpleMath::Vector3& outAxis);
 

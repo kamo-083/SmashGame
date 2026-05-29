@@ -22,7 +22,6 @@
 Goal::Goal(const StageObjectDesc& desc, ID3D11DeviceContext* context, AudioManager* pAM)
 	:
 	StageObject(desc),
-	m_position{ DirectX::SimpleMath::Vector3::Zero },
 	m_goalCollider{},
 	m_tableCollider{},
 	m_isGoal{ false },

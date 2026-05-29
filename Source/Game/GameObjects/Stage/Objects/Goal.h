@@ -9,11 +9,11 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/GameObjects/Stage/StageObject.h"
-#include"Source/Debug/DebugFont.h"
-#include"Source/Game/Physics/Collision.h"
-#include"Source/Game/Common/RenderContext.h"
+#include "Source/Debug/DebugFont.h"
+#include "Source/Game/Physics/Collision.h"
+#include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Common/Tween/Tween.h"
-#include"Source/Game/Object/AudioListener.h"
+#include "Source/Game/Object/AudioListener.h"
 
 // クラスの宣言 ===============================================================
 class CollisionManager;
@@ -45,9 +45,6 @@ private:
 
 // データメンバの宣言 -----------------------------------------------
 private:
-	// 位置
-	DirectX::SimpleMath::Vector3 m_position;
-
 	// 当たり判定
 	OBBCollider m_goalCollider;		// ゴール判定用
 	OBBCollider m_tableCollider;	// テーブル用

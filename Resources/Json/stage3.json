@@ -1,29 +1,171 @@
 {
-    "objects": [        
-        { "type": "Goal", "pos": [ 4.0, 0.93, -10.0 ]},
-        { "type": "Area", "pos": [ 0, 0, -15.0 ], "scale": [ 3, 1, 2 ], "mode": "ReachCount", "command": "EnableGoal", "target": 6},
-        { "type": "Ground", "pos": [ 0, -1, 0 ], "scale": [ 5, 1, 4 ]},
-        { "type": "Ground", "pos": [ 0, -1, -13.0 ], "scale": [ 9, 1, 6 ]},
-        { "type": "Bridge", "pos": [ 0, 0, -4 ], "angle": 180.0},        
-        { "type": "Fence", "pos": [ 0, 0.5, 3.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 9},
-        { "type": "Fence", "pos": [ 3.0, 0.5, -3.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 3},
-        { "type": "Fence", "pos": [ -3.0, 0.5, -3.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 3},
-        { "type": "Fence", "pos": [ 4.5, 0.5, 0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num":7},
-        { "type": "Fence", "pos": [ -4.5, 0.5, 0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 7},
-        { "type": "Fence", "pos": [ 5, 0.5, -7.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 7},
-        { "type": "Fence", "pos": [ -5, 0.5, -7.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 7},
-        { "type": "Fence", "pos": [ 0, 0.5, -18.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 17},
-        { "type": "Fence", "pos": [ 8.5, 0.5, -13.0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 11},
-        { "type": "Fence", "pos": [ -8.5, 0.5, -13.0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 11}
+    "objects": [
+        {
+            "objectID": "goal",
+            "type": "Goal",
+            "pos": [ 4.0, 0.93, -10.0 ]
+        },
+        {
+            "objectID": "area_01",
+            "type": "Area",
+            "pos": [ 0, 0, -15.0 ],
+            "scale": [ 3, 1, 2 ],
+            "mode": "ReachCount",
+            "command": "EnableGoal",
+            "target": 6,
+            "events": [
+                {
+                    "targetID": "key_01",
+                    "event": "Activate"
+                }
+            ]
+        },
+        {
+            "objectID": "key_01",
+            "type": "Key",
+            "pos": [ -3, 0.8, -3 ],
+            "scale": [ 0.8, 0.8, 0.8 ],
+            "events": [
+                {
+                    "targetID": "goal",
+                    "event": "Activate"
+                }
+            ]
+        },
+        {
+            "objectID": "ground_01",
+            "type": "Ground",
+            "pos": [ 0, -1, 0 ],
+            "scale": [ 5, 1, 4 ]
+        },
+        {
+            "objectID": "ground_02",
+            "type": "Ground",
+            "pos": [ 0, -1, -13.0 ],
+            "scale": [ 9, 1, 6 ]
+        },
+        {
+            "objectID": "bridge_01",
+            "type": "Bridge",
+            "pos": [ 0, 0, -4 ],
+            "angle": 180.0
+        },
+        {
+            "objectID": "fence_01",
+            "type": "Fence",
+            "pos": [ 0, 0.5, 3.5 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 90, 0 ],
+            "num": 9
+        },
+        {
+            "objectID": "fence_02",
+            "type": "Fence",
+            "pos": [ 3.0, 0.5, -3.5 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 90, 0 ],
+            "num": 3
+        },
+        {
+            "objectID": "fence_03",
+            "type": "Fence",
+            "pos": [ -3.0, 0.5, -3.5 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 90, 0 ],
+            "num": 3
+        },
+        {
+            "objectID": "fence_04",
+            "type": "Fence",
+            "pos": [ 4.5, 0.5, 0 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 0, 0 ],
+            "num": 7
+        },
+        {
+            "objectID": "fence_05",
+            "type": "Fence",
+            "pos": [ -4.5, 0.5, 0 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 0, 0 ],
+            "num": 7
+        },
+        {
+            "objectID": "fence_06",
+            "type": "Fence",
+            "pos": [ 5, 0.5, -7.5 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 90, 0 ],
+            "num": 7
+        },
+        {
+            "objectID": "fence_07",
+            "type": "Fence",
+            "pos": [ -5, 0.5, -7.5 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 90, 0 ],
+            "num": 7
+        },
+        {
+            "objectID": "fence_08",
+            "type": "Fence",
+            "pos": [ 0, 0.5, -18.5 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 90, 0 ],
+            "num": 17
+        },
+        {
+            "objectID": "fence_09",
+            "type": "Fence",
+            "pos": [ 8.5, 0.5, -13.0 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 0, 0 ],
+            "num": 11
+        },
+        {
+            "objectID": "fence_10",
+            "type": "Fence",
+            "pos": [ -8.5, 0.5, -13.0 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 0, 0 ],
+            "num": 11
+        }
     ],
-
     "enemies": [
-        { "type": "Basic", "pos":[ 2.5, 0.5, -1.0 ], "dropRespawn": true},
-        { "type": "Basic", "pos":[ -3.5, 0.5, -10.0 ], "dropRespawn": true},
-        { "type": "Basic", "pos":[ -5.5, 0.5, -15.0 ], "dropRespawn": true},
-        { "type": "Basic", "pos":[ 6.5, 0.5, -14.0 ], "dropRespawn": true},
-        { "type": "Light", "pos":[ -6.5, 0.5, -12.0 ], "dropRespawn": true},
-        { "type": "Light", "pos":[ 2.5, 0.5, -10.5 ], "dropRespawn": true},
-        { "type": "Light", "pos":[ 6.0, 0.5, -10.5 ], "dropRespawn": true}
+        {
+            "type": "Basic",
+            "pos": [ 2.5, 0.5, -1.0 ],
+            "dropRespawn": true
+        },
+        {
+            "type": "Basic",
+            "pos": [ -3.5, 0.5, -10.0 ],
+            "dropRespawn": true
+        },
+        {
+            "type": "Basic",
+            "pos": [ -5.5, 0.5, -15.0 ],
+            "dropRespawn": true
+        },
+        {
+            "type": "Basic",
+            "pos": [ 6.5, 0.5, -14.0 ],
+            "dropRespawn": true
+        },
+        {
+            "type": "Light",
+            "pos": [ -6.5, 0.5, -12.0 ],
+            "dropRespawn": true
+        },
+        {
+            "type": "Light",
+            "pos": [ 2.5, 0.5, -10.5 ],
+            "dropRespawn": true
+        },
+        {
+            "type": "Light",
+            "pos": [ 6.0, 0.5, -10.5 ],
+            "dropRespawn": true
+        }
     ]
 }

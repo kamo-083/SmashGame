@@ -18,7 +18,8 @@
 StageObject::StageObject(const StageObjectDesc& desc)
 	:
 	STAGE_OBJECT_ID{desc.stageObject_ID},
-	m_pEventDispatcher{desc.pEventDispatcher}
+	m_pEventDispatcher{desc.pEventDispatcher},
+	m_position{ DirectX::SimpleMath::Vector3::Zero }
 {
 	m_events = desc.events;
 }

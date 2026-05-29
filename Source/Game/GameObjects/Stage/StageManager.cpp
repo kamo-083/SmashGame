@@ -77,69 +77,83 @@ void StageManager::CreateStage(
 	// ステージオブジェクトの生成
 	for (StageLoader::ObjectData data : objectData)
 	{
+		// イベントとオブジェクトIDの設定
+		StageObject::StageObjectDesc desc =
+		{
+			data.objectID, data.events, this
+		};
 		switch (data.type)
 		{
 		// 地面
 		case StageLoader::ObjectType::Ground:
 		{
-			m_grounds.push_back(std::move(std::make_unique<Ground>(context, m_depthStencilState.Get(), pRM)));
+			// オブジェクトを作成
+			m_grounds.push_back(std::move(std::make_unique<Ground>(desc, context, m_depthStencilState.Get(), pRM)));
 			m_grounds.back()->Initialize(pCM, data.position, data.scale);
+			// オブジェクトを登録
+			m_stageObjectMap[desc.stageObject_ID] = m_grounds.back().get();
 			break;
 		}
 		// 的
 		case StageLoader::ObjectType::TargetBox:
 		{
-			std::function<void()> operate = [this, data]()
-				{
-					m_key->Spawn(data.position, m_goal->GetPosition());
-				};
-			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(pUR)));
-			m_targetBoxes.back()->Initialize(pRM, pCM, pEnM, operate, data.position, data.scale);
+			// オブジェクトを作成
+			m_targetBoxes.push_back(std::move(std::make_unique<TargetBox>(desc, pUR)));
+			m_targetBoxes.back()->Initialize(pRM, pCM, pEnM, data.position, data.scale);
+			// オブジェクトを登録
+			m_stageObjectMap[desc.stageObject_ID] = m_targetBoxes.back().get();
 			break;
 		}
 		// エリア
 		case StageLoader::ObjectType::Area:
 		{
-			// 操作を設定
-			std::function<void()> operate;
-			CreateOperate(operate, data.areaAction, data.position);
-
 			// モードを設定
 			CountArea::TriggerMode mode{};
 			if (data.areaAction.mode == "AllOut") mode = CountArea::TriggerMode::AllOut;
 			else if (data.areaAction.mode == "ReachCount") mode = CountArea::TriggerMode::ReachCount;
-
-			m_areas.push_back(std::move(std::make_unique<CountArea>(pUR)));
+			// オブジェクトを作成
+			m_areas.push_back(std::move(std::make_unique<CountArea>(desc, pUR)));
 			m_areas.back()->Initialize(
 				pCM, data.position, data.scale.x, data.scale.z,
-				operate, mode, data.areaAction.target);
+				mode, data.areaAction.target);
+			// オブジェクトを登録
+			m_stageObjectMap[desc.stageObject_ID] = m_areas.back().get();
 			break;
 		}
 		// 柵
 		case StageLoader::ObjectType::Fence:
 		{
-			m_fences.push_back(std::move(std::make_unique<Fence>(context)));
+			// オブジェクトを作成
+			m_fences.push_back(std::move(std::make_unique<Fence>(desc, context)));
 			m_fences.back()->Initialize(
 				pRM, pCM, data.fenceNum,
 				data.position, data.scale, data.angle);
+			// オブジェクトを登録
+			m_stageObjectMap[desc.stageObject_ID] = m_fences.back().get();
 			break;
 		}
 		// 橋
 		case StageLoader::ObjectType::Bridge:
 		{
-			m_bridges.push_back(std::move(std::make_unique<Bridge>(pUR)));
+			// オブジェクトを作成
+			m_bridges.push_back(std::move(std::make_unique<Bridge>(desc, pUR)));
 			m_bridges.back()->Initialize(pRM, pCM, pEnM, data.position, data.bridgeAngle);
+			// オブジェクトを登録
+			m_stageObjectMap[desc.stageObject_ID] = m_bridges.back().get();
+			break;
+		}
+		// 鍵
+		case StageLoader::ObjectType::Key:
+		{
+			// オブジェクトを作成
+			m_keys.push_back(std::move(std::make_unique<Key>(desc, context, pRM, pEfM, pAM)));
+			// オブジェクトを登録
+			m_stageObjectMap[desc.stageObject_ID] = m_keys.back().get();
 			break;
 		}
 		// ゴール
 		case StageLoader::ObjectType::Goal:
 		{
-			// イベントとオブジェクトIDの設定
-			std::vector<EventHandle> events;
-			StageObject::StageObjectDesc desc =
-			{
-				"Goal", events, this
-			};
 			// オブジェクトを作成
 			m_goal = std::make_unique<Goal>(desc, context, pAM);
 			m_goal->Initialize(pRM, pCM, data.position);
@@ -149,18 +163,6 @@ void StageManager::CreateStage(
 		}
 		}
 	}
-	// 鍵
-	std::vector<EventHandle> events;
-	EventHandle handle =
-	{
-		"Goal", StageEvent::Activate
-	};
-	events.push_back(handle);
-	StageObject::StageObjectDesc desc =
-	{
-		"key_01", events, this
-	};
-	m_key = std::make_unique<Key>(desc, context, pRM, pEfM, pAM);
 
 	// 敵の生成
 	for (StageLoader::EnemyData data : enemyData)
@@ -206,10 +208,9 @@ void StageManager::Update(float elapsedTime, const DirectX::SimpleMath::Vector3&
 	}
 
 	// 鍵の更新
-	if (m_key)
+	for (auto& key : m_keys)
 	{
-		m_key->Update(elapsedTime);
-		//if (m_key->GetState() == Key::KeyState::FINISHED) m_goal->OpenGoal();
+		key->Update(elapsedTime);
 	}
 
 	// ゴールの更新
@@ -229,23 +230,26 @@ void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 	// 地面の描画
 	for (auto& ground : m_grounds)
 	{
-		ground->Draw(context);
+		ground->Draw(context, debugFont);
 	}
 
 	// 柵の描画
 	for (auto& fences : m_fences)
 	{
-		fences->Draw(context);
+		fences->Draw(context, debugFont);
 	}
 	
 	// 橋の描画
 	for (auto& bridge : m_bridges)
 	{
-		bridge->Draw(context);
+		bridge->Draw(context, debugFont);
 	}
 
 	// 鍵の描画
-	if (m_key) m_key->Draw(context, debugFont);
+	for (auto& key : m_keys)
+	{
+		key->Draw(context, debugFont);
+	}
 
 	// ゴールの描画
 	if(m_goal) m_goal->Draw(context, debugFont);
@@ -253,7 +257,7 @@ void StageManager::Draw(const RenderContext& context, DebugFont* debugFont)
 	// 的の描画
 	for (auto& targetBox : m_targetBoxes)
 	{
-		targetBox->Draw(context);
+		targetBox->Draw(context, debugFont);
 	}
 
 	// エリアの描画
@@ -304,29 +308,6 @@ void StageManager::Finalize()
 
 	// ゴールの終了
 	if(m_goal) m_goal->Finalize();
-}
-
-/**
- * @brief ギミック処理生成
- *
- * @param outOperate 処理出力用
- * @param desc		 ギミック情報
- * @param position	 位置
- *
- * @return なし
- */
-void StageManager::CreateOperate(
-	std::function<void()>& outOperate,
-	StageLoader::AreaActionDesc& desc,
-	const DirectX::SimpleMath::Vector3& position)
-{
-	if (desc.command == "EnableGoal")	// ゴールを可能にする
-	{
-		outOperate = [this, position]()
-			{
-				m_key->Spawn(position, m_goal->GetPosition());
-			};
-	}
 }
 
 /**

@@ -153,6 +153,7 @@ bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB)
 	}
 
 	// OBB Aの各ローカル軸ベクトルを計算
+	// 正規化済みの方向ベクトル×中心から面までの距離
 	DirectX::SimpleMath::Vector3 extentA[3] =
 	{
 		axisA[0] * obbA.GetHalfLength().x,
@@ -473,8 +474,10 @@ bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
 	DirectX::SimpleMath::Vector3 axis = axisRaw;
 	axis.Normalize();
 
+	// 
 	float rA = fabs(axis.Dot(extentA[0])) + fabs(axis.Dot(extentA[1])) + fabs(axis.Dot(extentA[2]));
 	float rB = fabs(axis.Dot(extentB[0])) + fabs(axis.Dot(extentB[1])) + fabs(axis.Dot(extentB[2]));
+	// 判定軸と
 	float distance = fabs(centerInterval.Dot(axis));
 	float overlap = rA + rB - distance;
 

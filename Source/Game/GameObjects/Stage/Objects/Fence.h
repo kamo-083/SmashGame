@@ -8,8 +8,9 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Physics/Collision.h"
-#include"Source/Game/Common/RenderContext.h"
+#include "Source/Game/GameObjects/Stage/StageObject.h"
+#include "Source/Game/Physics/Collision.h"
+#include "Source/Game/Common/RenderContext.h"
 
 // クラスの宣言 ===============================================================
 class ResourceManager;
@@ -19,7 +20,7 @@ class CollisionManager;
 /**
  * @brief 柵
  */
-class Fence
+class Fence	: public StageObject
 {
 // クラス定数の宣言 -------------------------------------------------
 private:
@@ -31,8 +32,6 @@ private:
 
 // データメンバの宣言 -----------------------------------------------
 private:
-	// 位置
-	DirectX::SimpleMath::Vector3 m_position;
 	// スケール
 	DirectX::SimpleMath::Vector3 m_scale;
 	// 角度
@@ -44,6 +43,7 @@ private:
 	// 衝突判定のハンドル
 	uint32_t m_collisionHandle;
 
+	// 判定描画用
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
 
 	// モデル
@@ -56,7 +56,7 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Fence(ID3D11DeviceContext* context);
+	Fence(const StageObjectDesc& desc, ID3D11DeviceContext* context);
 
 	// デストラクタ
 	~Fence();
@@ -73,10 +73,13 @@ public:
 		const DirectX::SimpleMath::Vector3& angle = ANGLE);
 
 	// 描画処理
-	void Draw(const RenderContext& context);
+	void Draw(const RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize();
+	void Finalize() override;
+
+	// イベントの受け取り
+	void OnStageEvent(StageEventContext context) override;
 
 // 取得/設定
 public:

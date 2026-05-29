@@ -8,7 +8,7 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include <functional>
+#include "Source/Game/GameObjects/Stage/StageObject.h"
 #include "Source/Game/Common/UserResources.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Physics/PhysicsObject.h"
@@ -26,7 +26,7 @@ class GuideArrow;
 /**
  * @brief 的
  */
-class TargetBox
+class TargetBox	: public StageObject
 {
 	// クラス定数の宣言 -------------------------------------------------
 private:
@@ -35,8 +35,6 @@ private:
 
 	// データメンバの宣言 -----------------------------------------------
 private:
-	// 座標
-	DirectX::SimpleMath::Vector3 m_position;
 	// 傾き
 	DirectX::SimpleMath::Vector3 m_angle;
 	// 辺の半分の長さ
@@ -49,8 +47,6 @@ private:
 
 	// ぶつかったかどうか
 	bool m_isHit;
-	// ぶつけた時の処理
-	std::function<void()> m_operation;
 
 	// 四角形
 	std::unique_ptr<DirectX::GeometricPrimitive> m_geometricPrimitive;
@@ -65,7 +61,7 @@ private:
 	// コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	TargetBox(UserResources* pUR);
+	TargetBox(const StageObjectDesc& desc, UserResources* pUR);
 
 	// デストラクタ
 	~TargetBox();
@@ -77,7 +73,6 @@ public:
 		ResourceManager* pRM,
 		CollisionManager* pCM,
 		EnemyManager* pEM,
-		const std::function<void()>& operation,
 		const DirectX::SimpleMath::Vector3& position,
 		const DirectX::SimpleMath::Vector3& halfLength = HALF_LENGTH,
 		const DirectX::SimpleMath::Vector3& angle = DirectX::SimpleMath::Vector3::Zero);
@@ -89,10 +84,13 @@ public:
 		const DirectX::SimpleMath::Vector3& cameraUp);
 
 	// 描画処理
-	void Draw(const RenderContext& context);
+	void Draw(const RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize();
+	void Finalize() override;
+
+	// イベントの受け取り
+	void OnStageEvent(StageEventContext context) override;
 
 // 取得/設定
 public:

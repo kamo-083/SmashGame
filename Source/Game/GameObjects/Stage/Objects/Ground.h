@@ -8,9 +8,10 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Physics/Collision.h"
-#include"Source/Game/Physics/CollisionManager.h"
-#include"Source/Game/Common/RenderContext.h"
+#include "Source/Game/GameObjects/Stage/StageObject.h"
+#include "Source/Game/Physics/Collision.h"
+#include "Source/Game/Physics/CollisionManager.h"
+#include "Source/Game/Common/RenderContext.h"
 
 // クラスの宣言 ===============================================================
 class ResourceManager;
@@ -19,7 +20,7 @@ class ResourceManager;
 /**
  * @brief 地面
  */
-class Ground
+class Ground	: public StageObject
 {
 // クラス定数の宣言 -------------------------------------------------
 private:
@@ -29,8 +30,6 @@ private:
 
 // データメンバの宣言 -----------------------------------------------
 private:
-	// 座標
-	DirectX::SimpleMath::Vector3 m_position;
 	// 大きさ(各辺の長さの半分)
 	DirectX::SimpleMath::Vector3 m_halfLength;
 	// 角度
@@ -54,7 +53,9 @@ private:
 // コンストラクタ/デストラクタ
 public:
 	// コンストラクタ
-	Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS, ResourceManager* pRM);
+	Ground(
+		const StageObjectDesc& desc, ID3D11DeviceContext* context, 
+		ID3D11DepthStencilState* pDSS, ResourceManager* pRM);
 
 	// デストラクタ
 	~Ground();
@@ -69,10 +70,13 @@ public:
 		const DirectX::SimpleMath::Vector3& angle = ANGLE);
 
 	// 描画処理
-	void Draw(const RenderContext& context);
+	void Draw(const RenderContext& context, DebugFont* debugFont) override;
 
 	// 終了処理
-	void Finalize();
+	void Finalize() override;
+
+	// イベントの受け取り
+	void OnStageEvent(StageEventContext context) override;
 
 // 取得/設定
 public:

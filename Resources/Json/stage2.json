@@ -1,16 +1,84 @@
 {
-    "objects": [        
-        { "type": "Goal", "pos": [ 3, 0.93, 3 ]},
-        { "type": "Ground", "pos": [ 0, -1, 0 ], "scale": [ 6, 1, 6 ]},
-        { "type": "Area", "pos": [ 0, 0, -2 ], "scale": [ 3, 1, 2 ], "mode": "AllOut", "command": "EnableGoal", "target": 0},
-        { "type": "Fence", "pos": [ 0, 0.5, 5.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 11},
-        { "type": "Fence", "pos": [ 0, 0.5, -5.5 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 90, 0 ],  "num": 11},
-        { "type": "Fence", "pos": [ 5.5, 0.5, 0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 11},
-        { "type": "Fence", "pos": [ -5.5, 0.5, 0 ], "scale": [ 1, 1, 1 ], "angle": [ 0, 0, 0 ],  "num": 11}
+    "objects": [
+        {
+            "objectID": "goal",
+            "type": "Goal",
+            "pos": [ 3, 0.93, 3 ]
+        },
+        {
+            "objectID": "ground_01",
+            "type": "Ground",
+            "pos": [ 0, -1, 0 ],
+            "scale": [ 6, 1, 6 ]
+        },
+        {
+            "objectID": "area_01",
+            "type": "Area",
+            "pos": [ 0, 0, -2 ],
+            "scale": [ 3, 1, 2 ],
+            "mode": "AllOut",
+            "command": "EnableGoal",
+            "target": 0,
+            "events": [
+                {
+                    "targetID": "key_01",
+                    "event": "Activate"
+                }
+            ]
+        },
+        {
+            "objectID": "key_01",
+            "type": "Key",
+            "pos": [ -3, 0.8, -3 ],
+            "scale": [ 0.8, 0.8, 0.8 ],
+            "events": [
+                {
+                    "targetID": "goal",
+                    "event": "Activate"
+                }
+            ]
+        },
+        {
+            "objectID": "fence_01",
+            "type": "Fence",
+            "pos": [ 0, 0.5, 5.5 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 90, 0 ],
+            "num": 11
+        },
+        {
+            "objectID": "fence_02",
+            "type": "Fence",
+            "pos": [ 0, 0.5, -5.5 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 90, 0 ],
+            "num": 11
+        },
+        {
+            "objectID": "fence_03",
+            "type": "Fence",
+            "pos": [ 5.5, 0.5, 0 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 0, 0 ],
+            "num": 11
+        },
+        {
+            "objectID": "fence_04",
+            "type": "Fence",
+            "pos": [ -5.5, 0.5, 0 ],
+            "scale": [ 1, 1, 1 ],
+            "angle": [ 0, 0, 0 ],
+            "num": 11
+        }
     ],
-
     "enemies": [
-        { "type": "Heavy", "pos":[ -1, 0.5, -3.5 ]},
-        { "type": "Basic", "pos":[ 1, 0.5, -2.5 ]}
+        {
+            "type": "Heavy",
+            "pos": [ -1, 0.5, -3.5 ]
+        },
+        {
+            "type": "Basic",
+            "pos": [ 1, 0.5, -2.5 ]
+        }
     ]
 }

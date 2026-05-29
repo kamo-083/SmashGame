@@ -195,7 +195,7 @@ void Key::OnStageEvent(StageEventContext context)
 	{
 		Spawn(
 			m_pEventDispatcher->DispatchPosition(context.senderID),
-			m_pEventDispatcher->DispatchPosition(context.targetID)
+			m_pEventDispatcher->DispatchPosition(m_events[0].objectID)
 		);
 	}
 }

@@ -9,6 +9,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
+#include "Source/Game/Data/StageEventData.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <fstream>
@@ -48,14 +49,16 @@ public:
 	// ステージオブジェクトの情報
 	struct ObjectData
 	{
+		std::string objectID;					// オブジェクトID
 		ObjectType type = ObjectType::None;		// 種類
 		DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3::Zero;	// 座標
 		DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3::One;		// 大きさ
 		DirectX::SimpleMath::Vector3 angle = DirectX::SimpleMath::Vector3::Zero;	// 角度
-		bool active = true;			// 有効化フラグ
-		AreaActionDesc areaAction;	// エリア設定(CountAreaの時)
-		int fenceNum = 0;			// 柵を並べる数(Fenceの時)
-		float bridgeAngle = 0.0f;	// 橋の向き(Bridgeの時)
+		std::vector<EventHandle> events;	// イベント
+		bool active = true;					// 有効化フラグ
+		AreaActionDesc areaAction;			// エリア設定(CountAreaの時)
+		int fenceNum = 0;					// 柵を並べる数(Fenceの時)
+		float bridgeAngle = 0.0f;			// 橋の向き(Bridgeの時)
 	};
 	
 	// 敵の情報
@@ -112,14 +115,24 @@ public:
 		{
 			ObjectData data;
 
+			// オブジェクトID
+			if (element.contains("objectID") && element["objectID"].is_string())
+			{
+				data.objectID = element["objectID"].get<std::string>();
+			}
+
 			// 種類
-			std::string typeStr = element.value("type", "Ground");
-			if (typeStr == "Ground") data.type = ObjectType::Ground;
-			else if (typeStr == "TargetBox") data.type = ObjectType::TargetBox;
-			else if (typeStr == "Area") data.type = ObjectType::Area;
-			else if (typeStr == "Goal") data.type = ObjectType::Goal;
-			else if (typeStr == "Fence") data.type = ObjectType::Fence;
-			else if (typeStr == "Bridge") data.type = ObjectType::Bridge;
+			if (element.contains("type") && element["type"].is_string())
+			{
+				std::string typeStr = element.value("type", "Ground");
+				if (typeStr == "Ground") data.type = ObjectType::Ground;
+				else if (typeStr == "TargetBox") data.type = ObjectType::TargetBox;
+				else if (typeStr == "Area") data.type = ObjectType::Area;
+				else if (typeStr == "Goal") data.type = ObjectType::Goal;
+				else if (typeStr == "Fence") data.type = ObjectType::Fence;
+				else if (typeStr == "Bridge") data.type = ObjectType::Bridge;
+				else if (typeStr == "Key") data.type = ObjectType::Key;
+			}
 
 			// 座標
 			if (element.contains("pos") && element["pos"].is_array() && element["pos"].size() >= 3)
@@ -172,6 +185,30 @@ public:
 			{
 				// 回転
 				data.bridgeAngle = element["angle"].get<float>();
+			}
+
+			// イベント
+			if (element.contains("events") && element["events"].is_array())
+			{
+				std::vector<EventHandle> events;
+				for (auto& eventElement : element["events"])
+				{
+					EventHandle handle;
+
+					// 対象のオブジェクトID
+					if (eventElement.contains("targetID") && eventElement["targetID"].is_string())
+					{
+						handle.objectID = eventElement["targetID"].get<std::string>();
+					}
+					// イベントの種類
+					if (eventElement.contains("event") && eventElement["event"].is_string())
+					{
+						handle.event = ToStageEvent(eventElement["event"].get<std::string>());
+					}
+					events.push_back(handle);
+				}
+				// イベントを登録
+				data.events = events;
 			}
 
 			// 有効化

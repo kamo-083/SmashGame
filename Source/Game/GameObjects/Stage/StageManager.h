@@ -8,7 +8,6 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include <functional>
 #include "Source/Game/Interface/IStageEventDispatcher.h"
 #include "Source/Game/Common/RenderContext.h"
 #include "Source/Game/Data/StageLoader.h"
@@ -62,11 +61,11 @@ private:
 	// 橋
 	std::vector<std::unique_ptr<Bridge>> m_bridges;
 
+	// 鍵
+	std::vector<std::unique_ptr<Key>> m_keys;
+
 	// ゴール
 	std::unique_ptr<Goal> m_goal;
-
-	// 鍵
-	std::unique_ptr<Key> m_key;
 
 	// メンバ関数の宣言 -------------------------------------------------
 	// コンストラクタ/デストラクタ
@@ -92,12 +91,6 @@ public:
 
 	// 終了処理
 	void Finalize();
-
-	// 操作の作成
-	void CreateOperate(
-		std::function<void()>& outOperate,
-		StageLoader::AreaActionDesc& desc,
-		const DirectX::SimpleMath::Vector3& position);
 
 	// イベントの受け取り
 	void DispatchEvent(const EventHandle& handle, const std::string& senderID) override;

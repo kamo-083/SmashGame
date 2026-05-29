@@ -15,10 +15,12 @@
 /**
  * @brief コンストラクタ
  *
+ * @param desc		ステージオブジェクトの初期データ
  * @param pUR ユーザーリソースのポインタ
  */
-Bridge::Bridge(UserResources* pUR)
+Bridge::Bridge(const StageObjectDesc& desc, UserResources* pUR)
 	:
+	StageObject(desc),
 	m_collisionHandle{ 0 },
 	m_model(nullptr),
 	m_isDowned(false),
@@ -61,7 +63,7 @@ void Bridge::Initialize(
 	using Quaternion = DirectX::SimpleMath::Quaternion;
 
 	// 位置・大きさ(1辺の半分)を設定
-	m_rootPosition = position;
+	m_position = position;
 	m_bridgePosition = { 0.0f, HALF_LENGTH.y, 0.0f };
 	m_halfLength = HALF_LENGTH;
 
@@ -112,16 +114,19 @@ void Bridge::Update(float elapsedTime)
  * @brief 描画処理
  *
  * @param context	描画用構造体
+ * @param debugFont デバッグ用フォント
  *
  * @return なし
  */
-void Bridge::Draw(const RenderContext& context)
+void Bridge::Draw(const RenderContext& context, DebugFont* debugFont)
 {
+	UNREFERENCED_PARAMETER(debugFont);
+
 	using Matrix = DirectX::SimpleMath::Matrix;
 
 	// ワールド行列の作成	
 	Matrix world;
-	Matrix rootTrans = Matrix::CreateTranslation(m_rootPosition);
+	Matrix rootTrans = Matrix::CreateTranslation(m_position);
 	Matrix bridgeTrans = Matrix::CreateTranslation(m_bridgePosition);
 	Matrix rot = Matrix::CreateFromQuaternion(m_tweenParams.rotation);
 	world = bridgeTrans * rot * rootTrans;
@@ -151,6 +156,40 @@ void Bridge::Draw(const RenderContext& context)
 void Bridge::Finalize()
 {
 	m_model = nullptr;
+}
+
+/**
+ * @brief イベントの受け取り
+ *
+ * @param context イベントの情報
+ *
+ * @return なし
+ */
+void Bridge::OnStageEvent(StageEventContext context)
+{
+	if (context.event == StageEvent::Activate)
+	{
+		Down();
+	}
+}
+
+/**
+ * @brief 橋を倒す
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void Bridge::Down()
+{
+	// 既に倒れていたら処理しない
+	if (m_isDowned) return;
+
+	m_isDowned = true;
+	// アニメーションを再生
+	m_tween->Play();
+	// SEを再生
+	m_audio.OnMessageAccepted(Message::MessageID::SE_GIMMIC_SOLVE);
 }
 
 /**
@@ -201,7 +240,7 @@ void Bridge::UpdateBridgeCollider()
 		DirectX::SimpleMath::Vector3::Transform(m_bridgePosition, m_tweenParams.rotation);
 
 	// 当たり判定を更新
-	m_collider.SetCenter(pos + m_rootPosition);
+	m_collider.SetCenter(pos + m_position);
 	m_collider.SetRotation(m_tweenParams.rotation);
 }
 
@@ -221,7 +260,7 @@ void Bridge::SetupEffect()
 		Vector3(m_halfLength.x * EFFECT_LENGTH_ADJUST, m_halfLength.y, m_halfLength.z * EFFECT_LENGTH_ADJUST), m_angle);
 
 	// エフェクトの設定
-	m_effect->SetPosition(Vector3(m_rootPosition.x, m_rootPosition.y, m_rootPosition.z));
+	m_effect->SetPosition(Vector3(m_position.x, m_position.y, m_position.z));
 	m_effect->SetLength(effectLength);
 	m_effect->SetColor(DirectX::Colors::Yellow.v);
 }
@@ -237,7 +276,7 @@ void Bridge::SetupEffect()
 void Bridge::SetupCollider(CollisionManager* pCM, EnemyManager* pEM)
 {
 	// 当たり判定の作成
-	m_collider.SetCenter(m_rootPosition + m_bridgePosition);
+	m_collider.SetCenter(m_position + m_bridgePosition);
 	m_collider.SetHalfLength(m_halfLength);
 	m_collider.SetRotation(m_angle);
 
@@ -259,13 +298,9 @@ void Bridge::SetupCollider(CollisionManager* pCM, EnemyManager* pEM)
 			IEnemy* enemy = pEM->GetEnemyByID(pCM->GetDesc(other)->userId);
 
 			// 当たった敵が跳ね返り状態なら橋を降ろす
-			if (enemy->GetStateType() == StateType::Bounce && !m_isDowned)
+			if (enemy->GetStateType() == StateType::Bounce)
 			{
-				m_isDowned = true;
-				// アニメーションを再生
-				m_tween->Play();
-				// SEを再生
-				m_audio.OnMessageAccepted(Message::MessageID::SE_GIMMIC_SOLVE);
+				Down();
 			}
 		};
 	m_collisionHandle = pCM->Add(desc);
@@ -285,7 +320,7 @@ void Bridge::SetupAnimation(const DirectX::SimpleMath::Vector3& rotAxis)
 	// 初期状態
 	m_tweenParams =
 	{
-		m_rootPosition,
+		m_position,
 		Vector3::One,
 		m_angle,
 		1.0f

@@ -13,13 +13,16 @@
 /**
  * @brief コンストラクタ
  *
+ * @param desc		ステージオブジェクトの初期データ
  * @param context	デバイスコンテキストのポインタ
  * @param pDSS		深度ステンシルステートのポインタ
  * @param pRM		リソースマネージャーのポインタ
  */
-Ground::Ground(ID3D11DeviceContext* context, ID3D11DepthStencilState* pDSS, ResourceManager* pRM)
+Ground::Ground(
+	const StageObjectDesc& desc, ID3D11DeviceContext* context, 
+	ID3D11DepthStencilState* pDSS, ResourceManager* pRM)
 	: 
-	m_position{ DirectX::SimpleMath::Vector3::Zero },
+	StageObject(desc),
 	m_halfLength{ DirectX::SimpleMath::Vector3::Zero },
 	m_angle{ DirectX::SimpleMath::Vector3::Zero },
 	m_collider{},
@@ -83,10 +86,11 @@ void Ground::Initialize(
  * @brief 描画処理
  *
  * @param context	描画用構造体
+ * @param debugFont デバッグ用フォント
  *
  * @return なし
  */
-void Ground::Draw(const RenderContext& context)
+void Ground::Draw(const RenderContext& context, DebugFont* debugFont)
 {
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix world;
@@ -126,6 +130,18 @@ void Ground::Finalize()
 {
 	m_model = nullptr;
 	m_depthStencilState.Reset();
+}
+
+/**
+ * @brief イベントの受け取り
+ *
+ * @param context イベントの情報
+ *
+ * @return なし
+ */
+void Ground::OnStageEvent(StageEventContext context)
+{
+	UNREFERENCED_PARAMETER(context);
 }
 
 /**

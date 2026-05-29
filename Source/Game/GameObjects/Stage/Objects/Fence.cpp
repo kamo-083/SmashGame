@@ -14,11 +14,12 @@
 /**
  * @brief コンストラクタ
  *
+ * @param desc		ステージオブジェクトの初期データ
  * @param context	デバイスコンテキストのポインタ
  */
-Fence::Fence(ID3D11DeviceContext* context)
+Fence::Fence(const StageObjectDesc& desc, ID3D11DeviceContext* context)
 	:
-	m_position{ DirectX::SimpleMath::Vector3::Zero },
+	StageObject(desc),
 	m_scale{ DirectX::SimpleMath::Vector3::Zero },
 	m_angle{ DirectX::SimpleMath::Vector3::Zero },
 	m_collider{},
@@ -95,11 +96,14 @@ void Fence::Initialize(
  * @brief 描画処理
  *
  * @param context 描画用構造体
+ * @param debugFont デバッグ用フォント
  *
  * @return なし
  */
-void Fence::Draw(const RenderContext& context)
+void Fence::Draw(const RenderContext& context, DebugFont* debugFont)
 {
+	UNREFERENCED_PARAMETER(debugFont);
+
 	// ワールド行列の作成
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_scale);
 	float rotX = DirectX::XMConvertToRadians(m_angle.x);
@@ -150,4 +154,16 @@ void Fence::Finalize()
 {
 	m_model = nullptr;
 	m_geometricPrimitive.reset();
+}
+
+/**
+ * @brief イベントの受け取り
+ *
+ * @param context イベントの情報
+ *
+ * @return なし
+ */
+void Fence::OnStageEvent(StageEventContext context)
+{
+	UNREFERENCED_PARAMETER(context);
 }

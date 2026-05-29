@@ -15,8 +15,8 @@ enum class StageEvent
 // イベントハンドル
 struct EventHandle
 {
-	std::string objectID;	// イベントを通知するオブジェクト
-	StageEvent event;		// イベントの種類
+	std::string objectID;					// イベントを通知するオブジェクト
+	StageEvent event = StageEvent::NONE;	// イベントの種類
 };
 
 // 文字列からイベントに変換
