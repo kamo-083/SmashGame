@@ -8,12 +8,12 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Interface/IState.h"
-#include"Source/Game/Common/ResourceManager.h"
-#include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/Common/ModelAnimator.h"
-#include"Source/Game/GameObjects/Camera.h"
-#include"Source/Game/Data/PlayerInputData.h"
+#include "Source/Game/Interface/IState.h"
+#include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/Common/RenderContext.h"
+#include "Source/Game/Common/ModelAnimator.h"
+#include "Source/Game/GameObjects/Camera.h"
+#include "Source/Game/Data/PlayerInputData.h"
 
 // クラスの宣言 ===============================================================
 class Player;

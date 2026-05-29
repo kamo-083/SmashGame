@@ -8,8 +8,8 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Physics/Collision.h"
-#include"Source/Game/Physics/CollisionManager.h"
+#include "Source/Game/Physics/Collision.h"
+#include "Source/Game/Physics/CollisionManager.h"
 
 static constexpr float POSITION_CORRECTION_RATE = 0.6f; // めり込み補正率(1フレームあたり)
 static constexpr float PENETRATION_SLOP = 0.05f;        // 許容めり込み量(振動防止)

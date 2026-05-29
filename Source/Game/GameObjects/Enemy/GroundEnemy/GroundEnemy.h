@@ -8,13 +8,13 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/GameObjects/Enemy/IEnemy.h"
-#include"Source/Game/Common/UserResources.h"
-#include"Source/Game/GameObjects/Camera.h"
-#include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Idle.h"
-#include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Walk.h"
-#include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Bounce.h"
-#include"Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Attack.h"
+#include "Source/Game/GameObjects/Enemy/IEnemy.h"
+#include "Source/Game/Common/UserResources.h"
+#include "Source/Game/GameObjects/Camera.h"
+#include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Idle.h"
+#include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Walk.h"
+#include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Bounce.h"
+#include "Source/Game/GameObjects/Enemy/GroundEnemy/GroundEnemy_Attack.h"
 
 // クラスの宣言 ===============================================================
 class GroundEnemy_Idle;
@@ -155,6 +155,9 @@ private:
 
 	// 地面・壁との反射
 	void ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal);
+
+	// ランダムに回転角を設定
+	void SetRandomAngle();
 
 	// エフェクトの設定
 	void SetupEffects(EffectManager* pEM, ResourceManager* pRM);

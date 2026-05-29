@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "GroundEnemy.h"
 #include "Source/Game/Scenes/StageScene.h"
+#include <random>
 
 // メンバ関数の定義 ===========================================================
 /**
@@ -66,6 +67,9 @@ void GroundEnemy::Initialize(
 	// 速度の初期化
 	m_velocity = DirectX::SimpleMath::Vector3::Zero;
 
+	// 角度の初期化 (ランダム)
+	SetRandomAngle();
+	
 	// 攻撃の初期化
 	m_isAttack = false;
 	m_attackForce = 0.0f;
@@ -194,9 +198,10 @@ void GroundEnemy::Finalize()
  */
 void GroundEnemy::Respawn()
 {
-	// 座標と速度を初期化
+	// 座標、速度、角度を初期化
 	m_position = m_respawnPos;
 	m_velocity = DirectX::SimpleMath::Vector3::Zero;
+	SetRandomAngle();
 	m_isAttack = false;
 	m_collider.SetCenter(m_position);
 
@@ -327,6 +332,23 @@ void GroundEnemy::ReflectOnCollision(const DirectX::SimpleMath::Vector3& normal)
 		m_audio.OnMessageAccepted(Message::MessageID::SE_BOUNCE);
 		break;
 	}
+}
+
+/**
+ * @brief ランダムに回転角を設定
+ *
+ * @param なし
+ *
+ * @return なし
+ */
+void GroundEnemy::SetRandomAngle()
+{
+	// 乱数関連の設定
+	std::random_device seed;
+	std::mt19937 mt(seed());
+	std::uniform_real_distribution<float> random(0.0f, DirectX::XM_2PI);
+	// 乱数で角度を設定
+	m_rotY = random(mt);
 }
 
 /**

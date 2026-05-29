@@ -8,8 +8,8 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/UI/Elements/UIElement.h"
-#include"Source/Game/Data/TextureData.h"
+#include "Source/Game/UI/Elements/UIElement.h"
+#include "Source/Game/Data/TextureData.h"
 
 // クラスの定義 ===============================================================
 /**

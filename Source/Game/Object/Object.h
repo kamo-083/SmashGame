@@ -10,8 +10,8 @@
  // ヘッダファイルの読み込み ===================================================
 #include "Source/Game/Interface/IMessageListener.h"
 #include "Source/Game/Interface/IState.h"
-#include"Source/Game/Common/RenderContext.h"
-#include"Source/Debug/DebugFont.h"
+#include "Source/Game/Common/RenderContext.h"
+#include "Source/Debug/DebugFont.h"
 
 // クラスの定義 ===============================================================
 /**

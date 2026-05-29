@@ -8,9 +8,9 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Object/Object.h"
-#include"Source/Debug/DebugFont.h"
-#include"Source/Game/Data/InputKeyLoader.h"
+#include "Source/Game/Object/Object.h"
+#include "Source/Debug/DebugFont.h"
+#include "Source/Game/Data/InputKeyLoader.h"
 
 // クラスの定義 ===============================================================
 /**

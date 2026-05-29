@@ -8,10 +8,10 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Physics/Gravity.h"
-#include"Source/Game/Physics/ExternalForce.h"
-#include"Source/Game/Physics/Friction.h"
-#include"Source/Debug/DebugFont.h"
+#include "Source/Game/Physics/Gravity.h"
+#include "Source/Game/Physics/ExternalForce.h"
+#include "Source/Game/Physics/Friction.h"
+#include "Source/Debug/DebugFont.h"
 
 // クラスの定義 ===============================================================
 /**
@@ -36,10 +36,8 @@ private:
 private:
 	// 重力
 	Gravity m_gravity;
-
 	// 外力
 	ExternalForce m_externalForce;
-
 	// 摩擦力
 	Friction m_friction;
 

@@ -8,8 +8,8 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Common/Tween/TweenObject.h"
-#include"Source/Game/Common/DeviceResources.h"
+#include "Source/Game/Common/Tween/TweenObject.h"
+#include "Source/Game/Common/DeviceResources.h"
 
 // クラスの定義 ===============================================================
 /**

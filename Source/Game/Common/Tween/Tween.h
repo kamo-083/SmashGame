@@ -8,7 +8,7 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Common/Tween/Easing.h"
+#include "Source/Game/Common/Tween/Easing.h"
 
 // クラスの定義 ===============================================================
 /**
@@ -122,7 +122,7 @@ private:
 };
 
 // 関数内部を分離したファイルのインクルード
-#include"Source/Game/Common/Tween/Tween.inl"
+#include "Source/Game/Common/Tween/Tween.inl"
 
 // 別名
 using Tween2D = Tween<DirectX::SimpleMath::Vector2, float>;

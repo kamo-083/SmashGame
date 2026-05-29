@@ -8,8 +8,8 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Common/RenderContext.h"
-#include"Source/Game/Data/TextureData.h"
+#include "Source/Game/Common/RenderContext.h"
+#include "Source/Game/Data/TextureData.h"
 #include "Source/Game/Data/InputKeyLoader.h"
 #include "Source/Game/UI/Elements/Atlas/ActionAtlas.h"
 #include "Source/Game/UI/Controls/OperationUI.h"

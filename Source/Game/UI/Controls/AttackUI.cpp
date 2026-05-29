@@ -7,8 +7,8 @@
  // ヘッダファイルの読み込み ===================================================
 #include "pch.h"
 #include "AttackUI.h"
-#include"Source/Game/Common/ResourceManager.h"
-#include"Source/Game/UI/Elements/UIWidget.h"
+#include "Source/Game/Common/ResourceManager.h"
+#include "Source/Game/UI/Elements/UIWidget.h"
 
 // メンバ関数の定義 ===========================================================
 /**

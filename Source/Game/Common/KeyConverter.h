@@ -8,10 +8,10 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Keyboard.h"
-#include<string>
-#include<unordered_map>
-#include<vector>
+#include "Keyboard.h"
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 // クラスの定義 ===============================================================
 /**

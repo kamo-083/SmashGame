@@ -8,7 +8,7 @@
 #pragma once
 
  // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Message/Message.h"
+#include "Source/Game/Message/Message.h"
 
 // クラスの定義 ===============================================================
 /**

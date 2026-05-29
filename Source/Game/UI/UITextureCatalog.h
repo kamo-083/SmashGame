@@ -8,7 +8,7 @@
 #pragma once
 
 // ヘッダファイルの読み込み ===================================================
-#include"Source/Game/Data/TextureData.h"
+#include "Source/Game/Data/TextureData.h"
 
 // クラスの宣言 ===============================================================
 class ResourceManager;

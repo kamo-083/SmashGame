@@ -9,7 +9,7 @@
 
 // ヘッダファイルの読み込み ===================================================
 #include"DeviceResources.h"
-#include"Source/Game/Data/AnimationData.h"
+#include "Source/Game/Data/AnimationData.h"
 #include <unordered_map>
 
 // クラスの定義 ===============================================================
