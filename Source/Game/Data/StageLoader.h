@@ -80,7 +80,7 @@ public:
 	~StageLoader()
 	{}
 
-// 操作
+	// 操作
 public:
 	/**
 	 * @brief ファイル読み込み
@@ -157,14 +157,35 @@ public:
 			}
 
 			// 操作
-			if (data.type == ObjectType::Area && 
-				(element.contains("mode") && element["mode"].is_string()) &&
-				(element.contains("command") && element["command"].is_string()) &&
-				(element.contains("target") && element["target"].is_number()))
+			if (data.type == ObjectType::Area)
 			{
-				data.areaAction.mode = element.get<std::string>();
-				data.areaAction.command = element.get<std::string>();
-				data.areaAction.target = element.get<int>();
+				// 条件
+				if (element.contains("mode") && element["mode"].is_string())
+				{
+					data.areaAction.mode = element["mode"].get<std::string>();
+				}
+				else
+				{
+					data.areaAction.mode = "AllOut";
+				}
+				// 操作
+				if (element.contains("command") && element["command"].is_string())
+				{
+					data.areaAction.command = element["command"].get<std::string>();
+				}
+				else
+				{
+					data.areaAction.command = "EnableGoal";
+				}
+				// 目標数
+				if (element.contains("target") && element["target"].is_number())
+				{
+					data.areaAction.target = element["target"].get<int>();
+				}
+				else
+				{
+					data.areaAction.target = 0;
+				}
 			}
 
 			// 柵の回転・数
