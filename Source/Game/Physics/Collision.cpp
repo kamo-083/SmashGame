@@ -242,19 +242,18 @@ bool IsHit(const OBBCollider& obb, const SphereCollider& sphere)
 }
 
 /**
- * @brief 球と球の最短距離を計算
+ * @brief 球と球の距離を計算
  *
  * @param sphereA 判定対象の球A
  * @param sphereB 判定対象の球B
  *
- * @return 球と球の最短距離
+ * @return 球と球の距離
  */
 float Distance(const SphereCollider& sphereA, const SphereCollider& sphereB)
 {
 	float x = sphereB.GetCenter().x - sphereA.GetCenter().x;
 	float y = sphereB.GetCenter().y - sphereA.GetCenter().y;
 	float z = sphereB.GetCenter().z - sphereA.GetCenter().z;
-
 	return sqrtf(x * x + y * y + z * z);
 }
 
@@ -327,7 +326,7 @@ MTV CalculateMTV(const OBBCollider& obbA, const OBBCollider& obbB)
 		TryAxis(axisB[i], centerInterval, extentA, extentB, true, mtv.distance, mtv.direction);
 	}
 
-	//分離軸：ローカル軸同士のクロス積で得られる軸
+	//分離軸：ローカル軸同士の外積で得られる軸
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -352,20 +351,25 @@ MTV CalculateMTV(const OBBCollider& obb, const SphereCollider& sphere)
 {
 	MTV mtv = { DirectX::SimpleMath::Vector3::Zero ,FLT_MAX };
 
-	//球の中心からOBB上の最近傍点を求める
+	// 球の中心からOBB上の最近傍点を求める
+	// 球とOBBの中心間ベクトルを求める
 	DirectX::SimpleMath::Vector3 delta = sphere.GetCenter() - obb.GetCenter();
 	DirectX::SimpleMath::Vector3 closest = obb.GetCenter();
 
 	for (int i = 0; i < 3; i++)
 	{
+		// 中心間ベクトルをOBBの軸に投影して、その軸方向の距離を求める
 		float dist = delta.Dot(obb.GetAxis(i));
+		// 投影した距離をOBBの範囲に収める
 		float clamped = std::max(-obb.GetHalfLength(i), std::min(dist, obb.GetHalfLength(i)));
+		// 距離を3Dに戻して最近傍点に加える
 		closest += obb.GetAxis(i) * clamped;
 	}
 
-	//最近傍点と球の中心との距離を求める
+	// 最近傍点と球の中心との距離を求める
 	DirectX::SimpleMath::Vector3 displacement = sphere.GetCenter() - closest;
 	float distance = displacement.Length();
+	// めり込み具合
 	float penetration = sphere.GetRadius() - distance;
 
 	// 外側
@@ -457,8 +461,8 @@ float Distance(const DirectX::SimpleMath::Plane& plane,
  * @param minOverlap		MTVに渡す最小重なり量
  * @param bestAxis			MTVに渡す方向
  *
- * @retval true  分離している
- * @retval false 分離していない
+ * @retval true  重なっている
+ * @retval false 重なっていない
  */
 bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
 			 const DirectX::SimpleMath::Vector3& centerInterval,
@@ -474,15 +478,17 @@ bool TryAxis(const DirectX::SimpleMath::Vector3& axisRaw,
 	DirectX::SimpleMath::Vector3 axis = axisRaw;
 	axis.Normalize();
 
-	// 
+	// 指定した軸に影を映して、各OBBの影の半径を求める
 	float rA = fabs(axis.Dot(extentA[0])) + fabs(axis.Dot(extentA[1])) + fabs(axis.Dot(extentA[2]));
 	float rB = fabs(axis.Dot(extentB[0])) + fabs(axis.Dot(extentB[1])) + fabs(axis.Dot(extentB[2]));
-	// 判定軸と
+	// 中心間も軸に映して、軸上での距離を求める
 	float distance = fabs(centerInterval.Dot(axis));
+	// 影の重なり具合を計算
 	float overlap = rA + rB - distance;
 
 	if (overlap < 0.0f) return false;
 
+	// 最小重なりと軸の更新
 	if (useMTV && overlap < minOverlap)
 	{
 		minOverlap = overlap;

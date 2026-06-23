@@ -110,7 +110,7 @@ bool IsHit(const OBBCollider& obbA, const OBBCollider& obbB);
 //OBB‚Æ‹…‚Ì“–‚½‚è”»’è
 bool IsHit(const OBBCollider& obb, const SphereCollider& sphere);
 
-//‹…‚Æ‹…‚ÌÅ’Z‹——£‚ÌZo
+//‹…‚Æ‹…‚Ì‹——£‚ÌZo
 float Distance(const SphereCollider& sphereA, const SphereCollider& sphereB);
 
 //‹…‚Æ‹…‚ÌMTV‚ÌZo
