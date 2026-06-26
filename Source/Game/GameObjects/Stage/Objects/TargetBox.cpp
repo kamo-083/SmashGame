@@ -103,8 +103,11 @@ void TargetBox::Initialize(
 	desc.callback.onEnter =
 		[this, pCM, pEM](uint32_t, uint32_t other)
 		{
+			const CollisionManager::Desc* otherDesc = pCM->GetDesc(other);
+			if (!otherDesc) return;
+
 			// “–‚½‚Á‚½‚Ì‚ª“G–{‘Ì‚È‚ç’Ê‚·
-			if (pCM->GetDesc(other)->layer != CollisionManager::Layer::EnemyBody) return;
+			if (otherDesc->layer != CollisionManager::Layer::EnemyBody) return;
 
 			// ID‚©‚ç“G‚ðŽæ“¾
 			IEnemy* enemy = pEM->GetEnemyByID(pCM->GetDesc(other)->userId);

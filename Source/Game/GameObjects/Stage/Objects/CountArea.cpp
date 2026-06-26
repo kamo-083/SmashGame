@@ -218,13 +218,17 @@ void CountArea::SetupCollider(CollisionManager* pCM, float x, float z)
 	desc.callback.onEnter =
 		[this, pCM](uint32_t, uint32_t handle)
 		{
-			if (pCM->GetDesc(handle)->layer != CollisionManager::Layer::EnemyBody) return;
+			const CollisionManager::Desc* otherDesc = pCM->GetDesc(handle);
+			if (!otherDesc) return;
+			if (otherDesc->layer != CollisionManager::Layer::EnemyBody) return;
 			EnterEnemy(pCM, handle);	// 敵をリストに追加
 		};
 	desc.callback.onExit =
 		[this, pCM](uint32_t, uint32_t handle)
 		{
-			if (pCM->GetDesc(handle)->layer != CollisionManager::Layer::EnemyBody) return;
+			const CollisionManager::Desc* otherDesc = pCM->GetDesc(handle);
+			if (!otherDesc) return;
+			if (otherDesc->layer != CollisionManager::Layer::EnemyBody) return;
 			ExitEnemy(pCM, handle);		// 敵をリストから除外
 		};
 	m_collisionHandle = pCM->Add(desc);

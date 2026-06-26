@@ -210,7 +210,9 @@ void Goal::SetupCollider(CollisionManager* pCM)
 	desc.callback.onEnter = desc.callback.onStay =
 		[this, pCM](uint32_t, uint32_t other)
 		{
-			if (!m_canGoal || pCM->GetDesc(other)->layer != CollisionManager::Layer::PlayerBody) return;
+			const CollisionManager::Desc* otherDesc = pCM->GetDesc(other);
+			if (!otherDesc) return;
+			if (!m_canGoal || otherDesc->layer != CollisionManager::Layer::PlayerBody) return;
 
 			m_isGoal = true;	// ƒS[ƒ‹‚µ‚½
 		};

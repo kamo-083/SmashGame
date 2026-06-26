@@ -453,6 +453,7 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ
 		{
 			auto otherDesc = m_pCollisionManager->GetDesc(other);
+			if (!otherDesc) return;
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack) return;
 
 			SmashPlayerAttack(*otherDesc->sphere, *otherDesc->userData);
@@ -461,6 +462,7 @@ void GroundEnemy::SetupCollision(CollisionManager* pCM, const uint32_t& id)
 		[this](uint32_t, uint32_t other)	// プレイヤーの攻撃で吹っ飛ぶ(連続ヒット有の場合)
 		{
 			auto otherDesc = m_pCollisionManager->GetDesc(other);
+			if (!otherDesc) return;
 			if (otherDesc->layer != CollisionManager::Layer::PlayerAttack && !otherDesc->isMultiHit) return;
 
 			SmashPlayerAttack(*otherDesc->sphere, *otherDesc->userData);

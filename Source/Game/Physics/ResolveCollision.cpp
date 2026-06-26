@@ -126,7 +126,7 @@ void ResolveSphereVsOBB(CollisionManager::Node& a, CollisionManager::Node& b)
 	}
 	if (b.desc.callback.onResolved)
 	{
-		b.desc.callback.onResolved(b.handle, normal, mtv.distance);
+		b.desc.callback.onResolved(a.handle, normal, mtv.distance);
 	}
 }
 
@@ -219,7 +219,7 @@ void ResolveSphereVsSphere(CollisionManager::Node& a, CollisionManager::Node& b)
 	}
 	if (b.desc.callback.onResolved)
 	{
-		b.desc.callback.onResolved(b.handle, normal, mtv.distance);
+		b.desc.callback.onResolved(a.handle, normal, mtv.distance);
 	}
 }
 

@@ -187,15 +187,24 @@ void Player::Finalize()
 	m_model = nullptr;
 
 	// エフェクトの後処理
-	m_circle->effect->Deactivate();
-	m_circle = nullptr;
-	m_trajectory->effect->Deactivate();
-	m_trajectory = nullptr;
+	if (m_circle)
+	{
+		m_circle->effect->Deactivate();
+		m_circle = nullptr;
+	}
+	if (m_trajectory)
+	{
+		m_trajectory->effect->Deactivate();
+		m_trajectory = nullptr;
+	}
 
 	// 当たり判定の後処理
-	m_pCollisionManager->Remove(m_handleBody);
-	m_pCollisionManager->Remove(m_handleAttack);
-	m_pCollisionManager = nullptr;
+	if (m_pCollisionManager)
+	{
+		m_pCollisionManager->Remove(m_handleBody);
+		m_pCollisionManager->Remove(m_handleAttack);
+		m_pCollisionManager = nullptr;
+	}
 }
 
 /**
@@ -213,7 +222,7 @@ void Player::ChangeState(IState* newState)
 	if (m_currentState == newState) return;
 
 	// 現在の状態を終了
-	m_currentState->Finalize();
+	if (m_currentState) m_currentState->Finalize();
 
 	// 新規の状態を現在の状態に設定する
 	m_currentState = newState;
@@ -591,7 +600,9 @@ void Player::SetupCollision(CollisionManager* pCM)
 	bodyDesc.callback.onEnter =
 		[this](uint32_t, uint32_t other)	// 敵の攻撃で吹っ飛ぶ
 		{
-			if (m_pCollisionManager->GetDesc(other)->layer != CollisionManager::Layer::EnemyAttack) return;
+			const CollisionManager::Desc* otherDesc = m_pCollisionManager->GetDesc(other);
+			if (!otherDesc) return;
+			if (otherDesc->layer != CollisionManager::Layer::EnemyAttack) return;
 			SmashEnemyAttack(other);
 		};
 	m_handleBody = m_pCollisionManager->Add(bodyDesc);

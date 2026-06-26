@@ -271,7 +271,7 @@ void CollisionManager::SetMultiHit(uint32_t handle, bool multiHit)
  *
  * @return î•ñ‚Ìƒ|ƒCƒ“ƒ^
  */
-const CollisionManager::Desc* CollisionManager::GetDesc(uint32_t handle) const
+const CollisionManager::Desc* CollisionManager::GetDesc(uint32_t handle)
 {
 	auto it = m_nodes.find(handle);
 	return (it == m_nodes.end()) ? nullptr : &it->second.desc;

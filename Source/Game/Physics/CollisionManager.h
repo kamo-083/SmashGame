@@ -42,6 +42,7 @@ public:
 
 		bool Test(Layer a, Layer b)const
 		{
+			if (a == Layer::NONE || b == Layer::NONE) return false;
 			return matrix[(int)a][(int)b];
 		}
 	};
@@ -141,7 +142,7 @@ public:
 	void SetMultiHit(uint32_t handle, bool maltiHit);
 
 	// 当たり判定情報の取得
-	const Desc* GetDesc(uint32_t handle) const;
+	const Desc* GetDesc(uint32_t handle);
 
 	// 衝突判定フィルターの取得
 	LayerMatrix& GetLayerMatrix() { return m_matrix; }
